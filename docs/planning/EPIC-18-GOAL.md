@@ -18,7 +18,8 @@ non-goals/holds, risks, conditional dates, and verification gates in
 | ---: | --- | --- |
 | 762 | Done | Admit G05; reconcile current state/board/context and reserve exact boundaries. Exit: `docs/research/epic18/S762-admission/exit-packet.md`. |
 | 763 | Done | T01: freeze the schema-v1 typed record, strict parser and provenance envelope with 100% focused coverage; no persistence or UI. Exit: `docs/research/epic18/S763-T01-record-contract/exit-packet.md`. |
-| 764–766 | Backlog | T01: backward-safe persistence/revision integration, editing and all-recipe propagation after S763's contract is frozen. |
+| 764 | Done | T01: backward-safe style persistence, transactional migration and legacy package compatibility plus save/reload/copy proof. Exit: `docs/research/epic18/S764-T01-persistence-migration/exit-packet.md`; validated exit replay: `docs/planning/EPIC-18-S764-EXIT-BOARD-COMMANDS.json`. |
+| 765–766 | Backlog | T01: revision-payload integration, then editing and all-recipe propagation after S763's contract is frozen. |
 | 767–769 | Backlog | T02: POM definitions, grade/source boundaries, sample/QA separation and all-recipe checks. |
 | 770–772 | Backlog | T03: sourced operation records, explicit unknowns, component/BOM integrity and all-recipe review. |
 | 773–776 | Backlog | T04: resolve output format, admit/implement/review linked UIQ-10 after T01–T03, generate PDF/structured output, approvals, diff and two-style review. |
@@ -52,3 +53,22 @@ after T01–T03 contracts; UIQ-09 remains Backlog behind EPIC-19. Persistence,
 revision digest, UI, outputs, supplier contact and physical claims were out of
 scope for Slice 763. Slice 762's reconciled checkpoint remains in
 `docs/research/epic18/S762-admission/exit-packet.md`.
+
+Slice 764 began at 2026-10-12 20:42:34 UTC from verified Slice 763 commit
+`1443affb51847f179bcc352bac47fad2d9b28ef8`; a fresh fetch confirmed
+`origin/main` `e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
+The validated start/clarification/exit replays advance board revision
+4542→4546. S764 completed backward-safe regular/custom style persistence,
+regular/custom legacy style and SaveFile migration, IndexedDB v8→v9 migration,
+and package v1–v6 round-trip/reload/copy handling. The exit packet records 309
+focused tests at 100% on all five changed production modules, package tests
+56/56 at the two real scale fixtures, TypeScript, Control Center and diff
+checks. EPIC-18/G05-T01 remain In Progress; G05-T02–T05, G05-EXIT and UIQ-10
+remain Backlog; UIQ-09 remains Backlog pending EPIC-19. Start and exit details
+are in `docs/research/epic18/S764-T01-persistence-migration/`; the validated
+exit replay is `docs/planning/EPIC-18-S764-EXIT-BOARD-COMMANDS.json`.
+
+The sole next action is Slice 765: integrate the frozen T01 child payload into
+immutable G02 style revision identity while preserving historical digests and
+legacy export bytes. Do not begin it until its start packet binds the landed
+S764 commit, main ancestry, board revision 4546, and exact verification gates.

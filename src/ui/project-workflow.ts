@@ -46,6 +46,7 @@ import {
   type RevisionArtworkDigest,
   type StyleRevisionRecord,
 } from "./style-revisions";
+import { createEmptyTechPackRecord } from "./tech-pack-records";
 
 export interface ProjectWorkflowOptions {
   readonly repositoryOptions?: ProjectRepositoryOptions;
@@ -425,6 +426,19 @@ export class ProjectWorkflow {
         throw new ProjectRepositoryError("invalid-data", "A custom one-size style must stay on export step 0.");
       }
       const time = monotonicTimestamp(this.now(), current.project.updatedAt, current.activeStyle.updatedAt);
+      let techPack = current.activeStyle.techPack;
+      if (techPack.recipeId !== design.workspace.garment) {
+        const emptyPrior = createEmptyTechPackRecord(
+          techPack.styleId, techPack.recipeId, techPack.createdAt, techPack.updatedAt,
+        );
+        if (canonicalizeJcs(techPack) !== canonicalizeJcs(emptyPrior)) {
+          throw new ProjectRepositoryError(
+            "invalid-data",
+            "This style has T01 data for its current recipe. Create a separate style instead of moving pack facts across recipes.",
+          );
+        }
+        techPack = createEmptyTechPackRecord(current.activeStyle.id, design.workspace.garment, time, time);
+      }
       const previousObservations = current.fieldObservations.find((record) => record.styleId === current.activeStyle.id);
       if (!previousObservations) throw new ProjectRepositoryError("invalid-data", "The active style has no field history record.");
       const style: StyleRecord = {
@@ -432,6 +446,7 @@ export class ProjectWorkflow {
         recipeId: design.workspace.garment,
         recipePresetId: design.workspace.targetStyle,
         design,
+        techPack,
         revision: current.activeStyle.revision + 1,
         updatedAt: time,
       };
@@ -607,6 +622,7 @@ export class ProjectWorkflow {
         archivedAt: null,
         revisionHeadId: null,
         design,
+        techPack: createEmptyTechPackRecord(id, design.workspace.garment, time, time),
       };
       const observations = createFieldObservationRecord(style, time, origin);
       const revision = await createStyleRevision({
@@ -712,6 +728,7 @@ export class ProjectWorkflow {
         revisionHeadId: null,
         sizeMode: CUSTOM_ONE_SIZE_MODE,
         design,
+        techPack: createEmptyTechPackRecord(id, recipeId, time, time),
       };
       const session: MeasurementCaptureSession = {
         ...cachedCapture.session,

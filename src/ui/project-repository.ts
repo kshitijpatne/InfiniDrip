@@ -48,7 +48,7 @@ import {
 } from "./style-revisions";
 
 export const PROJECT_DATABASE_NAME = "infinidrip-projects";
-export const PROJECT_DATABASE_VERSION = 8;
+export const PROJECT_DATABASE_VERSION = 9;
 export const PROJECT_STORES = Object.freeze({
   meta: "meta",
   projects: "projects",
@@ -350,6 +350,31 @@ function upgradeStyleRevisionHeads(transaction: IDBTransaction | null): void {
   }
 }
 
+function upgradeTechPackStyleRecords(transaction: IDBTransaction | null): void {
+  if (!transaction) return;
+  try {
+    const request = transaction.objectStore(PROJECT_STORES.styles).openCursor();
+    request.onerror = () => transaction.abort();
+    request.onsuccess = () => {
+      try {
+        const cursor = request.result;
+        if (!cursor) return;
+        const parsed = parseStyleRecord(cursor.value);
+        if (!parsed.ok) {
+          transaction.abort();
+          return;
+        }
+        cursor.update(parsed.value);
+        cursor.continue();
+      } catch {
+        transaction.abort();
+      }
+    };
+  } catch {
+    transaction.abort();
+  }
+}
+
 function upgradeProjectRecordsV1(transaction: IDBTransaction | null): void {
   if (!transaction) return;
   try {
@@ -492,6 +517,25 @@ function hasSupportedSchema(database: IDBDatabase): boolean {
     if (database.objectStoreNames.length !== ALL_STORES.length
       || !ALL_STORES.every((name) => database.objectStoreNames.contains(name))) return false;
     const transaction = database.transaction([...ALL_STORES], "readonly");
+    if (!ALL_STORES.every((name) =>
+      JSON.stringify(transaction.objectStore(name).keyPath) === JSON.stringify(STORE_KEY_PATHS[name]))) return false;
+    const revisions = transaction.objectStore(PROJECT_STORES.styleRevisions);
+    const manifests = transaction.objectStore(PROJECT_STORES.exportManifests);
+    const captures = transaction.objectStore(PROJECT_STORES.measurementCaptures);
+    const plans = transaction.objectStore(PROJECT_STORES.gradePlans);
+    return revisions.indexNames.contains("styleId") && revisions.indexNames.contains("styleIdAndNumber")
+      && manifests.indexNames.contains("styleId") && manifests.indexNames.contains("styleIdAndCapturedAt")
+      && captures.indexNames.contains("styleId")
+      && plans.indexNames.contains("styleId") && plans.indexNames.contains("projectId");
+  } catch {
+    return false;
+  }
+}
+
+function hasPreviousVersionEightSchema(database: IDBDatabase, transaction: IDBTransaction | null): boolean {
+  if (!transaction || database.objectStoreNames.length !== ALL_STORES.length
+    || !ALL_STORES.every((name) => database.objectStoreNames.contains(name))) return false;
+  try {
     if (!ALL_STORES.every((name) =>
       JSON.stringify(transaction.objectStore(name).keyPath) === JSON.stringify(STORE_KEY_PATHS[name]))) return false;
     const revisions = transaction.objectStore(PROJECT_STORES.styleRevisions);
@@ -929,6 +973,12 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
         } else if (event.oldVersion === 7 && event.newVersion === PROJECT_DATABASE_VERSION) {
           // The v8 transition only adds the empty grade-plan store; no
           // existing project, style, history, output, or capture row is rewritten.
+        } else if (event.oldVersion === 8 && event.newVersion === PROJECT_DATABASE_VERSION) {
+          // The v9 transition adds the unresolved T01 child to style rows only.
+          if (!hasPreviousVersionEightSchema(request.result, request.transaction)) {
+            request.transaction?.abort();
+            return;
+          }
         } else {
           request.transaction?.abort();
           return;
@@ -937,6 +987,7 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
         createMeasurementCaptureStore(request.result);
         createGradePlanStore(request.result);
         if (event.oldVersion === 5) upgradeStyleRevisionHeads(request.transaction);
+        else if (event.oldVersion >= 6) upgradeTechPackStyleRecords(request.transaction);
       } catch {
         try { request.transaction?.abort(); } catch { /* The upgrade transaction may already be aborting. */ }
       }

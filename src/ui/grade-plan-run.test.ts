@@ -4,7 +4,7 @@ import { gradedMarkerForRun, exportProjectorSvg, exportTechPackV2ForGradePlan } 
 import { PDFDocument } from "pdf-lib";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { createMeasurementCaptureSession } from "./measurement-capture";
-import type { MeasurementCaptureRecord, StyleRecord } from "./project-records";
+import { CUSTOM_STYLE_RECORD_VERSION, type MeasurementCaptureRecord, type StyleRecord } from "./project-records";
 import { DEFAULT_WORKSPACE, defaultStretchFabricForGarment, deserialize, serialize } from "./persist";
 import {
   approveGradePlan, configureGradePlan, createGradePlanDraft, reviewGradePlan, setGradePlanDelta,
@@ -12,6 +12,7 @@ import {
 } from "./grade-plan";
 import { createGradePlanContext, type GradePlanContext } from "./grade-plan-context";
 import { evaluateGradePlanRun } from "./grade-plan-run";
+import { createEmptyTechPackRecord } from "./tech-pack-records";
 
 const PROJECT_ID = "0f8b8e2a-7c1d-4a5e-9b3f-2d6c8a1e4f70";
 const STYLE_ID = "5a1c3e7b-2f4d-4e6a-8c9b-1d3f5a7c9e0b";
@@ -33,9 +34,10 @@ function styleFor(recipeId = "tee"): StyleRecord {
   if (!result.ok) throw new Error(result.error);
   const { ok: _ok, ...design } = result;
   return {
-    schemaVersion: 5, id: STYLE_ID, projectId: PROJECT_ID, name: "Custom base", recipeId,
+    schemaVersion: CUSTOM_STYLE_RECORD_VERSION, id: STYLE_ID, projectId: PROJECT_ID, name: "Custom base", recipeId,
     recipePresetId: design.workspace.targetStyle, createdAt: T0, updatedAt: T0, revision: 1,
     archivedAt: null, revisionHeadId: HEAD_ID, sizeMode: "custom-one-size", design,
+    techPack: createEmptyTechPackRecord(STYLE_ID, recipeId, T0, T0),
   };
 }
 

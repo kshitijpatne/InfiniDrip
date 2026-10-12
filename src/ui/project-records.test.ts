@@ -5,6 +5,7 @@ import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import {
   CUSTOM_ONE_SIZE_MODE,
   CUSTOM_STYLE_RECORD_VERSION,
+  LEGACY_CUSTOM_STYLE_RECORD_VERSION,
   MEASUREMENT_CAPTURE_RECORD_VERSION,
   STYLE_RECORD_VERSION,
   isCustomOneSizeStyle,
@@ -43,7 +44,7 @@ const migrated = (json = serialize(STANDARD_M, FABRIC)) => migrateLegacySaveFile
 
 function legacySave(version: number): string {
   const current = JSON.parse(serialize(STANDARD_M, FABRIC));
-  delete current.semanticEdits;
+  if (version < 6) delete current.semanticEdits;
   if (version < 5) {
     delete current.workspace;
     delete current.garmentOptions;
@@ -106,7 +107,7 @@ function validRecovery(): RecoveryRecord {
 
 describe("strict project and style records", () => {
   it("migrates every accepted SaveFile version into distinct project, style, recipe, and preset identities", () => {
-    for (const version of [1, 2, 3, 4, 5]) {
+    for (const version of [1, 2, 3, 4, 5, 6]) {
       const result = migrated(legacySave(version));
       expect(result.ok).toBe(true);
       if (!result.ok) continue;
@@ -119,6 +120,11 @@ describe("strict project and style records", () => {
       expect(result.value.style.recipeId).toBe("tee");
       expect(result.value.style.recipePresetId).toBe("Classic tee");
       expect(result.value.style.design.measurements).toEqual(STANDARD_M);
+      expect(result.value.style.techPack).toMatchObject({
+        styleId: STYLE_ID, recipeId: "tee", recipeVersion: "unversioned", revisionId: null, revisionNumber: 0,
+      });
+      expect(Object.values(result.value.style.techPack.cover).every((entry) => entry.value === null
+        && entry.provenance === "UNRESOLVED" && entry.unresolvedReason !== null && entry.nextAction !== null)).toBe(true);
       if (version === 1) expect(result.value.style.design.measurements.strapWidth).toBe(8);
     }
     const polo = JSON.parse(serialize(STANDARD_M, FABRIC, {}, {
@@ -184,7 +190,11 @@ describe("strict project and style records", () => {
     expect(validateProjectBundle(project, [{ ...style, projectId: OTHER_STYLE_ID }]).ok).toBe(false);
     expect(validateProjectBundle(project, [{ ...style, id: OTHER_STYLE_ID }]).ok).toBe(false);
     const twoStyleProject = { ...project, styleIds: [STYLE_ID, OTHER_STYLE_ID] };
-    expect(validateProjectBundle(twoStyleProject, [style, { ...style, id: OTHER_STYLE_ID }]).ok).toBe(true);
+    expect(validateProjectBundle(twoStyleProject, [style, {
+      ...style,
+      id: OTHER_STYLE_ID,
+      techPack: { ...style.techPack, styleId: OTHER_STYLE_ID },
+    }]).ok).toBe(true);
     expect(validateProjectBundle(twoStyleProject, [style, style]).ok).toBe(false);
     expect(validateProjectBundle(project, [{ ...style, archivedAt: TIME }]).ok).toBe(false);
   });
@@ -220,19 +230,35 @@ describe("strict project and style records", () => {
     const legacyStyle: Record<string, unknown> = { ...style, schemaVersion: 1, design: legacyDesign };
     delete legacyStyle.archivedAt;
     delete legacyStyle.revisionHeadId;
+    delete legacyStyle.techPack;
     expect(parseStyleRecord(legacyStyle)).toMatchObject({
       ok: true,
-      value: { schemaVersion: 4, archivedAt: null, revisionHeadId: null, design: { semanticEdits: null } },
+      value: { schemaVersion: STYLE_RECORD_VERSION, archivedAt: null, revisionHeadId: null, design: { semanticEdits: null }, techPack: { styleId: style.id } },
     });
     const semanticV3: Record<string, unknown> = { ...style, schemaVersion: 3 };
     delete semanticV3.revisionHeadId;
+    delete semanticV3.techPack;
     expect(parseStyleRecord(semanticV3)).toMatchObject({
       ok: true,
-      value: { schemaVersion: 4, revisionHeadId: null, design: { semanticEdits: style.design.semanticEdits } },
+      value: { schemaVersion: STYLE_RECORD_VERSION, revisionHeadId: null, design: { semanticEdits: style.design.semanticEdits }, techPack: { styleId: style.id } },
     });
+    const v4RevisionHead = "11111111-1111-4111-8111-111111111111";
+    const legacyV4: Record<string, unknown> = { ...style, schemaVersion: 4, revisionHeadId: v4RevisionHead };
+    delete legacyV4.techPack;
+    expect(parseStyleRecord(legacyV4)).toMatchObject({
+      ok: true,
+      value: { schemaVersion: STYLE_RECORD_VERSION, revisionHeadId: v4RevisionHead, techPack: { styleId: style.id } },
+    });
+    expect(parseStyleRecord({ ...style, techPack: { ...style.techPack, styleId: OTHER_STYLE_ID } }))
+      .toMatchObject({ ok: false, error: "Style T01 record identity does not match its owning style and recipe." });
+    expect(parseStyleRecord({ ...style, techPack: { ...style.techPack, recipeId: "polo" } }).ok).toBe(false);
+    expect(parseStyleRecord({ ...style, techPack: { ...style.techPack, recipeVersion: "" } }).ok).toBe(false);
+    const missingPack = { ...style } as Record<string, unknown>;
+    delete missingPack.techPack;
+    expect(parseStyleRecord(missingPack).ok).toBe(false);
   });
 
-  it("keeps custom one-size style schema v5 exact and legacy v1–v4 styles free of a size mode", () => {
+  it("normalizes legacy custom v5 and keeps current custom one-size schema v7 exact", () => {
     const style = validStyle();
     expect(style.schemaVersion).toBe(STYLE_RECORD_VERSION);
     expect(style).not.toHaveProperty("sizeMode");
@@ -250,7 +276,7 @@ describe("strict project and style records", () => {
     });
     expect(validateProjectBundle(validProject(), [custom])).toMatchObject({ ok: true, value: { styles: [custom] } });
 
-    // Legacy records keep their normalized v4 shape and are never upgraded to a custom style.
+    // Legacy regular records get the current regular shape and are never upgraded to a custom style.
     const legacy = parseStyleRecord(style);
     expect(legacy).toEqual({ ok: true, value: style });
     if (!legacy.ok) throw new Error(legacy.error);
@@ -258,6 +284,8 @@ describe("strict project and style records", () => {
     const { semanticEdits: _semanticEdits, ...legacyDesign } = style.design;
     const { revisionHeadId: _head, archivedAt: _archived, ...v1Fields } = style;
     const { revisionHeadId: _v3Head, ...v3Fields } = style;
+    delete (v1Fields as Record<string, unknown>).techPack;
+    delete (v3Fields as Record<string, unknown>).techPack;
     for (const input of [
       { ...v1Fields, schemaVersion: 1, design: legacyDesign },
       { ...v3Fields, schemaVersion: 2, design: legacyDesign },
@@ -269,8 +297,8 @@ describe("strict project and style records", () => {
     }
 
     const { sizeMode: _sizeMode, ...missingMode } = custom;
-    const markerOnLegacy = "Only style schema v5 custom one-size records may declare a size mode.";
-    const wrongMode = `Style schema v5 size mode must be exactly "${CUSTOM_ONE_SIZE_MODE}".`;
+    const markerOnLegacy = "Only custom one-size style schemas v5 and v7 may declare a size mode.";
+    const wrongMode = `Custom style schema v${CUSTOM_STYLE_RECORD_VERSION} size mode must be exactly "${CUSTOM_ONE_SIZE_MODE}".`;
     const invalid: ReadonlyArray<{ value: unknown; error?: string }> = [
       { value: missingMode, error: "Style record fields are incomplete or unknown." },
       { value: { ...custom, sizeMode: "graded" }, error: wrongMode },
@@ -291,13 +319,21 @@ describe("strict project and style records", () => {
       { value: { ...style, sizeMode: undefined }, error: markerOnLegacy },
       { value: { ...v3Fields, schemaVersion: 3, sizeMode: CUSTOM_ONE_SIZE_MODE }, error: markerOnLegacy },
       { value: { ...v1Fields, schemaVersion: 1, design: legacyDesign, sizeMode: CUSTOM_ONE_SIZE_MODE }, error: markerOnLegacy },
-      { value: { ...custom, schemaVersion: 6 }, error: "Unsupported style record schema version." },
+      { value: { ...custom, schemaVersion: 8 }, error: "Unsupported style record schema version." },
     ];
     for (const candidate of invalid) {
       const result = parseStyleRecord(candidate.value);
       expect(result.ok).toBe(false);
       if (candidate.error && !result.ok) expect(result.error).toBe(candidate.error);
     }
+    const legacyCustom: Record<string, unknown> = {
+      ...style, schemaVersion: LEGACY_CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE,
+    };
+    delete legacyCustom.techPack;
+    expect(parseStyleRecord(legacyCustom)).toMatchObject({
+      ok: true,
+      value: { schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE, techPack: { styleId: style.id } },
+    });
   });
 
   it("validates per-style recovery records and legacy recovery without altering unfinished raw input", () => {

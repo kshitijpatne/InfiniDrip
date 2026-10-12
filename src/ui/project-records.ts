@@ -15,12 +15,18 @@ import {
   type CaptureMeasurer,
   type MeasurementCaptureSession,
 } from "./measurement-capture";
+import {
+  createEmptyTechPackRecord,
+  parseTechPackRecord,
+  type TechPackRecord,
+} from "./tech-pack-records";
 
 export const PROJECT_RECORD_VERSION = 2;
-/** Every existing and legacy-shaped style; v1–v3 records normalize to this shape. */
-export const STYLE_RECORD_VERSION = 4;
-/** Only a newly created G03 custom one-size style. It is never produced by upgrading a legacy style. */
-export const CUSTOM_STYLE_RECORD_VERSION = 5;
+/** Every regular style; prior regular schemas v1–v4 normalize to this shape. */
+export const STYLE_RECORD_VERSION = 6;
+/** Prior G03 custom schema v5 and newly created custom styles normalize to v7. */
+export const CUSTOM_STYLE_RECORD_VERSION = 7;
+export const LEGACY_CUSTOM_STYLE_RECORD_VERSION = 5;
 /** A single custom digital size with no inherited or approved grade plan. */
 export const CUSTOM_ONE_SIZE_MODE = "custom-one-size";
 export const RECOVERY_RECORD_VERSION = 2;
@@ -62,6 +68,7 @@ interface StyleRecordFields {
   /** Immutable design-history head; null only until the explicit S239 seed completes. */
   readonly revisionHeadId: string | null;
   readonly design: SavedDesign;
+  readonly techPack: TechPackRecord;
 }
 
 export interface LegacyStyleRecord extends StyleRecordFields {
@@ -145,7 +152,9 @@ export const LEGACY_PROJECT_RECORD_KEYS = Object.freeze(["schemaVersion", "id", 
 const STYLE_V3_KEYS = ["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "archivedAt", "design"];
 const STYLE_KEYS = [...STYLE_V3_KEYS, "revisionHeadId"];
 const STYLE_V2_KEYS = STYLE_V3_KEYS;
-const CUSTOM_STYLE_KEYS = [...STYLE_KEYS, "sizeMode"];
+const CURRENT_STYLE_KEYS = [...STYLE_KEYS, "techPack"];
+const LEGACY_CUSTOM_STYLE_KEYS = [...STYLE_KEYS, "sizeMode"];
+const CURRENT_CUSTOM_STYLE_KEYS = [...CURRENT_STYLE_KEYS, "sizeMode"];
 export const LEGACY_STYLE_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "design"]);
 const RECOVERY_KEYS = ["schemaVersion", "styleId", "payload"];
 const MIGRATION_KEYS = ["schemaVersion", "sourceKeys", "sourceSaveVersion", "sourceSha256", "migratedAt", "projectId", "styleId"];
@@ -251,30 +260,35 @@ export function parseProjectRecord(value: unknown): RecordResult<ProjectRecord> 
 }
 
 export function parseStyleRecord(value: unknown): RecordResult<StyleRecord> {
-  if (!object(value) || ![1, 2, 3, STYLE_RECORD_VERSION, CUSTOM_STYLE_RECORD_VERSION].includes(value.schemaVersion as number)) {
+  if (!object(value) || ![1, 2, 3, 4, LEGACY_CUSTOM_STYLE_RECORD_VERSION,
+    STYLE_RECORD_VERSION, CUSTOM_STYLE_RECORD_VERSION].includes(value.schemaVersion as number)) {
     return fail("Unsupported style record schema version.");
   }
   const version = value.schemaVersion as number;
-  const custom = version === CUSTOM_STYLE_RECORD_VERSION;
+  const custom = version === LEGACY_CUSTOM_STYLE_RECORD_VERSION || version === CUSTOM_STYLE_RECORD_VERSION;
+  const current = version >= STYLE_RECORD_VERSION;
   // A size marker is meaningful only on the custom schema; it is never ignored
   // on, or silently removed from, a legacy-shaped record.
   if (!custom && Object.prototype.hasOwnProperty.call(value, "sizeMode")) {
-    return fail("Only style schema v5 custom one-size records may declare a size mode.");
+    return fail("Only custom one-size style schemas v5 and v7 may declare a size mode.");
   }
   if (version === 1 ? !hasExactKeys(value, LEGACY_STYLE_RECORD_KEYS)
     : version < 4 ? !hasExactKeys(value, STYLE_V2_KEYS)
-      : !hasExactKeys(value, custom ? CUSTOM_STYLE_KEYS : STYLE_KEYS)) {
+      : version === LEGACY_CUSTOM_STYLE_RECORD_VERSION ? !hasExactKeys(value, LEGACY_CUSTOM_STYLE_KEYS)
+        : version === STYLE_RECORD_VERSION ? !hasExactKeys(value, CURRENT_STYLE_KEYS)
+          : version === CUSTOM_STYLE_RECORD_VERSION ? !hasExactKeys(value, CURRENT_CUSTOM_STYLE_KEYS)
+            : !hasExactKeys(value, STYLE_KEYS)) {
     return fail("Style record fields are incomplete or unknown.");
   }
   if (custom && value.sizeMode !== CUSTOM_ONE_SIZE_MODE) {
-    return fail(`Style schema v5 size mode must be exactly "${CUSTOM_ONE_SIZE_MODE}".`);
+    return fail(`Custom style schema v${version} size mode must be exactly "${CUSTOM_ONE_SIZE_MODE}".`);
   }
   if (!validUuid(value.id) || !validUuid(value.projectId) || !validName(value.name)
     || typeof value.recipeId !== "string" || value.recipeId.length === 0
     || typeof value.recipePresetId !== "string" || value.recipePresetId.length === 0
     || !validTimestamp(value.createdAt) || !validTimestamp(value.updatedAt)
     || !validRevision(value.revision)
-    || (version >= STYLE_RECORD_VERSION && value.revisionHeadId !== null && !validUuid(value.revisionHeadId))
+    || (version >= 4 && value.revisionHeadId !== null && !validUuid(value.revisionHeadId))
     || (version > 1 && value.archivedAt !== null && !validTimestamp(value.archivedAt))) {
     return fail("Style identity, name, recipe, timestamps, or revision are invalid.");
   }
@@ -291,14 +305,39 @@ export function parseStyleRecord(value: unknown): RecordResult<StyleRecord> {
     || design.value.workspace.targetStyle !== value.recipePresetId) {
     return fail("Style recipe identity does not match its saved workspace.");
   }
-  // The custom schema already has the current shape; keep its version and size mode exactly.
-  if (custom) return { ok: true, value: { ...value, design: design.value } as unknown as StyleRecord };
+  let techPack: TechPackRecord;
+  if (current) {
+    const parsedTechPack = parseTechPackRecord(value.techPack);
+    if (!parsedTechPack.ok) return fail(parsedTechPack.error);
+    if (parsedTechPack.value.styleId !== value.id || parsedTechPack.value.recipeId !== value.recipeId) {
+      return fail("Style T01 record identity does not match its owning style and recipe.");
+    }
+    techPack = parsedTechPack.value;
+  } else {
+    techPack = createEmptyTechPackRecord(value.id as string, value.recipeId as string,
+      value.createdAt as string, value.updatedAt as string);
+  }
+  if (version === CUSTOM_STYLE_RECORD_VERSION) {
+    return { ok: true, value: { ...value, design: design.value, techPack } as unknown as StyleRecord };
+  }
+  if (version === LEGACY_CUSTOM_STYLE_RECORD_VERSION) {
+    return { ok: true, value: {
+      ...value,
+      schemaVersion: CUSTOM_STYLE_RECORD_VERSION,
+      design: design.value,
+      techPack,
+    } as unknown as StyleRecord };
+  }
+  if (version === STYLE_RECORD_VERSION) {
+    return { ok: true, value: { ...value, design: design.value, techPack } as unknown as StyleRecord };
+  }
   return { ok: true, value: {
     ...value,
     schemaVersion: STYLE_RECORD_VERSION,
     archivedAt: version === 1 ? null : value.archivedAt,
-    revisionHeadId: version < STYLE_RECORD_VERSION ? null : value.revisionHeadId,
+    revisionHeadId: version < 4 ? null : value.revisionHeadId,
     design: design.value,
+    techPack,
   } as unknown as StyleRecord };
 }
 
@@ -468,6 +507,8 @@ export function migrateLegacySaveFile(input: LegacySaveMigrationInput): RecordRe
     archivedAt: null,
     revisionHeadId: null,
     design,
+    techPack: createEmptyTechPackRecord(styleId, design.workspace.garment,
+      input.migratedAt, input.migratedAt),
   };
   const bundle = validateProjectBundle(project, [style]);
   if (!bundle.ok) return fail(bundle.error);

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4542,
-  "updatedAt": "2026-10-12T20:34:51.215Z",
+  "revision": 4546,
+  "updatedAt": "2026-10-12T21:13:05.250Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -792,7 +792,8 @@
       "evidenceRefs": [
         "E-EPIC18-S762-ADMISSION",
         "E-EPIC18-S762-EXIT",
-        "E-G05-S763-EXIT"
+        "E-G05-S763-EXIT",
+        "E-G05-S764-EXIT"
       ]
     },
     {
@@ -16574,7 +16575,10 @@
       "comments": [],
       "evidenceRefs": [
         "E-G05-S763-START",
-        "E-G05-S763-EXIT"
+        "E-G05-S763-EXIT",
+        "E-G05-S764-START",
+        "E-G05-S764-RECIPE-TRANSITION",
+        "E-G05-S764-EXIT"
       ],
       "flagKey": null
     },
@@ -30573,6 +30577,33 @@
       "sha256": "72e005cae03220da0e0050ce1951e4c1d06e340424c0420c812c1efeed2ae5e6",
       "verified": true,
       "note": "Slice 763 freezes the T01 schema-v1 record and parser; 137 focused tests pass with 100% statement, branch, function and line coverage, and TypeScript typecheck passes."
+    },
+    {
+      "id": "E-G05-S764-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S764-T01-persistence-migration/start-packet.md",
+      "commit": null,
+      "sha256": "D8F259F3F9AB45D455D6429F6446A64120DEF47D9F3A3BD4173A6DE3926454C4",
+      "verified": true,
+      "note": "Slice 764 start packet bounds backward-safe style persistence, migration, package compatibility and reload proof; revision binding remains S765."
+    },
+    {
+      "id": "E-G05-S764-RECIPE-TRANSITION",
+      "kind": "decision",
+      "uri": "docs/research/epic18/S764-T01-persistence-migration/recipe-transition-decision.md",
+      "commit": null,
+      "sha256": "972652499D62092AE5F0593B828DB5E4265EA73123B7E3A9C56BDE48435C0CA7",
+      "verified": true,
+      "note": "S764 preserves T01 recipe identity: reset only the exact empty legacy placeholder on recipe change and reject populated cross-recipe moves before save."
+    },
+    {
+      "id": "E-G05-S764-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S764-T01-persistence-migration/exit-packet.md",
+      "commit": null,
+      "sha256": "edb89dc832bd1e1bf9d217dfc71713ae28269592626aafc23c1bd5007a2e3072",
+      "verified": true,
+      "note": "Slice 764 adds backward-safe T01 style persistence and v8-to-v9 migration; package/reload/copy behavior passes and five changed production modules have 100% focused coverage."
     }
   ]
 }

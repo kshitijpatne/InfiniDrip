@@ -6,6 +6,7 @@ import { STANDARD_M } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import {
+  CUSTOM_STYLE_RECORD_VERSION,
   migrateLegacyRecovery,
   migrateLegacySaveFile,
   type MeasurementCaptureDraft,
@@ -26,6 +27,7 @@ import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex } from "./style-revisions";
+import { parseTechPackRecord } from "./tech-pack-records";
 
 const cryptoApi = webcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -124,11 +126,14 @@ describe("local project/style workflow", () => {
     const original = workflow.snapshot;
     const originalDesign = original.activeStyle.design;
     const originalHead = original.activeStyle.revisionHeadId;
+    const originalTechPack = original.activeStyle.techPack;
     const saved = await workflow.saveActiveDesign(originalDesign);
     expect(saved.styleRevisions).toHaveLength(1);
     expect(saved.activeStyle.revisionHeadId).toBe(originalHead);
+    expect(saved.activeStyle.techPack).toEqual(originalTechPack);
 
     await workflow.saveActiveDesign({ ...originalDesign, fabric: "#204060" });
+    expect(workflow.snapshot.activeStyle.techPack).toEqual(originalTechPack);
     const restored = await workflow.restoreStyleRevision(originalHead!);
     expect(restored.activeStyle.design).toEqual(originalDesign);
     expect(restored.styleRevisions).toHaveLength(3);
@@ -651,11 +656,23 @@ describe("local project/style workflow", () => {
         targetStyle: "Relaxed woven shirt",
         stretchFabric: "Cotton woven",
       };
-      await workflow.saveActiveDesign({
+      const changedRecipe = await workflow.saveActiveDesign({
         ...baseline.design,
         workspace: wovenWorkspace,
         garmentOptions: { ...baseline.design.garmentOptions, "woven-shirt": {} },
       });
+      expect(changedRecipe.activeStyle.techPack).toMatchObject({
+        styleId: baseline.id,
+        recipeId: "woven-shirt",
+        recipeVersion: "unversioned",
+        revisionId: null,
+        revisionNumber: 0,
+        approval: { state: "DRAFT", revisionId: null, scopeFieldIds: [] },
+      });
+      expect(changedRecipe.activeStyle.techPack.cover).toEqual(baseline.techPack.cover);
+      expect(changedRecipe.activeStyle.techPack.createdAt).toBe(changedRecipe.activeStyle.updatedAt);
+      expect(changedRecipe.activeStyle.techPack.updatedAt).toBe(changedRecipe.activeStyle.updatedAt);
+      expect(parseTechPackRecord(changedRecipe.activeStyle.techPack).ok).toBe(true);
       const emptyWovenRevisionId = workflow.snapshot.activeStyle.revisionHeadId!;
       expect(workflow.compareStyleRevisions(baselineRevisionId, emptyWovenRevisionId))
         .toContain("design.garmentOptions.woven-shirt");
@@ -672,6 +689,56 @@ describe("local project/style workflow", () => {
     } finally {
       workflow.close();
     }
+  });
+
+  it("rejects a recipe change with populated T01 data before any project write", async () => {
+    const workflow = await open();
+    const before = await workflow.repository.readProjectBundle(PROJECT_ID);
+    const current = workflow.snapshot;
+    const baseTechPack = current.activeStyle.techPack;
+    const styleCode = {
+      ...baseTechPack.cover.styleCode,
+      value: "TP-001",
+      provenance: "USER_CAPTURED" as const,
+      evidenceStatus: "USER_CONFIRMED" as const,
+      validationStatus: "VALID" as const,
+      method: "entered from an identified source",
+      capturedBy: "fixture maintainer",
+      capturedAt: TIME,
+      unresolvedReason: null,
+      nextAction: null,
+    };
+    const populatedTechPack = {
+      ...baseTechPack,
+      cover: { ...baseTechPack.cover, styleCode },
+    };
+    expect(parseTechPackRecord(populatedTechPack).ok).toBe(true);
+    const populatedStyle = { ...current.activeStyle, techPack: populatedTechPack };
+    const internals = workflow as unknown as { loaded: LoadedProject };
+    internals.loaded = {
+      ...current,
+      activeStyle: populatedStyle,
+      styles: current.styles.map((style) => style.id === populatedStyle.id ? populatedStyle : style),
+    };
+    const saveBundle = vi.spyOn(workflow.repository, "saveProjectBundle");
+    const changedRecipe = {
+      ...populatedStyle.design,
+      workspace: {
+        ...populatedStyle.design.workspace,
+        garment: "woven-shirt",
+        targetStyle: "Relaxed woven shirt",
+        stretchFabric: "Cotton woven",
+      },
+      garmentOptions: { ...populatedStyle.design.garmentOptions, "woven-shirt": {} },
+    };
+
+    await expect(workflow.saveActiveDesign(changedRecipe)).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("Create a separate style instead of moving pack facts across recipes"),
+    });
+    expect(saveBundle).not.toHaveBeenCalled();
+    expect(await workflow.repository.readProjectBundle(PROJECT_ID)).toEqual(before);
+    expect(workflow.snapshot.activeStyle.techPack).toEqual(populatedTechPack);
   });
 
   it("preserves nested and root markers when revision payload shapes differ", async () => {
@@ -990,6 +1057,8 @@ describe("G03 capture persistence through the project workflow", () => {
     await expect(unread.saveMeasurementCapture(withReading, [])).rejects.toMatchObject({ code: "conflict" });
     await expect(tabTwo.saveMeasurementCapture(withReading, [draft({ fieldId: "body.unknown" }), draft()]))
       .rejects.toMatchObject({ code: "invalid-data" });
+    await expect(tabTwo.saveMeasurementCapture(withReading, [draft(), draft({ fieldId: "body.unknown" })]))
+      .rejects.toMatchObject({ code: "invalid-data" });
     const latest = await unread.loadMeasurementCapture("tee");
     expect(latest?.revision).toBe(3);
     expect(latest?.drafts).toEqual([draft({ rawValue: "99" })]);
@@ -1028,7 +1097,7 @@ describe("G03 capture persistence through the project workflow", () => {
     expect(created.activeStyle).toMatchObject({
       id: STYLE_TWO_ID,
       name: "Custom Tee",
-      schemaVersion: 5,
+      schemaVersion: CUSTOM_STYLE_RECORD_VERSION,
       sizeMode: "custom-one-size",
       recipeId: "tee",
       recipePresetId: design.workspace.targetStyle,

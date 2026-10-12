@@ -1,0 +1,25 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G05-T01",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "evidence": {
+      "id": "E-G05-S764-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S764-T01-persistence-migration/exit-packet.md",
+      "sha256": "edb89dc832bd1e1bf9d217dfc71713ae28269592626aafc23c1bd5007a2e3072",
+      "verified": true,
+      "note": "Slice 764 adds backward-safe T01 style persistence and v8-to-v9 migration; package/reload/copy behavior passes and five changed production modules have 100% focused coverage."
+    },
+    "expectedRevision": 4544
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-18",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "evidenceId": "E-G05-S764-EXIT",
+    "expectedRevision": 4545
+  }
+]

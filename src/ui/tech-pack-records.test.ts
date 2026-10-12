@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  createEmptyTechPackRecord,
   parseTechPackRecord,
   TECH_PACK_MAX_RECORDS,
   TECH_PACK_RECORD_VERSION,
+  UNVERSIONED_RECIPE_MARKER,
   type TechPackField,
   type TechPackFieldValue,
   type TechPackSemanticKind,
@@ -16,6 +18,30 @@ const ROW_ID = "10000000-0000-4000-8000-000000000004";
 const COLORWAY_ID = "10000000-0000-4000-8000-000000000005";
 const ASSIGNMENT_ID = "10000000-0000-4000-8000-000000000006";
 const MANIFEST_ID = "10000000-0000-4000-8000-000000000007";
+
+describe("empty legacy tech-pack record factory", () => {
+  it("creates an explicit, style-scoped unresolved record without inferred facts", () => {
+    const record = createEmptyTechPackRecord(STYLE_ID, "Tee", NOW, NOW);
+    expect(record).toMatchObject({
+      schemaVersion: TECH_PACK_RECORD_VERSION,
+      styleId: STYLE_ID,
+      recipeId: "Tee",
+      recipeVersion: UNVERSIONED_RECIPE_MARKER,
+      revisionId: null,
+      revisionNumber: 0,
+      createdAt: NOW,
+      updatedAt: NOW,
+      materials: [],
+      bomRows: [],
+      colorways: [],
+      approval: { state: "DRAFT", revisionId: null, scopeFieldIds: [], changedBy: null, changedAt: null, manifestId: null },
+    });
+    expect(Object.values(record.cover).map((entry) => entry.provenance)).toEqual(Array(6).fill("UNRESOLVED"));
+    expect(Object.values(record.cover).every((entry) => entry.value === null
+      && entry.validationStatus === "INVALID" && entry.unresolvedReason && entry.nextAction)).toBe(true);
+    expect(parseTechPackRecord(record)).toEqual({ ok: true, value: record });
+  });
+});
 
 function field<T extends TechPackFieldValue>(
   fieldId: string,

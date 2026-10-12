@@ -1,4 +1,37 @@
-## Current boundary — EPIC-18/G05 Slice 763 complete; Slice 764 next
+## Current boundary — EPIC-18/G05 Slice 764 complete
+
+Slice 764 began at 2026-10-12 20:42:34 UTC from verified S763 commit
+`1443affb51847f179bcc352bac47fad2d9b28ef8` on `codex/epic-18-g05`. A fresh
+fetch at closeout confirmed `origin/main`
+`e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor. The board
+starts for S764 were revisions 4542→4544; the validated exit replay advances
+4544→4546. EPIC-18 and G05-T01 remain In Progress; T02–T05, G05-EXIT and
+UIQ-10 remain Backlog; UIQ-09 remains Backlog pending EPIC-19.
+
+S764 added the T01 child to current regular/custom style persistence, accepted
+legacy style and SaveFile migration, transactional IndexedDB v8→v9 migration,
+and package v1–v6 round-trip/copy identity handling. Focused verification
+passed 309 tests with 100% statement, branch, function and line coverage for
+all five changed production modules; package tests passed 56/56 at 64 MiB and
+256 MiB input scales. TypeScript and Control Center (42/42) passed. The exact
+scope, acceptance evidence, verification, package-scale results and remaining
+gates are in `docs/research/epic18/S764-T01-persistence-migration/exit-packet.md`.
+The exit evidence and recipe-transition integrity clarification are replayed
+through `docs/planning/EPIC-18-S764-EXIT-BOARD-COMMANDS.json`; the recipe
+transition clarification and its validated replay are
+`docs/research/epic18/S764-T01-persistence-migration/recipe-transition-decision.md`
+and `docs/planning/EPIC-18-S764-RECIPE-TRANSITION-BOARD-COMMANDS.json`.
+
+No revision payload/hash integration, editor, output or export behavior was
+added. The exact empty-placeholder recipe reset and populated-pack rejection
+are defined in
+`docs/research/epic18/S764-T01-persistence-migration/recipe-transition-decision.md`.
+The sole next action is Slice 765: integrate the T01 payload with immutable
+G02 style revisions/digests while preserving historical identities and
+legacy export bytes. Start S765 only from this verified checkpoint and board
+revision 4546.
+
+## Previous boundary — EPIC-18/G05 Slice 763 complete
 
 Slice 763 started at 2026-10-12 20:09:15 UTC from the verified Slice 762 commit
 `2264e20a37b13929ad9be996c173417bb1ef6ac4` on `codex/epic-18-g05`. A fresh

@@ -5,6 +5,7 @@ import type { RecordResult } from "./project-records";
 
 export const TECH_PACK_RECORD_VERSION = 1;
 export const TECH_PACK_MAX_RECORDS = 10_000;
+export const UNVERSIONED_RECIPE_MARKER = "unversioned";
 
 export const TECH_PACK_SEMANTIC_KINDS = Object.freeze([
   "BODY_MEASURE",
@@ -140,6 +141,70 @@ export interface TechPackRecord {
   readonly bomRows: readonly TechPackBomRow[];
   readonly colorways: readonly TechPackColorway[];
   readonly approval: TechPackScopedApproval;
+}
+
+/**
+ * Creates a style-scoped, fact-free T01 record for a style that has no saved
+ * pack yet. The recipe marker explicitly records that this application has no
+ * source recipe-version registry; it is not a recipe-version claim.
+ */
+export function createEmptyTechPackRecord(
+  styleId: string,
+  recipeId: string,
+  createdAt: string,
+  updatedAt: string,
+): TechPackRecord {
+  const unresolved = (fieldId: string): TechPackField<string | null> => ({
+    fieldId,
+    semanticKind: "STYLE_CONTROL",
+    value: null,
+    unit: null,
+    provenance: "UNRESOLVED",
+    evidenceStatus: "UNCONFIRMED",
+    validationStatus: "INVALID",
+    sourceRef: null,
+    method: null,
+    capturedBy: null,
+    capturedAt: null,
+    inputRefs: [],
+    ruleId: null,
+    ruleVersion: null,
+    inheritedFrom: null,
+    unresolvedReason: "No sourced T01 cover value exists in the source style record.",
+    nextAction: "Review and enter this cover value in the tech-pack editor.",
+    evidenceRefs: [],
+    confidence: "NOT_ASSESSED",
+  });
+
+  return {
+    schemaVersion: TECH_PACK_RECORD_VERSION,
+    styleId,
+    recipeId,
+    recipeVersion: UNVERSIONED_RECIPE_MARKER,
+    revisionId: null,
+    revisionNumber: 0,
+    createdAt,
+    updatedAt,
+    cover: {
+      styleCode: unresolved("cover.styleCode"),
+      styleName: unresolved("cover.styleName"),
+      ownerLabel: unresolved("cover.ownerLabel"),
+      intendedUse: unresolved("cover.intendedUse"),
+      baseSizeId: unresolved("cover.baseSizeId"),
+      measurementUnit: unresolved("cover.measurementUnit"),
+    },
+    materials: [],
+    bomRows: [],
+    colorways: [],
+    approval: {
+      state: "DRAFT",
+      revisionId: null,
+      scopeFieldIds: [],
+      changedBy: null,
+      changedAt: null,
+      manifestId: null,
+    },
+  };
 }
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
