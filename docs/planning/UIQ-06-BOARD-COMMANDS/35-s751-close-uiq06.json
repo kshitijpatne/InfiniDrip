@@ -1,0 +1,13 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-06",
+  "status": "Done",
+  "actor": "Codex",
+  "role": "maintainer",
+  "reason": "PR #31 is merged to main as caa1c751; main deployment 38201698605 passed the full workflow and Cloudflare Pages deploy; stable and immutable public URLs returned HTTP 200 and passed desktop/tablet/narrow live browser checks with no overflow, off-origin requests, page errors or console errors. The targeted UIQ-06 live smoke verified default-on Nesting and local project messaging. The settled S750 full 100% coverage, export identity and packaged release gates remain passed; no baseline moved.",
+  "evidenceRefs": [
+    "E-UIQ06-S750-SETTLED-RELEASE",
+    "E-UIQ06-S751-LIVE-EXIT"
+  ],
+  "expectedRevision": 4438
+}

@@ -1,4 +1,4 @@
-## Current boundary — UIQ-06 admitted (Slices 744–750 locally complete; S751 next)
+## Current boundary — UIQ-06 release live; S751 durable closeout PR pending
 
 On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
 `origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
@@ -17,8 +17,8 @@ already truthfully distinguishes digital checks from physical validation.
 Nesting, measurement-history and grade-exception presentation corrections do
 not change calculation or approval behavior. Local project/recovery/import/export
 surfaces remain evidence-gated. No estimate, garment, grading, validation, state,
-persistence, import/export, or baseline changes are authorized. UIQ-07 and
-later work remain unadmitted and untouched.
+persistence, import/export, or baseline changes were made. UIQ-07 and later work
+remain Backlog/unadmitted and untouched.
 
 Slices 744–749 are committed on `codex/uiq06-admission`; S745 keeps controls,
 IDs, estimates, validation and exact flag-off fallback, and separates estimate
@@ -70,19 +70,32 @@ report; current package flows remain covered by focused tests. A broad app-test
 attempt was stopped under high memory use and is not a pass. No export baseline
 moved.
 
-**Slice 750 local gate is complete** from `493c02a7`; fresh `origin/main`
-`7923a7f4323d713b069817adfd7626f19c7b48f5` remains an ancestor. All 164 test
-files / 2,663 tests passed with 100% global statements, branches, functions
-and lines. Build/type, operational, web-release, readiness and packaged
-Electron offline/recovery/12-route export-parity checks passed. The complete
-evidence is `docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md` and
-`docs/research/uiq06/evidence/S750-packaged-verification.json`. Codex's scoped
-diff review is complete; unrelated EPIC-17 S425 rendered-output files are
-preserved and excluded. Canonical board revision 4436 remains UIQ-06 In
-Progress pending the S750 PR. **Immediate next action: open the Codex-owned
-S750 PR**, then S751 owns its final checks/review, merge, automatic deployment,
-live verification, and validated board/context closeout. No UIQ-07 or later
-work is admitted.
+**Slice 750 local gate is complete** from `493c02a7`; all 164 test files / 2,663
+tests passed with 100% global statements, branches, functions and lines.
+Build/type, operational, web-release, readiness and packaged Electron
+offline/recovery/12-route export-parity checks passed. Complete evidence is in
+`docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md` and
+`docs/research/uiq06/evidence/S750-packaged-verification.json`; unrelated
+EPIC-17 S425 rendered-output files were preserved and excluded. S751 reviewed
+and merged PR #31 to `origin/main` as
+`caa1c75111c55d75e8e6a495aa9c85e8d487aea9`. Main-only Pages run `38201698605`
+passed. Stable URL `https://infinidrip-preview.pages.dev` and immutable URL
+`https://309f484d.infinidrip-preview.pages.dev` returned HTTP 200 and passed
+desktop/tablet/narrow rendered, accessibility, keyboard and no-egress checks.
+The UIQ-06 live smoke confirmed the Nesting readout and local-project messaging.
+Final report and machine evidence are in
+`docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md` and
+`docs/research/uiq06/evidence/S751-live/`. The validated closeout branch board
+revision 4440 records UIQ-06 Done with S750/S751 evidence and final note. The
+post-closeout Control Center suite passes 42/42; its regression now asserts the
+completed state and both evidence links. A full local coverage refresh was
+attempted after that test change: default workers hit the unrelated EPIC-17
+S425 rendered replay's 60-second timeout, and the one-worker retry stalled at
+about 1.7 GB RSS. No code/configuration default was changed. The closeout PR
+must pass the repository's full CI test/coverage/build gates before merge; do
+not mark the durable goal Complete until its main deployment is verified.
+UIQ-07 remains Backlog/unadmitted; no further work is admitted. Full history
+and S751 limits are in `docs/planning/UIQ-06-GOAL.md`.
 
 ## Previous boundary — UIQ-05 complete (Slices 741–743)
 

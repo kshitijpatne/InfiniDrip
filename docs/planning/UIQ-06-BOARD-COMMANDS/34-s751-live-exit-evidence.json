@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S751-LIVE-EXIT",
+    "kind": "document",
+    "uri": "docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md",
+    "sha256": "092a9b4440f438135464616838bf1eaeaa5ee2f4369f9facdbdd98882ca9f85c",
+    "verified": true,
+    "note": "PR #31 merged as caa1c751; main deployment run 38201698605 passed full tests/build/artifact checks and Cloudflare deploy. Stable and immutable Pages URLs returned HTTP 200 and passed 1280/640/320 live Chromium/no-egress/accessibility checks; targeted UIQ-06 Nesting/local-project smoke passed with no overflow/errors/egress. Links retained screenshots and machine evidence."
+  },
+  "expectedRevision": 4437
+}

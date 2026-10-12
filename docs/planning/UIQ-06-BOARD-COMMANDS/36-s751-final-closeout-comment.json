@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "UIQ-06 is Done at board revision 4439. PR #31 merged to main as caa1c751; main deployment run 38201698605 passed and stable/immutable Pages URLs were live-verified with responsive, accessibility, keyboard and no-egress checks. S750's settled global 100% coverage, packaged Electron and export-identity gates remain passed; no baseline moved. S751 evidence is E-UIQ06-S751-LIVE-EXIT and final report docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md. UIQ-07 remains Backlog and unadmitted; no subsequent package is admitted by this closeout.",
+  "expectedRevision": 4439
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4436,
-  "updatedAt": "2026-10-12T03:51:48.391Z",
+  "revision": 4440,
+  "updatedAt": "2026-10-12T04:08:55.231Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14868,10 +14868,10 @@
       "title": "Operational controls and critical-state readability",
       "epicId": null,
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-10-02",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-12",
       "priority": "P1",
       "risk": "medium",
       "owner": "Codex",
@@ -14913,6 +14913,17 @@
           "role": "maintainer",
           "note": "Maintainer authorized the next ordered UIQ goal after UIQ-05 completed. The current-main UIQ-06 admission, evidence-gated subpackages, exact presentation-only boundaries, reserved slices 744–750, flag/fallback and exit checks are recorded in docs/planning/UIQ-06-ADMISSION.md and UIQ-06-GOAL.md.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-12T04:08:47.101Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "PR #31 is merged to main as caa1c751; main deployment 38201698605 passed the full workflow and Cloudflare Pages deploy; stable and immutable public URLs returned HTTP 200 and passed desktop/tablet/narrow live browser checks with no overflow, off-origin requests, page errors or console errors. The targeted UIQ-06 live smoke verified default-on Nesting and local project messaging. The settled S750 full 100% coverage, export identity and packaged release gates remain passed; no baseline moved.",
+          "evidenceRefs": [
+            "E-UIQ06-S750-SETTLED-RELEASE",
+            "E-UIQ06-S751-LIVE-EXIT"
+          ]
         }
       ],
       "comments": [
@@ -15005,6 +15016,16 @@
           "at": "2026-10-12T03:51:48.391Z",
           "actor": "Codex",
           "text": "S750 local settled release gate and complete candidate diff review passed. Global coverage: 164 files, 2,663 tests, 100% statements/branches/functions/lines; build/Electron typechecks, web release 10/10, readiness 5/5, Control Center 42/42, packaged Electron offline/recovery, 12 output routes with all 6 button/menu pairs byte-identical, and failure-path checks passed. Packaged evidence is digest-bound as E-UIQ06-S750-SETTLED-RELEASE; Windows archive rename EPERM and the installed Electron 44.1.0 supported distribution workaround are explained in the report. Existing S745–S749 rendered/no-egress/flag fallback evidence remains linked; no application source changed after those final renders. No export baseline moved. Unrelated EPIC-17 S425 artifacts were preserved and excluded. UIQ-06 remains In Progress. S751 is the sole next action: Codex-owned PR, final PR checks/review, merge, automatic deployment, live URL verification and validated board closeout."
+        },
+        {
+          "at": "2026-10-12T03:54:55.376Z",
+          "actor": "Codex",
+          "text": "S751 starts after S750 commit 1c0cca2861b6a37eb3195746f5fbce7d2f067f34 was pushed and Codex-owned PR #31 opened: https://github.com/kshitijpatne/InfiniDrip/pull/31. Base main is 7923a7f; GitHub reports the PR mergeable, no review requests, and no configured branch checks. Full local gates and Codex diff review are digest-bound at E-UIQ06-S750-SETTLED-RELEASE. The main-only Pages workflow is .github/workflows/pages-deployment.yml; it runs full tests, build, web manifest/proof, then deploys Cloudflare Pages. S751 will verify current ancestry and the scoped diff, merge preserving slice commits, confirm Actions deployment and live stable-URL rendered/no-egress checks, then close UIQ-06 via validated board evidence. Parent remains In Progress until then."
+        },
+        {
+          "at": "2026-10-12T04:08:55.231Z",
+          "actor": "Codex",
+          "text": "UIQ-06 is Done at board revision 4439. PR #31 merged to main as caa1c751; main deployment run 38201698605 passed and stable/immutable Pages URLs were live-verified with responsive, accessibility, keyboard and no-egress checks. S750's settled global 100% coverage, packaged Electron and export-identity gates remain passed; no baseline moved. S751 evidence is E-UIQ06-S751-LIVE-EXIT and final report docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md. UIQ-07 remains Backlog and unadmitted; no subsequent package is admitted by this closeout."
         }
       ],
       "evidenceRefs": [
@@ -15019,7 +15040,8 @@
         "E-UIQ06-S749-ACCEPTED",
         "E-UIQ06-S749-VERIFIED",
         "E-UIQ06-S749-FINAL-COVERAGE",
-        "E-UIQ06-S750-SETTLED-RELEASE"
+        "E-UIQ06-S750-SETTLED-RELEASE",
+        "E-UIQ06-S751-LIVE-EXIT"
       ],
       "flagKey": "uiq_operational_clarity"
     },
@@ -29332,6 +29354,15 @@
       "sha256": "1af5dd50de9b9e49ae6284b6014a1c3386ce1d1792821019e60588e6006bc187",
       "verified": true,
       "note": "Settled release gate and Codex review: 164 test files/2663 tests, four global coverage metrics 100%, build/type, operational/web/readiness and packaged Electron offline/recovery/export-parity gates passed. No baseline moved; unrelated EPIC-17 artifacts excluded. S751 is PR, merge/deployment and live closeout."
+    },
+    {
+      "id": "E-UIQ06-S751-LIVE-EXIT",
+      "kind": "document",
+      "uri": "docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md",
+      "commit": null,
+      "sha256": "092a9b4440f438135464616838bf1eaeaa5ee2f4369f9facdbdd98882ca9f85c",
+      "verified": true,
+      "note": "PR #31 merged as caa1c751; main deployment run 38201698605 passed full tests/build/artifact checks and Cloudflare deploy. Stable and immutable Pages URLs returned HTTP 200 and passed 1280/640/320 live Chromium/no-egress/accessibility checks; targeted UIQ-06 Nesting/local-project smoke passed with no overflow/errors/egress. Links retained screenshots and machine evidence."
     }
   ]
 }

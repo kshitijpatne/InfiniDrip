@@ -52,14 +52,14 @@ test("UIQ integration status follows its release evidence", () => {
     assert.ok(card);
     if (["UIQ-02", "UIQ-03", "UIQ-04"].includes(card.id)) assert.equal(card.status, "Done");
     else if (card.id === "UIQ-05") assert.equal(card.status, "Done");
-    else if (card.id === "UIQ-06") assert.equal(card.status, "In Progress");
+    else if (card.id === "UIQ-06") assert.equal(card.status, "Done");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
     assert.equal(card.targetAt, null);
     const expectedDeliveredAt = ["UIQ-02", "UIQ-03"].includes(card.id)
       ? "2026-10-11"
-      : ["UIQ-04", "UIQ-05"].includes(card.id) ? "2026-10-12" : null;
+      : ["UIQ-04", "UIQ-05", "UIQ-06"].includes(card.id) ? "2026-10-12" : null;
     assert.equal(card.deliveredAt, expectedDeliveredAt);
     assert.equal(card.releaseId, null);
     assert.notEqual(card.epicId, "EPIC-17");
@@ -102,6 +102,10 @@ test("UIQ integration status follows its release evidence", () => {
   assert.deepEqual(cards[5].dependencies, ["UIQ-GATE"]);
   assert.ok(cards[5].description.includes("docs/planning/UIQ-06-ADMISSION.md"));
   assert.ok(cards[5].statusHistory.some((entry) => entry.status === "In Progress"));
+  assert.ok(cards[5].statusHistory.some((entry) => entry.status === "Done" && entry.evidenceRefs.includes("E-UIQ06-S751-LIVE-EXIT")));
+  assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S750-SETTLED-RELEASE"));
+  assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S751-LIVE-EXIT"));
+  assert.ok(cards[5].comments.some((comment) => comment.text.includes("UIQ-06 is Done at board revision 4439")));
   assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 744 admitted")));
   assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S745"));
   assert.ok(board.evidence.some((entry) => entry.id === "E-UIQ06-S745" && entry.verified && entry.uri === "docs/release/UIQ-06-S745-EXIT.md"));

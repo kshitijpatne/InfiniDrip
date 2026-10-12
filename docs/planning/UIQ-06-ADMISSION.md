@@ -14,9 +14,11 @@ high-risk behavior is not redesigned merely to fill scope.
   branch `codex/uiq06-admission`. The dirty shared `F:\designApp` checkout
   and all other worktrees are preserved.
 - Canonical board began at revision 4404; validated edit, status and comment
-  commands advanced it to revision 4408. UIQ-GATE is Done and UIQ-06 is In
-  Progress. The board's UIQ-06 dependency is satisfied. No open PR or other active
-  current-main UIQ implementation owner was found. The old EPIC-17 worktree
+  commands advanced it to revision 4408 at admission. UIQ-GATE was Done and
+  UIQ-06 entered In Progress with its dependency satisfied. The S751 closeout
+  branch board is Done at revision 4440; PR #31 merged and deployed, while PR
+  #32 carries the final board/context closeout pending full CI and merge. No
+  other active current-main UIQ implementation owner was found. The old EPIC-17 worktree
   is historical; EPIC-17 is closed on main. The referenced
   `docs/coordination/TEAM-CONTEXT-REGISTRY.md` is absent from current main;
   ownership was checked from Git worktrees, refs, open PRs and the canonical
@@ -28,7 +30,8 @@ high-risk behavior is not redesigned merely to fill scope.
   test that board evidence resolves to a tracked file. This corrects an
   accidental ignore rule without rewriting history or changing production.
   Remaining boundaries after S748: S749 project/history/recovery/import/export-scope
-  messages (now complete); S750 settled review/full gates/PR; S751 post-merge deployment,
+  messages (now complete); S750 settled review/full gates and PR; S751 PR checks,
+  merge, deployment,
   live verification and board/context closeout. Recheck and reserve each
   number at the boundary. A justified no-change result is recorded with
   evidence rather than replaced by speculative UI work.
@@ -147,9 +150,11 @@ Acceptance:
    text, all estimate boundary states, no page errors and zero off-origin
    requests. The old UI is verified with flag off/unknown/stale. Actual output,
    not tests alone, decides acceptance.
-6. Codex reviews the actual full diff and evidence before merge. S750 remains
-   open until main ancestry, automatic deployment, stable URL health, live
-   rendered smoke, validated board closure and durable context all pass.
+6. Codex reviews the actual full diff and evidence before merge. S750 owns the
+   settled local gate and PR. S751 required main ancestry, automatic deployment,
+   stable URL health, live rendered smoke, validated board closure and durable
+   context; product acceptance is complete and the final durable closeout PR is
+   pending its CI gate and merge.
 
 ## S744–S745 results and current correction
 
@@ -184,7 +189,11 @@ report. S750 local settled gates and Codex diff review passed from commit
 verification used the installed Electron 44.1.0 distribution after the
 default archive extraction rename hit a host-specific `EPERM`; the packaged
 verifier itself passed. Canonical board revision 4436 remains In Progress.
-S751 is the sole next boundary: open/verify the
-Codex-owned PR, merge, confirm automatic deployment and live behavior, then
-close the board with validated evidence. Do not begin UIQ-07 or any numbered
-Epic.
+S750 opened Codex-owned PR #31, which was mergeable and had no configured PR
+checks; the local gates are recorded in its evidence. S751 merged it to main at
+`caa1c751`, verified successful Pages deployment run `38201698605`, and passed
+stable/immutable live browser acceptance. The report is digest-bound as
+`E-UIQ06-S751-LIVE-EXIT`; board revision 4439 records Done and revision 4440
+contains the final closeout comment. See
+`docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`. UIQ-07 remains Backlog and
+unadmitted; no later work is admitted.
