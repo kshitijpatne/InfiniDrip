@@ -1,0 +1,229 @@
+{
+  "generatedAt": "2026-10-12T03:48:42.331Z",
+  "host": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v24.15.0",
+    "electron": "44.1.0",
+    "packaged": true
+  },
+  "smoke": {
+    "identity": {
+      "name": "InfiniDrip",
+      "packaged": true
+    },
+    "title": "InfiniDrip"
+  },
+  "freshProfile": {
+    "welcomeVisible": true
+  },
+  "offlineReload": true,
+  "staleState": {
+    "shell": true,
+    "canvas": true,
+    "save": "{not-json",
+    "recovery": "{\"v\":999,\"stale\":true}"
+  },
+  "outputs": [
+    {
+      "kind": "svg",
+      "route": "button",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\button-svg.svg",
+      "bytes": 5997,
+      "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d",
+      "valid": true
+    },
+    {
+      "kind": "svg",
+      "route": "menu",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\menu-svg.svg",
+      "bytes": 5997,
+      "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d",
+      "valid": true
+    },
+    {
+      "kind": "dxf",
+      "route": "button",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\button-dxf.dxf",
+      "bytes": 6750,
+      "sha256": "0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9",
+      "valid": true
+    },
+    {
+      "kind": "dxf",
+      "route": "menu",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\menu-dxf.dxf",
+      "bytes": 6750,
+      "sha256": "0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9",
+      "valid": true
+    },
+    {
+      "kind": "pdf",
+      "route": "button",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\button-pdf.pdf",
+      "bytes": 92754,
+      "sha256": "1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523",
+      "valid": true
+    },
+    {
+      "kind": "pdf",
+      "route": "menu",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\menu-pdf.pdf",
+      "bytes": 92754,
+      "sha256": "1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523",
+      "valid": true
+    },
+    {
+      "kind": "techpack",
+      "route": "button",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\button-techpack.pdf",
+      "bytes": 11897,
+      "sha256": "73e1f80e0cf31b61d72360254490eb69aaa7e43825824fe384acfa59135051b8",
+      "valid": true
+    },
+    {
+      "kind": "techpack",
+      "route": "menu",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\menu-techpack.pdf",
+      "bytes": 11897,
+      "sha256": "73e1f80e0cf31b61d72360254490eb69aaa7e43825824fe384acfa59135051b8",
+      "valid": true
+    },
+    {
+      "kind": "projector",
+      "route": "button",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\button-projector.svg",
+      "bytes": 44569,
+      "sha256": "6e74f535d8fe7c011cc33a4949040cba1bd3e0e4c9bf84f46c0b5538448b3d83",
+      "valid": true
+    },
+    {
+      "kind": "projector",
+      "route": "menu",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\menu-projector.svg",
+      "bytes": 44569,
+      "sha256": "6e74f535d8fe7c011cc33a4949040cba1bd3e0e4c9bf84f46c0b5538448b3d83",
+      "valid": true
+    },
+    {
+      "kind": "a0",
+      "route": "button",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\button-a0.pdf",
+      "bytes": 5942,
+      "sha256": "2b4561a1de275ccaf3d07f900aba827880a33ae5ec7cece3f678c1a2e1e05177",
+      "valid": true
+    },
+    {
+      "kind": "a0",
+      "route": "menu",
+      "file": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\menu-a0.pdf",
+      "bytes": 5942,
+      "sha256": "2b4561a1de275ccaf3d07f900aba827880a33ae5ec7cece3f678c1a2e1e05177",
+      "valid": true
+    }
+  ],
+  "parity": [
+    {
+      "kind": "svg",
+      "clicked": true,
+      "identical": true
+    },
+    {
+      "kind": "dxf",
+      "clicked": true,
+      "identical": true
+    },
+    {
+      "kind": "pdf",
+      "clicked": true,
+      "identical": true
+    },
+    {
+      "kind": "techpack",
+      "clicked": true,
+      "identical": true
+    },
+    {
+      "kind": "projector",
+      "clicked": true,
+      "identical": true
+    },
+    {
+      "kind": "a0",
+      "clicked": true,
+      "identical": true
+    }
+  ],
+  "rendered": {
+    "freshProfile": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\packaged-fresh-profile.png",
+    "outputStage": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\packaged-output-stage.png"
+  },
+  "failures": [
+    {
+      "kind": "save-cancel",
+      "passed": true
+    },
+    {
+      "kind": "invalid-path",
+      "passed": true,
+      "target": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\tmp\\epic9-release\\outputs\\missing-parent\\failed.svg"
+    },
+    {
+      "kind": "directory-write-failure",
+      "passed": true,
+      "permissionSimulation": "host-safe directory target"
+    }
+  ],
+  "lifecycle": {
+    "activateWithWindowCount": 1
+  },
+  "windowRecovery": {
+    "recovered": {
+      "x": 168,
+      "y": 80,
+      "width": 1200,
+      "height": 800
+    }
+  },
+  "windowLifecycle": {
+    "target": {
+      "x": 133,
+      "y": 97,
+      "width": 1200,
+      "height": 850
+    },
+    "applied": {
+      "x": 133,
+      "y": 97,
+      "width": 1202,
+      "height": 852
+    },
+    "persisted": {
+      "x": 133,
+      "y": 97,
+      "width": 1202,
+      "height": 852,
+      "isMaximized": false
+    },
+    "restored": {
+      "x": 133,
+      "y": 97,
+      "width": 1210,
+      "height": 860
+    },
+    "positionOk": true,
+    "driftOk": true,
+    "relaunch": true
+  },
+  "package": {
+    "executable": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\release\\win-unpacked\\InfiniDrip.exe",
+    "root": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\release\\win-unpacked",
+    "appAsar": "C:\\Users\\kshit\\.codex\\worktrees\\uiq06-controls\\designApp\\release\\win-unpacked\\resources\\app.asar",
+    "inventoryFiles": 74,
+    "inventorySha256": "2512deade76eb705b10a44e9c61297370ca97a809337ec2b853cd7124812aa49",
+    "executableBytes": 245290496,
+    "noAbsoluteDevPath": true
+  },
+  "errors": [],
+  "ok": true
+}

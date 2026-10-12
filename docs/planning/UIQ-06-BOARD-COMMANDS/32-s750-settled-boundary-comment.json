@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "S750 local settled release gate and complete candidate diff review passed. Global coverage: 164 files, 2,663 tests, 100% statements/branches/functions/lines; build/Electron typechecks, web release 10/10, readiness 5/5, Control Center 42/42, packaged Electron offline/recovery, 12 output routes with all 6 button/menu pairs byte-identical, and failure-path checks passed. Packaged evidence is digest-bound as E-UIQ06-S750-SETTLED-RELEASE; Windows archive rename EPERM and the installed Electron 44.1.0 supported distribution workaround are explained in the report. Existing S745–S749 rendered/no-egress/flag fallback evidence remains linked; no application source changed after those final renders. No export baseline moved. Unrelated EPIC-17 S425 artifacts were preserved and excluded. UIQ-06 remains In Progress. S751 is the sole next action: Codex-owned PR, final PR checks/review, merge, automatic deployment, live URL verification and validated board closeout.",
+  "expectedRevision": 4435
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4433,
-  "updatedAt": "2026-10-12T03:16:34.251Z",
+  "revision": 4436,
+  "updatedAt": "2026-10-12T03:51:48.391Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14995,6 +14995,16 @@
           "at": "2026-10-12T03:16:34.251Z",
           "actor": "Codex",
           "text": "S749 final evidence boundary completed at 03:15:47 UTC, 42m05s after start. Project/app focused tests pass 33/33, recovery app case 1/1, explicit UIQ flag-on/off messages are tested, project-manager module coverage is 100% in all dimensions, and app branch instrumentation proves both new copy paths. Production build and clean disposable browser/Electron persistence/render replay pass; Control Center is run after this final board replay. Final report E-UIQ06-S749-FINAL-COVERAGE supersedes earlier interim digests. UIQ-06 remains In Progress; S750 is the sole next action; S751 remains merge/deployment/live closeout."
+        },
+        {
+          "at": "2026-10-12T03:19:09.844Z",
+          "actor": "Codex",
+          "text": "Starting S750 from clean isolated commit 493c02a7969396c34ab332fa26a8a68859baf71a after a fresh fetch: origin/main 7923a7f4323d713b069817adfd7626f19c7b48f5 remains an ancestor, no open PR exists, and no other UIQ-06 worktree/owner is active. Board revision 4433; S749 is accepted at E-UIQ06-S749-FINAL-COVERAGE. S750 is the settled complete-diff review, global four-metric 100% coverage/export identity, type/build, operational/web/readiness, packaged Electron, rendered/flag-fallback/no-egress gates, then Codex-owned PR if every gate passes. No merge/deployment until S751. Exact start packet: docs/research/uiq06/S750-SETTLED-RELEASE-START.md. Usage primary34%/weekly29%, ordinary allowed, no reset credits."
+        },
+        {
+          "at": "2026-10-12T03:51:48.391Z",
+          "actor": "Codex",
+          "text": "S750 local settled release gate and complete candidate diff review passed. Global coverage: 164 files, 2,663 tests, 100% statements/branches/functions/lines; build/Electron typechecks, web release 10/10, readiness 5/5, Control Center 42/42, packaged Electron offline/recovery, 12 output routes with all 6 button/menu pairs byte-identical, and failure-path checks passed. Packaged evidence is digest-bound as E-UIQ06-S750-SETTLED-RELEASE; Windows archive rename EPERM and the installed Electron 44.1.0 supported distribution workaround are explained in the report. Existing S745–S749 rendered/no-egress/flag fallback evidence remains linked; no application source changed after those final renders. No export baseline moved. Unrelated EPIC-17 S425 artifacts were preserved and excluded. UIQ-06 remains In Progress. S751 is the sole next action: Codex-owned PR, final PR checks/review, merge, automatic deployment, live URL verification and validated board closeout."
         }
       ],
       "evidenceRefs": [
@@ -15008,7 +15018,8 @@
         "E-UIQ06-S749-CLOSEOUT",
         "E-UIQ06-S749-ACCEPTED",
         "E-UIQ06-S749-VERIFIED",
-        "E-UIQ06-S749-FINAL-COVERAGE"
+        "E-UIQ06-S749-FINAL-COVERAGE",
+        "E-UIQ06-S750-SETTLED-RELEASE"
       ],
       "flagKey": "uiq_operational_clarity"
     },
@@ -29312,6 +29323,15 @@
       "sha256": "c735f7864b908264f17fb225584f5fc118cc169a27b2afc938a7e1e13da593ae",
       "verified": true,
       "note": "Final timed S749 report with all-four-dimension project-manager coverage and explicit app flag-on/off branch measurements; supersedes earlier S749 snapshots."
+    },
+    {
+      "id": "E-UIQ06-S750-SETTLED-RELEASE",
+      "kind": "document",
+      "uri": "docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md",
+      "commit": null,
+      "sha256": "1af5dd50de9b9e49ae6284b6014a1c3386ce1d1792821019e60588e6006bc187",
+      "verified": true,
+      "note": "Settled release gate and Codex review: 164 test files/2663 tests, four global coverage metrics 100%, build/type, operational/web/readiness and packaged Electron offline/recovery/export-parity gates passed. No baseline moved; unrelated EPIC-17 artifacts excluded. S751 is PR, merge/deployment and live closeout."
     }
   ]
 }

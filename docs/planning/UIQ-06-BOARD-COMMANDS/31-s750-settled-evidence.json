@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S750-SETTLED-RELEASE",
+    "kind": "document",
+    "uri": "docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md",
+    "sha256": "1af5dd50de9b9e49ae6284b6014a1c3386ce1d1792821019e60588e6006bc187",
+    "verified": true,
+    "note": "Settled release gate and Codex review: 164 test files/2663 tests, four global coverage metrics 100%, build/type, operational/web/readiness and packaged Electron offline/recovery/export-parity gates passed. No baseline moved; unrelated EPIC-17 artifacts excluded. S751 is PR, merge/deployment and live closeout."
+  },
+  "expectedRevision": 4434
+}

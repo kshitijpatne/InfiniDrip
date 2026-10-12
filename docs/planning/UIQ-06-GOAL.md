@@ -46,8 +46,9 @@ closeout.
 | S747 measurement provenance/history | Passed | `docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`; UTC/history labels improve scanability only; 5 focused history flows, 93 view tests, changed production lines fully covered, build and 1280/320 rendered/no-egress checks passed |
 | S748 grade exception readability | Passed | `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`; mobile/keyboard discoverability, per-size reason labels and stable POM columns; no grade logic changes |
 | S749 project/recovery/import/export messages | Passed | `docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md`; 33 focused project tests, recovery test, flag-off fallback, 100% changed-module coverage, build, 42 operational tests, clean browser/Electron replay and rendered desktop/320 evidence; no persistence/file behavior changes |
-| Settled release gate | Pending | Full 100% coverage, build/typecheck, focused and operational tests, Electron, browser/no-egress, export identity; no baseline changes |
-| Review/merge/deployment/live verification | Pending | Codex-only final review/merge, Actions deployment, stable URL and live pressure; then board Done with validated evidence at S750–S751 |
+| Settled release gate | Passed | S750 report and packaged evidence; 164 files/2,663 tests, global 100% statements/branches/functions/lines, build/type, operational/web/readiness and packaged Electron offline/recovery/export-parity gates passed |
+| Codex diff review and PR | Next | Open one Codex-owned PR with scoped S750 changes only; preserve/exclude unrelated EPIC-17 S425 rendered artifacts; no merge in S750 |
+| Merge/deployment/live verification | Pending S751 | Review/check PR, merge to `main`, verify automatic Actions deployment and stable URL with live rendered/no-egress pressure, then validated board Done and context closeout |
 
 ## Evidence inventory and decision policy
 
@@ -68,6 +69,7 @@ is recorded as such.
 | S745 nesting readout | ~5m | 11 flag + 93 view + 15 app subset passed; app subset compared default/one worker | 1280/640/320 + five estimate/input states; 4 screenshots; no page error/egress | 0 | 0 |
 | S747 measurement history | ~20m | 5 name-filtered history flows; 93/93 view; changed lines 100%; build passed | Actual app 1280/320; synthetic valid/invalid/long-label history at 320; visual review, no overflow/error/egress | 0 | 0 |
 | S748 grade exceptions | ~14m | 6 panel + 7 run-panel; 4 app lifecycle; each changed panel module 100% | Approved plan at 1280/320; blocked POM/long exception at 1280/320; keyboard scroll and state replay | 0 | 0 |
+| S750 settled release gate | ~33m elapsed at evidence freeze | 164 files / 2,663 tests; four global coverage metrics 100%; build/type, 42 Control Center, 10 web-release and 5 readiness tests | Packaged Electron offline fresh-profile/output-stage screenshots; reusable S745/747/748/749 responsive/no-egress/flag evidence; all rendered evidence visually reviewed | 0 | 0 |
 
 ## Slice 744 close boundary
 
@@ -168,10 +170,32 @@ closeout evidence; UIQ-06 remains In Progress. Elapsed S749 work from 02:33:42
 to 03:16:40 UTC: 42m58s (implementation/source audit and flag correction ~13m;
 focused tests/coverage ~6m; build ~1m; browser/Electron pressure and visual
 review ~3m; durable evidence/board closeout ~20m; external waits 0; maintainer
-decisions 0). S750 is the sole next action: refresh ownership/main
-and execute the settled full-gate/review/PR boundary. S751 remains merge,
+decisions 0). S750 completed its settled local release gate from clean commit
+`493c02a7`; its PR/release evidence is linked on the board. S751 remains merge,
 deployment, live verification and board closeout. UIQ-06 stays active through
 S751.
+
+## Slice 750 close boundary
+
+S750's complete local candidate passed 164 test files / 2,663 tests and 100%
+global statements, branches, functions and lines. The production build,
+Electron main-process typechecks, Control Center 42/42, web release 10/10,
+readiness 5/5, packaged Electron offline/recovery/export and failure-path
+checks passed. All twelve packaged button/menu exports matched byte-for-byte;
+no export baseline moved. Evidence and the Windows archive-rename diagnostic
+are documented in `docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md` and
+`docs/research/uiq06/evidence/S750-packaged-verification.json`; package
+screenshots are retained alongside them. Earlier responsive/keyboard/no-egress
+and exact-flag-fallback evidence is linked per S745–S749 because no application
+source changed after those final renders. The unrelated uncommitted EPIC-17
+S425 rendered-output files were preserved and excluded.
+
+S750 exits locally accepted; canonical board revision 4436 keeps UIQ-06 In
+Progress pending its PR. The single next action is opening the Codex-owned
+S750 PR. S751 alone
+handles PR checks/review resolution, merge, automatic deployment, stable URL
+and live rendered verification, and final validated board/context closeout.
+No UIQ-07 or later item is admitted.
 
 ## Resume and completion contract
 

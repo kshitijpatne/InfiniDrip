@@ -216,9 +216,15 @@ only through an explicitly admitted, linked Epic packet.
   saved, and that recovery preserves the saved version until explicit Save.
   Project/recovery/import/export behavior is unchanged; see
   `docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md` and
-  `docs/research/uiq06/evidence/S749-project-recovery-pressure.json`. UIQ-06
-  remains In Progress at board revision 4433; S750 is the next settled
-  full-gate/PR boundary and S751 the merge/deployment/live closeout. UIQ-07 remains
+  `docs/research/uiq06/evidence/S749-project-recovery-pressure.json`. S750
+  settled the complete local release gate, four-metric 100% global
+  coverage, export identities, operational/web/readiness tests, packaged
+  Electron offline/export/recovery verification, and Codex candidate review;
+  see `docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md` and
+  `docs/research/uiq06/evidence/S750-packaged-verification.json`. Canonical
+  board revision 4436 remains In Progress pending the S750 PR. S751 is now the
+  sole action: Codex-owned PR checks/review, merge, automatic deployment, live
+  verification and board/context closeout. UIQ-07 remains
   Backlog and unadmitted. The former team-context registry is absent; use
   current Git/worktree/PR and board evidence for ownership.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and

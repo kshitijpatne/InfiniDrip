@@ -176,7 +176,15 @@ is in `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`. S749
 clarified local storage and explicit recovery/save messaging without changing
 persistence or file behavior; evidence is in
 `docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md` and its
-machine pressure report. Canonical board revision 4433 retains the parent
-In Progress and links `E-UIQ06-S749-VERIFIED` as the digest-bound final report.
-S750 is the settled review/full-gate/PR boundary; S751 is merge/deployment/live
-closeout. Do not begin UIQ-07 or any numbered Epic.
+machine pressure report. Canonical board revision 4434 retains the parent
+In Progress and links `E-UIQ06-S749-FINAL-COVERAGE` as the digest-bound final
+report. S750 local settled gates and Codex diff review passed from commit
+`493c02a7`; exact evidence is in
+`docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md`. The packaged Windows
+verification used the installed Electron 44.1.0 distribution after the
+default archive extraction rename hit a host-specific `EPERM`; the packaged
+verifier itself passed. Canonical board revision 4436 remains In Progress.
+S751 is the sole next boundary: open/verify the
+Codex-owned PR, merge, confirm automatic deployment and live behavior, then
+close the board with validated evidence. Do not begin UIQ-07 or any numbered
+Epic.

@@ -88,8 +88,9 @@ edits are saved, and recovery explains that the last saved version remains
 unchanged until explicit Save. Recover/Discard actions, persistence, history,
 package import/export and frozen output behavior are unchanged. Desktop/mobile
 render and clean-profile browser/Electron evidence is in
-`docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md`; the current
-settled full gate and release are pending S750/S751. UIQ-06 boundaries and the
+`docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md`; the S750
+settled local release gate passed. PR merge, deployment, and live verification
+remain pending S751. UIQ-06 boundaries and the
 exact flag-off fallback remain in `docs/planning/UIQ-06-ADMISSION.md`.
 
 ## How measurements become pattern shapes

@@ -1,4 +1,4 @@
-## Current boundary — UIQ-06 admitted (Slices 744–749 complete; S750 next)
+## Current boundary — UIQ-06 admitted (Slices 744–750 locally complete; S751 next)
 
 On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
 `origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
@@ -70,12 +70,19 @@ report; current package flows remain covered by focused tests. A broad app-test
 attempt was stopped under high memory use and is not a pass. No export baseline
 moved.
 
-**Immediate next action: Slice 750**, refresh current main/branch/board and run
-the settled full-gate, verify all global coverage and export-byte identities,
-type/build, Control Center/readiness/web, Electron and rendered/no-egress/flag
-fallback pressure. Codex reviews the exact candidate and PR; do not merge or
-deploy until all gates pass. S751 alone handles merge, automatic deployment,
-live verification and board closeout. UIQ-07 and later remain unadmitted.
+**Slice 750 local gate is complete** from `493c02a7`; fresh `origin/main`
+`7923a7f4323d713b069817adfd7626f19c7b48f5` remains an ancestor. All 164 test
+files / 2,663 tests passed with 100% global statements, branches, functions
+and lines. Build/type, operational, web-release, readiness and packaged
+Electron offline/recovery/12-route export-parity checks passed. The complete
+evidence is `docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md` and
+`docs/research/uiq06/evidence/S750-packaged-verification.json`. Codex's scoped
+diff review is complete; unrelated EPIC-17 S425 rendered-output files are
+preserved and excluded. Canonical board revision 4436 remains UIQ-06 In
+Progress pending the S750 PR. **Immediate next action: open the Codex-owned
+S750 PR**, then S751 owns its final checks/review, merge, automatic deployment,
+live verification, and validated board/context closeout. No UIQ-07 or later
+work is admitted.
 
 ## Previous boundary — UIQ-05 complete (Slices 741–743)
 
