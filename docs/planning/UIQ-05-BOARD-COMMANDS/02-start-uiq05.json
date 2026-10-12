@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-05",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Maintainer authorized the next ordered UIQ goal after UIQ-04 completed. Current-main UIQ-05 integration admission, unique S741/S742 boundaries, exact catalog/action scope, embedded flag/fallback and acceptance gates are recorded in docs/planning/UIQ-05-INTEGRATION-ADMISSION.md and UIQ-05-GOAL.md.",
+  "expectedRevision": 4395
+}

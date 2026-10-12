@@ -1,0 +1,24 @@
+{
+  "type": "editItem",
+  "itemId": "UIQ-05",
+  "expectedRevision": 4394,
+  "patch": {
+    "title": "Artwork catalog presentation integration",
+    "contributor": "Codex",
+    "reviewer": "Codex",
+    "risk": "medium",
+    "dependencies": ["UIQ-GATE", "UIQ05-CANDIDATE"],
+    "description": "Maintainer-admitted current-main presentation redesign. Packet: docs/planning/UIQ-05-INTEGRATION-ADMISSION.md; live gates: docs/planning/UIQ-05-GOAL.md. Replace only the existing Surface artwork catalog presentation with the accepted candidate; do not add a duplicate catalog.",
+    "expectation": "Keep all existing catalog facts and local assets, with an improved native presentation and the existing explicit stage-new / use-for-selected-placement operations preserved. Selection and browsing are non-mutating.",
+    "acceptanceCriteria": [
+      "Accepted UIQ-05 candidate files match immutable candidate evidence exactly; no candidate source/CSS/test/preview edits.",
+      "Embedded uiq_artwork is default-on with deterministic local test override; flag off, unknown or stale restores the exact pre-integration library UI.",
+      "Existing catalog, search/filter/assessment and rights caveats remain authoritative; only local bundled images are shown and provenance URLs are never fetched.",
+      "Selection is ephemeral and does not apply, save or alter design state; separate stage-new and attach-to-valid-placement actions remain explicit and tested.",
+      "100% changed production coverage and 100% settled global coverage; build/typecheck, operational, protected output and export-byte-identity gates pass with no baseline changes.",
+      "Actual browser/electron presentation checks pass at desktop and narrow sizes, with keyboard/focus, forced colors, reduced motion, safe local images and no-egress evidence.",
+      "Codex independently reviews, corrects if needed, and controls merge; Slice 742 verifies deployment/live behavior and evidence-gated board closeout."
+    ],
+    "flagKey": "uiq_artwork"
+  }
+}

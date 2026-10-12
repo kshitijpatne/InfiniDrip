@@ -61,8 +61,9 @@ page errors or off-origin requests. Slice 736's implementation gates are in
 is in `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`. Closeout PR #24 and
 main workflow `38176394059` also passed, and the same public URL was verified
 again. UIQ-03's goal is complete. At that closeout boundary UIQ-04/05/07 were
-Backlog; UIQ-04 was later admitted and is currently in Review, while UIQ-05/07
-remain Backlog and unadmitted.
+Backlog; UIQ-04 later completed through Slices 739–740, and UIQ-05 was admitted
+on 2026-10-11 as the next serial integration. Its S741 presentation work is
+pre-merge; UIQ-07 remains Backlog and unadmitted.
 
 ## How measurements become pattern shapes
 
@@ -1193,7 +1194,18 @@ passed, both public preview URLs passed live browser checks, and the canonical
 board is Done at revision 4394. Full S739 and S740 proof is in
 `docs/release/UIQ-04-INTEGRATION-S739-EXIT.md`,
 `docs/release/UIQ-04-INTEGRATION-S740-CLOSEOUT.md`, and the linked scoped
-evidence. UIQ-05/07 remain unadmitted.
+evidence. UIQ-05 is now separately admitted as a presentation redesign of the
+existing Surface artwork library, not a second catalog. It uses the accepted
+native candidate only behind embedded `uiq_artwork`; the original catalog,
+rights/assessment data, local-only assets and separate stage/apply actions
+remain authoritative. Flag-off/unknown/stale must render the exact legacy
+presentation. The active admission and gates are
+`docs/planning/UIQ-05-INTEGRATION-ADMISSION.md` and
+`docs/planning/UIQ-05-GOAL.md`. Slice 741's pre-merge implementation is in
+Review; its exit report and machine evidence are
+`docs/release/UIQ-05-INTEGRATION-S741-EXIT.md` and
+`docs/research/uiq05/evidence/S741-verification.json`. No other UIQ package or
+artwork expansion is admitted; UIQ-07 remains Backlog.
 
 ## Where to find current project information
 

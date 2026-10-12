@@ -47,6 +47,8 @@ import "./enhancements/foundation/foundation.css";
 import "./enhancements/foundation/tutorial-foundation.css";
 import "./enhancements/guidance/guidance-panel.css";
 import "./enhancements/material/material-panel.css";
+import "./enhancements/artwork/artwork-panel.css";
+import "./enhancements/artwork/artwork-integration.css";
 
 const PANEL = "#13233A";
 const BORDER = "#1E3450";
@@ -481,6 +483,8 @@ export interface SurfacePanelData {
   readonly errors: ReadonlyMap<number, string>;
   /** Optional for focused view tests; the app supplies its local catalog state. */
   readonly artworkLibrary?: ArtworkLibraryPanelData;
+  /** Apply UIQ-05 scoped presentation styling without replacing app behavior. */
+  readonly uiqArtworkEnabled?: boolean;
   /** Precomputed true-scale artwork-space preview SVG (empty when no artwork). */
   readonly preview: string;
 }
@@ -498,6 +502,7 @@ const selectedOption = (value: string, selected: string): string =>
 const artworkLibraryCardMarkup = (
   item: ArtworkLibraryPanelData["items"][number],
   selectedPlacementIndex: string,
+  uiqArtworkEnabled = false,
 ): string => {
   const { record, assessment } = item;
   const presentation = record.technical.presentation === "textile-photograph"
@@ -521,64 +526,69 @@ const artworkLibraryCardMarkup = (
     : `At ${assessment.assessedWidthCm} × ${assessment.assessedHeightCm} cm: ${assessment.estimatedPxPerCm === null
       ? "resolution estimate unavailable"
       : `about ${Math.floor(assessment.estimatedPxPerCm)} px/cm on the limiting image axis`}.`;
-  return `<article class="artwork-library-card" data-artwork-card="${escapeAttr(record.assetId)}">` +
-    `<img class="artwork-library-image" src="${escapeAttr(record.image.localImageUrl)}" ` +
+  const uiq = (name: string): string => uiqArtworkEnabled ? ` ${name}` : "";
+  const uiqAttr = (name: string): string => uiqArtworkEnabled ? ` class="${name}"` : "";
+  return `<article class="artwork-library-card${uiq("uiq-artwork-card")}" data-artwork-card="${escapeAttr(record.assetId)}">` +
+    `<img class="artwork-library-image${uiq("uiq-artwork-image")}" src="${escapeAttr(record.image.localImageUrl)}" ` +
     `alt="Reference image: ${escapeAttr(record.title)}" width="${record.image.widthPx}" height="${record.image.heightPx}" ` +
     `loading="lazy" decoding="async"/>` +
-    `<div class="artwork-library-card-body"><h4>${escapeAttr(record.title)}</h4>` +
-    `<p class="artwork-library-description">${escapeAttr(record.description)}</p>` +
-    `<p class="artwork-library-badges"><span>${escapeAttr(presentation)}</span><span>${escapeAttr(tileStatus)}</span></p>` +
-    `<p class="artwork-library-taxonomy"><strong>Categories:</strong> ${categories}<br/><strong>Tags:</strong> ${tags}</p>` +
-    `<p class="artwork-library-scale"><strong>Suggested starting width:</strong> ${escapeAttr(size)}. ${escapeAttr(record.use.suggestedPlacementWidthCm.basis)}</p>` +
-    `<section class="artwork-library-assessment" data-level="${assessment.level}" aria-label="${artworkUseLabel(assessment.printUse)} suitability guidance">` +
-    `<h5>${artworkUseLabel(assessment.printUse)} guidance: ${artworkSuitabilityLabel(assessment.level)}</h5>` +
-    `<p>${escapeAttr(assessment.reason)}</p><p class="artwork-library-resolution">${escapeAttr(resolution)}</p></section>` +
-    `<div class="artwork-library-actions"><button type="button" data-artwork-stage-id="${escapeAttr(record.assetId)}" ` +
+    `<div class="artwork-library-card-body"><h4${uiqAttr("uiq-artwork-title")}>${escapeAttr(record.title)}</h4>` +
+    `<p class="artwork-library-description${uiq("uiq-artwork-description")}">${escapeAttr(record.description)}</p>` +
+    `<p class="artwork-library-badges${uiq("uiq-artwork-meta")}"><span>${escapeAttr(presentation)}</span><span>${escapeAttr(tileStatus)}</span></p>` +
+    `<p class="artwork-library-taxonomy${uiq("uiq-artwork-meta")}"><strong>Categories:</strong> ${categories}<br/><strong>Tags:</strong> ${tags}</p>` +
+    `<p class="artwork-library-scale${uiq("uiq-artwork-meta")}"><strong>Suggested starting width:</strong> ${escapeAttr(size)}. ${escapeAttr(record.use.suggestedPlacementWidthCm.basis)}</p>` +
+    `<section class="artwork-library-assessment${uiq("uiq-artwork-assessment")}" data-level="${assessment.level}" aria-label="${artworkUseLabel(assessment.printUse)} suitability guidance">` +
+    `<h5${uiqAttr("uiq-artwork-assessment-heading")}>${artworkUseLabel(assessment.printUse)} guidance: ${artworkSuitabilityLabel(assessment.level)}</h5>` +
+    `<p${uiqAttr("uiq-artwork-reason")}>${escapeAttr(assessment.reason)}</p><p class="artwork-library-resolution${uiq("uiq-artwork-meta")}">${escapeAttr(resolution)}</p></section>` +
+    `<div class="artwork-library-actions${uiq("uiq-artwork-actions")}"><button type="button"${uiqArtworkEnabled ? " class=\"uiq-artwork-choose\"" : ""} data-artwork-stage-id="${escapeAttr(record.assetId)}" ` +
     `aria-label="Stage ${escapeAttr(record.title)} for a new placement">Use in new placement</button>` +
-    `<button type="button" data-artwork-apply-id="${escapeAttr(record.assetId)}"${disabled} ` +
+    `<button type="button"${uiqArtworkEnabled ? " class=\"uiq-artwork-choose uiq-artwork-choose-secondary\"" : ""} data-artwork-apply-id="${escapeAttr(record.assetId)}"${disabled} ` +
     `aria-label="Attach ${escapeAttr(record.title)} to the selected placement" aria-describedby="surface-library-target-help">Use for selected placement</button></div>` +
-    `<details class="artwork-library-details"><summary>Source, rights and technical record</summary>` +
-    `<dl><dt>Creator</dt><dd>${escapeAttr(record.creator)}</dd>` +
+    `<details class="artwork-library-details${uiq("uiq-artwork-provenance")}"><summary>Source, rights and technical record</summary>` +
+    `<dl${uiqAttr("uiq-artwork-record")}><dt>Creator</dt><dd>${escapeAttr(record.creator)}</dd>` +
     `<dt>Culture and date</dt><dd>${escapeAttr(record.culture)} · ${escapeAttr(record.date)}</dd>` +
     `<dt>Medium</dt><dd>${escapeAttr(record.medium)}</dd>` +
     `<dt>Institution</dt><dd>${escapeAttr(record.source.institution)}</dd>` +
     `<dt>Rights</dt><dd>${escapeAttr(record.source.rightsLabel)} · ${escapeAttr(describeArtworkApiRightsEvidence(record.source.apiRightsEvidence))}</dd>` +
     `<dt>Credit line</dt><dd>${escapeAttr(record.source.creditLine)}</dd>` +
-    `<dt>Item record URL</dt><dd><code>${escapeAttr(record.source.itemRecordUrl)}</code></dd>` +
-    `<dt>Reuse policy URL</dt><dd><code>${escapeAttr(record.source.reusePolicyUrl)}</code></dd>` +
-    `<dt>API record URL</dt><dd><code>${escapeAttr(record.source.apiRecordUrl)}</code></dd>` +
-    `<dt>Original image URL (provenance only)</dt><dd><code>${escapeAttr(record.source.originalImageUrl)}</code></dd>` +
+    `<dt>Item record URL</dt><dd><code${uiqAttr("uiq-artwork-code")}>${escapeAttr(record.source.itemRecordUrl)}</code></dd>` +
+    `<dt>Reuse policy URL</dt><dd><code${uiqAttr("uiq-artwork-code")}>${escapeAttr(record.source.reusePolicyUrl)}</code></dd>` +
+    `<dt>API record URL</dt><dd><code${uiqAttr("uiq-artwork-code")}>${escapeAttr(record.source.apiRecordUrl)}</code></dd>` +
+    `<dt>Original image URL (provenance only)</dt><dd><code${uiqAttr("uiq-artwork-code")}>${escapeAttr(record.source.originalImageUrl)}</code></dd>` +
     `<dt>Official source image filename</dt><dd>${escapeAttr(record.source.originalImageFilename)}</dd>` +
     `<dt>Source record identifiers</dt><dd>${escapeAttr(record.source.itemIdentifier)} · API ID ${record.source.apiInternalId}</dd>` +
     `<dt>Rights checked / file retrieved</dt><dd>${escapeAttr(record.source.checkedOn)} / ${escapeAttr(record.retrievedOn)}</dd>` +
     `<dt>Local file</dt><dd>${escapeAttr(record.image.filename)} · ${escapeAttr(record.image.mimeType)} · ${escapeAttr(dimensions)} · ${record.image.byteLength.toLocaleString("en-US")} bytes</dd>` +
     `<dt>Modification</dt><dd>${escapeAttr(record.modification)}</dd>` +
-    `<dt>SHA-256</dt><dd><code>${escapeAttr(record.image.sha256)}</code></dd>` +
+    `<dt>SHA-256</dt><dd><code${uiqAttr("uiq-artwork-code")}>${escapeAttr(record.image.sha256)}</code></dd>` +
     `<dt>Repeat and presentation</dt><dd>${escapeAttr(presentation)}; repeat motif ${escapeAttr(record.technical.repeatMotif)}; ${escapeAttr(tileStatus)}. ${escapeAttr(record.technical.repeatEvidence)} ${escapeAttr(record.technical.seamlessEvidence)}</dd>` +
     `<dt>Direction</dt><dd>${escapeAttr(record.technical.directionality)}. ${escapeAttr(record.technical.directionEvidence)}</dd>` +
     `<dt>Curated uses</dt><dd>${record.use.printUses.map((use) => escapeAttr(artworkUseLabel(use))).join(", ")}</dd>` +
     `<dt>Garment families / piece roles</dt><dd>${record.use.garmentFamilies.map(escapeAttr).join(", ")} / ${record.use.pieceRoleGroups.map(escapeAttr).join(", ")}</dd>` +
     `<dt>Source notes</dt><dd>Source and policy addresses are displayed as text only; the app does not fetch them.</dd></dl></details>` +
-    `<p class="artwork-library-asset-id">Bundled asset ID: <code>${escapeAttr(record.assetId)}</code> · source reference: ${escapeAttr(sourceReference)}</p></div></article>`;
+    `<p class="artwork-library-asset-id${uiq("uiq-artwork-meta")}">Bundled asset ID: <code>${escapeAttr(record.assetId)}</code> · source reference: ${escapeAttr(sourceReference)}</p></div></article>`;
 };
 
-export function artworkLibraryResultsMarkup(data: ArtworkLibraryPanelData): string {
-  return `<div id="surface-library-results"><p class="artwork-library-result-count" role="status" aria-live="polite">` +
+export function artworkLibraryResultsMarkup(data: ArtworkLibraryPanelData, uiqArtworkEnabled = false): string {
+  return `<div id="surface-library-results"${uiqArtworkEnabled ? " class=\"uiq-artwork-results\"" : ""}><p class="artwork-library-result-count${uiqArtworkEnabled ? " uiq-artwork-count" : ""}" role="status" aria-live="polite">` +
     `${data.items.length} of ${data.totalCount} bundled references shown.</p>` +
     (data.items.length === 0
-      ? `<p class="surface-empty">No artwork references match. Clear or broaden a search or filter; the catalog has not been changed.</p>`
-      : `<div class="artwork-library-results">${data.items.map((item) => artworkLibraryCardMarkup(item, data.selectedPlacementIndex)).join("")}</div>`) +
+      ? `<p class="surface-empty${uiqArtworkEnabled ? " uiq-artwork-empty" : ""}">No artwork references match. Clear or broaden a search or filter; the catalog has not been changed.</p>`
+      : `<div class="artwork-library-results">${data.items.map((item) => artworkLibraryCardMarkup(item, data.selectedPlacementIndex, uiqArtworkEnabled)).join("")}</div>`) +
     `</div>`;
 }
 
 const artworkLibraryMarkup = (
   data: ArtworkLibraryPanelData,
   placements: readonly ArtworkPlacement[],
+  uiqArtworkEnabled = false,
 ): string => {
+  const rootClass = uiqArtworkEnabled ? "artwork-library uiq-artwork" : "artwork-library";
+  const uiqAttr = (name: string): string => uiqArtworkEnabled ? ` class="${name}"` : "";
   if (!data.isOpen) {
-    return `<details class="artwork-library" aria-labelledby="surface-library-title">` +
+    return `<details class="${rootClass}" aria-labelledby="surface-library-title">` +
       `<summary id="surface-library-title">Local artwork library <span>${data.totalCount} bundled references</span></summary>` +
-      `<p class="artwork-library-collapsed">Open to browse, search, inspect provenance, and choose a bundled reference. Images are local and do not load from source websites.</p></details>`;
+      `<p class="artwork-library-collapsed${uiqArtworkEnabled ? " uiq-artwork-intro" : ""}">Open to browse, search, inspect provenance, and choose a bundled reference. Images are local and do not load from source websites.</p></details>`;
   }
   const filterOptions = <T extends string>(
     values: readonly T[],
@@ -591,22 +601,23 @@ const artworkLibraryMarkup = (
     `<option value="${index}"${selectedOption(String(index), data.selectedPlacementIndex)}>` +
     `#${index + 1} · ${escapeAttr(placement.id)} · ${escapeAttr(placement.pieceRole)}</option>`,
   ).join("");
-  return `<details class="artwork-library" open aria-labelledby="surface-library-title">` +
+  return `<details class="${rootClass}" open aria-labelledby="surface-library-title">` +
     `<summary id="surface-library-title">Local artwork library <span>${data.totalCount} bundled references</span></summary>` +
-    `<div class="artwork-library-content"><p class="surface-help">Search and inspect bundled textile/design references. These are local reference photos or studies, not necessarily clean print artwork or seamless tiles. Browsing does not change the design; source pages are never fetched.</p>` +
-    `<div class="artwork-library-search"><label for="surface-library-search">Search title, description, tags, creator or source</label>` +
-    `<input id="surface-library-search" type="search" value="${escapeAttr(data.query)}" autocomplete="off"/>` +
-    `<div class="artwork-library-filters">` +
-    `<div><label for="surface-library-category">Category filter</label><select id="surface-library-category"><option value="">All categories</option>${filterOptions(ARTWORK_CATEGORIES, data.category)}</select></div>` +
-    `<div><label for="surface-library-family">Garment family</label><select id="surface-library-family"><option value="">Any family</option>${filterOptions(GARMENT_FAMILIES, data.garmentFamily)}</select></div>` +
-    `<div><label for="surface-library-role">Piece role group</label><select id="surface-library-role"><option value="">Any piece role</option>${filterOptions(PIECE_ROLE_GROUPS, data.pieceRoleGroup)}</select></div>` +
-    `<div><label for="surface-library-use-filter">Curated print use</label><select id="surface-library-use-filter"><option value="">Any print use</option>${filterOptions(PRINT_USES, data.printUseFilter, artworkUseLabel)}</select></div>` +
-    `<div><label for="surface-library-assess-use">Show guidance for</label><select id="surface-library-assess-use">${filterOptions(PRINT_USES, data.assessmentUse, artworkUseLabel)}</select></div></div></div>` +
-    `<div class="artwork-library-target"><label for="surface-library-target">Existing placement to use</label>` +
-    `<select id="surface-library-target"><option value="">Choose a placement…</option>${placementOptions}</select>` +
+    `<div class="artwork-library-content"><p class="surface-help${uiqArtworkEnabled ? " uiq-artwork-intro" : ""}">Search and inspect bundled textile/design references. These are local reference photos or studies, not necessarily clean print artwork or seamless tiles. Browsing does not change the design; source pages are never fetched.</p>` +
+    `<div class="artwork-library-search${uiqArtworkEnabled ? " uiq-artwork-controls" : ""}"><div${uiqAttr("uiq-artwork-field")}><label${uiqAttr("uiq-artwork-label")} for="surface-library-search">Search title, description, tags, creator or source</label>` +
+    `<input${uiqAttr("uiq-artwork-input")} id="surface-library-search" type="search" value="${escapeAttr(data.query)}" autocomplete="off"/></div>` +
+    `<div class="artwork-library-filters${uiqArtworkEnabled ? " uiq-artwork-controls" : ""}">` +
+    `<div${uiqAttr("uiq-artwork-field")}><label${uiqAttr("uiq-artwork-label")} for="surface-library-category">Category filter</label><select${uiqAttr("uiq-artwork-select")} id="surface-library-category"><option value="">All categories</option>${filterOptions(ARTWORK_CATEGORIES, data.category)}</select></div>` +
+    `<div${uiqAttr("uiq-artwork-field")}><label${uiqAttr("uiq-artwork-label")} for="surface-library-family">Garment family</label><select${uiqAttr("uiq-artwork-select")} id="surface-library-family"><option value="">Any family</option>${filterOptions(GARMENT_FAMILIES, data.garmentFamily)}</select></div>` +
+    `<div${uiqAttr("uiq-artwork-field")}><label${uiqAttr("uiq-artwork-label")} for="surface-library-role">Piece role group</label><select${uiqAttr("uiq-artwork-select")} id="surface-library-role"><option value="">Any piece role</option>${filterOptions(PIECE_ROLE_GROUPS, data.pieceRoleGroup)}</select></div>` +
+    `<div${uiqAttr("uiq-artwork-field")}><label${uiqAttr("uiq-artwork-label")} for="surface-library-use-filter">Curated print use</label><select${uiqAttr("uiq-artwork-select")} id="surface-library-use-filter"><option value="">Any print use</option>${filterOptions(PRINT_USES, data.printUseFilter, artworkUseLabel)}</select></div>` +
+    `<div${uiqAttr("uiq-artwork-field")}><label${uiqAttr("uiq-artwork-label")} for="surface-library-assess-use">Show guidance for</label><select${uiqAttr("uiq-artwork-select")} id="surface-library-assess-use">${filterOptions(PRINT_USES, data.assessmentUse, artworkUseLabel)}</select></div>` +
+    `${uiqArtworkEnabled ? `<button class="uiq-artwork-clear" type="button" id="surface-library-clear">Clear search and filters</button>` : ""}</div></div>` +
+    `<div class="artwork-library-target${uiqArtworkEnabled ? " uiq-artwork-target" : ""}"><label${uiqAttr("uiq-artwork-label")} for="surface-library-target">Existing placement to use</label>` +
+    `<select${uiqAttr("uiq-artwork-select")} id="surface-library-target"><option value="">Choose a placement…</option>${placementOptions}</select>` +
     `<p id="surface-library-target-help" class="surface-help">Choosing a reference changes only the image ID, source text and source-pixel dimensions. The placement type, role, size, position, transform and stack order stay as they are. Save the design to retain the change.</p>` +
     `<p id="surface-library-action-status" class="surface-help" role="status" aria-live="polite">${escapeAttr(data.actionMessage)}</p></div>` +
-    `${artworkLibraryResultsMarkup(data)}</div></details>`;
+    `${artworkLibraryResultsMarkup(data, uiqArtworkEnabled)}</div></details>`;
 };
 
 const SURFACE_NUMERIC: readonly {
@@ -732,7 +743,7 @@ export function surfaceMarkup(data: SurfacePanelData): string {
     ? `<p class="surface-empty">No artwork placements on ${escapeAttr(data.style)} yet. Add one below.</p>`
     : `<div class="surface-placement-list">${rows}</div>`;
   const library = data.artworkLibrary
-    ? artworkLibraryMarkup(data.artworkLibrary, data.placements)
+    ? artworkLibraryMarkup(data.artworkLibrary, data.placements, data.uiqArtworkEnabled ?? false)
     : "";
   const preview = `<div data-surface-preview-shell${data.preview === "" ? " hidden" : ""} class="surface-preview-shell"><h3>Placement preview · true scale</h3>` +
     `<div id="surface-preview">${data.preview}</div>` +

@@ -5881,6 +5881,69 @@ describe("bundled local artwork library (Slice 203)", () => {
     expect(root.querySelector("#surface-library-action-status")!.textContent).toContain(`Placement ${shiftedPlacementId} selected`);
   });
 
+  it("clears UIQ artwork browsing filters without editing the design or losing the selected placement", async () => {
+    localStorage.clear();
+    const root = document.createElement("div");
+    mountApp(root, { uiqArtworkEnabled: true });
+    toStyleStep(root);
+
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "saved-placement";
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+    clickId(root, "surface-add");
+    await vi.waitFor(() => expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1));
+
+    const target = root.querySelector<HTMLSelectElement>("#surface-library-target")!;
+    target.value = "0";
+    target.dispatchEvent(new Event("change", { bubbles: true }));
+    const search = root.querySelector<HTMLInputElement>("#surface-library-search")!;
+    search.value = "no matching artwork";
+    search.dispatchEvent(new Event("input", { bubbles: true }));
+    const family = root.querySelector<HTMLSelectElement>("#surface-library-family")!;
+    family.value = ARTWORK_CATALOG[0]!.use.garmentFamilies[0]!;
+    family.dispatchEvent(new Event("change", { bubbles: true }));
+    const printFilter = root.querySelector<HTMLSelectElement>("#surface-library-use-filter")!;
+    printFilter.value = "panel";
+    printFilter.dispatchEvent(new Event("change", { bubbles: true }));
+    const assessment = root.querySelector<HTMLSelectElement>("#surface-library-assess-use")!;
+    assessment.value = "all-over";
+    assessment.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector(".artwork-library-result-count")!.textContent).toContain("0 of");
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1);
+
+    root.querySelector<HTMLButtonElement>("#surface-library-clear")!.click();
+    expect(search.value).toBe("");
+    expect(root.querySelector<HTMLSelectElement>("#surface-library-category")!.value).toBe("");
+    expect(family.value).toBe("");
+    expect(root.querySelector<HTMLSelectElement>("#surface-library-role")!.value).toBe("");
+    expect(printFilter.value).toBe("");
+    expect(assessment.value).toBe("placement");
+    expect(root.querySelector<HTMLSelectElement>("#surface-library-target")!.value).toBe("0");
+    expect(root.querySelector(".artwork-library-result-count")!.textContent).toContain(`${ARTWORK_CATALOG.length} of`);
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1);
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="id"]')!.value).toBe("saved-placement");
+  });
+
+  it("keeps the UIQ artwork rollback exact and ignores an injected clear action", () => {
+    localStorage.clear();
+    const root = document.createElement("div");
+    mountApp(root, { uiqArtworkEnabled: false });
+    toStyleStep(root);
+    const library = root.querySelector<HTMLDetailsElement>("details.artwork-library")!;
+    expect(library.classList.contains("uiq-artwork")).toBe(false);
+    expect(root.querySelector("#surface-library-clear")).toBeNull();
+    expect(root.querySelector(".uiq-artwork-card")).toBeNull();
+
+    const search = root.querySelector<HTMLInputElement>("#surface-library-search")!;
+    search.value = "seed";
+    search.dispatchEvent(new Event("input", { bubbles: true }));
+    const injected = document.createElement("button");
+    injected.id = "surface-library-clear";
+    root.querySelector("#style-host")!.append(injected);
+    injected.click();
+    expect(search.value).toBe("seed");
+    expect(root.querySelector("#surface-library-clear")).not.toBeNull();
+  });
+
   it("uses the stable bundled ID when an artwork title cannot form a placement name", () => {
     localStorage.clear();
     const record = ARTWORK_CATALOG[0]!;

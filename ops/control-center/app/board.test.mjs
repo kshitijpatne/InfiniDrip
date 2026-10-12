@@ -34,7 +34,7 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.match(renderItemList(board.workItems, "SLICE-184"), /SLICE-184/);
 });
 
-test("UIQ-02 and UIQ-03 integration status follows their release evidence", () => {
+test("UIQ integration status follows its release evidence", () => {
   const ids = Array.from({ length: 13 }, (_, index) => `UIQ-${String(index + 1).padStart(2, "0")}`);
   const cards = ids.map((id) => board.workItems.find((item) => item.id === id));
   const gate = board.workItems.find((item) => item.id === "UIQ-GATE");
@@ -43,12 +43,14 @@ test("UIQ-02 and UIQ-03 integration status follows their release evidence", () =
   const integrationAdmission = board.evidence.find((entry) => entry.id === "E-UIQ02-INTEGRATION-ADMISSION-S734");
   const packageBlock = board.evidence.find((entry) => entry.id === "E-UIQ02-S734-ELECTRON-BLOCK");
   const packagePass = board.evidence.find((entry) => entry.id === "E-UIQ02-S734-ELECTRON-VERIFIED");
+  const uiq05Exit = board.evidence.find((entry) => entry.id === "E-UIQ05-S741");
   assert.equal(approval?.kind, "decision");
   assert.equal(approval?.verified, true);
   assert.equal(approval?.uri, "docs/planning/UI-ENHANCEMENT-SEQUENCE.md");
   for (const card of cards) {
     assert.ok(card);
     if (["UIQ-02", "UIQ-03", "UIQ-04"].includes(card.id)) assert.equal(card.status, "Done");
+    else if (card.id === "UIQ-05") assert.equal(card.status, "Review");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
@@ -76,6 +78,17 @@ test("UIQ-02 and UIQ-03 integration status follows their release evidence", () =
   assert.ok(cards[3].comments.some((comment) => comment.text.includes("Slice 740 verified main deployment")));
   assert.ok(cards[3].evidenceRefs.includes("E-UIQ04-S739"));
   assert.ok(cards[3].evidenceRefs.includes("E-UIQ04-S740"));
+  assert.equal(cards[4].title, "Artwork catalog presentation integration");
+  assert.equal(cards[4].contributor, "Codex");
+  assert.equal(cards[4].flagKey, "uiq_artwork");
+  assert.deepEqual(cards[4].dependencies, ["UIQ-GATE", "UIQ05-CANDIDATE"]);
+  assert.ok(cards[4].description.includes("docs/planning/UIQ-05-INTEGRATION-ADMISSION.md"));
+  assert.equal(cards[4].deliveredAt, null);
+  assert.equal(uiq05Exit?.verified, true);
+  assert.equal(uiq05Exit?.uri, "docs/release/UIQ-05-INTEGRATION-S741-EXIT.md");
+  assert.ok(cards[4].evidenceRefs.includes("E-UIQ05-S741"));
+  assert.ok(cards[4].statusHistory.some((entry) => entry.status === "Review" && entry.evidenceRefs.includes("E-UIQ05-S741")));
+  assert.ok(cards[4].comments.some((comment) => comment.text.includes("Slice 741 is ready for review")));
   assert.equal(integrationAdmission?.verified, false);
   assert.equal(integrationAdmission?.uri, "docs/planning/UIQ-02-INTEGRATION-ADMISSION.md");
   assert.ok(cards[1].evidenceRefs.includes(integrationAdmission.id));
@@ -93,7 +106,7 @@ test("UIQ-02 and UIQ-03 integration status follows their release evidence", () =
   assert.deepEqual(gate?.dependencies, ["EPIC-17"]);
   assert.deepEqual(cards[2].dependencies, ["UIQ-02"]);
   assert.deepEqual(cards[3].dependencies, ["UIQ-02", "UIQ-03", "UIQ-GATE", "UIQ04-CANDIDATE"]);
-  assert.deepEqual(cards[4].dependencies, []);
+  assert.deepEqual(cards[4].dependencies, ["UIQ-GATE", "UIQ05-CANDIDATE"]);
   assert.deepEqual(cards[12].dependencies, ["UIQ-07", "UIQ-GATE"]);
   assert.equal(board.workItems.find((item) => item.id === "EPIC-17").dependencies.some((id) => ids.includes(id)), false);
 });

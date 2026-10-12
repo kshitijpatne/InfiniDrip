@@ -68,6 +68,18 @@ export const FEATURE_FLAGS = Object.freeze({
     onBehavior: "Show the accepted read-only material behavior and screen-appearance panel beside existing controls.",
     offBehavior: "Keep the existing material and appearance controls with no added disclosure.",
   } satisfies FeatureFlagDefinition),
+  uiq_artwork: Object.freeze({
+    key: "uiq_artwork",
+    owner: "Codex",
+    audience: "public",
+    defaultValue: true,
+    expiresOn: "2027-01-12",
+    removalRelease: "UIQ artwork-presentation adoption/cleanup; no later than expiry",
+    rollout: "embedded",
+    fallback: "compatible-v1",
+    onBehavior: "Apply the accepted native artwork presentation styling to the existing local Surface catalog and app-owned controls.",
+    offBehavior: "Keep the exact existing local Surface catalog presentation and behavior.",
+  } satisfies FeatureFlagDefinition),
   polo_v2: Object.freeze({
     key: "polo_v2",
     owner: "Codex",

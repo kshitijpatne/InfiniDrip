@@ -1,0 +1,93 @@
+/* App adapter for the frozen UIQ-05 visual contract. All rules stay within
+   the existing artwork library; catalog and action behavior remain app-owned. */
+.uiq-artwork .artwork-library-content {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.uiq-artwork .artwork-library-search,
+.uiq-artwork .artwork-library-filters {
+  align-items: end;
+}
+
+.uiq-artwork .uiq-artwork-target {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--uiq-border, #7ca4bd);
+  border-radius: var(--uiq-radius, 10px);
+  background: var(--uiq-panel, #11273b);
+}
+
+.uiq-artwork .uiq-artwork-target > .surface-help {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.uiq-artwork .artwork-library-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 12px;
+  min-width: 0;
+}
+
+.uiq-artwork .uiq-artwork-image {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.uiq-artwork .artwork-library-card-body {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.uiq-artwork .uiq-artwork-meta > span {
+  display: inline-block;
+  margin: 2px 6px 2px 0;
+  padding: 2px 8px;
+  border: 1px solid var(--uiq-border, #7ca4bd);
+  border-radius: 999px;
+}
+
+.uiq-artwork .uiq-artwork-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  gap: 8px;
+}
+
+.uiq-artwork .uiq-artwork-choose-secondary {
+  background: var(--uiq-panel, #11273b);
+  color: var(--uiq-text, #edf5fa);
+  border-color: var(--uiq-border, #7ca4bd);
+}
+
+.uiq-artwork .uiq-artwork-choose:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.uiq-artwork .uiq-artwork-clear {
+  align-self: end;
+}
+
+@media (max-width: 480px) {
+  .uiq-artwork {
+    padding: 10px;
+  }
+
+  .uiq-artwork .uiq-artwork-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (forced-colors: active) {
+  .uiq-artwork .uiq-artwork-target,
+  .uiq-artwork .uiq-artwork-meta > span {
+    border: 1px solid CanvasText;
+  }
+}

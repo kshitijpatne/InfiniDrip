@@ -1,4 +1,49 @@
-## Current boundary — UIQ-04 material clarity complete (Slices 739–740)
+## Current boundary — UIQ-05 artwork presentation integration (Slice 741)
+
+UIQ-04 completed and deployed through Slice 740 at `origin/main`
+`f4cbfc45ca3bf2237b226a159ebe78e738ea3016`; canonical board revision 4394
+records UIQ-04 Done. On 2026-10-11 the maintainer said “proceed with next
+goal,” admitting the next ordered UIQ package, UIQ-05, for a focused
+presentation redesign. The accepted candidate is not being added as a second
+catalog: the current Surface library already has preview/search/filter,
+rights/provenance, suitability/resolution and no-match behavior, and it has
+placement-stage/apply actions the candidate does not. Preserve those existing
+actions, selection-only semantics, local assets and exact legacy fallback.
+
+The durable admission is `docs/planning/UIQ-05-INTEGRATION-ADMISSION.md` and
+the live goal/gates are `docs/planning/UIQ-05-GOAL.md`. Worktree
+`C:\Users\kshit\.codex\worktrees\uiq04-integration\designApp`, branch
+`codex/uiq05-integration`, started cleanly from `origin/main` at `f4cbfc45`.
+Slice 741 implementation and pre-merge gates have passed; its exit record is
+`docs/release/UIQ-05-INTEGRATION-S741-EXIT.md` and machine evidence is
+`docs/research/uiq05/evidence/S741-verification.json`. Full settled coverage was
+164 files / 2,657 tests at 100% for statements, branches, functions and lines;
+production and Electron builds, operational gates, rendered/no-egress pressure
+test, packaged Electron verification, and export byte identity passed. Slice
+742 remains reserved for post-merge deployment, live verification, board Done
+transition, and context closeout. The validated board now records Review at
+revision 4400 with exit evidence. Recheck histories/reservations before commit.
+Goal-start usage was ordinary allowed, primary 2% used, weekly 24% used, no
+reset credits; at S741 close ordinary usage remains allowed.
+
+UIQ-05 adopts the accepted candidate's scoped visual treatment under embedded
+`uiq_artwork` default-on; OFF/unknown/stale must restore the exact current
+catalog presentation. The prototype's component is not mounted because it
+couples the app's independent print-use filter and assessment selector and
+does not preserve its two existing per-card actions. Keep those app-owned
+controls, candidate files immutable, original catalog/assessment math and
+local-only/rights boundary intact, and do not change any export or baseline.
+The team-context registry named by
+the context index is absent from this checkout; `git worktree list`, current
+main and the canonical board were used to establish ownership instead. The
+older root checkout and historical/closed worktrees are preserved.
+
+Immediate next action: Codex reviews the actual S741 diff and evidence, then
+opens the PR. No external agent was dispatched because the integration
+required one shared action adapter and no safe disjoint implementation
+remained.
+
+## Prior boundary — UIQ-04 material clarity complete (Slices 739–740)
 
 UIQ-04 is complete. Slice 739's bounded, embedded-flag integration merged by
 PR #26 into `main` at `956c5c5dd1eee83aca9153f759c21c693843b095`; its reviewed
@@ -21,8 +66,9 @@ unknown. Feature rollback is not live: it requires a reviewed code change and
 redeployment. No database, login, external service, geometry, fit math, output,
 baseline, or physical-fabric behavior was added.
 
-UIQ-05 and UIQ-07 remain Backlog and unadmitted. No next UIQ package is
-authorized; wait for a fresh maintainer admission before implementation.
+At the UIQ-04 closeout boundary, UIQ-05 and UIQ-07 remained Backlog and
+unadmitted. UIQ-05 was subsequently admitted as the next serial integration;
+UIQ-07 remains Backlog and unadmitted.
 
 ## Prior boundary — UIQ-03 integration shipped (Slices 736–738)
 

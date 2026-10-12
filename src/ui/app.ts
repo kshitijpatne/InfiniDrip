@@ -264,6 +264,8 @@ export interface MountAppOptions {
   readonly uiqGuidanceEnabled?: boolean;
   /** Local-only override for deterministic UIQ-04 fallback verification. */
   readonly uiqMaterialEnabled?: boolean;
+  /** Local-only override for deterministic UIQ-05 presentation fallback verification. */
+  readonly uiqArtworkEnabled?: boolean;
   /** Injectable only to verify local asset behavior without a real browser DB. */
   readonly artworkAssetStore?: ArtworkAssetStore;
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
@@ -487,6 +489,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   ).enabled;
   const uiqMaterialEnabled = evaluateFeatureFlag(
     "uiq_material", new Date(), options.uiqMaterialEnabled,
+  ).enabled;
+  const uiqArtworkEnabled = evaluateFeatureFlag(
+    "uiq_artwork", new Date(), options.uiqArtworkEnabled,
   ).enabled;
   const isCurrentMount = (): boolean => activeMountRoot === root && activeMountGeneration === mountGeneration;
   const projectWorkflow = options.projectWorkflow;
@@ -1113,7 +1118,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
   const updateArtworkLibraryResults = (): void => {
     const results = styleHost.querySelector<HTMLElement>("#surface-library-results");
-    if (results) results.outerHTML = artworkLibraryResultsMarkup(artworkLibraryPanelData());
+    if (results) results.outerHTML = artworkLibraryResultsMarkup(artworkLibraryPanelData(), uiqArtworkEnabled);
   };
   const setArtworkLibraryActionMessage = (message: string): void => {
     artworkLibraryActionMessage = message;
@@ -1128,6 +1133,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       pieceRoles: surfaceRoleSuggestions(),
       errors: surfaceErrorMap(),
       artworkLibrary: artworkLibraryPanelData(),
+      uiqArtworkEnabled,
       preview: surfacePreviewSvg(),
       pendingAssetMessage: pendingArtworkMessage,
     });
@@ -4394,6 +4400,29 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
   styleHost.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
+    const clearArtworkFilters = target.closest<HTMLButtonElement>("#surface-library-clear");
+    if (clearArtworkFilters && uiqArtworkEnabled) {
+      artworkLibraryQuery = "";
+      artworkLibraryCategory = "";
+      artworkLibraryGarmentFamily = "";
+      artworkLibraryPieceRoleGroup = "";
+      artworkLibraryPrintUseFilter = "";
+      artworkLibraryAssessmentUse = "placement";
+      const search = styleHost.querySelector<HTMLInputElement>("#surface-library-search");
+      if (search) search.value = "";
+      for (const id of [
+        "surface-library-category", "surface-library-family", "surface-library-role",
+        "surface-library-use-filter",
+      ]) {
+        const control = styleHost.querySelector<HTMLSelectElement>(`#${id}`);
+        if (control) control.value = "";
+      }
+      const assessment = styleHost.querySelector<HTMLSelectElement>("#surface-library-assess-use");
+      if (assessment) assessment.value = artworkLibraryAssessmentUse;
+      updateArtworkLibraryResults();
+      search?.focus();
+      return;
+    }
     const gradeAction = target.closest<HTMLButtonElement>("button[data-grade-plan-action]");
     if (gradeAction && !gradeAction.disabled) {
       void saveGradePlanPanelAction(gradeAction.getAttribute("data-grade-plan-action")!);
