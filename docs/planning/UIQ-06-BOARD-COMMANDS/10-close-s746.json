@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 746 completed as a documentation/board-evidence correction only. The S745 exit report is now tracked at its recorded URI and its SHA-256 exactly matches E-UIQ06-S745; the Control Center regression suite verifies that integrity. S745 history is preserved without amend/reset. The audit sequence is renumbered; S747 is the next feature-surface audit (measurement provenance/history).",
+  "expectedRevision": 4413
+}

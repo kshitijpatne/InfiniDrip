@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 746 is a narrow durability correction, not product work: .gitignore excluded docs/release/UIQ-06-S745-EXIT.md even though E-UIQ06-S745 points to it. Preserve S745 history; force-track only that report, verify its recorded SHA-256, add a regression check and shift later audit slice numbers by one. Scope and acceptance: docs/research/uiq06/S746-REPORT-DURABILITY-CORRECTION.md.",
+  "expectedRevision": 4411
+}

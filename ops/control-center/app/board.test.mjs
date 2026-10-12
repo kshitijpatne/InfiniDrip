@@ -106,6 +106,12 @@ test("UIQ integration status follows its release evidence", () => {
   assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S745"));
   assert.ok(board.evidence.some((entry) => entry.id === "E-UIQ06-S745" && entry.verified && entry.uri === "docs/release/UIQ-06-S745-EXIT.md"));
   assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 745 is complete")));
+  const uiq06S745Exit = board.evidence.find((entry) => entry.id === "E-UIQ06-S745");
+  assert.equal(hashEvidenceArtifact(uiq06S745Exit.uri), uiq06S745Exit.sha256.toLowerCase());
+  assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S746-EXIT"));
+  assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 746 completed")));
+  const uiq06S746Exit = board.evidence.find((entry) => entry.id === "E-UIQ06-S746-EXIT");
+  assert.equal(uiq06S746Exit?.uri, "docs/research/uiq06/S746-REPORT-DURABILITY-CORRECTION.md");
   assert.equal(integrationAdmission?.verified, false);
   assert.equal(integrationAdmission?.uri, "docs/planning/UIQ-02-INTEGRATION-ADMISSION.md");
   assert.ok(cards[1].evidenceRefs.includes(integrationAdmission.id));

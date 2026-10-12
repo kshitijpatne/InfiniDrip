@@ -149,10 +149,12 @@ The exact slice boundaries, flag fallback, acceptance gates and ownership are
 in `docs/planning/UIQ-06-ADMISSION.md`; the live ledger is
 `docs/planning/UIQ-06-GOAL.md`; rendered before evidence is in
 `docs/research/uiq06/evidence/`. Slice 744 admits only UIQ-06 and records the
-baseline; Slice 745 may restructure the Nesting readout without changing any
-estimate or validation logic. Slices 746–748 proceed only where rendered
-edge-state evidence demonstrates a concrete communication defect. Slice 749
-is the settled full-gate/review/PR boundary; Slice 750 owns merge, deployment,
+baseline; Slice 745 restructured the Nesting readout without changing any
+estimate or validation logic. Slice 746 tracked the missing S745 exit report
+despite `.gitignore`, preserving its exact board-recorded hash and history.
+Slices 747–749 audit remaining surfaces only where rendered
+edge-state evidence demonstrates a concrete communication defect. Slice 750
+is the settled full-gate/review/PR boundary; Slice 751 owns merge, deployment,
 live verification and validated board closeout. UIQ-07 and later work remain
 Backlog/unadmitted. No database, account, network, garment, physics, export,
 or other feature scope is added.

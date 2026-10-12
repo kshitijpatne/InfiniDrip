@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4411,
-  "updatedAt": "2026-10-12T02:03:17.579Z",
+  "revision": 4414,
+  "updatedAt": "2026-10-12T02:09:39.779Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14930,11 +14930,22 @@
           "at": "2026-10-12T02:03:17.579Z",
           "actor": "Codex",
           "text": "Slice 745 is complete and independently verified; UIQ-06 remains In Progress. The structured Nesting estimate now separates scope, computed facts, fit verdict and directional-print caveat behind uiq_operational_clarity. Existing calculations, validation, controls, saved state, exports and byte baselines are unchanged. Focused tests passed; rendered 1280/640/320 and fit/short/unknown/invalid states passed without page errors or off-origin requests. See E-UIQ06-S745 and docs/research/uiq06/evidence/S745-rendered-pressure.json. Next is evidence-only S746 measurement provenance/history review; no change without demonstrated confusion."
+        },
+        {
+          "at": "2026-10-12T02:08:57.698Z",
+          "actor": "Codex",
+          "text": "Slice 746 is a narrow durability correction, not product work: .gitignore excluded docs/release/UIQ-06-S745-EXIT.md even though E-UIQ06-S745 points to it. Preserve S745 history; force-track only that report, verify its recorded SHA-256, add a regression check and shift later audit slice numbers by one. Scope and acceptance: docs/research/uiq06/S746-REPORT-DURABILITY-CORRECTION.md."
+        },
+        {
+          "at": "2026-10-12T02:09:39.779Z",
+          "actor": "Codex",
+          "text": "Slice 746 completed as a documentation/board-evidence correction only. The S745 exit report is now tracked at its recorded URI and its SHA-256 exactly matches E-UIQ06-S745; the Control Center regression suite verifies that integrity. S745 history is preserved without amend/reset. The audit sequence is renumbered; S747 is the next feature-surface audit (measurement provenance/history)."
         }
       ],
       "evidenceRefs": [
         "E-UIQ-APPROVAL",
-        "E-UIQ06-S745"
+        "E-UIQ06-S745",
+        "E-UIQ06-S746-EXIT"
       ],
       "flagKey": "uiq_operational_clarity"
     },
@@ -29157,6 +29168,15 @@
       "sha256": "E5E1277AD66DA526D2BA343CE12FEF72DA557A2F48726BCDDB8C8EFCA19A3206",
       "verified": true,
       "note": "S745 presentation-only Nesting readout; focused coverage, rendered responsive/edge-state/no-egress evidence and exact flag-off fallback are recorded in the exit report and machine evidence. No estimator, validation, export or baseline changes."
+    },
+    {
+      "id": "E-UIQ06-S746-EXIT",
+      "kind": "document",
+      "uri": "docs/research/uiq06/S746-REPORT-DURABILITY-CORRECTION.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S746 makes the board-recorded S745 exit report durable with its exact digest, preserves S745 history, and adds a board regression assertion for evidence integrity. No production code or behavior changes."
     }
   ]
 }

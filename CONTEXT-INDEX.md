@@ -201,8 +201,10 @@ only through an explicitly admitted, linked Epic packet.
   establishes the evidence-led presentation-only contract on clean
   `origin/main` `7923a7f`; S745 resolves the demonstrated Nesting-readout
   collision behind its embedded rollback flag, with rendered state evidence
-  in `docs/research/uiq06/evidence/S745-rendered-pressure.json`. S746 is the
-  next measurement-provenance/history audit. The canonical board tracks UIQ-06 In Progress. UIQ-07 remains
+  in `docs/research/uiq06/evidence/S745-rendered-pressure.json`. S746 corrected
+  the ignored S745 exit report: it is tracked at the board-recorded URI, its
+  digest is regression-tested, and S745 history is unchanged. S747 is the next
+  measurement-provenance/history audit. The canonical board tracks UIQ-06 In Progress. UIQ-07 remains
   Backlog and unadmitted. The former team-context registry is absent; use
   current Git/worktree/PR and board evidence for ownership.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and

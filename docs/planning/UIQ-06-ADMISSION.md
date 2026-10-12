@@ -21,22 +21,27 @@ high-risk behavior is not redesigned merely to fill scope.
   `docs/coordination/TEAM-CONTEXT-REGISTRY.md` is absent from current main;
   ownership was checked from Git worktrees, refs, open PRs and the canonical
   board instead.
-- Highest reachable numbered commit subject is Slice 743; no later slice
-  reservation was found in current docs or commit history. Reserve, after
-  rechecking at each boundary: S744 admission/baseline; S745 Nesting readout;
-  S746 Measurement provenance/history; S747 grade-plan exception presentation;
-  S748 project/history/recovery/import/export-scope messages; S749 settled
-  review, full gates and PR; S750 post-merge deployment, live verification and
-  board/context closeout. A justified no-change result for a later surface is
-  recorded with its evidence rather than replaced by speculative UI work.
+- Highest reachable numbered commit subject at admission was Slice 743. S744
+  admits/baselines the package and S745 implements the Nesting readout. S746
+  is a bounded documentation durability correction: force-track the ignored
+  S745 exit report at its board-recorded URI, verify the exact SHA-256, and
+  test that board evidence resolves to a tracked file. This corrects an
+  accidental ignore rule without rewriting history or changing production.
+  Remaining boundaries: S747 measurement provenance/history; S748 grade-plan
+  exception presentation; S749 project/history/recovery/import/export-scope
+  messages; S750 settled review/full gates/PR; S751 post-merge deployment,
+  live verification and board/context closeout. Recheck and reserve each
+  number at the boundary. A justified no-change result is recorded with
+  evidence rather than replaced by speculative UI work.
 - Codex owns shared integration, feature flag, scope, tests, rendered evidence,
   corrections, final diff review, PR/merge, deployment and board closeout. No
   separate code task is safe before these shared presentation contracts are
   frozen; no CLI contributor is dispatched for S744/S745.
 - Goal-start usage: ordinary usage allowed; primary 13% used, weekly 26% used,
-  no reset credits. At S744 admission the primary window was 15% used. Routine
+  no reset credits. At S744 admission the primary window was 15% used; before
+  S745 it was 16% used. Routine
   work remains in the default low-cost model where selection is available;
-  check limits before S745, expensive gates and each boundary.
+  check limits at each boundary and before the settled full gates.
 
 ## Evidence-led scope
 
@@ -74,15 +79,15 @@ show no material readability failure.
   invalid, unavailable, short, fit, non-finite and unavailable-waste states
   must remain explicit and must never be silently clamped or turned into a
   positive verdict. Distinguish an estimate from physical fabric validation.
-- S746 audits measurement value source/history and capture messages. Only
+- S747 audits measurement value source/history and capture messages. Only
   presentation/copy/spacing changes may be admitted if rendered evidence shows
   an actual ambiguity; preserve raw input, source/confidence, correction,
   history persistence, and measurement math.
-- S747 audits grade-plan exception entry and Check/output rows. Any change is
+- S748 audits grade-plan exception entry and Check/output rows. Any change is
   presentation-only and must preserve the authored exception reason, exact
   POM values, stale-plan and readiness gates, and every export rule. No
   grading math or approval semantics.
-- S748 audits project switching, unsaved/stale/conflict states, recovery,
+- S749 audits project switching, unsaved/stale/conflict states, recovery,
   revision history, package import/export, and frozen-output scope. Any change
   is presentation-only; preserve explicit confirmations, cancellation,
   atomicity, privacy/local-only behavior, object identities, and outputs. Do
@@ -143,13 +148,18 @@ Acceptance:
    open until main ancestry, automatic deployment, stable URL health, live
    rendered smoke, validated board closure and durable context all pass.
 
-## Slice 744 result and next action
+## S744–S745 results and current correction
 
 Slice 744 admitted UIQ-06 and its exact evidence-gated contract. Canonical
-board revision 4407 records UIQ-06 In Progress and links the admission, goal,
+board revision 4408 records UIQ-06 In Progress and links the admission, goal,
 and baseline records. Fresh 1280px Chromium screenshots are captured under
 `docs/research/uiq06/evidence/`; their SHA-256 manifest is in
 `docs/research/uiq06/S744-ADMISSION-BASELINE.md`. Focused baseline view tests
-passed 92/92. No production behavior changed. Proceed to S745 Nesting
-presentation only after rechecking usage, unique slice history, branch
-ownership, and worktree status. Do not begin UIQ-07 or any numbered Epic.
+passed 92/92. Slice 745 added the embedded clarity flag and structured
+Nesting presentation; focused tests and rendered states are in
+`docs/release/UIQ-06-S745-EXIT.md` and
+`docs/research/uiq06/evidence/S745-rendered-pressure.json`. The report was
+initially omitted from commit `b948c942` because `.gitignore` excludes
+`docs/release/`; S746 force-tracked the exact report and the board regression
+suite confirms its recorded SHA-256 without rewriting history. Then S747 is the
+measurement-provenance/history audit. Do not begin UIQ-07 or any numbered Epic.

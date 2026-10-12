@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S746-EXIT",
+    "kind": "document",
+    "uri": "docs/research/uiq06/S746-REPORT-DURABILITY-CORRECTION.md",
+    "commit": null,
+    "verified": true,
+    "note": "S746 makes the board-recorded S745 exit report durable with its exact digest, preserves S745 history, and adds a board regression assertion for evidence integrity. No production code or behavior changes."
+  },
+  "expectedRevision": 4412
+}

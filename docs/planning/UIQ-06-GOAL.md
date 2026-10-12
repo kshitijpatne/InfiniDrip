@@ -18,10 +18,11 @@ closeout.
   `C:\Users\kshit\.codex\worktrees\uiq06-controls\designApp`, branch
   `codex/uiq06-admission`. The dirty `F:\designApp` checkout is untouched.
 - Canonical board began at revision 4404; UIQ-GATE Done, UIQ-06 Backlog.
-- Slices: 744 admission/baseline; 745 Nesting readout; 746 measurement
-  provenance/history; 747 grade-plan exceptions; 748 local project/history/
-  recovery/import/export scope; 749 integrated settled gate, final diff review
-  and PR; 750 merge/deployment/live verification/board closeout. Recheck and
+- Slices: 744 admission/baseline; 745 Nesting readout; 746 S745 exit-report
+  tracking correction; 747 measurement provenance/history; 748 grade-plan
+  exceptions; 749 local project/history/recovery/import/export scope; 750
+  integrated settled gate, final diff review and PR; 751 merge/deployment/live
+  verification/board closeout. Recheck and
   reserve each number at its boundary; no assumption survives a new main or
   active branch update.
 - Usage at goal start: ordinary allowed, primary 13% used, weekly 26% used,
@@ -41,11 +42,12 @@ closeout.
 | Real rendered baseline | Passed | `docs/research/uiq06/evidence/S744-*-baseline.png`; nesting values merge into a 12px line; Check calls out physical validation; measurement and project management functions are present |
 | Admission and board In Progress | Passed | Slice 744 packet/goal/baseline linked by validated commands; board revision 4408 |
 | S745 Nesting readout redesign | Passed | `docs/release/UIQ-06-S745-EXIT.md`; exact fallback, focused state tests, 1280/640/320 rendered/no-egress evidence |
-| S746 measurement provenance/history | In progress | Audit source/confidence/history/failed-save/long labels. Implement only if a specific rendered defect remains |
-| S747 grade exception readability | Pending | Audit draft/review/approved/stale/unavailable, exception reason, target/difference and blocking states; no grade logic changes |
-| S748 project/recovery/import/export messages | Pending | Audit saved/unsaved/stale/conflict/recovery/import failure/frozen and historical/current output; no persistence or file behavior changes |
+| S746 S745 report durability correction | Passed | Report is tracked at exact URI; SHA-256 is checked by the board regression suite; 42/42 Control Center tests; S745 history unchanged |
+| S747 measurement provenance/history | In progress | Audit source/confidence/history/failed-save/long labels. Implement only if a specific rendered defect remains |
+| S748 grade exception readability | Pending | Audit draft/review/approved/stale/unavailable, exception reason, target/difference and blocking states; no grade logic changes |
+| S749 project/recovery/import/export messages | Pending | Audit saved/unsaved/stale/conflict/recovery/import failure/frozen and historical/current output; no persistence or file behavior changes |
 | Settled release gate | Pending | Full 100% coverage, build/typecheck, focused and operational tests, Electron, browser/no-egress, export identity; no baseline changes |
-| Review/merge/deployment/live verification | Pending | Codex-only final review/merge, Actions deployment, stable URL and live pressure; then board Done with validated evidence |
+| Review/merge/deployment/live verification | Pending | Codex-only final review/merge, Actions deployment, stable URL and live pressure; then board Done with validated evidence at S750–S751 |
 
 ## Evidence inventory and decision policy
 
@@ -53,7 +55,7 @@ Slice 744 baseline screenshots are accompanied by a detailed source/render
 audit in `docs/research/uiq06/S744-ADMISSION-BASELINE.md`. The clearest defect
 is the unstructured Nesting estimate line. The Check screen is already
 truthful and readable at 1280px; do not restyle it without a concrete failed
-state/viewport. Measurement and project status remain under test at S746/S748;
+state/viewport. Measurement and project status remain under test at S747/S749;
 present features alone are not proof of adequate readability. A no-change
 result is valid only with representative rendered and edge-state evidence, and
 is recorded as such.
@@ -83,7 +85,7 @@ maintainer decisions 0.
 
 ## Slice 745 close boundary
 
-S745 is complete and committed with this record on branch
+S745 is complete and committed on branch
 `codex/uiq06-admission`; base remains `7923a7f4323d713b069817adfd7626f19c7b48f5`.
 It adds only the structured Nesting readout presentation, the `uiq_operational_clarity`
 embedded flag, and exact off-path fallback. Detailed exit evidence is
@@ -96,12 +98,20 @@ no readout overflow, no page errors and no off-origin requests. An unrelated
 combined focused run was interrupted after one worker approached 3.0 GB; see
 the exit report; defaults were not changed. No export baseline moved.
 
-Canonical board remains UIQ-06 In Progress at revision 4411, with S745 exit
-evidence and comment applied through the validated command layer. Control
-Center tests passed 42/42 after that replay. Next: begin S746's measurement
-provenance/history audit only. Estimated elapsed S745 work was
+Canonical board remains UIQ-06 In Progress at revision 4414. S746 force-tracked
+the S745 exit report at its recorded URI, preserved its SHA-256, and added a
+regression assertion that verifies the report contents from the checked-out
+file. Control Center suite passes 42/42 after board evidence/comment replay.
+S745 commit history was not rewritten and no production files changed. S747 is
+the next action: render and pressure-test measurement provenance/history, and
+change UI only if a concrete readability defect is demonstrated. Estimated
+elapsed S745 work was
 approximately 11 minutes: implementation ~5m, focused tests ~3m, browser and
 visual review ~3m; external waits 0, maintainer decisions 0.
+
+Slice 746 correction elapsed approximately 8 minutes: inspection and
+documentation ~4m, board/test verification ~2m, waiting 0, maintainer
+decisions 0. Keep UIQ-06 active through S751; no merge or deployment yet.
 
 ## Resume and completion contract
 
@@ -109,5 +119,5 @@ At each numbered slice boundary record commit, exact tests/results, rendered
 evidence, elapsed time by implementation/focused verification/external waits/
 maintainer decisions, blockers and exactly one next action. Update this ledger,
 `PROJECT-STATE.md`, `ARCHITECTURE.md` if behavior changes, context index, and
-the validated board. Keep the active goal until S750 passes; a candidate, PR,
+the validated board. Keep the active goal until S751 passes; a candidate, PR,
 merge or deployment alone is not completion.
