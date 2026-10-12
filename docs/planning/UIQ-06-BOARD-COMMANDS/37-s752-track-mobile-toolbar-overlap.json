@@ -1,0 +1,25 @@
+{
+  "type": "createItem",
+  "actor": "Codex",
+  "role": "maintainer",
+  "reason": "Track the measured live 320px toolbar overlap as a separate unassigned backlog issue; S752 records it only and authorizes no fix.",
+  "workItem": {
+    "id": "BUG-UI-048",
+    "title": "Mobile artwork toolbar controls overlap at 320px",
+    "type": "bug",
+    "priority": "P2",
+    "risk": "low",
+    "owner": "Codex",
+    "description": "On the shipped Fit screen at 320 CSS px, opening More views makes its disclosure summary overlap the Assembled toggle. Machine reproduction and bounds: docs/research/uiq06/evidence/S752-postdeploy/toolbar-overlap-320.json. This was found on byte-identical stable and immutable deployments and is not caused by S752.",
+    "expectation": "The More views disclosure and Assembled toggle have separate, visibly distinct, keyboard-operable hit regions at narrow widths without changing artwork actions or assembled-view behavior.",
+    "acceptanceCriteria": [
+      "Confirm cause and reproduce bounds in an admitted task before changing code.",
+      "At 320px and neighboring narrow widths, actual rendered controls have no intersection or page overflow.",
+      "Keyboard focus, disclosure/toggle behavior, artwork staging/apply actions and existing feature behavior remain correct.",
+      "Run focused tests and rendered browser pressure checks; keep this item Backlog until separately admitted."
+    ],
+    "dependencies": [],
+    "protectedSurfaces": ["Fit view toolbar", "More views disclosure", "Assembled preview toggle", "existing artwork actions", "responsive keyboard accessibility"]
+  },
+  "expectedRevision": 4440
+}

@@ -15,10 +15,10 @@ high-risk behavior is not redesigned merely to fill scope.
   and all other worktrees are preserved.
 - Canonical board began at revision 4404; validated edit, status and comment
   commands advanced it to revision 4408 at admission. UIQ-GATE was Done and
-  UIQ-06 entered In Progress with its dependency satisfied. The S751 closeout
-  branch board is Done at revision 4440; PR #31 merged and deployed, while PR
-  #32 carries the final board/context closeout pending full CI and merge. No
-  other active current-main UIQ implementation owner was found. The old EPIC-17 worktree
+  UIQ-06 entered In Progress with its dependency satisfied. PR #31 merged and
+  deployed; PR #32 merged at `34a2592a` and main workflow `38203805432` passed.
+  S752 updates the canonical board to revision 4445 while keeping UIQ-06 Done.
+  No other active current-main UIQ implementation owner was found. The old EPIC-17 worktree
   is historical; EPIC-17 is closed on main. The referenced
   `docs/coordination/TEAM-CONTEXT-REGISTRY.md` is absent from current main;
   ownership was checked from Git worktrees, refs, open PRs and the canonical
@@ -194,6 +194,12 @@ checks; the local gates are recorded in its evidence. S751 merged it to main at
 `caa1c751`, verified successful Pages deployment run `38201698605`, and passed
 stable/immutable live browser acceptance. The report is digest-bound as
 `E-UIQ06-S751-LIVE-EXIT`; board revision 4439 records Done and revision 4440
-contains the final closeout comment. See
-`docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`. UIQ-07 remains Backlog and
-unadmitted; no later work is admitted.
+contains the final closeout comment. PR #32 merged at `34a2592a`; main run
+`38203805432` passed tests/build/artifact/deployment and post-deploy stable and
+immutable checks. S752's report and evidence are
+`docs/research/uiq06/S752-FINAL-DEPLOYMENT-EXIT.md` and
+`docs/research/uiq06/evidence/S752-postdeploy/`. Its 320px check registered
+BUG-UI-048 as an unrelated Backlog issue (7.65625px mobile view-control
+overlap); no fix is admitted by this packet. The canonical board is revision
+4445 and the focused Control Center suite passed 42/42 with both S752 digest
+checks. UIQ-07 remains Backlog and unadmitted; no later work is admitted.

@@ -1,0 +1,11 @@
+{
+  "type": "editItem",
+  "itemId": "BUG-UI-048",
+  "patch": {
+    "title": "More views and Assembled overlap on mobile"
+  },
+  "reason": "Clarify that the defect is the overlap between two navigation/view controls, not artwork catalog controls.",
+  "actor": "Codex",
+  "role": "maintainer",
+  "expectedRevision": 4444
+}

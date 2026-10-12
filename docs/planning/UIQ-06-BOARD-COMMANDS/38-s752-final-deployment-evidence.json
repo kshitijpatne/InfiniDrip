@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S752-FINAL-DEPLOYMENT",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq06/S752-FINAL-DEPLOYMENT-EXIT.md",
+    "sha256": "5ddf65867fb57b2074926bb1a28b7c727fa9f7875b5aa1d7ad3fccbfb33a44b9",
+    "verified": true,
+    "note": "PR #32 main workflow 38203805432 passed full tests/build/artifact/deploy; stable and immutable URLs passed post-deploy browser checks. Report includes the separately reproduced and backlog-tracked BUG-UI-048; no S752 app changes or fix authorization."
+  },
+  "expectedRevision": 4441
+}

@@ -1,0 +1,25 @@
+{
+  "result": "reproduced",
+  "capturedAt": "2026-10-12T05:00:00Z",
+  "view": "Fit > open More views > artwork library",
+  "viewport": { "width": 320, "height": 900 },
+  "deployments": [
+    {
+      "url": "https://infinidrip-preview.pages.dev",
+      "moreViews": { "left": 126.296875, "right": 224.53125, "top": 20.734375, "bottom": 52.734375 },
+      "assembled": { "left": 216.875, "right": 312, "top": 16.734375, "bottom": 54.734375 },
+      "horizontalOverlapCssPx": 7.65625,
+      "verticalOverlapCssPx": 32
+    },
+    {
+      "url": "https://d8c1c03e.infinidrip-preview.pages.dev",
+      "moreViews": { "left": 126.296875, "right": 224.53125, "top": 20.734375, "bottom": 52.734375 },
+      "assembled": { "left": 216.875, "right": 312, "top": 16.734375, "bottom": 54.734375 },
+      "horizontalOverlapCssPx": 7.65625,
+      "verticalOverlapCssPx": 32
+    }
+  ],
+  "classification": "pre-existing defect in byte-identical S751/S752 application bundle; not caused by documentation-only S752",
+  "scope": "tracked as unassigned backlog only; no implementation authorized",
+  "detectionNote": "The existing browser harness asserts document overflow and target height but does not check overlap between adjacent toolbar controls."
+}

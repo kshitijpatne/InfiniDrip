@@ -227,13 +227,17 @@ only through an explicitly admitted, linked Epic packet.
   `38201698605` passed. Stable and immutable URLs passed live 1280/640/320
   rendered, keyboard/accessibility and no-egress checks; UIQ-06 Nesting and
   local-project smoke passed. Final report:
-  `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`. Board revision 4440 in
-  the S751 closeout branch records UIQ-06 Done with digest-bound S750/S751
-  evidence; PR #32 carries the validated board/context closeout and is pending
-  full CI test/coverage/build gates and merge. Keep the durable goal In Progress
-  until post-merge deployment is verified. UIQ-07 remains Backlog and
-  unadmitted; no later package is admitted. Use current Git/worktree/PR and
-  board evidence for ownership.
+  `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`. Board revision 4445
+  records UIQ-06 Done with digest-bound S750–S752 evidence. PR #32
+  merged at `34a2592a`; main workflow `38203805432` passed full
+  tests/build/artifact checks/deploy. Stable and immutable URLs passed live
+  responsive, keyboard/accessibility and no-egress checks. S752 reconciles this
+  deployment; its report and evidence are
+  `docs/research/uiq06/S752-FINAL-DEPLOYMENT-EXIT.md` and
+  `docs/research/uiq06/evidence/S752-postdeploy/`.
+  Pressure testing registered pre-existing BUG-UI-048 (mobile toolbar overlap)
+  as Backlog only; no fix is admitted. Keep UIQ-07 Backlog/unadmitted and do
+  not infer admission of any subsequent package.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and
   `docs/research/uiq-clarity/CANDIDATE-EXIT.json` document the accepted,
   immutable UIQ-04 isolated candidate. Candidate completion is not shipped

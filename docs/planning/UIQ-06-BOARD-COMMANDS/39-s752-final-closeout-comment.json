@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 752 verified the post-PR #32 main workflow 38203805432 and both live URLs; Cloudflare uploaded zero changed files. UIQ-06 remains Done at revision 4440 with S750–S752 digest-bound evidence. The 320px pressure check separately registered BUG-UI-048 (7.65625px overlap between More views and Assembled) as Backlog only, with no fix authorized and no effect on UIQ-06 completion. Full evidence: docs/research/uiq06/S752-FINAL-DEPLOYMENT-EXIT.md. UIQ-07 remains Backlog/unadmitted; no next package is admitted.",
+  "expectedRevision": 4442
+}
