@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4448,
-  "updatedAt": "2026-10-12T05:07:56.813Z",
+  "revision": 4451,
+  "updatedAt": "2026-10-12T05:29:54.245Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -15036,6 +15036,11 @@
           "at": "2026-10-12T05:07:56.813Z",
           "actor": "Codex",
           "text": "Slice 753 verified PR #33 merged at c8f39c76 and main workflow 38205969649 passed full tests, build, artifact checks and Cloudflare deployment. Stable and immutable URLs returned HTTP 200; zero files were uploaded, so the S752 tested app artifact is unchanged. UIQ-06 remains Done with final digest-bound S753 evidence. BUG-UI-048 remains Backlog/unassigned and is not a closure dependency. UIQ-07 remains Backlog/unadmitted; no next package is admitted."
+        },
+        {
+          "at": "2026-10-12T05:29:54.245Z",
+          "actor": "Codex",
+          "text": "Slice 754 verified PR #34 merge and successful main workflow 38207414640 (full tests, build, deterministic artifact verification, Pages deploy). Stable and immutable URLs returned HTTP 200; zero files uploaded. UIQ-06 remains Done; BUG-UI-048 remains Backlog/unassigned; UIQ-07 remains Backlog/unadmitted. Final report: docs/research/uiq06/S754-POSTMERGE-STATE.md."
         }
       ],
       "evidenceRefs": [
@@ -15054,7 +15059,9 @@
         "E-UIQ06-S751-LIVE-EXIT",
         "E-UIQ06-S752-FINAL-DEPLOYMENT",
         "E-UIQ06-S753-FINAL-CLOSEOUT",
-        "E-UIQ06-S753-DEPLOYMENT-VERIFICATION"
+        "E-UIQ06-S753-DEPLOYMENT-VERIFICATION",
+        "E-UIQ06-S754-POSTMERGE-STATE",
+        "E-UIQ06-S754-DEPLOYMENT-VERIFICATION"
       ],
       "flagKey": "uiq_operational_clarity"
     },
@@ -29459,6 +29466,24 @@
       "sha256": "c3b0d9d8e204c1a9e0efd18f7ec5066e930f0aace3ef57b166169cc2b93f8f8c",
       "verified": true,
       "note": "Machine record of PR #33 merge, full successful workflow 38205969649, zero uploaded bundle files and HTTP 200 for stable and immutable public URLs."
+    },
+    {
+      "id": "E-UIQ06-S754-POSTMERGE-STATE",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq06/S754-POSTMERGE-STATE.md",
+      "commit": null,
+      "sha256": "e0fec52146837ad333fef22d079170ca187676396ebda36591b05e16f309af4a",
+      "verified": true,
+      "note": "PR #34 merged at 5929c8c6; main workflow 38207414640 passed full tests/build/artifact/Pages deployment. Stable and immutable URLs returned HTTP 200; zero files were uploaded."
+    },
+    {
+      "id": "E-UIQ06-S754-DEPLOYMENT-VERIFICATION",
+      "kind": "browser",
+      "uri": "docs/research/uiq06/evidence/S754-postmerge-state/deployment-verification.json",
+      "commit": null,
+      "sha256": "171ef71ec5329c9b0dc31eca2451b99b01d58e9884c484169d19bf2bb64a0d14",
+      "verified": true,
+      "note": "Machine record of PR #34 merge, full successful workflow 38207414640, zero uploaded files and HTTP 200 for stable and immutable public URLs."
     }
   ]
 }

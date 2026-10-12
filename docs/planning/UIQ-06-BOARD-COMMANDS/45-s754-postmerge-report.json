@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S754-POSTMERGE-STATE",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq06/S754-POSTMERGE-STATE.md",
+    "sha256": "e0fec52146837ad333fef22d079170ca187676396ebda36591b05e16f309af4a",
+    "verified": true,
+    "note": "PR #34 merged at 5929c8c6; main workflow 38207414640 passed full tests/build/artifact/Pages deployment. Stable and immutable URLs returned HTTP 200; zero files were uploaded."
+  },
+  "expectedRevision": 4448
+}
