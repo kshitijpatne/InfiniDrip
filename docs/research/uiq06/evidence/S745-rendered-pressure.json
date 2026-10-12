@@ -1,0 +1,50 @@
+{
+  "slice": 745,
+  "branch": "codex/uiq06-admission",
+  "base": "7923a7f4323d713b069817adfd7626f19c7b48f5",
+  "flag": "uiq_operational_clarity",
+  "fallback": "Feature flag false renders the legacy div and preserves the previous trailing-delimiter wording; default-on renders the structured section. Feature flag unknown/stale cases are covered in feature-flags.test.ts.",
+  "viewportsCssPx": [1280, 640, 320],
+  "renderedReadout": {
+    "scope": "Single size",
+    "required": "Requires 75.2 cm of cloth",
+    "planned": "Planned with buffer: 82.7 cm",
+    "waste": "Waste: 56.3% of cloth",
+    "available": "On hand: not entered",
+    "verdict": "Fit: unknown — enter fabric on hand for a fits/short verdict.",
+    "directionalNotice": "Directional print assumed: grain stays upright and pieces never rotate, so directional yardage is honest."
+  },
+  "states": [
+    { "name": "unknown", "verdict": "Fit: unknown — enter fabric on hand for a fits/short verdict.", "ariaInvalid": false },
+    { "name": "fits", "available": "10000 cm", "verdict": "Fit: fits the fabric on hand.", "ariaInvalid": false },
+    { "name": "short", "available": "1 cm", "verdict": "Fit: short by 81.7 cm.", "ariaInvalid": false },
+    { "name": "invalid-on-hand-zero", "available": "0 cm", "verdict": "Fit: unknown — enter fabric on hand for a fits/short verdict.", "ariaInvalid": true },
+    { "name": "invalid-buffer-60", "planned": "Planned: unavailable — fix the cutting buffer", "error": "Cutting buffer: enter 0–50.", "ariaInvalid": true }
+  ],
+  "overflow": { "1280": false, "640": false, "320": false },
+  "pageErrors": [],
+  "offOriginRequests": [],
+  "screenshots": [
+    "S745-nesting-1280.png",
+    "S745-nesting-640.png",
+    "S745-nesting-320.png",
+    "S745-nesting-320-invalid-buffer.png"
+  ],
+  "screenshotSha256": {
+    "S745-nesting-1280.png": "BA30CD1BC6E6E745D676F492A1F82FC7861AF4B10AFC8611DC6C9A2F3E82D4F6",
+    "S745-nesting-640.png": "49D89F3A235D1F3AF21BB4B256AA9CCF510F0FD1D351A4E4607F2A674FD83AF8",
+    "S745-nesting-320.png": "A6790EE369C3795BB7DDADD7CAACC723EB6302B062A582169CD37F3420415A8C",
+    "S745-nesting-320-invalid-buffer.png": "4CA30B27F244095A0EEDF34BFD6D18625D18C617A884A54DAF03FE7F3D5F66EF"
+  },
+  "tests": {
+    "featureFlags": "11 passed",
+    "view": "93 passed",
+    "appNestingDefaultPool": "15 passed, 271 skipped, 32.46s",
+    "appNestingSingleWorker": "15 passed, 271 skipped, 30.25s",
+    "focusedCoverageRun": "17 passed; line-level V8 map confirms all executable statements in changed regions ran and both UI layout/formatter branches were exercised",
+    "controlCenter": "42 passed after S745 evidence/comment replay (board revision 4411)"
+  },
+  "diagnostic": "An initial combined run of the three focused files did not finish within about five minutes; one worker reached about 3.0 GB working set. It was interrupted. Re-running the exact 15-test app Nesting subset with default and single-worker settings passed in 32.46s and 30.25s respectively. No Vitest defaults were changed.",
+  "review": "Screenshots manually inspected at 1280 and 320 CSS px; separated facts, verdict and caveat remain readable. At 320px the readout has no internal horizontal overflow. Existing surrounding app navigation has a separate narrow-screen overflow visible in the baseline; it is outside S745 scope.",
+  "exportBaselineChanged": false
+}

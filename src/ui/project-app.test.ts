@@ -36,6 +36,42 @@ afterEach(() => {
 });
 
 describe("repository-backed app workflow", () => {
+  it("restores the exact project and recovery copy when operational clarity is off", async () => {
+    workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `project-app-uiq06-flag-off-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: (() => {
+        const ids = [PROJECT_ID, FIRST_STYLE_ID];
+        return () => ids.shift() ?? SECOND_STYLE_ID;
+      })(),
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    root = document.createElement("div");
+    document.body.append(root);
+    mountApp(root, { projectWorkflow: workflow, artworkAssetStore: assets });
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "110";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    await vi.waitFor(() => expect(root!.querySelector("#project-persistence-state")?.textContent)
+      .toContain("recovery saved"));
+
+    root.remove();
+    root = document.createElement("div");
+    document.body.append(root);
+    mountApp(root, { projectWorkflow: workflow, artworkAssetStore: assets, uiqOperationalClarityEnabled: false });
+    await vi.waitFor(() => expect(root!.querySelector("#recovery-host")?.textContent).toContain("Unfinished draft found"));
+    expect(root.querySelector("#recovery-host")?.textContent)
+      .toContain("Recover the last local edit? It may contain incomplete values; drafting and export stay paused until they are corrected.");
+    expect(root.querySelector("#recovery-host")?.textContent)
+      .not.toContain("Your last saved version stays unchanged");
+    expect(root.querySelector("#project-manager-status")?.textContent)
+      .toBe("Saved project is ready on this device.");
+  });
+
   it("flushes a pending input before opening its field history dialog", async () => {
     workflow = await openProjectWorkflow({
       repositoryOptions: {
@@ -202,6 +238,10 @@ describe("repository-backed app workflow", () => {
     document.body.append(root);
     mountApp(root, { projectWorkflow: workflow, artworkAssetStore: assets });
     await vi.waitFor(() => expect(root!.querySelector("#recovery-host")?.textContent).toContain("Unfinished draft found"));
+    expect(root.querySelector("#recovery-host")?.textContent)
+      .toContain("Your last saved version stays unchanged until you choose Save.");
+    expect(root.querySelector("#recovery-host")?.textContent)
+      .toContain("Recover the latest local draft?");
 
     const manager = root.querySelector<HTMLElement>("#project-manager-host")!;
     manager.querySelector<HTMLInputElement>("#project-style-name")!.value = "Fresh start";

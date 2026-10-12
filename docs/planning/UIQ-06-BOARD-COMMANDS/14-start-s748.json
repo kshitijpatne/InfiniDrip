@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 747 landed as 72a23693 (Slice 747: improve measurement history timestamps). Starting uniquely reserved Slice 748: rendered audit of grade-plan exceptions in draft/review/approved/stale/unavailable states, including authored reason, target/difference and blocking copy. Audit first; change presentation only if a concrete readability defect is demonstrated. Do not alter grade math, approval/readiness gates, source identity or exports. origin/main remains an ancestor; board was revision 4417.",
+  "expectedRevision": 4417
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 744 admitted from clean origin/main 7923a7f. Fresh rendered review confirms the Nesting values/verdict/direction caveat merge into one 12px text run; Check is already explicit about digital-only validation. Measurement provenance and local project/recovery/import/export functions exist and remain separately evidence-gated before any UI change. See docs/planning/UIQ-06-ADMISSION.md, UIQ-06-GOAL.md and docs/research/uiq06/S744-ADMISSION-BASELINE.md. No geometry, estimates, approval logic, persistence or export behavior changes are admitted.",
+  "expectedRevision": 4406
+}

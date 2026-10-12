@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 744 is committed as aec58313; admission is In Progress at board revision 4408. Starting S745 only: restructure existing Nesting readout presentation behind uiq_operational_clarity, preserving all computed values, control IDs, validation and exact legacy fallback. No other surface or logic is in scope.",
+  "expectedRevision": 4408
+}

@@ -1,0 +1,22 @@
+{
+  "type": "editItem",
+  "itemId": "UIQ-06",
+  "expectedRevision": 4404,
+  "patch": {
+    "contributor": "Codex",
+    "reviewer": "Codex",
+    "risk": "medium",
+    "dependencies": ["UIQ-GATE"],
+    "description": "Maintainer-admitted current-main, presentation-only readability wave. Packet: docs/planning/UIQ-06-ADMISSION.md; live gates: docs/planning/UIQ-06-GOAL.md. Improve only demonstrated issues across Nesting/Check, measurement provenance/history, grade exceptions and local project/recovery/import/export scope. Preserve all computations and operations.",
+    "expectation": "Operational estimates, digital-only checks, exceptions, local data state and output scope are clearly scannable without changing any math, validation, persistence, recovery, package or export behavior.",
+    "acceptanceCriteria": [
+      "Record a keep/change decision and rendered evidence for all four listed surface groups; make no speculative redesign.",
+      "Embedded uiq_operational_clarity has an exact current-UI fallback when OFF, unknown or stale; no remote switch or new service.",
+      "Nesting layout preserves every existing value, scope, estimator result, validation message and direction warning for fit/short/unknown/invalid/unavailable states.",
+      "Measurement provenance, grade exceptions, project/recovery/import/export retain source identity, raw inputs, reasons, approval/conflict gates, local-only scope and exact file behavior.",
+      "100% changed-code and settled global coverage, type/build, operational and packaged Electron gates, rendered 1280/640/320 accessibility/no-egress pressure checks, and export-byte-identity all pass with no baseline change.",
+      "Codex reviews and owns corrections, merge and deployment; UIQ-06 closes only after live production verification and validated board evidence."
+    ],
+    "flagKey": "uiq_operational_clarity"
+  }
+}

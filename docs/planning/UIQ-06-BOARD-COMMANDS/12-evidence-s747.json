@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S747-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md",
+    "commit": null,
+    "sha256": "10B08EBAD6364C11F2C47A1430142C4A9D2F8E1730BE31C701D6A53685B650D4",
+    "verified": true,
+    "note": "S747 corrects the measured timestamp/source-detail readability issue only. Measurement data and semantics remain unchanged. Focused UI tests, changed-line coverage, build, real/synthetic responsive Chromium, no-egress and screenshot hashes are recorded in the exit report and machine evidence."
+  },
+  "expectedRevision": 4415
+}

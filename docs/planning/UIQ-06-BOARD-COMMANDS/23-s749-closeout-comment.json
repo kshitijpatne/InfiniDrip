@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Final S749 closeout at 03:00:33 UTC (26m51s from start) is recorded in digest-bound E-UIQ06-S749-CLOSEOUT. The earlier E-UIQ06-S749-EXIT and E-UIQ06-S749-FINAL-EXIT snapshots are retained as historical evidence. UIQ-06 remains In Progress. S750 is the sole next action: refresh main/history/ownership and run the settled full gates/PR. S751 remains merge, deployment, live verification and validated board closeout.",
+  "expectedRevision": 4426
+}

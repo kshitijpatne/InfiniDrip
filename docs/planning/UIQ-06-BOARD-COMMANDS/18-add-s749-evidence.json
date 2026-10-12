@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S749-EXIT",
+    "kind": "document",
+    "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+    "sha256": "0facfe834f2a72afa515e262669a7e69843ec6991f0caf611f6e24d167147f3f",
+    "verified": true,
+    "note": "Slice 749 project/recovery messaging exit; digest verified. Full settled repository gate remains S750."
+  },
+  "expectedRevision": 4421
+}

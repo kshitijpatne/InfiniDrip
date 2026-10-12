@@ -96,12 +96,14 @@ describe("grade-plan panel markup", () => {
     };
     const html = gradePlanPanelMarkup(model(draft));
 
+    expect(html).toContain("On narrow screens, scroll horizontally to review every size.");
+    expect(html).toContain('role="region" aria-label="Grade plan target and size matrix" tabindex="0"');
     expect(html).toContain('data-grade-plan-basis-fields="population-source" hidden');
     expect(html).toContain('data-grade-plan-basis-fields="user-authored-digital-rule">');
     expect(html).toContain('data-grade-plan-decision maxlength="240" value="Design-led"');
     expect(html).toContain('data-grade-plan-base-size maxlength="48" value=""');
     expect(html).toContain('data-grade-plan-exception data-target-id="measurement.chest" data-size-label="L" checked');
-    expect(html).toContain('data-grade-plan-exception-reason data-target-id="measurement.chest" data-size-label="L" maxlength="240">Not used in this size');
+    expect(html).toContain('Reason for L <textarea data-grade-plan-exception-reason data-target-id="measurement.chest" data-size-label="L" maxlength="240">Not used in this size');
     expect(html).toContain('data-grade-plan-delta data-target-id="measurement.chest" data-size-label="S" value=""');
 
     const noBasis = gradePlanPanelMarkup(model({ ...draft, basis: null }));

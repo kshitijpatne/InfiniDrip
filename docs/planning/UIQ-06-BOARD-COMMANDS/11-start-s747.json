@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 746 is committed as ee50185b; exact S745 exit report is tracked and its board digest is regression-tested. Starting S747 measurement provenance/history audit only: inspect rendered empty, multi-source, invalid, saved and long-label states. No UI change unless a specific material readability failure is demonstrated. Preserve measurement math, source/confidence identity, correction semantics and history behavior.",
+  "expectedRevision": 4414
+}

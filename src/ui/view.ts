@@ -203,8 +203,10 @@ export function fieldHistoryDialogContent(
     `<li><strong>Record ${observation.revision}</strong> · raw “${escapeAttr(observation.rawValue)}” · ` +
     `canonical ${observation.canonicalValue === null ? "unavailable" : `${observation.canonicalValue} ${escapeAttr(observation.unit)}`} · ` +
     `${escapeAttr(provenanceNames[observation.provenance])} · ${escapeAttr(observation.evidenceStatus)} · ` +
-    `${escapeAttr(observation.validationStatus)} · ${observation.recordedAt ? escapeAttr(observation.recordedAt) : "capture/edit time not recorded"}` +
-    `<br>${escapeAttr(observation.sourceLabel)}</li>`).join("");
+    `${escapeAttr(observation.validationStatus)}<br>Recorded (UTC): ${observation.recordedAt
+      ? `<time datetime="${escapeAttr(observation.recordedAt)}">${escapeAttr(observation.recordedAt.replace("T", " ").replace(/\.\d{3}Z$/, " UTC"))}</time>`
+      : "capture/edit time not recorded"}` +
+    `<br>Source detail: ${escapeAttr(observation.sourceLabel)}</li>`).join("");
   return `<h2 id="field-history-title" tabindex="-1">${escapeAttr(definition.label)} — value source and history</h2>` +
     `<p>${escapeAttr(definition.meaning)} ${escapeAttr(definition.captureBoundary)}</p>` +
     `<p>Semantic kind: ${escapeAttr(definition.semanticKind)} · unit: ${escapeAttr(definition.unit)} · ` +
@@ -1164,7 +1166,13 @@ export function fabricWidthMarkup(width: number): string {
 /** Nesting-intelligence planning controls and readouts. Rendered once per
  * mount inside #nest-intel-host (fabric view only); draw() syncs values,
  * errors, and readouts imperatively so typing never loses focus. */
-export function nestIntelMarkup(bufferRaw: string, availableRaw: string, napAware: boolean): string {  const bufferValue = bufferRaw.trim() === "" ? NaN : Number(bufferRaw);
+export function nestIntelMarkup(
+  bufferRaw: string,
+  availableRaw: string,
+  napAware: boolean,
+  operationalClarityEnabled = false,
+): string {
+  const bufferValue = bufferRaw.trim() === "" ? NaN : Number(bufferRaw);
   const availableValue = availableRaw.trim() === "" ? NaN : Number(availableRaw);
   const bufferInput = numericControlMarkup(
     "nest-buffer", "nest-buffer", "Cutting buffer", bufferValue, 0, 50, 1,
@@ -1184,10 +1192,17 @@ export function nestIntelMarkup(bufferRaw: string, availableRaw: string, napAwar
     `<p id="error-nest-available" role="status" style="font-size:12px;color:${T.label};margin:4px 0 0;min-height:16px"></p></div>` +
     `<label style="font-size:12px;color:${T.line};display:inline-flex;gap:6px;align-items:center">` +
     `<input id="nest-nap" type="checkbox"${napAware ? " checked" : ""} aria-label="Directional print"/>Directional print</label>` +
-    `<div id="nest-readout" role="status" aria-label="Nesting estimate" style="font-size:12px;color:${T.line};flex-basis:100%;line-height:1.6">` +
-    `<span id="nest-intel-scope"></span><span id="nest-required"></span><span id="nest-planned"></span>` +
-    `<span id="nest-waste"></span><span id="nest-available-state"></span><span id="nest-verdict"></span>` +
-    `<span id="nest-nap-notice"></span></div></div>`;
+    (operationalClarityEnabled
+      ? `<section id="nest-readout" class="nest-readout nest-readout--clarity" role="status" aria-label="Nesting estimate" aria-live="polite">` +
+        `<div class="nest-readout-heading"><strong>Nesting estimate</strong><span id="nest-intel-scope"></span></div>` +
+        `<div class="nest-readout-facts"><span id="nest-required"></span><span id="nest-planned"></span>` +
+        `<span id="nest-waste"></span><span id="nest-available-state"></span></div>` +
+        `<p id="nest-verdict" class="nest-readout-verdict"></p>` +
+        `<p id="nest-nap-notice" class="nest-readout-caveat"></p></section>`
+      : `<div id="nest-readout" role="status" aria-label="Nesting estimate" style="font-size:12px;color:${T.line};flex-basis:100%;line-height:1.6">` +
+        `<span id="nest-intel-scope"></span><span id="nest-required"></span><span id="nest-planned"></span>` +
+        `<span id="nest-waste"></span><span id="nest-available-state"></span><span id="nest-verdict"></span>` +
+        `<span id="nest-nap-notice"></span></div>`) + `</div>`;
 }
 
 /** Precomputed Nesting-intelligence readout lines. Pure so every
@@ -1349,6 +1364,7 @@ export function appShellMarkup(
   appearance: Appearance = DEFAULT_APPEARANCE,
   fieldObservations?: FieldObservationRecord,
   uiqMaterialEnabled = false,
+  uiqOperationalClarityEnabled = false,
 ): string {
   const activeGarmentLabel = GARMENTS.find((g) => g.name === activeGarment)?.label ?? activeGarment;
   return `<main id="infini-shell" aria-labelledby="product-title">` +
@@ -1383,7 +1399,7 @@ export function appShellMarkup(
     `<button id="assembled-preview-toggle" type="button" aria-pressed="false" aria-controls="canvas-host">Assembled</button></div>` +
     `${bodyCroquisToggleMarkup("front-back")}<div id="spatial-cue" role="status" hidden>` +
     `<span id="spatial-cue-text"></span><button id="spatial-cue-action" type="button">Show in Assembled</button></div>` +
-    `${fabricWidthMarkup(150)}${nestIntelMarkup("10", "", true)}<div id="canvas-host"></div>` +
+    `${fabricWidthMarkup(150)}${nestIntelMarkup("10", "", true, uiqOperationalClarityEnabled)}<div id="canvas-host"></div>` +
     `</div></div></main>` +
     `<dialog id="field-history-dialog" aria-modal="true" aria-labelledby="field-history-title" ` +
     `style="box-sizing:border-box;width:min(680px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;` +

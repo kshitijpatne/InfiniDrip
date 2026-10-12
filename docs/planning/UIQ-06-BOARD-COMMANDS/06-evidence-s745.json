@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S745",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-06-S745-EXIT.md",
+    "commit": null,
+    "sha256": "E5E1277AD66DA526D2BA343CE12FEF72DA557A2F48726BCDDB8C8EFCA19A3206",
+    "verified": true,
+    "note": "S745 presentation-only Nesting readout; focused coverage, rendered responsive/edge-state/no-egress evidence and exact flag-off fallback are recorded in the exit report and machine evidence. No estimator, validation, export or baseline changes."
+  },
+  "expectedRevision": 4409
+}

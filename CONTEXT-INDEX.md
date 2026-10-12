@@ -39,9 +39,10 @@ only through an explicitly admitted, linked Epic packet.
 
 ## Current status documents
 
-- `docs/coordination/TEAM-CONTEXT-REGISTRY.md` — shared engineering/business
-  lane discovery, authority and freshness contract; discover active worktrees
-  before using a main-based snapshot. Each lane retains its scope/approval gates.
+- `docs/coordination/TEAM-CONTEXT-REGISTRY.md` — referenced by older context
+  snapshots but absent from current `origin/main`; do not rely on it. Discover
+  active worktrees, refs, open PRs and the canonical board before using a
+  main-based snapshot. Each lane retains its own scope/approval gates.
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
@@ -193,8 +194,39 @@ only through an explicitly admitted, linked Epic packet.
   38190492228 succeeded, and stable plus immutable URLs passed live browser
   checks. The validated board records UIQ-05 Done at revision 4404 with
   `E-UIQ05-S742`; final current-state reconciliation is in
-  `docs/release/UIQ-05-INTEGRATION-S743-CLOSEOUT.md`. UIQ-05 is complete and
-  UIQ-07 remains Backlog and unadmitted.
+  `docs/release/UIQ-05-INTEGRATION-S743-CLOSEOUT.md`. UIQ-05 is complete.
+  The maintainer admitted UIQ-06 after PR #30; its active execution packet,
+  goal ledger and baseline are `docs/planning/UIQ-06-ADMISSION.md`,
+  `docs/planning/UIQ-06-GOAL.md`, and `docs/research/uiq06/`. Slice 744
+  establishes the evidence-led presentation-only contract on clean
+  `origin/main` `7923a7f`; S745 resolves the demonstrated Nesting-readout
+  collision behind its embedded rollback flag, with rendered state evidence
+  in `docs/research/uiq06/evidence/S745-rendered-pressure.json`. S746 corrected
+  the ignored S745 exit report: it is tracked at the board-recorded URI, its
+  digest is regression-tested, and S745 history is unchanged. S747's bounded
+  measurement-history timestamp/source labels are accepted; details and
+  rendered/synthetic pressure evidence are in
+  `docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md` and
+  `docs/research/uiq06/evidence/S747-measurement-history-pressure.json`. The
+  S748 then clarified grade-plan/Check table scrolling, per-size exception
+  labels, and stable POM comparison columns without changing grade behavior;
+  see `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md` and
+  `docs/research/uiq06/evidence/S748-grade-exception-pressure.json`. S749
+  clarified that project storage is local without implying current edits are
+  saved, and that recovery preserves the saved version until explicit Save.
+  Project/recovery/import/export behavior is unchanged; see
+  `docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md` and
+  `docs/research/uiq06/evidence/S749-project-recovery-pressure.json`. S750
+  settled the complete local release gate, four-metric 100% global
+  coverage, export identities, operational/web/readiness tests, packaged
+  Electron offline/export/recovery verification, and Codex candidate review;
+  see `docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md` and
+  `docs/research/uiq06/evidence/S750-packaged-verification.json`. Canonical
+  board revision 4436 remains In Progress pending the S750 PR. S751 is now the
+  sole action: Codex-owned PR checks/review, merge, automatic deployment, live
+  verification and board/context closeout. UIQ-07 remains
+  Backlog and unadmitted. The former team-context registry is absent; use
+  current Git/worktree/PR and board evidence for ownership.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and
   `docs/research/uiq-clarity/CANDIDATE-EXIT.json` document the accepted,
   immutable UIQ-04 isolated candidate. Candidate completion is not shipped

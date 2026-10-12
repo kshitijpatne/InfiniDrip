@@ -1,0 +1,14 @@
+{
+  "type": "editItem",
+  "itemId": "UIQ-06",
+  "expectedRevision": 4407,
+  "patch": {
+    "protectedSurfaces": [
+      "local-first/no-cost boundary",
+      "100% coverage",
+      "export byte identity",
+      "source/revision identity",
+      "measurement, grade, nesting and project behavior"
+    ]
+  }
+}

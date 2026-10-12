@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 748 is complete. At narrow widths the grade-plan and Check POM tables now disclose horizontal scrolling and are named keyboard-focusable regions; POM columns remain legible with long reasons, and exception inputs name their size. Draft/review/approval/stale/unavailable gates, reasons, values, grade math and exports are unchanged. 6 panel + 7 run-panel tests, 4 app lifecycle tests, 100% coverage for both changed TypeScript modules, build and 1280/320 synthetic browser/keyboard/no-egress checks passed. See E-UIQ06-S748-EXIT and docs/research/uiq06/evidence/S748-grade-exception-pressure.json. UIQ-06 remains In Progress; next is S749 project/recovery/import/export scope audit.",
+  "expectedRevision": 4419
+}

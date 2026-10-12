@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "S749 final evidence boundary completed at 03:15:47 UTC, 42m05s after start. Project/app focused tests pass 33/33, recovery app case 1/1, explicit UIQ flag-on/off messages are tested, project-manager module coverage is 100% in all dimensions, and app branch instrumentation proves both new copy paths. Production build and clean disposable browser/Electron persistence/render replay pass; Control Center is run after this final board replay. Final report E-UIQ06-S749-FINAL-COVERAGE supersedes earlier interim digests. UIQ-06 remains In Progress; S750 is the sole next action; S751 remains merge/deployment/live closeout.",
+  "expectedRevision": 4432
+}

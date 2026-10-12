@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 749 is complete: project status now explains local storage without implying unsaved edits are saved, and recovery states that the saved version is unchanged until explicit Save. Persistence, project identity/history, package import/export, frozen outputs and export baselines are unchanged. Focused project/app tests passed 31/31; the recovery app case passed 1/1; build passed; Control Center passed 42/42; clean-profile browser/Electron workflow and rendered 1280/320 recovery evidence passed. See E-UIQ06-S749-EXIT. A broad app test attempt was stopped under memory pressure and is not a pass; full global coverage and settled release gates remain S750. S751 remains merge/deployment/live/board closeout. UIQ-06 remains In Progress.",
+  "expectedRevision": 4422
+}

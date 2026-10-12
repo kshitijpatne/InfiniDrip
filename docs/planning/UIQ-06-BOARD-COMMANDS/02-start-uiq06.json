@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-06",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Maintainer authorized the next ordered UIQ goal after UIQ-05 completed. The current-main UIQ-06 admission, evidence-gated subpackages, exact presentation-only boundaries, reserved slices 744–750, flag/fallback and exit checks are recorded in docs/planning/UIQ-06-ADMISSION.md and UIQ-06-GOAL.md.",
+  "expectedRevision": 4405
+}

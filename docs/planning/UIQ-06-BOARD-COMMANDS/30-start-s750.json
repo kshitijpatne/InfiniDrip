@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Starting S750 from clean isolated commit 493c02a7969396c34ab332fa26a8a68859baf71a after a fresh fetch: origin/main 7923a7f4323d713b069817adfd7626f19c7b48f5 remains an ancestor, no open PR exists, and no other UIQ-06 worktree/owner is active. Board revision 4433; S749 is accepted at E-UIQ06-S749-FINAL-COVERAGE. S750 is the settled complete-diff review, global four-metric 100% coverage/export identity, type/build, operational/web/readiness, packaged Electron, rendered/flag-fallback/no-egress gates, then Codex-owned PR if every gate passes. No merge/deployment until S751. Exact start packet: docs/research/uiq06/S750-SETTLED-RELEASE-START.md. Usage primary34%/weekly29%, ordinary allowed, no reset credits.",
+  "expectedRevision": 4433
+}

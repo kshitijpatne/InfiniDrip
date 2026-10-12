@@ -1,0 +1,29 @@
+{
+  "slice": 748,
+  "decision": "targeted table readability and keyboard-access correction",
+  "scope": "Existing grade-plan size matrix and graded-size POM output only; no grade or readiness behavior changes.",
+  "stateReplay": {
+    "draft": { "status": "Draft — not reviewed", "reviewDisabled": false, "approveDisabled": true, "exceptionReasonRetained": true },
+    "reviewed": { "status": "Reviewed; approval still required", "reviewDisabled": true, "approveDisabled": false, "exceptionReasonRetained": true },
+    "approved": { "status": "Approved grade-plan record", "reviewDisabled": true, "approveDisabled": true, "exceptionReasonRetained": true },
+    "stale": { "status": "Stale — approval cannot be used", "reviewDisabled": true, "approveDisabled": true, "refreshDisabled": false, "exceptionReasonRetained": true },
+    "unavailable": { "plan": null, "statusMessage": "Local grade-plan storage is unavailable.", "createDisabled": false, "inventedPlan": false }
+  },
+  "gradePlanMatrix": {
+    "320x900": { "tableClientWidth": 248, "tableScrollWidth": 560, "documentClientWidth": 320, "documentScrollWidth": 320, "hintVisible": true, "tabIndex": 0, "arrowRightPresses": 32, "scrollLeft": 81, "exceptionLabel": "Reason for L" },
+    "1280x900": { "tableClientWidth": 304, "tableScrollWidth": 560, "hintVisible": true, "tabIndex": 0, "reason": "Synthetic long exception reason retained" }
+  },
+  "checkOutput": {
+    "320x900": { "tableClientWidth": 280, "tableScrollWidth": 560, "documentClientWidth": 320, "documentScrollWidth": 320, "hintVisible": true, "tabIndex": 0, "arrowRightPresses": 60, "scrollLeft": 278, "longReasonRetained": true },
+    "1280x900": { "tableClientWidth": 1060, "tableScrollWidth": 1060, "hintVisible": false, "numericHeadingsSingleLine": true, "exceptionOwnResultColumn": true }
+  },
+  "browser": { "pageErrors": [], "offOriginRequests": [], "data": "Synthetic only; no persistent/user data" },
+  "screenshots": {
+    "gradePlan1280": { "path": "S748-grade-plan-1280.png", "sha256": "E5D70EF4AA6E820C39DE173F7D0B9AB167CB8C1659CD74BE270F50782D74E7C7" },
+    "gradePlan320": { "path": "S748-grade-plan-320.png", "sha256": "A5B29003A9F83F8FC50936062469DF934243FBAF482AEB853E8F247C48FE514D" },
+    "gradeRun1280": { "path": "S748-grade-run-1280.png", "sha256": "89E1E9F7DD02B977AFA4A4FE2353E9B510E26D6F175F9B8A098D9D50912F226F" },
+    "gradeRun320": { "path": "S748-grade-run-320.png", "sha256": "27F3E105FEC111253FEE6185E43D0A9E7D0E71DE04B98EEC5CE067A0FB1619A6" }
+  },
+  "tests": { "panel": "6/6", "runPanel": "7/7", "filteredAppLifecycle": "4 passed", "coverage": "100% statements/branches/functions/lines in each changed TypeScript panel module", "build": "passed with existing Vite chunk-size advisory", "diffCheck": "passed" },
+  "invariants": ["all grade/POM values and exception reasons preserved", "draft/review/approval/stale/readiness gates unchanged", "no export behavior or baseline changes"]
+}

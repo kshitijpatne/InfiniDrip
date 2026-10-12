@@ -4880,6 +4880,18 @@ describe("nesting intelligence (Slice 133)", () => {
     expect(root.querySelector("#nest-waste")!.textContent).toContain("% of cloth");
     expect(root.querySelector("#nest-verdict")!.textContent).toContain("unknown");
     expect(root.querySelector("#nest-nap-notice")!.textContent).toContain("never rotate");
+    expect(root.querySelector("#nest-readout")!.classList.contains("nest-readout--clarity")).toBe(true);
+    expect(root.querySelector("#nest-planned")!.textContent).not.toMatch(/ · $/);
+  });
+
+  it("retains the exact legacy Nesting readout when UIQ-06 is disabled", () => {
+    localStorage.clear();
+    const root = mount({ uiqOperationalClarityEnabled: false });
+    toFabricView(root);
+    expect(root.querySelector("#nest-readout")!.tagName).toBe("DIV");
+    expect(root.querySelector("#nest-readout")!.classList.contains("nest-readout--clarity")).toBe(false);
+    expect(root.querySelector("#nest-required")!.textContent).toMatch(/ · $/);
+    expect(root.querySelector("#nest-verdict")!.textContent).toContain("Fit:");
   });
 
   it("renders the estimate for all seven garments without leaking values", () => {

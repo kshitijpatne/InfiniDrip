@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S749-FINAL-COVERAGE",
+    "kind": "document",
+    "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+    "sha256": "c735f7864b908264f17fb225584f5fc118cc169a27b2afc938a7e1e13da593ae",
+    "verified": true,
+    "note": "Final timed S749 report with all-four-dimension project-manager coverage and explicit app flag-on/off branch measurements; supersedes earlier S749 snapshots."
+  },
+  "expectedRevision": 4431
+}

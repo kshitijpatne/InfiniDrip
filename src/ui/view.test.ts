@@ -60,7 +60,7 @@ describe("controlsMarkup", () => {
         evidenceStatus: "UNCONFIRMED",
         validationStatus: "INVALID",
         sourceLabel: "<img src=x onerror=alert(1)>",
-        recordedAt: null,
+        recordedAt: revision === 1 ? "2026-09-24T16:00:00.000Z" : null,
         styleRevision: 1,
         confidence: "NOT_ASSESSED",
       })),
@@ -69,6 +69,9 @@ describe("controlsMarkup", () => {
     expect(html).toContain("Page 1 of 1 · 2 total records");
     expect(html).toContain("&lt;script&gt;alert(1)&lt;/script&gt;");
     expect(html).toContain("&lt;img src=x onerror=alert(1)&gt;");
+    expect(html).toContain('Recorded (UTC): <time datetime="2026-09-24T16:00:00.000Z">2026-09-24 16:00:00 UTC</time>');
+    expect(html).toContain("Recorded (UTC): capture/edit time not recorded");
+    expect(html).toContain("Source detail: &lt;img src=x onerror=alert(1)&gt;");
     expect(html).not.toContain("<script>");
     const laterPage = fieldHistoryDialogContent("tee", "measurement", "chest", record, 1, 1);
     expect(laterPage).toContain("Page 2 of 2 · 2 total records");
@@ -1118,6 +1121,21 @@ describe("nestIntelMarkup — planning controls", () => {
     expect(html).toContain('id="nest-available"');
     const filled = nestIntelMarkup("10", "150", false);
     expect(filled).toContain('value="150"');
+  });
+  it("uses a structured readability layout only when explicitly enabled", () => {
+    const legacy = nestIntelMarkup("10", "", true);
+    const explicitlyDisabled = nestIntelMarkup("10", "", true, false);
+    const clarity = nestIntelMarkup("10", "", true, true);
+    expect(explicitlyDisabled).toBe(legacy);
+    expect(legacy).toContain('<div id="nest-readout" role="status" aria-label="Nesting estimate"');
+    expect(legacy).not.toContain("nest-readout--clarity");
+    expect(clarity).toContain('<section id="nest-readout" class="nest-readout nest-readout--clarity"');
+    expect(clarity).toContain('<div class="nest-readout-facts">');
+    expect(clarity).toContain('id="nest-verdict" class="nest-readout-verdict"');
+    expect(clarity).toContain('id="nest-nap-notice" class="nest-readout-caveat"');
+    for (const id of ["nest-intel-scope", "nest-required", "nest-planned", "nest-waste", "nest-available-state", "nest-verdict", "nest-nap-notice"]) {
+      expect(clarity).toContain(`id="${id}"`);
+    }
   });
 });
 

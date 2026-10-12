@@ -68,6 +68,31 @@ UIQ-05 is Done at canonical board revision 4404 after the closeout evidence;
 its durable closeout and current-state reconciliation are complete. UIQ-07
 remains Backlog and unadmitted.
 
+UIQ-06 is admitted and in progress. Slice 745 changes only presentation of the
+existing Nesting readout: precomputed scope/required/planned/waste/on-hand
+values are separated from the fit estimate and directional-print caveat. No
+nesting result, validation, physical-fit claim, control or persisted value
+changes. The embedded `uiq_operational_clarity` flag defaults on after this
+release is accepted; its local off/unknown/stale path retains the exact legacy
+markup and wording. This is a code-default rollback contract, not a remote
+switch. Slice 747 made one presentation-only correction in measurement history:
+it labels the recorded time as UTC and separates source detail; the original
+canonical timestamp and all provenance, values and persistence remain intact.
+Slice 748 made the existing grade-plan and Check POM matrices' horizontal
+overflow visible and keyboard-scrollable where needed, labels each exception
+reason with its size, and keeps numeric comparison columns readable beside long
+reasons. Grade calculations, exception records, review/approval/readiness and
+export behavior remain unchanged. Slice 749 clarified two local-project
+messages: the project panel describes local storage without implying unsaved
+edits are saved, and recovery explains that the last saved version remains
+unchanged until explicit Save. Recover/Discard actions, persistence, history,
+package import/export and frozen output behavior are unchanged. Desktop/mobile
+render and clean-profile browser/Electron evidence is in
+`docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md`; the S750
+settled local release gate passed. PR merge, deployment, and live verification
+remain pending S751. UIQ-06 boundaries and the
+exact flag-off fallback remain in `docs/planning/UIQ-06-ADMISSION.md`.
+
 ## How measurements become pattern shapes
 
 The current design is the common source for most views, checks, planning tools,

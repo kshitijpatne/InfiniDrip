@@ -1,4 +1,90 @@
-## Current boundary — UIQ-05 complete (Slices 741–743)
+## Current boundary — UIQ-06 admitted (Slices 744–750 locally complete; S751 next)
+
+On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
+`origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
+“proceed with next goal.” This explicitly admits the next ordered package,
+UIQ-06, for evidence-gated, presentation-only improvements to existing
+operational readouts. The isolated task worktree is
+`C:\Users\kshit\.codex\worktrees\uiq06-controls\designApp`, branch
+`codex/uiq06-admission`; the shared `F:\designApp` checkout is preserved.
+
+Slice 744 records the fresh rendered baseline and exact scope in
+`docs/planning/UIQ-06-ADMISSION.md`, `docs/planning/UIQ-06-GOAL.md`, and
+`docs/research/uiq06/S744-ADMISSION-BASELINE.md`. The UIQ-06 dependency
+UIQ-GATE is Done. The Nesting readout had one demonstrated scanability defect:
+estimate, verdict and directional caveat collided in a single 12px run. Check
+already truthfully distinguishes digital checks from physical validation.
+Nesting, measurement-history and grade-exception presentation corrections do
+not change calculation or approval behavior. Local project/recovery/import/export
+surfaces remain evidence-gated. No estimate, garment, grading, validation, state,
+persistence, import/export, or baseline changes are authorized. UIQ-07 and
+later work remain unadmitted and untouched.
+
+Slices 744–749 are committed on `codex/uiq06-admission`; S745 keeps controls,
+IDs, estimates, validation and exact flag-off fallback, and separates estimate
+facts, fit verdict and directional caveat. Focused feature-flag/view tests and
+all 15 nesting app tests passed; rendered pressure checks at 1280/640/320 and
+fit/short/unknown/invalid states had no app errors or off-origin requests. The
+full machine evidence and screenshots are in `docs/research/uiq06/evidence/`.
+The focused Control Center suite passes 42/42 after the final S749 evidence
+replay. Canonical board is at revision 4433 with UIQ-06 In Progress. S748
+commit is `24c6bcb2`; no export baseline moved.
+
+Slice 746 corrected the `.gitignore` omission without altering S745 commit
+`b948c942`. The exact board-referenced exit report is now tracked and its
+canonicalized SHA-256 matches `E-UIQ06-S745`; a regression test enforces the
+match. Control Center tests passed 42/42. Slice 747 then corrected only the
+history dialog's recorded-time scanability: it labels UTC and separates the
+source detail while preserving the canonical timestamp and every source,
+measurement, validation and persistence value. Five focused field-history
+flows and 93/93 view tests passed; every changed executable line and both time
+branches were exercised; `npm run build` passed with its existing chunk-size
+advisory. Actual app history rendered at 1280/320 and synthetic valid, invalid,
+missing-time and long-source history at 320 had no horizontal overflow, page
+errors or off-origin requests. S747 evidence and screenshot hashes are in
+`docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md` and
+`docs/research/uiq06/evidence/S747-measurement-history-pressure.json`.
+Canonical board remains In Progress; validated S747 closeout is recorded.
+
+Slice 748 corrected grade-exception presentation only: existing matrix and
+Check output tables now explain and permit keyboard horizontal scrolling,
+exception labels include their size, and long Check exceptions no longer
+collapse numeric columns. Six grade-panel and seven run-panel tests plus four
+app lifecycle tests passed; both changed TypeScript panel modules have 100%
+statement/branch/function/line coverage. Production build and 1280/320 browser
+and keyboard pressure checks passed with no page overflow, runtime errors or
+off-origin requests. Evidence is in
+`docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md` and
+`docs/research/uiq06/evidence/S748-grade-exception-pressure.json`.
+
+Slice 749 clarified local-storage and recovery/save wording behind the existing
+flag, preserving the exact legacy copy when off. Focused project/app tests
+passed 33/33 with 100% coverage in `project-manager.ts`; the recovery-specific
+app test passed 1/1; build, Control Center
+42/42, and clean-profile browser/Electron workflow passed. Real 1280px and
+320px recovery renders fit with no document overflow. Details and hashes are in
+`docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md` and
+`docs/research/uiq06/evidence/S749-project-recovery-pressure.json`. The
+historical S240 package verifier was not rerun because it writes its tracked
+report; current package flows remain covered by focused tests. A broad app-test
+attempt was stopped under high memory use and is not a pass. No export baseline
+moved.
+
+**Slice 750 local gate is complete** from `493c02a7`; fresh `origin/main`
+`7923a7f4323d713b069817adfd7626f19c7b48f5` remains an ancestor. All 164 test
+files / 2,663 tests passed with 100% global statements, branches, functions
+and lines. Build/type, operational, web-release, readiness and packaged
+Electron offline/recovery/12-route export-parity checks passed. The complete
+evidence is `docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md` and
+`docs/research/uiq06/evidence/S750-packaged-verification.json`. Codex's scoped
+diff review is complete; unrelated EPIC-17 S425 rendered-output files are
+preserved and excluded. Canonical board revision 4436 remains UIQ-06 In
+Progress pending the S750 PR. **Immediate next action: open the Codex-owned
+S750 PR**, then S751 owns its final checks/review, merge, automatic deployment,
+live verification, and validated board/context closeout. No UIQ-07 or later
+work is admitted.
+
+## Previous boundary — UIQ-05 complete (Slices 741–743)
 
 UIQ-04 completed and deployed through Slice 740 at `origin/main`
 `f4cbfc45ca3bf2237b226a159ebe78e738ea3016`; canonical board revision 4394

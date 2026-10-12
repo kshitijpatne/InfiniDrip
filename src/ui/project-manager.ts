@@ -45,6 +45,7 @@ export interface ProjectManagerOptions {
   readonly saveFrozenArtifact?: (filename: string, bytes: Blob, mediaType: string) => Promise<boolean>;
   readonly confirm?: (message: string) => boolean;
   readonly packageOptions?: Pick<ProjectPackageOptions, "idFactory" | "now">;
+  readonly initialStatusMessage?: string;
 }
 
 type ProjectAction = "create" | "duplicate" | "rename" | "reload" | "switch" | "archive" | "restore"
@@ -86,7 +87,7 @@ export function recoveryPayloadOrNull(loaded: LoadedProject): RecoveryPayload | 
 }
 
 export class ProjectManager {
-  private message = "Saved project is ready on this device.";
+  private message: string;
   private busy = false;
   private controller: AbortController | null = null;
   private progressState: ProjectPackageProgress | null = null;
@@ -99,6 +100,7 @@ export class ProjectManager {
   private readonly cancelPortal: HTMLDivElement;
 
   constructor(private readonly options: ProjectManagerOptions) {
+    this.message = options.initialStatusMessage ?? "Saved project is ready on this device.";
     this.projects = [options.workflow.snapshot];
     let portal = document.querySelector<HTMLDivElement>("#project-operation-cancel");
     if (!portal) {
