@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4689,
+  "itemId": "EPIC-18",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done; S777 completed T04 and UIQ-10. S778 completed the exact-revision T05 freeze. S779 completed the remaining T05 dependency invalidation and compatibility, including old-byte retention and all eight protected export identities unchanged. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated/global gate: 179/179 files, 3,161/3,161 tests and 100% global four-metric coverage; build/readiness, browser/Electron functional output, actual PDF/ZIP review and protected export checks passed. The optional repeat stopped on one timeout during high memory use; the isolated diagnostic passed. The standard Windows package output path hit EPERM twice while alternate-path packaged functional review passed. S781 is merge/deployment and Epic closeout. Local/no-cost, physical, supplier, and production-claim holds remain explicit."
+  }
+}

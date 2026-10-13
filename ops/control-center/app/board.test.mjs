@@ -1041,6 +1041,7 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   const g05S779Start = board.evidence.find((entry) => entry.id === "E-G05-S779-START");
   const g05S779Exit = board.evidence.find((entry) => entry.id === "E-G05-S779-EXIT");
   const g05S779Replay = board.evidence.find((entry) => entry.id === "E-G05-S779-REPLAY");
+  const g05S780Start = board.evidence.find((entry) => entry.id === "E-G05-S780-START");
   const g05T05 = board.workItems.find((entry) => entry.id === "G05-T05");
   const g05ExitWorkItem = board.workItems.find((entry) => entry.id === "G05-EXIT");
   const g05T04 = board.workItems.find((entry) => entry.id === "G05-T04");
@@ -1217,7 +1218,14 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.ok(g05T05?.evidenceRefs.includes(g05S779Replay.id));
   assert.ok(g05?.evidenceRefs.includes(g05S779Replay.id));
   assert.equal(g05T05?.status, "Done");
-  assert.equal(g05ExitWorkItem?.status, "Backlog");
+  assert.equal(g05S780Start?.kind, "document");
+  assert.equal(g05S780Start?.uri, "docs/research/epic18/S780-integrated-gate/start-packet.md");
+  assert.equal(g05S780Start?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S780Start.uri), g05S780Start.sha256);
+  assert.ok(g05ExitWorkItem?.evidenceRefs.includes(g05S780Start.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S780Start.id));
+  assert.equal(g05ExitWorkItem?.status, "In Progress");
+  assert.ok(g05ExitWorkItem?.statusHistory.some((entry) => entry.status === "In Progress" && entry.evidenceRefs.includes(g05S780Start.id)));
   assert.ok(g05?.evidenceRefs.includes(g05S774Start.id));
   const uiq10 = board.workItems.find((entry) => entry.id === "UIQ-10");
   assert.ok(uiq10?.evidenceRefs.includes(uiq10S774Admission.id));

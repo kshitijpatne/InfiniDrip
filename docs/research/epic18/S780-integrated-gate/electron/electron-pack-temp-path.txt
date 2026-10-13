@@ -1,0 +1,14 @@
+  • electron-builder  version=26.15.3 os=10.0.26200
+  • loaded configuration  file=package.json ("build" field)
+  • description is missed in the package.json  appPackageFile=C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\package.json
+  • author is missed in the package.json  appPackageFile=C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\package.json
+  • executing @electron/rebuild  electronVersion=44.1.0 arch=x64 buildFromSource=false workspaceRoot=C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp projectDir=./ appDir=./
+  • installing native dependencies  arch=x64
+  • completed installing native dependencies
+  • packaging       platform=win32 arch=x64 electron=44.1.0 appOutDir=C:\Users\kshit\AppData\Local\Temp\InfiniDrip-S780-Packaged-c622b3e755a7456ab9654d9e1f9b730f\win-unpacked
+  • downloaded      label=electron progress=100%
+  • downloaded electron zip extracted successfully  output=C:\Users\kshit\AppData\Local\Temp\InfiniDrip-S780-Packaged-c622b3e755a7456ab9654d9e1f9b730f\win-unpacked
+  • searching for node modules  pm=npm searchDir=C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp
+  • updating asar integrity executable resource  executablePath=C:\Users\kshit\AppData\Local\Temp\InfiniDrip-S780-Packaged-c622b3e755a7456ab9654d9e1f9b730f\win-unpacked\InfiniDrip.exe
+  • default Electron icon is used  reason=application icon is not set
+  • signing with signtool.exe  path=C:\Users\kshit\AppData\Local\Temp\InfiniDrip-S780-Packaged-c622b3e755a7456ab9654d9e1f9b730f\win-unpacked\InfiniDrip.exe

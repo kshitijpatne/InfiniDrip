@@ -1,0 +1,10 @@
+
+ RUN  v2.1.9 C:/Users/kshit/.codex/worktrees/epic-18-g05/designApp
+
+ ✓ src/ui/project-manager.test.ts (30 tests | 29 skipped) 3892ms
+   ✓ accessible project and style manager > validates T02 collection actions and edits each sample/QA observation field 3889ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 29 skipped (30)
+   Start at  17:13:47
+   Duration  7.98s (transform 1.79s, setup 0ms, collect 2.56s, tests 3.89s, environment 819ms, prepare 167ms)

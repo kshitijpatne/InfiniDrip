@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "evidence": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S780-integrated-gate\\electron\\packaged-release\\verification.json",
+  "package": {
+    "executable": "C:\\Users\\kshit\\AppData\\Local\\Temp\\InfiniDrip-S780-Packaged-c622b3e755a7456ab9654d9e1f9b730f\\win-unpacked\\InfiniDrip.exe",
+    "root": "C:\\Users\\kshit\\AppData\\Local\\Temp\\InfiniDrip-S780-Packaged-c622b3e755a7456ab9654d9e1f9b730f\\win-unpacked",
+    "appAsar": "C:\\Users\\kshit\\AppData\\Local\\Temp\\InfiniDrip-S780-Packaged-c622b3e755a7456ab9654d9e1f9b730f\\win-unpacked\\resources\\app.asar",
+    "inventoryFiles": 72,
+    "inventorySha256": "a5b1aed4e5cda00e7d05e1b5149795827e1ede6cca7f81cdc12898ac8d4318b1",
+    "executableBytes": 245289984,
+    "noAbsoluteDevPath": true
+  },
+  "errors": []
+}

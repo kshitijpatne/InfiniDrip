@@ -1,0 +1,277 @@
+{
+  "slice": 780,
+  "status": "passed",
+  "createdAt": "2026-10-13T20:31:25.530Z",
+  "browser": {
+    "environment": "chromium",
+    "scenarios": [
+      {
+        "kind": "tee",
+        "styleId": "bc354d4e-32dd-40db-ac42-9fc79e87ac2c",
+        "revisionCountAfterSuccessor": 4,
+        "frozenRevisionId": "e7a5242c-d9b6-488c-8648-c993eb803a0c",
+        "packetDigest": "91b6c084901c6f60a9472f3fda8b2b1fc80ae28239187e49edeaca2554b2e2e2",
+        "artifactDigests": [
+          {
+            "artifactId": "selected-size-a0-pdf",
+            "byteLength": 5942,
+            "sha256": "2b4561a1de275ccaf3d07f900aba827880a33ae5ec7cece3f678c1a2e1e05177"
+          },
+          {
+            "artifactId": "selected-size-dxf",
+            "byteLength": 6750,
+            "sha256": "0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9"
+          },
+          {
+            "artifactId": "selected-size-svg",
+            "byteLength": 5997,
+            "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d"
+          },
+          {
+            "artifactId": "selected-size-tiled-pdf",
+            "byteLength": 92754,
+            "sha256": "1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523"
+          },
+          {
+            "artifactId": "whole-run-projector-svg",
+            "byteLength": 44569,
+            "sha256": "6e74f535d8fe7c011cc33a4949040cba1bd3e0e4c9bf84f46c0b5538448b3d83"
+          },
+          {
+            "artifactId": "whole-run-surface-sheet-svg",
+            "byteLength": 741,
+            "sha256": "c08f27c6f268399325ab077c158d43b29d558b70dc44ce61006e9e35a49256a6"
+          },
+          {
+            "artifactId": "whole-run-tech-pack-pdf",
+            "byteLength": 11897,
+            "sha256": "73e1f80e0cf31b61d72360254490eb69aaa7e43825824fe384acfa59135051b8"
+          }
+        ],
+        "downloadedArtifact": {
+          "file": "frozen-bc354d4e-32dd-40db-ac42-9fc79e87ac2c.svg",
+          "byteLength": 5997,
+          "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d"
+        },
+        "screenshot": "electron/style-revisions/S780-chromium-tee.png",
+        "screenshotSha256": "7f3a2b35800d89d76e2a5ef1af84d5f51715af82cb104241c2a9c1182e5fc105",
+        "frozenCaptureScreenshot": "electron/style-revisions/S780-chromium-tee-frozen.png",
+        "frozenCaptureScreenshotSha256": "a78f3599799d2b639653be24a12ceb4667f8b2a117f9d4c1bcc93a43f25c0d28",
+        "managerText": "Project & styles · Untitled teeMy designsCurrent style: Untitled teeDownloaded stored bytes for tee-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic tee · CurrentArchiveArchived stylesNo archived styles.Living technical pack · T01, T02 and T03Editable production-planning values for tee. Unknowns and their next actions remain visible. Saving creates one immutable revision; this does not verify physical fit, supplier facts, or factory acceptance.Save tech-pack revisionDiscard tech-pack editsScoped local review and shareState: Draft · saved revision 42c48c92-6c88-43b5-98c8-9771ae8d79c8. Reviewer labels are self-attested locally; this does not establish identity, physical fit, supplier acceptance or production readiness.Local reviewer label (self-attested)Fields in this review scope Style cover · 6 fieldsSelect the fields included in this review. 0 fields selectedStart review for selected fieldsEditing and saving a new Tech Pack revision returns its review state to Draft and keeps earlier frozen bytes available.Tech pack editor — teeEditable draft values only. Saving, revisions, approvals, and reviews stay outside this renderer. Entered costs and quantities are recorded exactly as entered; nothing is summed or derived here.Style and revisionStyle bc354d4e-32dd-40db-ac42-9fc79e87ac2c Recipe tee version unversionedRevision number 4, id 42c48c92-6c88-43b5-98c8-9771ae8d79c8Created 2026-10-13T20:31:00.093Z; updated 2026-10-13T20:31:01.573Z.Scoped approvalState DRAFT.No approval scope recorded.Cover — six style fieldsStyle codeSource and evidence: STYLE_CONTROL UNRESOLVED UNCONFIRMED INVALID Confidence not assessedSource, evidence and validation detailsUnitProvenanceUSER_CAPTUREDUSER_SELECTEDPRESETINHERITEDCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDUNRESOLVEDEvidence statusUNCONFIRMEDUSER_CONFIRMEDSOURCE_CONFIRMEDSAMPLE_MEASUREDCONFLICTValidation statusVALIDINVALIDSource referenceMethodCaptured byCaptured atInput references (one per line)Rule IDRule versionInherited revision IDInherited provenanceNot inheritedUSER_CAPTUREDUSER_SELECTEDPRESETCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDInherited source referenceUnresolved reasonNext actionEvidence references (one per line)Unknown value. Reason: No sourced T01 cover value exists in the source style record. Next action: Review and enter this cover value in the tech-pack editor.Style nameSource and evidence: STYLE_CONTROL UNRESOLVED UNCONFIRMED INVALID Confidence not assessedSource, evidence and validation detailsUnitProvenanceUSER_CAPTUREDUSER_SELECTEDPRESETINHERITEDCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDUNRESOLVEDEvidence statusUNCONFIRMEDUSER_CONFIRMEDSOURCE_CONFIRMEDSAMPLE_MEASUREDCONFLICTValidation statusVALIDINVALIDSource referenceMethodCaptured byCaptured atInput references (one per line)Rule IDRule versionInherited revision"
+      },
+      {
+        "kind": "woven-shirt",
+        "styleId": "034aaa29-ad59-4705-84b1-1fd76f3dc11c",
+        "revisionCountAfterSuccessor": 5,
+        "frozenRevisionId": "b69caa66-8c08-4c99-81af-810a595b0d53",
+        "packetDigest": "e5d3a81fa12d30ac99e4a2fe17f26fd512be930573b0f31b29b51c98e906334c",
+        "artifactDigests": [
+          {
+            "artifactId": "selected-size-a0-pdf",
+            "byteLength": 15609,
+            "sha256": "38808fdc0e88df5bc14d4bc36bf345a01937c274a4b970c65db8c7440560ef52"
+          },
+          {
+            "artifactId": "selected-size-dxf",
+            "byteLength": 14923,
+            "sha256": "9fe52d808ec94a6b8ab86a3b55066b11e6bb1b6ad4bf34e480ae9060165196a5"
+          },
+          {
+            "artifactId": "selected-size-svg",
+            "byteLength": 23930,
+            "sha256": "03a41cee01fcb57934cc2f4342a89dc62bda827a69fb275dc569f37b561ae2de"
+          },
+          {
+            "artifactId": "selected-size-tiled-pdf",
+            "byteLength": 624147,
+            "sha256": "4e65445633ec512c24b407655db84635b1861f8bbcde5349085eb166dec2681d"
+          },
+          {
+            "artifactId": "whole-run-projector-svg",
+            "byteLength": 141632,
+            "sha256": "8d187e40d9d724408dfeeec3334064f6f934113789b61622bd914d017a450f96"
+          },
+          {
+            "artifactId": "whole-run-surface-sheet-svg",
+            "byteLength": 757,
+            "sha256": "cf8aab4ad8d31c295805b9e7052d3a2d78991470983861766484d8b2a741b869"
+          },
+          {
+            "artifactId": "whole-run-tech-pack-pdf",
+            "byteLength": 16480,
+            "sha256": "eac01148412047817074180ae1d7e44ec1bb05167de53923e93c15c38038dfad"
+          }
+        ],
+        "downloadedArtifact": {
+          "file": "frozen-034aaa29-ad59-4705-84b1-1fd76f3dc11c.svg",
+          "byteLength": 23930,
+          "sha256": "03a41cee01fcb57934cc2f4342a89dc62bda827a69fb275dc569f37b561ae2de"
+        },
+        "screenshot": "electron/style-revisions/S780-chromium-woven-shirt.png",
+        "screenshotSha256": "56b215b4dc5173c7ffb2fd1f678384a062dba59c3d0b5674dacebaf89ec135d7",
+        "frozenCaptureScreenshot": "electron/style-revisions/S780-chromium-woven-shirt-frozen.png",
+        "frozenCaptureScreenshotSha256": "07bf8de3649fc7974fa54b0f3df42d48f674f44f35ca52c11cacfee64b3aea63",
+        "managerText": "Project & styles · S780 Woven revision proofMy designsCurrent style: S780 Woven revision proofDownloaded stored bytes for woven-shirt-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic teeArchiveS780 Woven revision proof · woven-shirt · Classic woven shirt · CurrentArchiveArchived stylesNo archived styles.Living technical pack · T01, T02 and T03Editable production-planning values for woven-shirt. Unknowns and their next actions remain visible. Saving creates one immutable revision; this does not verify physical fit, supplier facts, or factory acceptance.Save tech-pack revisionDiscard tech-pack editsScoped local review and shareState: Draft · saved revision 7969a157-b545-4de9-9d59-6ed5c3296691. Reviewer labels are self-attested locally; this does not establish identity, physical fit, supplier acceptance or production readiness.Local reviewer label (self-attested)Fields in this review scope Style cover · 6 fieldsSelect the fields included in this review. 0 fields selectedStart review for selected fieldsEditing and saving a new Tech Pack revision returns its review state to Draft and keeps earlier frozen bytes available.Tech pack editor — woven-shirtEditable draft values only. Saving, revisions, approvals, and reviews stay outside this renderer. Entered costs and quantities are recorded exactly as entered; nothing is summed or derived here.Style and revisionStyle 034aaa29-ad59-4705-84b1-1fd76f3dc11c Recipe woven-shirt version unversionedRevision number 5, id 7969a157-b545-4de9-9d59-6ed5c3296691Created 2026-10-13T20:31:02.549Z; updated 2026-10-13T20:31:04.388Z.Scoped approvalState DRAFT.No approval scope recorded.Cover — six style fieldsStyle codeSource and evidence: STYLE_CONTROL UNRESOLVED UNCONFIRMED INVALID Confidence not assessedSource, evidence and validation detailsUnitProvenanceUSER_CAPTUREDUSER_SELECTEDPRESETINHERITEDCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDUNRESOLVEDEvidence statusUNCONFIRMEDUSER_CONFIRMEDSOURCE_CONFIRMEDSAMPLE_MEASUREDCONFLICTValidation statusVALIDINVALIDSource referenceMethodCaptured byCaptured atInput references (one per line)Rule IDRule versionInherited revision IDInherited provenanceNot inheritedUSER_CAPTUREDUSER_SELECTEDPRESETCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDInherited source referenceUnresolved reasonNext actionEvidence references (one per line)Unknown value. Reason: No sourced T01 cover value exists in the source style record. Next action: Review and enter this cover value in the tech-pack editor.Style nameSource and evidence: STYLE_CONTROL UNRESOLVED UNCONFIRMED INVALID Confidence not assessedSource, evidence and validation detailsUnitProvenanceUSER_CAPTUREDUSER_SELECTEDPRESETINHERITEDCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDUNRESOLVEDEvidence statusUNCONFIRMEDUSER_CONFIRMEDSOURCE_CONFIRMEDSAMPLE_MEASUREDCONFLICTValidation stat"
+      }
+    ],
+    "restartedStyleIds": [
+      "034aaa29-ad59-4705-84b1-1fd76f3dc11c",
+      "bc354d4e-32dd-40db-ac42-9fc79e87ac2c"
+    ],
+    "historicalDownloadsAfterRestart": [
+      {
+        "kind": "tee",
+        "file": "frozen-bc354d4e-32dd-40db-ac42-9fc79e87ac2c.svg",
+        "byteLength": 5997,
+        "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d"
+      },
+      {
+        "kind": "woven-shirt",
+        "file": "frozen-034aaa29-ad59-4705-84b1-1fd76f3dc11c.svg",
+        "byteLength": 23930,
+        "sha256": "03a41cee01fcb57934cc2f4342a89dc62bda827a69fb275dc569f37b561ae2de"
+      }
+    ],
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+    "electron": null,
+    "chromium": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36"
+  },
+  "electron": {
+    "environment": "electron",
+    "scenarios": [
+      {
+        "kind": "tee",
+        "styleId": "c5654bdf-fc28-48d6-90ab-b9fe1241e5a9",
+        "revisionCountAfterSuccessor": 4,
+        "frozenRevisionId": "0e74b7d8-481e-44c7-b410-9ad6cb2a9141",
+        "packetDigest": "135cab1f8c7cc8cc2b463e2741c876c145aa74831cdd2a0f28f5bfa7a5f4a3e9",
+        "artifactDigests": [
+          {
+            "artifactId": "selected-size-a0-pdf",
+            "byteLength": 5942,
+            "sha256": "2b4561a1de275ccaf3d07f900aba827880a33ae5ec7cece3f678c1a2e1e05177"
+          },
+          {
+            "artifactId": "selected-size-dxf",
+            "byteLength": 6750,
+            "sha256": "0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9"
+          },
+          {
+            "artifactId": "selected-size-svg",
+            "byteLength": 5997,
+            "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d"
+          },
+          {
+            "artifactId": "selected-size-tiled-pdf",
+            "byteLength": 92754,
+            "sha256": "1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523"
+          },
+          {
+            "artifactId": "whole-run-projector-svg",
+            "byteLength": 44569,
+            "sha256": "6e74f535d8fe7c011cc33a4949040cba1bd3e0e4c9bf84f46c0b5538448b3d83"
+          },
+          {
+            "artifactId": "whole-run-surface-sheet-svg",
+            "byteLength": 741,
+            "sha256": "c08f27c6f268399325ab077c158d43b29d558b70dc44ce61006e9e35a49256a6"
+          },
+          {
+            "artifactId": "whole-run-tech-pack-pdf",
+            "byteLength": 11897,
+            "sha256": "73e1f80e0cf31b61d72360254490eb69aaa7e43825824fe384acfa59135051b8"
+          }
+        ],
+        "downloadedArtifact": {
+          "file": "frozen-c5654bdf-fc28-48d6-90ab-b9fe1241e5a9.svg",
+          "byteLength": 5997,
+          "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d"
+        },
+        "screenshot": "electron/style-revisions/S780-electron-tee.png",
+        "screenshotSha256": "19cbf79fdc2e2e05582954af9165c3876fa831ba42bb9fcd7571295e6b898968",
+        "frozenCaptureScreenshot": "electron/style-revisions/S780-electron-tee-frozen.png",
+        "frozenCaptureScreenshotSha256": "92291c95d5b55b48b4ee18a60cbfbf6cb25d4cbc5b3bc9596e7c762df256d7af",
+        "managerText": "Project & styles · Untitled teeMy designsCurrent style: Untitled teeDownloaded stored bytes for tee-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic tee · CurrentArchiveArchived stylesNo archived styles.Living technical pack · T01, T02 and T03Editable production-planning values for tee. Unknowns and their next actions remain visible. Saving creates one immutable revision; this does not verify physical fit, supplier facts, or factory acceptance.Save tech-pack revisionDiscard tech-pack editsScoped local review and shareState: Draft · saved revision 1fbca6d2-fef8-46d5-bbad-6de15677026f. Reviewer labels are self-attested locally; this does not establish identity, physical fit, supplier acceptance or production readiness.Local reviewer label (self-attested)Fields in this review scope Style cover · 6 fieldsSelect the fields included in this review. 0 fields selectedStart review for selected fieldsEditing and saving a new Tech Pack revision returns its review state to Draft and keeps earlier frozen bytes available.Tech pack editor — teeEditable draft values only. Saving, revisions, approvals, and reviews stay outside this renderer. Entered costs and quantities are recorded exactly as entered; nothing is summed or derived here.Style and revisionStyle c5654bdf-fc28-48d6-90ab-b9fe1241e5a9 Recipe tee version unversionedRevision number 4, id 1fbca6d2-fef8-46d5-bbad-6de15677026fCreated 2026-10-13T20:31:13.426Z; updated 2026-10-13T20:31:17.087Z.Scoped approvalState DRAFT.No approval scope recorded.Cover — six style fieldsStyle codeSource and evidence: STYLE_CONTROL UNRESOLVED UNCONFIRMED INVALID Confidence not assessedSource, evidence and validation detailsUnitProvenanceUSER_CAPTUREDUSER_SELECTEDPRESETINHERITEDCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDUNRESOLVEDEvidence statusUNCONFIRMEDUSER_CONFIRMEDSOURCE_CONFIRMEDSAMPLE_MEASUREDCONFLICTValidation statusVALIDINVALIDSource referenceMethodCaptured byCaptured atInput references (one per line)Rule IDRule versionInherited revision IDInherited provenanceNot inheritedUSER_CAPTUREDUSER_SELECTEDPRESETCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDInherited source referenceUnresolved reasonNext actionEvidence references (one per line)Unknown value. Reason: No sourced T01 cover value exists in the source style record. Next action: Review and enter this cover value in the tech-pack editor.Style nameSource and evidence: STYLE_CONTROL UNRESOLVED UNCONFIRMED INVALID Confidence not assessedSource, evidence and validation detailsUnitProvenanceUSER_CAPTUREDUSER_SELECTEDPRESETINHERITEDCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDUNRESOLVEDEvidence statusUNCONFIRMEDUSER_CONFIRMEDSOURCE_CONFIRMEDSAMPLE_MEASUREDCONFLICTValidation statusVALIDINVALIDSource referenceMethodCaptured byCaptured atInput references (one per line)Rule IDRule versionInherited revision"
+      },
+      {
+        "kind": "woven-shirt",
+        "styleId": "99279ccf-8e46-40de-a056-ba91a25d918c",
+        "revisionCountAfterSuccessor": 5,
+        "frozenRevisionId": "4ae2e0ca-688e-449e-95a5-d50b1578bbcc",
+        "packetDigest": "032b30750f6308bad5aa079f8a74beabc5f28114ac20fae4cc05afc84a0b7a5e",
+        "artifactDigests": [
+          {
+            "artifactId": "selected-size-a0-pdf",
+            "byteLength": 15609,
+            "sha256": "38808fdc0e88df5bc14d4bc36bf345a01937c274a4b970c65db8c7440560ef52"
+          },
+          {
+            "artifactId": "selected-size-dxf",
+            "byteLength": 14923,
+            "sha256": "9fe52d808ec94a6b8ab86a3b55066b11e6bb1b6ad4bf34e480ae9060165196a5"
+          },
+          {
+            "artifactId": "selected-size-svg",
+            "byteLength": 23930,
+            "sha256": "03a41cee01fcb57934cc2f4342a89dc62bda827a69fb275dc569f37b561ae2de"
+          },
+          {
+            "artifactId": "selected-size-tiled-pdf",
+            "byteLength": 624147,
+            "sha256": "4e65445633ec512c24b407655db84635b1861f8bbcde5349085eb166dec2681d"
+          },
+          {
+            "artifactId": "whole-run-projector-svg",
+            "byteLength": 141632,
+            "sha256": "8d187e40d9d724408dfeeec3334064f6f934113789b61622bd914d017a450f96"
+          },
+          {
+            "artifactId": "whole-run-surface-sheet-svg",
+            "byteLength": 757,
+            "sha256": "cf8aab4ad8d31c295805b9e7052d3a2d78991470983861766484d8b2a741b869"
+          },
+          {
+            "artifactId": "whole-run-tech-pack-pdf",
+            "byteLength": 16480,
+            "sha256": "eac01148412047817074180ae1d7e44ec1bb05167de53923e93c15c38038dfad"
+          }
+        ],
+        "downloadedArtifact": {
+          "file": "frozen-99279ccf-8e46-40de-a056-ba91a25d918c.svg",
+          "byteLength": 23930,
+          "sha256": "03a41cee01fcb57934cc2f4342a89dc62bda827a69fb275dc569f37b561ae2de"
+        },
+        "screenshot": "electron/style-revisions/S780-electron-woven-shirt.png",
+        "screenshotSha256": "a3cf9db16c881799996866c514c0e071f02821487b3799dd3ff5b9de405512bb",
+        "frozenCaptureScreenshot": "electron/style-revisions/S780-electron-woven-shirt-frozen.png",
+        "frozenCaptureScreenshotSha256": "8a663d76d05edafa8ecc98a9fe3b5f5eeca4b5e456b0445eb81be8fd288f808c",
+        "managerText": "Project & styles · S780 Woven revision proofMy designsCurrent style: S780 Woven revision proofDownloaded stored bytes for woven-shirt-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic teeArchiveS780 Woven revision proof · woven-shirt · Classic woven shirt · CurrentArchiveArchived stylesNo archived styles.Living technical pack · T01, T02 and T03Editable production-planning values for woven-shirt. Unknowns and their next actions remain visible. Saving creates one immutable revision; this does not verify physical fit, supplier facts, or factory acceptance.Save tech-pack revisionDiscard tech-pack editsScoped local review and shareState: Draft · saved revision 1c62fa3e-96fd-429c-8a40-db0a13950366. Reviewer labels are self-attested locally; this does not establish identity, physical fit, supplier acceptance or production readiness.Local reviewer label (self-attested)Fields in this review scope Style cover · 6 fieldsSelect the fields included in this review. 0 fields selectedStart review for selected fieldsEditing and saving a new Tech Pack revision returns its review state to Draft and keeps earlier frozen bytes available.Tech pack editor — woven-shirtEditable draft values only. Saving, revisions, approvals, and reviews stay outside this renderer. Entered costs and quantities are recorded exactly as entered; nothing is summed or derived here.Style and revisionStyle 99279ccf-8e46-40de-a056-ba91a25d918c Recipe woven-shirt version unversionedRevision number 5, id 1c62fa3e-96fd-429c-8a40-db0a13950366Created 2026-10-13T20:31:18.103Z; updated 2026-10-13T20:31:20.034Z.Scoped approvalState DRAFT.No approval scope recorded.Cover — six style fieldsStyle codeSource and evidence: STYLE_CONTROL UNRESOLVED UNCONFIRMED INVALID Confidence not assessedSource, evidence and validation detailsUnitProvenanceUSER_CAPTUREDUSER_SELECTEDPRESETINHERITEDCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDUNRESOLVEDEvidence statusUNCONFIRMEDUSER_CONFIRMEDSOURCE_CONFIRMEDSAMPLE_MEASUREDCONFLICTValidation statusVALIDINVALIDSource referenceMethodCaptured byCaptured atInput references (one per line)Rule IDRule versionInherited revision IDInherited provenanceNot inheritedUSER_CAPTUREDUSER_SELECTEDPRESETCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDInherited source referenceUnresolved reasonNext actionEvidence references (one per line)Unknown value. Reason: No sourced T01 cover value exists in the source style record. Next action: Review and enter this cover value in the tech-pack editor.Style nameSource and evidence: STYLE_CONTROL UNRESOLVED UNCONFIRMED INVALID Confidence not assessedSource, evidence and validation detailsUnitProvenanceUSER_CAPTUREDUSER_SELECTEDPRESETINHERITEDCALCULATEDSUPPLIERSAMPLE_ACTUALIMAGE_OBSERVEDUNRESOLVEDEvidence statusUNCONFIRMEDUSER_CONFIRMEDSOURCE_CONFIRMEDSAMPLE_MEASUREDCONFLICTValidation stat"
+      }
+    ],
+    "restartedStyleIds": [
+      "99279ccf-8e46-40de-a056-ba91a25d918c",
+      "c5654bdf-fc28-48d6-90ab-b9fe1241e5a9"
+    ],
+    "historicalDownloadsAfterRestart": [
+      {
+        "kind": "tee",
+        "file": "frozen-c5654bdf-fc28-48d6-90ab-b9fe1241e5a9.svg",
+        "byteLength": 5997,
+        "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d"
+      },
+      {
+        "kind": "woven-shirt",
+        "file": "frozen-99279ccf-8e46-40de-a056-ba91a25d918c.svg",
+        "byteLength": 23930,
+        "sha256": "03a41cee01fcb57934cc2f4342a89dc62bda827a69fb275dc569f37b561ae2de"
+      }
+    ],
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) InfiniDrip/44.1.0 Chrome/152.0.7977.65 Electron/44.1.0 Safari/537.36",
+    "electron": "44.1.0",
+    "chromium": "152.0.7977.65"
+  },
+  "limits": [
+    "The captured digests establish local byte identity only; they are not signatures, approvals, physical fit evidence, or factory acceptance.",
+    "Electron restart is a normal close/relaunch check, not a power-loss or operating-system crash guarantee."
+  ]
+}

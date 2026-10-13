@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4680,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S780-GLOBAL-COVERAGE",
+    "kind": "document",
+    "uri": "docs/research/epic18/S780-integrated-gate/global-coverage-report.md",
+    "sha256": "519eacaecff9118c8ece26b4b377e44bbdd40edd731caed2543bc8117a575c04",
+    "verified": true,
+    "note": "Settled S780 global gate passes: 179 test files, 3,161 tests, and 100% statement, branch, function, and line coverage; one-worker override used only for this run."
+  }
+}

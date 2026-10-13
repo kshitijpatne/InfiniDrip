@@ -1,0 +1,15 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4693,
+  "facts": [
+    {
+      "evidenceId": "E-G05-S780-REPLAY",
+      "uri": "docs/research/epic18/S780-integrated-gate/post-replay-verification.md",
+      "kind": "document",
+      "commit": null,
+      "sha256": "7313bc75552d3ab4897a9d66f13c60d2a9efca27e5b359b85a320f267155cdac",
+      "verified": true,
+      "note": "S780 final board replay and digest read-back at revision 4694; final Control Center tests pass 42/42 and G05-EXIT stays In Progress for S781."
+    }
+  ]
+}

@@ -64,24 +64,41 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S779 complete; S780 next
+## Current checkpoint — S780 complete; S781 next
 
-S779 started 2026-10-13 18:18 UTC from landed S778 commit
-`e5c62ada9cec87b9e5daafff093824e91bd9ace0` on `codex/epic-18-g05`; refreshed
+S780 completed the admitted integrated gate from landed S779 commit
+`0e557553e881add962c67dea49f282b3dbdd227d` on `codex/epic-18-g05`; refreshed
 `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-Its start, exit, rendered-output and replay verification are in
-`docs/research/epic18/S779-T05-change-control/`. The validated replay closes
-G05-T05 after linking both S778 and S779 exit evidence. T01–T05 and UIQ-10 are
-Done; EPIC-18 remains In Progress; G05-EXIT remains Backlog. The final board
-revision and evidence read-back are in the post-replay report.
+Its start, global coverage, rendered-output, exit and final replay evidence are
+in `docs/research/epic18/S780-integrated-gate/`. The first settled repository
+run passes 179/179 files, 3,161/3,161 tests, and 100% global statement,
+branch, function and line coverage. Build, release/readiness, browser,
+packaged-Electron functional/output and actual PDF/ZIP review passed. The
+optional retry was interrupted by one timeout that passed in isolation; the
+qualifying first pass remains valid. The standard Windows Electron output
+path failed twice on `EPERM` rename, while an alternate isolated package path
+passed functional review. No app behavior changed after the global gate.
 
-S779 completes edit-driven check/approval invalidation, visible stale/current
-state, byte-identical prior frozen files, schema-v1/v2 compatibility, and all
-eight protected legacy export identities. No new product decision is open.
-S780 is the settled whole-repository/global and integrated-output gate;
-S781 remains merge/deployment and Epic closeout. The hash-bound S762 admission
-is unchanged, as are all local/no-cost, supplier, physical-fit and production
-claim holds.
+At the final replay, T01–T05 and UIQ-10 are Done; EPIC-18 and G05-EXIT remain
+In Progress through merge/deployment closeout. The final board revision is
+4695. S781 is the single next action: open the S780-reviewed candidate as a PR,
+merge it after required checks, verify main ancestry, CI/deployment and
+applicable live output, close the canonical board and synchronize durable
+state. The immutable S762 admission remains unchanged, as do local/no-cost,
+supplier, physical-fit, factory, code-signing and production-claim holds.
+
+## Previous checkpoint — S779 complete; S780 next
+
+S779 completed from landed S778 commit
+`e5c62ada9cec87b9e5daafff093824e91bd9ace0` on `codex/epic-18-g05`. Its start,
+exit, rendered-output and replay verification are in
+`docs/research/epic18/S779-T05-change-control/`. The validated replay closed
+G05-T05 after linking both T05 acceptance reports. S779 completed edit-driven
+check/approval invalidation, visible stale/current state, byte-identical prior
+frozen files, schema-v1/v2 compatibility and all eight protected legacy
+export identities. S780 was the next integrated/global gate; S781 remains the
+merge/deployment and Epic-closeout boundary. No new product decision was
+open, and the S762 admission and all holds were unchanged.
 
 ## Previous checkpoint — S778 complete; S779 next
 

@@ -1,0 +1,88 @@
+{
+  "outcome": "passed",
+  "sequence": [
+    "fresh local project",
+    "scoped review",
+    "approval",
+    "freeze",
+    "ZIP/PDF downloads",
+    "T01 edit and save",
+    "historical stale labeling",
+    "byte-identical historical re-download",
+    "keyboard activation"
+  ],
+  "originalManifestId": "d86099c3-0aff-4ce2-a2c1-c78fefae9170",
+  "before": {
+    "revisionId": "ab53ae41-299c-4fa4-ba90-d77e4c65b2ff",
+    "zip": {
+      "byteLength": 3731,
+      "sha256": "89fa57b033539d8350c52f1a8c3f1c413d5fe468c8bb5e8a125e92fbd85f2ad8",
+      "path": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S780-integrated-gate\\browser\\reviewed-before-edit-tech-pack.zip"
+    },
+    "pdf": {
+      "byteLength": 12082,
+      "sha256": "53697be9d3b5b5b3248a15dbaacb93744b6fb1d8b0b1274988085b0dcaa73d9a",
+      "path": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S780-integrated-gate\\browser\\reviewed-before-edit-tech-pack.pdf"
+    }
+  },
+  "afterEdit": {
+    "currentRevisionId": "da598cd5-8999-454c-bdc8-fb4baa2a2746",
+    "zip": {
+      "byteLength": 3731,
+      "sha256": "89fa57b033539d8350c52f1a8c3f1c413d5fe468c8bb5e8a125e92fbd85f2ad8",
+      "path": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S780-integrated-gate\\browser\\reviewed-historical-after-edit-tech-pack.zip"
+    },
+    "pdf": {
+      "byteLength": 12082,
+      "sha256": "53697be9d3b5b5b3248a15dbaacb93744b6fb1d8b0b1274988085b0dcaa73d9a",
+      "path": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S780-integrated-gate\\browser\\reviewed-historical-after-edit-tech-pack.pdf"
+    }
+  },
+  "keyboardPdfPath": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S780-integrated-gate\\browser\\reviewed-historical-keyboard-download.pdf",
+  "responsive": [
+    {
+      "viewportWidth": 1280,
+      "viewportHeight": 800,
+      "documentWidth": 1280,
+      "bodyWidth": 1280,
+      "staleScreenshotPath": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S780-integrated-gate\\browser\\stale-current-1280x800.png",
+      "downloadsScreenshotPath": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S780-integrated-gate\\browser\\historical-downloads-1280x800.png",
+      "zipBounds": {
+        "x": 78,
+        "y": 521.921875,
+        "width": 193.640625,
+        "height": 34
+      },
+      "pdfBounds": {
+        "x": 78,
+        "y": 575.921875,
+        "width": 154.09375,
+        "height": 34
+      }
+    },
+    {
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "documentWidth": 390,
+      "bodyWidth": 390,
+      "staleScreenshotPath": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S780-integrated-gate\\browser\\stale-current-390x844.png",
+      "downloadsScreenshotPath": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S780-integrated-gate\\browser\\historical-downloads-390x844.png",
+      "zipBounds": {
+        "x": 70,
+        "y": 743.859375,
+        "width": 193.640625,
+        "height": 34
+      },
+      "pdfBounds": {
+        "x": 70,
+        "y": 797.859375,
+        "width": 154.09375,
+        "height": 34
+      }
+    }
+  ],
+  "dialogs": [
+    "Freeze the local Tech Pack share for Untitled tee, revision ab53ae41-299c-4fa4-ba90-d77e4c65b2ff (027b84195bf471d0b0af1aebfa3e92bcd32725419444afe9a7c2c7a7ec215fd2)?\n\nScope: 6 saved fields\nProduction-pack sections: identity, materials-bom, measurements-qa, construction, artwork, sources-open-items, approval-disclaimer\nFiles: production-pack.techpack.zip (3731 bytes); production-pack.pdf (12082 bytes)\n\nThis stores exact ZIP and PDF bytes locally. The reviewer label is self-attested; this does not establish physical fit, supplier acceptance or production readiness."
+  ],
+  "pageErrors": []
+}

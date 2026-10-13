@@ -1,0 +1,79 @@
+
+> InfiniDrip@0.0.1 control-center:test
+> node --test ops/control-center/app/board.test.mjs ops/control-center/commands.test.mjs ops/control-center/board-store.test.mjs ops/control-center/import-facts.test.mjs ops/control-center/server.test.mjs
+
+✔ canonical board validates and summarizes its tracked work (50.7709ms)
+✔ UIQ integration status follows its release evidence (138.67ms)
+✔ S354 reconciliation evidence is linked without changing G04 acceptance status (1.3016ms)
+✔ S355 Woven diagnosis is linked while every G04 acceptance hold remains (1.363ms)
+✔ S356 rejects the Woven chord-reflection candidate and retains every hold (1.5391ms)
+✔ S357 Polo residual study retains the source ease, threshold, and all holds (1.3387ms)
+✔ S358 retains the Woven collar hold and records the maintainer's Polo residual decision (1.7609ms)
+✔ S359 records the Woven rigid-fit decision boundary without releasing holds (3.2521ms)
+✔ S360 binds the landed S359 commit without changing Polo or Woven holds (1.7847ms)
+✔ S361 evidence remains linked after the current summary reconciliation (1.596ms)
+✔ malformed board data is rejected instead of repaired (80.6907ms)
+✔ invalid top-level and duplicate records are reported (52.1518ms)
+✔ invalid calendar dates are rejected instead of normalized (47.269ms)
+✔ contributors can submit review but cannot complete work (0.7112ms)
+✖ Epic 14–30 catalog status matches closure, admission, and current exit evidence (202.0752ms)
+✔ literal search and filters cover title, slice, body, owner, priority, and type (62.1318ms)
+✔ detail rendering exposes editing, evidence, history, and escapes board text (82.7933ms)
+✔ new work item form captures schema-required fields and starts with Backlog workflow guidance (1.9417ms)
+✔ executeBoardCommand validates, persists atomically, and rejects stale revisions (605.0007ms)
+✔ writeBoardAtomic validates before opening a temporary file (120.2935ms)
+✔ writeBoardAtomic preserves the original when rename fails and removes its temporary file (203.137ms)
+✔ a pre-existing lock fails visibly without changing the board (121.1023ms)
+✔ approved role guidance exposes the basic workflow and maintainer override (6.5835ms)
+✔ editItem changes only editable details and increments the revision (246.558ms)
+✔ maintainer editEpic updates metadata and records the reason on its summary card (342.8857ms)
+✔ maintainer rename keeps dependent work linked and records the old identifier (263.4118ms)
+✔ future epic can be registered in Backlog without implying work has started (81.5233ms)
+✔ createItem validates a new backlog record and records its creation in transition history (70.2081ms)
+✔ createItem rejects missing rationale, invalid fields, and duplicate identifiers (183.9624ms)
+✔ status transitions persist actor guidance, reason, evidence, and delivery date (143.3402ms)
+✔ status commands reject missing reasons, role violations, and evidence-free completion (70.8785ms)
+✔ addEvidence can create or link evidence and addComment records notes (147.465ms)
+✔ Epic 13 links and closes only the nine evidence-backed phases without rewriting their history (137.4631ms)
+✔ ordinary item edits cannot bypass Epic 13's exact membership boundary (132.3686ms)
+✔ Epic 13 rejects wrong membership, unverified phase evidence, incomplete phases, and evidence-free closure (348.3741ms)
+✔ epic creation, evidence, and closure commands require maintainer authority (150.6029ms)
+✔ imports only explicit verified facts into known evidence (25.2397ms)
+✔ rejects unknown, mismatched, duplicate and unproven facts (5.3947ms)
+✔ localhost API persists commands and rejects stale writers (1004.8851ms)
+✔ localhost API creates a schema-valid work item through the shared command layer (369.1712ms)
+✔ service exposes only intended static and referenced evidence routes (185.8493ms)
+✔ malformed commands fail without mutating the board (144.5499ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 41
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3104.915
+
+✖ failing tests:
+
+test at ops\control-center\app\board.test.mjs:448:1
+✖ Epic 14–30 catalog status matches closure, admission, and current exit evidence (202.0752ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'In Progress'
+  - 'Backlog'
+
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-18-g05/designApp/ops/control-center/app/board.test.mjs:1220:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'In Progress',
+    expected: 'Backlog',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

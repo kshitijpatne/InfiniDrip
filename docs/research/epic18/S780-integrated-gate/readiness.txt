@@ -1,0 +1,17 @@
+
+> InfiniDrip@0.0.1 readiness:drill:test
+> node --test ops/readiness/readiness-drill.test.mjs
+
+✔ complete deterministic fixture validates with every required scenario (7.562ms)
+✔ provider-backed scenarios remain deferred (3.4181ms)
+✔ validation rejects missing, unknown, duplicate, and malformed local records (3.8649ms)
+✔ validation rejects secret-like and personal measurement fixture strings (0.988ms)
+✔ summary is deterministic and never claims authenticated-beta or production readiness (3.6455ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 362.7228
