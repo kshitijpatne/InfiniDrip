@@ -79,9 +79,12 @@ import {
 import { ProjectWorkflow } from "./project-workflow";
 import {
   createProductionPackOutputs,
+  previewProductionPackImport,
+  PRODUCTION_PACK_ARCHIVE_LIMIT,
   PRODUCTION_PACK_PRESETS,
   PRODUCTION_PACK_SECTIONS,
   type ProductionPackAttachmentInput,
+  type ProductionPackImportPreview,
   type ProductionPackPreset,
   type ProductionPackSection,
 } from "./tech-pack-output";
@@ -92,6 +95,13 @@ import {
   type ProductionPackRevisionBinding,
 } from "./tech-pack-presentation";
 import type { StyleRevisionRecord } from "./style-revisions";
+import type { TechPackRecord } from "./tech-pack-records";
+import { sampleRoundsMatchStyleHistory } from "./tech-pack-sample-qa-records";
+import {
+  productionPackImportCandidateEligible,
+  renderTechPackImportReview,
+  type TechPackImportReviewState,
+} from "./tech-pack-import-review";
 import {
   mountGuidancePanel,
   type GuidanceAction,
@@ -577,6 +587,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const projectManagerHost = root.querySelector<HTMLDivElement>("#project-manager-host")!;
   const projectPersistenceState = root.querySelector<HTMLSpanElement>("#project-persistence-state")!;
   const productionPackHost = root.querySelector<HTMLDivElement>("#production-pack-host")!;
+  const productionPackImportHost = root.querySelector<HTMLDivElement>("#production-pack-import-review-host")!;
   projectManagerHost.hidden = !projectWorkflow;
   projectPersistenceState.hidden = !projectWorkflow;
   if (projectWorkflow) {
@@ -651,6 +662,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let productionPackBlockedByFreshness = false;
   let productionPackSnapshotKey = productionPackSnapshotStamp(projectWorkflow?.snapshot);
   let productionPackFocusAfterGeneration = false;
+  let productionPackImportState: TechPackImportReviewState = { kind: "idle" };
+  let productionPackImportRequest = 0;
+  let productionPackImportBindingKey: string | null = null;
+  const renderProductionPackImport = (): void => {
+    productionPackImportHost.innerHTML = renderTechPackImportReview(productionPackImportState);
+  };
   const renderProductionPack = (): void => {
     const active = document.activeElement instanceof HTMLElement && productionPackHost.contains(document.activeElement)
       ? document.activeElement : null;
@@ -688,6 +705,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     productionPackSnapshotKey = nextKey;
     productionPackRequest++;
     productionPackBlockedByFreshness = false;
+    if (productionPackImportState.kind === "preview" || productionPackImportState.kind === "reading") {
+      productionPackImportRequest++;
+      productionPackImportBindingKey = null;
+      productionPackImportState = {
+        kind: "invalidated",
+        message: "The saved style revision or scoped approval changed after preview. Select the package again to review the current head.",
+      };
+      renderProductionPackImport();
+    }
     const context = productionPackContext(projectWorkflow?.snapshot);
     productionPackState = context.ok
       ? { kind: "stale", message: "The saved style revision or its review scope changed. Generate a new preview for the current revision." }
@@ -752,6 +778,156 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const readFreshProductionPackContext = async (): Promise<ProductionPackContextResult> => {
     const latest = await projectWorkflow!.repository.loadProject(projectWorkflow!.snapshot.project.id);
     return productionPackContext(latest);
+  };
+  const importCandidateFindings = (
+    candidate: TechPackRecord,
+    loaded: LoadedProject,
+  ): ProductionPackImportPreview["findings"] => {
+    if (candidate.pomData !== undefined
+      && !sampleRoundsMatchStyleHistory(candidate.styleId, candidate.pomData, loaded.styleRevisions)) {
+      return [{
+        status: "INVALID",
+        path: "pomData.sampleQaRounds",
+        message: "A sample/QA round must target an existing revision in this style's immutable history.",
+      }];
+    }
+    return [];
+  };
+  const inspectProductionPackImport = async (input: HTMLInputElement): Promise<void> => {
+    const file = input.files?.[0];
+    if (!file) return;
+    const request = ++productionPackImportRequest;
+    productionPackImportBindingKey = null;
+    if (file.size > PRODUCTION_PACK_ARCHIVE_LIMIT) {
+      productionPackImportState = { kind: "error", message: "The .techpack.zip file exceeds the 256 MiB compressed archive limit." };
+      renderProductionPackImport();
+      return;
+    }
+    if (!projectWorkflow) {
+      productionPackImportState = { kind: "error", message: "Open a saved local style before reviewing a production-pack package." };
+      renderProductionPackImport();
+      return;
+    }
+    const expected = productionPackContext(projectWorkflow.snapshot);
+    if (!expected.ok) {
+      productionPackImportState = { kind: "error", message: expected.message };
+      renderProductionPackImport();
+      return;
+    }
+    const expectedKey = productionPackBindingKey(expected.value.binding);
+    productionPackImportState = { kind: "reading", fileName: file.name };
+    renderProductionPackImport();
+    try {
+      const fresh = await readFreshProductionPackContext();
+      if (request !== productionPackImportRequest || !isCurrentMount()) return;
+      if (!fresh.ok || productionPackBindingKey(fresh.value.binding) !== expectedKey) {
+        productionPackImportState = {
+          kind: "invalidated",
+          message: fresh.ok
+            ? "The saved style revision or scoped approval changed before package review. Reload the project and select the package again."
+            : fresh.message,
+        };
+        renderProductionPackImport();
+        return;
+      }
+      const archiveBytes = new Uint8Array(await file.arrayBuffer());
+      if (request !== productionPackImportRequest || !isCurrentMount()) return;
+      const result = await previewProductionPackImport({
+        fileName: file.name,
+        archiveBytes,
+        revisionHistory: fresh.value.loaded.styleRevisions,
+        currentHeadRevisionId: fresh.value.revision.revisionId,
+        validateCandidate: (candidate) => importCandidateFindings(candidate, fresh.value.loaded),
+      });
+      if (request !== productionPackImportRequest || !isCurrentMount()) return;
+      const after = await readFreshProductionPackContext();
+      if (request !== productionPackImportRequest || !isCurrentMount()) return;
+      if (!after.ok || productionPackBindingKey(after.value.binding) !== expectedKey) {
+        productionPackImportState = {
+          kind: "invalidated",
+          message: after.ok
+            ? "The saved style revision or scoped approval changed while this package was being checked. Select it again to review the current head."
+            : after.message,
+        };
+        renderProductionPackImport();
+        return;
+      }
+      productionPackImportBindingKey = expectedKey;
+      productionPackImportState = {
+        kind: "preview",
+        fileName: file.name,
+        result,
+        currentApproval: after.value.record.approval,
+      };
+    } catch (error) {
+      if (request !== productionPackImportRequest || !isCurrentMount()) return;
+      productionPackImportBindingKey = null;
+      productionPackImportState = {
+        kind: "error",
+        message: error instanceof Error ? error.message : "The package could not be checked against local revision history.",
+      };
+    }
+    renderProductionPackImport();
+  };
+  const applyProductionPackImport = async (): Promise<void> => {
+    if (!projectWorkflow || productionPackImportState.kind !== "preview" || !productionPackImportBindingKey) return;
+    const { fileName, result } = productionPackImportState;
+    const expectedKey = productionPackImportBindingKey;
+    if (!productionPackImportCandidateEligible(result)) return;
+    const current = productionPackContext(projectWorkflow.snapshot);
+    if (!current.ok || productionPackBindingKey(current.value.binding) !== expectedKey
+      || current.value.revision.revisionId !== result.baseRevision.revisionId) {
+      productionPackImportBindingKey = null;
+      productionPackImportState = {
+        kind: "invalidated",
+        message: "The style head or its scoped approval changed after preview. Select the package again and review its new diff.",
+      };
+      renderProductionPackImport();
+      return;
+    }
+    const request = ++productionPackImportRequest;
+    productionPackImportState = { kind: "applying", fileName };
+    renderProductionPackImport();
+    try {
+      const fresh = await readFreshProductionPackContext();
+      if (request !== productionPackImportRequest || !isCurrentMount()) return;
+      if (!fresh.ok || productionPackBindingKey(fresh.value.binding) !== expectedKey
+        || fresh.value.revision.revisionId !== result.baseRevision.revisionId) {
+        productionPackImportBindingKey = null;
+        productionPackImportState = {
+          kind: "invalidated",
+          message: "The saved head or scoped approval changed after preview. No apply was attempted; select the package again to review the current head.",
+        };
+        renderProductionPackImport();
+        return;
+      }
+      const saved = await projectWorkflow.saveActiveTechPack(result.candidateRecord);
+      if (request !== productionPackImportRequest || !isCurrentMount()) return;
+      productionPackSnapshotKey = productionPackSnapshotStamp(saved);
+      productionPackRequest++;
+      productionPackBlockedByFreshness = false;
+      const savedContext = productionPackContext(saved);
+      productionPackState = savedContext.ok
+        ? { kind: "stale", message: "The reviewed record was saved as a new revision. Generate a fresh production-pack preview for this revision." }
+        : { kind: "unavailable", message: savedContext.message };
+      productionPackImportBindingKey = productionPackSnapshotStamp(saved);
+      productionPackImportState = {
+        kind: "applied",
+        styleId: saved.activeStyle.id,
+        previousRevisionNumber: result.baseRevision.revisionNumber,
+        revisionNumber: saved.activeStyle.techPack.revisionNumber,
+      };
+      renderProductionPack();
+      renderProductionPackImport();
+    } catch (error) {
+      if (request !== productionPackImportRequest || !isCurrentMount()) return;
+      productionPackImportBindingKey = null;
+      productionPackImportState = {
+        kind: "invalidated",
+        message: `Apply could not be confirmed. Reopen or reload the local style and inspect its current revision before retrying. ${error instanceof Error ? error.message : "The save path returned an unknown error."}`,
+      };
+      renderProductionPackImport();
+    }
   };
   const generateProductionPack = async (): Promise<void> => {
     if (!projectWorkflow || productionPackState.kind === "generating" || productionPackBlockedByFreshness) return;
@@ -874,7 +1050,32 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       void downloadProductionPack(target.dataset.productionPackDownload);
     }
   });
+  productionPackImportHost.addEventListener("change", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement && target.dataset.productionPackImportFile !== undefined) {
+      void inspectProductionPackImport(target);
+    }
+  });
+  productionPackImportHost.addEventListener("click", (event) => {
+    const target = event.target instanceof Element
+      ? event.target.closest<HTMLElement>("[data-production-pack-import-action]") : null;
+    if (target?.dataset.productionPackImportAction === "apply") void applyProductionPackImport();
+  });
+  productionPackImportHost.addEventListener("keydown", (event) => {
+    if (!(event.target instanceof Element)) return;
+    const region = event.target.closest<HTMLDivElement>(".tech-pack-import-table-wrap");
+    if (!region || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
+    const distance = Math.max(48, Math.floor(region.clientWidth * 0.75));
+    const maximum = Math.max(0, region.scrollWidth - region.clientWidth);
+    const next = event.key === "ArrowRight"
+      ? Math.min(maximum, region.scrollLeft + distance)
+      : Math.max(0, region.scrollLeft - distance);
+    if (next === region.scrollLeft) return;
+    event.preventDefault();
+    region.scrollLeft = next;
+  });
   renderProductionPack();
+  renderProductionPackImport();
   let productionPackObserver: MutationObserver | null = null;
   const recheckReadyProductionPack = async (): Promise<void> => {
     if (!projectWorkflow || productionPackState.kind !== "ready") return;

@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 4642,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Keep the Epic summary aligned with the verified S777 closure of T04/UIQ-10 and the admitted S778 T05 start while preserving the later integrated and release gates.",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including the separately admitted UIQ-10 review/apply and numeric acceptance completed at S777. S778 starts T05 under docs/planning/EPIC-18-S765-RESEQUENCING.md. T05 and integrated S780–S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier, and production-claim holds remain explicit."
+  }
+}

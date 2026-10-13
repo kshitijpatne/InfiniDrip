@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4641,
+  "itemId": "G05-T04",
+  "status": "Done",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "S777 completed the admitted route-specific package output/import review and separately admitted UIQ-10 acceptance across Tee and Woven Shirt; the verified exit report is linked.",
+  "evidenceRefs": ["E-UIQ10-S777-EXIT"]
+}

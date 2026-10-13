@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4640,
+  "itemId": "UIQ-10",
+  "status": "Done",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "S777 passed the separately admitted T04 field-diff, scoped-approval, numeric/rendered, stale-safety, and explicit DRAFT-apply acceptance; the verified exit report is linked.",
+  "evidenceRefs": ["E-UIQ10-S777-EXIT"]
+}

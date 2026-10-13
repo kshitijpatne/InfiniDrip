@@ -829,7 +829,8 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
     scope("current-style", "Current style artwork", "One style's artwork; ignores Selected size", SURFACE_EXPORTS) +
     `<details id="production-pack-details" class="tech-pack-presentation">` +
     `<summary>Revision-bound production pack</summary>` +
-    `<div id="production-pack-host" aria-live="polite"></div></details>` +
+    `<div id="production-pack-host" aria-live="polite"></div>` +
+    `<div id="production-pack-import-review-host" aria-live="polite"></div></details>` +
     `</div>`;
 }
 

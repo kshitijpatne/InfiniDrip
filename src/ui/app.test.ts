@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { Blob as NodeBlob } from "node:buffer";
 import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
+import { strFromU8, strToU8, unzipSync, zipSync } from "fflate";
 import {
   exportablePieces,
   applySelectedCaptureValue,
@@ -51,6 +52,10 @@ import * as measurementHelp from "./measurement-help";
 import { PATTERN_MEASUREMENT_MAP, type PatternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
 import { EMPTY_TRANSFORM } from "../surface/placement";
 import { surfaceAdd, surfaceKey } from "../surface/store";
+import { createProductionPackOutputs, PRODUCTION_PACK_ARCHIVE_LIMIT } from "./tech-pack-output";
+import { parseTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
+import type { TechPackRecord } from "./tech-pack-records";
+import * as productionPackOutput from "./tech-pack-output";
 
 const mutablePatternMeasurementMap = PATTERN_MEASUREMENT_MAP as unknown as
   Record<string, Record<string, PatternMeasurementDefinition>>;
@@ -107,6 +112,139 @@ const reachExportStage = (root: HTMLElement): void => {
   clickId(root, "journey-next"); // accept the current Style choices → Check
   clickId(root, "journey-next"); // reviewed Check → Export
 };
+
+async function addSyntheticNumericQaAndScopedReview(
+  workflow: Awaited<ReturnType<typeof openProjectWorkflow>>,
+): Promise<void> {
+  const initial = workflow.snapshot;
+  const recipeId = initial.activeStyle.recipeId;
+  if (recipeId !== "tee" && recipeId !== "woven-shirt") throw new Error(`Unsupported test recipe ${recipeId}`);
+  const targetRevision = initial.styleRevisions.find((revision) => revision.revisionId === initial.activeStyle.revisionHeadId)!;
+  const pomData = parseTechPackPomRecordSet({
+    schemaVersion: 1,
+    definitions: {
+      schemaVersion: 1,
+      recipeId,
+      definitions: [{
+        id: "synthetic.finished-chest",
+        label: "Synthetic finished chest width",
+        method: { status: "UNRESOLVED", value: null, unresolvedReason: "Synthetic fixture only.", nextAction: "Replace with an identified construction source." },
+        landmarks: { status: "UNRESOLVED", value: null, unresolvedReason: "Synthetic fixture only.", nextAction: "Record reviewed measurement landmarks." },
+        unit: "cm",
+        tolerance: { status: "UNRESOLVED", value: null, unresolvedReason: "Synthetic fixture only.", nextAction: "Review a sourced tolerance." },
+        sizeRangeSource: { status: "UNRESOLVED", value: null, unresolvedReason: "Synthetic fixture only.", nextAction: "Attach a reviewed size range." },
+        gradeRuleSource: { status: "UNRESOLVED", value: null, unresolvedReason: "Synthetic fixture only.", nextAction: "Attach a versioned grade rule." },
+      }],
+    },
+    sampleQaRounds: [{
+      id: "20000000-0000-4000-8000-000000000017",
+      targetRevisionId: targetRevision.revisionId,
+      targetRevisionNumber: targetRevision.revisionNumber,
+      sampleLabel: "Synthetic sample; no physical garment",
+      sampleSizeId: "M",
+      recordedAt: "2026-10-13T09:00:00.000Z",
+      recordedBy: "S777 synthetic fixture",
+      readings: [{
+        pomDefinitionId: "synthetic.finished-chest",
+        status: "MEASURED",
+        actualValue: 52.25,
+        unit: "cm",
+        method: "Synthetic numeric value for import review only.",
+        evidenceRefs: ["S777 synthetic fixture"],
+        unresolvedReason: null,
+        nextAction: null,
+      }],
+      qaObservations: [],
+    }],
+  }, recipeId);
+  if (!pomData.ok) throw new Error(pomData.error);
+  const numericRecord = await workflow.saveActiveTechPack({
+    ...initial.activeStyle.techPack,
+    schemaVersion: 2,
+    pomData: pomData.value,
+  } as TechPackRecord);
+  const reviewedPack = {
+    ...numericRecord.activeStyle.techPack,
+    approval: {
+      state: "REVIEW" as const,
+      revisionId: numericRecord.activeStyle.revisionHeadId,
+      scopeFieldIds: [numericRecord.activeStyle.techPack.cover.styleName.fieldId],
+      changedBy: "S777 synthetic reviewer",
+      changedAt: "2026-10-13T09:05:00.000Z",
+      manifestId: null,
+    },
+  };
+  const internals = workflow as unknown as { loaded: typeof numericRecord };
+  internals.loaded = {
+    ...numericRecord,
+    activeStyle: { ...numericRecord.activeStyle, techPack: reviewedPack },
+    styles: numericRecord.styles.map((style) => style.id === numericRecord.activeStyle.id
+      ? { ...style, techPack: reviewedPack }
+      : style),
+  };
+  await workflow.saveActiveDesign(numericRecord.activeStyle.design);
+}
+
+async function syntheticChangedPack(
+  workflow: Awaited<ReturnType<typeof openProjectWorkflow>>,
+  options: { readonly invalidSampleTarget?: boolean } = {},
+): Promise<Uint8Array> {
+  const loaded = workflow.snapshot;
+  const revision = loaded.styleRevisions.find((item) => item.revisionId === loaded.activeStyle.revisionHeadId)!;
+  if (revision.payload.payloadVersion !== 2) throw new Error("The S777 fixture requires a current style revision.");
+  const outputs = await createProductionPackOutputs({
+    record: loaded.activeStyle.techPack,
+    revision,
+    currentHeadRevisionId: revision.revisionId,
+    preset: "complete-pack",
+    attachments: [],
+    crypto: webcrypto as unknown as Crypto,
+  });
+  const entries = unzipSync(outputs.archiveBytes);
+  const record = JSON.parse(strFromU8(entries["records/tech-pack.json"]!)) as {
+    pomData?: { sampleQaRounds: { targetRevisionId: string; readings: { actualValue: number }[] }[] };
+  };
+  const reading = record.pomData?.sampleQaRounds[0]?.readings[0];
+  if (!reading) throw new Error("The synthetic numeric QA reading is missing from the exported record.");
+  reading.actualValue = 52.375;
+  if (options.invalidSampleTarget) {
+    const round = record.pomData!.sampleQaRounds[0]!;
+    round.targetRevisionId = "99999999-9999-4999-8999-999999999999";
+  }
+  entries["records/tech-pack.json"] = strToU8(JSON.stringify(record));
+  return zipSync(entries);
+}
+
+function selectTechPackImport(
+  root: HTMLElement,
+  fileName: string,
+  bytes: Uint8Array,
+  reportedSize = bytes.byteLength,
+  readFile?: () => Promise<ArrayBuffer>,
+): void {
+  const input = root.querySelector<HTMLInputElement>("[data-production-pack-import-file]")!;
+  const file = {
+    name: fileName,
+    size: reportedSize,
+    arrayBuffer: readFile ?? (async () => bytes.slice().buffer as ArrayBuffer),
+  } as File;
+  Object.defineProperty(input, "files", { configurable: true, value: [file] as unknown as FileList });
+  input.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+function deferredS777<T>(): {
+  readonly promise: Promise<T>;
+  readonly resolve: (value: T) => void;
+  readonly reject: (reason?: unknown) => void;
+} {
+  let resolve!: (value: T) => void;
+  let reject!: (reason?: unknown) => void;
+  const promise = new Promise<T>((resolvePromise, rejectPromise) => {
+    resolve = resolvePromise;
+    reject = rejectPromise;
+  });
+  return { promise, resolve, reject };
+}
 
 describe("mountApp", () => {
   it("fails unresolved material and missing ease guidance to null without inference", () => {
@@ -272,6 +410,595 @@ describe("mountApp", () => {
         .toContain("changed while this tab was inactive"));
       expect(root.querySelector(".tech-pack-ready")).toBeNull();
       expect(generate().disabled).toBe(true);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 20_000);
+
+  it("previews an editable numeric package without saving, then explicitly applies it as a DRAFT revision", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-tech-pack-import-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-13T09:10:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      expect(workflow.snapshot.activeStyle.recipeId).toBe("tee");
+      await addSyntheticNumericQaAndScopedReview(workflow);
+      const baseHeadId = workflow.snapshot.activeStyle.revisionHeadId!;
+      const baseRevisionNumber = workflow.snapshot.activeStyle.techPack.revisionNumber;
+      expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("REVIEW");
+      expect(workflow.snapshot.activeStyle.techPack.approval.scopeFieldIds).toEqual([
+        workflow.snapshot.activeStyle.techPack.cover.styleName.fieldId,
+      ]);
+
+      mountApp(root, { projectWorkflow: workflow });
+      selectTechPackImport(root, "synthetic-tee.techpack.zip", await syntheticChangedPack(workflow));
+      const reviewHost = root.querySelector<HTMLDivElement>("#production-pack-import-review-host")!;
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("52.375"));
+      expect(reviewHost.textContent).toContain("52.25");
+      expect(reviewHost.textContent).toContain("actualValue");
+      expect(reviewHost.textContent).toContain("REVIEW");
+      expect(reviewHost.textContent).toContain("cover.styleName");
+      expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(baseHeadId);
+      expect(workflow.snapshot.activeStyle.techPack.pomData?.sampleQaRounds[0]?.readings[0]?.actualValue).toBe(52.25);
+      expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).not.toBeNull();
+
+      const diffRegion = reviewHost.querySelector<HTMLDivElement>(".tech-pack-import-table-wrap")!;
+      const keyboardEvent = (key: string): KeyboardEvent => new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+      Object.defineProperty(diffRegion, "clientWidth", { configurable: true, value: 0 });
+      Object.defineProperty(diffRegion, "scrollWidth", { configurable: true, value: 0 });
+      const noOverflowArrow = keyboardEvent("ArrowRight");
+      diffRegion.dispatchEvent(noOverflowArrow);
+      expect(diffRegion.scrollLeft).toBe(0);
+      expect(noOverflowArrow.defaultPrevented).toBe(false);
+      Object.defineProperty(diffRegion, "clientWidth", { configurable: true, value: 300 });
+      Object.defineProperty(diffRegion, "scrollWidth", { configurable: true, value: 520 });
+      diffRegion.dispatchEvent(keyboardEvent("ArrowRight"));
+      expect(diffRegion.scrollLeft).toBe(220);
+      diffRegion.dispatchEvent(keyboardEvent("ArrowLeft"));
+      expect(diffRegion.scrollLeft).toBe(0);
+      const leftAtStart = keyboardEvent("ArrowLeft");
+      diffRegion.dispatchEvent(leftAtStart);
+      expect(leftAtStart.defaultPrevented).toBe(false);
+      diffRegion.dispatchEvent(keyboardEvent("ArrowDown"));
+      reviewHost.dispatchEvent(keyboardEvent("ArrowRight"));
+      const textEventTarget = document.createTextNode("keyboard target guard");
+      Object.defineProperty(textEventTarget, "closest", { configurable: true, value: () => null });
+      reviewHost.append(textEventTarget);
+      textEventTarget.dispatchEvent(keyboardEvent("ArrowRight"));
+      textEventTarget.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      textEventTarget.remove();
+
+      reviewHost.querySelector<HTMLButtonElement>('[data-production-pack-import-action="apply"]')!.click();
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("Saved"));
+      expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(baseHeadId);
+      expect(workflow.snapshot.activeStyle.techPack.revisionNumber).toBe(baseRevisionNumber + 1);
+      expect(workflow.snapshot.activeStyle.techPack.pomData?.sampleQaRounds[0]?.readings[0]?.actualValue).toBe(52.375);
+      expect(workflow.snapshot.activeStyle.techPack.approval).toMatchObject({ state: "DRAFT", scopeFieldIds: [], revisionId: null });
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 25_000);
+
+  it("invalidates a reviewed package when the saved head moves before explicit apply", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-tech-pack-import-race-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-13T09:20:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      await addSyntheticNumericQaAndScopedReview(workflow);
+      const baseHeadId = workflow.snapshot.activeStyle.revisionHeadId!;
+      mountApp(root, { projectWorkflow: workflow });
+      selectTechPackImport(root, "synthetic-race.techpack.zip", await syntheticChangedPack(workflow));
+      const reviewHost = root.querySelector<HTMLDivElement>("#production-pack-import-review-host")!;
+      await vi.waitFor(() => expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).not.toBeNull());
+
+      const current = workflow.snapshot.activeStyle.techPack;
+      const round = current.pomData!.sampleQaRounds[0]!;
+      await workflow.saveActiveTechPack({
+        ...current,
+        pomData: {
+          ...current.pomData!,
+          sampleQaRounds: [{
+            ...round,
+            readings: [{ ...round.readings[0]!, actualValue: 53.25 }],
+          }],
+        },
+      });
+      reviewHost.querySelector<HTMLButtonElement>('[data-production-pack-import-action="apply"]')?.click();
+      await vi.waitFor(() => expect(reviewHost.textContent).toMatch(/changed after preview|Select the package again/));
+      expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(baseHeadId);
+      expect(workflow.snapshot.activeStyle.techPack.revisionNumber).toBe(3);
+      expect(workflow.snapshot.activeStyle.techPack.pomData?.sampleQaRounds[0]?.readings[0]?.actualValue).toBe(53.25);
+      expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).toBeNull();
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 25_000);
+
+  it("invalidates a reviewed package when a project-manager update observes a changed saved head", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-tech-pack-import-observer-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-13T09:22:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      await addSyntheticNumericQaAndScopedReview(workflow);
+      mountApp(root, { projectWorkflow: workflow });
+      const reviewHost = root.querySelector<HTMLDivElement>("#production-pack-import-review-host")!;
+      const beforeImport = workflow.snapshot.activeStyle.techPack;
+      const beforeImportRound = beforeImport.pomData!.sampleQaRounds[0]!;
+      await workflow.saveActiveTechPack({
+        ...beforeImport,
+        pomData: {
+          ...beforeImport.pomData!,
+          sampleQaRounds: [{ ...beforeImportRound, readings: [{ ...beforeImportRound.readings[0]!, actualValue: 54.125 }] }],
+        },
+      });
+      root.querySelector("#project-manager-host")!.append(document.createTextNode("saved project update before import"));
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("saved style revision or its review scope changed"));
+      selectTechPackImport(root, "synthetic-observer.techpack.zip", await syntheticChangedPack(workflow));
+      await vi.waitFor(() => expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).not.toBeNull());
+
+      const current = workflow.snapshot.activeStyle.techPack;
+      const round = current.pomData!.sampleQaRounds[0]!;
+      await workflow.saveActiveTechPack({
+        ...current,
+        pomData: {
+          ...current.pomData!,
+          sampleQaRounds: [{ ...round, readings: [{ ...round.readings[0]!, actualValue: 54.25 }] }],
+        },
+      });
+      root.querySelector("#project-manager-host")!.append(document.createTextNode("saved project update"));
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("saved style revision or scoped approval changed after preview"));
+      expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).toBeNull();
+      expect(workflow.snapshot.activeStyle.techPack.pomData?.sampleQaRounds[0]?.readings[0]?.actualValue).toBe(54.25);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 25_000);
+
+  it("ignores superseded import work while reading the head, file, preview, and final head", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-tech-pack-import-cancel-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-13T09:24:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      await addSyntheticNumericQaAndScopedReview(workflow);
+      mountApp(root, { projectWorkflow: workflow });
+      const reviewHost = root.querySelector<HTMLDivElement>("#production-pack-import-review-host")!;
+      const packageBytes = await syntheticChangedPack(workflow);
+      const brokenBytes = new Uint8Array([80, 75, 3, 4]);
+      const expectReplacementError = async (): Promise<void> => {
+        await vi.waitFor(() => expect(reviewHost.querySelector('[role="alert"]')?.textContent).toContain("ZIP"));
+      };
+      const flushPendingWork = async (): Promise<void> => {
+        await new Promise<void>((resolve) => setTimeout(resolve, 0));
+      };
+      const originalLoad = workflow.repository.loadProject.bind(workflow.repository);
+
+      const headGate = deferredS777<Awaited<ReturnType<typeof workflow.repository.loadProject>>>();
+      const headStarted = deferredS777<void>();
+      const delayedHead = vi.spyOn(workflow.repository, "loadProject").mockImplementationOnce(async () => {
+        headStarted.resolve(undefined);
+        return await headGate.promise;
+      });
+      selectTechPackImport(root, "waiting-for-head.techpack.zip", packageBytes);
+      await headStarted.promise;
+      selectTechPackImport(root, "replacement-head-error.techpack.zip", brokenBytes);
+      await expectReplacementError();
+      headGate.resolve(workflow.snapshot);
+      await flushPendingWork();
+      expect(reviewHost.querySelector('[role="alert"]')?.textContent).toContain("ZIP");
+      delayedHead.mockRestore();
+
+      const fileGate = deferredS777<ArrayBuffer>();
+      const fileStarted = deferredS777<void>();
+      selectTechPackImport(root, "waiting-for-file.techpack.zip", packageBytes, packageBytes.byteLength, async () => {
+        fileStarted.resolve(undefined);
+        return await fileGate.promise;
+      });
+      await fileStarted.promise;
+      selectTechPackImport(root, "replacement-file-error.techpack.zip", brokenBytes);
+      await expectReplacementError();
+      fileGate.resolve(packageBytes.slice().buffer as ArrayBuffer);
+      await flushPendingWork();
+      expect(reviewHost.querySelector('[role="alert"]')?.textContent).toContain("ZIP");
+
+      const previewGate = deferredS777<Awaited<ReturnType<typeof productionPackOutput.previewProductionPackImport>>>();
+      const previewStarted = deferredS777<Awaited<ReturnType<typeof productionPackOutput.previewProductionPackImport>>>();
+      const originalPreview = productionPackOutput.previewProductionPackImport.bind(productionPackOutput);
+      const delayedPreview = vi.spyOn(productionPackOutput, "previewProductionPackImport").mockImplementationOnce(async (options) => {
+        const preview = await originalPreview(options);
+        previewStarted.resolve(preview);
+        return await previewGate.promise;
+      });
+      selectTechPackImport(root, "waiting-for-preview.techpack.zip", packageBytes);
+      const pendingPreview = await previewStarted.promise;
+      selectTechPackImport(root, "replacement-preview-error.techpack.zip", brokenBytes);
+      await expectReplacementError();
+      previewGate.resolve(pendingPreview);
+      await flushPendingWork();
+      expect(reviewHost.querySelector('[role="alert"]')?.textContent).toContain("ZIP");
+      delayedPreview.mockRestore();
+
+      const finalHeadGate = deferredS777<Awaited<ReturnType<typeof workflow.repository.loadProject>>>();
+      const finalHeadStarted = deferredS777<void>();
+      let loadCount = 0;
+      const delayedFinalHead = vi.spyOn(workflow.repository, "loadProject").mockImplementation(async (projectId) => {
+        loadCount += 1;
+        if (loadCount === 2) {
+          finalHeadStarted.resolve(undefined);
+          return await finalHeadGate.promise;
+        }
+        return await originalLoad(projectId);
+      });
+      selectTechPackImport(root, "waiting-for-final-head.techpack.zip", packageBytes);
+      await finalHeadStarted.promise;
+      selectTechPackImport(root, "replacement-final-head-error.techpack.zip", brokenBytes);
+      await expectReplacementError();
+      finalHeadGate.resolve(workflow.snapshot);
+      await flushPendingWork();
+      expect(reviewHost.querySelector('[role="alert"]')?.textContent).toContain("ZIP");
+      delayedFinalHead.mockRestore();
+
+      const failedHeadGate = deferredS777<Awaited<ReturnType<typeof workflow.repository.loadProject>>>();
+      const failedHeadStarted = deferredS777<void>();
+      const delayedFailedHead = vi.spyOn(workflow.repository, "loadProject").mockImplementationOnce(async () => {
+        failedHeadStarted.resolve(undefined);
+        return await failedHeadGate.promise;
+      });
+      selectTechPackImport(root, "waiting-before-reader-error.techpack.zip", packageBytes);
+      await failedHeadStarted.promise;
+      selectTechPackImport(root, "replacement-reader-error.techpack.zip", brokenBytes);
+      await expectReplacementError();
+      failedHeadGate.reject(new Error("superseded reader failure"));
+      await flushPendingWork();
+      expect(reviewHost.querySelector('[role="alert"]')?.textContent).toContain("ZIP");
+      delayedFailedHead.mockRestore();
+
+      const originalHead = workflow.snapshot.activeStyle.revisionHeadId;
+      selectTechPackImport(root, "apply-waiting-for-head.techpack.zip", packageBytes);
+      await vi.waitFor(() => expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).not.toBeNull());
+      const applyHeadGate = deferredS777<Awaited<ReturnType<typeof workflow.repository.loadProject>>>();
+      const applyHeadStarted = deferredS777<void>();
+      const delayedApplyHead = vi.spyOn(workflow.repository, "loadProject").mockImplementationOnce(async () => {
+        applyHeadStarted.resolve(undefined);
+        return await applyHeadGate.promise;
+      });
+      reviewHost.querySelector<HTMLButtonElement>('[data-production-pack-import-action="apply"]')!.click();
+      await applyHeadStarted.promise;
+      selectTechPackImport(root, "replacement-apply-error.techpack.zip", brokenBytes);
+      await expectReplacementError();
+      applyHeadGate.resolve(workflow.snapshot);
+      await flushPendingWork();
+      expect(reviewHost.querySelector('[role="alert"]')?.textContent).toContain("ZIP");
+      expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(originalHead);
+      delayedApplyHead.mockRestore();
+
+      const saveGate = deferredS777<typeof workflow.snapshot>();
+      const saveStarted = deferredS777<void>();
+      const delayedSave = vi.spyOn(workflow, "saveActiveTechPack").mockImplementationOnce(async () => {
+        saveStarted.resolve(undefined);
+        return await saveGate.promise;
+      });
+      selectTechPackImport(root, "apply-waiting-for-save.techpack.zip", packageBytes);
+      await vi.waitFor(() => expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).not.toBeNull());
+      reviewHost.querySelector<HTMLButtonElement>('[data-production-pack-import-action="apply"]')!.click();
+      await saveStarted.promise;
+      selectTechPackImport(root, "replacement-save-error.techpack.zip", brokenBytes);
+      await expectReplacementError();
+      saveGate.reject(new Error("superseded save failure"));
+      await flushPendingWork();
+      expect(reviewHost.querySelector('[role="alert"]')?.textContent).toContain("ZIP");
+      expect(reviewHost.textContent).not.toContain("Apply could not be confirmed");
+      delayedSave.mockRestore();
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("invalidates changed saved review scope and reports current and unknown history-read failures", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-tech-pack-import-scope-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-13T09:26:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      await addSyntheticNumericQaAndScopedReview(workflow);
+      mountApp(root, { projectWorkflow: workflow });
+      const reviewHost = root.querySelector<HTMLDivElement>("#production-pack-import-review-host")!;
+      const bytes = await syntheticChangedPack(workflow);
+      const original = workflow.snapshot;
+      const changedApprovalSnapshot = {
+        ...original,
+        activeStyle: {
+          ...original.activeStyle,
+          techPack: {
+            ...original.activeStyle.techPack,
+            approval: {
+              ...original.activeStyle.techPack.approval,
+              scopeFieldIds: [...original.activeStyle.techPack.approval.scopeFieldIds, "cover.styleCode"],
+            },
+          },
+        },
+      } as typeof workflow.snapshot;
+
+      const beforeReview = vi.spyOn(workflow.repository, "loadProject").mockResolvedValueOnce(changedApprovalSnapshot);
+      const firstRead = vi.fn(async () => bytes.slice().buffer as ArrayBuffer);
+      selectTechPackImport(root, "changed-scope-before-review.techpack.zip", bytes, bytes.byteLength, firstRead);
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("changed before package review"));
+      expect(firstRead).not.toHaveBeenCalled();
+      beforeReview.mockRestore();
+
+      const originalLoad = workflow.repository.loadProject.bind(workflow.repository);
+      let loadCount = 0;
+      const whileChecking = vi.spyOn(workflow.repository, "loadProject").mockImplementation(async (projectId) => {
+        loadCount += 1;
+        return loadCount === 1 ? await originalLoad(projectId) : changedApprovalSnapshot;
+      });
+      selectTechPackImport(root, "changed-scope-during-review.techpack.zip", bytes);
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("changed while this package was being checked"));
+      expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).toBeNull();
+      whileChecking.mockRestore();
+
+      const readError = vi.spyOn(workflow.repository, "loadProject").mockRejectedValueOnce(new Error("Local revision history is unavailable."));
+      selectTechPackImport(root, "history-error.techpack.zip", bytes);
+      await vi.waitFor(() => expect(reviewHost.querySelector('[role="alert"]')?.textContent).toContain("Local revision history is unavailable."));
+      readError.mockRestore();
+
+      const unknownError = vi.spyOn(workflow.repository, "loadProject").mockRejectedValueOnce("untyped history error");
+      selectTechPackImport(root, "unknown-history-error.techpack.zip", bytes);
+      await vi.waitFor(() => expect(reviewHost.querySelector('[role="alert"]')?.textContent)
+        .toContain("could not be checked against local revision history"));
+      unknownError.mockRestore();
+
+      let finalReadCount = 0;
+      const missingFinalHead = {
+        ...workflow.snapshot,
+        activeStyle: { ...workflow.snapshot.activeStyle, revisionHeadId: null },
+      } as typeof workflow.snapshot;
+      const failedFinalRead = vi.spyOn(workflow.repository, "loadProject").mockImplementation(async (projectId) => {
+        finalReadCount += 1;
+        if (finalReadCount === 2) return missingFinalHead;
+        return await originalLoad(projectId);
+      });
+      selectTechPackImport(root, "final-history-error.techpack.zip", bytes);
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("This style has no saved revision head."));
+      expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).toBeNull();
+      failedFinalRead.mockRestore();
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("rechecks the head before apply, contains failed saves, and ignores a disposed completion", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-tech-pack-import-apply-guards-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-13T09:28:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      await addSyntheticNumericQaAndScopedReview(workflow);
+      mountApp(root, { projectWorkflow: workflow });
+      const reviewHost = root.querySelector<HTMLDivElement>("#production-pack-import-review-host")!;
+      const pack = async (name: string): Promise<void> => {
+        selectTechPackImport(root, name, await syntheticChangedPack(workflow));
+        await vi.waitFor(() => expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).not.toBeNull());
+      };
+      const baseHead = workflow.snapshot.activeStyle.revisionHeadId;
+      const missingFreshHead = {
+        ...workflow.snapshot,
+        activeStyle: { ...workflow.snapshot.activeStyle, revisionHeadId: null },
+      } as typeof workflow.snapshot;
+
+      await pack("fresh-head-check.techpack.zip");
+      const freshHead = vi.spyOn(workflow.repository, "loadProject").mockResolvedValueOnce(missingFreshHead);
+      const saveNotAttempted = vi.spyOn(workflow, "saveActiveTechPack");
+      reviewHost.querySelector<HTMLButtonElement>('[data-production-pack-import-action="apply"]')!.click();
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("No apply was attempted"));
+      expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(baseHead);
+      expect(saveNotAttempted).not.toHaveBeenCalled();
+      freshHead.mockRestore();
+      saveNotAttempted.mockRestore();
+
+      await pack("invalid-saved-context.techpack.zip");
+      const invalidSave = vi.spyOn(workflow, "saveActiveTechPack").mockResolvedValueOnce(missingFreshHead);
+      reviewHost.querySelector<HTMLButtonElement>('[data-production-pack-import-action="apply"]')!.click();
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("Saved"));
+      expect(root.querySelector("#production-pack-host")?.textContent).toContain("no saved revision head");
+      invalidSave.mockRestore();
+
+      await pack("save-error.techpack.zip");
+      const failedSave = vi.spyOn(workflow, "saveActiveTechPack").mockRejectedValueOnce(new Error("local write failed"));
+      reviewHost.querySelector<HTMLButtonElement>('[data-production-pack-import-action="apply"]')!.click();
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("Apply could not be confirmed"));
+      expect(reviewHost.textContent).toContain("local write failed");
+      failedSave.mockRestore();
+
+      await pack("unknown-save-error.techpack.zip");
+      const unknownSave = vi.spyOn(workflow, "saveActiveTechPack").mockRejectedValueOnce("untyped local write error");
+      reviewHost.querySelector<HTMLButtonElement>('[data-production-pack-import-action="apply"]')!.click();
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("The save path returned an unknown error."));
+      unknownSave.mockRestore();
+
+      await pack("disposed-save.techpack.zip");
+      const savedGate = deferredS777<typeof workflow.snapshot>();
+      const savedStarted = deferredS777<void>();
+      const delayedSave = vi.spyOn(workflow, "saveActiveTechPack").mockImplementationOnce(async () => {
+        savedStarted.resolve(undefined);
+        return await savedGate.promise;
+      });
+      reviewHost.querySelector<HTMLButtonElement>('[data-production-pack-import-action="apply"]')!.click();
+      await savedStarted.promise;
+      mount();
+      savedGate.resolve(workflow.snapshot);
+      await new Promise<void>((resolve) => setTimeout(resolve, 0));
+      expect(reviewHost.textContent).toContain("Saving the reviewed changes");
+      expect(reviewHost.textContent).not.toContain("Saved");
+      delayedSave.mockRestore();
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("rejects oversized packages before reading and asks for a saved local style", async () => {
+    const root = mount();
+    const readFile = vi.fn(async () => new ArrayBuffer(1));
+    const importHost = root.querySelector<HTMLDivElement>("#production-pack-import-review-host")!;
+    importHost.dispatchEvent(new Event("change"));
+    const input = importHost.querySelector<HTMLInputElement>("[data-production-pack-import-file]")!;
+    Object.defineProperty(input, "files", { configurable: true, value: [] as unknown as FileList });
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(importHost.textContent).toContain("No package selected.");
+    const unexpectedApply = document.createElement("button");
+    unexpectedApply.dataset.productionPackImportAction = "apply";
+    importHost.append(unexpectedApply);
+    unexpectedApply.click();
+    unexpectedApply.remove();
+    selectTechPackImport(root, "oversized.techpack.zip", new Uint8Array([1]), PRODUCTION_PACK_ARCHIVE_LIMIT + 1, readFile);
+    await vi.waitFor(() => expect(root.querySelector("#production-pack-import-review-host")?.textContent)
+      .toContain("256 MiB compressed archive limit"));
+    expect(readFile).not.toHaveBeenCalled();
+
+    selectTechPackImport(root, "without-style.techpack.zip", new Uint8Array([1]), 1, readFile);
+    await vi.waitFor(() => expect(root.querySelector("#production-pack-import-review-host")?.textContent)
+      .toContain("Open a saved local style"));
+    expect(readFile).not.toHaveBeenCalled();
+  });
+
+  it("keeps a candidate with a sample round outside immutable history read-only", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-tech-pack-import-semantic-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-13T09:25:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      await addSyntheticNumericQaAndScopedReview(workflow);
+      const baseHeadId = workflow.snapshot.activeStyle.revisionHeadId;
+      mountApp(root, { projectWorkflow: workflow });
+      selectTechPackImport(root, "invalid-sample-target.techpack.zip",
+        await syntheticChangedPack(workflow, { invalidSampleTarget: true }));
+      const reviewHost = root.querySelector<HTMLDivElement>("#production-pack-import-review-host")!;
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("existing revision in this style's immutable history"));
+      expect(reviewHost.textContent).toContain("INVALID");
+      expect(reviewHost.textContent).toContain("52.375");
+      expect(reviewHost.querySelector('[data-production-pack-import-action="apply"]')).toBeNull();
+
+      const unexpectedApply = document.createElement("button");
+      unexpectedApply.dataset.productionPackImportAction = "apply";
+      reviewHost.append(unexpectedApply);
+      unexpectedApply.click();
+      await Promise.resolve();
+      expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(baseHeadId);
+      expect(workflow.snapshot.activeStyle.techPack.pomData?.sampleQaRounds[0]?.readings[0]?.actualValue).toBe(52.25);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 25_000);
+
+  it("shows a malformed-package correction and invalidates preview when the fresh head cannot be verified", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-tech-pack-import-invalid-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-13T09:30:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      const baseHeadId = workflow.snapshot.activeStyle.revisionHeadId;
+      selectTechPackImport(root, "broken.techpack.zip", new Uint8Array([80, 75, 3, 4]));
+      const reviewHost = root.querySelector<HTMLDivElement>("#production-pack-import-review-host")!;
+      await vi.waitFor(() => expect(reviewHost.querySelector('[role="alert"]')?.textContent)
+        .toContain("ZIP"));
+      expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(baseHeadId);
+
+      const unresolvedHead = {
+        ...workflow.snapshot,
+        activeStyle: { ...workflow.snapshot.activeStyle, revisionHeadId: null },
+      } as typeof workflow.snapshot;
+      const freshLoad = vi.spyOn(workflow.repository, "loadProject").mockResolvedValue(unresolvedHead);
+      const readFile = vi.fn(async () => new ArrayBuffer(1));
+      selectTechPackImport(root, "unverified-head.techpack.zip", new Uint8Array([1]), 1, readFile);
+      await vi.waitFor(() => expect(reviewHost.querySelector('[role="alert"]')?.textContent)
+        .toContain("saved revision head"));
+      expect(readFile).not.toHaveBeenCalled();
+      freshLoad.mockRestore();
+
+      const internals = workflow as unknown as { loaded: typeof workflow.snapshot };
+      internals.loaded = {
+        ...workflow.snapshot,
+        activeStyle: { ...workflow.snapshot.activeStyle, revisionHeadId: null },
+      };
+      selectTechPackImport(root, "missing-head.techpack.zip", new Uint8Array([1]), 1, readFile);
+      await vi.waitFor(() => expect(reviewHost.textContent).toContain("no saved revision head"));
+      expect(readFile).not.toHaveBeenCalled();
     } finally {
       workflow.close();
       root.remove();
