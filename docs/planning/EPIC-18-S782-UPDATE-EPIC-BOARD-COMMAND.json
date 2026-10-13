@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 4710,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Record the review blocker and admitted S782 remediation before code changes; preserve EPIC-18 in progress and the S783 deployment closeout gate.",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 scope is docs/planning/EPIC-18-ADMISSION.md and current ledger docs/planning/EPIC-18-GOAL.md. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated gate: 179/179 files, 3,161/3,161 tests, 100% global statement/branch/function/line coverage; build/readiness, browser/Electron, actual PDF/ZIP and protected exports passed. S781's initial review of PR #43 found a high-severity backward-compatibility defect: a migrated payload-v1 style can load with an unlinked T01 record whose first save fails. OpenCode approved that old candidate; Claude requested changes; Codex confirmed the finding. No merge was attempted. S782 is admitted to add the guarded first-save path and real migration regression; PR #43 must pass the fresh full gate and both internal agents must approve its updated head. S783 owns normal rebase merge, successful main deployment, actual preview verification and canonical closeout. Local/no-cost, physical, supplier, factory, signing, compliance and production-claim holds remain explicit. UIQ-09 remains Backlog behind EPIC-19."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4712,
+  "facts": [
+    {
+      "evidenceId": "E-G05-S781-REVIEW-RECONCILIATION",
+      "uri": "docs/research/epic18/S781-merge-closeout/review-reconciliation.md",
+      "kind": "document",
+      "commit": null,
+      "sha256": "81591360db934be5243fe16b769c6260816d9e96c7456a066d88481fc7c61c73",
+      "verified": true,
+      "note": "Records the separate review results: OpenCode approved the S780 head; Claude requested changes for a high-severity legacy v1 T01 save defect confirmed by Codex. Captured CLI outputs bind their current file digests. No merge was attempted; S782 is the admitted remediation."
+    }
+  ]
+}

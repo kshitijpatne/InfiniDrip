@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4707,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S782-ADMISSION",
+    "kind": "document",
+    "uri": "docs/planning/EPIC-18-S782-REMEDIATION-ADMISSION.md",
+    "sha256": "e8504f358ee164031a0bc1b8533354cc397a2b8f4a91486abc42bf9e68fa92d4",
+    "verified": true,
+    "note": "Admits S782 under the existing failed-gate remediation allowance: guarded first T01 save on a migrated payload-v1 head, real v8 fixture, 100% changed-module coverage, full integrated gate, actual rendered proof and two fresh internal reviews."
+  }
+}

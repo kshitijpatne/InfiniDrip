@@ -1,0 +1,15 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4711,
+  "facts": [
+    {
+      "evidenceId": "E-G05-S781-MERGEABILITY",
+      "uri": "docs/research/epic18/S781-merge-closeout/mergeability-adjudication.md",
+      "kind": "document",
+      "commit": null,
+      "sha256": "208f10a696f7e32ad4a96854465dc8ad3b6815b50fdef3ecc3b7d629098f5ee0",
+      "verified": true,
+      "note": "Effective branch rules confirmed for main; initial reviewer-launch state is historical and completed outcomes are now reconciled in review-reconciliation.md. No formal approval gate applies; the owner's two internal approvals remain the merge gate."
+    }
+  ]
+}

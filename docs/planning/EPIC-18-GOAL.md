@@ -36,40 +36,48 @@ execution sequence is in
 | 778 | Done | T05 freeze creation: explicit exact-revision scoped approval; schema-v3 manifest/digest binding; original ZIP/PDF bytes, integrity check and local downloads. Focused suites 183/183 plus app range 100% four-metric coverage; TypeScript/build, protected export identity 17/17, Tee/Woven synthetic outputs and two-viewport Chromium pass. Exit/replay: `docs/research/epic18/S778-T05-freeze/`; board revision 4657. |
 | 779 | Done | T05 change control: edit-driven check/approval invalidation; explicit current/historical state; old ZIP/PDF byte retention; schema-v1/v2 compatibility; all eight protected export hashes unchanged. The enumerated focused suites pass 180 tests; `project-manager.ts` has 100% four-metric coverage; TypeScript, final-source Chromium and Control Center pass. Exit/replay: `docs/research/epic18/S779-T05-change-control/`; G05-T05 Done, board revision recorded in post-replay report. |
 | 780 | Done | Settled integrated Epic gate and pre-merge review. The first full suite passed 179/179 files and 3,161/3,161 tests at 100% statements/branches/functions/lines; build, readiness, browser/Electron, actual output and protected export checks passed. The optional second run stopped after one 15-second timeout during high memory use; the case passed in isolation, though the cause is not proven. Exit/rendered evidence: `docs/research/epic18/S780-integrated-gate/`; final board replay recorded there. |
-| 781 | Backlog | Merge, main CI/deploy, board and durable closeout. |
+| 781 | Blocked at review gate | Initial PR #43 review found a high-severity legacy payload-v1 T01 first-save defect. No merge or closure; reconciliation: `docs/research/epic18/S781-merge-closeout/review-reconciliation.md`. |
+| 782 | In Progress | Remediate the unlinked T01 save on migrated payload-v1 heads with a guarded v2 child revision, a real v8-upgrade regression, 100% focused coverage, full integrated gate, and actual rendered proof. Admission: `EPIC-18-S782-REMEDIATION-ADMISSION.md`. |
+| 783 | Planned | Re-review the settled PR head; after both internal approvals and Codex acceptance, normally rebase-merge, verify main deployment and live output, then close the canonical board and durable records. |
 
 Remediation or follow-up uses the next unique slice number; no repeated or
 same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
 the admission/exit evidence, and the canonical board through the validated
 command layer.
 
-## Current execution boundary — Slice 780 complete; S781 next
+## Current execution boundary — Slice 781 review blocked; Slice 782 remediation active
 
-S780 completed the admitted integrated review of landed S779 commit
-`0e557553e881add962c67dea49f282b3dbdd227d` on `codex/epic-18-g05`; refreshed
+S780 completed the admitted integrated review from S779 commit
+`0e557553e881add962c67dea49f282b3dbdd227d` and landed at
+`bfacbf68ef242f366e77b6c43ed548ee4fe130b8`. PR #43 targets `main`; refreshed
 `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-Start, global coverage, rendered/output, exit and final replay evidence are in
-`docs/research/epic18/S780-integrated-gate/`. The qualifying full run passes
-179/179 files and 3,161/3,161 tests at 100% for all four coverage metrics.
-T01–T05 and UIQ-10 are Done; EPIC-18 and G05-EXIT remain In Progress through
-S781. The final validated board replay is revision 4695.
+S780's global coverage and integrated output evidence remain unchanged in
+`docs/research/epic18/S780-integrated-gate/`.
 
-S780 also passes the production build, local release/readiness checks, browser
-change-control, packaged Electron functional/output review from an isolated
-temporary destination, seven-recipe acceptance-evidence crosswalk, actual
-synthetic PDF/ZIP inspection, and all eight protected export identities. An
-optional extra global confirmation was stopped after one load-sensitive
-timeout; the exact test passed in isolation. It did not alter or invalidate the
-first passing gate. The standard Windows Electron output-path rename failed
-twice with EPERM, while the alternate isolated package build and app review
-passed; no signing or production readiness is claimed. No application behavior
-changed in S780.
+The active S765 amendment preserves the original hash-bound S762 admission as
+historical. S781 began from S780 and its validated start replay ended at board
+revision 4702. Subsequent mergeability evidence and corrections advanced the
+canonical board to revision 4706; S782 admission/start records and refreshed
+mergeability facts advanced it to revision 4712. The review-reconciliation
+digest refresh advanced it to 4713. EPIC-18/G05-EXIT remain In Progress and
+G05-T01–T05/UIQ-10 remain Done. UIQ-09 remains Backlog behind EPIC-19.
 
-S781 is the single next action: open the S780-reviewed candidate as a PR, merge
-it safely after required checks, verify ancestry and deployment, confirm live
-output where applicable, close the canonical board with evidence, and reconcile
-project state and downstream sequence. Keep local/no-cost, physical, supplier,
-factory, code-signing and production-claim holds unchanged.
+PR #43 remains OPEN/CLEAN/MERGEABLE at S780. The effective-rules query for
+`main` returned `[]` and classic branch protection returned 404, so there is
+no formal GitHub approval gate. The owner separately requires two internal
+approvals (Claude Code and OpenCode); no outside GitHub user may be contacted.
+OpenCode approved the S780 head, but Claude requested changes for the legacy
+payload-v1 T01 save defect. Codex confirmed the defect in the real v8 migration
+fixture and workflow guards. No merge was attempted. See
+`docs/research/epic18/S781-merge-closeout/review-reconciliation.md` and the
+S782 packet `EPIC-18-S782-REMEDIATION-ADMISSION.md`.
+
+S782 is the narrow user-initiated first-save repair, with stale/CAS checks and
+the v1 parent preserved. After its full gate, both reviewers must reassess the
+updated PR head and Codex must accept the diff before normal rebase merge.
+S783 owns main workflow/deployment, actual preview verification, and final
+board/document closure. Local/no-cost, physical, supplier, factory, signing,
+compliance and production-claim holds remain unchanged.
 
 ## Previous execution boundary — Slice 779 complete; S780 next
 

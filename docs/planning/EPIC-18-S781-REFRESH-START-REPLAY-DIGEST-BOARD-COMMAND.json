@@ -1,0 +1,13 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4700,
+  "facts": [{
+    "evidenceId": "E-G05-S781-START-REPLAY",
+    "uri": "docs/research/epic18/S781-merge-closeout/start-replay-verification.md",
+    "kind": "document",
+    "commit": null,
+    "sha256": "8ae2685664633d2f5845c2231cd027db36f7f20bb06008149fc378fdc4fb6b8d",
+    "verified": true,
+    "note": "S781 start replay linked at board revisions 4699–4700; Control Center tests pass 42/42 after the final start replay."
+  }]
+}

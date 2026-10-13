@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4695,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S781-START",
+    "kind": "document",
+    "uri": "docs/research/epic18/S781-merge-closeout/start-packet.md",
+    "sha256": "CF0A2B243A2591299FEFBB7689C6A457680C2D1A510F9352985D7DC74F46B834",
+    "verified": true,
+    "note": "Start S781 from S780 commit bfacbf68; PR #43 is open but the active no-crap-code ruleset requires two approving reviews and linear-history rebase merge. Main-push test/build/deploy remains the exit gate; G05-EXIT stays In Progress."
+  }
+}

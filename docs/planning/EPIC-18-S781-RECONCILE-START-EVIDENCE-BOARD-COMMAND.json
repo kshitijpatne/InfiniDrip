@@ -1,0 +1,24 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4702,
+  "facts": [
+    {
+      "evidenceId": "E-G05-S781-START",
+      "uri": "docs/research/epic18/S781-merge-closeout/start-packet.md",
+      "kind": "document",
+      "commit": null,
+      "sha256": "b7fa6514f8e9164b050defafd8e253371d4d17909a5a0bf682806e6f89cb1910",
+      "verified": true,
+      "note": "S781 start packet corrected: GitHub effective-rules query for main returned no rules; no formal PR review gate applies. Owner requested two internal agent reviews."
+    },
+    {
+      "evidenceId": "E-G05-S781-START-REPLAY",
+      "uri": "docs/research/epic18/S781-merge-closeout/start-replay-verification.md",
+      "kind": "document",
+      "commit": null,
+      "sha256": "b59a2ed4057fd6efbf729931cc2edff22abbd6a253d685923a51cb3ebc7415ac",
+      "verified": true,
+      "note": "S781 start replay corrected: prior formal two-review blocker superseded by branch-effective rules result []; PR #43 reports MERGEABLE/CLEAN; Control Center start suite 42/42."
+    }
+  ]
+}

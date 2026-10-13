@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4706,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S781-REVIEW-RECONCILIATION",
+    "kind": "document",
+    "uri": "docs/research/epic18/S781-merge-closeout/review-reconciliation.md",
+    "sha256": "705acc744ac86210dddde4c65d093fcf4358eb6648f3d4e2ec7655c68c304adb",
+    "verified": true,
+    "note": "Records the separate review results: OpenCode approved the S780 head; Claude requested changes for a high-severity legacy v1 T01 save defect confirmed by Codex. No merge was attempted; S782 is the admitted remediation."
+  }
+}

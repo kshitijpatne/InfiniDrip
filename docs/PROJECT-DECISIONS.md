@@ -2,6 +2,39 @@
 
 ## EPIC-18/G05 — next capability Epic admitted (2026-10-12)
 
+### S781 checkpoint — effective merge rules reconciled (2026-10-13)
+
+The active S765 amendment controls numbering: S780 is the integrated gate and
+S781 is merge/deployment/board closeout; the hash-bound S762 admission remains
+unchanged as historical context. S780 landed at
+`bfacbf68ef242f366e77b6c43ed548ee4fe130b8`; PR #43 targets `main` and is
+OPEN/CLEAN/MERGEABLE. GitHub's effective-rules query for `main` returned `[]`;
+classic branch protection returned 404. The repository-level `no-crap-code`
+record lists two approvals and linear history, but those rules do not appear in
+the effective branch result. Codex's earlier claim that formal approvals
+blocked this PR was incorrect; see
+`docs/research/epic18/S781-merge-closeout/mergeability-adjudication.md`.
+
+The owner requested two independent internal read-only reviews by Claude Code
+and OpenCode; no outside GitHub users are to be contacted. The branch-effective
+rules query for `main` returned `[]` and classic branch protection returned
+404; there is no formal GitHub approval gate. These are the owner's separate
+internal merge conditions. OpenCode approved the initial S780 PR #43 head;
+Claude requested changes after finding the legacy payload-v1 T01 first-save
+defect, which Codex confirmed. No merge was attempted. Slice 782 is admitted
+under the goal's failed-gate remediation allowance; its packet is
+`docs/planning/EPIC-18-S782-REMEDIATION-ADMISSION.md`, and the review result is
+`docs/research/epic18/S781-merge-closeout/review-reconciliation.md`. Both
+agents must approve the updated candidate and Codex must reconcile it before
+normal rebase merge. The main-only workflow must pass tests, build,
+deterministic web proof and preview deployment; the actual preview output must
+be checked before G05-EXIT closes. S782 admission/start evidence and refreshed
+mergeability facts are now recorded through the validated command layer at
+board revision 4712. A digest-only refresh binding the corrected captured CLI
+output hashes advanced the current board to revision 4713. EPIC-18/G05-EXIT
+remain In Progress; full S782 verification and updated-head reviews remain
+pending.
+
 ### S780 — integrated gate verified; S781 remains (2026-10-13)
 
 The settled S780 candidate passes its single qualifying full repository run:

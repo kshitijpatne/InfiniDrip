@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4698,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S781-START-REPLAY",
+    "kind": "document",
+    "uri": "docs/research/epic18/S781-merge-closeout/start-replay-verification.md",
+    "sha256": "867EE210248AEEC271E772FF470784ED806C57D2D97012A0924F27C44424E231",
+    "verified": true,
+    "note": "Validated S781 start replay at board revision 4700: linked start packet and replay, recorded PR #43 two-review/linear-history blocker, retained G05-EXIT and EPIC-18 In Progress, and passed Control Center 42/42."
+  }
+}
