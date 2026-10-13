@@ -1,0 +1,43 @@
+PROJECT PACKAGE preview server: http://127.0.0.1:4273
+PROJECT PACKAGE VERIFY FAILED: locator.fill: Timeout 15000ms exceeded.
+Call log:
+  - waiting for locator('input[data-field="chest"]').first()
+    - locator resolved to <input step="1" min="60" max="160" value="100" type="number" id="input-chest" data-field="chest" aria-label="Chest" aria-valuemin="60" data-range-min="60" aria-valuemax="160" aria-valuenow="100" data-range-max="160" aria-invalid="false" data-guidance-control="chest" aria-describedby="error-chest"/>
+    - fill("104")
+  - attempting fill action
+    2 × waiting for element to be visible, enabled and editable
+      - element is not visible
+    - retrying fill action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and editable
+      - element is not visible
+    - retrying fill action
+      - waiting 100ms
+    29 × waiting for element to be visible, enabled and editable
+       - element is not visible
+     - retrying fill action
+       - waiting 500ms
+
+    at createSourceProject (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\docs\research\epic18\S780-integrated-gate\electron\verify-project-package-s780.cjs:80:59)
+    at async verifyBrowser (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\docs\research\epic18\S780-integrated-gate\electron\verify-project-package-s780.cjs:217:5)
+    at async main (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\docs\research\epic18\S780-integrated-gate\electron\verify-project-package-s780.cjs:347:21) {
+  log: [
+    `  - waiting for locator('input[data-field="chest"]').first()`,
+    '    - locator resolved to <input step="1" min="60" max="160" value="100" type="number" id="input-chest" data-field="chest" aria-label="Chest" aria-valuemin="60" data-range-min="60" aria-valuemax="160" aria-valuenow="100" data-range-max="160" aria-invalid="false" data-guidance-control="chest" aria-describedby="error-chest"/>',
+    '    - fill("104")',
+    '  - attempting fill action',
+    '    2 × waiting for element to be visible, enabled and editable',
+    '      - element is not visible',
+    '    - retrying fill action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and editable',
+    '      - element is not visible',
+    '    - retrying fill action',
+    '      - waiting 100ms',
+    '    29 × waiting for element to be visible, enabled and editable',
+    '       - element is not visible',
+    '     - retrying fill action',
+    '       - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}

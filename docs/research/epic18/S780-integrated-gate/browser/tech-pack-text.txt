@@ -1,0 +1,150 @@
+InfiniDrip production pack
+Style 7e46e664-16c8-4c1d-9262-e3471e723cb9 | Recipe tee | Revision r1
+
+Style and revision identity (1/1)
+Style ID: 7e46e664-16c8-4c1d-9262-e3471e723cb9
+Style code: not recorded
+Style name: not recorded
+Recipe: tee (unversioned)
+Saved revision: r1 (ab53ae41-299c-4fa4-ba90-d77e4c65b2ff)
+Revision content SHA-256:
+027b84195bf471d0b0af1aebfa3e92bcd32725419444afe9a7c2c7a7ec215fd2
+Selected preset: complete-pack
+Sections omitted: none
+cover.baseSizeId [cover.baseSizeId]: not recorded
+provenance: "UNRESOLVED"
+evidenceStatus: "UNCONFIRMED"
+validationStatus: "INVALID"
+unresolvedReason: "No sourced T01 cover value exists in the source style record."
+nextAction: "Review and enter this cover value in the tech-pack editor."
+cover.intendedUse [cover.intendedUse]: not recorded
+provenance: "UNRESOLVED"
+evidenceStatus: "UNCONFIRMED"
+validationStatus: "INVALID"
+unresolvedReason: "No sourced T01 cover value exists in the source style record."
+nextAction: "Review and enter this cover value in the tech-pack editor."
+cover.measurementUnit [cover.measurementUnit]: not recorded
+provenance: "UNRESOLVED"
+evidenceStatus: "UNCONFIRMED"
+validationStatus: "INVALID"
+unresolvedReason: "No sourced T01 cover value exists in the source style record."
+nextAction: "Review and enter this cover value in the tech-pack editor."
+cover.ownerLabel [cover.ownerLabel]: not recorded
+provenance: "UNRESOLVED"
+evidenceStatus: "UNCONFIRMED"
+validationStatus: "INVALID"
+unresolvedReason: "No sourced T01 cover value exists in the source style record."
+nextAction: "Review and enter this cover value in the tech-pack editor."
+cover.styleCode [cover.styleCode]: not recorded
+provenance: "UNRESOLVED"
+evidenceStatus: "UNCONFIRMED"
+validationStatus: "INVALID"
+unresolvedReason: "No sourced T01 cover value exists in the source style record."
+nextAction: "Review and enter this cover value in the tech-pack editor."
+cover.styleName [cover.styleName]: not recorded
+provenance: "UNRESOLVED"
+evidenceStatus: "UNCONFIRMED"
+validationStatus: "INVALID"
+unresolvedReason: "No sourced T01 cover value exists in the source style record."
+nextAction: "Review and enter this cover value in the tech-pack editor."
+
+
+
+
+Local digital review only; no supplier or production acceptance is established.
+InfiniDrip production pack
+Style 7e46e664-16c8-4c1d-9262-e3471e723cb9 | Recipe tee | Revision r1
+
+Materials, BOM and colorways (1/1)
+materials: no entries recorded
+BOM rows: no entries recorded
+colorways: no entries recorded
+
+
+
+
+Local digital review only; no supplier or production acceptance is established.
+InfiniDrip production pack
+Style 7e46e664-16c8-4c1d-9262-e3471e723cb9 | Recipe tee | Revision r1
+
+Measurements and sample QA (1/1)
+No T02 measurement or sample-QA record is present.
+
+
+
+
+Local digital review only; no supplier or production acceptance is established.
+InfiniDrip production pack
+Style 7e46e664-16c8-4c1d-9262-e3471e723cb9 | Recipe tee | Revision r1
+
+Construction operations and references (1/1)
+No T03 construction operation record is present.
+
+
+
+
+Local digital review only; no supplier or production acceptance is established.
+InfiniDrip production pack
+Style 7e46e664-16c8-4c1d-9262-e3471e723cb9 | Recipe tee | Revision r1
+
+Local artwork and placements (1/1)
+saved local artwork placements: not recorded
+No local artwork attachment bytes are included.
+
+
+
+
+Local digital review only; no supplier or production acceptance is established.
+InfiniDrip production pack
+Style 7e46e664-16c8-4c1d-9262-e3471e723cb9 | Recipe tee | Revision r1
+
+Sources, provenance and open items (1/1)
+record.cover.baseSizeId [cover.baseSizeId]: value=not recorded; UNRESOLVED /
+UNCONFIRMED / INVALID
+reason: "No sourced T01 cover value exists in the source style record."
+next action: "Review and enter this cover value in the tech-pack editor."
+record.cover.intendedUse [cover.intendedUse]: value=not recorded; UNRESOLVED /
+UNCONFIRMED / INVALID
+reason: "No sourced T01 cover value exists in the source style record."
+next action: "Review and enter this cover value in the tech-pack editor."
+record.cover.measurementUnit [cover.measurementUnit]: value=not recorded; UNRESOLVED
+/ UNCONFIRMED / INVALID
+reason: "No sourced T01 cover value exists in the source style record."
+next action: "Review and enter this cover value in the tech-pack editor."
+record.cover.ownerLabel [cover.ownerLabel]: value=not recorded; UNRESOLVED /
+UNCONFIRMED / INVALID
+reason: "No sourced T01 cover value exists in the source style record."
+next action: "Review and enter this cover value in the tech-pack editor."
+record.cover.styleCode [cover.styleCode]: value=not recorded; UNRESOLVED /
+UNCONFIRMED / INVALID
+reason: "No sourced T01 cover value exists in the source style record."
+next action: "Review and enter this cover value in the tech-pack editor."
+record.cover.styleName [cover.styleName]: value=not recorded; UNRESOLVED /
+UNCONFIRMED / INVALID
+reason: "No sourced T01 cover value exists in the source style record."
+next action: "Review and enter this cover value in the tech-pack editor."
+The structured JSON retains the complete record, provenance, conflicts, unknowns and
+unresolved next actions.
+
+
+
+
+Local digital review only; no supplier or production acceptance is established.
+InfiniDrip production pack
+Style 7e46e664-16c8-4c1d-9262-e3471e723cb9 | Recipe tee | Revision r1
+
+Approval scope and review disclaimer (1/1)
+Review state: APPROVED
+Approval revision: "ab53ae41-299c-4fa4-ba90-d77e4c65b2ff"
+Approval scope field IDs: cover.baseSizeId, cover.intendedUse,
+cover.measurementUnit, cover.ownerLabel, cover.styleCode, cover.styleName
+Review actor: "S780 local browser approver"
+Review recorded at: "2026-10-13T20:20:36.312Z"
+Local digital review only. This file does not establish supplier acceptance,
+physical fit, factory acceptance, compliance or production release.
+
+
+
+
+Local digital review only; no supplier or production acceptance is established.
+

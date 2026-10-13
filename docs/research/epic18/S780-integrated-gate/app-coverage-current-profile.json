@@ -1,0 +1,15 @@
+{
+  "mode": "current",
+  "command": "npm exec -- vitest run src/ui/app.test.ts --coverage --coverage.include=src/ui/app.ts --coverage.reporter=text --coverage.reporter=json-summary --coverage.reportsDirectory=docs/research/epic18/S780-integrated-gate/profiling/current/coverage",
+  "startedAt": "2026-10-13T19:33:35Z",
+  "endedAt": "2026-10-13T19:41:36Z",
+  "elapsedSeconds": 481,
+  "exitCode": 124,
+  "timedOut": true,
+  "stopReason": "Stopped at the prior eight-minute diagnostic boundary. The Vitest process tree was using 3,333–3,347 MiB private memory across 19 processes; system free memory remained about 560–820 MiB. No test or coverage report was produced.",
+  "peakTreePrivateMiB": 3347,
+  "peakTreeWorkingSetMiB": null,
+  "peakTreeProcessCount": 19,
+  "stdoutPath": "docs/research/epic18/S780-integrated-gate/app-coverage-current.stdout.txt",
+  "stderrPath": "docs/research/epic18/S780-integrated-gate/app-coverage-current.stderr.txt"
+}

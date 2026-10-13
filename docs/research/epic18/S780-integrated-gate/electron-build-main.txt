@@ -1,0 +1,3 @@
+
+> InfiniDrip@0.0.1 electron:build-main
+> tsc -p electron/runtime-tsconfig.json && tsc -p electron/tsconfig.json --noEmit

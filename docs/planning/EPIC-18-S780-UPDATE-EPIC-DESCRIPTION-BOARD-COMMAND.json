@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 4688,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Record the verified S780 integrated result and preserve S781 as the remaining admitted merge/deployment closeout.",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including numeric acceptance completed at S777 and UIQ-10. S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests. S779 completed the remaining T05 invalidation and compatibility boundary; historical schema-v1/v2 paths and all eight protected export identities remain unchanged. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated gate: 179/179 test files, 3,161/3,161 tests, and 100% global statement/branch/function/line coverage; build, readiness, browser/Electron functional output, actual PDF/ZIP, and protected export checks passed. The optional repeat stopped on one timeout during high memory use and the isolated case passed; the standard Windows Electron package path hit EPERM twice while isolated package functional review passed. S781 is next for merge/deployment and Epic closeout. Local/no-cost, physical, supplier, and production-claim holds remain explicit."
+  }
+}

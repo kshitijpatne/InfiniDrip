@@ -1,0 +1,14 @@
+﻿{
+    "mode":  "one-worker",
+    "command":  "npm exec -- vitest run src/ui/app.test.ts --coverage --coverage.include=src/ui/app.ts --coverage.reporter=text --coverage.reporter=json-summary --coverage.reportsDirectory=docs/research/epic18/S780-integrated-gate/profiling/one-worker/coverage --maxWorkers=1 --minWorkers=1",
+    "startedAt":  "2026-10-13T19:42:37.1976082+00:00",
+    "endedAt":  "2026-10-13T19:50:38.8004935+00:00",
+    "elapsedSeconds":  481.6,
+    "exitCode":  124,
+    "timedOut":  true,
+    "peakTreePrivateMiB":  3242.8,
+    "peakTreeWorkingSetMiB":  3122.2,
+    "peakTreeProcessCount":  7,
+    "stdoutPath":  "docs/research/epic18/S780-integrated-gate/app-coverage-one-worker.stdout.txt",
+    "stderrPath":  "docs/research/epic18/S780-integrated-gate/app-coverage-one-worker.stderr.txt"
+}

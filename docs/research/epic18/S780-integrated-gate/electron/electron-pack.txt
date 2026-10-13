@@ -1,0 +1,58 @@
+
+> InfiniDrip@0.0.1 electron:pack
+> npm run build && npm run electron:build-main && electron-builder --dir --publish never
+
+
+> InfiniDrip@0.0.1 build
+> tsc && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 181 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.48 kB │ gzip:   0.30 kB
+dist/assets/met-710048-DxtjRXFh.jpg       855.26 kB
+dist/assets/met-229298-BqrcZqbR.jpg     1,041.18 kB
+dist/assets/met-710711-b_MDc0JJ.jpg     1,849.50 kB
+dist/assets/cma-1930-192-Bq5VfxCJ.jpg   2,870.62 kB
+dist/assets/cma-1916-1324-DS7z6tdb.jpg  3,683.25 kB
+dist/assets/met-221948-DvT8EFC8.jpg     3,707.50 kB
+dist/assets/met-221932-Daru8XLa.jpg     4,441.76 kB
+dist/assets/met-221939-Dy0evkok.jpg     4,444.53 kB
+dist/assets/met-221951-C2w62z9w.jpg     4,872.13 kB
+dist/assets/cma-1928-269-ClYUpHcg.jpg   6,266.28 kB
+dist/assets/met-69802-eLe5n92q.jpg      6,293.65 kB
+dist/assets/cma-2009-267-CamGvCEl.jpg   6,572.08 kB
+dist/assets/index-Dk3fuyht.css             93.65 kB │ gzip:  15.49 kB
+dist/assets/index-BykVEL9M.js           1,164.76 kB │ gzip: 332.64 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.86s
+
+> InfiniDrip@0.0.1 electron:build-main
+> tsc -p electron/runtime-tsconfig.json && tsc -p electron/tsconfig.json --noEmit
+
+  • electron-builder  version=26.15.3 os=10.0.26200
+  • loaded configuration  file=package.json ("build" field)
+  • description is missed in the package.json  appPackageFile=C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\package.json
+  • author is missed in the package.json  appPackageFile=C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\package.json
+  • executing @electron/rebuild  electronVersion=44.1.0 arch=x64 buildFromSource=false workspaceRoot=C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp projectDir=./ appDir=./
+  • installing native dependencies  arch=x64
+  • completed installing native dependencies
+  • packaging       platform=win32 arch=x64 electron=44.1.0 appOutDir=release\win-unpacked
+  • downloaded      label=electron progress=100%
+  ⨯ EPERM: operation not permitted, rename 'C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\release\win-unpacked.tmp' -> 'C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\release\win-unpacked'  failedTask=build stackTrace=Error: EPERM: operation not permitted, rename 'C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\release\win-unpacked.tmp' -> 'C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\release\win-unpacked'
+    at Object.rename (node:internal/fs/promises:785:10)
+    at extractArchive (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\node_modules\app-builder-lib\src\util\electronGet.ts:249:5)
+    at unpack (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\node_modules\app-builder-lib\src\electron\ElectronFramework.ts:254:5)
+    at ElectronFramework.prepareApplicationStageDirectory (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\node_modules\app-builder-lib\src\electron\ElectronFramework.ts:152:27)
+    at WinPackager.doPack (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\node_modules\app-builder-lib\src\platformPackager.ts:257:5)
+    at WinPackager.pack (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\node_modules\app-builder-lib\src\platformPackager.ts:163:5)
+    at Packager.doBuild (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\node_modules\app-builder-lib\src\packager.ts:530:11)
+    at executeFinally (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\node_modules\builder-util\src\promise.ts:12:14)
+    at Packager.build (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\node_modules\app-builder-lib\src\packager.ts:450:31)
+    at executeFinally (C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp\node_modules\builder-util\src\promise.ts:12:14)

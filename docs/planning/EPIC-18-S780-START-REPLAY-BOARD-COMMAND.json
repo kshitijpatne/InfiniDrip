@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4676,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S780-START-REPLAY",
+    "kind": "document",
+    "uri": "docs/research/epic18/S780-integrated-gate/start-replay-verification.md",
+    "sha256": "7ae3eec9c2c9102ec9d55a39e11be057e747b1b8ceab7e1e784e3cdd91006f0f",
+    "verified": true,
+    "note": "Validated S780 start replay: board revision 4676 records the start evidence and In Progress status; the corrected Control Center contract suite passes 42/42."
+  }
+}

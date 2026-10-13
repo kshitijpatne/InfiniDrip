@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4675,
+  "itemId": "G05-EXIT",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Begin the admitted S780 integrated G05 gate from the verified S779 candidate; the exit work item stays open through S781 merge and deployment closeout.",
+  "evidenceRefs": ["E-G05-S780-START"]
+}

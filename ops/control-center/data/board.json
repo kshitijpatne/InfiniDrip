@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4673,
-  "updatedAt": "2026-10-13T19:15:33.838Z",
+  "revision": 4695,
+  "updatedAt": "2026-10-13T21:29:53.306Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -788,7 +788,7 @@
       "title": "EPIC-18: G05 — Living production tech pack",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including numeric acceptance completed at S777 and UIQ-10. S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests. S779 completed the remaining T05 invalidation and compatibility boundary; historical schema-v1/v2 paths and all eight protected export identities remain unchanged. T01–T05 and UIQ-10 are Done. S780 is next for the settled integrated/global gate and pre-merge PR candidate; S781 is merge/deployment and Epic closeout. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit.",
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including numeric acceptance completed at S777 and UIQ-10. S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests. S779 completed the remaining T05 invalidation and compatibility boundary; historical schema-v1/v2 paths and all eight protected export identities remain unchanged. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated gate: 179/179 test files, 3,161/3,161 tests, and 100% global statement/branch/function/line coverage; build, readiness, browser/Electron functional output, actual PDF/ZIP, and protected export checks passed. The optional repeat stopped on one timeout during high memory use and the isolated case passed; the standard Windows Electron package path hit EPERM twice while isolated package functional review passed. S781 is next for merge/deployment and Epic closeout. Local/no-cost, physical, supplier, and production-claim holds remain explicit.",
       "evidenceRefs": [
         "E-EPIC18-S762-ADMISSION",
         "E-EPIC18-S762-EXIT",
@@ -831,7 +831,15 @@
         "E-G05-S778-EXIT",
         "E-G05-S779-START",
         "E-G05-S779-EXIT",
-        "E-G05-S779-REPLAY"
+        "E-G05-S779-REPLAY",
+        "E-G05-S780-START",
+        "E-G05-S780-START-REPLAY",
+        "E-G05-S780-PROFILE",
+        "E-G05-S780-GLOBAL-COVERAGE",
+        "E-G05-S780-EXIT",
+        "E-G05-S780-RENDERED",
+        "E-G05-S780-COVERAGE-CONFIRMATION",
+        "E-G05-S780-REPLAY"
       ]
     },
     {
@@ -5633,7 +5641,7 @@
         "unknown supplier/construction/standard facts stay visible and actionable",
         "no physical-fit, factory-acceptance, supplier-acceptance, or production-release claims"
       ],
-      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done; S777 completed T04 and UIQ-10. S778 completed the exact-revision T05 freeze. S779 completed the remaining T05 dependency invalidation and compatibility, including old-byte retention and all eight protected export identities unchanged. T01–T05 and UIQ-10 are Done. S780 is next for the settled integrated/global gate; S781 is merge/deployment and Epic closeout. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit.",
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done; S777 completed T04 and UIQ-10. S778 completed the exact-revision T05 freeze. S779 completed the remaining T05 dependency invalidation and compatibility, including old-byte retention and all eight protected export identities unchanged. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated/global gate: 179/179 files, 3,161/3,161 tests and 100% global four-metric coverage; build/readiness, browser/Electron functional output, actual PDF/ZIP review and protected export checks passed. The optional repeat stopped on one timeout during high memory use; the isolated diagnostic passed. The standard Windows package output path hit EPERM twice while alternate-path packaged functional review passed. S781 is merge/deployment and Epic closeout. Local/no-cost, physical, supplier, and production-claim holds remain explicit.",
       "expectation": "Deliver an editable, provenance-aware, revision-bound local tech pack for all seven supported recipes, with explicit unknowns, predicted-versus-actual separation, scoped review/freeze, and deterministic digital outputs.",
       "acceptanceCriteria": [
         "Complete G05 T01–T05 in order across all seven supported recipes using the exact bounded packets in docs/planning/EPIC-18-ADMISSION.md.",
@@ -5712,6 +5720,11 @@
           "at": "2026-10-13T19:06:28.853Z",
           "actor": "Maintainer (via Codex)",
           "text": "Updated Epic metadata (description: Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including numeric acceptance completed at S777 and UIQ-10. S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests. S779 completed the remaining T05 invalidation and compatibility boundary; historical schema-v1/v2 paths and all eight protected export identities remain unchanged. T01–T05 and UIQ-10 are Done. S780 is next for the settled integrated/global gate and pre-merge PR candidate; S781 is merge/deployment and Epic closeout. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit.). Record verified completion of both T05 boundaries while preserving the admitted S780 integrated/global gate and S781 release closeout."
+        },
+        {
+          "at": "2026-10-13T21:23:43.152Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Updated Epic metadata (description: Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including numeric acceptance completed at S777 and UIQ-10. S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests. S779 completed the remaining T05 invalidation and compatibility boundary; historical schema-v1/v2 paths and all eight protected export identities remain unchanged. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated gate: 179/179 test files, 3,161/3,161 tests, and 100% global statement/branch/function/line coverage; build, readiness, browser/Electron functional output, actual PDF/ZIP, and protected export checks passed. The optional repeat stopped on one timeout during high memory use and the isolated case passed; the standard Windows Electron package path hit EPERM twice while isolated package functional review passed. S781 is next for merge/deployment and Epic closeout. Local/no-cost, physical, supplier, and production-claim holds remain explicit.). Record the verified S780 integrated result and preserve S781 as the remaining admitted merge/deployment closeout."
         }
       ],
       "evidenceRefs": [
@@ -17009,7 +17022,7 @@
       "title": "G05 integrated review, merge and deployment closeout",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-10-12",
       "targetAt": null,
       "deliveredAt": null,
@@ -17029,7 +17042,7 @@
         "eight protected export hashes",
         "deployment and claim accuracy"
       ],
-      "description": "Slices 780–781. Run the settled integrated Epic gate and review before PR (S780); then verify merge ancestry, main CI/deployment, live output where applicable, complete board closure and downstream reforecast (S781).",
+      "description": "Slices 780–781. S780 passed the settled integrated Epic gate: 179/179 test files, 3,161/3,161 tests, and 100% global statement/branch/function/line coverage; build/release/readiness, browser/Electron functional review, actual PDF/ZIP inspection and protected export checks passed. The standard Windows packaged-output path hit EPERM on rename twice; the isolated temporary package path and functional review passed. S781 verifies PR merge ancestry, main CI/deployment and applicable live output, then completes canonical board and durable project closeout.",
       "expectation": "The full G05/UIQ-10 candidate is proven at 100% coverage and integrated behavior, safely merged/deployed, and closed with durable evidence and explicit remaining external/physical gates.",
       "acceptanceCriteria": [
         "All seven recipes and every G05/UIQ-10 criterion pass, with actual parsed/rendered output review.",
@@ -17045,10 +17058,29 @@
           "role": "maintainer",
           "note": "Create the integrated G05 exit gate; it cannot close until all linked G05 and UIQ-10 work items pass evidence review.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-13T19:25:58.385Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Begin the admitted S780 integrated G05 gate from the verified S779 candidate; the exit work item stays open through S781 merge and deployment closeout.",
+          "evidenceRefs": [
+            "E-G05-S780-START"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-G05-S780-START",
+        "E-G05-S780-START-REPLAY",
+        "E-G05-S780-PROFILE",
+        "E-G05-S780-GLOBAL-COVERAGE",
+        "E-G05-S780-EXIT",
+        "E-G05-S780-RENDERED",
+        "E-G05-S780-COVERAGE-CONFIRMATION",
+        "E-G05-S780-REPLAY"
+      ],
       "flagKey": null
     }
   ],
@@ -31200,6 +31232,78 @@
       "sha256": "c96fbcd831d46251bfb91d1ea173be78ef598cd029ac59f27561202732f5ccfe",
       "verified": true,
       "note": "Final S779 replay records the first 41/42 board assertion, validated admission-link correction, final revision 4673, and passing 42/42 Control Center verification."
+    },
+    {
+      "id": "E-G05-S780-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S780-integrated-gate/start-packet.md",
+      "commit": null,
+      "sha256": "3e7bbf515f75dceaaf9b5fcd9be9a3f0fc74bfd76c912480ace069d6b9f0bee3",
+      "verified": true,
+      "note": "S780 begins the admitted settled integrated gate from landed S779 after verifying branch ancestry, unique numbering, a clean tracked tree, board revision 4673, and the exact global/build/release/readiness/browser/Electron/output and eight-identity gates."
+    },
+    {
+      "id": "E-G05-S780-START-REPLAY",
+      "kind": "document",
+      "uri": "docs/research/epic18/S780-integrated-gate/start-replay-verification.md",
+      "commit": null,
+      "sha256": "7ae3eec9c2c9102ec9d55a39e11be057e747b1b8ceab7e1e784e3cdd91006f0f",
+      "verified": true,
+      "note": "Validated S780 start replay: board revision 4676 records the start evidence and In Progress status; the corrected Control Center contract suite passes 42/42."
+    },
+    {
+      "id": "E-G05-S780-PROFILE",
+      "kind": "document",
+      "uri": "docs/research/epic18/S780-integrated-gate/profiling-report.md",
+      "commit": null,
+      "sha256": "04f6556598f1f281a27e2a80532bec3397ad605428469f1708f18b6122277674",
+      "verified": true,
+      "note": "Paired app coverage profiles hit the eight-minute cap without a report; one-worker mode reduced peak private memory by 104 MiB and process count from 19 to 7. Repository defaults remain unchanged; use a one-worker override for the global gate."
+    },
+    {
+      "id": "E-G05-S780-GLOBAL-COVERAGE",
+      "kind": "document",
+      "uri": "docs/research/epic18/S780-integrated-gate/global-coverage-report.md",
+      "commit": null,
+      "sha256": "519eacaecff9118c8ece26b4b377e44bbdd40edd731caed2543bc8117a575c04",
+      "verified": true,
+      "note": "Settled S780 global gate passes: 179 test files, 3,161 tests, and 100% statement, branch, function, and line coverage; one-worker override used only for this run."
+    },
+    {
+      "id": "E-G05-S780-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S780-integrated-gate/exit-packet.md",
+      "commit": null,
+      "sha256": "446d5074d6f9f174ea624c90f939c7f6e46c520ea109b2dca7c7fa9137f4edf2",
+      "verified": true,
+      "note": "S780 integrated gate and candidate diff review complete; the reviewed candidate is ready for S781 PR and merge closeout."
+    },
+    {
+      "id": "E-G05-S780-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic18/S780-integrated-gate/rendered-output-review.md",
+      "commit": null,
+      "sha256": "a55a3491ae64776dbc3127d3a8c475172dfaafb297f39a5e545c62fc52fe3d48",
+      "verified": true,
+      "note": "Crosswalks all-seven T01/T02/T03/T05 review, the two admitted T04 fixtures, S780 local synthetic PDF/ZIP and packaged Electron functional output; physical/supplier/production claims remain held."
+    },
+    {
+      "id": "E-G05-S780-COVERAGE-CONFIRMATION",
+      "kind": "document",
+      "uri": "docs/research/epic18/S780-integrated-gate/coverage-confirmation-report.md",
+      "commit": null,
+      "sha256": "d3914deaca915f128ac672a898eeca12835059007e35ee0b05a318c1c5668dd4",
+      "verified": true,
+      "note": "Records the qualifying 179-file/3,161-test global coverage pass and separately identifies the incomplete optional retry and passing isolated timeout diagnostic."
+    },
+    {
+      "id": "E-G05-S780-REPLAY",
+      "kind": "document",
+      "uri": "docs/research/epic18/S780-integrated-gate/post-replay-verification.md",
+      "commit": null,
+      "sha256": "9c5d6e5e3cd4df0482e48f8404ce4f84284a8af06f07b57e73b33e0cc669a211",
+      "verified": true,
+      "note": "S780 final board replay and digest read-back at revision 4695; final Control Center tests pass 42/42 and G05-EXIT stays In Progress for S781."
     }
   ]
 }

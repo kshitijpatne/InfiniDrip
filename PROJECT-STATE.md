@@ -1,26 +1,34 @@
-## Current boundary — EPIC-18/G05 Slice 779 complete; S780 next
+## Current boundary — EPIC-18/G05 Slice 780 complete; S781 next
 
-S779 completed the second and final T05 boundary from landed S778 commit
-`e5c62ada9cec87b9e5daafff093824e91bd9ace0` on `codex/epic-18-g05`. Fresh
+S780 completed the admitted integrated gate from landed S779 commit
+`0e557553e881add962c67dea49f282b3dbdd227d` on `codex/epic-18-g05`. Fresh
 `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor;
-S779 was unique after branch slice 778 and origin/main slice 761. Start,
-implementation, output and exit evidence is in
-`docs/research/epic18/S779-T05-change-control/`. The validated board replay
-closes G05-T05 after both S778 and S779 acceptance reports; final board
-revision and evidence digests are in `post-replay-verification.md`. EPIC-18
-remains In Progress; G05-EXIT remains Backlog; T01–T05 and UIQ-10 are Done.
+S780 is unique after branch S779 and origin/main S761. Start, coverage,
+rendered/output, exit and final replay evidence is in
+`docs/research/epic18/S780-integrated-gate/`. The qualifying full suite passes
+179/179 files and 3,161/3,161 tests at 100% statements, branches, functions,
+and lines. The production build, local release/readiness checks, browser and
+packaged Electron review, actual synthetic PDF/ZIP inspection, and eight
+protected export identities pass without moving a baseline.
 
-The Tech Pack manager now identifies frozen schema-v3 shares bound to an older
-saved revision, labels current and historical captures, retains old downloads,
-and gives the next review/approval/freeze action. Existing revision saves reset
-approval to DRAFT and retain prior manifest/artifact bytes. The broader app
-also clears reviewed digital-check readiness after a design edit. Focused
-compatibility/export suites, 100% four-metric `project-manager.ts` coverage,
-TypeScript, protected legacy hashes, and final-source Chromium review pass.
-The complete evidence and exact hashes are in the S779 exit packet. S780 is
-the next admitted boundary for the settled integrated/global gate; S781
-remains merge, main CI/deployment and Epic closeout. Physical fit, supplier,
-factory and production claims remain unestablished.
+The optional second full-run attempt stopped after one test timeout during
+high memory use; that same test passed in isolation. Its cause is not proven,
+and it does not replace or invalidate the first complete passing gate. The
+standard Windows Electron output-path rename failed twice with EPERM; the
+same pinned tooling succeeded at an isolated temporary path and the packaged
+app passed functional review. No production source behavior changed during
+S780. T01–T05 and UIQ-10 are Done; EPIC-18 and G05-EXIT remain In Progress
+through S781. The validated final board replay is revision 4695; its hashes
+and read-back are in the S780 post-replay report. S780's commit ID is recorded
+at the S781 start boundary to avoid a same-slice fixup.
+
+S781 is the single next action: open the reviewed candidate as a PR, merge it
+after required checks, verify refreshed `origin/main` ancestry and deployment,
+confirm applicable live output, then close the canonical board and synchronize
+durable cross-project state and downstream reforecast. Physical sewing/fit,
+supplier/factory acceptance, signing, compliance clearance and production
+readiness remain unestablished; all local/no-cost and provider/launch holds
+remain in force.
 
 ## Previous boundary — EPIC-18/G05 Slice 778 complete
 

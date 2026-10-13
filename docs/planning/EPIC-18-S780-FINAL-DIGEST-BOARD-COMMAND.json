@@ -1,0 +1,24 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4694,
+  "facts": [
+    {
+      "evidenceId": "E-G05-S780-EXIT",
+      "uri": "docs/research/epic18/S780-integrated-gate/exit-packet.md",
+      "kind": "exit-report",
+      "commit": null,
+      "sha256": "446d5074d6f9f174ea624c90f939c7f6e46c520ea109b2dca7c7fa9137f4edf2",
+      "verified": true,
+      "note": "S780 integrated gate and candidate diff review complete; the reviewed candidate is ready for S781 PR and merge closeout."
+    },
+    {
+      "evidenceId": "E-G05-S780-REPLAY",
+      "uri": "docs/research/epic18/S780-integrated-gate/post-replay-verification.md",
+      "kind": "document",
+      "commit": null,
+      "sha256": "9c5d6e5e3cd4df0482e48f8404ce4f84284a8af06f07b57e73b33e0cc669a211",
+      "verified": true,
+      "note": "S780 final board replay and digest read-back at revision 4695; final Control Center tests pass 42/42 and G05-EXIT stays In Progress for S781."
+    }
+  ]
+}

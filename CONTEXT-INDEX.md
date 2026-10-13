@@ -176,8 +176,17 @@ only through an explicitly admitted, linked Epic packet.
   schema-v1/v2 compatibility and all eight protected legacy identities.
   Changed `project-manager.ts` coverage is 100% across all four metrics;
   TypeScript, focused suites, final-source browser review and Control Center
-  pass. EPIC-18 remains In Progress; G05-EXIT remains Backlog. S780 is the
-  next integrated global gate; S781 remains merge/deployment and closeout.
+  pass. S780 completed the settled integrated gate: 179/179 files and
+  3,161/3,161 tests pass at 100% global statement, branch, function and line
+  coverage; build, readiness, browser/Electron, actual output and protected
+  export checks pass. The optional repeated run stopped on one timeout during
+  high memory use and the isolated case passed; the first full pass remains
+  the qualifying gate. The standard Windows Electron pack output rename failed
+  twice, while an isolated alternate-path package passed functional review.
+  S780 records and rendered review are in
+  `docs/research/epic18/S780-integrated-gate/`. At board revision 4695,
+  EPIC-18 and G05-EXIT remain In Progress; T01–T05 and UIQ-10 are Done.
+  S781 is the next and final admitted merge/deployment/closeout boundary.
   UIQ-09 remains Backlog behind EPIC-19. S773's
   start-digest correction remains documented in its packet; pattern
   identifiers do not establish construction facts or fit.

@@ -1,0 +1,71 @@
+{
+  "outcome": "passed",
+  "standalonePdf": {
+    "path": "browser/reviewed-before-edit-tech-pack.pdf",
+    "byteLength": 12082,
+    "sha256": "53697be9d3b5b5b3248a15dbaacb93744b6fb1d8b0b1274988085b0dcaa73d9a"
+  },
+  "packageZip": {
+    "path": "browser/reviewed-before-edit-tech-pack.zip",
+    "byteLength": 3731,
+    "sha256": "89fa57b033539d8350c52f1a8c3f1c413d5fe468c8bb5e8a125e92fbd85f2ad8"
+  },
+  "embeddedPdf": {
+    "name": "documents/production-pack.pdf",
+    "byteLength": 12082,
+    "sha256": "53697be9d3b5b5b3248a15dbaacb93744b6fb1d8b0b1274988085b0dcaa73d9a",
+    "byteIdenticalToStandalone": true
+  },
+  "pageCount": 7,
+  "pages": [
+    {
+      "page": 1,
+      "widthPoints": 595,
+      "heightPoints": 842
+    },
+    {
+      "page": 2,
+      "widthPoints": 595,
+      "heightPoints": 842
+    },
+    {
+      "page": 3,
+      "widthPoints": 595,
+      "heightPoints": 842
+    },
+    {
+      "page": 4,
+      "widthPoints": 595,
+      "heightPoints": 842
+    },
+    {
+      "page": 5,
+      "widthPoints": 595,
+      "heightPoints": 842
+    },
+    {
+      "page": 6,
+      "widthPoints": 595,
+      "heightPoints": 842
+    },
+    {
+      "page": 7,
+      "widthPoints": 595,
+      "heightPoints": 842
+    }
+  ],
+  "packageEntries": [
+    {
+      "name": "documents/production-pack.pdf",
+      "byteLength": 12082
+    },
+    {
+      "name": "manifest.json",
+      "byteLength": 863
+    },
+    {
+      "name": "records/tech-pack.json",
+      "byteLength": 3794
+    }
+  ]
+}

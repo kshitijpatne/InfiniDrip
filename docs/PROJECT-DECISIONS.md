@@ -2,6 +2,28 @@
 
 ## EPIC-18/G05 — next capability Epic admitted (2026-10-12)
 
+### S780 — integrated gate verified; S781 remains (2026-10-13)
+
+The settled S780 candidate passes its single qualifying full repository run:
+179/179 files, 3,161/3,161 tests, and 100% statement, branch, function, and
+line coverage. The production build, local release/readiness checks,
+browser/Electron functional review, actual synthetic PDF/ZIP review, and eight
+protected legacy export identities pass without a baseline change. The
+optional second full run stopped on one test timeout during high memory use;
+that test passed in isolation, and the evidence does not prove the timeout's
+cause. See `docs/research/epic18/S780-integrated-gate/`.
+
+Canonical board revision 4695 keeps EPIC-18 and G05-EXIT In Progress through
+S781; G05-T01–T05 and UIQ-10 are Done. Standard Windows `electron:pack` output
+failed twice on an `EPERM` rename, while the same pinned tools succeeded at an
+isolated temporary destination and the packaged executable passed functional
+review. This is recorded as an environment/output-path limitation; it is not
+a signing or production-readiness result. No production behavior changed in
+S780. S781 owns reviewed merge, main CI/deployment, applicable live output,
+canonical board closure, and durable project-state reconciliation. All
+physical, supplier, factory, signing, compliance, launch-cost, and production
+claims remain held.
+
 ### S774 — T04 exchange format and UIQ-10 boundary (2026-10-13)
 
 Within the admitted G05 T04 decision boundary, choose a separate

@@ -1,0 +1,34 @@
+PROJECT PACKAGE preview server: http://127.0.0.1:4349
+{
+  "slice": 780,
+  "status": "passed",
+  "createdAt": "2026-10-13T20:33:37.362Z",
+  "browser": {
+    "result": "PASS",
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+    "packageBytes": 45704,
+    "packageSha256": "39f392171a2ffefe92d55aff2183920582b14233e67b58e08b0b7a4a40a44669",
+    "styles": 3,
+    "recoveries": 1,
+    "artworkBytes": 114,
+    "artworkSha256": "d5f71bac55b2f07fb249542aabff0c77cef853dda86523fe18996440484621c9",
+    "survivesRestart": true
+  },
+  "electron": {
+    "result": "PASS",
+    "electronVersion": "44.1.0",
+    "chromiumVersion": "152.0.7977.65",
+    "packageBytes": 45704,
+    "packageSha256": "cfdf72e1739905751830c37a6abdf3a652e103572dbfd0196c7b469439829eec",
+    "styles": 3,
+    "recoveries": 1,
+    "artworkBytes": 114,
+    "artworkSha256": "d5f71bac55b2f07fb249542aabff0c77cef853dda86523fe18996440484621c9",
+    "survivesRestart": true
+  },
+  "limits": [
+    "The run proves the tested Chromium and Electron versions with isolated clean profiles; it does not guarantee permanent browser storage or survival after OS crash or power loss.",
+    "Digital package integrity and restart persistence do not establish physical fit, supplier acceptance, or factory readiness."
+  ],
+  "reportPath": "electron/project-package/project-package-verification.json"
+}

@@ -1,0 +1,47 @@
+{
+  "result": "PASS",
+  "browser": {
+    "result": "PASS",
+    "chromiumVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+    "stylesAfterRestart": 2,
+    "activeStyleSurvivedRestart": true,
+    "styleScopedRecoveryWasRestored": true,
+    "savedMeasurementSurvivedRestart": 104,
+    "sourceAwareChestHistorySurvivedRestart": true,
+    "staleRecoveryClearedOnSave": true,
+    "renderedMeasurement": 104
+  },
+  "electron": {
+    "electronVersion": "44.1.0",
+    "chromiumVersion": "152.0.7977.65",
+    "stylesAfterRestart": 2,
+    "activeStyleSurvivedRestart": true,
+    "styleScopedRecoveryWasRestored": true,
+    "savedMeasurementSurvivedRestart": 104,
+    "sourceAwareChestHistorySurvivedRestart": true,
+    "staleRecoveryClearedOnSave": true,
+    "renderedMeasurement": 104,
+    "recoveryPromptViewports": [
+      {
+        "viewportWidth": 1280,
+        "documentClientWidth": 1265,
+        "documentScrollWidth": 1265,
+        "cardLeft": 382.3999938964844,
+        "cardRight": 882.3999938964844,
+        "cardTop": 271.125,
+        "cardBottom": 448.875,
+        "screenshot": "docs/research/epic18/S780-integrated-gate/electron/project-workflow/S780-recovery-1280.png"
+      },
+      {
+        "viewportWidth": 320,
+        "documentClientWidth": 305,
+        "documentScrollWidth": 305,
+        "cardLeft": 18,
+        "cardRight": 286.8000183105469,
+        "cardTop": 219.85000610351562,
+        "cardBottom": 500.1500244140625,
+        "screenshot": "docs/research/epic18/S780-integrated-gate/electron/project-workflow/S780-recovery-320.png"
+      }
+    ]
+  }
+}
