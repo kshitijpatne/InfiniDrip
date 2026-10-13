@@ -1,4 +1,33 @@
-## Current boundary — EPIC-18/G05 Slice 769 complete; Slice 770 next
+## Current boundary — EPIC-18/G05 Slice 770 complete
+
+S770 started 2026-10-13 02:15:23 UTC from clean S769 commit
+`65032f5dba1272b6edc3a926d08a878126f8dbb3` on `codex/epic-18-g05`. Fresh
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor;
+769 is the highest assigned slice, so 770 is unique. The canonical board was
+revision 4575 at start. Its digest-bound start packet is
+`docs/research/epic18/S770-T02-callout-size-run-validation/start-packet.md`;
+validated T02 and Epic evidence commands advance the board to revision 4577
+and preserve G05-T01 Done and G05-T02/EPIC-18 In Progress at start. S770 exit
+and post-replay evidence are in
+`docs/research/epic18/S770-T02-callout-size-run-validation/`.
+
+S770 completes source-aware T02 callout/size-run checks and rendered review for
+all seven recipes. Its focused tests pass 45/45; all three changed production
+modules have 100% statement, branch, function and line coverage. TypeScript,
+protected export identity 9/9, Control Center 42/42, and `git diff --check`
+pass. Board revision 4582 records G05-T02 Done and EPIC-18 In Progress. The
+rendered fixtures retain unresolved exact-label source actions, show the
+XS–XL run with M base, and keep pattern predictions separate from sample
+actuals. No export baseline moved. The exit and replay-verification evidence
+are hash-linked to G05-T02 and EPIC-18.
+
+The next action is S771: refresh branch/upstream/board state, reserve the next
+unique slice, then start the admitted T03 sourced operation-record and
+component/BOM-integrity boundary. T03–T05, G05-EXIT, and UIQ-10 remain Backlog;
+the S780 global/build/Electron gate, separate S774 UIQ-10 admission, and
+supplier/physical/production holds remain unchanged.
+
+## Previous boundary — EPIC-18/G05 Slice 769 complete
 
 S768 landed as `e39ebe9f6cdb0cd1af5abe7c0e0ecc70cbd8fdf6` (`Slice 768: define
 source-aware T02 POM record contract`). S769 started at 2026-10-13 00:59:04 UTC
@@ -33,11 +62,11 @@ export identity 9/9 pass. The live Chrome render shows the editable T02
 definition and sample/QA forms and preserves visible no-fit claims. The
 validated Control Center replay passes 42/42; no export baseline moved.
 
-The single next action is S770: implement source-aware callout and size-run
-checks, then review actual rendered behavior across all seven recipes and
-close G05-T02. The separate S774 UIQ-10 admission, S780 integrated gate,
-local/no-cost scope, protected export identities, and supplier/physical/
-production holds remain unchanged. UIQ-09 remains Backlog pending EPIC-19.
+The S769 next action, S770, is complete; its exit packet records the exact
+T02 source/run contract and seven-recipe rendered proof. The separate S774
+UIQ-10 admission, S780 integrated gate, local/no-cost scope, protected export
+identities, and supplier/physical/production holds remain unchanged. UIQ-09
+remains Backlog pending EPIC-19.
 ## Previous boundary — EPIC-18/G05 Slice 767 complete
 
 S767 began at 2026-10-12 22:36:08 UTC from clean S766 commit
@@ -67,12 +96,12 @@ board through revision 4566. G05-T01 is Done and EPIC-18 remains In Progress;
 G05-T02–T05, G05-EXIT and UIQ-10 remain Backlog; UIQ-09 remains Backlog pending
 EPIC-19. The S767 board commands are under `docs/planning/EPIC-18-S767-*.json`.
 
-The active S765 sequence remains exact. The single next action is S770:
-complete T02 callout/size-run checks and all-recipe rendered evidence.
-UIQ-10 remains a separate S774 admission; the global,
-Electron and release gates remain scheduled for S780. Supplier, physical-fit,
-factory-acceptance and production claims remain held. The hash-bound S762
-admission remains unchanged.
+The active S765 sequence remains exact. S770, the next action recorded at
+S769 close, is complete; the single current next action is S771 T03 after
+fresh branch/board verification and its validated start replay. UIQ-10 remains
+a separate S774 admission; the global, Electron and release gates remain
+scheduled for S780. Supplier, physical-fit, factory-acceptance and production
+claims remain held. The hash-bound S762 admission remains unchanged.
 
 The previous boundary, S765, completed copy-time remapping of in-package
 `inheritedFrom.revisionId` references and preservation of external provenance.

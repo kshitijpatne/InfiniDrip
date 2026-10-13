@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "G05-T02",
+  "status": "Done",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "S770 completed the admitted source-aware callout and size-run checks, actionable unresolved states, prediction-only per-size display, and seven-recipe rendered review.",
+  "evidenceRefs": ["E-G05-S770-EXIT"],
+  "expectedRevision": 4579
+}

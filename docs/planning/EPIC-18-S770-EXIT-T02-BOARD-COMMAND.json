@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T02",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S770-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic18/S770-T02-callout-size-run-validation/exit-packet.md",
+    "sha256": "911315ff54a2702f9b028d3af12f14f947cdbe7efe8473885c25b00c4119327b",
+    "verified": true,
+    "note": "S770 completes T02 callout and size-run validation across seven recipes; 45 focused tests pass with 100% four-metric changed-module coverage, TypeScript and protected export identity pass, and all seven rendered states preserve actionable source gaps and prediction separation."
+  },
+  "expectedRevision": 4577
+}

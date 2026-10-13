@@ -1,5 +1,7 @@
 import type { LoadedProject, ProjectRepositoryError } from "./project-repository";
+import { isCustomOneSizeStyle } from "./project-records";
 import type { RecoveryPayload, SavedDesign, StyleRecord } from "./project-records";
+import { GARMENTS } from "../drafting";
 import { ProjectWorkflow } from "./project-workflow";
 import type { ArtworkAssetStore } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
@@ -27,6 +29,7 @@ import type {
 } from "./tech-pack-records";
 import { renderTechPackEditor } from "./tech-pack-editor";
 import { renderTechPackT02Editor } from "./tech-pack-t02-editor";
+import { evaluateTechPackT02 } from "./tech-pack-t02-validation";
 import { TECH_PACK_POM_RECIPE_IDS, TECH_PACK_POM_UNITS, type TechPackPomDefinition, type TechPackPomRecipeId } from "./tech-pack-pom-records";
 import {
   emptyTechPackPomRecordSet,
@@ -965,20 +968,43 @@ export class ProjectManager {
     const loaded = this.options.workflow.snapshot;
     const open = this.options.host.querySelector<HTMLDetailsElement>(".project-manager-details")?.open ?? false;
     this.projectManagerOpen = open;
-    const techPackEditor = open
+    const activeTechPackRecord = open ? this.currentTechPackRecord() ?? loaded.activeStyle.techPack : null;
+    const pendingT02 = activeTechPackRecord ? this.t02DataWithPendingDefinitionDraft(activeTechPackRecord) : null;
+    const t02Recipe = activeTechPackRecord ? GARMENTS.find((recipe) => recipe.name === activeTechPackRecord.recipeId) : undefined;
+    const customOneSizeId = activeTechPackRecord?.cover.baseSizeId.value;
+    const t02SizeSteps = t02Recipe
+      ? isCustomOneSizeStyle(loaded.activeStyle)
+        ? typeof customOneSizeId === "string" && customOneSizeId.trim().length > 0
+          ? [{ label: customOneSizeId, step: 0 }]
+          : []
+        : t02Recipe.sizes
+      : [];
+    const t02Validation = activeTechPackRecord && pendingT02?.data && t02Recipe
+      ? evaluateTechPackT02({
+          record: activeTechPackRecord,
+          data: pendingT02.data,
+          recipe: t02Recipe,
+          measurements: loaded.activeStyle.design.measurements,
+          options: loaded.activeStyle.design.garmentOptions[t02Recipe.name] ?? {},
+          sizeSteps: t02SizeSteps,
+        })
+      : null;
+    const techPackEditor = open && activeTechPackRecord
       ? `<section class="project-tech-pack" aria-label="Living technical pack">` +
         `<h3>Living technical pack · T01 and T02</h3>` +
         `<p>Editable production-planning values for ${escapeHtml(loaded.activeStyle.recipeId)}. Unknowns and their next actions remain visible. Saving creates one immutable revision; this does not verify physical fit, supplier facts, or factory acceptance.</p>` +
         `<div class="project-tech-pack-actions">` +
         `<button type="button" data-project-action="save-tech-pack"${this.busy || !this.techPackDraft || this.techPackInputError ? " disabled" : ""}>Save tech-pack revision</button>` +
         `<button type="button" data-project-action="discard-tech-pack"${this.busy || !this.techPackDraft ? " disabled" : ""}>Discard tech-pack edits</button></div>` +
-        `${renderTechPackEditor({ record: this.currentTechPackRecord() ?? loaded.activeStyle.techPack, recipeLabel: loaded.activeStyle.recipeId, disabled: this.busy })}` +
+        `${renderTechPackEditor({ record: activeTechPackRecord, recipeLabel: loaded.activeStyle.recipeId, disabled: this.busy })}` +
         `${renderTechPackT02Editor({
-          record: this.currentTechPackRecord() ?? loaded.activeStyle.techPack,
+          record: activeTechPackRecord,
           revisions: loaded.styleRevisions.filter((revision) => revision.styleId === loaded.activeStyle.id)
             .map((revision) => ({ revisionId: revision.revisionId, revisionNumber: revision.revisionNumber })),
           definitionsJsonDraft: this.techPackDefinitionsJsonDraft,
           disabled: this.busy,
+          validation: t02Validation,
+          validationError: pendingT02?.error,
         })}` +
         `</section>`
       : "";

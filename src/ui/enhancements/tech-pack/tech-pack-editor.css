@@ -253,6 +253,19 @@
 .t02-editor select,
 .t02-editor textarea { width: 100%; max-width: 100%; min-width: 0; padding: 7px 8px; border: 1px solid var(--t02-border); border-radius: 6px; background: var(--t02-paper); color: var(--t02-text); font: 14px/1.4 system-ui, sans-serif; }
 .t02-editor textarea { resize: vertical; }
+.t02-validation { min-width: 0; }
+.t02-callout-list,
+.t02-findings { margin: 0; padding-left: 22px; }
+.t02-findings li { margin: 6px 0; padding: 8px; border-radius: 6px; background: var(--t02-unknown-bg); color: var(--t02-unknown-text); overflow-wrap: anywhere; }
+.t02-findings li p { margin: 3px 0; }
+.t02-callout-list li[data-t02-callout-ready="true"] { color: #185c35; }
+.t02-predictions { display: grid; gap: 8px; min-width: 0; padding-top: 8px; border-top: 1px solid var(--t02-border); }
+.t02-predictions > p { margin: 0; color: var(--t02-muted); }
+.t02-prediction-table { max-width: 100%; overflow-x: auto; }
+.t02-predictions table { width: max-content; min-width: 100%; border-collapse: collapse; }
+.t02-predictions th,
+.t02-predictions td { padding: 6px 8px; border: 1px solid var(--t02-border); text-align: left; white-space: nowrap; }
+.t02-predictions thead { background: var(--t02-panel); }
 .t02-editor input:focus-visible,
 .t02-editor select:focus-visible,
 .t02-editor textarea:focus-visible,

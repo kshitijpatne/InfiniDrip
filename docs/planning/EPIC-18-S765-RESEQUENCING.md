@@ -64,7 +64,27 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S769 complete; S770 next
+## Current checkpoint — S770 complete; S771 next
+
+S770 started at 2026-10-13 02:15:23 UTC from S769 commit
+`65032f5dba1272b6edc3a926d08a878126f8dbb3` on `codex/epic-18-g05`; refreshed
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
+The hash-bound start packet is
+`docs/research/epic18/S770-T02-callout-size-run-validation/start-packet.md`;
+exit and post-replay verification are beside it. Start evidence advanced the
+canonical board 4575→4577. S770 exit and verification replays advance it to
+revision 4582, mark G05-T02 Done, and leave EPIC-18 In Progress. Focused tests
+pass 45/45 with 100% four-metric coverage for the three changed production
+modules; TypeScript, export identity 9/9, all-seven rendered review, Control
+Center 42/42, and `git diff --check` pass. The checked UI keeps source gaps
+actionable, uses exact POM labels, shows predictions separately from actuals,
+and does not claim to validate a grade formula, physical fit, supplier
+acceptance, or production readiness. The single next action is S771: refresh
+branch and board state, reserve the next unique number, then begin the admitted
+T03 operation-record and component/BOM-integrity boundary through its validated
+start replay. S771 remains Backlog until that replay.
+
+## Previous checkpoint — S769 complete
 
 S768 landed as `e39ebe9f6cdb0cd1af5abe7c0e0ecc70cbd8fdf6`. S769 started
 2026-10-13 00:59:04 UTC from that clean commit on `codex/epic-18-g05`; fresh
@@ -84,10 +104,11 @@ seven changed production modules. TypeScript, export identity 9/9, the actual
 Chrome-rendered T02 form, Control Center 42/42 and diff hygiene pass. No
 export baseline or T01 historical digest moved.
 
-The single next action is S770: add source-aware callout and size-run checks,
-then review rendered behavior for all seven recipes before closing T02. The
-S780 integrated gate, S774 separate UIQ-10 admission, no-cost/local limits,
-protected exports, and supplier/physical/production holds remain.
+The single next action recorded at S769 close was S770, now complete. The
+current next action is S771 T03 after fresh branch/board verification and its
+validated start replay. The S780 integrated gate, S774 separate UIQ-10
+admission, no-cost/local limits, protected exports, and supplier/physical/
+production holds remain.
 ## Previous checkpoint — S767 complete
 
 S766 completed payload-v2 immutable T01 snapshots/digests, strict payload-v1

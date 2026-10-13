@@ -1,0 +1,8 @@
+{
+  "type": "addEpicEvidence",
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidenceId": "E-G05-S770-REPLAY",
+  "expectedRevision": 4581
+}
