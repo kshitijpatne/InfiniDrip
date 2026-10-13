@@ -1,0 +1,15 @@
+{
+  "type": "editItem",
+  "itemId": "EPIC-18",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Current exact conditional slices 762–781 are recorded in docs/planning/EPIC-18-S765-RESEQUENCING.md; the original 762–780 estimate is historical. UIQ-10 remains a linked child and requires its own bounded admission after T01–T03, planned for Slice 774.",
+    "acceptanceCriteria": [
+      "Complete G05 T01–T05 in order across all seven supported recipes using the exact bounded packets in docs/planning/EPIC-18-ADMISSION.md.",
+      "Complete linked UIQ-10 under its separate bounded Slice 774 admission after T01–T03 contracts; do not unlink or close the Epic while UIQ-10 is unfinished.",
+      "Preserve backward-readable style/project/revision records, existing design behavior, the legacy Tech Pack, and all eight protected export SHA identities.",
+      "Require 100% focused coverage for changed production code and one settled full suite at 100% global statement/branch/function/line coverage before merge; verify rendered and actual generated output.",
+      "Keep local sharing distinct from a supplier handoff, physical sample/fit, factory acceptance, production release, or production-readiness claim; close only after review, merge, required main CI/deployment, and validated board evidence."
+    ]
+  },
+  "expectedRevision": 4591
+}

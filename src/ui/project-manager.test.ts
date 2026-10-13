@@ -19,6 +19,12 @@ import { openProjectWorkflow } from "./project-workflow";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import { createProjectPackage, readProjectPackage } from "./project-package";
 import { createFieldObservationRecord } from "./field-provenance";
+import { emptyTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
+import {
+  TECH_PACK_OPERATION_MAX_RECORDS,
+  emptyTechPackOperationRecordSetV2,
+  unresolvedTechPackOperation,
+} from "./tech-pack-operation-records";
 
 const TIME = "2026-09-24T16:00:00.000Z";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
@@ -106,6 +112,13 @@ function clickT02Action(host: HTMLElement, action: string, roundId?: string): vo
   const suffix = roundId ? `[data-t02-round-id="${roundId}"]` : "";
   const button = host.querySelector<HTMLButtonElement>(`[data-t02-action="${action}"]${suffix}`);
   if (!button) throw new Error(`Missing T02 action ${action}`);
+  button.click();
+}
+
+function clickT03Action(host: HTMLElement, action: string, operationId?: string): void {
+  const suffix = operationId ? `[data-t03-operation-id="${operationId}"]` : "";
+  const button = host.querySelector<HTMLButtonElement>(`[data-t03-action="${action}"]${suffix}`);
+  if (!button) throw new Error(`Missing T03 action ${action}`);
   button.click();
 }
 
@@ -337,6 +350,170 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector("#project-manager-status")?.textContent).toContain("unsaved tech-pack edits before freezing");
       await managerActions.handle("discard-tech-pack");
       expect(host.querySelector("#project-manager-status")?.textContent).toContain("Unsaved tech-pack edits were discarded");
+    } finally {
+      state.close();
+    }
+  });
+
+  it("edits T03 provenance, adds/removes unresolved shells, blocks invalid JSON, and saves/reloads schema v3", async () => {
+    const state = await techPackHarness({ confirm: () => true });
+    try {
+      const { host, workflow } = state;
+      expect(host.querySelector(".t03-editor")).not.toBeNull();
+      const initialRevisionId = workflow.snapshot.activeStyle.revisionHeadId;
+      const editor = host.querySelector<HTMLTextAreaElement>("[data-t03-input='operations']")!;
+      const empty = editor.value;
+
+      editor.value = "{";
+      editor.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")?.disabled).toBe(true);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("valid JSON");
+      expect(host.querySelector(".t03-validation-error")?.textContent).toContain("valid JSON");
+      editor.value = empty;
+      editor.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(host.querySelector("[data-t03-validation-counts]")?.textContent).toContain("ABSENT 1");
+
+      clickT03Action(host, "add-unresolved-operation");
+      expect(host.querySelector("[data-t03-operation-id='operation-1']")?.textContent).toContain("unresolved");
+      clickT03Action(host, "remove-operation", "operation-1");
+      expect(host.querySelector("[data-t03-operation-id='operation-1']")).toBeNull();
+      clickT03Action(host, "add-unresolved-operation");
+
+      const drafted = JSON.parse(host.querySelector<HTMLTextAreaElement>("[data-t03-input='operations']")!.value) as {
+        operations: Array<Record<string, unknown>>;
+      };
+      drafted.operations[0]!.name = { status: "USER_DECISION", value: "Synthetic join step", rationale: "Synthetic UI test only." };
+      drafted.operations[0]!.sequence = { status: "ESTIMATE", value: 1, method: "Fixture ordering", assumptions: "Synthetic UI test only." };
+      const edited = host.querySelector<HTMLTextAreaElement>("[data-t03-input='operations']")!;
+      edited.value = JSON.stringify(drafted, null, 2);
+      edited.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(host.querySelector("[data-t03-validation-counts]")?.textContent)
+        .toBe("ABSENT 11 · UNRESOLVED 2 · CONFLICT 0 · RECIPE DEFAULT 0 · ESTIMATE 1 · USER DECISION 1 · SOURCE CONFIRMED 0");
+      expect(host.querySelector("[data-t03-operation-id='operation-1']")?.textContent)
+        .toContain("Name USER_DECISION · sequence ESTIMATE · components UNRESOLVED · seams UNRESOLVED");
+
+      host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Saved the tech pack as immutable style revision"));
+      const saved = workflow.snapshot.activeStyle.techPack;
+      const head = workflow.snapshot.styleRevisions.find((revision) => revision.revisionId === saved.revisionId)!;
+      expect(saved.schemaVersion).toBe(3);
+      expect(saved.pomData).toBeDefined();
+      expect(saved.operationData?.schemaVersion).toBe(2);
+      expect(saved.operationData?.operations[0]?.name.status).toBe("USER_DECISION");
+      expect(saved.operationData?.operations[0]?.sequence.status).toBe("ESTIMATE");
+      expect(head.payload.payloadVersion).toBe(2);
+      if (head.payload.payloadVersion === 2) expect(head.payload.techPack.operationData).toEqual(saved.operationData);
+      expect(saved.revisionId).not.toBe(initialRevisionId);
+
+      await workflow.reload();
+      expect(workflow.snapshot.activeStyle.techPack.operationData).toEqual(saved.operationData);
+      await expect(workflow.saveActiveTechPack({ ...saved, revisionId: initialRevisionId })).rejects.toMatchObject({ code: "conflict" });
+    } finally {
+      state.close();
+    }
+  });
+
+  it("rejects disconnected, malformed, unsupported, and over-limit T03 drafts and actions", async () => {
+    const state = await techPackHarness();
+    try {
+      const { host, manager, workflow } = state;
+      const record = workflow.snapshot.activeStyle.techPack;
+      const direct = manager as unknown as {
+        techPackDraft: any;
+        techPackDefinitionsJsonDraft: string | null;
+        techPackOperationsJsonDraft: string | null;
+        t03Data(candidate: any): any;
+        t03DataWithPendingDraft(candidate: any): any;
+        pendingTechPackJsonError(candidate: any): string;
+        applyT02Draft(candidate: any, data: any): void;
+        applyT03Draft(candidate: any, data: any): void;
+        updateT03OperationFeedback(data: any, error: string | null): void;
+        updateT03TechPackFromControl(target: HTMLTextAreaElement): void;
+        handleT03TechPackAction(target: HTMLElement): void;
+      };
+      const emptyOperations = emptyTechPackOperationRecordSetV2("tee");
+      const emptyPom = emptyTechPackPomRecordSet("tee");
+      const action = (name: string, operationId?: string): HTMLElement => {
+        const target = document.createElement("button");
+        target.dataset.t03Action = name;
+        if (operationId !== undefined) target.dataset.t03OperationId = operationId;
+        return target;
+      };
+
+      direct.applyT03Draft(record, emptyOperations);
+      expect(direct.t03Data(direct.techPackDraft)).toEqual(emptyOperations);
+      direct.applyT02Draft(direct.techPackDraft, emptyPom);
+      expect(direct.techPackDraft.operationData).toEqual(emptyOperations);
+      expect(direct.pendingTechPackJsonError(direct.techPackDraft)).toBe("");
+
+      direct.techPackOperationsJsonDraft = "{";
+      expect(direct.t03DataWithPendingDraft(direct.techPackDraft).error).toContain("valid JSON");
+      direct.techPackOperationsJsonDraft = JSON.stringify({ ...emptyOperations, extra: true });
+      expect(direct.pendingTechPackJsonError(direct.techPackDraft)).toContain("unknown fields");
+      direct.techPackDefinitionsJsonDraft = "{";
+      expect(direct.pendingTechPackJsonError(direct.techPackDraft)).toContain("POM definition needs attention");
+      direct.techPackDefinitionsJsonDraft = null;
+      direct.techPackOperationsJsonDraft = null;
+
+      expect(direct.t03Data({ ...record, recipeId: "custom" })).toBeNull();
+      direct.applyT03Draft({ ...record, recipeId: "custom" }, emptyOperations);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("supported recipe");
+      direct.applyT03Draft(record, { schemaVersion: 2, recipeId: "polo", operations: [] });
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("operation edit needs attention");
+
+      const textarea = document.createElement("textarea");
+      textarea.dataset.t03Input = "operations";
+      direct.techPackDraft = { ...record, styleId: "another-style" };
+      textarea.value = JSON.stringify(emptyOperations);
+      direct.updateT03TechPackFromControl(textarea);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("belongs to another style");
+      direct.techPackDraft = null;
+      textarea.value = "{";
+      direct.updateT03TechPackFromControl(textarea);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("valid JSON");
+      textarea.value = JSON.stringify({ ...emptyOperations, extra: true });
+      direct.updateT03TechPackFromControl(textarea);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("needs attention");
+
+      direct.techPackDraft = { ...record, styleId: "another-style" };
+      direct.handleT03TechPackAction(action("add-unresolved-operation"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("belongs to another style");
+      direct.techPackDraft = record;
+      direct.techPackOperationsJsonDraft = "{";
+      direct.handleT03TechPackAction(action("add-unresolved-operation"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("needs attention");
+      direct.techPackOperationsJsonDraft = null;
+      direct.techPackDraft = { ...record, recipeId: "custom" };
+      direct.handleT03TechPackAction(action("add-unresolved-operation"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("no T03 operation record contract");
+
+      direct.techPackDraft = { ...record, schemaVersion: 3, pomData: emptyPom, operationData: emptyOperations };
+      direct.handleT03TechPackAction(action("remove-operation", "missing"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("no longer exists");
+      direct.handleT03TechPackAction(action("unknown"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("not supported");
+
+      const collidingOperations = { ...emptyOperations, operations: [unresolvedTechPackOperation("operation-1")] };
+      direct.techPackDraft = { ...record, schemaVersion: 3, pomData: emptyPom, operationData: collidingOperations };
+      direct.handleT03TechPackAction(action("add-unresolved-operation"));
+      expect(host.querySelectorAll(".t03-operation")).toHaveLength(2);
+
+      const maximumOperations = {
+        ...emptyOperations,
+        operations: Array.from({ length: TECH_PACK_OPERATION_MAX_RECORDS }, (_unused, index) =>
+          unresolvedTechPackOperation(`operation-${index + 1}`)),
+      };
+      direct.techPackDraft = { ...record, schemaVersion: 3, pomData: emptyPom, operationData: maximumOperations };
+      direct.techPackOperationsJsonDraft = null;
+      direct.handleT03TechPackAction(action("add-unresolved-operation"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("exceeds the operation limit");
+
+      const feedbackEditor = host.querySelector<HTMLElement>(".t03-editor")!;
+      feedbackEditor.querySelector(".t03-validation")!.remove();
+      direct.updateT03OperationFeedback(null, "validation target missing");
+      expect(feedbackEditor.querySelector(".t03-validation")).toBeNull();
+      feedbackEditor.remove();
+      direct.updateT03OperationFeedback(null, "editor target missing");
     } finally {
       state.close();
     }

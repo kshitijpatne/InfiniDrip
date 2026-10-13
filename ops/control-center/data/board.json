@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4589,
-  "updatedAt": "2026-10-13T03:02:12.032Z",
+  "revision": 4597,
+  "updatedAt": "2026-10-13T04:08:50.549Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -809,7 +809,10 @@
         "E-G05-S770-REPLAY",
         "E-G05-S771-START",
         "E-G05-S771-EXIT",
-        "E-G05-S771-REPLAY"
+        "E-G05-S771-REPLAY",
+        "E-G05-S772-START",
+        "E-G05-S772-EXIT",
+        "E-G05-S772-REPLAY"
       ]
     },
     {
@@ -5611,11 +5614,11 @@
         "unknown supplier/construction/standard facts stay visible and actionable",
         "no physical-fit, factory-acceptance, supplier-acceptance, or production-release claims"
       ],
-      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Exact conditional slices 762–780; reforecast after T01. UIQ-10 remains a linked child and requires its own bounded admission after T01–T03, planned for Slice 773.",
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Current exact conditional slices 762–781 are recorded in docs/planning/EPIC-18-S765-RESEQUENCING.md; the original 762–780 estimate is historical. UIQ-10 remains a linked child and requires its own bounded admission after T01–T03, planned for Slice 774.",
       "expectation": "Deliver an editable, provenance-aware, revision-bound local tech pack for all seven supported recipes, with explicit unknowns, predicted-versus-actual separation, scoped review/freeze, and deterministic digital outputs.",
       "acceptanceCriteria": [
         "Complete G05 T01–T05 in order across all seven supported recipes using the exact bounded packets in docs/planning/EPIC-18-ADMISSION.md.",
-        "Complete linked UIQ-10 under its separate bounded Slice 773 admission after T01–T03 contracts; do not unlink or close the Epic while UIQ-10 is unfinished.",
+        "Complete linked UIQ-10 under its separate bounded Slice 774 admission after T01–T03 contracts; do not unlink or close the Epic while UIQ-10 is unfinished.",
         "Preserve backward-readable style/project/revision records, existing design behavior, the legacy Tech Pack, and all eight protected export SHA identities.",
         "Require 100% focused coverage for changed production code and one settled full suite at 100% global statement/branch/function/line coverage before merge; verify rendered and actual generated output.",
         "Keep local sharing distinct from a supplier handoff, physical sample/fit, factory acceptance, production release, or production-readiness claim; close only after review, merge, required main CI/deployment, and validated board evidence."
@@ -15455,7 +15458,7 @@
         "export byte identity",
         "source/revision identity"
       ],
-      "description": "Linked EPIC-18/G05 child, still Backlog until the separate bounded UIQ-10 packet at Slice 773 after T01–T03 contracts. Scope: readable production-pack forms/tables, revision/approval visibility and selected sections. Packet and boundaries: docs/planning/EPIC-18-ADMISSION.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md.",
+      "description": "Linked EPIC-18/G05 child, still Backlog until the separate bounded UIQ-10 packet at Slice 774 after T01–T03 contracts. Scope: readable production-pack forms/tables, revision/approval visibility and selected sections. Packet and boundaries: docs/planning/EPIC-18-ADMISSION.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md.",
       "expectation": "The admitted production-pack presentation makes current section, revision, scoped approval and unresolved/readiness status readable without changing technical data, numeric methods, freeze rules or exports.",
       "acceptanceCriteria": [
         "A separate bounded admission names G05 data contract inputs, exact UI/file ownership, fallback, preserved behavior, rendered acceptance and exclusion of schema/POM/freeze/export decisions.",
@@ -16752,7 +16755,10 @@
       "evidenceRefs": [
         "E-G05-S771-START",
         "E-G05-S771-EXIT",
-        "E-G05-S771-REPLAY"
+        "E-G05-S771-REPLAY",
+        "E-G05-S772-START",
+        "E-G05-S772-EXIT",
+        "E-G05-S772-REPLAY"
       ],
       "flagKey": null
     },
@@ -30832,6 +30838,33 @@
       "sha256": "517e29f17f01e9bc204705c23301e658d74e1deb72c08966b78358a8eb0272ee",
       "verified": true,
       "note": "S771 exit evidence and focused gates are verified; board remains G05-T03 and EPIC-18 In Progress for S772 and S773."
+    },
+    {
+      "id": "E-G05-S772-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S772-T03-operation-editor-validation/start-packet.md",
+      "commit": null,
+      "sha256": "dd91de69f59d1fe641539a23f44c06dc8d845cc4b07a57541b94cb4076a7e756",
+      "verified": true,
+      "note": "S772 starts the bounded T03 operation editor and validation contract with explicit source, recipe-default, estimate, user-decision, unresolved, and conflict origins. T03 remains In Progress; S773 retains pattern/BOM reconciliation and all-recipe review."
+    },
+    {
+      "id": "E-G05-S772-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S772-T03-operation-editor-validation/exit-packet.md",
+      "commit": null,
+      "sha256": "d777053a7205556221977b338ea4e1754d932ff6e2bda0558a964534140c9b27",
+      "verified": true,
+      "note": "S772 adds explicit T03 value origins, a local operation editor/validation summary, and schema-v3 immutable persistence while preserving prior record/revision contracts. Focused coverage and rendered save/reload pass; S773 retains all-recipe reconciliation."
+    },
+    {
+      "id": "E-G05-S772-REPLAY",
+      "kind": "document",
+      "uri": "docs/research/epic18/S772-T03-operation-editor-validation/post-replay-verification.md",
+      "commit": null,
+      "sha256": "d0e31e94b694d1dc0ecbede6e13a33937249275357dd91c5937de3eeffb43aaf",
+      "verified": true,
+      "note": "S772 exit evidence, final coverage/export/rendered gates, board-card alignment, and the T03/Epic status boundary are verified; S773 is next."
     }
   ]
 }

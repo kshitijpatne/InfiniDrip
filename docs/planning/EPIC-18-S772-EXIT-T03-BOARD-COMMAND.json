@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T03",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S772-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic18/S772-T03-operation-editor-validation/exit-packet.md",
+    "sha256": "d777053a7205556221977b338ea4e1754d932ff6e2bda0558a964534140c9b27",
+    "verified": true,
+    "note": "S772 adds explicit T03 value origins, a local operation editor/validation summary, and schema-v3 immutable persistence while preserving prior record/revision contracts. Focused coverage and rendered save/reload pass; S773 retains all-recipe reconciliation."
+  },
+  "expectedRevision": 4593
+}

@@ -31,6 +31,8 @@ import {
   type StyleRecord,
 } from "./project-records";
 import { bindTechPackToRevision, type TechPackField, type TechPackFieldValue, type TechPackSemanticKind } from "./tech-pack-records";
+import { emptyTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
+import { emptyTechPackOperationRecordSetV2, unresolvedTechPackOperation } from "./tech-pack-operation-records";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
 import {
   approveGradePlan,
@@ -1253,7 +1255,17 @@ describe("portable local project package", () => {
       },
     };
     const observations = createFieldObservationRecord(style, TIME, "existing-local-style");
-    const techPack = revisionPack(style, "11111111-1111-4111-8111-111111111111", 1);
+    const baseTechPack = revisionPack(style, "11111111-1111-4111-8111-111111111111", 1);
+    const operationData = {
+      ...emptyTechPackOperationRecordSetV2("tee"),
+      operations: [unresolvedTechPackOperation("operation-1")],
+    };
+    const techPack = bindTechPackToRevision({
+      ...baseTechPack,
+      schemaVersion: 3,
+      pomData: emptyTechPackPomRecordSet("tee"),
+      operationData,
+    }, baseTechPack.revisionId!, baseTechPack.revisionNumber, TIME);
     const revision = await createStyleRevision({
       styleId: style.id,
       revisionId: "11111111-1111-4111-8111-111111111111",
@@ -1296,7 +1308,13 @@ describe("portable local project package", () => {
     }, store, { crypto });
     const archive = await readProjectPackage(packed, { crypto });
     expect(archive.manifest.packageVersion).toBe(3);
+    expect(archive.manifest.styles[0]?.techPack.schemaVersion).toBe(3);
+    expect(archive.manifest.styles[0]?.techPack.operationData).toEqual(operationData);
     expect(archive.manifest.styleRevisions).toHaveLength(1);
+    expect(archive.manifest.styleRevisions[0]?.payload.payloadVersion).toBe(2);
+    if (archive.manifest.styleRevisions[0]?.payload.payloadVersion === 2) {
+      expect(archive.manifest.styleRevisions[0].payload.techPack.operationData).toEqual(operationData);
+    }
     expect(archive.manifest.exportManifests[0]?.artifacts[0]?.archivePath)
       .toBe(`frozen/${frozen.manifestId}/selected-size-a0-pdf.pdf`);
     expect(await archive.frozenManifests[0]?.artifacts[0]?.bytes.text()).toBe(outputText);
@@ -1313,6 +1331,10 @@ describe("portable local project package", () => {
     if (copied.status !== "imported") throw new Error("Frozen package copy import did not complete.");
     const restored = await target.loadProject(copied.projectId);
     expect(restored?.styleRevisions).toHaveLength(1);
+    expect(restored?.styles[0]?.techPack.operationData).toEqual(operationData);
+    const copiedHead = restored?.styleRevisions[0];
+    expect(copiedHead?.payload.payloadVersion).toBe(2);
+    if (copiedHead?.payload.payloadVersion === 2) expect(copiedHead.payload.techPack.operationData).toEqual(operationData);
     expect(restored?.exportManifests).toHaveLength(1);
     expect(restored?.exportManifests[0]?.packetDigest).not.toBe(frozen.packetDigest);
     expect(await restored?.exportManifests[0]?.artifacts[0]?.bytes.text()).toBe(outputText);
@@ -1326,6 +1348,7 @@ describe("portable local project package", () => {
     }, memoryAssets(), { crypto });
     const reloaded = await readProjectPackage(reExported, { crypto });
     expect(await reloaded.frozenManifests[0]?.artifacts[0]?.bytes.text()).toBe(outputText);
+    expect(reloaded.manifest.styles[0]?.techPack.operationData).toEqual(operationData);
   });
 
   it("preserves T01 data and review on restore, then remaps packaged provenance and resets review on copy", async () => {

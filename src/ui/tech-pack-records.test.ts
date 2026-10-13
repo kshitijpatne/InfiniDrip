@@ -6,12 +6,14 @@ import {
   TECH_PACK_MAX_RECORDS,
   TECH_PACK_RECORD_VERSION,
   TECH_PACK_T02_RECORD_VERSION,
+  TECH_PACK_T03_RECORD_VERSION,
   UNVERSIONED_RECIPE_MARKER,
   type TechPackField,
   type TechPackFieldValue,
   type TechPackSemanticKind,
 } from "./tech-pack-records";
 import { emptyTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
+import { emptyTechPackOperationRecordSetV2 } from "./tech-pack-operation-records";
 
 const NOW = "2026-10-12T20:00:00.000Z";
 const STYLE_ID = "10000000-0000-4000-8000-000000000001";
@@ -225,6 +227,41 @@ describe("versioned T02 tech-pack extension", () => {
     expect(parseTechPackRecord({ ...base, pomData: emptyTechPackPomRecordSet("tee"), extra: true }).ok).toBe(false);
     expect(parseTechPackRecord({ ...base, pomData: emptyTechPackPomRecordSet("polo") }).ok).toBe(false);
     expect(parseTechPackRecord({ ...base, schemaVersion: 99, pomData: emptyTechPackPomRecordSet("tee") }).ok).toBe(false);
+  });
+});
+
+describe("versioned T03 tech-pack extension", () => {
+  it("stores operation schema v2 with T02 data and binds both as immutable revision content", () => {
+    const record = {
+      ...validRecord(),
+      schemaVersion: TECH_PACK_T03_RECORD_VERSION,
+      recipeId: "tee",
+      pomData: emptyTechPackPomRecordSet("tee"),
+      operationData: emptyTechPackOperationRecordSetV2("tee"),
+    };
+    const parsed = parseTechPackRecord(record);
+    expect(parsed).toEqual({ ok: true, value: record });
+    if (!parsed.ok) return;
+    const bound = bindTechPackToRevision(parsed.value, REVISION_ID, 1, NOW);
+    expect(bound.schemaVersion).toBe(TECH_PACK_T03_RECORD_VERSION);
+    expect(bound.pomData).toEqual(record.pomData);
+    expect(bound.pomData).not.toBe(record.pomData);
+    expect(bound.operationData).toEqual(record.operationData);
+    expect(bound.operationData).not.toBe(record.operationData);
+  });
+
+  it("preserves strict T01/T02 shapes and rejects missing, mismatched, or extra T03 data", () => {
+    const base = { ...validRecord(), schemaVersion: TECH_PACK_T03_RECORD_VERSION, recipeId: "tee" };
+    expect(parseTechPackRecord(base).ok).toBe(false);
+    const pomData = emptyTechPackPomRecordSet("tee");
+    const operationData = emptyTechPackOperationRecordSetV2("tee");
+    expect(parseTechPackRecord({ ...base, pomData, operationData, extra: true }).ok).toBe(false);
+    expect(parseTechPackRecord({ ...base, pomData, operationData: emptyTechPackOperationRecordSetV2("polo") }).ok).toBe(false);
+    expect(parseTechPackRecord({ ...base, pomData: emptyTechPackPomRecordSet("polo"), operationData }).ok).toBe(false);
+    const legacy = parseTechPackRecord(validRecord());
+    const t02 = parseTechPackRecord({ ...validRecord(), schemaVersion: TECH_PACK_T02_RECORD_VERSION, recipeId: "tee", pomData });
+    expect(legacy.ok && legacy.value.schemaVersion).toBe(TECH_PACK_RECORD_VERSION);
+    expect(t02.ok && t02.value.schemaVersion).toBe(TECH_PACK_T02_RECORD_VERSION);
   });
 });
 

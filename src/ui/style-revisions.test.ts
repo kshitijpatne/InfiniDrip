@@ -5,6 +5,8 @@ import { createFieldObservationRecord } from "./field-provenance";
 import { migrateLegacySaveFile } from "./project-records";
 import { serialize } from "./persist";
 import { bindTechPackToRevision } from "./tech-pack-records";
+import { emptyTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
+import { emptyTechPackOperationRecordSetV2, unresolvedTechPackOperation } from "./tech-pack-operation-records";
 import {
   CanonicalJsonError,
   canonicalizeJcs,
@@ -275,6 +277,51 @@ describe("immutable revision and frozen output records", () => {
       source: { ...current, revisionContentDigest: "0".repeat(64) },
       techPack: v2Payload.techPack,
     }, crypto)).rejects.toThrow("Only an integrity-verified source revision");
+  });
+
+  it("keeps revision payload v2 while operation schema-v3 content participates in its digest", async () => {
+    const { style, fieldObservations } = fixture();
+    const operationData = emptyTechPackOperationRecordSetV2("tee");
+    const techPack = bindTechPackToRevision({
+      ...style.techPack,
+      recipeId: "tee",
+      schemaVersion: 3,
+      pomData: emptyTechPackPomRecordSet("tee"),
+      operationData,
+    }, REVISION_ID, 1, TIME);
+    const revision = await createStyleRevision({
+      styleId: STYLE_ID,
+      revisionId: REVISION_ID,
+      parentRevisionId: null,
+      revisionNumber: 1,
+      createdAt: TIME,
+      design: style.design,
+      fieldObservations,
+      artwork: [],
+      techPack,
+    }, crypto);
+    expect(revision.payload.payloadVersion).toBe(STYLE_REVISION_PAYLOAD_VERSION);
+    expect(parseStyleRevisionRecord(revision)).toEqual(revision);
+    expect(await verifyStyleRevision(revision, crypto)).toBe(true);
+
+    const changedOperationData = { ...operationData, operations: [unresolvedTechPackOperation("operation-1")] };
+    const changedTechPack = { ...techPack, operationData: changedOperationData };
+    const changed = await createStyleRevision({
+      styleId: STYLE_ID,
+      revisionId: REVISION_ID,
+      parentRevisionId: null,
+      revisionNumber: 1,
+      createdAt: TIME,
+      design: style.design,
+      fieldObservations,
+      artwork: [],
+      techPack: changedTechPack,
+    }, crypto);
+    expect(changed.revisionContentDigest).not.toBe(revision.revisionContentDigest);
+    expect(await verifyStyleRevision({
+      ...revision,
+      payload: { ...revision.payload, techPack: changedTechPack },
+    } as StyleRevisionRecord, crypto)).toBe(false);
   });
 
   it("hashes a parentless baseline, sorts source artwork, and verifies the strict record", async () => {

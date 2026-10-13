@@ -16,7 +16,7 @@ import {
 import type { FrozenArtifactInput } from "./style-revisions";
 import type { GradePlanRecord } from "./grade-plan";
 import type { FieldEvidenceStatus, FieldProvenance, FieldValidationStatus } from "./field-provenance";
-import { TECH_PACK_T02_RECORD_VERSION, parseTechPackRecord } from "./tech-pack-records";
+import { TECH_PACK_T02_RECORD_VERSION, TECH_PACK_T03_RECORD_VERSION, parseTechPackRecord } from "./tech-pack-records";
 import type {
   TechPackBomRow,
   TechPackColorway,
@@ -30,6 +30,21 @@ import type {
 import { renderTechPackEditor } from "./tech-pack-editor";
 import { renderTechPackT02Editor } from "./tech-pack-t02-editor";
 import { evaluateTechPackT02 } from "./tech-pack-t02-validation";
+import {
+  renderTechPackOperationEditor,
+  renderTechPackOperationRows,
+  renderTechPackOperationValidation,
+} from "./tech-pack-operation-editor";
+import { evaluateTechPackOperationRecordSet } from "./tech-pack-operation-validation";
+import {
+  TECH_PACK_OPERATION_RECIPE_IDS,
+  TECH_PACK_OPERATION_RECORD_VERSION_V2,
+  emptyTechPackOperationRecordSetV2,
+  parseTechPackOperationRecordSet,
+  unresolvedTechPackOperation,
+  type TechPackOperationRecipeId,
+  type TechPackOperationRecordSet,
+} from "./tech-pack-operation-records";
 import { TECH_PACK_POM_RECIPE_IDS, TECH_PACK_POM_UNITS, type TechPackPomDefinition, type TechPackPomRecipeId } from "./tech-pack-pom-records";
 import {
   emptyTechPackPomRecordSet,
@@ -305,6 +320,7 @@ export class ProjectManager {
   private compareRightId = "";
   private techPackDraft: TechPackRecord | null = null;
   private techPackDefinitionsJsonDraft: string | null = null;
+  private techPackOperationsJsonDraft: string | null = null;
   private techPackInputError = "";
   private projectManagerOpen = false;
   private projects: readonly LoadedProject[];
@@ -339,9 +355,16 @@ export class ProjectManager {
       if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
         if (target.dataset.t01Input === "true") this.updateTechPackFromControl(target);
         else if (target.dataset.t02Input) this.updateT02TechPackFromControl(target);
+        else if (target.dataset.t03Input === "operations" && target instanceof HTMLTextAreaElement) this.updateT03TechPackFromControl(target);
       }
     });
     options.host.addEventListener("click", (event) => {
+      const t03Target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-t03-action]") : null;
+      if (t03Target && !this.busy) {
+        event.preventDefault();
+        this.handleT03TechPackAction(t03Target);
+        return;
+      }
       const t02Target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-t02-action]") : null;
       if (t02Target && !this.busy) {
         event.preventDefault();
@@ -507,13 +530,14 @@ export class ProjectManager {
       return;
     }
     this.techPackDraft = updated;
-    this.techPackInputError = "";
+    this.techPackInputError = this.pendingTechPackJsonError(updated);
     this.updateTechPackStatus("Unsaved T01 edits. Save the tech pack to create one immutable revision.");
   }
 
   private discardTechPackDraft(): void {
     this.techPackDraft = null;
     this.techPackDefinitionsJsonDraft = null;
+    this.techPackOperationsJsonDraft = null;
     this.techPackInputError = "";
   }
 
@@ -536,13 +560,162 @@ export class ProjectManager {
   }
 
   private applyT02Draft(record: TechPackRecord, data: TechPackPomRecordSet): void {
-    const candidate: TechPackRecord = { ...record, schemaVersion: TECH_PACK_T02_RECORD_VERSION, pomData: data };
+    const candidate: TechPackRecord = record.schemaVersion === TECH_PACK_T03_RECORD_VERSION
+      ? { ...record, pomData: data }
+      : { ...record, schemaVersion: TECH_PACK_T02_RECORD_VERSION, pomData: data };
     const parsed = parseTechPackRecord(candidate);
     this.techPackDraft = parsed.ok ? parsed.value : candidate;
-    this.techPackInputError = parsed.ok ? "" : parsed.error;
+    this.techPackInputError = parsed.ok ? this.pendingTechPackJsonError(parsed.value) : parsed.error;
     this.updateTechPackStatus(parsed.ok
       ? "Unsaved T02 edits. Save the tech pack to create one immutable revision."
       : `T02 edit needs attention: ${parsed.error}`);
+  }
+
+  private t03Data(record: TechPackRecord): TechPackOperationRecordSet | null {
+    if (record.operationData) return record.operationData;
+    if (!TECH_PACK_OPERATION_RECIPE_IDS.includes(record.recipeId as TechPackOperationRecipeId)) return null;
+    return emptyTechPackOperationRecordSetV2(record.recipeId as TechPackOperationRecipeId);
+  }
+
+  private t03DataWithPendingDraft(record: TechPackRecord): { data: TechPackOperationRecordSet | null; error: string | null } {
+    const data = this.t03Data(record);
+    if (!data || this.techPackOperationsJsonDraft === null) return { data, error: null };
+    try {
+      const parsedJson: unknown = JSON.parse(this.techPackOperationsJsonDraft);
+      const parsed = parseTechPackOperationRecordSet(parsedJson, record.recipeId as TechPackOperationRecipeId);
+      return parsed.ok ? { data: parsed.value, error: null } : { data: null, error: parsed.error };
+    } catch {
+      return { data: null, error: "T03 operation records must be valid JSON matching the displayed schema." };
+    }
+  }
+
+  private pendingTechPackJsonError(record: TechPackRecord): string {
+    const t02 = this.t02DataWithPendingDefinitionDraft(record);
+    if (t02.error) return `POM definition needs attention: ${t02.error}`;
+    const t03 = this.t03DataWithPendingDraft(record);
+    return t03.error ? `T03 operation record needs attention: ${t03.error}` : "";
+  }
+
+  private applyT03Draft(record: TechPackRecord, data: TechPackOperationRecordSet): void {
+    const pomData = record.pomData ?? (TECH_PACK_POM_RECIPE_IDS.includes(record.recipeId as TechPackPomRecipeId)
+      ? emptyTechPackPomRecordSet(record.recipeId as TechPackPomRecipeId)
+      : null);
+    if (!pomData) {
+      this.techPackInputError = "T03 operation editing requires a supported recipe with a T02 record contract.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    const candidate: TechPackRecord = {
+      ...record,
+      schemaVersion: TECH_PACK_T03_RECORD_VERSION,
+      pomData,
+      operationData: data,
+    };
+    const parsed = parseTechPackRecord(candidate);
+    this.techPackDraft = parsed.ok ? parsed.value : candidate;
+    this.techPackInputError = parsed.ok ? this.pendingTechPackJsonError(parsed.value) : parsed.error;
+    this.updateTechPackStatus(parsed.ok
+      ? "Unsaved T03 operation edits. Save the tech pack to create one immutable revision."
+      : `T03 operation edit needs attention: ${parsed.error}`);
+  }
+
+  private updateT03TechPackFromControl(target: HTMLTextAreaElement): void {
+    const record = this.currentTechPackRecord();
+    if (!record) {
+      this.techPackInputError = "This T03 edit belongs to another style. Reload the active project before continuing.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    this.techPackOperationsJsonDraft = target.value;
+    let operationData: unknown;
+    try {
+      operationData = JSON.parse(target.value);
+    } catch {
+      const error = "T03 operation records must be valid JSON matching the displayed schema.";
+      this.techPackInputError = error;
+      this.updateTechPackStatus(this.techPackInputError);
+      this.updateT03OperationFeedback(null, error);
+      return;
+    }
+    const parsed = parseTechPackOperationRecordSet(operationData, record.recipeId as TechPackOperationRecipeId);
+    if (!parsed.ok) {
+      const error = `T03 operation record needs attention: ${parsed.error}`;
+      this.techPackInputError = error;
+      this.updateTechPackStatus(this.techPackInputError);
+      this.updateT03OperationFeedback(null, error);
+      return;
+    }
+    this.applyT03Draft(record, parsed.value);
+    this.updateT03OperationFeedback(parsed.value, null);
+  }
+
+  private updateT03OperationFeedback(data: TechPackOperationRecordSet | null, error: string | null): void {
+    const editor = this.options.host.querySelector<HTMLElement>(".t03-editor");
+    if (!editor) return;
+    const operations = editor.querySelector<HTMLElement>(".t03-operations");
+    if (data && operations) operations.innerHTML = renderTechPackOperationRows(data, this.busy);
+    const validation = editor.querySelector<HTMLElement>(".t03-validation");
+    if (!validation) return;
+    validation.innerHTML = renderTechPackOperationValidation(
+      data ? evaluateTechPackOperationRecordSet(data) : null,
+      error,
+    );
+  }
+
+  private handleT03TechPackAction(target: HTMLElement): void {
+    const record = this.currentTechPackRecord();
+    if (!record) {
+      this.techPackInputError = "This T03 edit belongs to another style. Reload the active project before continuing.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    const pending = this.t03DataWithPendingDraft(record);
+    if (pending.error) {
+      this.techPackInputError = `T03 operation record needs attention: ${pending.error}`;
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    if (!pending.data) {
+      this.techPackInputError = "This recipe has no T03 operation record contract.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    let operations = [...pending.data.operations];
+    const action = target.dataset.t03Action;
+    if (action === "add-unresolved-operation") {
+      let sequence = 1;
+      let operationId = `operation-${sequence}`;
+      while (operations.some((operation) => operation.id === operationId)) {
+        sequence += 1;
+        operationId = `operation-${sequence}`;
+      }
+      operations.push(unresolvedTechPackOperation(operationId));
+    } else if (action === "remove-operation") {
+      const operationId = target.dataset.t03OperationId;
+      if (!operationId || !operations.some((operation) => operation.id === operationId)) {
+        this.techPackInputError = "The selected T03 operation no longer exists.";
+        this.updateTechPackStatus(this.techPackInputError);
+        return;
+      }
+      operations = operations.filter((operation) => operation.id !== operationId);
+    } else {
+      this.techPackInputError = "That T03 operation action is not supported.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    const parsed = parseTechPackOperationRecordSet({
+      schemaVersion: TECH_PACK_OPERATION_RECORD_VERSION_V2,
+      recipeId: pending.data.recipeId,
+      operations,
+    }, record.recipeId as TechPackOperationRecipeId);
+    if (!parsed.ok) {
+      this.techPackInputError = `T03 operation edit needs attention: ${parsed.error}`;
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    this.techPackOperationsJsonDraft = JSON.stringify(parsed.value, null, 2);
+    this.applyT03Draft(record, parsed.value);
+    this.render();
   }
 
   private updateT02TechPackFromControl(target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): void {
@@ -989,9 +1162,11 @@ export class ProjectManager {
           sizeSteps: t02SizeSteps,
         })
       : null;
+    const pendingT03 = activeTechPackRecord ? this.t03DataWithPendingDraft(activeTechPackRecord) : null;
+    const t03Validation = evaluateTechPackOperationRecordSet(pendingT03?.data ?? null);
     const techPackEditor = open && activeTechPackRecord
       ? `<section class="project-tech-pack" aria-label="Living technical pack">` +
-        `<h3>Living technical pack · T01 and T02</h3>` +
+        `<h3>Living technical pack · T01, T02 and T03</h3>` +
         `<p>Editable production-planning values for ${escapeHtml(loaded.activeStyle.recipeId)}. Unknowns and their next actions remain visible. Saving creates one immutable revision; this does not verify physical fit, supplier facts, or factory acceptance.</p>` +
         `<div class="project-tech-pack-actions">` +
         `<button type="button" data-project-action="save-tech-pack"${this.busy || !this.techPackDraft || this.techPackInputError ? " disabled" : ""}>Save tech-pack revision</button>` +
@@ -1005,6 +1180,13 @@ export class ProjectManager {
           disabled: this.busy,
           validation: t02Validation,
           validationError: pendingT02?.error,
+        })}` +
+        `${renderTechPackOperationEditor({
+          record: activeTechPackRecord,
+          operationsJsonDraft: this.techPackOperationsJsonDraft,
+          disabled: this.busy,
+          validation: t03Validation,
+          validationError: pendingT03?.error,
         })}` +
         `</section>`
       : "";
