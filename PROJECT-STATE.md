@@ -1,31 +1,45 @@
-## Current boundary — EPIC-18/G05 Slice 771 complete
+## Current boundary — EPIC-18/G05 Slice 772 complete
 
-S771 started 2026-10-13 02:54:10 UTC from clean S770 commit
-`25cd67b1f9c180598b844e905595ca744a670b8c` on `codex/epic-18-g05`. Fresh
-`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor and
-S771 is the unique next slice. The digest-bound start packet is
-`docs/research/epic18/S771-T03-operation-record-contract/start-packet.md`.
-Validated start, exit, and post-replay evidence advances canonical board
-revision 4582→4589 and links the digest-bound packets to G05-T03 and EPIC-18.
-G05-T03 and EPIC-18 remain In Progress; G05-T01/T02 are Done. S771 adds the
-standalone strict T03 source-aware operation-record contract for all seven
-recipe IDs. The contract preserves unresolved/conflicting facts, requires
+S772 started at 2026-10-13 03:10:01 UTC from clean S771 commit
+`f802820f7a20fc7e1210d8fa709e0403ac4898bd` on `codex/epic-18-g05`; fresh
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
+The start packet is
+`docs/research/epic18/S772-T03-operation-editor-validation/start-packet.md`;
+the exit and replay records are beside it. Validated start evidence advanced
+canonical board revision 4589→4591; exit and post-replay evidence keep G05-T03
+and EPIC-18 In Progress through final board revision 4597. The verified
+`E-G05-S772-EXIT` and `E-G05-S772-REPLAY` packet hashes are attached to G05-T03
+and EPIC-18. Final `npm run control-center:test` passes 42/42 on revision 4597;
+`git diff --check` passes. S772 landed the local T03 editor/validation, explicit
+schema-v2 value origins, and additive TechPack schema-v3 operation persistence
+through immutable style revisions. It preserves schema-v1/v2 records and
+revision payload-v1/v2 history. Focused tests pass 192/192; all five changed
+production TypeScript modules have 100% statement, branch, function and line
+coverage. TypeScript and protected export identity 9/9 pass. Isolated-browser
+review verified Tee value-origin editing, live findings, and save/reload, plus
+Trouser empty-state guidance. No sourced construction values or physical,
+supplier, or production claims are established. S773 remains the separate
+BOM/pattern/component reconciliation and all-recipe rendered/source review.
+S774 remains the separate UIQ-10 admission. The canonical board's stale UIQ-10
+S773 admission references are corrected to S774 during validated closeout.
+
+S771 completed at commit `f802820f7a20fc7e1210d8fa709e0403ac4898bd`.
+Its validated start, exit, and post-replay evidence advances board revision
+4582→4589. The standalone strict T03 source-aware operation-record contract
+covers all seven recipe IDs, preserves unresolved/conflicting facts, requires
 portable source references, validates component/seam reference syntax, and
 checks finite explicit-unit seam allowances without choosing or clamping
-values. No recipe operation facts, T01/T02 schema, persistence, editor, or
-product output changed. Focused tests pass 13/13 at 100% statement, branch,
-function and line coverage; TypeScript, protected export identity 9/9, Control
-Center 42/42 after replay, and `git diff --check` pass. No export baseline
-moved.
+values. Focused tests pass 13/13 at 100% statement, branch, function and line
+coverage; TypeScript, protected export identity 9/9, Control Center 42/42 after
+replay, and `git diff --check` pass. No export baseline moved.
 
 S770 is complete: 45 focused tests pass with 100% statement, branch, function
 and line coverage for all three changed production modules; TypeScript,
 protected export identity 9/9, all-seven rendered review, Control Center 42/42,
 and `git diff --check` pass. Board revision 4582 recorded G05-T02 Done. Its
 exit and replay evidence remain in
-`docs/research/epic18/S770-T02-callout-size-run-validation/`. S772 is the next
-authorized boundary: T03 operation editing and validation. S773 separately
-reconciles BOM/pattern/component references and performs the all-recipe
+`docs/research/epic18/S770-T02-callout-size-run-validation/`. S773 is the active
+boundary: T03 BOM/pattern/component reconciliation and all-recipe
 rendered/source review. The S780 global/build/Electron gate, separate S774
 UIQ-10 admission, and all supplier/physical/production holds remain unchanged.
 

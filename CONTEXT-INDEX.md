@@ -112,16 +112,24 @@ only through an explicitly admitted, linked Epic packet.
   four-metric coverage for all three changed production modules; TypeScript,
   export identity 9/9, all-seven rendered review, Control Center 42/42 and
   `git diff --check` pass. Its validated commands are in
-  `docs/planning/EPIC-18-S770-*`. S771 T03 is complete at canonical board
-  revision 4589 with G05-T03 and EPIC-18 In Progress. Its source-aware
-  operation-record start/exit evidence is in
-  `docs/research/epic18/S771-T03-operation-record-contract/`. Operation
-  editing/validation is S772; component/pattern/BOM reconciliation with
-  rendered/source review is S773. The active boundaries remain in
-  `docs/planning/EPIC-18-S765-RESEQUENCING.md`.
-  UIQ-10 remains
-  linked and Backlog until its bounded S774 admission; UIQ-09 remains Backlog
-  pending EPIC-19.
+  `docs/planning/EPIC-18-S770-*`. S771 T03 completed at commit
+  `f802820f7a20fc7e1210d8fa709e0403ac4898bd`; S772 completed from that clean
+  checkpoint. Its start, exit, and replay evidence is in
+  `docs/research/epic18/S772-T03-operation-editor-validation/`, linked to
+  G05-T03 and EPIC-18 through the validated board at revision 4597. S772 adds
+  operation editing/validation with explicit source, recipe-default, estimate,
+  and user-decision origins; only source-confirmed values are source evidence.
+  Additive TechPack schema-v3 persistence preserves T01/T02 and revision
+  payload-v1/v2 history. Focused tests pass 192/192 at 100% four-metric
+  coverage for all five changed production TS modules; TypeScript, protected
+  export identity 9/9, isolated-browser save/reload and rendered review pass.
+  Final Control Center tests pass 42/42 at board revision 4597, and
+  `git diff --check` passes.
+  S773 remains the separate component/pattern/BOM reconciliation and all-recipe
+  rendered/source-review boundary. The active boundaries remain in
+  `docs/planning/EPIC-18-S765-RESEQUENCING.md`. UIQ-10 remains linked and
+  Backlog until its bounded S774 admission; UIQ-09 remains Backlog pending
+  EPIC-19.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.

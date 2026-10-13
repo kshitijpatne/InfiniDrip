@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "itemId": "UIQ-10",
+  "patch": {
+    "description": "Linked EPIC-18/G05 child, still Backlog until the separate bounded UIQ-10 packet at Slice 774 after T01–T03 contracts. Scope: readable production-pack forms/tables, revision/approval visibility and selected sections. Packet and boundaries: docs/planning/EPIC-18-ADMISSION.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md."
+  },
+  "expectedRevision": 4592
+}

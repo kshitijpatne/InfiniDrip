@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   emptyTechPackOperationRecordSet,
+  emptyTechPackOperationRecordSetV2,
   parseTechPackOperationRecordSet,
+  unresolvedTechPackOperation,
   TECH_PACK_OPERATION_FACT_IDS,
   TECH_PACK_OPERATION_MAX_CONFLICT_SOURCES,
   TECH_PACK_OPERATION_MAX_RECORDS,
@@ -63,6 +65,73 @@ describe("T03 operation source record contract", () => {
     }
   });
 
+  it("creates empty schema-v2 sets and unresolved operation shells for each supported recipe", () => {
+    for (const recipeId of TECH_PACK_OPERATION_RECIPE_IDS) {
+      expect(parseTechPackOperationRecordSet(emptyTechPackOperationRecordSetV2(recipeId), recipeId))
+        .toEqual({ ok: true, value: emptyTechPackOperationRecordSetV2(recipeId) });
+    }
+    const shell = unresolvedTechPackOperation("operation-1");
+    expect(parseTechPackOperationRecordSet({ schemaVersion: 2, recipeId: "tee", operations: [shell] }, "tee").ok).toBe(true);
+    expect(shell.facts).toEqual([]);
+  });
+
+  it("keeps recipe defaults, estimates, and user decisions distinct from source evidence in schema v2", () => {
+    const data = {
+      ...recordSet([operation({
+        name: { status: "RECIPE_DEFAULT", value: "Plain seam", recipeId: "tee", recipeVersionMarker: "tee-default-v1", inAppLocator: "Tee recipe defaults / seam method" },
+        sequence: { status: "ESTIMATE", value: 2, method: "Synthetic ordering estimate", assumptions: "Fixture assumes the second operation follows the first." },
+        componentRefs: { status: "USER_DECISION", value: ["front", "back"], rationale: "Synthetic fixture decision only." },
+        seamRefs: confirmed(["side-seam"]),
+        facts: [
+          { factId: "method", value: { status: "RECIPE_DEFAULT", value: "Plain seam", recipeId: "tee", recipeVersionMarker: "tee-default-v1", inAppLocator: "Tee recipe defaults / seam method" } },
+          { factId: "seamAllowance", value: { status: "ESTIMATE", value: { amount: 1, unit: "cm" }, method: "Synthetic estimate", assumptions: "No source supplied in this fixture." } },
+          { factId: "finish", value: { status: "USER_DECISION", value: "Leave raw", rationale: "Synthetic user choice." } },
+          { factId: "labels", value: unresolved() },
+          { factId: "packaging", value: conflicted() },
+        ],
+      })]),
+      schemaVersion: 2,
+    };
+    const result = parseTechPackOperationRecordSet(data, "tee");
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      const parsed = result.value.operations[0]!;
+      expect(result.value.schemaVersion).toBe(2);
+      expect(parsed.name.status).toBe("RECIPE_DEFAULT");
+      expect(parsed.sequence.status).toBe("ESTIMATE");
+      expect(parsed.componentRefs.status).toBe("USER_DECISION");
+      expect(parsed.facts.map((fact) => fact.value.status)).toEqual([
+        "RECIPE_DEFAULT", "ESTIMATE", "USER_DECISION", "UNRESOLVED", "CONFLICT",
+      ]);
+    }
+    expect(parseTechPackOperationRecordSet({ ...data, schemaVersion: 1 }).ok).toBe(false);
+    expect(parseTechPackOperationRecordSet({ schemaVersion: 2, recipeId: "tee", operations: [operation({
+      name: { status: "UNSUPPORTED", value: "fixture" },
+    })] }).ok).toBe(false);
+  });
+
+  it("requires complete, recipe-matched provenance metadata for every non-source origin", () => {
+    const base = operation();
+    const defaultValue = { status: "RECIPE_DEFAULT", value: "Plain seam", recipeId: "tee", recipeVersionMarker: "tee-v1", inAppLocator: "defaults/seam" };
+    const estimate = { status: "ESTIMATE", value: "Plain seam", method: "synthetic", assumptions: "fixture only" };
+    const decision = { status: "USER_DECISION", value: "Plain seam", rationale: "synthetic fixture" };
+    const invalidValues = [
+      { ...defaultValue, recipeId: "polo" },
+      { ...defaultValue, recipeVersionMarker: " " },
+      { ...defaultValue, inAppLocator: "" },
+      { ...defaultValue, extra: true },
+      { ...estimate, method: "" },
+      { ...estimate, assumptions: " " },
+      { ...estimate, extra: true },
+      { ...decision, rationale: "" },
+      { ...decision, extra: true },
+      { ...estimate, value: " ", assumptions: "fixture only" },
+    ];
+    for (const value of invalidValues) {
+      expect(parseTechPackOperationRecordSet({ schemaVersion: 2, recipeId: "tee", operations: [{ ...base, name: value }] }, "tee").ok).toBe(false);
+    }
+  });
+
   it("parses a complete synthetic source-backed operation without converting it to production evidence", () => {
     const raw = recordSet([operation({ facts: [
       { factId: "method", value: confirmed("Single-needle stitch") },
@@ -112,7 +181,7 @@ describe("T03 operation source record contract", () => {
   it("rejects unknown, missing, extra, or mismatched record-set fields", () => {
     expectRejected({ ...recordSet(), extra: true });
     expectRejected({ schemaVersion: 1, recipeId: "tee" });
-    expectRejected({ ...recordSet(), schemaVersion: 2 });
+    expectRejected({ ...recordSet(), schemaVersion: 3 });
     expectRejected({ ...recordSet(), recipeId: "unknown" });
     expectRejected(recordSet([], { recipeId: null }));
     expectRejected(recordSet("not-an-array" as unknown as readonly unknown[]));

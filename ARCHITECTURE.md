@@ -1,20 +1,35 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 771 complete
+## Current capability boundary — EPIC-18/G05 Slice 772 complete
 
-S771 started from clean S770 commit
+S772 starts from clean S771 commit
+`f802820f7a20fc7e1210d8fa709e0403ac4898bd`; validated digest-bound start
+evidence advances canonical board revision 4589→4591. G05-T01/T02 are Done;
+G05-T03 and EPIC-18 remain In Progress. The S772 start packet is
+`docs/research/epic18/S772-T03-operation-editor-validation/start-packet.md`.
+This boundary adds a local T03 operation editor and validation with explicit
+source-confirmed, recipe-default, estimate, user-decision, unresolved, and
+conflicting origins. Only source-confirmed values count as source evidence.
+TechPack schema-v3 operation persistence retains T01/T02 compatibility and
+binds into existing immutable revision digests without changing payload-v1/v2
+history. Focused tests pass 192/192; all five changed production TypeScript
+modules have 100% statement, branch, function and line coverage; TypeScript
+and protected export identity 9/9 pass. Control Center passes 42/42 at final
+board revision 4597, and `git diff --check` passes. Isolated-browser review verified
+synthetic Tee editing/save/reload and Trouser missing-value guidance. No sourced
+construction facts or physical/production claims are established. Pattern/BOM/
+component reconciliation and all-recipe rendered/source review remain S773.
+UIQ-10 remains Backlog for its separate S774 admission.
+
+S771 completed from clean S770 commit
 `25cd67b1f9c180598b844e905595ca744a670b8c`. Validated start, exit, and
-post-replay evidence advances canonical board revision 4582→4589. G05-T01/T02
-are Done; G05-T03 and EPIC-18 remain In Progress. S771's start and exit
-packets are in `docs/research/epic18/S771-T03-operation-record-contract/`.
-The slice adds a standalone strict source-aware operation-record contract for
-seven recipe IDs, with explicit unknown/conflict states and sourced
-component/seam references. It seeds no construction values and does not claim
-that references match pattern or BOM inventory. Thirteen focused parser tests
-pass at 100% statement, branch, function and line coverage; TypeScript,
-protected export identity 9/9, Control Center 42/42 and diff hygiene pass. No
-product UI/output changed. Operation editing/validation is S772; pattern/BOM
-reconciliation and rendered/source review are S773.
+post-replay evidence advances board revision 4582→4589. Its standalone strict
+source-aware operation-record contract covers seven recipe IDs, with explicit
+unknown/conflict states and syntactic component/seam references. It seeds no
+construction values and does not claim that references match pattern or BOM
+inventory. Thirteen focused parser tests pass at 100% statement, branch,
+function and line coverage; TypeScript, protected export identity 9/9, Control
+Center 42/42 and diff hygiene pass. No product UI/output changed.
 
 S770 closed T02 with 45 focused tests at 100% four-metric coverage for the
 three changed production modules, TypeScript, protected export identity 9/9,

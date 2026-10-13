@@ -1,7 +1,8 @@
-/** Strict, standalone T03 operation/source contract; persistence and UI are later slices. */
+/** Strict T03 operation/source contract with explicit schema-v2 non-source origins. */
 import type { RecordResult } from "./project-records";
 
 export const TECH_PACK_OPERATION_RECORD_VERSION = 1;
+export const TECH_PACK_OPERATION_RECORD_VERSION_V2 = 2;
 export const TECH_PACK_OPERATION_MAX_RECORDS = 500;
 export const TECH_PACK_OPERATION_MAX_REFERENCES = 100;
 export const TECH_PACK_OPERATION_MAX_SEQUENCE = 10_000;
@@ -61,6 +62,24 @@ export type TechPackOperationSourcedValue<T> =
       readonly sourceRefs: readonly TechPackOperationSourceReference[];
       readonly unresolvedReason: string;
       readonly nextAction: string;
+    }
+  | {
+      readonly status: "RECIPE_DEFAULT";
+      readonly value: T;
+      readonly recipeId: TechPackOperationRecipeId;
+      readonly recipeVersionMarker: string;
+      readonly inAppLocator: string;
+    }
+  | {
+      readonly status: "ESTIMATE";
+      readonly value: T;
+      readonly method: string;
+      readonly assumptions: string;
+    }
+  | {
+      readonly status: "USER_DECISION";
+      readonly value: T;
+      readonly rationale: string;
     };
 
 export interface TechPackOperationAllowance {
@@ -93,16 +112,25 @@ export interface TechPackOperation {
   readonly facts: readonly TechPackOperationFact[];
 }
 
-export interface TechPackOperationRecordSet {
+export interface TechPackOperationRecordSetV1 {
   readonly schemaVersion: typeof TECH_PACK_OPERATION_RECORD_VERSION;
   readonly recipeId: TechPackOperationRecipeId;
   readonly operations: readonly TechPackOperation[];
 }
 
+export interface TechPackOperationRecordSetV2 {
+  readonly schemaVersion: typeof TECH_PACK_OPERATION_RECORD_VERSION_V2;
+  readonly recipeId: TechPackOperationRecipeId;
+  readonly operations: readonly TechPackOperation[];
+}
+
+export type TechPackOperationRecordSet = TechPackOperationRecordSetV1 | TechPackOperationRecordSetV2;
+
 const RECIPE_IDS = new Set<string>(TECH_PACK_OPERATION_RECIPE_IDS);
 const FACT_IDS = new Set<string>(TECH_PACK_OPERATION_FACT_IDS);
 const UNIT_IDS = new Set<string>(TECH_PACK_OPERATION_UNITS);
-const SOURCE_STATUSES = new Set(["SOURCE_CONFIRMED", "UNRESOLVED", "CONFLICT"]);
+const LEGACY_SOURCE_STATUSES = new Set(["SOURCE_CONFIRMED", "UNRESOLVED", "CONFLICT"]);
+const ORIGIN_STATUSES = new Set(["RECIPE_DEFAULT", "ESTIMATE", "USER_DECISION"]);
 const STABLE_ID = /^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$/;
 const MAX_TEXT = 512;
 const RECORD_SET_KEYS = ["schemaVersion", "recipeId", "operations"];
@@ -176,9 +204,15 @@ function parseSourceReferences(value: unknown): RecordResult<readonly TechPackOp
 function parseSourcedValue<T>(
   value: unknown,
   parseValue: (candidate: unknown) => RecordResult<T>,
+  schemaVersion: typeof TECH_PACK_OPERATION_RECORD_VERSION | typeof TECH_PACK_OPERATION_RECORD_VERSION_V2,
+  expectedRecipeId: TechPackOperationRecipeId,
 ): RecordResult<TechPackOperationSourcedValue<T>> {
-  if (!isRecord(value) || typeof value.status !== "string" || !SOURCE_STATUSES.has(value.status)) {
-    return fail("Operation fact must explicitly be source-confirmed, unresolved, or conflicting.");
+  if (!isRecord(value) || typeof value.status !== "string"
+    || (!LEGACY_SOURCE_STATUSES.has(value.status)
+      && (schemaVersion !== TECH_PACK_OPERATION_RECORD_VERSION_V2 || !ORIGIN_STATUSES.has(value.status)))) {
+    return fail(schemaVersion === TECH_PACK_OPERATION_RECORD_VERSION
+      ? "Version-1 operation values must be source-confirmed, unresolved, or conflicting."
+      : "Operation value has an unsupported provenance state.");
   }
   if (value.status === "SOURCE_CONFIRMED") {
     if (!exactKeys(value, ["status", "value", "source"])) return fail("Source-confirmed operation fact has missing or unknown fields.");
@@ -197,15 +231,40 @@ function parseSourcedValue<T>(
     if (!text(value.nextAction)) return fail("Unresolved operation fact requires an actionable next step.");
     return { ok: true, value: { status: "UNRESOLVED", value: null, unresolvedReason: value.unresolvedReason, nextAction: value.nextAction } };
   }
-  if (!exactKeys(value, ["status", "value", "sourceRefs", "unresolvedReason", "nextAction"])) {
-    return fail("Conflicting operation fact has missing or unknown fields.");
+  if (value.status === "CONFLICT") {
+    if (!exactKeys(value, ["status", "value", "sourceRefs", "unresolvedReason", "nextAction"])) {
+      return fail("Conflicting operation fact has missing or unknown fields.");
+    }
+    if (value.value !== null) return fail("Conflicting operation facts cannot carry a selected value.");
+    const sourceRefs = parseSourceReferences(value.sourceRefs);
+    if (!sourceRefs.ok) return sourceRefs;
+    if (!text(value.unresolvedReason)) return fail("Conflicting operation fact requires a reason.");
+    if (!text(value.nextAction)) return fail("Conflicting operation fact requires an actionable next step.");
+    return { ok: true, value: { status: "CONFLICT", value: null, sourceRefs: sourceRefs.value, unresolvedReason: value.unresolvedReason, nextAction: value.nextAction } };
   }
-  if (value.value !== null) return fail("Conflicting operation facts cannot carry a selected value.");
-  const sourceRefs = parseSourceReferences(value.sourceRefs);
-  if (!sourceRefs.ok) return sourceRefs;
-  if (!text(value.unresolvedReason)) return fail("Conflicting operation fact requires a reason.");
-  if (!text(value.nextAction)) return fail("Conflicting operation fact requires an actionable next step.");
-  return { ok: true, value: { status: "CONFLICT", value: null, sourceRefs: sourceRefs.value, unresolvedReason: value.unresolvedReason, nextAction: value.nextAction } };
+  const parsed = parseValue(value.value);
+  if (!parsed.ok) return parsed;
+  if (value.status === "RECIPE_DEFAULT") {
+    if (!exactKeys(value, ["status", "value", "recipeId", "recipeVersionMarker", "inAppLocator"])) {
+      return fail("Recipe-default operation value needs its recipe, version marker, and in-app locator.");
+    }
+    if (value.recipeId !== expectedRecipeId) return fail("Recipe-default operation value must match the record's recipe.");
+    if (!text(value.recipeVersionMarker, 120)) return fail("Recipe-default operation value needs a recipe-version marker.");
+    if (!text(value.inAppLocator, 240)) return fail("Recipe-default operation value needs an in-app locator.");
+    return { ok: true, value: {
+      status: "RECIPE_DEFAULT", value: parsed.value, recipeId: expectedRecipeId,
+      recipeVersionMarker: value.recipeVersionMarker, inAppLocator: value.inAppLocator,
+    } };
+  }
+  if (value.status === "ESTIMATE") {
+    if (!exactKeys(value, ["status", "value", "method", "assumptions"])) return fail("Estimated operation value needs a method and assumptions.");
+    if (!text(value.method)) return fail("Estimated operation value needs a method.");
+    if (!text(value.assumptions)) return fail("Estimated operation value needs explicit assumptions.");
+    return { ok: true, value: { status: "ESTIMATE", value: parsed.value, method: value.method, assumptions: value.assumptions } };
+  }
+  if (!exactKeys(value, ["status", "value", "rationale"])) return fail("User-decided operation value needs an explicit rationale.");
+  if (!text(value.rationale)) return fail("User-decided operation value needs an explicit rationale.");
+  return { ok: true, value: { status: "USER_DECISION", value: parsed.value, rationale: value.rationale } };
 }
 
 function parseTextValue(value: unknown): RecordResult<string> {
@@ -241,34 +300,42 @@ function parseAllowance(value: unknown): RecordResult<TechPackOperationAllowance
   return { ok: true, value: { amount: value.amount, unit: value.unit as TechPackOperationUnit } };
 }
 
-function parseFact(value: unknown): RecordResult<TechPackOperationFact> {
+function parseFact(
+  value: unknown,
+  schemaVersion: typeof TECH_PACK_OPERATION_RECORD_VERSION | typeof TECH_PACK_OPERATION_RECORD_VERSION_V2,
+  expectedRecipeId: TechPackOperationRecipeId,
+): RecordResult<TechPackOperationFact> {
   if (!isRecord(value) || !exactKeys(value, ["factId", "value"])) return fail("Operation fact must contain exactly factId and value.");
   if (typeof value.factId !== "string" || !FACT_IDS.has(value.factId)) return fail("Operation fact has an unsupported fact ID.");
   if (value.factId === "seamAllowance") {
-    const parsed = parseSourcedValue(value.value, parseAllowance);
+    const parsed = parseSourcedValue(value.value, parseAllowance, schemaVersion, expectedRecipeId);
     return parsed.ok ? { ok: true, value: { factId: "seamAllowance", value: parsed.value } } : parsed;
   }
-  const parsed = parseSourcedValue(value.value, parseTextValue);
+  const parsed = parseSourcedValue(value.value, parseTextValue, schemaVersion, expectedRecipeId);
   return parsed.ok ? { ok: true, value: { factId: value.factId as TextFactId, value: parsed.value } } : parsed;
 }
 
-function parseOperation(value: unknown): RecordResult<TechPackOperation> {
+function parseOperation(
+  value: unknown,
+  schemaVersion: typeof TECH_PACK_OPERATION_RECORD_VERSION | typeof TECH_PACK_OPERATION_RECORD_VERSION_V2,
+  expectedRecipeId: TechPackOperationRecipeId,
+): RecordResult<TechPackOperation> {
   if (!isRecord(value) || !exactKeys(value, OPERATION_KEYS)) return fail("Operation must contain exactly id, name, sequence, componentRefs, seamRefs, and facts.");
   if (!stableId(value.id)) return fail("Operation ID must be a stable lowercase ID.");
-  const name = parseSourcedValue(value.name, parseTextValue);
+  const name = parseSourcedValue(value.name, parseTextValue, schemaVersion, expectedRecipeId);
   if (!name.ok) return name;
-  const sequence = parseSourcedValue(value.sequence, parseSequenceValue);
+  const sequence = parseSourcedValue(value.sequence, parseSequenceValue, schemaVersion, expectedRecipeId);
   if (!sequence.ok) return sequence;
-  const componentRefs = parseSourcedValue(value.componentRefs, parseRefList);
+  const componentRefs = parseSourcedValue(value.componentRefs, parseRefList, schemaVersion, expectedRecipeId);
   if (!componentRefs.ok) return componentRefs;
-  const seamRefs = parseSourcedValue(value.seamRefs, parseRefList);
+  const seamRefs = parseSourcedValue(value.seamRefs, parseRefList, schemaVersion, expectedRecipeId);
   if (!seamRefs.ok) return seamRefs;
   if (!Array.isArray(value.facts)) return fail("Operation facts must be an array.");
   if (value.facts.length > TECH_PACK_OPERATION_FACT_IDS.length) return fail("Operation fact list exceeds its supported fact count.");
   const facts: TechPackOperationFact[] = [];
   const factIds = new Set<string>();
   for (const raw of value.facts) {
-    const parsed = parseFact(raw);
+    const parsed = parseFact(raw, schemaVersion, expectedRecipeId);
     if (!parsed.ok) return parsed;
     if (factIds.has(parsed.value.factId)) return fail("An operation cannot repeat a fact ID.");
     factIds.add(parsed.value.factId);
@@ -281,12 +348,28 @@ export function emptyTechPackOperationRecordSet(recipeId: TechPackOperationRecip
   return { schemaVersion: TECH_PACK_OPERATION_RECORD_VERSION, recipeId, operations: [] };
 }
 
+export function emptyTechPackOperationRecordSetV2(recipeId: TechPackOperationRecipeId): TechPackOperationRecordSetV2 {
+  return { schemaVersion: TECH_PACK_OPERATION_RECORD_VERSION_V2, recipeId, operations: [] };
+}
+
+export function unresolvedTechPackOperation(id: string): TechPackOperation {
+  const unresolved = {
+    status: "UNRESOLVED",
+    value: null,
+    unresolvedReason: "Construction details have not been captured.",
+    nextAction: "Add an approved construction source or record an explicit estimate or user decision.",
+  } as const;
+  return { id, name: unresolved, sequence: unresolved, componentRefs: unresolved, seamRefs: unresolved, facts: [] };
+}
+
 export function parseTechPackOperationRecordSet(
   value: unknown,
   expectedRecipeId?: TechPackOperationRecipeId,
 ): RecordResult<TechPackOperationRecordSet> {
   if (!isRecord(value) || !exactKeys(value, RECORD_SET_KEYS)) return fail("T03 record set has missing or unknown fields.");
-  if (value.schemaVersion !== TECH_PACK_OPERATION_RECORD_VERSION) return fail("Unsupported T03 operation record version.");
+  if (value.schemaVersion !== TECH_PACK_OPERATION_RECORD_VERSION
+    && value.schemaVersion !== TECH_PACK_OPERATION_RECORD_VERSION_V2) return fail("Unsupported T03 operation record version.");
+  const schemaVersion = value.schemaVersion;
   if (typeof value.recipeId !== "string" || !RECIPE_IDS.has(value.recipeId)) return fail("T03 record set has an unsupported recipe ID.");
   if (expectedRecipeId !== undefined && value.recipeId !== expectedRecipeId) return fail("T03 record set does not match the expected recipe.");
   if (!Array.isArray(value.operations)) return fail("T03 operations must be an array.");
@@ -295,7 +378,7 @@ export function parseTechPackOperationRecordSet(
   const operationIds = new Set<string>();
   const confirmedSequences = new Set<number>();
   for (const raw of value.operations) {
-    const parsed = parseOperation(raw);
+    const parsed = parseOperation(raw, schemaVersion, value.recipeId as TechPackOperationRecipeId);
     if (!parsed.ok) return parsed;
     if (operationIds.has(parsed.value.id)) return fail("T03 operation IDs must be unique within a recipe.");
     operationIds.add(parsed.value.id);
@@ -305,5 +388,5 @@ export function parseTechPackOperationRecordSet(
     }
     operations.push(parsed.value);
   }
-  return { ok: true, value: { schemaVersion: TECH_PACK_OPERATION_RECORD_VERSION, recipeId: value.recipeId as TechPackOperationRecipeId, operations } };
+  return { ok: true, value: { schemaVersion, recipeId: value.recipeId as TechPackOperationRecipeId, operations } };
 }

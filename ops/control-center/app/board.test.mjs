@@ -1008,6 +1008,8 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   const g05S771Start = board.evidence.find((entry) => entry.id === "E-G05-S771-START");
   const g05S771Exit = board.evidence.find((entry) => entry.id === "E-G05-S771-EXIT");
   const g05S771Replay = board.evidence.find((entry) => entry.id === "E-G05-S771-REPLAY");
+  const g05S772Start = board.evidence.find((entry) => entry.id === "E-G05-S772-START");
+  const g05S772Exit = board.evidence.find((entry) => entry.id === "E-G05-S772-EXIT");
   const g05Children = board.workItems.filter((entry) => entry.epicId === "EPIC-18");
   assert.equal(g05?.status, "In Progress");
   assert.equal(g05Card?.status, "In Progress");
@@ -1097,6 +1099,21 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.equal(hashEvidenceArtifact(g05S771Replay.uri), g05S771Replay.sha256);
   assert.ok(g05T03?.evidenceRefs.includes(g05S771Replay.id));
   assert.ok(g05?.evidenceRefs.includes(g05S771Replay.id));
+  assert.equal(g05S772Start?.uri, "docs/research/epic18/S772-T03-operation-editor-validation/start-packet.md");
+  assert.equal(g05S772Start?.kind, "document");
+  assert.equal(g05S772Start?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S772Start.uri), g05S772Start.sha256);
+  assert.ok(g05T03?.evidenceRefs.includes(g05S772Start.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S772Start.id));
+  assert.equal(g05S772Exit?.uri, "docs/research/epic18/S772-T03-operation-editor-validation/exit-packet.md");
+  assert.equal(g05S772Exit?.kind, "exit-report");
+  assert.equal(g05S772Exit?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S772Exit.uri), g05S772Exit.sha256);
+  assert.ok(g05T03?.evidenceRefs.includes(g05S772Exit.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S772Exit.id));
+  assert.ok(g05Card?.description.includes("planned for Slice 774"));
+  assert.ok(g05Card?.acceptanceCriteria.some((entry) => entry.includes("Slice 774 admission")));
+  assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("at Slice 774"));
   assert.deepEqual(g05Children.map((entry) => entry.id), [
     "EPIC-18", "UIQ-10", "G05-T01", "G05-T02", "G05-T03", "G05-T04", "G05-T05", "G05-EXIT",
   ]);
