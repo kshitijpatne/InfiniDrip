@@ -132,12 +132,17 @@ only through an explicitly admitted, linked Epic packet.
   S773 adds read-only T01/T03 pattern-reference reconciliation and all-seven
   rendered review, with 39 focused tests, 100% changed-module coverage,
   TypeScript, protected export identity 17/17, Control Center 42/42 and diff
-  hygiene passing. Board status is G05-T01/T02/T03 Done and EPIC-18 In Progress;
-  UIQ-10 remains Backlog. The next action is S774's T04 format/import decision
-  and separate UIQ-10 admission packet, as detailed in
-  `docs/planning/EPIC-18-S765-RESEQUENCING.md`. UIQ-09 remains Backlog behind
-  EPIC-19. S773's start-digest correction is documented in the slice packet;
-  pattern identifiers do not establish construction facts or fit.
+  hygiene passing. S774 then selected the separate `infinidrip-techpack`
+  `.techpack.zip` and additive PDF contract, preview-first/stale-safe import
+  rules, section presets and Tee/Woven Shirt fixtures. It created the separate
+  presentation-only `docs/planning/UIQ-10-ADMISSION.md`; board revision 4621
+  records G05-T01/T02/T03 Done, G05-T04 and EPIC-18 In Progress, and UIQ-10
+  Backlog with its admission evidence attached. The S774 packet and replay are
+  in `docs/research/epic18/S774-T04-format-and-UIQ10-admission/`; the focused
+  Control Center suite passes 42/42 after replay. The next action is S775's
+  additive output writer and actual-file/round-trip gate. UIQ-09 remains
+  Backlog behind EPIC-19. S773's start-digest correction is documented in its
+  packet; pattern identifiers do not establish construction facts or fit.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.

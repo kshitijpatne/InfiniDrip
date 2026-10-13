@@ -29,7 +29,7 @@ execution sequence is in
 | 771 | Done | T03: standalone sourced operation-record schema for seven recipe IDs, explicit unknown/conflict states and component/seam references; no operation facts are seeded and no cross-record reconciliation is performed. Start/exit/replay evidence: `docs/research/epic18/S771-T03-operation-record-contract/`; canonical board revision 4589. |
 | 772 | Done | T03 operation editing/validation and additive schema-v3 immutable persistence; distinguish source-confirmed facts from recipe defaults, estimates, user decisions, unresolved and conflicting values. Commit: `652605fde0cf48eb3a105636c7a8cd0373e4e0cd`. Exit/replay: `docs/research/epic18/S772-T03-operation-editor-validation/`; final board revision 4597. |
 | 773 | Done | T03 read-only BOM/pattern/component and seam-reference reconciliation plus all-seven rendered review. Focused 39/39; changed-module coverage 100% across all four metrics; TypeScript and protected export identity 17/17 pass. Start/clarification/rendered/exit/replay evidence: `docs/research/epic18/S773-T03-reference-reconciliation/`; final board revision 4611. |
-| 774 | Backlog | T04 structured editable format/import, section/template and simple/difficult fixture decision; prepare UIQ-10's separate bounded admission after T01–T03, leaving its item Backlog. No writer code in this decision packet. |
+| 774 | Done | T04 selected the `infinidrip-techpack` `.techpack.zip` plus standalone PDF contract, strict preview-first/stale-safe import, sections/presets, determinism and Tee/Woven Shirt fixtures; admitted UIQ-10 separately for S776 while it remains Backlog. Decision/exit and UIQ admission: `docs/research/epic18/S774-T04-format-and-UIQ10-admission/` and `docs/planning/UIQ-10-ADMISSION.md`; final board revision 4621. Control Center 42/42 after replay. |
 | 775 | Backlog | Additive revision-bound PDF/structured output and attachments, with actual-file and round-trip checks. |
 | 776 | Backlog | Only the admitted UIQ-10 production-pack forms/tables, revision/approval and selected-section presentation, with focused coverage and rendered evidence. |
 | 777 | Backlog | Field diff, scoped approval, readable rendered/numeric review; close UIQ-10 and T04. |
@@ -42,28 +42,34 @@ same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
 the admission/exit evidence, and the canonical board through the validated
 command layer.
 
-## Current execution boundary — Slice 773 complete
+## Current execution boundary — Slice 774 complete
 
-S773 completed from clean S772 commit
-`652605fde0cf48eb3a105636c7a8cd0373e4e0cd` on `codex/epic-18-g05`, with fresh
-`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` still an ancestor. Its
-hash-bound start, clarification, rendered, exit and replay evidence is in
-`docs/research/epic18/S773-T03-reference-reconciliation/`; validated board
-revision 4611 records G05-T03 Done and EPIC-18 In Progress. G05-T01/T02 are
-Done; UIQ-10 remains Backlog. The active sequence also corrects the G05-T04
-acceptance line to place its format decision at S774.
+S774 completed from S773 commit
+`e673e282855c14d39db41d198b9a0272f632a84b` on `codex/epic-18-g05`; fresh
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
+Starting board revision 4611 and final revision 4621 are recorded in the
+hash-linked S774 start, decision/admission and exit evidence under
+`docs/research/epic18/S774-T04-format-and-UIQ10-admission/`. The board records
+G05-T01/T02/T03 Done, G05-T04 and EPIC-18 In Progress, and UIQ-10 Backlog with
+its separate admission evidence.
 
-S773 derives code-based pattern component/seam IDs, reconciles explicit
-T01/T03 references, and reviews actual rendered T03 state for all seven
-recipes. It does not assert source, manufacturing, sewability, or physical-fit
-claims. The Control Center verifier exposed an incorrect digest in the original
-start evidence; the record is preserved and a separate verified correction
-binds the unchanged packet to its actual digest. Focused gates pass 39/39 at
-100% four-metric coverage for all three changed production modules; TypeScript,
-protected export identity 17/17, Control Center 42/42 and `git diff --check`
-pass. The next single action is S774's format/import and template decision
-packet plus separate UIQ-10 admission preparation; no writer code starts until
-those decisions and gates are recorded.
+S774 selected the additive standalone production PDF and revision-bound
+`infinidrip-techpack` `.techpack.zip`, defined the strict import/round-trip,
+section/template and deterministic-output contracts, and selected Tee/Woven
+Shirt structural fixtures. UIQ-10's presentation-only S776 admission is
+`docs/planning/UIQ-10-ADMISSION.md`. It remains Backlog pending the S776 start
+after S775 output proof. No writer, importer or presentation code changed.
+Control Center tests pass 42/42 after all replays at board revision 4621. The
+first run identified and corrected a stale T04 Backlog expectation in the
+board regression test; the final test requires T04 In Progress with S774 start
+evidence while T05, G05-EXIT and UIQ-10 remain Backlog. The original S762
+admission remains untouched; the active S765 addendum supersedes its historical
+S773 timing.
+
+The next single action is S775: implement both additive output files and prove
+actual PDF/ZIP byte determinism, validation and unchanged/stale/edited import
+round-trips. The S780 full repository/global coverage, build, readiness,
+browser/Electron and integrated output gate remains unchanged.
 
 S772 completed in commit `652605fde0cf48eb3a105636c7a8cd0373e4e0cd` with
 192/192 focused tests, 100% coverage for all five changed production modules,
@@ -75,8 +81,9 @@ history. The exit/replay packets are in
 `docs/research/epic18/S772-T03-operation-editor-validation/`. The T02 exit and
 replay evidence remains in
 `docs/research/epic18/S770-T02-callout-size-run-validation/`; that slice passed
-45/45 focused tests and all its recorded gates at board revision 4582. UIQ-10
-remains Backlog for its separate bounded S774 admission.
+45/45 focused tests and all its recorded gates at board revision 4582. At the
+S772 checkpoint, UIQ-10 remained Backlog for its separate bounded S774
+admission.
 
 ## Previous execution boundary — Slice 769 complete
 

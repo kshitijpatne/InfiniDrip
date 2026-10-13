@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T04",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S774-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic18/S774-T04-format-and-UIQ10-admission/exit-packet.md",
+    "sha256": "49ce83590cceee9dd57c6dcf26564168db52d7657ea7892d6e8a9ae5d9c25f8a",
+    "verified": true,
+    "note": "S774 records the selected T04 package/import/template/fixture contract and the separate S776 UIQ-10 admission; writer code remains S775."
+  },
+  "expectedRevision": 4616
+}

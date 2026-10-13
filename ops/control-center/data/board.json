@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4611,
-  "updatedAt": "2026-10-13T04:54:05.189Z",
+  "revision": 4621,
+  "updatedAt": "2026-10-13T05:17:23.469Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -788,7 +788,7 @@
       "title": "EPIC-18: G05 — Living production tech pack",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. G05 T01–T05 and linked UIQ-10 work follow docs/planning/EPIC-18-ADMISSION.md and EPIC-18-GOAL.md; Slice 763 begins T01's strict typed record/provenance contract. All local/no-cost, legacy-byte, coverage, physical, supplier and production-claim gates remain explicit.",
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Current exact conditional slices 762–781 are recorded in docs/planning/EPIC-18-S765-RESEQUENCING.md. T01–T03 are Done; T04 is In Progress for S774–S777, with S775 output proof before the separately admitted UIQ-10 starts at S776. T05 and integrated S780–S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier and production-claim gates remain explicit.",
       "evidenceRefs": [
         "E-EPIC18-S762-ADMISSION",
         "E-EPIC18-S762-EXIT",
@@ -818,7 +818,9 @@
         "E-G05-S773-RENDERED",
         "E-G05-S773-EXIT",
         "E-G05-S773-START-DIGEST-CORRECTED",
-        "E-G05-S773-REPLAY"
+        "E-G05-S773-REPLAY",
+        "E-G05-S774-START",
+        "E-G05-S774-EXIT"
       ]
     },
     {
@@ -5620,7 +5622,7 @@
         "unknown supplier/construction/standard facts stay visible and actionable",
         "no physical-fit, factory-acceptance, supplier-acceptance, or production-release claims"
       ],
-      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Current exact conditional slices 762–781 are recorded in docs/planning/EPIC-18-S765-RESEQUENCING.md; the original 762–780 estimate is historical. UIQ-10 remains a linked child and requires its own bounded admission after T01–T03, planned for Slice 774.",
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Current exact conditional slices 762–781 are recorded in docs/planning/EPIC-18-S765-RESEQUENCING.md. T01–T03 are Done; T04 is In Progress for S774–S777, with S775 output proof before the separately admitted UIQ-10 starts at S776. T05 and integrated S780–S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier and production-claim gates remain explicit.",
       "expectation": "Deliver an editable, provenance-aware, revision-bound local tech pack for all seven supported recipes, with explicit unknowns, predicted-versus-actual separation, scoped review/freeze, and deterministic digital outputs.",
       "acceptanceCriteria": [
         "Complete G05 T01–T05 in order across all seven supported recipes using the exact bounded packets in docs/planning/EPIC-18-ADMISSION.md.",
@@ -5669,6 +5671,11 @@
           "at": "2026-10-12T19:56:32.429Z",
           "actor": "Maintainer (via Codex)",
           "text": "Updated Epic metadata (description: Admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. G05 T01–T05 and linked UIQ-10 work follow docs/planning/EPIC-18-ADMISSION.md and EPIC-18-GOAL.md; Slice 763 begins T01's strict typed record/provenance contract. All local/no-cost, legacy-byte, coverage, physical, supplier and production-claim gates remain explicit.). The maintainer requested fact-based selection and admission of the next goal after the verified EPIC-17/UIQ-08/UIQ-01 checkpoint."
+        },
+        {
+          "at": "2026-10-13T05:17:18.736Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Current exact conditional slices 762–781 are recorded in docs/planning/EPIC-18-S765-RESEQUENCING.md. T01–T03 are Done; T04 is In Progress for S774–S777, with S775 output proof before the separately admitted UIQ-10 starts at S776. T05 and integrated S780–S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier and production-claim gates remain explicit.). Reconcile the live Epic summary to the validated S774 decision/admission and active S775-to-S776 sequence; no scope or status changes."
         }
       ],
       "evidenceRefs": [
@@ -15464,7 +15471,7 @@
         "export byte identity",
         "source/revision identity"
       ],
-      "description": "Linked EPIC-18/G05 child, still Backlog until the separate bounded UIQ-10 packet at Slice 774 after T01–T03 contracts. Scope: readable production-pack forms/tables, revision/approval visibility and selected sections. Packet and boundaries: docs/planning/EPIC-18-ADMISSION.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md.",
+      "description": "Linked EPIC-18/G05 child. Its separate presentation-only admission was recorded in S774; UIQ-10 remains Backlog until the validated S776 start after S775 proves actual output and round trips. Scope: readable production-pack forms/tables, revision/approval visibility and selected sections. Exact admission and boundaries: docs/planning/UIQ-10-ADMISSION.md; parent sequence: docs/planning/EPIC-18-S765-RESEQUENCING.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md.",
       "expectation": "The admitted production-pack presentation makes current section, revision, scoped approval and unresolved/readiness status readable without changing technical data, numeric methods, freeze rules or exports.",
       "acceptanceCriteria": [
         "A separate bounded admission names G05 data contract inputs, exact UI/file ownership, fallback, preserved behavior, rendered acceptance and exclusion of schema/POM/freeze/export decisions.",
@@ -15485,7 +15492,8 @@
       ],
       "comments": [],
       "evidenceRefs": [
-        "E-UIQ-APPROVAL"
+        "E-UIQ-APPROVAL",
+        "E-UIQ10-S774-ADMISSION"
       ],
       "flagKey": null
     },
@@ -16790,7 +16798,7 @@
       "title": "G05 T04 — Route-specific pack output",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-10-12",
       "targetAt": null,
       "deliveredAt": null,
@@ -16826,10 +16834,24 @@
           "role": "maintainer",
           "note": "Track admitted G05 T04 after source records and construction facts settle; output format remains a blocking decision until Slice 773.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-13T05:03:34.864Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Begin admitted Slice 774 to select and record the T04 editable exchange/import contract and UIQ-10 bounded admission after T01–T03; keep UIQ-10 Backlog and do not start output/UI code.",
+          "evidenceRefs": [
+            "E-G05-S774-START"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-G05-S774-START",
+        "E-G05-S774-DECISION",
+        "E-G05-S774-EXIT"
+      ],
       "flagKey": null
     },
     {
@@ -30941,6 +30963,42 @@
       "sha256": "cea2ddc52632a1dcf1f7928940aa8733967ff518fc0ad0cbfe96d23443f25b4c",
       "verified": true,
       "note": "Records S773 post-exit board state, 39/39 focused tests, 100% changed-module coverage, TypeScript, protected export identity, all-seven rendered review, the start-digest correction and final board replay."
+    },
+    {
+      "id": "E-G05-S774-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S774-T04-format-and-UIQ10-admission/start-packet.md",
+      "commit": null,
+      "sha256": "855e0a3f817f0a1ac1851e82b1d59b9ea48637d986587edc6c6bd1f31e19b984",
+      "verified": true,
+      "note": "S774 starts the admitted T04 editable-format/import and UIQ-10 separate-admission decision after verified T01–T03 acceptance; writer/UI implementation is not in this slice."
+    },
+    {
+      "id": "E-G05-S774-DECISION",
+      "kind": "document",
+      "uri": "docs/research/epic18/S774-T04-format-and-UIQ10-admission/decision-record.md",
+      "commit": null,
+      "sha256": "4eb3a48d993497fdecf208ae57df6d5aebe3bc554d2125c21af6117e22c80a81",
+      "verified": true,
+      "note": "S774 selects the additive revision-bound production PDF and editable tech-pack ZIP contract, import/round-trip rules, section presets and Tee/Woven Shirt fixtures before writer code."
+    },
+    {
+      "id": "E-UIQ10-S774-ADMISSION",
+      "kind": "document",
+      "uri": "docs/planning/UIQ-10-ADMISSION.md",
+      "commit": null,
+      "sha256": "2d4351c0be84337c4c44f76d98bb74c8108847550756c1e7d4a133cbf1c9a400",
+      "verified": true,
+      "note": "Separate presentation-only UIQ-10 admission prepared at S774 for implementation in S776 after S775 output proof; the UIQ-10 board item remains Backlog."
+    },
+    {
+      "id": "E-G05-S774-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S774-T04-format-and-UIQ10-admission/exit-packet.md",
+      "commit": null,
+      "sha256": "49ce83590cceee9dd57c6dcf26564168db52d7657ea7892d6e8a9ae5d9c25f8a",
+      "verified": true,
+      "note": "S774 records the selected T04 package/import/template/fixture contract and the separate S776 UIQ-10 admission; writer code remains S775."
     }
   ]
 }

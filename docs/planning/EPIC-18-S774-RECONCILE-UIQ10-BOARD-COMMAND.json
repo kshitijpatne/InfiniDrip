@@ -1,0 +1,9 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4620,
+  "itemId": "UIQ-10",
+  "patch": {
+    "description": "Linked EPIC-18/G05 child. Its separate presentation-only admission was recorded in S774; UIQ-10 remains Backlog until the validated S776 start after S775 proves actual output and round trips. Scope: readable production-pack forms/tables, revision/approval visibility and selected sections. Exact admission and boundaries: docs/planning/UIQ-10-ADMISSION.md; parent sequence: docs/planning/EPIC-18-S765-RESEQUENCING.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md."
+  },
+  "now": "2026-10-13T05:16:57.000Z"
+}

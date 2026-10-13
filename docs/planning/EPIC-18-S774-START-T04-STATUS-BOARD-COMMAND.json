@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "G05-T04",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Begin admitted Slice 774 to select and record the T04 editable exchange/import contract and UIQ-10 bounded admission after T01–T03; keep UIQ-10 Backlog and do not start output/UI code.",
+  "evidenceRefs": ["E-G05-S774-START"],
+  "expectedRevision": 4612
+}
