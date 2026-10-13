@@ -2,6 +2,31 @@
 
 ## EPIC-18/G05 — next capability Epic admitted (2026-10-12)
 
+### S774 — T04 exchange format and UIQ-10 boundary (2026-10-13)
+
+Within the admitted G05 T04 decision boundary, choose a separate
+`infinidrip-techpack` `.techpack.zip` bundle for editable, revision-bound
+records, plus a standalone additive production-pack PDF. The bundle uses the
+existing strict `TechPackRecord` versions 1–3 and stores the full record even
+when the PDF selects fewer sections. Its manifest identifies the exact saved
+revision and hashes the read-only PDF/artwork entries; the intentionally
+editable JSON is parsed and field-diffed rather than rejected for changed
+bytes. Import is preview-first, stale revisions cannot be auto-merged/applied,
+and only an explicit apply through the existing style-revision path can create
+a new revision. Imported approval is never accepted as approval. This package
+is distinct from the `infinidrip-project` whole-project backup and leaves
+legacy Tech Pack bytes unchanged. It uses the existing local ZIP ceilings:
+256 MiB compressed/expanded total, 128 attachments, 131 entries, and 32 MiB
+each for manifest and editable-record JSON. The complete paths, sections,
+resource checks and acceptance contract are in
+`docs/research/epic18/S774-T04-format-and-UIQ10-admission/decision-record.md`.
+
+UIQ-10's separate presentation-only admission is
+`docs/planning/UIQ-10-ADMISSION.md`; it is prepared for S776 after S775 proves
+actual output and round-trip behavior. UIQ-10 remains Backlog until its S776
+start, and UIQ-09 remains gated on EPIC-19. No writer or UI implementation is
+claimed by this decision.
+
 After reconciling the completed EPIC-17/G04 work and the latest UIQ-08/UIQ-01
 checkpoint, the maintainer asked to identify the next completed-work boundary,
 choose the next goal from current facts, and proceed. EPIC-18/G05 Living

@@ -1,0 +1,9 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4619,
+  "itemId": "EPIC-18",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Current exact conditional slices 762–781 are recorded in docs/planning/EPIC-18-S765-RESEQUENCING.md. T01–T03 are Done; T04 is In Progress for S774–S777, with S775 output proof before the separately admitted UIQ-10 starts at S776. T05 and integrated S780–S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier and production-claim gates remain explicit."
+  },
+  "now": "2026-10-13T05:16:56.000Z"
+}

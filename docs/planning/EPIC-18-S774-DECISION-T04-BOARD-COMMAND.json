@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T04",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S774-DECISION",
+    "kind": "document",
+    "uri": "docs/research/epic18/S774-T04-format-and-UIQ10-admission/decision-record.md",
+    "sha256": "4eb3a48d993497fdecf208ae57df6d5aebe3bc554d2125c21af6117e22c80a81",
+    "verified": true,
+    "note": "S774 selects the additive revision-bound production PDF and editable tech-pack ZIP contract, import/round-trip rules, section presets and Tee/Woven Shirt fixtures before writer code."
+  },
+  "expectedRevision": 4614
+}

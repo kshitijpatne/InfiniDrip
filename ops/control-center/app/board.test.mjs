@@ -1017,6 +1017,10 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   const g05S773Rendered = board.evidence.find((entry) => entry.id === "E-G05-S773-RENDERED");
   const g05S773Exit = board.evidence.find((entry) => entry.id === "E-G05-S773-EXIT");
   const g05S773Replay = board.evidence.find((entry) => entry.id === "E-G05-S773-REPLAY");
+  const g05S774Start = board.evidence.find((entry) => entry.id === "E-G05-S774-START");
+  const g05S774Decision = board.evidence.find((entry) => entry.id === "E-G05-S774-DECISION");
+  const g05S774Exit = board.evidence.find((entry) => entry.id === "E-G05-S774-EXIT");
+  const uiq10S774Admission = board.evidence.find((entry) => entry.id === "E-UIQ10-S774-ADMISSION");
   const g05T04 = board.workItems.find((entry) => entry.id === "G05-T04");
   const g05Children = board.workItems.filter((entry) => entry.epicId === "EPIC-18");
   assert.equal(g05?.status, "In Progress");
@@ -1146,11 +1150,31 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
     assert.ok(g05?.evidenceRefs.includes(evidence.id));
   }
   assert.equal(g05S773Exit?.kind, "exit-report");
+  for (const [evidence, uri] of [
+    [g05S774Start, "docs/research/epic18/S774-T04-format-and-UIQ10-admission/start-packet.md"],
+    [g05S774Decision, "docs/research/epic18/S774-T04-format-and-UIQ10-admission/decision-record.md"],
+    [g05S774Exit, "docs/research/epic18/S774-T04-format-and-UIQ10-admission/exit-packet.md"],
+    [uiq10S774Admission, "docs/planning/UIQ-10-ADMISSION.md"],
+  ]) {
+    assert.equal(evidence?.uri, uri);
+    assert.equal(evidence?.verified, true);
+    assert.equal(hashEvidenceArtifact(evidence.uri), evidence.sha256);
+  }
+  assert.ok(g05T04?.evidenceRefs.includes(g05S774Start.id));
+  assert.ok(g05T04?.evidenceRefs.includes(g05S774Decision.id));
+  assert.equal(g05S774Exit?.kind, "exit-report");
+  assert.ok(g05T04?.evidenceRefs.includes(g05S774Exit.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S774Exit.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S774Start.id));
+  const uiq10 = board.workItems.find((entry) => entry.id === "UIQ-10");
+  assert.ok(uiq10?.evidenceRefs.includes(uiq10S774Admission.id));
+  assert.ok(g05?.description.includes("separately admitted UIQ-10 starts at S776"));
   assert.equal(g05T04?.acceptanceCriteria[0],
     "Slice 774 decides and records format, import/round-trip rules, sections/templates and simple/difficult example styles before writer code.");
-  assert.ok(g05Card?.description.includes("planned for Slice 774"));
+  assert.ok(g05Card?.description.includes("separately admitted UIQ-10 starts at S776"));
   assert.ok(g05Card?.acceptanceCriteria.some((entry) => entry.includes("Slice 774 admission")));
-  assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("at Slice 774"));
+  assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("admission was recorded in S774"));
+  assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("validated S776 start after S775"));
   assert.deepEqual(g05Children.map((entry) => entry.id), [
     "EPIC-18", "UIQ-10", "G05-T01", "G05-T02", "G05-T03", "G05-T04", "G05-T05", "G05-EXIT",
   ]);
@@ -1158,9 +1182,11 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.equal(board.workItems.find((entry) => entry.id === "G05-T02")?.status, "Done");
   assert.equal(g05T03?.status, "Done");
   assert.ok(g05T03?.statusHistory.some((entry) => entry.status === "Done" && entry.evidenceRefs.includes(g05S773Exit.id)));
-  assert.ok(["G05-T04", "G05-T05", "G05-EXIT", "UIQ-10"]
+  assert.equal(g05T04?.status, "In Progress");
+  assert.ok(g05T04?.statusHistory.some((entry) => entry.status === "In Progress" && entry.evidenceRefs.includes(g05S774Start.id)));
+  assert.ok(["G05-T05", "G05-EXIT", "UIQ-10"]
     .every((id) => board.workItems.find((entry) => entry.id === id)?.status === "Backlog"));
-  assert.deepEqual(board.workItems.find((entry) => entry.id === "UIQ-10")?.dependencies,
+  assert.deepEqual(uiq10?.dependencies,
     ["EPIC-17", "G05-T01", "G05-T02", "G05-T03"]);
   const shorts = board.workItems.find((entry) => entry.id === "EPIC-20-LANE-E");
   assert.equal(shorts?.epicId, "EPIC-20");
