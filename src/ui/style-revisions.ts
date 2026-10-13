@@ -8,7 +8,9 @@ export const STYLE_REVISION_LEGACY_PAYLOAD_VERSION = 1;
 export const STYLE_REVISION_PAYLOAD_VERSION = 2;
 export const EXPORT_MANIFEST_SCHEMA_VERSION = 1;
 export const GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION = 2;
+export const TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION = 3;
 export const EXPORTER_CONTRACT_VERSION = "infinidrip-exporters-v1";
+export const TECH_PACK_SHARE_EXPORTER_VERSION = "infinidrip-techpack-share-v1";
 export const STYLE_REVISION_RULE_VERSIONS = Object.freeze({
   designRecord: "savefile-v6",
   fieldHistory: "field-observations-v1",
@@ -69,7 +71,7 @@ export interface RevisionManifestArtifact {
 }
 
 export interface FrozenOutputManifestPayload {
-  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION;
+  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION | typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION;
   readonly styleId: string;
   readonly revisionId: string;
   readonly revisionContentDigest: string;
@@ -78,14 +80,15 @@ export interface FrozenOutputManifestPayload {
   readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
   readonly selectedColorwayIds: readonly string[];
   readonly ruleVersions: typeof STYLE_REVISION_RULE_VERSIONS;
-  readonly exporterVersion: typeof EXPORTER_CONTRACT_VERSION;
+  readonly exporterVersion: typeof EXPORTER_CONTRACT_VERSION | typeof TECH_PACK_SHARE_EXPORTER_VERSION;
   readonly approvalRefs: readonly string[];
   readonly unresolved: readonly string[];
   readonly artifacts: readonly Omit<RevisionManifestArtifact, "bytes">[];
+  readonly selectedSections?: readonly string[];
 }
 
 export interface FrozenOutputManifestRecord {
-  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION;
+  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION | typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION;
   readonly manifestId: string;
   readonly styleId: string;
   readonly revisionId: string;
@@ -102,10 +105,12 @@ export interface FrozenArtifactInput {
   readonly extension: string;
   readonly displayName: string;
   readonly mediaType: string;
-  readonly content: string;
+  readonly content?: string;
+  readonly bytes?: Uint8Array;
 }
 
 export const FROZEN_ARTIFACT_LIMIT = 32 * 1024 * 1024;
+export const FROZEN_TECH_PACK_ARTIFACT_LIMIT = 128 * 1024 * 1024;
 export const FROZEN_MANIFEST_ARTIFACT_LIMIT = 16;
 export const FROZEN_MANIFEST_TOTAL_LIMIT = 128 * 1024 * 1024;
 export const FROZEN_ARTIFACT_IDS = Object.freeze([
@@ -119,6 +124,10 @@ export const FROZEN_ARTIFACT_IDS = Object.freeze([
 ]);
 const SHA256 = /^[0-9a-f]{64}$/;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const TECH_PACK_SHARE_ARTIFACT_IDS = Object.freeze(["tech-pack-exchange-zip", "tech-pack-production-pdf"]);
+const TECH_PACK_SHARE_SECTIONS = new Set([
+  "identity", "materials-bom", "measurements-qa", "construction", "artwork", "sources-open-items", "approval-disclaimer",
+]);
 
 function exactKeys(value: unknown, keys: readonly string[]): value is Record<string, unknown> {
   if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
@@ -193,33 +202,46 @@ export function parseFrozenOutputManifestRecord(value: unknown): FrozenOutputMan
   const recordKeys = ["schemaVersion", "manifestId", "styleId", "revisionId", "capturedAt", "canonicalization", "digestAlgorithm", "packetDigest", "payload", "artifacts"];
   const payloadKeys = ["schemaVersion", "styleId", "revisionId", "revisionContentDigest", "audience", "purpose", "selectedSizes", "selectedColorwayIds", "ruleVersions", "exporterVersion", "approvalRefs", "unresolved", "artifacts"];
   const ruleKeys = Object.keys(STYLE_REVISION_RULE_VERSIONS);
-  if (!exactKeys(value, recordKeys) || ![EXPORT_MANIFEST_SCHEMA_VERSION, GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION].includes(value.schemaVersion as number)
+  if (!exactKeys(value, recordKeys) || ![EXPORT_MANIFEST_SCHEMA_VERSION, GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION].includes(value.schemaVersion as number)
     || !UUID.test(String(value.manifestId)) || !UUID.test(String(value.styleId)) || !UUID.test(String(value.revisionId))
     || !canonicalTimestamp(value.capturedAt) || value.canonicalization !== "RFC8785"
     || value.digestAlgorithm !== "SHA-256" || !isDigest(value.packetDigest)
-    || !exactKeys(value.payload, payloadKeys) || !Array.isArray(value.artifacts)) return null;
+    || !exactKeys(value.payload, value.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+      ? [...payloadKeys, "selectedSections"] : payloadKeys) || !Array.isArray(value.artifacts)) return null;
   const payload = value.payload as Record<string, unknown>;
   const payloadRules = payload.ruleVersions as Record<string, unknown>;
   if (payload.schemaVersion !== value.schemaVersion || payload.styleId !== value.styleId
     || payload.revisionId !== value.revisionId || !isDigest(payload.revisionContentDigest)
     || payload.audience !== "local-user" || payload.purpose !== "digital-review-and-export"
-    || !Array.isArray(payload.selectedSizes) || payload.selectedSizes.length !== 1 || !Array.isArray(payload.selectedColorwayIds)
+    || !Array.isArray(payload.selectedSizes)
+    || payload.selectedSizes.length !== (payload.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION ? 0 : 1)
+    || !Array.isArray(payload.selectedColorwayIds)
     || !exactKeys(payload.ruleVersions, ruleKeys)
     || ruleKeys.some((key) => payloadRules[key] !== (STYLE_REVISION_RULE_VERSIONS as Record<string, string>)[key])
-    || payload.exporterVersion !== EXPORTER_CONTRACT_VERSION || !Array.isArray(payload.approvalRefs)
+    || payload.exporterVersion !== (payload.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+      ? TECH_PACK_SHARE_EXPORTER_VERSION : EXPORTER_CONTRACT_VERSION) || !Array.isArray(payload.approvalRefs)
     || (payload.schemaVersion === EXPORT_MANIFEST_SCHEMA_VERSION && payload.approvalRefs.length !== 0)
     || (payload.schemaVersion === GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION
       && (payload.approvalRefs.length !== 1 || typeof payload.approvalRefs[0] !== "string"
         || !/^grade-plan-sha256:[0-9a-f]{64}$/.test(payload.approvalRefs[0])))
+    || (payload.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+      && (payload.approvalRefs.length !== 1 || typeof payload.approvalRefs[0] !== "string"
+        || !/^tech-pack-approval-sha256:[0-9a-f]{64}$/.test(payload.approvalRefs[0])))
     || !Array.isArray(payload.unresolved) || payload.unresolved.length < 1
     || !Array.isArray(payload.artifacts)) return null;
   for (const size of payload.selectedSizes) {
     if (!exactKeys(size, ["sizeId", "label"]) || typeof size.sizeId !== "string" || !size.sizeId
       || typeof size.label !== "string" || !size.label) return null;
   }
+  if (payload.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+    && (!Array.isArray(payload.selectedSections) || payload.selectedSections.length < 1
+      || !payload.selectedSections.every((section) => typeof section === "string" && TECH_PACK_SHARE_SECTIONS.has(section))
+      || new Set(payload.selectedSections).size !== payload.selectedSections.length)) return null;
   if (![payload.selectedColorwayIds, payload.unresolved].every((list) => list.every((entry) => typeof entry === "string"))) return null;
   if (value.artifacts.length > FROZEN_MANIFEST_ARTIFACT_LIMIT) return null;
-  if (value.artifacts.length !== FROZEN_ARTIFACT_IDS.length || value.artifacts.length !== payload.artifacts.length) return null;
+  const expectedArtifactIds = value.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+    ? TECH_PACK_SHARE_ARTIFACT_IDS : FROZEN_ARTIFACT_IDS;
+  if (value.artifacts.length !== expectedArtifactIds.length || value.artifacts.length !== payload.artifacts.length) return null;
   const ids = new Set<string>();
   let priorArtifactId = "";
   let byteTotal = 0;
@@ -237,7 +259,8 @@ export function parseFrozenOutputManifestRecord(value: unknown): FrozenOutputMan
       || typeof artifact.mediaType !== "string" || !artifact.mediaType
       || !Number.isSafeInteger(artifact.byteLength) || (artifact.byteLength as number) < 1
       || typeof artifact.path !== "string" || !/^artifacts\/[a-z0-9][a-z0-9-]{0,63}\.[a-z0-9]{1,8}$/.test(artifact.path)
-      || (artifact.byteLength as number) > FROZEN_ARTIFACT_LIMIT || !isDigest(artifact.sha256)
+      || (artifact.byteLength as number) > (value.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+        ? FROZEN_TECH_PACK_ARTIFACT_LIMIT : FROZEN_ARTIFACT_LIMIT) || !isDigest(artifact.sha256)
       || typeof artifact.bytes !== "object" || artifact.bytes === null
       || typeof (artifact.bytes as Blob).arrayBuffer !== "function" || typeof (artifact.bytes as Blob).size !== "number"
       || (artifact.bytes as Blob).size !== artifact.byteLength) return null;
@@ -246,7 +269,13 @@ export function parseFrozenOutputManifestRecord(value: unknown): FrozenOutputMan
     byteTotal += artifact.byteLength as number;
     if (byteTotal > FROZEN_MANIFEST_TOTAL_LIMIT) return null;
   }
-  if (FROZEN_ARTIFACT_IDS.some((id) => !ids.has(id))) return null;
+  if (expectedArtifactIds.some((id) => !ids.has(id))) return null;
+  if (value.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION) {
+    const zip = value.artifacts.find((artifact) => (artifact as Record<string, unknown>).artifactId === "tech-pack-exchange-zip") as Record<string, unknown> | undefined;
+    const pdf = value.artifacts.find((artifact) => (artifact as Record<string, unknown>).artifactId === "tech-pack-production-pdf") as Record<string, unknown> | undefined;
+    if (!zip || !pdf || zip.path !== "artifacts/tech-pack-exchange-zip.zip" || zip.mediaType !== "application/zip"
+      || pdf.path !== "artifacts/tech-pack-production-pdf.pdf" || pdf.mediaType !== "application/pdf") return null;
+  }
   return value as unknown as FrozenOutputManifestRecord;
 }
 
@@ -358,24 +387,33 @@ export async function createFrozenOutputManifest(input: {
   readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
   readonly unresolved: readonly string[];
   readonly artifacts: readonly FrozenArtifactInput[];
-  readonly schemaVersion?: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION;
+  readonly schemaVersion?: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION | typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION;
   readonly approvalRefs?: readonly string[];
+  readonly selectedSections?: readonly string[];
 }, provider?: Crypto): Promise<FrozenOutputManifestRecord> {
   const schemaVersion = input.schemaVersion ?? EXPORT_MANIFEST_SCHEMA_VERSION;
   const approvalRefs = input.approvalRefs ?? [];
   if (!UUID.test(input.manifestId) || input.styleId !== input.revision.styleId
-    || !canonicalTimestamp(input.capturedAt) || input.selectedSizes.length !== 1
+    || !canonicalTimestamp(input.capturedAt)
+    || input.selectedSizes.length !== (schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION ? 0 : 1)
     || input.unresolved.length < 1 || input.artifacts.length < 1
     || (schemaVersion === EXPORT_MANIFEST_SCHEMA_VERSION && approvalRefs.length !== 0)
     || (schemaVersion === GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION
       && (approvalRefs.length !== 1 || !/^grade-plan-sha256:[0-9a-f]{64}$/.test(approvalRefs[0] ?? "")))
+    || (schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+      && (approvalRefs.length !== 1 || !/^tech-pack-approval-sha256:[0-9a-f]{64}$/.test(approvalRefs[0] ?? "")
+        || !Array.isArray(input.selectedSections) || input.selectedSections.length < 1
+        || input.selectedSections.some((section) => !TECH_PACK_SHARE_SECTIONS.has(section))
+        || new Set(input.selectedSections).size !== input.selectedSections.length))
     || input.artifacts.length > FROZEN_MANIFEST_ARTIFACT_LIMIT) {
     throw new Error("Frozen output manifest identity or capture inputs are invalid.");
   }
   const sorted = [...input.artifacts].sort((left, right) => left.artifactId < right.artifactId ? -1 : left.artifactId > right.artifactId ? 1 : 0);
   if (new Set(sorted.map((artifact) => artifact.artifactId)).size !== sorted.length) throw new Error("Frozen output artifact IDs must be unique.");
-  if (sorted.length !== FROZEN_ARTIFACT_IDS.length
-    || FROZEN_ARTIFACT_IDS.some((id) => !sorted.some((artifact) => artifact.artifactId === id))) {
+  const expectedArtifactIds = schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+    ? TECH_PACK_SHARE_ARTIFACT_IDS : FROZEN_ARTIFACT_IDS;
+  if (sorted.length !== expectedArtifactIds.length
+    || expectedArtifactIds.some((id) => !sorted.some((artifact) => artifact.artifactId === id))) {
     throw new Error("Frozen output manifest must contain the complete supported artifact set.");
   }
   let total = 0;
@@ -386,8 +424,18 @@ export async function createFrozenOutputManifest(input: {
       || !/^[\w.+-]+(?:\/[\w.+-]+)?$/.test(artifact.mediaType)) {
       throw new Error("Frozen output artifact identity, extension, name, or media type is invalid.");
     }
-    const bytes = new TextEncoder().encode(artifact.content);
-    if (bytes.byteLength < 1 || bytes.byteLength > FROZEN_ARTIFACT_LIMIT) throw new Error("A frozen output artifact is empty or exceeds the 32 MiB per-file limit.");
+    const artifactLimit = schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+      ? FROZEN_TECH_PACK_ARTIFACT_LIMIT : FROZEN_ARTIFACT_LIMIT;
+    if (schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+      && artifact.bytes instanceof Uint8Array && artifact.bytes.byteLength > artifactLimit) {
+      throw new Error(`A frozen output artifact is empty or exceeds the ${Math.floor(artifactLimit / 1024 / 1024)} MiB per-file limit.`);
+    }
+    const bytes = schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+      ? artifact.bytes instanceof Uint8Array ? new Uint8Array(artifact.bytes) : new Uint8Array()
+      : typeof artifact.content === "string" ? new TextEncoder().encode(artifact.content) : new Uint8Array();
+    if (bytes.byteLength < 1 || bytes.byteLength > artifactLimit) {
+      throw new Error(`A frozen output artifact is empty or exceeds the ${Math.floor(artifactLimit / 1024 / 1024)} MiB per-file limit.`);
+    }
     total += bytes.byteLength;
     if (total > FROZEN_MANIFEST_TOTAL_LIMIT) throw new Error("Frozen outputs exceed the 128 MiB per-manifest limit.");
     artifacts.push({
@@ -410,10 +458,12 @@ export async function createFrozenOutputManifest(input: {
     selectedSizes: [...input.selectedSizes],
     selectedColorwayIds: [],
     ruleVersions: STYLE_REVISION_RULE_VERSIONS,
-    exporterVersion: EXPORTER_CONTRACT_VERSION,
+    exporterVersion: schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+      ? TECH_PACK_SHARE_EXPORTER_VERSION : EXPORTER_CONTRACT_VERSION,
     approvalRefs: [...approvalRefs],
     unresolved: [...input.unresolved],
     artifacts: artifacts.map(({ bytes: _bytes, ...descriptor }) => descriptor),
+    ...(schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION ? { selectedSections: [...input.selectedSections!] } : {}),
   };
   const record: FrozenOutputManifestRecord = {
     schemaVersion,
@@ -546,7 +596,7 @@ export async function verifyFrozenOutputManifest(record: FrozenOutputManifestRec
 }
 
 export async function verifyFrozenOutputManifestMetadata(record: FrozenOutputManifestRecord, provider?: Crypto): Promise<boolean> {
-  if (![EXPORT_MANIFEST_SCHEMA_VERSION, GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION].includes(record.schemaVersion)
+  if (![EXPORT_MANIFEST_SCHEMA_VERSION, GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION].includes(record.schemaVersion)
     || record.schemaVersion !== record.payload.schemaVersion || record.canonicalization !== "RFC8785"
     || record.digestAlgorithm !== "SHA-256" || record.payload.styleId !== record.styleId
     || record.payload.revisionId !== record.revisionId) return false;

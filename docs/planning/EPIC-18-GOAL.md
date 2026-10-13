@@ -33,7 +33,8 @@ execution sequence is in
 | 775 | Done | Additive revision-bound PDF/ZIP output and bounded read-only import preview/diff. Focused 22/22; new-module coverage 100% across all four metrics; build, protected export identity 17/17 and actual rendered/file review pass. Start/exit/replay: `docs/research/epic18/S775-T04-output-package/`; board revision 4625. |
 | 776 | Done | Admitted UIQ-10 revision-bound presentation, section presets/toggles, visible unknowns, responsive/keyboard table review and exact-revision approval display. Renderer 8/8 with 100% four-metric coverage; focused app tests, TypeScript, export byte identity, actual PDF/ZIP and two-viewport browser review pass. Start/exit/rendered/replay evidence: `docs/research/epic18/S776-UIQ-10-presentation/`; board revision 4633. |
 | 777 | Done | T04/UIQ-10 exact package diff, stale-safe explicit apply, revision-bound sample validation, DRAFT approval reset, and Tee/Woven numeric/output/browser acceptance. 100% focused coverage for the renderer and changed app ranges; TypeScript and protected export identity 8/8 pass. Exit/rendered/replay: `docs/research/epic18/S777-T04-review/`; board revision 4645. |
-| 778–779 | Backlog | T05: immutable local-share manifests, invalidation, import compatibility and legacy identities. |
+| 778 | Done | T05 freeze creation: explicit exact-revision scoped approval; schema-v3 manifest/digest binding; original ZIP/PDF bytes, integrity check and local downloads. Focused suites 183/183 plus app range 100% four-metric coverage; TypeScript/build, protected export identity 17/17, Tee/Woven synthetic outputs and two-viewport Chromium pass. Exit/replay: `docs/research/epic18/S778-T05-freeze/`; board revision 4657. |
+| 779 | Next | T05 change control: edit-driven dependency invalidation and visible stale/current state; preserve prior frozen bytes; historical import compatibility; verify all eight protected legacy export identities; close T05 only after full acceptance. |
 | 780 | Backlog | Settled integrated Epic gate, review and pre-merge PR candidate. |
 | 781 | Backlog | Merge, main CI/deploy, board and durable closeout. |
 
@@ -42,7 +43,35 @@ same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
 the admission/exit evidence, and the canonical board through the validated
 command layer.
 
-## Current execution boundary — Slice 777 complete
+## Current execution boundary — Slice 778 complete
+
+S778 started from clean S777 commit
+`4178b4fcde0836451ddf8693427749d7ce0c4360` on `codex/epic-18-g05`; fresh
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
+Its start, exit, synthetic artifact, rendered-review and post-replay evidence
+are in `docs/research/epic18/S778-T05-freeze/`. Validated start replay
+advanced the board 4645→4648; exit/reconciliation evidence at revision 4657
+links to G05-T05 and EPIC-18. T01–T04 and UIQ-10 are Done; EPIC-18 and T05
+remain In Progress; G05-EXIT remains Backlog.
+
+S778 completed explicit scoped approval and immutable local freeze for one
+exact saved revision, deterministic manifest/digest binding, original ZIP/PDF
+byte retention and local downloads. Focused suites pass 183/183 plus two app
+integration cases; all changed production modules and the exact changed app
+range reach 100% four-metric coverage. TypeScript, build, protected export
+regression/identity 17/17, synthetic Tee/Woven saved output and render review,
+390×844/1280×800 browser review, and Control Center 42/42 pass. A whole-app
+coverage attempt stopped at about 2.6 GB without a report; the changed range
+passed and the global gate remains at S780. No baseline moved.
+
+The single next action is S779's admitted T05 dependency invalidation,
+visible stale/current state, prior-byte preservation, historical import
+compatibility, and eight protected export-identity gate. S780 remains the
+settled integrated/global gate; S781 remains merge, main CI/deploy, and Epic
+closeout. Original admission and local/no-cost, supplier, physical and
+production-claim holds remain unchanged.
+
+## Previous execution boundary — Slice 777 complete
 
 S777 started from clean S776 commit
 `7102cfe61f58c6a79d2887b495dfed43f4d8233f` on `codex/epic-18-g05`; fresh

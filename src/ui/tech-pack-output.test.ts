@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { webcrypto } from "node:crypto";
 import { PDFDocument } from "pdf-lib";
@@ -20,7 +20,22 @@ import {
 } from "./tech-pack-records";
 import { emptyTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
 import { emptyTechPackOperationRecordSetV2, unresolvedTechPackOperation } from "./tech-pack-operation-records";
-import { canonicalizeJcs, createStyleRevision, sha256Hex, type StyleRevisionRecord } from "./style-revisions";
+import {
+  canonicalizeJcs,
+  createFrozenOutputManifest,
+  createStyleRevision,
+  sha256Hex,
+  verifyFrozenOutputManifest,
+  type FrozenArtifactInput,
+  type StyleRevisionRecord,
+} from "./style-revisions";
+import {
+  approveTechPackReview,
+  createTechPackApprovalRef,
+  startTechPackReview,
+  TECH_PACK_SHARE_ARTIFACTS,
+  techPackShareFieldIds,
+} from "./tech-pack-sharing";
 import {
   createProductionPackOutputs,
   computeProductionPackFieldDiff,
@@ -549,6 +564,105 @@ describe("revision-bound production pack files", () => {
       expect(JSON.parse(decoder.decode(entries["manifest.json"]))).toEqual(outputs.manifest);
       writeFileSync(join(outputDirectory, `${label}-production-pack.pdf`), outputs.pdfBytes);
       writeFileSync(join(outputDirectory, `${label}.techpack.zip`), outputs.archiveBytes);
+    }
+  });
+
+  it("freezes actual synthetic Tee and Woven Shirt outputs as revision-bound binary shares", async () => {
+    const examples = [
+      await fixture("tee", TEE_STYLE_ID, TEE_REVISION_ID),
+      await fixture("woven-shirt", WOVEN_STYLE_ID, WOVEN_REVISION_ID),
+    ];
+    for (let index = 0; index < examples.length; index += 1) {
+      const value = examples[index]!;
+      const revisionId = value.revision.revisionId;
+      const review = startTechPackReview(value.record, "Synthetic local reviewer", techPackShareFieldIds(value.record), TIME);
+      const approved = approveTechPackReview(review, "Synthetic local approver", LATER);
+      const outputInput = exportInput(value, { record: approved });
+      const outputs = await createProductionPackOutputs(outputInput);
+      const repeated = await createProductionPackOutputs(outputInput);
+      expect(repeated.archiveBytes).toEqual(outputs.archiveBytes);
+      expect(repeated.pdfBytes).toEqual(outputs.pdfBytes);
+
+      const shareArtifacts = TECH_PACK_SHARE_ARTIFACTS.map((artifact) => ({
+        ...artifact,
+        bytes: artifact.artifactId === "tech-pack-exchange-zip" ? outputs.archiveBytes : outputs.pdfBytes,
+      }));
+      const approvalRef = await createTechPackApprovalRef(
+        approved, value.revision, outputs.manifest.selectedSections, shareArtifacts, crypto,
+      );
+      const artifacts: FrozenArtifactInput[] = shareArtifacts;
+      const frozen = await createFrozenOutputManifest({
+        manifestId: index === 0 ? "44444444-4444-4444-8444-444444444444" : "55555555-5555-4555-8555-555555555555",
+        styleId: value.styleId,
+        revision: value.revision,
+        capturedAt: TIME,
+        selectedSizes: [],
+        selectedSections: outputs.manifest.selectedSections,
+        unresolved: ["Synthetic local digital review only; physical fit and production readiness are not established."],
+        artifacts,
+        schemaVersion: 3,
+        approvalRefs: [approvalRef],
+      }, crypto);
+      expect(frozen.payload.revisionId).toBe(revisionId);
+      expect(frozen.payload.revisionContentDigest).toBe(value.revision.revisionContentDigest);
+      expect(frozen.payload.selectedSections).toEqual(outputs.manifest.selectedSections);
+      expect(await verifyFrozenOutputManifest(frozen, crypto)).toBe(true);
+      expect(await PDFDocument.load(outputs.pdfBytes)).toBeDefined();
+
+      const zip = frozen.artifacts.find((artifact) => artifact.artifactId === "tech-pack-exchange-zip")!;
+      const pdf = frozen.artifacts.find((artifact) => artifact.artifactId === "tech-pack-production-pdf")!;
+      expect(await sha256Hex(new Uint8Array(await zip.bytes.arrayBuffer()), crypto)).toBe(zip.sha256);
+      expect(await sha256Hex(new Uint8Array(await pdf.bytes.arrayBuffer()), crypto)).toBe(pdf.sha256);
+      const archive = unzipSync(new Uint8Array(await zip.bytes.arrayBuffer()));
+      const pinnedT04Manifest = JSON.parse(decoder.decode(archive["manifest.json"]!));
+      expect(pinnedT04Manifest.revisionId).toBe(revisionId);
+      expect(pinnedT04Manifest.revisionContentDigest).toBe(value.revision.revisionContentDigest);
+      expect(archive["documents/production-pack.pdf"]).toEqual(outputs.pdfBytes);
+      const repeatedFreeze = await createFrozenOutputManifest({
+        manifestId: frozen.manifestId,
+        styleId: value.styleId,
+        revision: value.revision,
+        capturedAt: "2026-09-24T16:10:00.000Z",
+        selectedSizes: [],
+        selectedSections: outputs.manifest.selectedSections,
+        unresolved: ["Synthetic local digital review only; physical fit and production readiness are not established."],
+        artifacts,
+        schemaVersion: 3,
+        approvalRefs: [approvalRef],
+      }, crypto);
+      expect(repeatedFreeze.packetDigest).toBe(frozen.packetDigest);
+
+      const label = index === 0 ? "tee" : "woven-shirt";
+      const evidenceDirectory = join(process.cwd(), "docs/research/epic18/S778-T05-freeze/evidence/synthetic");
+      mkdirSync(evidenceDirectory, { recursive: true });
+      const frozenZipBytes = new Uint8Array(await zip.bytes.arrayBuffer());
+      const frozenPdfBytes = new Uint8Array(await pdf.bytes.arrayBuffer());
+      const frozenZipPath = join(evidenceDirectory, `frozen-${label}.techpack.zip`);
+      const frozenPdfPath = join(evidenceDirectory, `frozen-${label}-production-pack.pdf`);
+      const frozenManifestPath = join(evidenceDirectory, `frozen-${label}-manifest.json`);
+      const frozenManifest = {
+        ...frozen,
+        artifacts: frozen.artifacts.map(({ bytes: _bytes, ...descriptor }) => descriptor),
+      };
+      writeFileSync(frozenZipPath, frozenZipBytes);
+      writeFileSync(frozenPdfPath, frozenPdfBytes);
+      writeFileSync(frozenManifestPath, `${canonicalizeJcs(frozenManifest)}\n`);
+      expect(new Uint8Array(readFileSync(frozenZipPath))).toEqual(outputs.archiveBytes);
+      expect(new Uint8Array(readFileSync(frozenPdfPath))).toEqual(outputs.pdfBytes);
+      expect(JSON.parse(readFileSync(frozenManifestPath, "utf8")).payload).toEqual(frozen.payload);
+      writeFileSync(join(evidenceDirectory, `frozen-${label}-report.json`), `${JSON.stringify({
+        synthetic: true,
+        sourceRevisionId: revisionId,
+        sourceRevisionContentDigest: value.revision.revisionContentDigest,
+        selectedSections: outputs.manifest.selectedSections,
+        repeatGenerationBytesMatch: true,
+        repeatFreezePacketDigest: repeatedFreeze.packetDigest,
+        frozenPacketDigest: frozen.packetDigest,
+        artifacts: [
+          { name: `frozen-${label}.techpack.zip`, byteLength: frozenZipBytes.byteLength, sha256: zip.sha256 },
+          { name: `frozen-${label}-production-pack.pdf`, byteLength: frozenPdfBytes.byteLength, sha256: pdf.sha256 },
+        ],
+      }, null, 2)}\n`);
     }
   });
 

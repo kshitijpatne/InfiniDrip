@@ -1,4 +1,36 @@
-## Current boundary — EPIC-18/G05 Slice 777 complete
+## Current boundary — EPIC-18/G05 Slice 778 complete; S779 next
+
+Slice 778 started 2026-10-13 16:27:34 UTC on `codex/epic-18-g05` from clean
+S777 commit `4178b4fcde0836451ddf8693427749d7ce0c4360`; refreshed
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
+The S778 start, exit, rendered and post-replay evidence is in
+`docs/research/epic18/S778-T05-freeze/`. Validated start replay advanced the
+canonical board from revision 4645 to 4648; exit evidence and current-sequence
+reconciliation advance it to revision 4657. G05-T01 through T04 and UIQ-10 are
+Done; EPIC-18 and G05-T05 remain In Progress; G05-EXIT remains Backlog.
+
+S778 completed the first T05 boundary: explicit local approval for a non-empty
+scope on one exact saved Tech Pack revision, revision/digest-bound deterministic
+manifest, immutable original ZIP/PDF bytes, read-time integrity checks, and
+local downloads. Changed production modules and the exact mounted-app range
+meet 100% statement, branch, function, and line coverage. The focused suites
+pass 183/183 plus the two focused app cases; TypeScript, Vite build, protected
+export regression/identity 17/17, synthetic Tee/Woven output review, browser
+review at 390×844 and 1280×800, and final Control Center 42/42 pass. The whole
+`app.test.ts` coverage attempt was stopped after about eight minutes at roughly
+2.6 GB without a report; the exact changed range passed its full four-metric
+gate, and the settled global gate remains assigned to S780. No baseline moved.
+
+S778 does not close G05-T05. The single next action is S779: edit-driven
+dependency invalidation and visible stale/current state, retention of prior
+frozen bytes through edits, historical import compatibility, and all eight
+protected legacy export identities. S780 remains the settled integrated/global
+gate; S781 remains merge, main CI/deployment, and Epic closeout. The original
+hash-bound S762 admission and local/no-cost, supplier, physical-fit, factory,
+and production-claim holds remain unchanged. Exact tests, hashes, limitations,
+board replay, and time accounting are in the S778 exit and post-replay packets.
+
+## Previous boundary — EPIC-18/G05 Slice 777 complete
 
 S777 started 2026-10-13 09:01:22 UTC on `codex/epic-18-g05` from clean S776
 commit `7102cfe61f58c6a79d2887b495dfed43f4d8233f`; fresh

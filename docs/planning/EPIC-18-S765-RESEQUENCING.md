@@ -64,7 +64,36 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S777 complete; S778 next
+## Current checkpoint — S778 complete; S779 next
+
+S778 started 2026-10-13 16:27:34 UTC from clean S777 commit
+`4178b4fcde0836451ddf8693427749d7ce0c4360` on `codex/epic-18-g05`; fresh
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
+Its start, exit, rendered-output and post-replay evidence is in
+`docs/research/epic18/S778-T05-freeze/`. The validated start replay advanced
+the board 4645→4648; exit and current-sequence replay ends at revision 4657.
+G05-T01–T04 and UIQ-10 are Done; EPIC-18 and G05-T05 remain In Progress;
+G05-EXIT remains Backlog.
+
+S778 implemented exact-revision scoped approval and local immutable freeze,
+including deterministic manifest/digest binding and verified retention and
+download of the original ZIP/PDF bytes. Focused suites pass 183/183 plus two
+targeted app cases; changed modules and app range have 100% four-metric
+coverage; TypeScript/build, protected export identity 17/17, synthetic
+Tee/Woven output/render review, two-viewport Chromium, Control Center 42/42,
+and diff hygiene pass. The whole app test-file coverage attempt stopped at
+about 2.6 GB with no report; the exact changed range passed, and S780 retains
+the settled global gate. The exit packet records actor-label and synthetic-
+data limits; no physical or production claim is made.
+
+S779 is the single next action: implement edit-driven dependency invalidation
+and visible stale/current state, preserve previously frozen bytes through
+edits, verify historical import compatibility and all eight protected legacy
+export identities, then close T05 when the complete acceptance gate passes.
+S780 and S781 retain their admitted integrated/global and merge/deployment/
+closeout boundaries. The hash-bound S762 admission is unchanged.
+
+## Previous checkpoint — S777 complete; S778 next
 
 S777 started from clean S776 commit
 `7102cfe61f58c6a79d2887b495dfed43f4d8233f` on `codex/epic-18-g05`; fresh

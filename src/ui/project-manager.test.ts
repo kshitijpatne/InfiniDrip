@@ -14,7 +14,7 @@ import {
 import { serialize } from "./persist";
 import { ProjectManager, recoveryPayloadOrNull } from "./project-manager";
 import type { LoadedProject } from "./project-repository";
-import type { ProjectWorkflow } from "./project-workflow";
+import type { ProjectWorkflow, TechPackShareFreezeInput } from "./project-workflow";
 import { openProjectWorkflow } from "./project-workflow";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import { createProjectPackage, readProjectPackage } from "./project-package";
@@ -25,6 +25,7 @@ import {
   emptyTechPackOperationRecordSetV2,
   unresolvedTechPackOperation,
 } from "./tech-pack-operation-records";
+import { TECH_PACK_SHARE_ARTIFACTS } from "./tech-pack-sharing";
 
 const TIME = "2026-09-24T16:00:00.000Z";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
@@ -41,6 +42,7 @@ async function techPackHarness(options: {
   readonly confirm?: (message: string) => boolean;
   readonly canFreezeOutputs?: () => boolean;
   readonly getFreezeBlocker?: () => string | null;
+  readonly getTechPackShareOutput?: (revisionId: string, workflow: ProjectWorkflow) => Promise<TechPackShareFreezeInput | null>;
 } = {}) {
   let sequence = 0;
   const ids = [PROJECT_ID, STYLE_ID];
@@ -70,6 +72,9 @@ async function techPackHarness(options: {
     setBusy: vi.fn(),
     canFreezeOutputs: options.canFreezeOutputs ?? (() => true),
     getFrozenOutputSet: () => null,
+    ...(options.getTechPackShareOutput ? {
+      getTechPackShareOutput: (revisionId: string) => options.getTechPackShareOutput!(revisionId, workflow),
+    } : {}),
     ...(options.techPackIdFactory ? { techPackIdFactory: options.techPackIdFactory } : {}),
     ...(options.confirm ? { confirm: options.confirm } : {}),
     ...(options.getFreezeBlocker ? { getFreezeBlocker: options.getFreezeBlocker } : {}),
@@ -2204,5 +2209,183 @@ describe("accessible project and style manager", () => {
     expect(copiedName.length).toBeLessThanOrEqual(80);
     expect(copiedName.endsWith("…")).toBe(true);
     manager2.refresh("Done");
+  });
+
+  it("offers an explicit scoped review, approval and exact local Tech Pack freeze flow", async () => {
+    vi.stubGlobal("Blob", NodeBlob);
+    const urlApi = { createObjectURL: vi.fn(() => "blob:tech-pack-share"), revokeObjectURL: vi.fn() };
+    vi.stubGlobal("URL", urlApi);
+    let downloadedName = "";
+    const anchorClick = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function (this: HTMLAnchorElement) {
+      downloadedName = this.download;
+    });
+    const confirm = vi.fn(() => true);
+    const state = await techPackHarness({
+      confirm,
+      getTechPackShareOutput: async (revisionId, workflow) => {
+        const revision = workflow.snapshot.styleRevisions.find((candidate) => candidate.revisionId === revisionId)!;
+        return {
+          revisionId,
+          revisionContentDigest: revision.revisionContentDigest,
+          selectedSections: ["identity", "approval-disclaimer"],
+          artifacts: TECH_PACK_SHARE_ARTIFACTS.map((artifact, index) => ({
+            ...artifact,
+            bytes: new Uint8Array([80 + index, 75, 0, 255]),
+          })),
+        };
+      },
+    });
+    try {
+      const { workflow, host, onStyleLoaded } = state;
+      const revisionId = workflow.snapshot.activeStyle.revisionHeadId!;
+      const coverScope = host.querySelector<HTMLInputElement>("[data-tech-pack-share-scope='cover']")!;
+      coverScope.checked = true;
+      coverScope.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='begin-tech-pack-review']")?.disabled).toBe(false);
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Local reviewer";
+      host.querySelector<HTMLButtonElement>("[data-project-action='begin-tech-pack-review']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("REVIEW"));
+      await vi.waitFor(() => expect(host.querySelector<HTMLButtonElement>("[data-project-action='approve-tech-pack-review']")?.disabled).toBe(false));
+      expect(host.textContent).toContain("6 fields are bound to this approval");
+      expect(onStyleLoaded).toHaveBeenCalled();
+
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Local approver";
+      host.querySelector<HTMLButtonElement>("[data-project-action='approve-tech-pack-review']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("APPROVED"));
+      await vi.waitFor(() => expect(host.querySelector<HTMLButtonElement>("[data-project-action='freeze-tech-pack-share']")?.disabled).toBe(false));
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Local freezer";
+      host.querySelector<HTMLButtonElement>("[data-project-action='freeze-tech-pack-share']")!.click();
+      await vi.waitFor(() => expect(host.querySelector<HTMLElement>(".project-manager")?.getAttribute("aria-busy")).toBe("true"));
+      await vi.waitFor(() => expect(host.querySelector<HTMLElement>(".project-manager")?.getAttribute("aria-busy")).toBe("false"));
+      expect(workflow.snapshot.activeStyle.techPack.approval.state, host.querySelector("#project-manager-status")?.textContent).toBe("FROZEN_FOR_SHARE");
+      expect(confirm).toHaveBeenCalledWith(expect.stringContaining(`revision ${revisionId}`));
+      expect(confirm).toHaveBeenCalledWith(expect.stringContaining("production-pack.techpack.zip"));
+      expect(host.textContent).toContain("Frozen 2 Tech Pack share files");
+      expect(host.textContent).toContain("Download production-pack.pdf");
+      host.querySelector<HTMLButtonElement>("[data-project-action='download-frozen'][data-artifact-id='tech-pack-production-pdf']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("Downloaded stored bytes for production-pack.pdf"));
+      expect(urlApi.createObjectURL).toHaveBeenCalledOnce();
+      expect(downloadedName).toBe("production-pack.pdf");
+      await vi.waitFor(() => expect(urlApi.revokeObjectURL).toHaveBeenCalledWith("blob:tech-pack-share"));
+    } finally {
+      state.close();
+      anchorClick.mockRestore();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("blocks review and freeze actions without a saved revision, clean draft or explicit scope", async () => {
+    const state = await techPackHarness();
+    const { workflow, host, manager } = state;
+    const actions = manager as unknown as {
+      beginTechPackReview(): Promise<void>;
+      approveTechPackReview(): Promise<void>;
+      freezeTechPackShare(): Promise<void>;
+    };
+    try {
+      state.setUnsavedChanges(true);
+      await actions.beginTechPackReview();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Save or discard current edits before starting review");
+      await actions.approveTechPackReview();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Save or discard current edits before approving");
+      await actions.freezeTechPackShare();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Save or discard current edits before freezing");
+
+      state.setUnsavedChanges(false);
+      const saved = workflow.snapshot;
+      const internals = workflow as unknown as { loaded: LoadedProject };
+      internals.loaded = { ...saved, activeStyle: { ...saved.activeStyle, revisionHeadId: null } };
+      await actions.beginTechPackReview();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Save the style before starting");
+      await actions.approveTechPackReview();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("saved style has no revision to approve");
+      await actions.freezeTechPackShare();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("current scoped approval");
+      internals.loaded = saved;
+
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.remove();
+      await actions.beginTechPackReview();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("self-attested reviewer label");
+      manager.refresh();
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Local reviewer";
+      await actions.beginTechPackReview();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("Select one or more current Tech Pack fields"));
+      const scope = host.querySelector<HTMLInputElement>("[data-tech-pack-share-scope='cover']")!;
+      scope.checked = true;
+      scope.dispatchEvent(new Event("change", { bubbles: true }));
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Local reviewer";
+      host.querySelector<HTMLButtonElement>("[data-project-action='begin-tech-pack-review']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("REVIEW"));
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.remove();
+      await actions.approveTechPackReview();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("self-attested reviewer label");
+      manager.refresh();
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Local approver";
+      host.querySelector<HTMLButtonElement>("[data-project-action='approve-tech-pack-review']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("APPROVED"));
+      manager.refresh();
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='freeze-tech-pack-share']")?.disabled).toBe(true);
+      await actions.freezeTechPackShare();
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("current scoped approval and Tech Pack output generator are required");
+      const approved = workflow.snapshot;
+      internals.loaded = {
+        ...approved,
+        activeStyle: {
+          ...approved.activeStyle,
+          techPack: { ...approved.activeStyle.techPack, approval: { ...approved.activeStyle.techPack.approval, state: "FROZEN_FOR_SHARE", manifestId: null } },
+        },
+      };
+      manager.refresh();
+      expect(host.textContent).toContain("Frozen manifest unavailable");
+    } finally {
+      state.close();
+    }
+  });
+
+  it("retains approval when frozen-share generation is missing, mismatched, or canceled", async () => {
+    type OutputMode = "missing" | "mismatch" | "valid";
+    let outputMode: OutputMode = "missing";
+    const state = await techPackHarness({
+      confirm: () => false,
+      getTechPackShareOutput: async (revisionId, workflow) => {
+        if (outputMode === "missing") return null;
+        const revision = workflow.snapshot.styleRevisions.find((candidate) => candidate.revisionId === revisionId)!;
+        return {
+          revisionId: outputMode === "mismatch" ? "33333333-3333-4333-8333-333333333333" : revisionId,
+          revisionContentDigest: revision.revisionContentDigest,
+          selectedSections: ["identity"],
+          artifacts: TECH_PACK_SHARE_ARTIFACTS.map((artifact) => ({ ...artifact, bytes: new Uint8Array([1, 2, 3]) })),
+        };
+      },
+    });
+    const { workflow, host, manager } = state;
+    const actions = manager as unknown as { freezeTechPackShare(): Promise<void> };
+    try {
+      const scope = host.querySelector<HTMLInputElement>("[data-tech-pack-share-scope='cover']")!;
+      scope.checked = true;
+      scope.dispatchEvent(new Event("change", { bubbles: true }));
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Local reviewer";
+      host.querySelector<HTMLButtonElement>("[data-project-action='begin-tech-pack-review']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("REVIEW"));
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Local approver";
+      host.querySelector<HTMLButtonElement>("[data-project-action='approve-tech-pack-review']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("APPROVED"));
+
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.remove();
+      await actions.freezeTechPackShare();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("generated Tech Pack files do not match");
+      outputMode = "mismatch";
+      await actions.freezeTechPackShare();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("generated Tech Pack files do not match");
+      outputMode = "valid";
+      await actions.freezeTechPackShare();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Local share freeze canceled");
+      expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("APPROVED");
+    } finally {
+      state.close();
+    }
   });
 });

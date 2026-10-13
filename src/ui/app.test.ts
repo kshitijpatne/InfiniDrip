@@ -1369,6 +1369,163 @@ describe("mountApp", () => {
     }
   }, 25_000);
 
+  it("freezes approved local Tech Pack files only while the scoped revision binding stays current", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-tech-pack-freeze-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-13T12:00:00.000Z",
+    });
+    const initial = workflow.snapshot;
+    const revisionId = initial.activeStyle.revisionHeadId;
+    if (!revisionId) throw new Error("The synthetic initial style has no saved revision.");
+    const scopeFieldIds = [initial.activeStyle.techPack.cover.styleName.fieldId];
+    await workflow.beginActiveTechPackReview("Synthetic S778 reviewer", scopeFieldIds, revisionId);
+    await workflow.approveActiveTechPackReview("Synthetic S778 approver", revisionId);
+    const approved = workflow.snapshot;
+    const changed = {
+      ...approved,
+      activeStyle: {
+        ...approved.activeStyle,
+        techPack: {
+          ...approved.activeStyle.techPack,
+          approval: {
+            ...approved.activeStyle.techPack.approval,
+            scopeFieldIds: [...scopeFieldIds, approved.activeStyle.techPack.cover.styleCode.fieldId],
+          },
+        },
+      },
+    };
+    const root = mount({ projectWorkflow: workflow });
+    const confirm = vi.spyOn(window, "confirm").mockReturnValue(true);
+    try {
+      clickIfPresent(root, "welcome-skip");
+      clickId(root, "journey-step-fit");
+      const details = root.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+      if (!details.open) details.querySelector("summary")!.click();
+      await vi.waitFor(() => expect(root.querySelector(".project-tech-pack-share")).not.toBeNull());
+      const preset = root.querySelector<HTMLSelectElement>("#production-pack-preset")!;
+      preset.value = "measurements-qa";
+      preset.dispatchEvent(new Event("change", { bubbles: true }));
+      const originalLoad = workflow.repository.loadProject.bind(workflow.repository);
+      const staleBeforeGeneration = vi.spyOn(workflow.repository, "loadProject").mockResolvedValueOnce(changed);
+      root.querySelector<HTMLButtonElement>('[data-project-action="freeze-tech-pack-share"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent)
+        .toContain("changed in another window"), { timeout: 20000 });
+      expect(staleBeforeGeneration).toHaveBeenCalledOnce();
+      expect(confirm).not.toHaveBeenCalled();
+      staleBeforeGeneration.mockRestore();
+
+      const missingFreshStyle = vi.spyOn(workflow.repository, "loadProject").mockResolvedValueOnce(null);
+      root.querySelector<HTMLButtonElement>('[data-project-action="freeze-tech-pack-share"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent)
+        .toContain("Open a saved local style"), { timeout: 20000 });
+      expect(missingFreshStyle).toHaveBeenCalledOnce();
+      expect(confirm).not.toHaveBeenCalled();
+      missingFreshStyle.mockRestore();
+
+      let reads = 0;
+      const staleRead = vi.spyOn(workflow.repository, "loadProject").mockImplementation(async (projectId) => {
+        reads += 1;
+        return reads === 2 ? changed : originalLoad(projectId);
+      });
+      const freezeAction = root.querySelector<HTMLButtonElement>('[data-project-action="freeze-tech-pack-share"]');
+      if (!freezeAction) throw new Error(`The approved share action did not render: share=${root.querySelector(".project-tech-pack-share")?.textContent} details=${root.querySelector(".project-manager-details")?.outerHTML.slice(-1800)}`);
+      freezeAction.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent)
+        .toContain("changed while the frozen Tech Pack files were generating"), { timeout: 20000 });
+      expect(reads).toBe(2);
+      expect(confirm).not.toHaveBeenCalled();
+      expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("APPROVED");
+      staleRead.mockRestore();
+
+      const completePreset = root.querySelector<HTMLSelectElement>("#production-pack-preset")!;
+      completePreset.value = "complete-pack";
+      completePreset.dispatchEvent(new Event("change", { bubbles: true }));
+      root.querySelector<HTMLButtonElement>('[data-project-action="freeze-tech-pack-share"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent)
+        .toContain("Frozen 2 Tech Pack share files"), { timeout: 45000 });
+      expect(confirm).toHaveBeenCalledOnce();
+      expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("FROZEN_FOR_SHARE");
+      const frozenShares = workflow.snapshot.exportManifests.filter((manifest) => manifest.schemaVersion === 3);
+      expect(frozenShares).toHaveLength(1);
+      expect(frozenShares[0].payload.selectedSections).toContain("artwork");
+      expect(workflow.snapshot.activeStyle.techPack.approval.revisionId).toBe(revisionId);
+    } finally {
+      workflow.close();
+      localStorage.clear();
+    }
+  }, 60000);
+
+  it("fails closed when the approved share loses a valid current Tech Pack context before generation", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-tech-pack-freeze-context-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-13T12:00:00.000Z",
+    });
+    const initial = workflow.snapshot;
+    const revisionId = initial.activeStyle.revisionHeadId;
+    if (!revisionId) throw new Error("The synthetic initial style has no saved revision.");
+    const scopeFieldIds = [initial.activeStyle.techPack.cover.styleName.fieldId];
+    await workflow.beginActiveTechPackReview("Synthetic S778 reviewer", scopeFieldIds, revisionId);
+    await workflow.approveActiveTechPackReview("Synthetic S778 approver", revisionId);
+    const approved = workflow.snapshot;
+    const unapproved = {
+      ...approved,
+      activeStyle: {
+        ...approved.activeStyle,
+        techPack: {
+          ...approved.activeStyle.techPack,
+          approval: { ...approved.activeStyle.techPack.approval, state: "REVIEW" as const },
+        },
+      },
+    };
+    const missingRevision = { ...approved, styleRevisions: [] };
+    const root = mount({ projectWorkflow: workflow });
+    try {
+      clickIfPresent(root, "welcome-skip");
+      clickId(root, "journey-step-fit");
+      const details = root.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+      if (!details.open) details.querySelector("summary")!.click();
+      await vi.waitFor(() => expect(root.querySelector(".project-tech-pack-share")).not.toBeNull());
+      const originalSnapshot = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(workflow), "snapshot")!.get!;
+      const assertCallbackRejectsSnapshot = async (replacement: typeof approved, message: string): Promise<void> => {
+        let reads = 0;
+        Object.defineProperty(workflow, "snapshot", {
+          configurable: true,
+          get: () => ++reads === 1 ? originalSnapshot.call(workflow) : replacement,
+        });
+        try {
+          root.querySelector<HTMLButtonElement>('[data-project-action="freeze-tech-pack-share"]')!.click();
+        } finally {
+          Reflect.deleteProperty(workflow, "snapshot");
+        }
+        await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent)
+          .toContain(message), { timeout: 20000 });
+      };
+      await assertCallbackRejectsSnapshot(unapproved, "Approve the current saved Tech Pack revision");
+      await assertCallbackRejectsSnapshot(missingRevision, "no verified current tech-pack snapshot");
+    } finally {
+      workflow.close();
+      localStorage.clear();
+    }
+  }, 60000);
+
   it("discards stale generation work and rechecks ready previews after saved-state or tab changes", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);

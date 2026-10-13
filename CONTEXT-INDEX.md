@@ -158,7 +158,19 @@ only through an explicitly admitted, linked Epic packet.
   PDF/ZIP review, and 390×844/1280×800 browser captures pass. Evidence is in
   `docs/research/epic18/S777-T04-review/`; validated exit replay closes UIQ-10
   and G05-T04 at board revision 4645 while EPIC-18 remains In Progress.
-  Control Center tests pass 42/42 and `git diff --check` passes. S778 is next for T05; S780
+  S778 then completed the exact-revision local T05 freeze, deterministic
+  manifest/digest binding, original ZIP/PDF byte retention and download path.
+  Its start, exit, synthetic artifact, Chromium and replay evidence is in
+  `docs/research/epic18/S778-T05-freeze/`; validated board replay links the
+  exit report to G05-T05 and EPIC-18 at revision 4657. Focused suites pass
+  183/183 plus two app-integration cases; changed production modules and the
+  exact app range have 100% four-metric coverage; TypeScript, build, protected
+  export regression/identity 17/17, rendered outputs, two-viewport browser and
+  Control Center 42/42 pass. The broad app-file coverage attempt stopped at
+  about 2.6 GB without a report; its changed range passed and the settled
+  global gate remains S780. EPIC-18 and G05-T05 remain In Progress; G05-EXIT
+  remains Backlog. S779 is next for edit invalidation, prior-byte retention,
+  import compatibility and all eight protected legacy identities. S780
   remains the integrated global gate. UIQ-09 remains Backlog behind EPIC-19. S773's
   start-digest correction remains documented in its packet; pattern
   identifiers do not establish construction facts or fit.

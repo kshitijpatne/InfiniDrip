@@ -1,0 +1,29 @@
+{
+  "synthetic": true,
+  "sourceRevisionId": "33333333-3333-4333-8333-333333333333",
+  "sourceRevisionContentDigest": "1e08a4c177a05524f99eee556fd67a1bcb02858d8ad7f454afcc20ef393a5d37",
+  "selectedSections": [
+    "identity",
+    "materials-bom",
+    "measurements-qa",
+    "construction",
+    "artwork",
+    "sources-open-items",
+    "approval-disclaimer"
+  ],
+  "repeatGenerationBytesMatch": true,
+  "repeatFreezePacketDigest": "346fcfee1bbdf1f11f2aa374e4d0e91c34bc0505dfaae9bc430c060411861e3c",
+  "frozenPacketDigest": "346fcfee1bbdf1f11f2aa374e4d0e91c34bc0505dfaae9bc430c060411861e3c",
+  "artifacts": [
+    {
+      "name": "frozen-woven-shirt.techpack.zip",
+      "byteLength": 3838,
+      "sha256": "9bd6fd33952e1f11ea2494aabfe47255774ff0af29ed9035efc2a19c28dcdf4e"
+    },
+    {
+      "name": "frozen-woven-shirt-production-pack.pdf",
+      "byteLength": 11800,
+      "sha256": "aebf58f984c82a68352a72be301b535b12904cf6781dcca2a2794a80fe0992a6"
+    }
+  ]
+}

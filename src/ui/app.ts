@@ -76,7 +76,7 @@ import {
   journeyBarMarkup, checklistMarkup, tutorialMarkup, tutorialAnnouncement,
   tutorialStepForJourneyStep, celebrationMarkup, loadJourneyWithStatus, saveJourney,
 } from "./journey";
-import { ProjectWorkflow } from "./project-workflow";
+import { ProjectWorkflow, type TechPackShareFreezeInput } from "./project-workflow";
 import {
   createProductionPackOutputs,
   previewProductionPackImport,
@@ -5760,6 +5760,62 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
               : canExportRun() ? null : "Review Style and the current digital checks before freezing outputs.")
           : "Whole-run output capture is unavailable until you review and approve a grade plan."
         : null,
+      getTechPackShareOutput: async (expectedRevisionId: string): Promise<TechPackShareFreezeInput | null> => {
+        const expected = productionPackContext(projectWorkflow.snapshot);
+        if (!expected.ok || expected.value.revision.revisionId !== expectedRevisionId
+          || expected.value.record.approval.state !== "APPROVED"
+          || expected.value.record.approval.revisionId !== expectedRevisionId) {
+          throw new Error(expected.ok
+            ? "Approve the current saved Tech Pack revision before freezing its local share."
+            : expected.message);
+        }
+        const expectedKey = productionPackBindingKey(expected.value.binding);
+        const fresh = await readFreshProductionPackContext();
+        if (!fresh.ok || productionPackBindingKey(fresh.value.binding) !== expectedKey) {
+          throw new Error(fresh.ok
+            ? "The saved revision or scoped approval changed in another window. Reload before freezing a local share."
+            : fresh.message);
+        }
+        const sections = [...productionPackSections];
+        const attachments = sections.includes("artwork")
+          ? await resolveProductionPackAttachments(fresh.value.revision) : [];
+        const outputs = await createProductionPackOutputs({
+          record: fresh.value.record,
+          revision: fresh.value.revision,
+          currentHeadRevisionId: fresh.value.revision.revisionId,
+          preset: productionPackPreset,
+          selectedSections: sections,
+          attachments,
+        });
+        const after = await readFreshProductionPackContext();
+        if (!after.ok || productionPackBindingKey(after.value.binding) !== expectedKey
+          || !productionPackOutputMatchesCurrentRevision(outputs, after.value.binding)
+          || outputs.manifest.selectedSections.length !== sections.length
+          || outputs.manifest.selectedSections.some((section, index) => section !== sections[index])) {
+          throw new Error("The saved revision or scoped approval changed while the frozen Tech Pack files were generating. Reload and retry.");
+        }
+        return {
+          revisionId: outputs.manifest.revisionId,
+          revisionContentDigest: outputs.manifest.revisionContentDigest,
+          selectedSections: outputs.manifest.selectedSections,
+          artifacts: [
+            {
+              artifactId: "tech-pack-exchange-zip",
+              extension: "zip",
+              displayName: "production-pack.techpack.zip",
+              mediaType: "application/zip",
+              bytes: new Uint8Array(outputs.archiveBytes.buffer, outputs.archiveBytes.byteOffset, outputs.archiveBytes.byteLength),
+            },
+            {
+              artifactId: "tech-pack-production-pdf",
+              extension: "pdf",
+              displayName: "production-pack.pdf",
+              mediaType: "application/pdf",
+              bytes: new Uint8Array(outputs.pdfBytes.buffer, outputs.pdfBytes.byteOffset, outputs.pdfBytes.byteLength),
+            },
+          ],
+        };
+      },
       getFrozenOutputSet: async () => {
         const customRun = customOneSizeStyle() ? currentGradePlanRun().sizes : null;
         if (customOneSizeStyle()

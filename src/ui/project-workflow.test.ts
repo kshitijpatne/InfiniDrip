@@ -26,8 +26,9 @@ import { createFieldObservationRecord, currentFieldObservation, getFieldDefiniti
 import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
-import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex } from "./style-revisions";
+import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex, verifyFrozenOutputManifest } from "./style-revisions";
 import { parseTechPackRecord, type TechPackRecord } from "./tech-pack-records";
+import { TECH_PACK_SHARE_ARTIFACTS } from "./tech-pack-sharing";
 import { parseTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
 
 const cryptoApi = webcrypto as unknown as Crypto;
@@ -659,6 +660,133 @@ describe("local project/style workflow", () => {
     expect(changed.activeStyle.revisionHeadId).toBe(newHead.revisionId);
     expect(changed.activeStyle.techPack.revisionId).toBe(newHead.revisionId);
     expect(changed.activeStyle.techPack.approval.state).toBe("DRAFT");
+  });
+
+  it("stores scoped review overlays and freezes exact binary Tech Pack bytes against the saved head", async () => {
+    const workflow = await open();
+    await workflow.createStyle("Secondary freeze fixture", workflow.snapshot.activeStyle.design);
+    const initial = workflow.snapshot;
+    const revisionId = initial.activeStyle.revisionHeadId!;
+    const revision = initial.styleRevisions.find((row) => row.revisionId === revisionId)!;
+    const originalRevisionCount = initial.styleRevisions.length;
+    const scope = [initial.activeStyle.techPack.cover.styleName.fieldId];
+
+    await expect(workflow.beginActiveTechPackReview("Reviewer", scope, "33333333-3333-4333-8333-333333333333"))
+      .rejects.toMatchObject({ code: "conflict" });
+    const internals = workflow as unknown as {
+      loaded: LoadedProject;
+      saveTechPackApprovalOverlay(candidate: TechPackRecord, time: string, expectedRevisionId: string): Promise<LoadedProject>;
+    };
+    internals.loaded = {
+      ...initial,
+      activeStyle: {
+        ...initial.activeStyle,
+        techPack: { ...initial.activeStyle.techPack, revisionId: "33333333-3333-4333-8333-333333333333" },
+      },
+    };
+    await expect(workflow.beginActiveTechPackReview("Reviewer", scope, revisionId))
+      .rejects.toMatchObject({ code: "conflict" });
+    internals.loaded = initial;
+    internals.loaded = { ...initial, activeStyle: { ...initial.activeStyle, revisionHeadId: null } };
+    await expect(internals.saveTechPackApprovalOverlay(initial.activeStyle.techPack, TIME, revisionId))
+      .rejects.toMatchObject({ code: "conflict" });
+    internals.loaded = {
+      ...initial,
+      activeStyle: { ...initial.activeStyle, archivedAt: TIME },
+    };
+    await expect(internals.saveTechPackApprovalOverlay(initial.activeStyle.techPack, TIME, revisionId))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    internals.loaded = initial;
+    const alteredTechPack = {
+      ...initial.activeStyle.techPack,
+      cover: {
+        ...initial.activeStyle.techPack.cover,
+        styleName: { ...initial.activeStyle.techPack.cover.styleName, value: "Changed candidate content" },
+      },
+    };
+    await expect(internals.saveTechPackApprovalOverlay(alteredTechPack, TIME, revisionId))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    await expect(internals.saveTechPackApprovalOverlay(null as unknown as TechPackRecord, TIME, revisionId))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    const mismatchedRevisionCandidate = {
+      ...initial.activeStyle.techPack,
+      revisionId: "33333333-3333-4333-8333-333333333333",
+    };
+    expect(parseTechPackRecord(mismatchedRevisionCandidate).ok).toBe(true);
+    await expect(internals.saveTechPackApprovalOverlay(mismatchedRevisionCandidate, TIME, revisionId))
+      .rejects.toMatchObject({
+        code: "invalid-data",
+        message: expect.stringContaining("cannot edit the saved Tech Pack content"),
+      });
+
+    await expect(workflow.approveActiveTechPackReview("Approver", "33333333-3333-4333-8333-333333333333"))
+      .rejects.toMatchObject({ code: "conflict" });
+    const reviewed = await workflow.beginActiveTechPackReview("Reviewer", scope, revisionId);
+    expect(reviewed.activeStyle.techPack.approval.state).toBe("REVIEW");
+    expect(reviewed.activeStyle.revisionHeadId).toBe(revisionId);
+    expect(reviewed.styleRevisions).toHaveLength(originalRevisionCount);
+    const approved = await workflow.approveActiveTechPackReview("Approver", revisionId);
+    expect(approved.activeStyle.techPack.approval.state).toBe("APPROVED");
+    expect(approved.activeStyle.techPack.approval.scopeFieldIds).toEqual(scope);
+    expect(approved.styleRevisions).toHaveLength(originalRevisionCount);
+
+    const output = {
+      revisionId,
+      revisionContentDigest: revision.revisionContentDigest,
+      selectedSections: ["identity", "approval-disclaimer"],
+      artifacts: TECH_PACK_SHARE_ARTIFACTS.map((artifact, index) => ({
+        ...artifact,
+        bytes: new Uint8Array([80 + index, 75, 0, 255]),
+      })),
+    };
+    await expect(workflow.freezeTechPackShare("Freezer", { ...output, revisionContentDigest: "0".repeat(64) }))
+      .rejects.toMatchObject({ code: "conflict" });
+    const currentlyApproved = workflow.snapshot;
+    internals.loaded = { ...currentlyApproved, activeStyle: { ...currentlyApproved.activeStyle, archivedAt: TIME } };
+    await expect(workflow.freezeTechPackShare("Freezer", output)).rejects.toMatchObject({ code: "invalid-data" });
+    internals.loaded = currentlyApproved;
+    const manifest = await workflow.freezeTechPackShare("Freezer", output);
+    expect(manifest.schemaVersion).toBe(3);
+    expect(manifest.payload.revisionId).toBe(revisionId);
+    expect(manifest.payload.selectedSections).toEqual(output.selectedSections);
+    expect(manifest.artifacts.map((artifact) => artifact.byteLength)).toEqual([4, 4]);
+    expect(await verifyFrozenOutputManifest(manifest, cryptoApi)).toBe(true);
+    expect(workflow.snapshot.activeStyle.techPack.approval).toMatchObject({
+      state: "FROZEN_FOR_SHARE", revisionId, manifestId: manifest.manifestId, changedBy: "Freezer",
+    });
+    expect(workflow.snapshot.styleRevisions).toHaveLength(originalRevisionCount);
+    const savedZip = await workflow.readFrozenArtifact(manifest.manifestId, "tech-pack-exchange-zip");
+    expect([...new Uint8Array(await savedZip.artifact.bytes.arrayBuffer())]).toEqual([80, 75, 0, 255]);
+  });
+
+  it("reports a frozen Tech Pack whose saved bytes fail post-commit reload verification", async () => {
+    const workflow = await open();
+    const initial = workflow.snapshot;
+    const revisionId = initial.activeStyle.revisionHeadId!;
+    const revision = initial.styleRevisions.find((row) => row.revisionId === revisionId)!;
+    const scope = [initial.activeStyle.techPack.cover.styleName.fieldId];
+    await workflow.beginActiveTechPackReview("Reviewer", scope, revisionId);
+    await workflow.approveActiveTechPackReview("Approver", revisionId);
+    const output = {
+      revisionId,
+      revisionContentDigest: revision.revisionContentDigest,
+      selectedSections: ["identity"],
+      artifacts: TECH_PACK_SHARE_ARTIFACTS.map((artifact) => ({ ...artifact, bytes: new Uint8Array([1, 2, 3]) })),
+    };
+    const originalLoad = workflow.repository.loadProject.bind(workflow.repository);
+    const hideCommittedManifest = vi.spyOn(workflow.repository, "loadProject").mockImplementation(async (projectId) => {
+      const loaded = await originalLoad(projectId);
+      return loaded?.exportManifests.some((manifest) => manifest.schemaVersion === 3)
+        ? { ...loaded, exportManifests: [] } : loaded;
+    });
+    await expect(workflow.freezeTechPackShare("Freezer", output)).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("not present with verified bytes after its atomic save"),
+    });
+    hideCommittedManifest.mockRestore();
+    const recovered = await workflow.reload();
+    expect(recovered.exportManifests.filter((manifest) => manifest.schemaVersion === 3)).toHaveLength(1);
+    expect(recovered.activeStyle.techPack.approval.state).toBe("FROZEN_FOR_SHARE");
   });
 
   it("skips an identical field-history event without rewriting its append-only row", async () => {
