@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "itemId": "G05-T05",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "patch": {
+    "description": "Slices 778–779. Freeze one approved exact revision for local digital sharing with deterministic artifact manifests/digests; invalidate dependent checks and approvals on edits, preserve prior bytes and legacy compatibility."
+  },
+  "expectedRevision": 4561
+}

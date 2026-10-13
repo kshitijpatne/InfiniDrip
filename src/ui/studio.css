@@ -69,6 +69,10 @@ body { margin: 0; }
 .project-style-list li > button:first-child, .project-style-list li > span { overflow-wrap: anywhere; }
 .project-style-list li > button[aria-current="true"] { border-color: #65b7a1; color: #b8e6d0; }
 .project-style-list > p { margin: 0; color: #6f96ad; font-size: 11px; }
+.project-tech-pack { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #34506a; padding-top: 10px; }
+.project-tech-pack > h3 { margin: 0; color: #b8e6d0; font-size: 12px; }
+.project-tech-pack > p { margin: 0; color: #9bb8cc; font-size: 10px; line-height: 1.45; }
+.project-tech-pack-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
 #export-host { min-width: 0; }
 .export-size-context {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;

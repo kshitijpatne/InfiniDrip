@@ -39,8 +39,18 @@ Control Center 42/42, protected export identity 9/9 and diff hygiene passed.
 Validated exit evidence records board revision 4555. The validated G05-T01
 sequence-description correction is recorded by
 `docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json` at current
-board revision 4556. S767 is next for T01 editing and all-recipe rendered
-proof; the full landed S766 SHA is recorded in the S767 start packet.
+board revision 4556. S767 started from landed S766 commit
+`66379ae19dee15c72e5816c601f51c5b2d5463aa`; its packet is
+`docs/research/epic18/S767-T01-editor/start-packet.md`, with digest-verified
+start evidence on G05-T01 and EPIC-18 at board revision 4558. S767 is now
+complete; its digest-bound exit packet is
+`docs/research/epic18/S767-T01-editor/exit-packet.md`. The editor, workflow
+and manager coverage gates pass 127 focused tests at 100% statement, branch,
+function and line coverage; TypeScript, protected export identity 9/9, and
+seven-recipe browser rendering pass. The validated exit replay and future-card
+sequence corrections advance the board through revision 4566, with G05-T01
+Done and EPIC-18 In Progress. The next action is S768's typed T02 POM
+definitions under the active resequencing packet.
 
 UIQ-09 remains Backlog pending its EPIC-19/G06 admission and accepted
 starter/source contracts; it is not this next goal. UIQ-10 is already linked

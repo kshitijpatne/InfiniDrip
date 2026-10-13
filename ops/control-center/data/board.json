@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4556,
-  "updatedAt": "2026-10-12T22:26:13.790Z",
+  "revision": 4566,
+  "updatedAt": "2026-10-13T00:35:56.016Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -797,7 +797,9 @@
         "E-EPIC18-S765-RESEQUENCE",
         "E-G05-S765-EXIT",
         "E-G05-S766-START",
-        "E-G05-S766-EXIT"
+        "E-G05-S766-EXIT",
+        "E-G05-S767-START",
+        "E-G05-S767-EXIT"
       ]
     },
     {
@@ -16520,10 +16522,10 @@
       "title": "G05 T01 — Style and material record",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-10-12",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-13",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -16575,6 +16577,16 @@
           "evidenceRefs": [
             "E-G05-S763-START"
           ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-13T00:35:54.672Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "S767 completed the admitted T01 editor, immutable save/CAS, all-recipe propagation, explicit unknowns, cost-input view and rendered-proof gates.",
+          "evidenceRefs": [
+            "E-G05-S767-EXIT"
+          ]
         }
       ],
       "comments": [],
@@ -16587,7 +16599,9 @@
         "E-G05-S765-START",
         "E-G05-S765-EXIT",
         "E-G05-S766-START",
-        "E-G05-S766-EXIT"
+        "E-G05-S766-EXIT",
+        "E-G05-S767-START",
+        "E-G05-S767-EXIT"
       ],
       "flagKey": null
     },
@@ -16619,7 +16633,7 @@
         "100% coverage",
         "legacy export hashes"
       ],
-      "description": "Slices 767–769. Add sourced POM methods/landmarks/units/tolerances, size and grade sources, revision-bound sample/QA rounds, callout and size-run checks, with all-recipe rendered evidence.",
+      "description": "Slices 768–770. Add sourced POM methods/landmarks/units/tolerances, size and grade sources, revision-bound sample/QA rounds, callout and size-run checks, with all-recipe rendered evidence.",
       "expectation": "Predictions remain distinct from measured sample readings, and missing measurement/tolerance authority is an actionable unresolved state.",
       "acceptanceCriteria": [
         "Every POM defines its method, target/landmark, unit and tolerance source/status or stays explicitly unresolved.",
@@ -16668,7 +16682,7 @@
         "all seven recipes",
         "no invented stitch/machine/compliance data"
       ],
-      "description": "Slices 770–772. Define and implement component/seam-linked construction operations with provenance; source-backed facts only, explicit unknowns, BOM-to-pattern/component reconciliation and all-recipe review.",
+      "description": "Slices 771–773. Define and implement component/seam-linked construction operations with provenance; source-backed facts only, explicit unknowns, BOM-to-pattern/component reconciliation and all-recipe review.",
       "expectation": "Construction facts can be edited and traced to sources or marked unresolved without presenting estimates or unsupported defaults as verified manufacturing facts.",
       "acceptanceCriteria": [
         "Operations link to revision-bound components/seams and preserve source/provenance for supported construction fields.",
@@ -16715,7 +16729,7 @@
         "two representative styles",
         "all seven recipes"
       ],
-      "description": "Slices 773–776. Resolve format/template matrix before writing, admit and complete linked UIQ-10 under its separate bounded packet, add revision-bound PDF/structured output/attachments, then review diffs, approval scope, rendering and numeric reconciliation.",
+      "description": "Slices 774–777. Resolve format/template matrix before writing, admit and complete linked UIQ-10 under its separate bounded packet, add revision-bound PDF/structured output/attachments, then review diffs, approval scope, rendering and numeric reconciliation.",
       "expectation": "Readable route-specific digital packs reproduce the authoritative revision and import/round-trip without altering legacy output behavior.",
       "acceptanceCriteria": [
         "Slice 773 decides and records format, import/round-trip rules, sections/templates and simple/difficult example styles before writer code.",
@@ -16763,7 +16777,7 @@
         "dependency invalidation",
         "legacy compatibility"
       ],
-      "description": "Slices 777–778. Freeze one approved exact revision for local digital sharing with deterministic artifact manifests/digests; invalidate dependent checks and approvals on edits, preserve prior bytes and legacy compatibility.",
+      "description": "Slices 778–779. Freeze one approved exact revision for local digital sharing with deterministic artifact manifests/digests; invalidate dependent checks and approvals on edits, preserve prior bytes and legacy compatibility.",
       "expectation": "A frozen local-share package identifies its exact source revision and immutable files; later edits visibly stale dependent checks without rewriting the prior frozen bytes.",
       "acceptanceCriteria": [
         "Scoped approval and freeze are bound to the exact revision and approved artifact set.",
@@ -16811,7 +16825,7 @@
         "eight protected export hashes",
         "deployment and claim accuracy"
       ],
-      "description": "Slices 779–780. Run the settled integrated Epic gate and review before PR; then verify merge ancestry, main CI/deployment, live output where applicable, complete board closure and downstream reforecast.",
+      "description": "Slices 780–781. Run the settled integrated Epic gate and review before PR (S780); then verify merge ancestry, main CI/deployment, live output where applicable, complete board closure and downstream reforecast (S781).",
       "expectation": "The full G05/UIQ-10 candidate is proven at 100% coverage and integrated behavior, safely merged/deployed, and closed with durable evidence and explicit remaining external/physical gates.",
       "acceptanceCriteria": [
         "All seven recipes and every G05/UIQ-10 criterion pass, with actual parsed/rendered output review.",
@@ -30658,6 +30672,24 @@
       "sha256": "021993138e45d7e99a74199bfe542acf516462491089895b9f8034615961d4d6",
       "verified": true,
       "note": "S766 adds strict payload-v2 T01 snapshots/digests, preserves exact payload-v1 compatibility, and enforces workflow/package/repository head integrity; five changed modules pass 100% four-metric coverage."
+    },
+    {
+      "id": "E-G05-S767-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S767-T01-editor/start-packet.md",
+      "commit": null,
+      "sha256": "38db2dd013338dbbec0b7ab2e69b079af418468c1788bb9aea8765c607028908",
+      "verified": true,
+      "note": "S767 starts the all-recipe T01 editor with immutable v2 save/CAS, explicit unknowns, cost-input view, stale/frozen preservation and browser-rendered proof."
+    },
+    {
+      "id": "E-G05-S767-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S767-T01-editor/exit-packet.md",
+      "commit": null,
+      "sha256": "b845042ed47f0b016e79e6507666906ea2ebb277cd9fb041b9bb3ab75870ff3a",
+      "verified": true,
+      "note": "S767 closes the local T01 editor across seven recipes with explicit unknowns, immutable save/CAS and cost inputs without totals; 127 focused tests, 100% changed-module coverage, TypeScript, export identity and browser-rendered evidence pass."
     }
   ]
 }

@@ -46,7 +46,13 @@ import {
   type RevisionArtworkDigest,
   type StyleRevisionRecord,
 } from "./style-revisions";
-import { bindTechPackToRevision, createEmptyTechPackRecord, techPackRevisionContent } from "./tech-pack-records";
+import {
+  bindTechPackToRevision,
+  createEmptyTechPackRecord,
+  parseTechPackRecord,
+  techPackRevisionContent,
+  type TechPackRecord,
+} from "./tech-pack-records";
 
 export interface ProjectWorkflowOptions {
   readonly repositoryOptions?: ProjectRepositoryOptions;
@@ -423,6 +429,108 @@ export class ProjectWorkflow {
 
   async saveActiveDesign(design: SavedDesign): Promise<LoadedProject> {
     return this.enqueue(() => this.saveDesignInQueue(design, false));
+  }
+
+  /**
+   * Saves the active style's authored T01 content as one immutable child.
+   * The caller submits the exact style/revision snapshot from which the edit
+   * began; stale tabs fail at that identity check or the repository CAS.
+   */
+  async saveActiveTechPack(candidate: TechPackRecord): Promise<LoadedProject> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      const active = current.activeStyle;
+      const stored = active.techPack;
+      if (candidate.styleId !== active.id) {
+        throw new ProjectRepositoryError("conflict", "This T01 edit is based on an older style revision. Reload the project before saving it.");
+      }
+      if (candidate.revisionId !== active.revisionHeadId) {
+        throw new ProjectRepositoryError("conflict", "This T01 edit is based on an older style revision. Reload the project before saving it.");
+      }
+      if (candidate.revisionId !== stored.revisionId) {
+        throw new ProjectRepositoryError("conflict", "The saved T01 record no longer matches the active style head. Reload before saving.");
+      }
+      if (candidate.revisionNumber !== stored.revisionNumber) {
+        throw new ProjectRepositoryError("conflict", "This T01 edit is based on an older T01 revision number. Reload before saving it.");
+      }
+      if (stored.recipeId !== active.recipeId) {
+        throw new ProjectRepositoryError("invalid-data", "The active T01 recipe does not match its saved style recipe.");
+      }
+      if (candidate.recipeId !== stored.recipeId) {
+        throw new ProjectRepositoryError("conflict", "The style recipe changed while this editor was open. Reload before saving.");
+      }
+      if (candidate.recipeVersion !== stored.recipeVersion) {
+        throw new ProjectRepositoryError("conflict", "The T01 recipe-version identity changed while this editor was open. Reload before saving.");
+      }
+      if (candidate.createdAt !== stored.createdAt) {
+        throw new ProjectRepositoryError("conflict", "The style recipe or T01 identity changed while this editor was open. Reload before saving.");
+      }
+      if (active.archivedAt !== null) {
+        throw new ProjectRepositoryError("invalid-data", "Archived styles are read-only; restore this style before editing its tech pack.");
+      }
+      const parsed = parseTechPackRecord(candidate);
+      if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
+      const head = current.styleRevisions.find((revision) => revision.revisionId === active.revisionHeadId);
+      if (!head) {
+        throw new ProjectRepositoryError("invalid-data", "The active style has no matching verified immutable revision head.");
+      }
+      if (head.styleId !== active.id) {
+        throw new ProjectRepositoryError("invalid-data", "The immutable revision head belongs to another style.");
+      }
+      if (head.revisionNumber !== stored.revisionNumber) {
+        throw new ProjectRepositoryError("invalid-data", "The active style has no matching verified immutable revision head.");
+      }
+      if (head.payload.payloadVersion === 2
+        && canonicalizeJcs(techPackRevisionContent(head.payload.techPack))
+          !== canonicalizeJcs(techPackRevisionContent(stored))) {
+        throw new ProjectRepositoryError("invalid-data", "The active T01 record does not match its immutable revision head.");
+      }
+      if (canonicalizeJcs(techPackRevisionContent(parsed.value))
+        === canonicalizeJcs(techPackRevisionContent(stored))) return current;
+
+      const observations = current.fieldObservations.find((record) => record.styleId === active.id);
+      if (!observations) throw new ProjectRepositoryError("invalid-data", "The active style has no field history record.");
+      const time = monotonicTimestamp(this.now(), current.project.updatedAt, active.updatedAt, stored.updatedAt);
+      const revisionId = this.revisionIdFactory();
+      const techPack = bindTechPackToRevision(parsed.value, revisionId, head.revisionNumber + 1, time);
+      const style: StyleRecord = {
+        ...active,
+        techPack,
+        revision: active.revision + 1,
+        revisionHeadId: revisionId,
+        updatedAt: time,
+      };
+      const revision = await createStyleRevision({
+        styleId: active.id,
+        revisionId,
+        parentRevisionId: head.revisionId,
+        revisionNumber: head.revisionNumber + 1,
+        design: active.design,
+        fieldObservations: observations,
+        artwork: await revisionArtworkDigests(active.design, this.artworkStore, this.cryptoProvider),
+        techPack,
+        createdAt: time,
+      }, this.cryptoProvider);
+      const project = {
+        ...current.project,
+        revision: current.project.revision + 1,
+        updatedAt: time,
+      };
+      await this.repository.saveProjectBundle({
+        project,
+        styles: current.styles.map((styleRecord) => styleRecord.id === active.id ? style : styleRecord),
+        fieldObservations: [observations],
+        styleRevisions: [revision],
+        expectedProjectRevision: current.project.revision,
+      });
+      const refreshed = await this.reloadLoaded();
+      if (refreshed.activeStyle.revisionHeadId !== revisionId
+        || !refreshed.styleRevisions.some((record) => record.revisionId === revisionId
+          && record.revisionContentDigest === revision.revisionContentDigest)) {
+        throw new ProjectRepositoryError("invalid-data", "The committed T01 revision is not present after its atomic save.");
+      }
+      return refreshed;
+    });
   }
 
   private async saveDesignInQueue(design: SavedDesign, forceRevision: boolean): Promise<LoadedProject> {

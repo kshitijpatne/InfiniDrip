@@ -78,10 +78,18 @@ only through an explicitly admitted, linked Epic packet.
   evidence advances the board through revision 4555; a validated G05-T01
   sequence-description correction at revision 4556 is recorded by
   `docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json`. G05-T01
-  and EPIC-18 remain In Progress. Slice 767 is the next
-  T01 editing/all-recipe/rendered-proof boundary. UIQ-10 remains a
-  linked Backlog child until its bounded S774 admission; UIQ-09 remains blocked
-  on EPIC-19.
+  and EPIC-18 remain In Progress. Slice 767 is complete from S766 commit
+  `66379ae19dee15c72e5816c601f51c5b2d5463aa`; its start and exit packets are
+  in `docs/research/epic18/S767-T01-editor/`. Validated commands under
+  `docs/planning/EPIC-18-S767-*.json` record start evidence, future-card
+  sequence corrections and T01 exit evidence. Board revision 4566 records
+  G05-T01 Done and EPIC-18 In Progress. The T01 editor has 127 focused tests,
+  100% four-metric coverage on its three behavior modules, and actual
+  browser-rendered evidence for all seven recipes. S768 is the single next
+  action under the exact T02 boundaries in
+  `docs/planning/EPIC-18-S765-RESEQUENCING.md`. UIQ-10 remains linked and
+  Backlog until its bounded S774 admission; UIQ-09 remains Backlog pending
+  EPIC-19.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.

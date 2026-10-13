@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "patch": {
+    "description": "Slices 780–781. Run the settled integrated Epic gate and review before PR (S780); then verify merge ancestry, main CI/deployment, live output where applicable, complete board closure and downstream reforecast (S781)."
+  },
+  "expectedRevision": 4562
+}

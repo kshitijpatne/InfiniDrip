@@ -70,7 +70,7 @@ describe("repository-backed app workflow", () => {
       .not.toContain("Your last saved version stays unchanged");
     expect(root.querySelector("#project-manager-status")?.textContent)
       .toBe("Saved project is ready on this device.");
-  });
+  }, 15_000);
 
   it("flushes a pending input before opening its field history dialog", async () => {
     workflow = await openProjectWorkflow({

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>S767 T01 editor browser proof</title>
+    <link rel="stylesheet" href="/src/ui/enhancements/tech-pack/tech-pack-editor.css" />
+    <style>
+      :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+      body { margin: 0; padding: 24px; background: #13233a; color: #d9e6ef; }
+      main { display: grid; gap: 14px; width: min(960px, 100%); margin: 0 auto; }
+      h1 { margin: 0; color: #b8e6d0; font-size: 22px; }
+      p { margin: 0; color: #9bb8cc; font-size: 13px; line-height: 1.5; }
+      label { display: grid; gap: 6px; font-size: 13px; }
+      select { width: fit-content; min-width: 220px; padding: 7px; font: inherit; }
+      #proof-editor { min-width: 0; }
+      .proof-note { border-left: 3px solid #88d7ef; padding-left: 10px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>S767 T01 editor — real-browser render proof</h1>
+      <p class="proof-note">Synthetic, unresolved local records used only to inspect the production T01 renderer for each supported recipe. No values are sourced facts and nothing is saved.</p>
+      <label for="proof-recipe">Supported recipe
+        <select id="proof-recipe"></select>
+      </label>
+      <p id="proof-status" role="status" aria-live="polite"></p>
+      <div id="proof-editor"></div>
+    </main>
+    <script type="module">
+      import { GARMENTS } from "/src/drafting/index.ts";
+      import { createEmptyTechPackRecord } from "/src/ui/tech-pack-records.ts";
+      import { renderTechPackEditor } from "/src/ui/tech-pack-editor.ts";
+
+      const now = "2026-10-12T00:00:00.000Z";
+      const field = (fieldId, semanticKind) => ({
+        fieldId,
+        semanticKind,
+        value: null,
+        unit: null,
+        provenance: "UNRESOLVED",
+        evidenceStatus: "UNCONFIRMED",
+        validationStatus: "INVALID",
+        sourceRef: null,
+        method: null,
+        capturedBy: null,
+        capturedAt: null,
+        inputRefs: [],
+        ruleId: null,
+        ruleVersion: null,
+        inheritedFrom: null,
+        unresolvedReason: "Synthetic browser fixture; no source value was supplied.",
+        nextAction: "Enter a sourced value or record the reason it remains unknown.",
+        evidenceRefs: [],
+        confidence: "NOT_ASSESSED",
+      });
+      const material = (id) => {
+        const f = (name) => field(`material.${id}.${name}`, "MATERIAL_PROPERTY");
+        return {
+          id,
+          category: "fabric",
+          name: f("name"), supplier: f("supplier"), articleId: f("articleId"), lotId: f("lotId"),
+          composition: f("composition"), construction: f("construction"), weight: f("weight"),
+          usableWidth: f("usableWidth"), finish: f("finish"), color: f("color"),
+          directionalBehavior: f("directionalBehavior"), unitCost: f("unitCost"),
+          currency: f("currency"), costBasis: f("costBasis"),
+        };
+      };
+      const recipes = GARMENTS;
+      const selector = document.querySelector("#proof-recipe");
+      const root = document.querySelector("#proof-editor");
+      const status = document.querySelector("#proof-status");
+
+      recipes.forEach((recipe) => {
+        const option = document.createElement("option");
+        option.value = recipe.name;
+        option.textContent = recipe.label;
+        selector.append(option);
+      });
+
+      const render = () => {
+        const recipe = recipes.find((candidate) => candidate.name === selector.value);
+        if (!recipe) throw new Error("The selected recipe is not in the supported registry.");
+        const suffix = String(recipes.indexOf(recipe) + 1).padStart(12, "0");
+        const styleId = `80000000-0000-4000-8000-${suffix}`;
+        const materialId = `81000000-0000-4000-8000-${suffix}`;
+        const rowId = `82000000-0000-4000-8000-${suffix}`;
+        const colorwayId = `83000000-0000-4000-8000-${suffix}`;
+        const assignmentId = `84000000-0000-4000-8000-${suffix}`;
+        const techPack = createEmptyTechPackRecord(styleId, recipe.name, now, now);
+        techPack.materials = [material(materialId)];
+        techPack.bomRows = [{
+          id: rowId,
+          componentRef: field(`bom.${rowId}.componentRef`, "PANEL_GEOMETRY"),
+          placement: field(`bom.${rowId}.placement`, "STYLE_CONTROL"),
+          materialId,
+          quantity: field(`bom.${rowId}.quantity`, "MATERIAL_PROPERTY"),
+          quantityBasis: field(`bom.${rowId}.quantityBasis`, "MATERIAL_PROPERTY"),
+          requiredness: field(`bom.${rowId}.requiredness`, "STYLE_CONTROL"),
+        }];
+        techPack.colorways = [{
+          id: colorwayId,
+          name: field(`colorway.${colorwayId}.name`, "STYLE_CONTROL"),
+          assignments: [{
+            id: assignmentId,
+            bomRowId: rowId,
+            materialId,
+            color: field(`assignment.${assignmentId}.color`, "MATERIAL_PROPERTY"),
+          }],
+        }];
+        root.innerHTML = renderTechPackEditor({ record: techPack, recipeLabel: recipe.label });
+        root.dataset.proofRecipe = recipe.name;
+        root.dataset.proofStyle = styleId;
+        status.textContent = `${recipe.label} (${recipe.name}): unresolved synthetic fields, material-cost inputs, BOM linkage, colorway assignment, and no calculated totals.`;
+      };
+
+      selector.addEventListener("change", render);
+      window.__S767_T01_PROOF__ = { recipes: recipes.map(({ name, label }) => ({ name, label })) };
+      selector.value = recipes[0].name;
+      render();
+    </script>
+  </body>
+</html>

@@ -27,11 +27,12 @@ import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex } from "./style-revisions";
-import { parseTechPackRecord } from "./tech-pack-records";
+import { parseTechPackRecord, type TechPackRecord } from "./tech-pack-records";
 
 const cryptoApi = webcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
 const NEXT_TIME = "2026-09-24T16:00:01.000Z";
+const AFTER_TIME = "2026-09-24T16:00:02.000Z";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
 const STYLE_ID = "b53a1a03-ea2e-4c4f-82dc-14ac86a29895";
 const STYLE_TWO_ID = "e8ff457f-982e-4b50-a12b-74bc5cc8fdd4";
@@ -100,6 +101,24 @@ function withoutRevisionHeads(loaded: LoadedProject): LoadedProject {
   };
 }
 
+function capturedTechPackText(
+  field: TechPackRecord["cover"]["styleCode"],
+  value: string,
+): TechPackRecord["cover"]["styleCode"] {
+  return {
+    ...field,
+    value,
+    provenance: "USER_CAPTURED",
+    evidenceStatus: "USER_CONFIRMED",
+    validationStatus: "VALID",
+    method: "entered in the local tech-pack editor",
+    capturedBy: "S767 test user",
+    capturedAt: NEXT_TIME,
+    unresolvedReason: null,
+    nextAction: null,
+  };
+}
+
 afterEach(() => {
   workflows.splice(0).forEach((workflow) => workflow.close());
   vi.unstubAllGlobals();
@@ -143,6 +162,359 @@ describe("local project/style workflow", () => {
     expect(restored.styleRevisions).toHaveLength(3);
     expect(restored.styleRevisions[2]?.parentRevisionId).toBe(restored.styleRevisions[1]?.revisionId);
     expect(restored.activeStyle.revisionHeadId).toBe(restored.styleRevisions[2]?.revisionId);
+  });
+
+  it("saves an authored T01 edit as one v2 child, resets review and preserves recovery and frozen bytes", async () => {
+    let now = TIME;
+    const workflow = await open({}, { now: () => now });
+    const originalDesign = workflow.snapshot.activeStyle.design;
+    const originalHead = workflow.snapshot.activeStyle.revisionHeadId!;
+    await workflow.saveRecovery(STYLE_ID, recoveryPayload());
+    now = NEXT_TIME;
+    const artifactTypes = [
+      ["selected-size-a0-pdf", "pdf"], ["selected-size-dxf", "dxf"], ["selected-size-svg", "svg"],
+      ["selected-size-tiled-pdf", "pdf"], ["whole-run-projector-svg", "svg"],
+      ["whole-run-surface-sheet-svg", "svg"], ["whole-run-tech-pack-pdf", "pdf"],
+    ] as const;
+    const frozen = await workflow.freezeOutputs(artifactTypes.map(([artifactId, extension]) => ({
+      artifactId,
+      extension,
+      displayName: `${artifactId}.${extension}`,
+      mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+      content: `frozen:${artifactId}`,
+    })), [{ sizeId: "tee-step-1", label: "M" }], ["Digital output only."], originalHead);
+    const before = workflow.snapshot;
+    const stored = before.activeStyle.techPack;
+    const candidate: TechPackRecord = {
+      ...stored,
+      cover: { ...stored.cover, styleCode: capturedTechPackText(stored.cover.styleCode, "TP-01") },
+      approval: {
+        state: "REVIEW",
+        revisionId: stored.revisionId,
+        scopeFieldIds: [stored.cover.styleCode.fieldId],
+        changedBy: "S767 test reviewer",
+        changedAt: NEXT_TIME,
+        manifestId: null,
+      },
+    };
+    now = AFTER_TIME;
+
+    const saved = await workflow.saveActiveTechPack(candidate);
+
+    const appended = saved.styleRevisions.filter((revision) => revision.parentRevisionId === originalHead);
+    expect(saved.styleRevisions).toHaveLength(before.styleRevisions.length + 1);
+    expect(appended).toHaveLength(1);
+    expect(appended[0]).toMatchObject({
+      revisionId: saved.activeStyle.revisionHeadId,
+      revisionNumber: stored.revisionNumber + 1,
+      parentRevisionId: originalHead,
+      payload: {
+        payloadVersion: 2,
+        design: originalDesign,
+        techPack: {
+          ...candidate,
+          revisionId: saved.activeStyle.revisionHeadId,
+          revisionNumber: stored.revisionNumber + 1,
+          updatedAt: AFTER_TIME,
+          approval: { state: "DRAFT", revisionId: null, scopeFieldIds: [], changedBy: null, changedAt: null, manifestId: null },
+        },
+      },
+    });
+    expect(saved.activeStyle.design).toEqual(originalDesign);
+    expect(saved.activeStyle.techPack.approval.state).toBe("DRAFT");
+    expect(saved.activeStyle.techPack.revisionId).toBe(saved.activeStyle.revisionHeadId);
+    expect(saved.activeStyle.techPack.cover.styleCode.value).toBe("TP-01");
+    expect(saved.activeRecovery).toEqual(before.activeRecovery);
+    expect(saved.exportManifests.find((manifest) => manifest.manifestId === frozen.manifestId)?.revisionId)
+      .toBe(originalHead);
+    expect(frozen.revisionId).toBe(originalHead);
+    const frozenArtifact = await workflow.readFrozenArtifact(frozen.manifestId, "selected-size-svg");
+    expect(await frozenArtifact.artifact.bytes.text()).toBe("frozen:selected-size-svg");
+    await expect(workflow.saveActiveTechPack(candidate)).rejects.toMatchObject({
+      code: "conflict",
+      message: expect.stringContaining("older style revision"),
+    });
+  });
+
+  it("rejects stale T01 compare-and-swap without partially changing any stored project rows", async () => {
+    const settings = { ...repositoryOptions(), storage: storage(), idFactory: ids(PROJECT_ID, STYLE_ID, STYLE_TWO_ID), now: () => TIME };
+    const editorTab = await openProjectWorkflow(settings);
+    workflows.push(editorTab);
+    const otherTab = await openProjectWorkflow({ ...settings, storage: storage() });
+    workflows.push(otherTab);
+    const base = editorTab.snapshot.activeStyle.techPack;
+    const staleCandidate: TechPackRecord = {
+      ...base,
+      cover: { ...base.cover, styleCode: capturedTechPackText(base.cover.styleCode, "STALE-TP") },
+    };
+    await otherTab.saveActiveDesign({ ...otherTab.snapshot.activeStyle.design, fabric: "#204060" });
+    const beforeRejectedSave = await editorTab.repository.readProjectBundle(PROJECT_ID);
+    await expect(editorTab.saveActiveTechPack(staleCandidate)).rejects.toMatchObject({ code: "conflict" });
+    const afterRejectedSave = await editorTab.repository.readProjectBundle(PROJECT_ID);
+    expect(afterRejectedSave).toEqual(beforeRejectedSave);
+  });
+
+  it("validates T01 identity and authored records before making any revision write", async () => {
+    const workflow = await open();
+    const stored = workflow.snapshot.activeStyle.techPack;
+    const base: TechPackRecord = {
+      ...stored,
+      cover: { ...stored.cover, styleCode: capturedTechPackText(stored.cover.styleCode, "TP-02") },
+    };
+    const mismatchedIdentity: TechPackRecord = { ...base, styleId: STYLE_TWO_ID };
+    const mismatchedHead: TechPackRecord = { ...base, revisionId: "00000000-0000-4000-8000-000000000099" };
+    const mismatchedNumber: TechPackRecord = { ...base, revisionNumber: base.revisionNumber + 1 };
+    const mismatchedRecipe: TechPackRecord = { ...base, recipeId: "skirt" };
+    const mismatchedVersion: TechPackRecord = { ...base, recipeVersion: "another-unverified-version" };
+    const mismatchedCreated: TechPackRecord = { ...base, createdAt: "2026-09-24T15:00:00.000Z" };
+    const invalidRecord: TechPackRecord = {
+      ...base,
+      cover: { ...base.cover, styleName: { ...base.cover.styleName, fieldId: base.cover.styleCode.fieldId } },
+    };
+    const staleCandidates = [
+      mismatchedIdentity, mismatchedHead, mismatchedNumber, mismatchedRecipe,
+      mismatchedVersion, mismatchedCreated,
+    ];
+    const before = await workflow.repository.readProjectBundle(PROJECT_ID);
+    for (const candidate of staleCandidates) {
+      await expect(workflow.saveActiveTechPack(candidate)).rejects.toMatchObject({ code: "conflict" });
+    }
+    await expect(workflow.saveActiveTechPack(invalidRecord)).rejects.toMatchObject({ code: "invalid-data" });
+    const after = await workflow.repository.readProjectBundle(PROJECT_ID);
+    expect(after).toEqual(before);
+  });
+
+  it("rejects an active T01 edit with missing field history before saving", async () => {
+    const workflow = await open();
+    const base = workflow.snapshot;
+    const candidate: TechPackRecord = {
+      ...base.activeStyle.techPack,
+      cover: {
+        ...base.activeStyle.techPack.cover,
+        styleCode: capturedTechPackText(base.activeStyle.techPack.cover.styleCode, "TP-06"),
+      },
+    };
+    const internals = workflow as unknown as { loaded: LoadedProject };
+    internals.loaded = { ...base, fieldObservations: [] };
+    const before = await workflow.repository.readProjectBundle(PROJECT_ID);
+    await expect(workflow.saveActiveTechPack(candidate)).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("no field history record"),
+    });
+    expect(await workflow.repository.readProjectBundle(PROJECT_ID)).toEqual(before);
+  });
+
+  it("saves T01 on the active style without replacing any other style in the project", async () => {
+    const workflow = await open();
+    const originalFirst = workflow.snapshot.activeStyle;
+    await workflow.createStyle("Second tee style", originalFirst.design);
+    await workflow.switchStyle(STYLE_ID);
+    const base = workflow.snapshot;
+    const candidate: TechPackRecord = {
+      ...base.activeStyle.techPack,
+      cover: {
+        ...base.activeStyle.techPack.cover,
+        styleCode: capturedTechPackText(base.activeStyle.techPack.cover.styleCode, "TP-07"),
+      },
+    };
+
+    const saved = await workflow.saveActiveTechPack(candidate);
+
+    expect(saved.styles).toHaveLength(2);
+    expect(saved.styles.find((style) => style.id === STYLE_TWO_ID)).toEqual(base.styles.find((style) => style.id === STYLE_TWO_ID));
+    expect(saved.styles.find((style) => style.id === STYLE_ID)?.techPack.cover.styleCode.value).toBe("TP-07");
+  });
+
+  it("rejects T01 saves when the active style is archived or its immutable head is missing", async () => {
+    const workflow = await open();
+    const validCandidate: TechPackRecord = {
+      ...workflow.snapshot.activeStyle.techPack,
+      cover: {
+        ...workflow.snapshot.activeStyle.techPack.cover,
+        styleCode: capturedTechPackText(workflow.snapshot.activeStyle.techPack.cover.styleCode, "TP-03"),
+      },
+    };
+    const internals = workflow as unknown as { loaded: LoadedProject };
+    internals.loaded = {
+      ...workflow.snapshot,
+      activeStyle: { ...workflow.snapshot.activeStyle, archivedAt: TIME },
+    };
+    await expect(workflow.saveActiveTechPack(validCandidate)).rejects.toMatchObject({ code: "invalid-data" });
+    const current = workflow.snapshot;
+    const missingHeadStyle = {
+      ...current.activeStyle,
+      archivedAt: null,
+      revisionHeadId: null,
+      techPack: {
+        ...current.activeStyle.techPack,
+        revisionId: null,
+        revisionNumber: 0,
+        approval: { state: "DRAFT" as const, revisionId: null, scopeFieldIds: [], changedBy: null, changedAt: null, manifestId: null },
+      },
+    };
+    internals.loaded = {
+      ...current,
+      activeStyle: missingHeadStyle,
+      styles: current.styles.map((style) => style.id === missingHeadStyle.id ? missingHeadStyle : style),
+    };
+    await expect(workflow.saveActiveTechPack({ ...validCandidate, revisionId: null, revisionNumber: 0 }))
+      .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("matching verified immutable revision head") });
+  });
+
+  it("rejects a head owned by another style or carrying a different revision number", async () => {
+    const workflow = await open();
+    const base = workflow.snapshot;
+    const headId = base.activeStyle.revisionHeadId!;
+    const candidate: TechPackRecord = {
+      ...base.activeStyle.techPack,
+      cover: {
+        ...base.activeStyle.techPack.cover,
+        styleCode: capturedTechPackText(base.activeStyle.techPack.cover.styleCode, "TP-03A"),
+      },
+    };
+    const internals = workflow as unknown as { loaded: LoadedProject };
+    const head = base.styleRevisions.find((revision) => revision.revisionId === headId)!;
+    internals.loaded = {
+      ...base,
+      styleRevisions: base.styleRevisions.map((revision) => revision.revisionId === headId
+        ? { ...revision, styleId: STYLE_TWO_ID }
+        : revision),
+    };
+    await expect(workflow.saveActiveTechPack(candidate)).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("belongs to another style"),
+    });
+    internals.loaded = {
+      ...base,
+      styleRevisions: base.styleRevisions.map((revision) => revision.revisionId === headId
+        ? { ...revision, revisionNumber: head.revisionNumber + 1 }
+        : revision),
+    };
+    await expect(workflow.saveActiveTechPack(candidate)).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("matching verified immutable revision head"),
+    });
+  });
+
+  it("rejects an active style whose live T01 revision or recipe identity is internally inconsistent", async () => {
+    const workflow = await open();
+    const base = workflow.snapshot;
+    const candidate: TechPackRecord = {
+      ...base.activeStyle.techPack,
+      cover: {
+        ...base.activeStyle.techPack.cover,
+        styleCode: capturedTechPackText(base.activeStyle.techPack.cover.styleCode, "TP-03C"),
+      },
+    };
+    const internals = workflow as unknown as { loaded: LoadedProject };
+    internals.loaded = {
+      ...base,
+      activeStyle: {
+        ...base.activeStyle,
+        techPack: { ...base.activeStyle.techPack, revisionId: null, revisionNumber: 0 },
+      },
+    };
+    await expect(workflow.saveActiveTechPack(candidate)).rejects.toMatchObject({
+      code: "conflict",
+      message: expect.stringContaining("no longer matches the active style head"),
+    });
+    internals.loaded = {
+      ...base,
+      activeStyle: { ...base.activeStyle, recipeId: "skirt" },
+    };
+    await expect(workflow.saveActiveTechPack(candidate)).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("T01 recipe does not match"),
+    });
+  });
+
+  it("allows a T01 child to be based on a historical v1 head without retrofitting that parent", async () => {
+    const workflow = await open();
+    const base = workflow.snapshot;
+    const headId = base.activeStyle.revisionHeadId!;
+    const head = base.styleRevisions.find((revision) => revision.revisionId === headId)!;
+    if (head.payload.payloadVersion !== 2) throw new Error("Expected the test setup to start at a v2 head.");
+    const { techPack: _techPack, ...legacyPayload } = head.payload;
+    const legacyHead = {
+      ...head,
+      payload: { ...legacyPayload, payloadVersion: 1 },
+    } as typeof head;
+    const internals = workflow as unknown as { loaded: LoadedProject };
+    internals.loaded = {
+      ...base,
+      styleRevisions: base.styleRevisions.map((revision) => revision.revisionId === headId ? legacyHead : revision),
+    };
+    const candidate: TechPackRecord = {
+      ...base.activeStyle.techPack,
+      cover: {
+        ...base.activeStyle.techPack.cover,
+        styleCode: capturedTechPackText(base.activeStyle.techPack.cover.styleCode, "TP-03B"),
+      },
+    };
+
+    const saved = await workflow.saveActiveTechPack(candidate);
+
+    expect(saved.styleRevisions.find((revision) => revision.revisionId === headId)?.payload.payloadVersion).toBe(2);
+    expect(saved.styleRevisions.filter((revision) => revision.parentRevisionId === headId)).toHaveLength(1);
+    expect(saved.activeStyle.techPack.cover.styleCode.value).toBe("TP-03B");
+  });
+
+  it("keeps no-op T01 saves stable and rejects a live record that differs from its v2 head", async () => {
+    const workflow = await open();
+    const before = workflow.snapshot;
+    const same = await workflow.saveActiveTechPack(before.activeStyle.techPack);
+    expect(same).toBe(before);
+
+    const headId = before.activeStyle.revisionHeadId!;
+    const internals = workflow as unknown as { loaded: LoadedProject };
+    internals.loaded = {
+      ...before,
+      styleRevisions: before.styleRevisions.map((revision) => revision.revisionId === headId
+        && revision.payload.payloadVersion === 2
+        ? {
+          ...revision,
+          payload: {
+            ...revision.payload,
+            techPack: {
+              ...revision.payload.techPack,
+              cover: {
+                ...revision.payload.techPack.cover,
+                styleCode: { ...revision.payload.techPack.cover.styleCode, value: "different head content" },
+              },
+            },
+          },
+        }
+        : revision),
+    };
+    const candidate: TechPackRecord = {
+      ...before.activeStyle.techPack,
+      cover: {
+        ...before.activeStyle.techPack.cover,
+        styleCode: capturedTechPackText(before.activeStyle.techPack.cover.styleCode, "TP-04"),
+      },
+    };
+    await expect(workflow.saveActiveTechPack(candidate)).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("does not match its immutable revision head"),
+    });
+  });
+
+  it("reports a purported successful bundle write missing its T01 child", async () => {
+    const workflow = await open();
+    const candidate: TechPackRecord = {
+      ...workflow.snapshot.activeStyle.techPack,
+      cover: {
+        ...workflow.snapshot.activeStyle.techPack.cover,
+        styleCode: capturedTechPackText(workflow.snapshot.activeStyle.techPack.cover.styleCode, "TP-05"),
+      },
+    };
+    const before = await workflow.repository.readProjectBundle(PROJECT_ID);
+    vi.spyOn(workflow.repository, "saveProjectBundle").mockResolvedValue(workflow.snapshot.project);
+    await expect(workflow.saveActiveTechPack(candidate)).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("not present after its atomic save"),
+    });
+    expect(await workflow.repository.readProjectBundle(PROJECT_ID)).toEqual(before);
   });
 
   it("commits a T01-only edit as one child revision and keeps same-revision review metadata", async () => {

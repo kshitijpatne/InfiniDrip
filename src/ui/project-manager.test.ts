@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob, File as NodeFile } from "node:buffer";
 import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
@@ -18,6 +18,83 @@ const TIME = "2026-09-24T16:00:00.000Z";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
 const STYLE_ID = "b53a1a03-ea2e-4c4f-82dc-14ac86a29895";
 const STYLE_TWO_ID = "e8ff457f-982e-4b50-a12b-74bc5cc8fdd4";
+let techPackDatabaseSerial = 0;
+
+afterEach(() => {
+  document.body.replaceChildren();
+});
+
+async function techPackHarness(options: {
+  readonly techPackIdFactory?: () => string;
+  readonly confirm?: (message: string) => boolean;
+  readonly canFreezeOutputs?: () => boolean;
+  readonly getFreezeBlocker?: () => string | null;
+} = {}) {
+  let sequence = 0;
+  const ids = [PROJECT_ID, STYLE_ID];
+  const fallback = (): string => `00000000-0000-4000-8000-${String(++sequence).padStart(12, "0")}`;
+  const workflow = await openProjectWorkflow({
+    repositoryOptions: {
+      name: `project-manager-t01-${++techPackDatabaseSerial}`,
+      factory: new IDBFactory(),
+      crypto: webcrypto as unknown as Crypto,
+    },
+    storage: { getItem: () => null },
+    idFactory: () => ids.shift() ?? fallback(),
+    now: () => TIME,
+  });
+  const host = document.createElement("div");
+  document.body.append(host);
+  let currentDesign = workflow.snapshot.activeStyle.design;
+  let unsavedChanges = false;
+  const onStyleLoaded = vi.fn();
+  const manager = new ProjectManager({
+    host,
+    workflow,
+    getCurrentDesign: () => currentDesign,
+    getBlankDesign: () => workflow.snapshot.activeStyle.design,
+    hasUnsavedChanges: () => unsavedChanges,
+    onStyleLoaded,
+    setBusy: vi.fn(),
+    canFreezeOutputs: options.canFreezeOutputs ?? (() => true),
+    getFrozenOutputSet: () => null,
+    ...(options.techPackIdFactory ? { techPackIdFactory: options.techPackIdFactory } : {}),
+    ...(options.confirm ? { confirm: options.confirm } : {}),
+    ...(options.getFreezeBlocker ? { getFreezeBlocker: options.getFreezeBlocker } : {}),
+  });
+  host.querySelector<HTMLDetailsElement>(".project-manager-details")!.querySelector("summary")!.click();
+  await vi.waitFor(() => expect(host.querySelector(".t01-editor")).not.toBeNull());
+  return {
+    workflow,
+    host,
+    manager,
+    onStyleLoaded,
+    setCurrentDesign: (design: SavedDesign) => { currentDesign = design; },
+    setUnsavedChanges: (value: boolean) => { unsavedChanges = value; },
+    close: () => {
+      workflow.close();
+      host.remove();
+      document.querySelector("#project-operation-cancel")?.remove();
+    },
+  };
+}
+
+function editT01Field(host: HTMLElement, fieldId: string, property: string, value: string): void {
+  const control = host.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+    `[data-t01-field-id="${fieldId}"][data-t01-field-property="${property}"]`,
+  );
+  if (!control) throw new Error(`Missing T01 control ${fieldId}.${property}`);
+  control.value = value;
+  const type = control instanceof HTMLSelectElement ? "change" : "input";
+  control.dispatchEvent(new Event(type, { bubbles: true }));
+}
+
+function clickT01Action(host: HTMLElement, action: string, forceDisabled = false): void {
+  const button = host.querySelector<HTMLButtonElement>(`[data-t01-action="${action}"]`);
+  if (!button) throw new Error(`Missing T01 action ${action}`);
+  if (forceDisabled) button.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+  else button.click();
+}
 
 function loadedProject(): LoadedProject {
   const result = migrateLegacySaveFile({
@@ -107,6 +184,481 @@ async function clickAndSettle(host: HTMLElement, selector: string): Promise<void
 }
 
 describe("accessible project and style manager", () => {
+  it("edits and saves T01 from the project manager as one revision without replacing editor state", async () => {
+    const state = await techPackHarness();
+    try {
+      const { workflow, host, manager } = state;
+      const original = workflow.snapshot;
+      const parentId = original.activeStyle.revisionHeadId!;
+      const originalDesign = original.activeStyle.design;
+
+      editT01Field(host, "cover.styleCode", "value", "TS-767");
+      editT01Field(host, "cover.styleCode", "provenance", "USER_CAPTURED");
+      editT01Field(host, "cover.styleCode", "provenance", "INHERITED");
+      editT01Field(host, "cover.styleCode", "inheritedRevisionId", parentId);
+      editT01Field(host, "cover.styleCode", "inheritedProvenance", "USER_CAPTURED");
+      editT01Field(host, "cover.styleCode", "inheritedSourceRef", "parent-review-fixture");
+      editT01Field(host, "cover.styleCode", "provenance", "USER_CAPTURED");
+      editT01Field(host, "cover.styleCode", "evidenceStatus", "USER_CONFIRMED");
+      editT01Field(host, "cover.styleCode", "validationStatus", "VALID");
+      editT01Field(host, "cover.styleCode", "method", "Entered by the maker");
+      editT01Field(host, "cover.styleCode", "capturedBy", "local maker");
+      editT01Field(host, "cover.styleCode", "capturedAt", "2026-09-24T16:00:01.000Z");
+      editT01Field(host, "cover.styleCode", "inputRefs", "maker-notes\nfit-session");
+      editT01Field(host, "cover.styleCode", "evidenceRefs", "measurement-photo\nsource-document");
+      editT01Field(host, "cover.styleCode", "unresolvedReason", "");
+      editT01Field(host, "cover.styleCode", "nextAction", "");
+      const unsupportedFieldProperty = document.createElement("input");
+      unsupportedFieldProperty.dataset.t01Input = "true";
+      unsupportedFieldProperty.dataset.t01FieldId = "cover.styleCode";
+      unsupportedFieldProperty.dataset.t01FieldProperty = "unsupported";
+      unsupportedFieldProperty.value = "ignored-property";
+      host.append(unsupportedFieldProperty);
+      unsupportedFieldProperty.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Unsaved T01 edits");
+      unsupportedFieldProperty.remove();
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")?.disabled).toBe(false);
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")?.disabled).toBe(true);
+      expect(host.querySelector("#project-freeze-guidance")?.textContent).toContain("unsaved T01 edits");
+      await (manager as unknown as { freezeOutputs(): Promise<void> }).freezeOutputs();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("unsaved T01 edits");
+      state.setUnsavedChanges(true);
+      editT01Field(host, "cover.styleCode", "value", "TS-767");
+      expect(host.querySelector("#project-freeze-guidance")?.textContent)
+        .toContain("Save the current style before freezing outputs");
+
+      const designDraft = {
+        ...originalDesign,
+        measurements: { ...originalDesign.measurements, chest: originalDesign.measurements.chest + 2 },
+      };
+      state.setCurrentDesign(designDraft);
+      state.setUnsavedChanges(true);
+      host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Saved T01 as immutable style revision"));
+
+      const saved = workflow.snapshot;
+      const appended = saved.styleRevisions.filter((revision) => revision.parentRevisionId === parentId);
+      expect(appended).toHaveLength(1);
+      expect(saved.styleRevisions).toHaveLength(original.styleRevisions.length + 1);
+      expect(saved.activeStyle.revisionHeadId).toBe(appended[0]?.revisionId);
+      expect(saved.activeStyle.design).toEqual(originalDesign);
+      expect(saved.activeStyle.techPack).toMatchObject({
+        revisionId: saved.activeStyle.revisionHeadId,
+        revisionNumber: original.activeStyle.techPack.revisionNumber + 1,
+        approval: { state: "DRAFT", revisionId: null, scopeFieldIds: [], changedBy: null, changedAt: null, manifestId: null },
+        cover: { styleCode: {
+          value: "TS-767", provenance: "USER_CAPTURED", inheritedFrom: null, method: "Entered by the maker",
+          inputRefs: ["maker-notes", "fit-session"], evidenceRefs: ["measurement-photo", "source-document"],
+        } },
+      });
+      expect(state.onStyleLoaded).not.toHaveBeenCalled();
+      expect(state.manager).toBe(manager);
+      expect(state.host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")?.disabled).toBe(true);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("discards T01 drafts and blocks backup or freezing until the draft is resolved", async () => {
+    const state = await techPackHarness();
+    try {
+      const { workflow, host, manager } = state;
+      const handle = (manager as unknown as {
+        handle(action: "discard-tech-pack" | "export-package" | "freeze-outputs"): Promise<void>;
+      }).handle.bind(manager);
+      const revisionHead = workflow.snapshot.activeStyle.revisionHeadId;
+
+      editT01Field(host, "cover.styleCode", "value", "DRAFT-TO-DISCARD");
+      await handle("discard-tech-pack");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Unsaved T01 edits were discarded");
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")?.disabled).toBe(true);
+      expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(revisionHead);
+
+      editT01Field(host, "cover.styleCode", "value", "DRAFT-TO-KEEP-LOCAL");
+      await handle("export-package");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("before exporting a project backup");
+      await handle("freeze-outputs");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("before freezing outputs");
+      expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(revisionHead);
+      expect(workflow.snapshot.exportManifests).toHaveLength(0);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("reports empty and unchanged T01 save requests without adding a revision", async () => {
+    const state = await techPackHarness();
+    try {
+      const { workflow, host, manager } = state;
+      const initial = workflow.snapshot;
+      const save = vi.spyOn(workflow, "saveActiveTechPack").mockResolvedValue(initial);
+      const handle = (manager as unknown as {
+        handle(action: "save-tech-pack"): Promise<void>;
+      }).handle.bind(manager);
+
+      await handle("save-tech-pack");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("There are no unsaved T01 edits");
+      expect(save).not.toHaveBeenCalled();
+
+      editT01Field(host, "cover.styleCode", "value", "UNCHANGED-RESPONSE");
+      await handle("save-tech-pack");
+      expect(save).toHaveBeenCalledTimes(1);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("No T01 content changed");
+      expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(initial.activeStyle.revisionHeadId);
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")?.disabled).toBe(true);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("confirms before leaving a T01 draft and respects the maker's response", async () => {
+    let allowDiscard = false;
+    const confirm = vi.fn(() => allowDiscard);
+    const state = await techPackHarness({ confirm });
+    try {
+      const { host, manager, workflow } = state;
+      const confirmDraftDiscard = (manager as unknown as {
+        confirmTechPackDraftDiscard(): boolean;
+      }).confirmTechPackDraftDiscard.bind(manager);
+      const handle = (manager as unknown as {
+        handle(action: "switch-project"): Promise<void>;
+      }).handle.bind(manager);
+      const revisionHead = workflow.snapshot.activeStyle.revisionHeadId;
+
+      expect(confirmDraftDiscard()).toBe(true);
+      expect(confirm).not.toHaveBeenCalled();
+
+      editT01Field(host, "cover.styleCode", "value", "UNSAVED-T01");
+      expect(confirmDraftDiscard()).toBe(false);
+      await handle("switch-project");
+      expect(confirm).toHaveBeenCalledTimes(2);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Unsaved T01 edits");
+      expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(revisionHead);
+
+      allowDiscard = true;
+      await handle("switch-project");
+      expect(confirm).toHaveBeenCalledTimes(3);
+      expect(host.querySelector("#project-manager-status")?.textContent).toBe("That project is already open.");
+      expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(revisionHead);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("rejects disconnected T01 controls and collection actions from a stale style draft", async () => {
+    const state = await techPackHarness();
+    try {
+      const { host, manager, workflow } = state;
+      const disconnected = document.createElement("input");
+      disconnected.dataset.t01Input = "true";
+      host.append(disconnected);
+      disconnected.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("T01 control is not connected to a record field");
+      disconnected.remove();
+
+      const foreignDetails = document.createElement("details");
+      host.append(foreignDetails);
+      foreignDetails.dispatchEvent(new Event("toggle", { bubbles: true }));
+      foreignDetails.remove();
+
+      const missingField = document.createElement("input");
+      missingField.dataset.t01Input = "true";
+      missingField.dataset.t01FieldId = "missing.field";
+      host.append(missingField);
+      missingField.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("edited T01 field is not in the current record");
+      missingField.remove();
+
+      const nonFiniteNumber = document.createElement("input");
+      nonFiniteNumber.type = "number";
+      nonFiniteNumber.value = "2";
+      nonFiniteNumber.dataset.t01Input = "true";
+      nonFiniteNumber.dataset.t01FieldId = "cover.styleCode";
+      Object.defineProperty(nonFiniteNumber, "valueAsNumber", { configurable: true, value: Number.NaN });
+      host.append(nonFiniteNumber);
+      nonFiniteNumber.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("Enter a finite numeric value");
+      nonFiniteNumber.remove();
+
+      editT01Field(host, "cover.styleCode", "value", "OLD-STYLE-DRAFT");
+      const previousStyleId = workflow.snapshot.activeStyle.id;
+      await workflow.createStyle("Second T01 style", workflow.snapshot.activeStyle.design);
+      expect(workflow.snapshot.activeStyle.id).not.toBe(previousStyleId);
+      manager.refresh();
+      expect(host.querySelector(".t01-editor")).not.toBeNull();
+      clickT01Action(host, "add-colorway");
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("belongs to another style. Reload the active project");
+      expect(workflow.snapshot.activeStyle.techPack.colorways).toHaveLength(0);
+      editT01Field(host, "cover.styleCode", "value", "LATE-OLD-STYLE-INPUT");
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("belongs to another style. Reload the active project");
+      expect(workflow.snapshot.activeStyle.techPack.cover.styleCode.value).not.toBe("LATE-OLD-STYLE-INPUT");
+    } finally {
+      state.close();
+    }
+  });
+
+  it("adds, explicitly links, and safely removes local T01 material, BOM, colorway, and assignment records", async () => {
+    const generatedIds = [
+      "80000000-0000-4000-8000-000000000001", // colorway
+      "80000000-0000-4000-8000-000000000002", // fabric
+      "80000000-0000-4000-8000-000000000003", // trim
+      "80000000-0000-4000-8000-000000000004", // BOM row
+      "80000000-0000-4000-8000-000000000005", // assignment
+      "80000000-0000-4000-8000-000000000006", // second BOM row
+      "80000000-0000-4000-8000-000000000007", // second colorway
+      "80000000-0000-4000-8000-000000000008", // second colorway assignment
+    ];
+    const colorwayId = "80000000-0000-4000-8000-000000000001";
+    const secondColorwayId = "80000000-0000-4000-8000-000000000007";
+    const secondAssignmentId = "80000000-0000-4000-8000-000000000008";
+    const state = await techPackHarness({ techPackIdFactory: () => generatedIds.shift()! });
+    try {
+      const { host, manager, workflow } = state;
+      const save = vi.spyOn(workflow, "saveActiveTechPack");
+      clickT01Action(host, "add-bom-row", true);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Add a material before adding a BOM row");
+
+      clickT01Action(host, "add-colorway");
+      expect(host.querySelector(`[data-t01-colorway="${colorwayId}"]`)).not.toBeNull();
+      const addAssignment = host.querySelector<HTMLButtonElement>(
+        `[data-t01-colorway="${colorwayId}"] [data-t01-action="add-assignment"]`,
+      )!;
+      addAssignment.dataset.t01ColorwayId = "missing-colorway";
+      addAssignment.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("selected colorway is no longer in this T01 record");
+      addAssignment.dataset.t01ColorwayId = colorwayId;
+      clickT01Action(host, "add-assignment", true);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose an existing BOM row and material");
+
+      clickT01Action(host, "add-fabric");
+      clickT01Action(host, "add-trim");
+      const fabricId = "80000000-0000-4000-8000-000000000002";
+      const trimId = "80000000-0000-4000-8000-000000000003";
+      expect(host.querySelector(`[data-t01-material="${fabricId}"]`)).not.toBeNull();
+      expect(host.querySelector(`[data-t01-material="${trimId}"]`)?.getAttribute("data-t01-material-category")).toBe("trim");
+
+      const unattachedBomAction = document.createElement("button");
+      unattachedBomAction.type = "button";
+      unattachedBomAction.dataset.t01Action = "add-bom-row";
+      host.append(unattachedBomAction);
+      unattachedBomAction.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose a material for this BOM row");
+      unattachedBomAction.remove();
+
+      const materialCategory = host.querySelector<HTMLSelectElement>(`[data-t01-material-id="${fabricId}"][data-t01-material-field="category"]`)!;
+      materialCategory.value = "bad-category";
+      materialCategory.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose Fabric or Trim");
+      await (manager as unknown as {
+        handle(action: "save-tech-pack"): Promise<void>;
+      }).handle.call(manager, "save-tech-pack");
+      expect(save).not.toHaveBeenCalled();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose Fabric or Trim");
+      const repairedCategory = host.querySelector<HTMLSelectElement>(`[data-t01-material-id="${fabricId}"][data-t01-material-field="category"]`)!;
+      repairedCategory.value = "fabric";
+      repairedCategory.dispatchEvent(new Event("change", { bubbles: true }));
+
+      const newBomMaterial = host.querySelector<HTMLSelectElement>("[data-t01-new-bom-material]")!;
+      clickT01Action(host, "add-bom-row");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose a material for this BOM row");
+      newBomMaterial.value = fabricId;
+      clickT01Action(host, "add-bom-row");
+      const rowId = "80000000-0000-4000-8000-000000000004";
+      expect(host.querySelector(`[data-t01-bom-row="${rowId}"]`)).not.toBeNull();
+
+      host.querySelector<HTMLSelectElement>(`[data-t01-colorway="${colorwayId}"] [data-t01-new-assignment-row]`)!.value = rowId;
+      host.querySelector<HTMLSelectElement>(`[data-t01-colorway="${colorwayId}"] [data-t01-new-assignment-material]`)!.value = fabricId;
+      clickT01Action(host, "add-assignment");
+      const assignmentId = "80000000-0000-4000-8000-000000000005";
+      expect(host.querySelector(`[data-t01-assignment="${assignmentId}"]`)).not.toBeNull();
+      expect(host.querySelector(`[data-t01-assignment="${assignmentId}"]`)?.getAttribute("data-t01-assignment-bom-row")).toBe(rowId);
+      host.querySelector<HTMLSelectElement>(`[data-t01-colorway="${colorwayId}"] [data-t01-new-assignment-row]`)!.value = rowId;
+      host.querySelector<HTMLSelectElement>(`[data-t01-colorway="${colorwayId}"] [data-t01-new-assignment-material]`)!.value = fabricId;
+      clickT01Action(host, "add-assignment");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("already has an assignment for that BOM row");
+      expect(host.querySelectorAll(`[data-t01-assignment="${assignmentId}"]`)).toHaveLength(1);
+
+      const secondBomMaterial = host.querySelector<HTMLSelectElement>("[data-t01-new-bom-material]")!;
+      secondBomMaterial.value = trimId;
+      clickT01Action(host, "add-bom-row");
+      const secondRowId = "80000000-0000-4000-8000-000000000006";
+      expect(host.querySelector(`[data-t01-bom-row="${secondRowId}"]`)).not.toBeNull();
+      clickT01Action(host, "add-colorway");
+      expect(host.querySelector(`[data-t01-colorway="${secondColorwayId}"]`)).not.toBeNull();
+      const unattachedAssignmentAction = document.createElement("button");
+      unattachedAssignmentAction.type = "button";
+      unattachedAssignmentAction.dataset.t01Action = "add-assignment";
+      unattachedAssignmentAction.dataset.t01ColorwayId = secondColorwayId;
+      host.append(unattachedAssignmentAction);
+      unattachedAssignmentAction.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose an existing BOM row and material");
+      unattachedAssignmentAction.remove();
+      const secondColorway = host.querySelector(`[data-t01-colorway="${secondColorwayId}"]`)!;
+      secondColorway.querySelector<HTMLSelectElement>("[data-t01-new-assignment-row]")!.value = secondRowId;
+      secondColorway.querySelector<HTMLSelectElement>("[data-t01-new-assignment-material]")!.value = fabricId;
+      secondColorway.querySelector<HTMLButtonElement>('[data-t01-action="add-assignment"]')!.click();
+      expect(host.querySelector(`[data-t01-assignment="${secondAssignmentId}"]`)).not.toBeNull();
+      const secondRowMaterial = host.querySelector<HTMLSelectElement>(
+        `[data-t01-bom-field="materialId"][data-t01-bom-row-id="${secondRowId}"]`,
+      )!;
+      secondRowMaterial.value = fabricId;
+      secondRowMaterial.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(secondRowMaterial.value).toBe(fabricId);
+      secondRowMaterial.value = trimId;
+      secondRowMaterial.dispatchEvent(new Event("change", { bubbles: true }));
+      const assignmentRow = host.querySelector<HTMLSelectElement>(
+        `[data-t01-assignment-field="bomRowId"][data-t01-assignment-id="${assignmentId}"]`,
+      )!;
+      assignmentRow.value = secondRowId;
+      assignmentRow.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(assignmentRow.value).toBe(secondRowId);
+      assignmentRow.value = rowId;
+      assignmentRow.dispatchEvent(new Event("change", { bubbles: true }));
+      const assignmentMaterial = host.querySelector<HTMLSelectElement>(
+        `[data-t01-assignment-field="materialId"][data-t01-assignment-id="${assignmentId}"]`,
+      )!;
+      assignmentMaterial.value = trimId;
+      assignmentMaterial.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(assignmentMaterial.value).toBe(trimId);
+      assignmentMaterial.value = fabricId;
+      assignmentMaterial.dispatchEvent(new Event("change", { bubbles: true }));
+
+      const unsupportedAssignmentField = document.createElement("select");
+      unsupportedAssignmentField.dataset.t01Input = "true";
+      unsupportedAssignmentField.dataset.t01AssignmentField = "unsupported";
+      unsupportedAssignmentField.dataset.t01AssignmentId = assignmentId;
+      host.append(unsupportedAssignmentField);
+      unsupportedAssignmentField.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("colorway assignment field is unsupported");
+      unsupportedAssignmentField.remove();
+      assignmentMaterial.dispatchEvent(new Event("change", { bubbles: true }));
+
+      editT01Field(host, `material.${fabricId}.unitCost`, "value", "2.75");
+      editT01Field(host, `material.${fabricId}.currency`, "value", "USD");
+      editT01Field(host, `material.${fabricId}.costBasis`, "value", "per metre");
+      editT01Field(host, `material.${fabricId}.weight`, "unit", "g/m²");
+      editT01Field(host, `bom.${rowId}.quantity`, "value", "3.5");
+      editT01Field(host, `bom.${rowId}.quantityBasis`, "value", "per-garment");
+      const unitCost = host.querySelector<HTMLInputElement>(`[data-t01-field-id="material.${fabricId}.unitCost"][data-t01-field-property="value"]`);
+      const currency = host.querySelector<HTMLInputElement>(`[data-t01-field-id="material.${fabricId}.currency"][data-t01-field-property="value"]`);
+      const costBasis = host.querySelector<HTMLInputElement>(`[data-t01-field-id="material.${fabricId}.costBasis"][data-t01-field-property="value"]`);
+      const quantity = host.querySelector<HTMLInputElement>(`[data-t01-field-id="bom.${rowId}.quantity"][data-t01-field-property="value"]`);
+      const quantityBasis = host.querySelector<HTMLInputElement>(`[data-t01-field-id="bom.${rowId}.quantityBasis"][data-t01-field-property="value"]`);
+      expect(unitCost?.value).toBe("2.75");
+      expect(currency?.value).toBe("USD");
+      expect(costBasis?.value).toBe("per metre");
+      expect(host.querySelector<HTMLInputElement>(
+        `[data-t01-field-id="material.${fabricId}.weight"][data-t01-field-property="unit"]`,
+      )?.value).toBe("g/m²");
+      expect(quantity?.value).toBe("3.5");
+      expect(quantityBasis?.value).toBe("per-garment");
+      expect(host.querySelector("[data-t01-total]")).toBeNull();
+
+      const requiredness = host.querySelector<HTMLSelectElement>(`[data-t01-bom-field="requiredness"][data-t01-bom-row-id="${rowId}"]`)!;
+      requiredness.value = "false";
+      requiredness.dispatchEvent(new Event("change", { bubbles: true }));
+      requiredness.value = "";
+      requiredness.dispatchEvent(new Event("change", { bubbles: true }));
+      editT01Field(host, `material.${fabricId}.weight`, "value", "");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Unsaved T01 edits");
+
+      const removeFabric = host.querySelector<HTMLButtonElement>(
+        `[data-t01-material="${fabricId}"] [data-t01-action="remove-material"]`,
+      )!;
+      removeFabric.dataset.t01MaterialId = "missing-material";
+      removeFabric.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("selected material is missing");
+      expect(host.querySelector(`[data-t01-material="${fabricId}"]`)).not.toBeNull();
+      removeFabric.dataset.t01MaterialId = fabricId;
+      removeFabric.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Reassign or remove BOM rows");
+      const removeBomRow = host.querySelector<HTMLButtonElement>(
+        `[data-t01-bom-row="${rowId}"] [data-t01-action="remove-bom-row"]`,
+      )!;
+      removeBomRow.dataset.t01BomRowId = "missing-bom-row";
+      removeBomRow.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("selected BOM row is missing");
+      expect(host.querySelector(`[data-t01-bom-row="${rowId}"]`)).not.toBeNull();
+      removeBomRow.dataset.t01BomRowId = rowId;
+      removeBomRow.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Remove colorway assignments");
+      host.querySelector<HTMLButtonElement>(
+        `[data-t01-assignment="${secondAssignmentId}"] [data-t01-action="remove-assignment"]`,
+      )!.click();
+      expect(host.querySelector(`[data-t01-assignment="${secondAssignmentId}"]`)).toBeNull();
+      const removeAssignment = host.querySelector<HTMLButtonElement>(
+        `[data-t01-assignment="${assignmentId}"] [data-t01-action="remove-assignment"]`,
+      )!;
+      removeAssignment.dataset.t01AssignmentId = "missing-assignment";
+      removeAssignment.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("selected colorway assignment is missing");
+      expect(host.querySelector(`[data-t01-assignment="${assignmentId}"]`)).not.toBeNull();
+      removeAssignment.dataset.t01AssignmentId = assignmentId;
+      removeAssignment.click();
+      expect(host.querySelector(`[data-t01-assignment="${assignmentId}"]`)).toBeNull();
+      clickT01Action(host, "remove-bom-row");
+      expect(host.querySelector(`[data-t01-bom-row="${rowId}"]`)).toBeNull();
+      clickT01Action(host, "remove-bom-row");
+      expect(host.querySelector(`[data-t01-bom-row="${secondRowId}"]`)).toBeNull();
+      clickT01Action(host, "remove-material");
+      expect(host.querySelector(`[data-t01-material="${fabricId}"]`)).toBeNull();
+      clickT01Action(host, "remove-material");
+      expect(host.querySelector(`[data-t01-material="${trimId}"]`)).toBeNull();
+      const removeColorway = host.querySelector<HTMLButtonElement>(
+        `[data-t01-colorway="${colorwayId}"] [data-t01-action="remove-colorway"]`,
+      )!;
+      removeColorway.dataset.t01ColorwayId = "missing-colorway";
+      removeColorway.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("selected colorway is missing");
+      expect(host.querySelector(`[data-t01-colorway="${colorwayId}"]`)).not.toBeNull();
+      removeColorway.dataset.t01ColorwayId = colorwayId;
+      removeColorway.click();
+      expect(host.querySelector(`[data-t01-colorway="${colorwayId}"]`)).toBeNull();
+
+      const unsupportedAction = document.createElement("button");
+      unsupportedAction.type = "button";
+      unsupportedAction.dataset.t01Action = "unsupported-action";
+      host.append(unsupportedAction);
+      unsupportedAction.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toBe("That T01 collection action is not supported.");
+    } finally {
+      state.close();
+    }
+  });
+
+  it("uses secure browser IDs as a fallback and rejects an empty generated ID", async () => {
+    const browserId = "90000000-0000-4000-8000-000000000001";
+    vi.stubGlobal("crypto", { randomUUID: () => browserId });
+    try {
+      const fallback = await techPackHarness();
+      try {
+        clickT01Action(fallback.host, "add-colorway");
+        expect(fallback.host.querySelector(`[data-t01-colorway="${browserId}"]`)).not.toBeNull();
+      } finally {
+        fallback.close();
+      }
+    } finally {
+      vi.unstubAllGlobals();
+    }
+
+    const rejected = await techPackHarness({ techPackIdFactory: () => "" });
+    try {
+      const action = document.createElement("button");
+      action.dataset.t01Action = "add-colorway";
+      expect(() => (rejected.manager as unknown as {
+        handleTechPackAction(target: HTMLElement): void;
+      }).handleTechPackAction(action)).toThrow("Secure local IDs are unavailable");
+      expect(rejected.workflow.snapshot.activeStyle.techPack.colorways).toHaveLength(0);
+    } finally {
+      rejected.close();
+    }
+  });
+
   it("uses the exact legacy project message by default and the clearer local-storage message when enabled", () => {
     const legacy = harness();
     const clarity = harness("Project data is stored locally on this device.");
@@ -131,9 +683,13 @@ describe("accessible project and style manager", () => {
     })).toEqual({ fabric: "#123456" });
   });
 
-  it("shows an actionable existing freeze blocker without enabling output capture", () => {
+  it("shows an actionable existing freeze blocker without enabling output capture", async () => {
     const { host, manager, setUnsavedChanges } = harness(undefined, () => "Review the approved plan first.");
     try {
+      (manager as unknown as { busy: boolean }).busy = true;
+      (manager as unknown as { updateTechPackStatus(message: string): void }).updateTechPackStatus("Working locally.");
+      expect(host.querySelector("#project-freeze-guidance")?.textContent).toBe("");
+      (manager as unknown as { busy: boolean }).busy = false;
       setUnsavedChanges(false);
       manager.refresh();
       expect(host.querySelector("#project-freeze-guidance")?.textContent)
@@ -142,6 +698,28 @@ describe("accessible project and style manager", () => {
     } finally {
       host.remove();
       document.querySelector("#project-operation-cancel")?.remove();
+    }
+
+    const getFreezeBlocker = vi.fn(() => null);
+    const ready = await techPackHarness({ getFreezeBlocker });
+    try {
+      (ready.manager as unknown as { updateTechPackStatus(message: string): void }).updateTechPackStatus("Ready.");
+      expect(ready.host.querySelector("#project-manager-status")?.textContent).toBe("Ready.");
+      expect(getFreezeBlocker).toHaveBeenCalled();
+      expect(ready.host.querySelector("#project-freeze-guidance")?.textContent).toBe("");
+      expect(ready.host.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")?.disabled).toBe(false);
+    } finally {
+      ready.close();
+    }
+
+    const needsReview = await techPackHarness({ canFreezeOutputs: () => false, getFreezeBlocker: () => null });
+    try {
+      (needsReview.manager as unknown as { updateTechPackStatus(message: string): void }).updateTechPackStatus("Review needed.");
+      expect(needsReview.host.querySelector("#project-freeze-guidance")?.textContent)
+        .toBe("Review Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.");
+      expect(needsReview.host.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")?.disabled).toBe(true);
+    } finally {
+      needsReview.close();
     }
   });
 
@@ -517,7 +1095,7 @@ describe("accessible project and style manager", () => {
     await clickAndSettle(host, `[data-project-action='archive'][data-style-id='${STYLE_TWO_ID}']`);
     expect(host.textContent).toContain("Archived Second style.");
     expect(onStyleLoaded).toHaveBeenCalledTimes(8);
-  });
+  }, 15_000);
 
   it("exports, imports a clean-profile package, handles idempotency/copy conflicts, and switches projects", async () => {
     vi.stubGlobal("Blob", NodeBlob);

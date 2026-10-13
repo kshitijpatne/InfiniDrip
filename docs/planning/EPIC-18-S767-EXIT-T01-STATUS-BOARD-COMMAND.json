@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "G05-T01",
+  "status": "Done",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "S767 completed the admitted T01 editor, immutable save/CAS, all-recipe propagation, explicit unknowns, cost-input view and rendered-proof gates.",
+  "evidenceRefs": ["E-G05-S767-EXIT"],
+  "expectedRevision": 4564
+}
