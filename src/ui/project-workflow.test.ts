@@ -789,6 +789,42 @@ describe("local project/style workflow", () => {
     expect(recovered.activeStyle.techPack.approval.state).toBe("FROZEN_FOR_SHARE");
   });
 
+  it("invalidates a frozen share when a saved design dependency changes while preserving its exact files", async () => {
+    const workflow = await open();
+    const initial = workflow.snapshot;
+    const revisionId = initial.activeStyle.revisionHeadId!;
+    const revision = initial.styleRevisions.find((row) => row.revisionId === revisionId)!;
+    const scope = [initial.activeStyle.techPack.cover.styleName.fieldId];
+    await workflow.beginActiveTechPackReview("Reviewer", scope, revisionId);
+    await workflow.approveActiveTechPackReview("Approver", revisionId);
+    const output = {
+      revisionId,
+      revisionContentDigest: revision.revisionContentDigest,
+      selectedSections: ["identity", "approval-disclaimer"],
+      artifacts: TECH_PACK_SHARE_ARTIFACTS.map((artifact, index) => ({
+        ...artifact,
+        bytes: new Uint8Array([100 + index, 75, 0, 255]),
+      })),
+    };
+    const frozen = await workflow.freezeTechPackShare("Freezer", output);
+    const before = await Promise.all(["tech-pack-exchange-zip", "tech-pack-production-pdf"].map(async (artifactId) => {
+      const saved = await workflow.readFrozenArtifact(frozen.manifestId, artifactId);
+      return [...new Uint8Array(await saved.artifact.bytes.arrayBuffer())];
+    }));
+
+    const changed = await workflow.saveActiveDesign({ ...initial.activeStyle.design, fabric: "#204060" });
+
+    expect(changed.activeStyle.revisionHeadId).not.toBe(revisionId);
+    expect(changed.activeStyle.techPack.approval).toMatchObject({
+      state: "DRAFT", revisionId: null, scopeFieldIds: [], changedBy: null, changedAt: null, manifestId: null,
+    });
+    expect(changed.exportManifests.find((manifest) => manifest.manifestId === frozen.manifestId)).toEqual(frozen);
+    expect(await Promise.all(["tech-pack-exchange-zip", "tech-pack-production-pdf"].map(async (artifactId) => {
+      const saved = await workflow.readFrozenArtifact(frozen.manifestId, artifactId);
+      return [...new Uint8Array(await saved.artifact.bytes.arrayBuffer())];
+    }))).toEqual(before);
+  });
+
   it("skips an identical field-history event without rewriting its append-only row", async () => {
     const workflow = await open();
     const payload = recoveryPayload();

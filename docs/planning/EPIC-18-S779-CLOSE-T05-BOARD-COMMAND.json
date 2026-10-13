@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4664,
+  "itemId": "G05-T05",
+  "status": "Done",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "S778 and S779 pass the admitted freeze, change-control, byte-retention, compatibility, and protected export-identity acceptance; the verified S779 exit report is linked.",
+  "evidenceRefs": ["E-G05-S779-EXIT"]
+}

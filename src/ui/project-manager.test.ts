@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob, File as NodeFile } from "node:buffer";
 import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
-import { STANDARD_M } from "../drafting";
+import { GARMENTS, STANDARD_M } from "../drafting";
 import {
   CUSTOM_ONE_SIZE_MODE,
   CUSTOM_STYLE_RECORD_VERSION,
@@ -26,6 +26,7 @@ import {
   unresolvedTechPackOperation,
 } from "./tech-pack-operation-records";
 import { TECH_PACK_SHARE_ARTIFACTS } from "./tech-pack-sharing";
+import { bindTechPackToRevision, createEmptyTechPackRecord, type TechPackRecord } from "./tech-pack-records";
 
 const TIME = "2026-09-24T16:00:00.000Z";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
@@ -1466,7 +1467,8 @@ describe("accessible project and style manager", () => {
         ],
       });
       rendered.manager.refresh();
-      expect(rendered.host.querySelector(".project-revision-history")?.textContent).toContain("historical");
+      expect(rendered.host.querySelector(".project-revision-history")?.textContent)
+        .toContain("Historical r7 · stale for current revision");
     } finally {
       rendered.host.remove();
       document.querySelector("#project-operation-cancel")?.remove();
@@ -2262,16 +2264,105 @@ describe("accessible project and style manager", () => {
       expect(confirm).toHaveBeenCalledWith(expect.stringContaining("production-pack.techpack.zip"));
       expect(host.textContent).toContain("Frozen 2 Tech Pack share files");
       expect(host.textContent).toContain("Download production-pack.pdf");
+      expect(host.textContent).toContain("Current for saved revision");
       host.querySelector<HTMLButtonElement>("[data-project-action='download-frozen'][data-artifact-id='tech-pack-production-pdf']")!.click();
       await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
         .toContain("Downloaded stored bytes for production-pack.pdf"));
       expect(urlApi.createObjectURL).toHaveBeenCalledOnce();
       expect(downloadedName).toBe("production-pack.pdf");
       await vi.waitFor(() => expect(urlApi.revokeObjectURL).toHaveBeenCalledWith("blob:tech-pack-share"));
+
+      const originalManifest = workflow.snapshot.exportManifests.find((candidate) => candidate.schemaVersion === 3)!;
+      const originalZip = [...new Uint8Array(await (await workflow.readFrozenArtifact(originalManifest.manifestId,
+        "tech-pack-exchange-zip")).artifact.bytes.arrayBuffer())];
+      const originalPdf = [...new Uint8Array(await (await workflow.readFrozenArtifact(originalManifest.manifestId,
+        "tech-pack-production-pdf")).artifact.bytes.arrayBuffer())];
+      const originalRevisionId = workflow.snapshot.activeStyle.revisionHeadId!;
+
+      editT01Field(host, "cover.styleCode", "value", "TP-EDITED-AFTER-SHARE");
+      editT01Field(host, "cover.styleCode", "provenance", "USER_CAPTURED");
+      editT01Field(host, "cover.styleCode", "evidenceStatus", "USER_CONFIRMED");
+      editT01Field(host, "cover.styleCode", "validationStatus", "VALID");
+      editT01Field(host, "cover.styleCode", "method", "Edited after the local share");
+      editT01Field(host, "cover.styleCode", "capturedBy", "local maker");
+      editT01Field(host, "cover.styleCode", "capturedAt", "2026-09-24T16:00:02.000Z");
+      editT01Field(host, "cover.styleCode", "unresolvedReason", "");
+      editT01Field(host, "cover.styleCode", "nextAction", "");
+      host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(originalRevisionId));
+      await vi.waitFor(() => expect(host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")?.disabled).toBe(true));
+      expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("DRAFT");
+      expect(host.textContent).toContain("Earlier frozen Tech Pack shares are historical and stale for the current saved revision");
+      expect(host.textContent).toContain("Their original bytes remain available under Immutable revisions");
+      expect(host.textContent).toContain("Start a new scoped review, approve it and freeze a new share");
+      expect(host.textContent).toContain("Historical r1 · stale for current revision");
+      expect(host.querySelector<HTMLButtonElement>(`[data-project-action='download-frozen'][data-manifest-id='${originalManifest.manifestId}'][data-artifact-id='tech-pack-production-pdf']`)).not.toBeNull();
+      expect([...new Uint8Array(await (await workflow.readFrozenArtifact(originalManifest.manifestId,
+        "tech-pack-exchange-zip")).artifact.bytes.arrayBuffer())]).toEqual(originalZip);
+      expect([...new Uint8Array(await (await workflow.readFrozenArtifact(originalManifest.manifestId,
+        "tech-pack-production-pdf")).artifact.bytes.arrayBuffer())]).toEqual(originalPdf);
+
+      const currentScope = host.querySelector<HTMLInputElement>("[data-tech-pack-share-scope='cover']")!;
+      currentScope.checked = true;
+      currentScope.dispatchEvent(new Event("change", { bubbles: true }));
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Current revision reviewer";
+      host.querySelector<HTMLButtonElement>("[data-project-action='begin-tech-pack-review']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("REVIEW"));
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Current revision approver";
+      host.querySelector<HTMLButtonElement>("[data-project-action='approve-tech-pack-review']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("APPROVED"));
+      host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Current revision freezer";
+      host.querySelector<HTMLButtonElement>("[data-project-action='freeze-tech-pack-share']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("FROZEN_FOR_SHARE"));
+      await vi.waitFor(() => expect(host.textContent).toContain("Current for saved revision"));
+      expect(host.textContent).toContain("Historical r1 · stale for current revision");
+      expect(workflow.snapshot.exportManifests.filter((candidate) => candidate.schemaVersion === 3)).toHaveLength(2);
+      expect([...new Uint8Array(await (await workflow.readFrozenArtifact(originalManifest.manifestId,
+        "tech-pack-exchange-zip")).artifact.bytes.arrayBuffer())]).toEqual(originalZip);
+      expect([...new Uint8Array(await (await workflow.readFrozenArtifact(originalManifest.manifestId,
+        "tech-pack-production-pdf")).artifact.bytes.arrayBuffer())]).toEqual(originalPdf);
     } finally {
       state.close();
       anchorClick.mockRestore();
       vi.unstubAllGlobals();
+    }
+  });
+
+  it("shows stale-share guidance for all seven supported recipe IDs", async () => {
+    const state = await techPackHarness();
+    try {
+      const renderShareControls = (state.manager as unknown as {
+        renderTechPackShareControls(record: TechPackRecord, loaded: LoadedProject): string;
+      }).renderTechPackShareControls.bind(state.manager);
+      const base = state.workflow.snapshot;
+      const currentRevisionId = "11111111-1111-4111-8111-111111111111";
+      const priorRevisionId = "22222222-2222-4222-8222-222222222222";
+      for (const recipe of GARMENTS) {
+        const record = bindTechPackToRevision(
+          createEmptyTechPackRecord(STYLE_ID, recipe.name, TIME, TIME), currentRevisionId, 2, TIME,
+        );
+        const loaded: LoadedProject = {
+          ...base,
+          activeStyle: {
+            ...base.activeStyle,
+            recipeId: recipe.name,
+            revisionHeadId: currentRevisionId,
+            techPack: record,
+          },
+          exportManifests: [{
+            schemaVersion: 3,
+            manifestId: "33333333-3333-4333-8333-333333333333",
+            styleId: STYLE_ID,
+            revisionId: priorRevisionId,
+          } as unknown as LoadedProject["exportManifests"][number]],
+        };
+        const markup = renderShareControls(record, loaded);
+        expect(markup, recipe.name).toContain("Earlier frozen Tech Pack shares are historical and stale for the current saved revision");
+        expect(markup, recipe.name).toContain("Their original bytes remain available under Immutable revisions");
+        expect(markup, recipe.name).toContain("Start a new scoped review, approve it and freeze a new share");
+      }
+    } finally {
+      state.close();
     }
   });
 

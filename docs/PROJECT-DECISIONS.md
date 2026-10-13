@@ -1573,3 +1573,35 @@ coverage, and the settled global gate remains S780. Focused tests, TypeScript,
 build, protected regression/identity 17/17, synthetic output/render review,
 Chromium review and Control Center 42/42 pass. No export baseline moved. No
 physical sewing/fit, supplier, factory or production acceptance is claimed.
+
+## EPIC-18/G05 — S779 start checkpoint (2026-10-13)
+
+S779 started from landed S778 commit
+`e5c62ada9cec87b9e5daafff093824e91bd9ace0` on `codex/epic-18-g05`. Its
+validated start packet and replay are in
+`docs/research/epic18/S779-T05-change-control/`; the board links the start
+evidence to G05-T05 and EPIC-18 at revision 4662. EPIC-18 and T05 remain In
+Progress; G05-EXIT remains Backlog. No product decision or acceptance has
+changed at start.
+
+S779 is the remaining admitted T05 boundary: invalidate affected review,
+approval and output state after relevant edits; show current and stale revision
+state; preserve prior frozen bytes; prove historical import compatibility;
+and verify all eight protected legacy export identities without moving a
+baseline. S780 retains the settled integrated/global gate. S781 retains merge,
+main deployment and Epic closeout. No physical fit, supplier, factory, or
+production claim is made.
+
+## EPIC-18/G05 — S779 verified exit (2026-10-13)
+
+S779 completes the second and final T05 boundary. Saved edits invalidate the
+current review/check and reset revision-bound Tech Pack approval; frozen
+schema-v3 records from older revisions are explicitly marked historical/stale,
+while their original ZIP/PDF bytes remain downloadable and unchanged. Existing
+schema-v1/v2 package paths and all eight protected export hashes pass without
+baseline movement. The evidence and current-source rendered review are in
+`docs/research/epic18/S779-T05-change-control/`. Validated board replay closes
+G05-T05 while EPIC-18 remains In Progress. S780 owns the settled integrated
+global gate; S781 owns merge, main deployment and Epic closeout. Browser data
+is synthetic/local and establishes no physical fit, supplier acceptance or
+production readiness.

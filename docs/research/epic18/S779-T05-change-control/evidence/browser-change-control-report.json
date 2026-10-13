@@ -1,0 +1,88 @@
+{
+  "outcome": "passed",
+  "sequence": [
+    "fresh local project",
+    "scoped review",
+    "approval",
+    "freeze",
+    "ZIP/PDF downloads",
+    "T01 edit and save",
+    "historical stale labeling",
+    "byte-identical historical re-download",
+    "keyboard activation"
+  ],
+  "originalManifestId": "f0f7d708-09cc-4b88-8a5e-96237411f744",
+  "before": {
+    "revisionId": "fc755cbb-4850-44c3-9981-cc26e26a2646",
+    "zip": {
+      "byteLength": 3739,
+      "sha256": "9a1274bcf9a581ef0e63e69d1416f16a0ded4372cde535783f5eac7db46a9072",
+      "path": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S779-T05-change-control\\evidence\\reviewed-before-edit-tech-pack.zip"
+    },
+    "pdf": {
+      "byteLength": 12082,
+      "sha256": "ae0dd34ca90436700327369653e927e64f298dde821383487e97a0acbd9e430a",
+      "path": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S779-T05-change-control\\evidence\\reviewed-before-edit-tech-pack.pdf"
+    }
+  },
+  "afterEdit": {
+    "currentRevisionId": "2e5c32d7-64f0-4ff9-b266-3c92c8b07bca",
+    "zip": {
+      "byteLength": 3739,
+      "sha256": "9a1274bcf9a581ef0e63e69d1416f16a0ded4372cde535783f5eac7db46a9072",
+      "path": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S779-T05-change-control\\evidence\\reviewed-historical-after-edit-tech-pack.zip"
+    },
+    "pdf": {
+      "byteLength": 12082,
+      "sha256": "ae0dd34ca90436700327369653e927e64f298dde821383487e97a0acbd9e430a",
+      "path": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S779-T05-change-control\\evidence\\reviewed-historical-after-edit-tech-pack.pdf"
+    }
+  },
+  "keyboardPdfPath": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S779-T05-change-control\\evidence\\reviewed-historical-keyboard-download.pdf",
+  "responsive": [
+    {
+      "viewportWidth": 1280,
+      "viewportHeight": 800,
+      "documentWidth": 1280,
+      "bodyWidth": 1280,
+      "staleScreenshotPath": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S779-T05-change-control\\evidence\\stale-current-1280x800.png",
+      "downloadsScreenshotPath": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S779-T05-change-control\\evidence\\historical-downloads-1280x800.png",
+      "zipBounds": {
+        "x": 78,
+        "y": 521.921875,
+        "width": 193.640625,
+        "height": 34
+      },
+      "pdfBounds": {
+        "x": 78,
+        "y": 575.921875,
+        "width": 154.09375,
+        "height": 34
+      }
+    },
+    {
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "documentWidth": 390,
+      "bodyWidth": 390,
+      "staleScreenshotPath": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S779-T05-change-control\\evidence\\stale-current-390x844.png",
+      "downloadsScreenshotPath": "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S779-T05-change-control\\evidence\\historical-downloads-390x844.png",
+      "zipBounds": {
+        "x": 70,
+        "y": 743.859375,
+        "width": 193.640625,
+        "height": 34
+      },
+      "pdfBounds": {
+        "x": 70,
+        "y": 797.859375,
+        "width": 154.09375,
+        "height": 34
+      }
+    }
+  ],
+  "dialogs": [
+    "Freeze the local Tech Pack share for Untitled tee, revision fc755cbb-4850-44c3-9981-cc26e26a2646 (46f1b111619552efa1631c79bc03b9fd25e7e86eb4cb53e7d8b90f690a04ea5b)?\n\nScope: 6 saved fields\nProduction-pack sections: identity, materials-bom, measurements-qa, construction, artwork, sources-open-items, approval-disclaimer\nFiles: production-pack.techpack.zip (3739 bytes); production-pack.pdf (12082 bytes)\n\nThis stores exact ZIP and PDF bytes locally. The reviewer label is self-attested; this does not establish physical fit, supplier acceptance or production readiness."
+  ],
+  "pageErrors": []
+}

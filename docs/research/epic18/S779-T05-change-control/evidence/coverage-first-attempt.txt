@@ -1,0 +1,10 @@
+Command: npx vitest run src/ui/project-manager.test.ts --coverage --coverage.include=src/ui/project-manager.ts --coverage.reporter=text
+Exit: 1
+
+The 29 project-manager tests passed. Coverage for src/ui/project-manager.ts was:
+statements 100%, branches 99.91%, functions 100%, lines 100%.
+The sole uncovered branch was line 1176, the fallback "?" for a current
+manifest whose source revision was absent from the revision list. Valid
+current manifests are bound to the saved revision; the UI now reports the
+current status without that optional fallback. The rerun must still meet the
+unchanged 100% thresholds.

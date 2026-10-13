@@ -1,4 +1,28 @@
-## Current boundary — EPIC-18/G05 Slice 778 complete; S779 next
+## Current boundary — EPIC-18/G05 Slice 779 complete; S780 next
+
+S779 completed the second and final T05 boundary from landed S778 commit
+`e5c62ada9cec87b9e5daafff093824e91bd9ace0` on `codex/epic-18-g05`. Fresh
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor;
+S779 was unique after branch slice 778 and origin/main slice 761. Start,
+implementation, output and exit evidence is in
+`docs/research/epic18/S779-T05-change-control/`. The validated board replay
+closes G05-T05 after both S778 and S779 acceptance reports; final board
+revision and evidence digests are in `post-replay-verification.md`. EPIC-18
+remains In Progress; G05-EXIT remains Backlog; T01–T05 and UIQ-10 are Done.
+
+The Tech Pack manager now identifies frozen schema-v3 shares bound to an older
+saved revision, labels current and historical captures, retains old downloads,
+and gives the next review/approval/freeze action. Existing revision saves reset
+approval to DRAFT and retain prior manifest/artifact bytes. The broader app
+also clears reviewed digital-check readiness after a design edit. Focused
+compatibility/export suites, 100% four-metric `project-manager.ts` coverage,
+TypeScript, protected legacy hashes, and final-source Chromium review pass.
+The complete evidence and exact hashes are in the S779 exit packet. S780 is
+the next admitted boundary for the settled integrated/global gate; S781
+remains merge, main CI/deployment and Epic closeout. Physical fit, supplier,
+factory and production claims remain unestablished.
+
+## Previous boundary — EPIC-18/G05 Slice 778 complete
 
 Slice 778 started 2026-10-13 16:27:34 UTC on `codex/epic-18-g05` from clean
 S777 commit `4178b4fcde0836451ddf8693427749d7ce0c4360`; refreshed

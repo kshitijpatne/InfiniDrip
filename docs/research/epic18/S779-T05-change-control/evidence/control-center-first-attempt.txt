@@ -1,0 +1,25 @@
+Command: npm run control-center:test
+Initial S779 exit replay board revision: 4671
+Exit code: 1
+
+Summary from the preserved Control Center test output:
+
+ℹ tests 42
+ℹ pass 41
+ℹ fail 1
+ℹ duration_ms 3075.0985
+
+Failing test:
+
+✖ Epic 14–30 catalog status matches closure, admission, and current exit evidence
+
+AssertionError [ERR_ASSERTION]:
+  assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("docs/planning/UIQ-10-ADMISSION.md"))
+
+Location: ops/control-center/app/board.test.mjs:1237:10
+
+Diagnosis: the S779 UIQ-10 summary edit retained its separate-admission
+wording but dropped the explicit admission-packet path required by the
+canonical board contract test. Restore `docs/planning/UIQ-10-ADMISSION.md` in
+the current summary through the validated command layer, then rerun the final
+Control Center gate.

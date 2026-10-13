@@ -64,7 +64,26 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S778 complete; S779 next
+## Current checkpoint — S779 complete; S780 next
+
+S779 started 2026-10-13 18:18 UTC from landed S778 commit
+`e5c62ada9cec87b9e5daafff093824e91bd9ace0` on `codex/epic-18-g05`; refreshed
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
+Its start, exit, rendered-output and replay verification are in
+`docs/research/epic18/S779-T05-change-control/`. The validated replay closes
+G05-T05 after linking both S778 and S779 exit evidence. T01–T05 and UIQ-10 are
+Done; EPIC-18 remains In Progress; G05-EXIT remains Backlog. The final board
+revision and evidence read-back are in the post-replay report.
+
+S779 completes edit-driven check/approval invalidation, visible stale/current
+state, byte-identical prior frozen files, schema-v1/v2 compatibility, and all
+eight protected legacy export identities. No new product decision is open.
+S780 is the settled whole-repository/global and integrated-output gate;
+S781 remains merge/deployment and Epic closeout. The hash-bound S762 admission
+is unchanged, as are all local/no-cost, supplier, physical-fit and production
+claim holds.
+
+## Previous checkpoint — S778 complete; S779 next
 
 S778 started 2026-10-13 16:27:34 UTC from clean S777 commit
 `4178b4fcde0836451ddf8693427749d7ce0c4360` on `codex/epic-18-g05`; fresh

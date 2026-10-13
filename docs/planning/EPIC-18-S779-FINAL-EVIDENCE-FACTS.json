@@ -1,0 +1,24 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4672,
+  "facts": [
+    {
+    "evidenceId": "E-G05-S779-EXIT",
+    "uri": "docs/research/epic18/S779-T05-change-control/exit-packet.md",
+    "kind": "exit-report",
+    "commit": null,
+    "sha256": "57506f2561a2ea2f1328b7d7050c24c7128b45fb0d4b4723b70879598657f56c",
+    "verified": true,
+    "note": "Final S779 exit report: edit invalidation, stale/current state, historical-byte retention, compatibility, protected export identities, and diagnosed/reconciled Control Center evidence."
+    },
+    {
+    "evidenceId": "E-G05-S779-REPLAY",
+    "uri": "docs/research/epic18/S779-T05-change-control/post-replay-verification.md",
+    "kind": "document",
+    "commit": null,
+    "sha256": "c96fbcd831d46251bfb91d1ea173be78ef598cd029ac59f27561202732f5ccfe",
+    "verified": true,
+    "note": "Final S779 replay records the first 41/42 board assertion, validated admission-link correction, final revision 4673, and passing 42/42 Control Center verification."
+    }
+  ]
+}
