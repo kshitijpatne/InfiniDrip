@@ -1,22 +1,28 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 770 complete
+## Current capability boundary — EPIC-18/G05 Slice 771 complete
 
-S770 started from clean S769 commit
-`65032f5dba1272b6edc3a926d08a878126f8dbb3`. The validated digest-linked
-start replay advanced canonical board revision 4575→4577; validated exit and
-post-replay evidence advanced it through revision 4582. G05-T01 and G05-T02
-are Done; EPIC-18 remains In Progress. S770 adds source-aware callout and
-size-run checks plus actual rendered review across the seven existing recipes.
-The validator requires exact POM-label correspondence, visible source gaps and
-consistent sourced size/base relationships; pattern predictions remain
-separate from sample actuals and production sources. The grade-rule reference
-has no formula payload, so external grade arithmetic is not verified. Focused
-tests pass 45/45 with 100% four-metric coverage for all changed production
-modules; TypeScript, protected export identity 9/9, all-seven rendered review,
-Control Center 42/42, and `git diff --check` pass. S770's exit evidence is in
-`docs/research/epic18/S770-T02-callout-size-run-validation/`. S771 T03 is the
-next admitted boundary and remains Backlog until its validated start replay.
+S771 started from clean S770 commit
+`25cd67b1f9c180598b844e905595ca744a670b8c`. Validated start, exit, and
+post-replay evidence advances canonical board revision 4582→4589. G05-T01/T02
+are Done; G05-T03 and EPIC-18 remain In Progress. S771's start and exit
+packets are in `docs/research/epic18/S771-T03-operation-record-contract/`.
+The slice adds a standalone strict source-aware operation-record contract for
+seven recipe IDs, with explicit unknown/conflict states and sourced
+component/seam references. It seeds no construction values and does not claim
+that references match pattern or BOM inventory. Thirteen focused parser tests
+pass at 100% statement, branch, function and line coverage; TypeScript,
+protected export identity 9/9, Control Center 42/42 and diff hygiene pass. No
+product UI/output changed. Operation editing/validation is S772; pattern/BOM
+reconciliation and rendered/source review are S773.
+
+S770 closed T02 with 45 focused tests at 100% four-metric coverage for the
+three changed production modules, TypeScript, protected export identity 9/9,
+all-seven rendered review, Control Center 42/42 and diff hygiene. Its validated
+exit evidence is in
+`docs/research/epic18/S770-T02-callout-size-run-validation/`. The S780
+integrated/global/build/Electron gate and local/no-cost, source, supplier,
+physical-fit and production-claim holds remain unchanged.
 
 EPIC-17/G04 is closed and its accepted technical-flat/CAD limits remain in
 force. EPIC-18/G05 Living production tech pack is admitted from

@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T03",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S771-REPLAY",
+    "kind": "document",
+    "uri": "docs/research/epic18/S771-T03-operation-record-contract/post-replay-verification.md",
+    "sha256": "517e29f17f01e9bc204705c23301e658d74e1deb72c08966b78358a8eb0272ee",
+    "verified": true,
+    "note": "S771 exit evidence and focused gates are verified; board remains G05-T03 and EPIC-18 In Progress for S772 and S773."
+  },
+  "expectedRevision": 4587
+}

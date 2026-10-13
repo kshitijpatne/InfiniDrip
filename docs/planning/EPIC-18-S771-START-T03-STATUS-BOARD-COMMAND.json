@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "G05-T03",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Start admitted S771 T03 source-aware operation-record contract after T02 closes at S770.",
+  "evidenceRefs": ["E-G05-S771-START"],
+  "expectedRevision": 4583
+}

@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T03",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S771-START",
+    "kind": "document",
+    "uri": "docs/research/epic18/S771-T03-operation-record-contract/start-packet.md",
+    "sha256": "4c04a24c7b022b9a4b7e73b03bd70063a715162330c589bdc951262c8b69585e",
+    "verified": true,
+    "note": "S771 starts the standalone source-aware T03 operation-record contract with explicit unknowns and component/seam refs; editing, persistence, and pattern/BOM reconciliation remain out of scope."
+  },
+  "expectedRevision": 4582
+}

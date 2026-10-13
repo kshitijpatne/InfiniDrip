@@ -26,7 +26,8 @@ execution sequence is in
 | 768 | Done | T02: add a strict source-aware POM-definition contract for methods, landmarks, units, asymmetric tolerance, and size/grade-rule sources. No recipe defaults or revision binding. Exit: `docs/research/epic18/S768-T02-pom-definition-contract/exit-packet.md`; validated board replay at revisions 4569–4571. |
 | 769 | Done | T02: schema-v2 source-aware POM definitions and revision-bound sample/QA rounds; actuals separate from predicted POMs; repository/package validation and copy remap. Exit: `docs/research/epic18/S769-T02-sample-qa-revision-binding/exit-packet.md`. |
 | 770 | Done | T02: source-aware callout/size-run checks and all-seven-recipe rendered evidence; close T02. Exit and replay verification: `docs/research/epic18/S770-T02-callout-size-run-validation/`; validated board evidence/status replays leave G05-T02 Done at board revision 4582. |
-| 771–773 | Backlog | T03: sourced operation records, explicit unknowns, component/BOM integrity and all-recipe review. |
+| 771 | Done | T03: standalone sourced operation-record schema for seven recipe IDs, explicit unknown/conflict states and component/seam references; no operation facts are seeded and no cross-record reconciliation is performed. Start/exit/replay evidence: `docs/research/epic18/S771-T03-operation-record-contract/`; canonical board revision 4589. |
+| 772–773 | Backlog | T03: operation editing/validation, then BOM-to-pattern/component reconciliation and all-recipe rendered/source review. |
 | 774–777 | Backlog | T04: resolve output format, admit/implement/review linked UIQ-10 after T01–T03, generate PDF/structured output, approvals, diff and two-style review. |
 | 778–779 | Backlog | T05: immutable local-share manifests, invalidation, import compatibility and legacy identities. |
 | 780 | Backlog | Settled integrated Epic gate, review and pre-merge PR candidate. |
@@ -37,23 +38,24 @@ same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
 the admission/exit evidence, and the canonical board through the validated
 command layer.
 
-## Current execution boundary — Slice 770 complete
+## Current execution boundary — Slice 771 complete
 
-S770 started at 2026-10-13 02:15:23 UTC from S769 commit
-`65032f5dba1272b6edc3a926d08a878126f8dbb3` on `codex/epic-18-g05` after a
-fresh fetch confirmed `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75`
-is an ancestor and 769 is the unique highest assigned slice. The start packet
-is `docs/research/epic18/S770-T02-callout-size-run-validation/start-packet.md`;
-validated start commands link its digest to G05-T02 and EPIC-18 and advance the
-board 4575→4577. Exit and post-replay packets record implementation, focused
-results and rendered checks; validated exit/evidence replay advances the board
-through 4582, marks G05-T02 Done, and leaves EPIC-18 In Progress. S770 passes
-45/45 focused tests with 100% statement, branch, function and line coverage for
-all changed production modules, TypeScript, protected export identity 9/9,
-all-seven rendered review, Control Center 42/42 and `git diff --check`. The
-single next boundary is S771 T03, still Backlog pending its validated start.
-Source/label and size relationships, non-goals, and the grade-rule formula
-limit are recorded in the S770 packets.
+S771 started at 2026-10-13 02:54:10 UTC from S770 commit
+`25cd67b1f9c180598b844e905595ca744a670b8c` on `codex/epic-18-g05` after fresh
+fetch and clean-worktree checks confirmed `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75`
+is an ancestor and S771 is unique. Its hash-bound packet is
+`docs/research/epic18/S771-T03-operation-record-contract/start-packet.md`.
+Validated start, exit, and replay evidence advances the board 4582→4589,
+attaches to G05-T03 and EPIC-18, and keeps both In Progress. S771 implements
+the standalone source-aware T03 operation-record contract with explicit
+unknowns/conflicts and syntactic component/seam references. It seeds no recipe
+source values. Focused tests pass 13/13 at 100% four-metric coverage;
+TypeScript, protected export identity 9/9, Control Center 42/42, and diff
+hygiene pass. Operation editing and validation are S772; BOM/pattern
+reconciliation and all-recipe rendered review are S773. The T02 exit and replay
+evidence remain in
+`docs/research/epic18/S770-T02-callout-size-run-validation/`; that slice passed
+45/45 focused tests and all its recorded gates at board revision 4582.
 
 ## Previous execution boundary — Slice 769 complete
 
