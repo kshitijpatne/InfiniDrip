@@ -1,0 +1,15 @@
+{
+  "role": "maintainer",
+  "expectedRevision": 4575,
+  "evidence": {
+    "sha256": "9a1c4ad0064304f9f9f8c758f2086b67961c27010f6db82eea6f67fa69aa928d",
+    "verified": true,
+    "note": "S770 starts source-aware POM callout and size-run checks with actionable source gaps, exact-label linkage to current recipe POMs, prediction-only per-size arithmetic, and rendered review across all seven recipes.",
+    "id": "E-G05-S770-START",
+    "uri": "docs/research/epic18/S770-T02-callout-size-run-validation/start-packet.md",
+    "kind": "document"
+  },
+  "itemId": "G05-T02",
+  "type": "addEvidence",
+  "actor": "Maintainer (via Codex)"
+}

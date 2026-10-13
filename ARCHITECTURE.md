@@ -1,6 +1,22 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 769 complete; S770 next
+## Current capability boundary — EPIC-18/G05 Slice 770 complete
+
+S770 started from clean S769 commit
+`65032f5dba1272b6edc3a926d08a878126f8dbb3`. The validated digest-linked
+start replay advanced canonical board revision 4575→4577; validated exit and
+post-replay evidence advanced it through revision 4582. G05-T01 and G05-T02
+are Done; EPIC-18 remains In Progress. S770 adds source-aware callout and
+size-run checks plus actual rendered review across the seven existing recipes.
+The validator requires exact POM-label correspondence, visible source gaps and
+consistent sourced size/base relationships; pattern predictions remain
+separate from sample actuals and production sources. The grade-rule reference
+has no formula payload, so external grade arithmetic is not verified. Focused
+tests pass 45/45 with 100% four-metric coverage for all changed production
+modules; TypeScript, protected export identity 9/9, all-seven rendered review,
+Control Center 42/42, and `git diff --check` pass. S770's exit evidence is in
+`docs/research/epic18/S770-T02-callout-size-run-validation/`. S771 T03 is the
+next admitted boundary and remains Backlog until its validated start replay.
 
 EPIC-17/G04 is closed and its accepted technical-flat/CAD limits remain in
 force. EPIC-18/G05 Living production tech pack is admitted from
@@ -81,9 +97,13 @@ S769's start and exit packets are in
 replay records the exit at revision 4575. Its focused suites pass 405/405 at
 100% statement, branch, function and line coverage for all seven changed
 production modules. TypeScript, protected export identity 9/9, the actual
-Chrome-rendered T02 form, and Control Center 42/42 pass. S770 is next for
-source-aware callout/size-run checks and all-seven-recipe rendered review.
-The active boundary, separate S774 UIQ-10 admission and S780 integrated gate remain in
+Chrome-rendered T02 form, and Control Center 42/42 pass. S770 completed the
+source-aware callout/size-run checks and all-seven-recipe rendered review;
+G05-T02 is Done at canonical board revision 4582. Its exit packets and
+digest-verified replay are in
+`docs/research/epic18/S770-T02-callout-size-run-validation/`. S771 is the next
+admitted T03 boundary, while the separate S774 UIQ-10 admission and S780
+integrated gate remain in
 `docs/planning/EPIC-18-S765-RESEQUENCING.md` and
 `docs/planning/EPIC-18-GOAL.md`.
 

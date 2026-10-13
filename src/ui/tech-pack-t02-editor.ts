@@ -11,6 +11,7 @@ import {
   type TechPackPomSampleQaRound,
 } from "./tech-pack-sample-qa-records";
 import type { TechPackRecord } from "./tech-pack-records";
+import type { TechPackT02Finding, TechPackT02Validation } from "./tech-pack-t02-validation";
 
 export interface TechPackT02RevisionOption {
   readonly revisionId: string;
@@ -22,6 +23,8 @@ export interface TechPackT02EditorModel {
   readonly revisions: readonly TechPackT02RevisionOption[];
   readonly definitionsJsonDraft?: string | null;
   readonly disabled?: boolean;
+  readonly validation?: TechPackT02Validation | null;
+  readonly validationError?: string | null;
 }
 
 const RECIPE_IDS = new Set<string>(TECH_PACK_POM_RECIPE_IDS);
@@ -142,6 +145,52 @@ function roundMarkup(round: TechPackPomSampleQaRound, data: TechPackPomRecordSet
     `<button type="button" data-t02-action="remove-round" data-t02-round-id="${escapeHtml(round.id)}"${disabled}>Remove sample/QA round</button></article>`;
 }
 
+function findingMarkup(finding: TechPackT02Finding): string {
+  const callout = finding.calloutLabel === null ? "" : `${escapeHtml(finding.calloutLabel)} · `;
+  return `<li data-t02-finding-status="${finding.status}"><strong>${callout}${escapeHtml(finding.field)} — ${finding.status}</strong>` +
+    `<p>${escapeHtml(finding.message)}</p><p><strong>Next action:</strong> ${escapeHtml(finding.nextAction)}</p></li>`;
+}
+
+function validationMarkup(validation: TechPackT02Validation | null | undefined, error: string | null | undefined): string {
+  if (error) {
+    return `<section class="t02-validation" aria-label="Callout and size-run checks">` +
+      `<h4>Callout and size-run checks</h4>` +
+      `<p role="alert">Checks are paused because the edited POM definitions are invalid: ${escapeHtml(error)}</p></section>`;
+  }
+  if (!validation) {
+    return `<section class="t02-validation" aria-label="Callout and size-run checks">` +
+      `<h4>Callout and size-run checks</h4><p>Checks are unavailable for this recipe record.</p></section>`;
+  }
+  const callouts = validation.callouts.map((callout) =>
+    `<li data-t02-callout-ready="${callout.ready}"><strong>${escapeHtml(callout.label)}</strong> — ` +
+    `${callout.ready ? "Source-complete" : "Needs source or size-run action"}` +
+    `${callout.definitionId === null ? "" : ` · Definition ${escapeHtml(callout.definitionId)}`}</li>`).join("");
+  const findings = validation.findings.length === 0
+    ? `<li>All represented T02 source and run checks pass. This is digital record consistency only.</li>`
+    : validation.findings.map(findingMarkup).join("");
+  const predictionHeaders = validation.sizeIds.map((sizeId) => `<th scope="col">${escapeHtml(sizeId)}</th>`).join("");
+  const predictions = validation.predictions.map((prediction) =>
+    `<tr><th scope="row">${escapeHtml(prediction.label)}</th>${prediction.values.map(({ value }) =>
+      `<td>${value === null ? "Unavailable" : `${value.toFixed(1)} cm`}</td>`).join("")}</tr>`).join("");
+  const status = validation.ready
+    ? "T02 record checks pass. Physical fit and production acceptance are not established."
+    : `${validation.completeCalloutCount}/${validation.callouts.length} callouts have complete sources; size run ${validation.sizeRunReady ? "consistent" : "needs action"}.`;
+  return `<section class="t02-validation" aria-label="Callout and size-run checks" data-t02-validation="${validation.ready ? "READY" : "NEEDS_ACTION"}">` +
+    `<h4>Callout and size-run checks</h4>` +
+    `<p data-t02-validation-summary>${escapeHtml(status)}</p>` +
+    `<p>Recipe size run: ${escapeHtml(validation.sizeIds.join(", ")) || "No sizes declared"}. ` +
+    `Base size: ${escapeHtml(validation.baseSizeId ?? "unresolved")}. Callout labels must match exactly; size IDs are never adjusted automatically.</p>` +
+    `<ul class="t02-callout-list">${callouts || `<li>No recipe POM callouts are declared.</li>`}</ul>` +
+    `<ul class="t02-findings">${findings}</ul>` +
+    `<section class="t02-predictions" aria-label="Pattern predictions by size">` +
+    `<h5>Pattern predictions by size</h5>` +
+    `<p>Calculated from the current saved design and recipe grade steps, in cm. These predictions are separate from sample actuals and are not source-confirmed production measurements.</p>` +
+    `${predictions.length === 0 ? `<p>No predicted POM values are available.</p>` :
+      `<div class="t02-prediction-table"><table><thead><tr><th scope="col">POM</th>${predictionHeaders}</tr></thead>` +
+      `<tbody>${predictions}</tbody></table></div>`}` +
+    `</section></section>`;
+}
+
 export function renderTechPackT02Editor(model: TechPackT02EditorModel): string {
   const { record } = model;
   const data = record.pomData ?? unavailableData(record.recipeId);
@@ -164,6 +213,7 @@ export function renderTechPackT02Editor(model: TechPackT02EditorModel): string {
     `<label>Definition source records (JSON)<textarea data-t02-input="definitions" rows="14" spellcheck="false"${disabled}>${escapeHtml(definitionJson)}</textarea></label>` +
     `<p>Use the strict schema shown here to edit method, landmarks, tolerance, size-range and grade-rule evidence. No measurements or sources are inferred.</p>` +
     `</section>` +
+    `${validationMarkup(model.validation, model.validationError)}` +
     `<section class="t02-sample-rounds" aria-label="Sample and QA rounds">` +
     `<h4>Sample and QA rounds</h4>` +
     `${revisions.length === 0 ? `<p>No immutable style revision is available. Save the design before creating a revision-bound round.</p>` : ""}` +

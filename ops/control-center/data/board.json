@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4575,
-  "updatedAt": "2026-10-13T02:08:06.872Z",
+  "revision": 4582,
+  "updatedAt": "2026-10-13T02:47:26.942Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -803,7 +803,10 @@
         "E-G05-S768-START",
         "E-G05-S768-EXIT",
         "E-G05-S769-START",
-        "E-G05-S769-EXIT"
+        "E-G05-S769-EXIT",
+        "E-G05-S770-START",
+        "E-G05-S770-EXIT",
+        "E-G05-S770-REPLAY"
       ]
     },
     {
@@ -16615,10 +16618,10 @@
       "title": "G05 T02 — POM and sample/QA records",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-10-12",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-13",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -16663,6 +16666,16 @@
           "evidenceRefs": [
             "E-G05-S768-START"
           ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-13T02:46:09.077Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "S770 completed the admitted source-aware callout and size-run checks, actionable unresolved states, prediction-only per-size display, and seven-recipe rendered review.",
+          "evidenceRefs": [
+            "E-G05-S770-EXIT"
+          ]
         }
       ],
       "comments": [],
@@ -16670,7 +16683,10 @@
         "E-G05-S768-START",
         "E-G05-S768-EXIT",
         "E-G05-S769-START",
-        "E-G05-S769-EXIT"
+        "E-G05-S769-EXIT",
+        "E-G05-S770-START",
+        "E-G05-S770-EXIT",
+        "E-G05-S770-REPLAY"
       ],
       "flagKey": null
     },
@@ -30745,6 +30761,33 @@
       "sha256": "d4a4dc5238e1866f4692a0880b1254066231a87eb94d97bbfb373be7b6d13fb1",
       "verified": true,
       "note": "S769 persists source-aware T02 definitions and revision-bound sample/QA rounds; 405 focused tests pass with 100% changed-module coverage, the live T02 form renders, and protected exports remain byte-identical."
+    },
+    {
+      "id": "E-G05-S770-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S770-T02-callout-size-run-validation/start-packet.md",
+      "commit": null,
+      "sha256": "9a1c4ad0064304f9f9f8c758f2086b67961c27010f6db82eea6f67fa69aa928d",
+      "verified": true,
+      "note": "S770 starts source-aware POM callout and size-run checks with actionable source gaps, exact-label linkage to current recipe POMs, prediction-only per-size arithmetic, and rendered review across all seven recipes."
+    },
+    {
+      "id": "E-G05-S770-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S770-T02-callout-size-run-validation/exit-packet.md",
+      "commit": null,
+      "sha256": "911315ff54a2702f9b028d3af12f14f947cdbe7efe8473885c25b00c4119327b",
+      "verified": true,
+      "note": "S770 completes T02 callout and size-run validation across seven recipes; 45 focused tests pass with 100% four-metric changed-module coverage, TypeScript and protected export identity pass, and all seven rendered states preserve actionable source gaps and prediction separation."
+    },
+    {
+      "id": "E-G05-S770-REPLAY",
+      "kind": "document",
+      "uri": "docs/research/epic18/S770-T02-callout-size-run-validation/post-replay-verification.md",
+      "commit": null,
+      "sha256": "f374f2ad756a771f5de397700056b4de0160e875b2b60ea639ae80be88ddad43",
+      "verified": true,
+      "note": "S770 board closeout is verified at revision 4580; the 42-test Control Center suite and diff check pass, with the final focused coverage, TypeScript, and export identity evidence recorded."
     }
   ]
 }

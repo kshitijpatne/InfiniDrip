@@ -4,7 +4,13 @@ import { Blob as NodeBlob, File as NodeFile } from "node:buffer";
 import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
 import { STANDARD_M } from "../drafting";
-import { migrateLegacySaveFile, type SavedDesign } from "./project-records";
+import {
+  CUSTOM_ONE_SIZE_MODE,
+  CUSTOM_STYLE_RECORD_VERSION,
+  migrateLegacySaveFile,
+  type SavedDesign,
+  type StyleRecord,
+} from "./project-records";
 import { serialize } from "./persist";
 import { ProjectManager, recoveryPayloadOrNull } from "./project-manager";
 import type { LoadedProject } from "./project-repository";
@@ -199,6 +205,39 @@ async function clickAndSettle(host: HTMLElement, selector: string): Promise<void
 }
 
 describe("accessible project and style manager", () => {
+  it("uses a custom one-size base only when its size ID is nonempty", () => {
+    const state = harness();
+    const { host, manager, workflow, setSnapshot } = state;
+    host.querySelector<HTMLDetailsElement>(".project-manager-details")!.querySelector("summary")!.click();
+    const initial = workflow.snapshot;
+    const baseStyle = initial.activeStyle;
+    const customStyle = (baseSizeId: string | null): StyleRecord => ({
+      ...baseStyle,
+      schemaVersion: CUSTOM_STYLE_RECORD_VERSION,
+      sizeMode: CUSTOM_ONE_SIZE_MODE,
+      techPack: {
+        ...baseStyle.techPack,
+        cover: {
+          ...baseStyle.techPack.cover,
+          baseSizeId: { ...baseStyle.techPack.cover.baseSizeId, value: baseSizeId },
+        },
+      },
+    });
+    const refreshForSize = (baseSizeId: string | null): void => {
+      const style = customStyle(baseSizeId);
+      setSnapshot({ ...initial, activeStyle: style, styles: initial.styles.map((candidate) => candidate.id === style.id ? style : candidate) });
+      manager.refresh();
+    };
+
+    refreshForSize(null);
+    expect(host.querySelector("[data-t02-validation-summary]")?.textContent).toContain("size run needs action");
+    expect(host.querySelector(".t02-validation")?.textContent).toContain("Recipe size run: No sizes declared.");
+    refreshForSize("   ");
+    expect(host.querySelector(".t02-validation")?.textContent).toContain("Recipe size run: No sizes declared.");
+    refreshForSize("M");
+    expect(host.querySelector(".t02-validation")?.textContent).toContain("Recipe size run: M.");
+  });
+
   it("edits and saves revision-bound T02 POM actuals and QA observations", async () => {
     let nextId = 701;
     const state = await techPackHarness({

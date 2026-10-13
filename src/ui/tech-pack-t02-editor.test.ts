@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
+import { GARMENTS, STANDARD_M } from "../drafting";
 import { createEmptyTechPackRecord, type TechPackRecord } from "./tech-pack-records";
 import type { TechPackPomDefinition } from "./tech-pack-pom-records";
-import type { TechPackPomRecordSet, TechPackPomSampleQaRound } from "./tech-pack-sample-qa-records";
+import { emptyTechPackPomRecordSet, type TechPackPomRecordSet, type TechPackPomSampleQaRound } from "./tech-pack-sample-qa-records";
 import { renderTechPackT02Editor } from "./tech-pack-t02-editor";
+import { evaluateTechPackT02 } from "./tech-pack-t02-validation";
 
 const TIME = "2026-10-12T12:00:00.000Z";
 const REVISION_ONE = "00000000-0000-4000-8000-000000000101";
@@ -117,5 +119,104 @@ describe("T02 sample and QA editor renderer", () => {
     expect(html).toContain("Missing POM missing.pom");
     expect(html).toContain("data-t02-action=\"remove-reading\" data-t02-round-id=\"00000000-0000-4000-8000-000000000201\" data-t02-pom-id=\"missing.pom\" disabled");
     expect(html).toContain("data-t02-action=\"add-round\" disabled");
+  });
+
+  it("renders actionable callout gaps, sourced size-run status, and separate pattern predictions", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const data = emptyTechPackPomRecordSet("tee");
+    const record = withPomData(data);
+    const validation = evaluateTechPackT02({
+      record, data, recipe, measurements: STANDARD_M, options: {}, sizeSteps: recipe.sizes,
+    });
+    const html = renderTechPackT02Editor({ record, revisions: [], validation });
+    expect(html).toContain("Callout and size-run checks");
+    expect(html).toContain("No T02 definition matches this recipe POM label.");
+    expect(html).toContain("exact label");
+    expect(html).toContain("Pattern predictions by size");
+    expect(html).toContain("not source-confirmed production measurements");
+    expect(html).toContain("predicted pattern values stay separate");
+    expect(html).toContain("data-t02-callout-ready=\"false\"");
+    expect(html).toContain("0/10 callouts have complete sources");
+  });
+
+  it("renders passing digital consistency without implying fit or production acceptance", () => {
+    const record = withPomData(emptyTechPackPomRecordSet("tee"));
+    const html = renderTechPackT02Editor({
+      record,
+      revisions: [],
+      validation: {
+        recipeId: "tee",
+        sizeIds: ["M"],
+        baseSizeId: "M",
+        callouts: [{ label: "Chest width", definitionId: "chest-width", ready: true }],
+        predictions: [{ label: "Chest width", values: [{ sizeId: "M", value: 48.2 }] }],
+        findings: [],
+        completeCalloutCount: 1,
+        sizeRunReady: true,
+        ready: true,
+      },
+    });
+    expect(html).toContain("T02 record checks pass. Physical fit and production acceptance are not established.");
+    expect(html).toContain("Definition chest-width");
+    expect(html).toContain("48.2 cm");
+  });
+
+  it("renders unavailable predictions and an incomplete empty run with actionable findings", () => {
+    const record = withPomData(emptyTechPackPomRecordSet("tee"));
+    const html = renderTechPackT02Editor({
+      record,
+      revisions: [],
+      validation: {
+        recipeId: "tee",
+        sizeIds: [],
+        baseSizeId: null,
+        callouts: [],
+        predictions: [{ label: "Uncalculated POM", values: [{ sizeId: "M", value: null }] }],
+        findings: [{
+          calloutLabel: null,
+          field: "Size run",
+          status: "INVALID",
+          message: "The recipe declares no sizes.",
+          nextAction: "Repair the recipe size run before checking a T02 record.",
+        }],
+        completeCalloutCount: 0,
+        sizeRunReady: false,
+        ready: false,
+      },
+    });
+    expect(html).toContain("0/0 callouts have complete sources; size run needs action.");
+    expect(html).toContain("No sizes declared");
+    expect(html).toContain("Base size: unresolved");
+    expect(html).toContain("No recipe POM callouts are declared.");
+    expect(html).toContain("Uncalculated POM");
+    expect(html).toContain("Unavailable");
+  });
+
+  it("renders an empty prediction state and the incomplete digital consistency phrase", () => {
+    const record = withPomData(emptyTechPackPomRecordSet("tee"));
+    const html = renderTechPackT02Editor({
+      record,
+      revisions: [],
+      validation: {
+        recipeId: "tee",
+        sizeIds: [],
+        baseSizeId: null,
+        callouts: [{ label: "Chest width", definitionId: null, ready: false }],
+        predictions: [],
+        findings: [],
+        completeCalloutCount: 0,
+        sizeRunReady: true,
+        ready: false,
+      },
+    });
+    expect(html).toContain("size run consistent");
+    expect(html).toContain("No predicted POM values are available.");
+  });
+
+  it("pauses checks when the edited definition JSON is invalid and escapes the error", () => {
+    const record = withPomData(emptyTechPackPomRecordSet("tee"));
+    const html = renderTechPackT02Editor({ record, revisions: [], validation: null, validationError: "bad <source>" });
+    expect(html).toContain("Checks are paused because the edited POM definitions are invalid: bad &lt;source&gt;");
+    expect(html).not.toContain("data-t02-validation=\"READY\"");
   });
 });

@@ -1002,6 +1002,9 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   const g05S768Exit = board.evidence.find((entry) => entry.id === "E-G05-S768-EXIT");
   const g05S769Start = board.evidence.find((entry) => entry.id === "E-G05-S769-START");
   const g05S769Exit = board.evidence.find((entry) => entry.id === "E-G05-S769-EXIT");
+  const g05S770Start = board.evidence.find((entry) => entry.id === "E-G05-S770-START");
+  const g05S770Exit = board.evidence.find((entry) => entry.id === "E-G05-S770-EXIT");
+  const g05S770Replay = board.evidence.find((entry) => entry.id === "E-G05-S770-REPLAY");
   const g05Children = board.workItems.filter((entry) => entry.epicId === "EPIC-18");
   assert.equal(g05?.status, "In Progress");
   assert.equal(g05Card?.status, "In Progress");
@@ -1053,11 +1056,30 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.equal(hashEvidenceArtifact(g05S769Exit.uri), g05S769Exit.sha256);
   assert.ok(board.workItems.find((entry) => entry.id === "G05-T02")?.evidenceRefs.includes(g05S769Exit.id));
   assert.ok(g05?.evidenceRefs.includes(g05S769Exit.id));
+  assert.equal(g05S770Start?.uri, "docs/research/epic18/S770-T02-callout-size-run-validation/start-packet.md");
+  assert.equal(g05S770Start?.kind, "document");
+  assert.equal(g05S770Start?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S770Start.uri), g05S770Start.sha256);
+  assert.ok(board.workItems.find((entry) => entry.id === "G05-T02")?.evidenceRefs.includes(g05S770Start.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S770Start.id));
+  assert.equal(g05S770Exit?.uri, "docs/research/epic18/S770-T02-callout-size-run-validation/exit-packet.md");
+  assert.equal(g05S770Exit?.kind, "exit-report");
+  assert.equal(g05S770Exit?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S770Exit.uri), g05S770Exit.sha256);
+  const g05T02 = board.workItems.find((entry) => entry.id === "G05-T02");
+  assert.ok(g05T02?.evidenceRefs.includes(g05S770Exit.id));
+  assert.ok(g05T02?.statusHistory.some((entry) => entry.status === "Done" && entry.evidenceRefs.includes(g05S770Exit.id)));
+  assert.ok(g05?.evidenceRefs.includes(g05S770Exit.id));
+  assert.equal(g05S770Replay?.uri, "docs/research/epic18/S770-T02-callout-size-run-validation/post-replay-verification.md");
+  assert.equal(g05S770Replay?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S770Replay.uri), g05S770Replay.sha256);
+  assert.ok(g05T02?.evidenceRefs.includes(g05S770Replay.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S770Replay.id));
   assert.deepEqual(g05Children.map((entry) => entry.id), [
     "EPIC-18", "UIQ-10", "G05-T01", "G05-T02", "G05-T03", "G05-T04", "G05-T05", "G05-EXIT",
   ]);
   assert.equal(board.workItems.find((entry) => entry.id === "G05-T01")?.status, "Done");
-  assert.equal(board.workItems.find((entry) => entry.id === "G05-T02")?.status, "In Progress");
+  assert.equal(board.workItems.find((entry) => entry.id === "G05-T02")?.status, "Done");
   assert.ok(["G05-T03", "G05-T04", "G05-T05", "G05-EXIT", "UIQ-10"]
     .every((id) => board.workItems.find((entry) => entry.id === id)?.status === "Backlog"));
   assert.deepEqual(board.workItems.find((entry) => entry.id === "UIQ-10")?.dependencies,

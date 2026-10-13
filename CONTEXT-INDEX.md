@@ -102,9 +102,19 @@ only through an explicitly admitted, linked Epic packet.
   replays advance revision 4571→4575. Focused tests pass 405/405 with 100%
   statement, branch, function and line coverage for all seven changed modules;
   TypeScript, export identity 9/9, actual Chrome rendering and Control Center
-  42/42 pass. S770 is next for source-aware callout/size-run checks and
-  all-seven-recipe rendered proof. The active boundaries remain in
-  `docs/planning/EPIC-18-S765-RESEQUENCING.md`.
+  42/42 pass. S770 is complete from S769 commit
+  `65032f5dba1272b6edc3a926d08a878126f8dbb3`. Its start and exit evidence are
+  in `docs/research/epic18/S770-T02-callout-size-run-validation/`; post-replay
+  verification confirms board revision 4582, G05-T02 Done, and EPIC-18 In
+  Progress. The source-aware callout/size-run checks preserve exact-label
+  matching, actionable unknowns, prediction/actual separation, and the limit
+  on verifying an external grade formula. Focused tests pass 45/45 at 100%
+  four-metric coverage for all three changed production modules; TypeScript,
+  export identity 9/9, all-seven rendered review, Control Center 42/42 and
+  `git diff --check` pass. Its validated commands are in
+  `docs/planning/EPIC-18-S770-*`. S771 T03 is the single next boundary and
+  remains Backlog until its validated start replay. The active boundaries
+  remain in `docs/planning/EPIC-18-S765-RESEQUENCING.md`.
   UIQ-10 remains
   linked and Backlog until its bounded S774 admission; UIQ-09 remains Backlog
   pending EPIC-19.
