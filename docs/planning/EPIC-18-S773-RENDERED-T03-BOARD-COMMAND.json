@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T03",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S773-RENDERED",
+    "kind": "document",
+    "uri": "docs/research/epic18/S773-T03-reference-reconciliation/rendered-review.md",
+    "sha256": "2ba03cbfb1a7f495249a42d2dcbecc546e21a58b8213633955937427a2a59089",
+    "verified": true,
+    "note": "Records actual rendered T03 pattern inventories and empty-reference state for all seven supported recipe styles, plus ID guidance and non-source/non-fit limitations."
+  },
+  "expectedRevision": 4602
+}

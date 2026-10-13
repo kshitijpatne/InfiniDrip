@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T03",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S773-REPLAY",
+    "kind": "document",
+    "uri": "docs/research/epic18/S773-T03-reference-reconciliation/post-replay-verification.md",
+    "sha256": "cea2ddc52632a1dcf1f7928940aa8733967ff518fc0ad0cbfe96d23443f25b4c",
+    "verified": true,
+    "note": "Records S773 post-exit board state, 39/39 focused tests, 100% changed-module coverage, TypeScript, protected export identity, all-seven rendered review, the start-digest correction and final board replay."
+  },
+  "expectedRevision": 4609
+}

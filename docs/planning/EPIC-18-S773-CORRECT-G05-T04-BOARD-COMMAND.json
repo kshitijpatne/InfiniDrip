@@ -1,0 +1,16 @@
+{
+  "type": "editItem",
+  "itemId": "G05-T04",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "patch": {
+    "acceptanceCriteria": [
+      "Slice 774 decides and records format, import/round-trip rules, sections/templates and simple/difficult example styles before writer code.",
+      "PDF and chosen structured output are additive, revision-bound, deterministic where specified and validated from actual generated files.",
+      "UIQ-10 receives its own bounded admission after T01–T03 and completes its forms/tables/revision/approval presentation acceptance before this packet closes.",
+      "Two selected styles pass parsed and rendered review, numeric reconciliation, field-level diff and scoped-approval checks.",
+      "Legacy Tech Pack output and protected export bytes remain unchanged unless a separately approved exact change is proven."
+    ]
+  },
+  "expectedRevision": 4599
+}

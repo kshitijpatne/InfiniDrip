@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
+import { GARMENTS, STANDARD_M } from "../drafting";
 import { createEmptyTechPackRecord } from "./tech-pack-records";
-import { parseTechPackOperationRecordSet } from "./tech-pack-operation-records";
+import { parseTechPackOperationRecordSet, unresolvedTechPackOperation } from "./tech-pack-operation-records";
 import { evaluateTechPackOperationRecordSet } from "./tech-pack-operation-validation";
+import { buildTechPackReferenceReconciliation } from "./tech-pack-operation-reconciliation";
 import { renderTechPackOperationEditor } from "./tech-pack-operation-editor";
 
 const NOW = "2026-10-13T03:10:01.000Z";
@@ -64,5 +66,54 @@ describe("T03 operation editor renderer", () => {
     expect(renderTechPackOperationEditor({ record, validation: null })).toContain("Enter a valid operation record");
     const unsupported = renderTechPackOperationEditor({ record: createEmptyTechPackRecord(STYLE_ID, "unknown", NOW, NOW) });
     expect(unsupported).toContain("This recipe is not supported");
+  });
+
+  it("renders the read-only pattern inventory, escaped reconciliation findings, and unavailable guidance", () => {
+    const record = createEmptyTechPackRecord(STYLE_ID, "tee", NOW, NOW);
+    const recipe = GARMENTS.find((item) => item.name === "tee")!;
+    const reconciliation = buildTechPackReferenceReconciliation(record, recipe, STANDARD_M, {}, null);
+    const withFinding = {
+      ...reconciliation,
+      inventory: {
+        ...reconciliation.inventory,
+        components: reconciliation.inventory.components.map((component, index) => index === 0
+          ? { ...component, id: "", pieceName: "<Front>", valid: false }
+          : { ...component, pieceName: "", valid: false }),
+        seams: reconciliation.inventory.seams.map((seam, index) => index === 0
+          ? { ...seam, id: "", label: "", valid: false }
+          : seam),
+      },
+      findings: [{
+        code: "SYNTHETIC_UNKNOWN",
+        status: "UNKNOWN" as const,
+        path: "bomRows.synthetic.componentRef",
+        message: "<stale component>",
+        nextAction: "<correct it>",
+      }],
+    };
+    const html = renderTechPackOperationEditor({ record, referenceReconciliation: withFinding });
+    expect(html).toContain("Pattern reference reconciliation");
+    expect(html).toContain("data-t03-component-id=");
+    expect(html).toContain("data-t03-seam-id=");
+    expect(html).toContain("&lt;Front&gt;");
+    expect(html).toContain("&lt;stale component&gt;");
+    expect(html).not.toContain("<stale component>");
+    expect(html).toContain("T03 component and seam references use the lowercase IDs shown here");
+    expect(html).toContain("not source or manufacturing data");
+
+    const cleanHtml = renderTechPackOperationEditor({ record, referenceReconciliation: reconciliation });
+    expect(cleanHtml).toContain("data-t03-reference-clean");
+
+    const unavailable = buildTechPackReferenceReconciliation(record, null, STANDARD_M, {}, null);
+    const unavailableHtml = renderTechPackOperationEditor({ record, referenceReconciliation: unavailable });
+    expect(unavailableHtml).toContain("No pattern components are available.");
+    expect(unavailableHtml).toContain("No stitch declarations are available.");
+    expect(unavailableHtml).toContain('data-t03-reference-status="UNSUPPORTED"');
+
+    const unresolvedRecord = {
+      ...record,
+      operationData: { schemaVersion: 2 as const, recipeId: "tee" as const, operations: [unresolvedTechPackOperation("operation-shell")] },
+    };
+    expect(renderTechPackOperationEditor({ record: unresolvedRecord })).toContain("Operation name unresolved");
   });
 });

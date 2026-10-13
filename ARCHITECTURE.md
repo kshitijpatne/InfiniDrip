@@ -1,25 +1,39 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 772 complete
+## Current capability boundary — EPIC-18/G05 Slice 773 complete
 
-S772 starts from clean S771 commit
-`f802820f7a20fc7e1210d8fa709e0403ac4898bd`; validated digest-bound start
-evidence advances canonical board revision 4589→4591. G05-T01/T02 are Done;
-G05-T03 and EPIC-18 remain In Progress. The S772 start packet is
-`docs/research/epic18/S772-T03-operation-editor-validation/start-packet.md`.
-This boundary adds a local T03 operation editor and validation with explicit
+S773 completed from clean S772 commit
+`652605fde0cf48eb3a105636c7a8cd0373e4e0cd` on `codex/epic-18-g05`.
+Validated exit, status and replay evidence records canonical board revision
+4611: G05-T01/T02/T03 are Done, EPIC-18 remains In Progress, and UIQ-10 remains
+Backlog. S773 adds read-only T01 BOM and T03 operation reference reconciliation
+against pattern roles and stitch declarations, with an all-seven rendered
+review. Focused tests pass 39/39 with 100% four-metric coverage for all three
+changed production modules; TypeScript, protected export regression/identity
+17/17, Control Center 42/42 and `git diff --check` pass. Pattern identifiers
+describe only the in-app model; they do not establish source, construction,
+sewability, physical fit, supplier acceptance or production validity.
+
+S773's recorded correction preserves the original start-evidence history and
+adds a verifier-matching digest binding for the unchanged start packet. The
+G05-T04 acceptance criterion now assigns its format decision to S774, consistent
+with the active sequence. The next boundary is S774: decide the structured
+editable format/import contract, sections/templates and example styles, then
+prepare UIQ-10's distinct bounded admission. No output writer code starts before
+that decision packet is accepted; the integrated/global/build/Electron gate
+remains at S780.
+
+S772 completed the local T03 operation editor/validation with explicit
 source-confirmed, recipe-default, estimate, user-decision, unresolved, and
 conflicting origins. Only source-confirmed values count as source evidence.
-TechPack schema-v3 operation persistence retains T01/T02 compatibility and
-binds into existing immutable revision digests without changing payload-v1/v2
-history. Focused tests pass 192/192; all five changed production TypeScript
-modules have 100% statement, branch, function and line coverage; TypeScript
-and protected export identity 9/9 pass. Control Center passes 42/42 at final
-board revision 4597, and `git diff --check` passes. Isolated-browser review verified
-synthetic Tee editing/save/reload and Trouser missing-value guidance. No sourced
-construction facts or physical/production claims are established. Pattern/BOM/
-component reconciliation and all-recipe rendered/source review remain S773.
-UIQ-10 remains Backlog for its separate S774 admission.
+Additive TechPack schema-v3 persistence retains T01/T02 compatibility and binds
+into existing immutable revision digests without changing payload-v1/v2 history.
+Its 192 focused tests pass; all five changed production modules have 100%
+statement, branch, function and line coverage; TypeScript, protected export
+identity 9/9, Control Center 42/42 at final board revision 4597, and diff check
+pass. Isolated-browser review verified synthetic Tee editing/save/reload and
+Trouser missing-value guidance. S772's start, exit, and replay packets are in
+`docs/research/epic18/S772-T03-operation-editor-validation/`.
 
 S771 completed from clean S770 commit
 `25cd67b1f9c180598b844e905595ca744a670b8c`. Validated start, exit, and
@@ -122,9 +136,9 @@ Chrome-rendered T02 form, and Control Center 42/42 pass. S770 completed the
 source-aware callout/size-run checks and all-seven-recipe rendered review;
 G05-T02 is Done at canonical board revision 4582. Its exit packets and
 digest-verified replay are in
-`docs/research/epic18/S770-T02-callout-size-run-validation/`. S771 is the next
-admitted T03 boundary, while the separate S774 UIQ-10 admission and S780
-integrated gate remain in
+`docs/research/epic18/S770-T02-callout-size-run-validation/`. S773 now closes
+T03 at board revision 4611; S774 is the next T04 format/import and separate
+UIQ-10 admission boundary. The S780 integrated gate remains in
 `docs/planning/EPIC-18-S765-RESEQUENCING.md` and
 `docs/planning/EPIC-18-GOAL.md`.
 

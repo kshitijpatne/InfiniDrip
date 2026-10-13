@@ -113,8 +113,12 @@ only through an explicitly admitted, linked Epic packet.
   export identity 9/9, all-seven rendered review, Control Center 42/42 and
   `git diff --check` pass. Its validated commands are in
   `docs/planning/EPIC-18-S770-*`. S771 T03 completed at commit
-  `f802820f7a20fc7e1210d8fa709e0403ac4898bd`; S772 completed from that clean
-  checkpoint. Its start, exit, and replay evidence is in
+  `f802820f7a20fc7e1210d8fa709e0403ac4898bd`; S772 completed in commit
+  `652605fde0cf48eb3a105636c7a8cd0373e4e0cd`. S773 completed from that clean
+  checkpoint; its start, clarification, rendered, exit and replay records are
+  in `docs/research/epic18/S773-T03-reference-reconciliation/`, linked to
+  G05-T03 and EPIC-18 through validated board revision 4611. S772's
+  start, exit, and replay evidence is in
   `docs/research/epic18/S772-T03-operation-editor-validation/`, linked to
   G05-T03 and EPIC-18 through the validated board at revision 4597. S772 adds
   operation editing/validation with explicit source, recipe-default, estimate,
@@ -125,11 +129,15 @@ only through an explicitly admitted, linked Epic packet.
   export identity 9/9, isolated-browser save/reload and rendered review pass.
   Final Control Center tests pass 42/42 at board revision 4597, and
   `git diff --check` passes.
-  S773 remains the separate component/pattern/BOM reconciliation and all-recipe
-  rendered/source-review boundary. The active boundaries remain in
-  `docs/planning/EPIC-18-S765-RESEQUENCING.md`. UIQ-10 remains linked and
-  Backlog until its bounded S774 admission; UIQ-09 remains Backlog pending
-  EPIC-19.
+  S773 adds read-only T01/T03 pattern-reference reconciliation and all-seven
+  rendered review, with 39 focused tests, 100% changed-module coverage,
+  TypeScript, protected export identity 17/17, Control Center 42/42 and diff
+  hygiene passing. Board status is G05-T01/T02/T03 Done and EPIC-18 In Progress;
+  UIQ-10 remains Backlog. The next action is S774's T04 format/import decision
+  and separate UIQ-10 admission packet, as detailed in
+  `docs/planning/EPIC-18-S765-RESEQUENCING.md`. UIQ-09 remains Backlog behind
+  EPIC-19. S773's start-digest correction is documented in the slice packet;
+  pattern identifiers do not establish construction facts or fit.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.

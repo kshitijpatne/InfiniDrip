@@ -1,27 +1,53 @@
-## Current boundary — EPIC-18/G05 Slice 772 complete
+## Current boundary — EPIC-18/G05 Slice 773 complete
 
-S772 started at 2026-10-13 03:10:01 UTC from clean S771 commit
-`f802820f7a20fc7e1210d8fa709e0403ac4898bd` on `codex/epic-18-g05`; fresh
+S773 completed on `codex/epic-18-g05` from clean S772 commit
+`652605fde0cf48eb3a105636c7a8cd0373e4e0cd`; fresh
 `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-The start packet is
-`docs/research/epic18/S772-T03-operation-editor-validation/start-packet.md`;
-the exit and replay records are beside it. Validated start evidence advanced
-canonical board revision 4589→4591; exit and post-replay evidence keep G05-T03
-and EPIC-18 In Progress through final board revision 4597. The verified
-`E-G05-S772-EXIT` and `E-G05-S772-REPLAY` packet hashes are attached to G05-T03
-and EPIC-18. Final `npm run control-center:test` passes 42/42 on revision 4597;
-`git diff --check` passes. S772 landed the local T03 editor/validation, explicit
-schema-v2 value origins, and additive TechPack schema-v3 operation persistence
-through immutable style revisions. It preserves schema-v1/v2 records and
-revision payload-v1/v2 history. Focused tests pass 192/192; all five changed
-production TypeScript modules have 100% statement, branch, function and line
-coverage. TypeScript and protected export identity 9/9 pass. Isolated-browser
-review verified Tee value-origin editing, live findings, and save/reload, plus
-Trouser empty-state guidance. No sourced construction values or physical,
-supplier, or production claims are established. S773 remains the separate
-BOM/pattern/component reconciliation and all-recipe rendered/source review.
-S774 remains the separate UIQ-10 admission. The canonical board's stale UIQ-10
-S773 admission references are corrected to S774 during validated closeout.
+Its start, clarification, rendered, exit and replay evidence is in
+`docs/research/epic18/S773-T03-reference-reconciliation/` and linked to G05-T03
+and EPIC-18 through validated Control Center commands. Canonical board revision
+4611 records G05-T03 Done; G05-T01/T02 remain Done; EPIC-18 remains In Progress;
+UIQ-10 remains Backlog.
+
+S773 adds read-only pattern component/seam inventory and reconciliation of
+recorded T01 BOM and T03 operation references across all seven supported
+recipes. Focused tests pass 39/39 with 100% statement, branch, function and
+line coverage for all three changed production modules; TypeScript passes;
+protected export regression/identity checks pass 17/17 with all eight legacy
+hashes unchanged; the rendered review verifies each saved recipe panel. The
+Control Center suite passes 42/42 at final board revision 4611, and
+`git diff --check` passes. No source, sewability, physical-fit, supplier or
+production claim is made. Full global coverage, build, browser/Electron and
+integrated output replay remain at S780.
+
+The first Control Center run found that the original `E-G05-S773-START`
+digest did not match the repository verifier. That history is preserved;
+`E-G05-S773-START-DIGEST-CORRECTED` links a correction record and binds the
+unchanged start packet to its actual verifier-matching digest. The same
+checkpoint reconciliation corrected the G05-T04 acceptance line from S773 to
+S774, matching the active sequence in `docs/planning/EPIC-18-S765-RESEQUENCING.md`.
+
+The single next action is S774: resolve and record the T04 structured editable
+format/import contract, sections/templates and simple/difficult fixtures, then
+prepare UIQ-10's separate bounded admission while leaving its board card in
+Backlog. No T04 writer code starts before that decision packet passes its
+admission gates.
+
+S772 completed in commit `652605fde0cf48eb3a105636c7a8cd0373e4e0cd`
+(`Slice 772: add T03 operation editor and validation`). Its start, exit, and
+replay evidence is in
+`docs/research/epic18/S772-T03-operation-editor-validation/`, hash-linked to
+G05-T03 and EPIC-18 at board revision 4597. Final Control Center tests pass
+42/42 at revision 4597 and `git diff --check` passes. S772 added the local T03
+editor, explicit schema-v2 value origins, and additive TechPack schema-v3
+operation persistence through immutable style revisions; it preserves prior
+record and revision-payload shapes. Its 192 focused tests pass, with all five
+changed production modules at 100% statement/branch/function/line coverage;
+TypeScript and protected export identity 9/9 pass. Isolated browser review
+verified Tee synthetic value-origin editing/save/reload and Trouser
+missing-value guidance. No construction values, physical fit, supplier
+acceptance, or production readiness are claimed. UIQ-10 admission remains the
+separate S774 boundary.
 
 S771 completed at commit `f802820f7a20fc7e1210d8fa709e0403ac4898bd`.
 Its validated start, exit, and post-replay evidence advances board revision
@@ -38,10 +64,10 @@ and line coverage for all three changed production modules; TypeScript,
 protected export identity 9/9, all-seven rendered review, Control Center 42/42,
 and `git diff --check` pass. Board revision 4582 recorded G05-T02 Done. Its
 exit and replay evidence remain in
-`docs/research/epic18/S770-T02-callout-size-run-validation/`. S773 is the active
-boundary: T03 BOM/pattern/component reconciliation and all-recipe
-rendered/source review. The S780 global/build/Electron gate, separate S774
-UIQ-10 admission, and all supplier/physical/production holds remain unchanged.
+`docs/research/epic18/S770-T02-callout-size-run-validation/`. S773 is complete;
+S774 is the next active boundary for T04 format/import decisions and UIQ-10's
+separate admission. The S780 global/build/Electron gate and all
+supplier/physical/production holds remain unchanged.
 
 ## Previous boundary — EPIC-18/G05 Slice 769 complete
 
@@ -232,10 +258,12 @@ is admitted. Its formal scope and gates are in
 
 Admission identified a board-closure requirement: UIQ-10 is already linked as
 an EPIC-18 child, and the validated Epic close command requires every linked
-child to be Done. It therefore remains linked and Backlog until a separate,
-bounded admission after T01–T03 contracts at Slice 773. The prior 18-slice
-estimate omitted that child; the admitted conditional baseline is 19 slices
-(762–780), to be reforecast after T01. UIQ-09 remains untouched and blocked on
+child to be Done. In the original S762 order it was assigned a separate,
+bounded admission after T01–T03 at Slice 773; the active S765 resequencing
+moves that admission to S774 without changing the gate. It remains linked and
+Backlog until then. The prior 18-slice estimate omitted that child; the
+conditional baseline was 19 slices (762–780), later extended through S781 for
+the S765 correction. UIQ-09 remains untouched and blocked on
 EPIC-19/G06. EPIC-18's other prerequisites EPIC-15/G02, EPIC-16/G03 and
 EPIC-17/G04 are Done.
 
@@ -261,9 +289,10 @@ Acceptance: authority and exact main base verified; EPIC-18 chosen over blocked
 UIQ-09; admission packet and exact ordered boundaries recorded; project
 context, architecture, decisions, roadmap, UI sequence, Control Center guidance,
 board and current-state test agree; board commands pass the shared validator;
-focused Control Center checks pass. Remaining decisions are staged: freeze the
-T01 schema before persistence; choose T04's structured output format at S773;
-admit UIQ-10 only after T01–T03; keep unverified supplier/construction facts
+focused Control Center checks pass. The original S762 admission staged a T04
+format decision at S773; the active S765 sequence supersedes that timing and
+places the structured output format/import decision and separate UIQ-10
+admission at S774 after T01–T03. Unverified supplier/construction facts remain
 visible. Physical sampling/fit, supplier contact, paid services, production
 approval and readiness remain explicitly outside scope.
 

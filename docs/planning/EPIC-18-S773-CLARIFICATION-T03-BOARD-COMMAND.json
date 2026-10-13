@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T03",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S773-CLARIFICATION",
+    "kind": "document",
+    "uri": "docs/research/epic18/S773-T03-reference-reconciliation/scope-addendum.md",
+    "sha256": "c47e4365f87e923358734ceadcd9ac050aa85c7c005546374bfde800c2a5a814",
+    "verified": true,
+    "note": "Clarifies that T01 accepts exact role keys or stable IDs while T03 preserves the existing lowercase stable-ID contract; records no schema migration or widened input acceptance."
+  },
+  "expectedRevision": 4600
+}

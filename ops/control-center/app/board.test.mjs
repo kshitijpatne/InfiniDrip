@@ -1010,6 +1010,14 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   const g05S771Replay = board.evidence.find((entry) => entry.id === "E-G05-S771-REPLAY");
   const g05S772Start = board.evidence.find((entry) => entry.id === "E-G05-S772-START");
   const g05S772Exit = board.evidence.find((entry) => entry.id === "E-G05-S772-EXIT");
+  const g05S772Replay = board.evidence.find((entry) => entry.id === "E-G05-S772-REPLAY");
+  const g05S773Start = board.evidence.find((entry) => entry.id === "E-G05-S773-START");
+  const g05S773StartDigestCorrected = board.evidence.find((entry) => entry.id === "E-G05-S773-START-DIGEST-CORRECTED");
+  const g05S773Clarification = board.evidence.find((entry) => entry.id === "E-G05-S773-CLARIFICATION");
+  const g05S773Rendered = board.evidence.find((entry) => entry.id === "E-G05-S773-RENDERED");
+  const g05S773Exit = board.evidence.find((entry) => entry.id === "E-G05-S773-EXIT");
+  const g05S773Replay = board.evidence.find((entry) => entry.id === "E-G05-S773-REPLAY");
+  const g05T04 = board.workItems.find((entry) => entry.id === "G05-T04");
   const g05Children = board.workItems.filter((entry) => entry.epicId === "EPIC-18");
   assert.equal(g05?.status, "In Progress");
   assert.equal(g05Card?.status, "In Progress");
@@ -1111,6 +1119,35 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.equal(hashEvidenceArtifact(g05S772Exit.uri), g05S772Exit.sha256);
   assert.ok(g05T03?.evidenceRefs.includes(g05S772Exit.id));
   assert.ok(g05?.evidenceRefs.includes(g05S772Exit.id));
+  assert.equal(g05S772Replay?.uri, "docs/research/epic18/S772-T03-operation-editor-validation/post-replay-verification.md");
+  assert.equal(g05S772Replay?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S772Replay.uri), g05S772Replay.sha256);
+  assert.ok(g05T03?.evidenceRefs.includes(g05S772Replay.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S772Replay.id));
+  assert.equal(g05S773Start?.uri, "docs/research/epic18/S773-T03-reference-reconciliation/start-packet.md");
+  assert.equal(g05S773Start?.kind, "document");
+  assert.equal(g05S773Start?.verified, true);
+  assert.equal(g05S773Start?.sha256, "be215485e6017ce350e9455414ff43e6862a25020570131ebbc3dee8545992c6");
+  assert.equal(hashEvidenceArtifact(g05S773Start.uri), "5d86f7ea9606bd4fb0e253e019e15e3760f963309c2ace81c10b98e5d996d9f2");
+  assert.ok(g05S773StartDigestCorrected?.note.includes("corrected, verifier-matching digest binding"));
+  assert.ok(g05T03?.evidenceRefs.includes(g05S773Start.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S773Start.id));
+  for (const [evidence, uri] of [
+    [g05S773StartDigestCorrected, "docs/research/epic18/S773-T03-reference-reconciliation/start-evidence-hash-correction.md"],
+    [g05S773Clarification, "docs/research/epic18/S773-T03-reference-reconciliation/scope-addendum.md"],
+    [g05S773Rendered, "docs/research/epic18/S773-T03-reference-reconciliation/rendered-review.md"],
+    [g05S773Exit, "docs/research/epic18/S773-T03-reference-reconciliation/exit-packet.md"],
+    [g05S773Replay, "docs/research/epic18/S773-T03-reference-reconciliation/post-replay-verification.md"],
+  ]) {
+    assert.equal(evidence?.uri, uri);
+    assert.equal(evidence?.verified, true);
+    assert.equal(hashEvidenceArtifact(evidence.uri), evidence.sha256);
+    assert.ok(g05T03?.evidenceRefs.includes(evidence.id));
+    assert.ok(g05?.evidenceRefs.includes(evidence.id));
+  }
+  assert.equal(g05S773Exit?.kind, "exit-report");
+  assert.equal(g05T04?.acceptanceCriteria[0],
+    "Slice 774 decides and records format, import/round-trip rules, sections/templates and simple/difficult example styles before writer code.");
   assert.ok(g05Card?.description.includes("planned for Slice 774"));
   assert.ok(g05Card?.acceptanceCriteria.some((entry) => entry.includes("Slice 774 admission")));
   assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("at Slice 774"));
@@ -1119,7 +1156,8 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   ]);
   assert.equal(board.workItems.find((entry) => entry.id === "G05-T01")?.status, "Done");
   assert.equal(board.workItems.find((entry) => entry.id === "G05-T02")?.status, "Done");
-  assert.equal(g05T03?.status, "In Progress");
+  assert.equal(g05T03?.status, "Done");
+  assert.ok(g05T03?.statusHistory.some((entry) => entry.status === "Done" && entry.evidenceRefs.includes(g05S773Exit.id)));
   assert.ok(["G05-T04", "G05-T05", "G05-EXIT", "UIQ-10"]
     .every((id) => board.workItems.find((entry) => entry.id === id)?.status === "Backlog"));
   assert.deepEqual(board.workItems.find((entry) => entry.id === "UIQ-10")?.dependencies,

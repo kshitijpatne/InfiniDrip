@@ -360,6 +360,9 @@ describe("accessible project and style manager", () => {
     try {
       const { host, workflow } = state;
       expect(host.querySelector(".t03-editor")).not.toBeNull();
+      expect(host.querySelector(".t03-reference-reconciliation [data-t03-component-id]")).not.toBeNull();
+      expect(host.querySelector(".t03-reference-reconciliation [data-t03-seam-id]")).not.toBeNull();
+      expect(host.querySelector(".t03-reference-reconciliation")?.textContent).toContain("do not establish sewability, physical fit, or production validity");
       const initialRevisionId = workflow.snapshot.activeStyle.revisionHeadId;
       const editor = host.querySelector<HTMLTextAreaElement>("[data-t03-input='operations']")!;
       const empty = editor.value;
@@ -430,6 +433,7 @@ describe("accessible project and style manager", () => {
         updateT03OperationFeedback(data: any, error: string | null): void;
         updateT03TechPackFromControl(target: HTMLTextAreaElement): void;
         handleT03TechPackAction(target: HTMLElement): void;
+        render(): void;
       };
       const emptyOperations = emptyTechPackOperationRecordSetV2("tee");
       const emptyPom = emptyTechPackPomRecordSet("tee");
@@ -484,6 +488,8 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector("#project-manager-status")?.textContent).toContain("needs attention");
       direct.techPackOperationsJsonDraft = null;
       direct.techPackDraft = { ...record, recipeId: "custom" };
+      direct.render();
+      expect(host.querySelector(".t03-editor")?.textContent).toContain("This recipe is not supported by the T03 operation record");
       direct.handleT03TechPackAction(action("add-unresolved-operation"));
       expect(host.querySelector("#project-manager-status")?.textContent).toContain("no T03 operation record contract");
 
