@@ -1,6 +1,31 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 777 complete
+## Current capability boundary — EPIC-18/G05 Slice 778 complete
+
+The local Tech Pack share path now includes explicit scope review, approval,
+and freezing for one exact saved revision. The schema-v3 binary manifest binds
+the approval, selected sections, revision ID/content digest, and original ZIP
+and PDF bytes; reads verify stored bytes before local download. Revision-head
+or content changes during preparation fail closed. Local actor labels and
+timestamps are self-attested only. Earlier schema-v1/v2 packages and protected
+legacy exports remain separate. Implementation and actual output/browser
+evidence are in `docs/research/epic18/S778-T05-freeze/`.
+
+S778 focused suites pass 183/183 plus two targeted mounted-app cases; all five
+changed production modules and the exact changed `app.ts` range reach 100%
+statement, branch, function and line coverage. TypeScript, Vite build,
+protected export regression/identity 17/17, synthetic Tee/Woven output
+read-back/render review, two-viewport Chromium review, and Control Center 42/42
+pass. A whole-app coverage run was stopped at about 2.6 GB without a report;
+the changed range passed, and the global integrated gate remains assigned to
+S780. S779 remains next for dependency invalidation, visible stale/current
+state, prior-byte preservation, historical import compatibility, and all eight
+protected legacy identities. EPIC-18 and G05-T05 remain In Progress; G05-EXIT
+remains Backlog.
+
+At the previous S777 checkpoint, the exit replay closed UIQ-10 and G05-T04;
+S778 was then next. Its detailed import/apply behavior is in
+`docs/research/epic18/S777-T04-review/`.
 
 S775 added `src/ui/tech-pack-output.ts`: deterministic, revision-bound
 standalone production PDF and `infinidrip-techpack` `.techpack.zip` output,

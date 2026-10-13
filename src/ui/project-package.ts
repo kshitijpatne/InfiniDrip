@@ -21,6 +21,7 @@ import {
   createStyleRevision,
   reidentifyStyleRevisionForCopy,
   FROZEN_ARTIFACT_LIMIT,
+  FROZEN_TECH_PACK_ARTIFACT_LIMIT,
   FROZEN_ARTIFACT_IDS,
   jcsSha256Hex,
   parseFrozenOutputManifestRecord,
@@ -584,10 +585,14 @@ export async function createProjectPackage(
     byteLength: artifact.byteLength,
     sha256: artifact.sha256,
     name: artifact.displayName,
+    limit: record.schemaVersion === 3 ? FROZEN_TECH_PACK_ARTIFACT_LIMIT : FROZEN_ARTIFACT_LIMIT,
   })));
   for (const artifact of frozenArtifacts) {
     if (artifact.blob.size !== artifact.byteLength
-      || await hashBlob(artifact.blob, options, FROZEN_ARTIFACT_LIMIT, "Frozen outputs must be 32 MiB or smaller.") !== artifact.sha256) {
+      || await hashBlob(artifact.blob, options, artifact.limit,
+        artifact.limit === FROZEN_TECH_PACK_ARTIFACT_LIMIT
+          ? "Frozen Tech Pack artifacts must be 128 MiB or smaller."
+          : "Frozen outputs must be 32 MiB or smaller.") !== artifact.sha256) {
       throw new ProjectPackageError("invalid-package", `Frozen output ${artifact.name} changed during backup creation.`);
     }
     assetBytes += artifact.byteLength;

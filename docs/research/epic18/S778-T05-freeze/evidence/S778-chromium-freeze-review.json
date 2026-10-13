@@ -1,0 +1,106 @@
+{
+  "slice": 778,
+  "status": "passed",
+  "createdAt": "2026-10-13T18:00:25.904Z",
+  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+  "revisionId": "1777cc94-4415-41ad-90c8-ceef84a02d64",
+  "scope": {
+    "group": "cover",
+    "fieldCount": 6
+  },
+  "confirmation": "Freeze the local Tech Pack share for Untitled tee, revision 1777cc94-4415-41ad-90c8-ceef84a02d64 (f0c8f85f349d476e292476d639216013c302210722e3457a5e301e8d619989f8)?\n\nScope: 6 saved fields\nProduction-pack sections: identity, materials-bom, measurements-qa, construction, artwork, sources-open-items, approval-disclaimer\nFiles: production-pack.techpack.zip (3744 bytes); production-pack.pdf (12092 bytes)\n\nThis stores exact ZIP and PDF bytes locally. The reviewer label is self-attested; this does not establish physical fit, supplier acceptance or production readiness.",
+  "artifacts": [
+    "production-pack.pdf",
+    "production-pack.techpack.zip"
+  ],
+  "downloads": [
+    {
+      "name": "production-pack.techpack.zip",
+      "byteLength": 3744,
+      "sha256": "1552ab46c68801f66005f3962baa9a6c6649591f02208affecf4986cc973acb2",
+      "path": "docs/research/epic18/S778-T05-freeze/evidence/production-pack.techpack.zip"
+    },
+    {
+      "name": "production-pack.pdf",
+      "byteLength": 12092,
+      "sha256": "88dc0303c58c9f051c329c355fc50b6e4f81131eeaa8fea2cdc4d6e5e76d8b21",
+      "path": "docs/research/epic18/S778-T05-freeze/evidence/production-pack.pdf"
+    }
+  ],
+  "staleGuidance": "Editing and saving a new Tech Pack revision returns its review state to Draft and keeps earlier frozen bytes available.",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "bodyWidth": 390,
+      "section": {
+        "left": 30,
+        "right": 345,
+        "width": 315
+      },
+      "screenshots": {
+        "top": "S778-freeze-390x844-top.png",
+        "bottom": "S778-freeze-390x844-bottom.png"
+      }
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "documentWidth": 1280,
+      "bodyWidth": 1280,
+      "section": {
+        "left": 38,
+        "right": 329,
+        "width": 291
+      },
+      "screenshots": {
+        "top": "S778-freeze-1280x800-top.png",
+        "bottom": "S778-freeze-1280x800-bottom.png"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": "top",
+      "path": "docs/research/epic18/S778-T05-freeze/evidence/S778-freeze-390x844-top.png",
+      "sha256": "a58e98d6cbd33f592b9a1264163496159a14d9d75e42f9ab6708d608c152e2e0"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": "bottom",
+      "path": "docs/research/epic18/S778-T05-freeze/evidence/S778-freeze-390x844-bottom.png",
+      "sha256": "5415123d7f8463698a823281a87cc99831391cf232418d8559062b3a3cfc3098"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "position": "top",
+      "path": "docs/research/epic18/S778-T05-freeze/evidence/S778-freeze-1280x800-top.png",
+      "sha256": "8e4b9c86dd70ed4ccdb1df6f41e47114c186e77934cbcb5bd59d23472b0add52"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "position": "bottom",
+      "path": "docs/research/epic18/S778-T05-freeze/evidence/S778-freeze-1280x800-bottom.png",
+      "sha256": "e3509207e537b630387b5de7eb5ac9277a743c9f1c4e8b1bc3c7ed15eec81746"
+    }
+  ],
+  "browserMessages": []
+}

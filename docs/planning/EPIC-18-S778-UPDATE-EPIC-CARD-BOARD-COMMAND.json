@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4651,
+  "itemId": "EPIC-18",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done; S778 completed the exact-revision T05 freeze and deterministic manifests/digests. T05 remains In Progress for S779 invalidation, prior-byte retention, import compatibility and eight protected export identities. S780 is the settled integrated gate; S781 is merge/deployment and Epic closeout. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit."
+  }
+}

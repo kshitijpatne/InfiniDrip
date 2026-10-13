@@ -64,6 +64,7 @@ import {
   createFrozenOutputManifest,
   createStyleRevision,
   FROZEN_ARTIFACT_IDS,
+  TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION,
   jcsSha256Hex,
   sha256Hex,
   verifyFrozenOutputManifest,
@@ -1349,6 +1350,45 @@ describe("portable local project package", () => {
     const reloaded = await readProjectPackage(reExported, { crypto });
     expect(await reloaded.frozenManifests[0]?.artifacts[0]?.bytes.text()).toBe(outputText);
     expect(reloaded.manifest.styles[0]?.techPack.operationData).toEqual(operationData);
+  });
+
+  it("packages and reopens binary Tech Pack shares above the legacy 32 MiB text artifact limit", async () => {
+    const source = await createFrozenSourcePackage();
+    const zipBytes = new Uint8Array(32 * 1024 * 1024 + 1);
+    zipBytes[0] = 80;
+    zipBytes[1] = 75;
+    const manifest = await createFrozenOutputManifest({
+      manifestId: "33333333-3333-4333-8333-333333333333",
+      styleId: source.style.id,
+      revision: source.revision,
+      capturedAt: "2026-10-13T17:00:00.000Z",
+      selectedSizes: [],
+      selectedSections: ["identity", "approval-disclaimer"],
+      unresolved: ["Local digital review only; physical fit and production readiness are not established."],
+      artifacts: [
+        { artifactId: "tech-pack-exchange-zip", extension: "zip", displayName: "production-pack.techpack.zip", mediaType: "application/zip", bytes: zipBytes },
+        { artifactId: "tech-pack-production-pdf", extension: "pdf", displayName: "production-pack.pdf", mediaType: "application/pdf", bytes: new Uint8Array([37, 80, 68, 70, 0, 255]) },
+      ],
+      schemaVersion: TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs: [`tech-pack-approval-sha256:${"d".repeat(64)}`],
+    }, crypto);
+    const packed = await createProjectPackage({
+      project: source.project,
+      styles: [source.style],
+      recoveries: [],
+      fieldObservations: [source.observations],
+      styleRevisions: [source.revision],
+      exportManifests: [manifest],
+    }, memoryAssets(), { crypto });
+    const reopened = await readProjectPackage(packed, { crypto });
+    expect(reopened.frozenManifests).toHaveLength(1);
+    expect(reopened.manifest.exportManifests[0]?.schemaVersion).toBe(3);
+    expect(reopened.manifest.exportManifests[0]?.artifacts[0]?.byteLength).toBe(zipBytes.byteLength);
+    const restoredZip = new Uint8Array(await reopened.frozenManifests[0]!.artifacts[0]!.bytes.arrayBuffer());
+    expect(restoredZip.byteLength).toBe(zipBytes.byteLength);
+    expect(await sha256Hex(restoredZip, crypto)).toBe(manifest.artifacts[0]?.sha256);
+    expect([...new Uint8Array(await reopened.frozenManifests[0]!.artifacts[1]!.bytes.arrayBuffer())])
+      .toEqual([37, 80, 68, 70, 0, 255]);
   });
 
   it("preserves T01 data and review on restore, then remaps packaged provenance and resets review on copy", async () => {

@@ -54,6 +54,20 @@ import {
   techPackRevisionContent,
   type TechPackRecord,
 } from "./tech-pack-records";
+import {
+  approveTechPackReview as approveScopedTechPackReview,
+  createTechPackApprovalRef,
+  freezeTechPackApproval,
+  startTechPackReview as startScopedTechPackReview,
+  type TechPackShareArtifactInput,
+} from "./tech-pack-sharing";
+
+export interface TechPackShareFreezeInput {
+  readonly revisionId: string;
+  readonly revisionContentDigest: string;
+  readonly selectedSections: readonly string[];
+  readonly artifacts: readonly TechPackShareArtifactInput[];
+}
 
 export interface ProjectWorkflowOptions {
   readonly repositoryOptions?: ProjectRepositoryOptions;
@@ -536,6 +550,140 @@ export class ProjectWorkflow {
       }
       return refreshed;
     });
+  }
+
+  async beginActiveTechPackReview(
+    actorLabel: string,
+    scopeFieldIds: readonly string[],
+    expectedRevisionId: string,
+  ): Promise<LoadedProject> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      const active = current.activeStyle;
+      if (active.revisionHeadId !== expectedRevisionId || active.techPack.revisionId !== expectedRevisionId) {
+        throw new ProjectRepositoryError("conflict", "The saved Tech Pack revision changed before review started. Reload and select its current revision.");
+      }
+      const time = monotonicTimestamp(this.now(), current.project.updatedAt, active.updatedAt, active.techPack.updatedAt);
+      const reviewed = startScopedTechPackReview(active.techPack, actorLabel, scopeFieldIds, time);
+      return this.saveTechPackApprovalOverlay(reviewed, time, expectedRevisionId);
+    });
+  }
+
+  async approveActiveTechPackReview(actorLabel: string, expectedRevisionId: string): Promise<LoadedProject> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      const active = current.activeStyle;
+      if (active.revisionHeadId !== expectedRevisionId || active.techPack.revisionId !== expectedRevisionId) {
+        throw new ProjectRepositoryError("conflict", "The saved Tech Pack revision changed before approval. Reload and review its current revision.");
+      }
+      const time = monotonicTimestamp(this.now(), current.project.updatedAt, active.updatedAt, active.techPack.updatedAt);
+      const approved = approveScopedTechPackReview(active.techPack, actorLabel, time);
+      return this.saveTechPackApprovalOverlay(approved, time, expectedRevisionId);
+    });
+  }
+
+  async freezeTechPackShare(actorLabel: string, output: TechPackShareFreezeInput): Promise<FrozenOutputManifestRecord> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      const active = current.activeStyle;
+      const head = current.styleRevisions.find((candidate) => candidate.revisionId === active.revisionHeadId);
+      if (!head || head.revisionId !== output.revisionId || head.revisionContentDigest !== output.revisionContentDigest
+        || active.techPack.revisionId !== head.revisionId || head.payload.payloadVersion !== 2
+        || !await verifyStyleRevision(head, this.cryptoProvider)
+        || canonicalizeJcs(techPackRevisionContent(head.payload.techPack))
+          !== canonicalizeJcs(techPackRevisionContent(active.techPack))) {
+        throw new ProjectRepositoryError("conflict", "The generated Tech Pack files no longer match the saved revision. Reload and generate them again.");
+      }
+      if (active.archivedAt !== null) {
+        throw new ProjectRepositoryError("invalid-data", "Archived styles are read-only; restore this style before freezing a local share.");
+      }
+      const approvalRef = await createTechPackApprovalRef(
+        active.techPack, head, output.selectedSections, output.artifacts, this.cryptoProvider,
+      );
+      const capturedAt = monotonicTimestamp(this.now(), current.project.updatedAt, active.updatedAt, active.techPack.updatedAt);
+      const manifestId = this.revisionIdFactory();
+      const manifest = await createFrozenOutputManifest({
+        manifestId,
+        styleId: active.id,
+        revision: head,
+        capturedAt,
+        selectedSizes: [],
+        selectedSections: output.selectedSections,
+        unresolved: [
+          "Local digital review only; no supplier or production acceptance is established.",
+          "This digital package does not establish physical fit or production readiness.",
+          "Unresolved and unconfirmed Tech Pack fields remain visible in the frozen package.",
+        ],
+        artifacts: output.artifacts.map((artifact) => ({
+          artifactId: artifact.artifactId,
+          extension: artifact.extension,
+          displayName: artifact.displayName,
+          mediaType: artifact.mediaType,
+          bytes: artifact.bytes,
+        })),
+        schemaVersion: 3,
+        approvalRefs: [approvalRef],
+      }, this.cryptoProvider);
+      const frozen = freezeTechPackApproval(active.techPack, actorLabel, manifestId, capturedAt);
+      const nextStyle: StyleRecord = {
+        ...active,
+        techPack: frozen,
+        revision: active.revision + 1,
+        updatedAt: capturedAt,
+      };
+      const project = { ...current.project, revision: current.project.revision + 1, updatedAt: capturedAt };
+      await this.repository.saveProjectBundle({
+        project,
+        styles: current.styles.map((style) => style.id === active.id ? nextStyle : style),
+        exportManifests: [manifest],
+        expectedProjectRevision: current.project.revision,
+      });
+      const loaded = await this.reloadLoaded();
+      const saved = loaded.exportManifests.find((candidate) => candidate.manifestId === manifestId);
+      if (loaded.activeStyle.techPack.approval.state !== "FROZEN_FOR_SHARE"
+        || loaded.activeStyle.techPack.approval.manifestId !== manifestId || !saved
+        || !await verifyFrozenOutputManifest(saved, this.cryptoProvider)) {
+        throw new ProjectRepositoryError("invalid-data", "The frozen Tech Pack share was not present with verified bytes after its atomic save.");
+      }
+      return saved;
+    });
+  }
+
+  private async saveTechPackApprovalOverlay(
+    candidate: TechPackRecord,
+    time: string,
+    expectedRevisionId: string,
+  ): Promise<LoadedProject> {
+    const current = this.loaded;
+    const active = current.activeStyle;
+    const head = current.styleRevisions.find((revision) => revision.revisionId === active.revisionHeadId);
+    if (active.archivedAt !== null) throw new ProjectRepositoryError("invalid-data", "Archived styles are read-only; restore this style before changing review state.");
+    if (!head || head.revisionId !== expectedRevisionId || active.revisionHeadId !== expectedRevisionId
+      || !await verifyStyleRevision(head, this.cryptoProvider) || head.payload.payloadVersion !== 2
+      || canonicalizeJcs(techPackRevisionContent(head.payload.techPack))
+        !== canonicalizeJcs(techPackRevisionContent(active.techPack))) {
+      throw new ProjectRepositoryError("conflict", "The saved Tech Pack changed before its review state could be stored. Reload the project and try again.");
+    }
+    const parsed = parseTechPackRecord(candidate);
+    if (!parsed.ok || parsed.value.revisionId !== expectedRevisionId
+      || canonicalizeJcs(techPackRevisionContent(parsed.value)) !== canonicalizeJcs(techPackRevisionContent(active.techPack))) {
+      throw new ProjectRepositoryError("invalid-data", parsed.ok
+        ? "A review-state change cannot edit the saved Tech Pack content."
+        : parsed.error);
+    }
+    const nextStyle: StyleRecord = {
+      ...active,
+      techPack: parsed.value,
+      revision: active.revision + 1,
+      updatedAt: time,
+    };
+    const project = { ...current.project, revision: current.project.revision + 1, updatedAt: time };
+    await this.repository.saveProjectBundle({
+      project,
+      styles: current.styles.map((style) => style.id === active.id ? nextStyle : style),
+      expectedProjectRevision: current.project.revision,
+    });
+    return this.reloadLoaded();
   }
 
   private async saveDesignInQueue(design: SavedDesign, forceRevision: boolean): Promise<LoadedProject> {

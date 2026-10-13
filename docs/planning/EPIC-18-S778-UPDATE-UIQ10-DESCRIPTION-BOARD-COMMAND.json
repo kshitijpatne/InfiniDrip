@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4652,
+  "itemId": "UIQ-10",
+  "patch": {
+    "description": "Linked EPIC-18/G05 child. S776 completed under its separate presentation-only admission after S775 proved actual output and round trips; S777 completed under its separate presentation-only admission with exact T04 package diff, scoped-approval review, and two-style numeric/rendered acceptance. Explicit Apply saves a new immutable DRAFT revision and ignores imported approval. UIQ-10 is Done. S778 then completed the first T05 freeze boundary; S779 owns the admitted invalidation and compatibility completion. Evidence: docs/research/epic18/S777-T04-review/exit-packet.md and docs/research/epic18/S778-T05-freeze/exit-packet.md; sequence: docs/planning/EPIC-18-S765-RESEQUENCING.md."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 4654,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Preserve the validated historical S777 numeric-acceptance summary while keeping the current S778/S779 checkpoint in the Epic description.",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including the separately admitted UIQ-10 review/apply and numeric acceptance completed at S777. T05 is In Progress: S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests; S779 is next for edit invalidation, prior-byte retention, historical import compatibility and all eight protected export identities under docs/planning/EPIC-18-S765-RESEQUENCING.md. Integrated S780 and merge/deployment S781 gates remain ordered. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit."
+  }
+}

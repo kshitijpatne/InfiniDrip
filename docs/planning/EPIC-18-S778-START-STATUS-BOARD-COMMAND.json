@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4647,
+  "itemId": "G05-T05",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Begin the admitted S778 immutable local-share freeze and deterministic artifact manifest/digest boundary from verified S777; S779 retains the ordered invalidation and compatibility gates.",
+  "evidenceRefs": ["E-G05-S778-START"]
+}

@@ -2,7 +2,7 @@ import type { LoadedProject, ProjectRepositoryError } from "./project-repository
 import { isCustomOneSizeStyle } from "./project-records";
 import type { RecoveryPayload, SavedDesign, StyleRecord } from "./project-records";
 import { GARMENTS } from "../drafting";
-import { ProjectWorkflow } from "./project-workflow";
+import { ProjectWorkflow, type TechPackShareFreezeInput } from "./project-workflow";
 import type { ArtworkAssetStore } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import {
@@ -47,6 +47,7 @@ import {
   type TechPackOperationRecordSet,
 } from "./tech-pack-operation-records";
 import { TECH_PACK_POM_RECIPE_IDS, TECH_PACK_POM_UNITS, type TechPackPomDefinition, type TechPackPomRecipeId } from "./tech-pack-pom-records";
+import { techPackShareScopeGroups } from "./tech-pack-sharing";
 import {
   emptyTechPackPomRecordSet,
   parseTechPackPomRecordSet,
@@ -84,6 +85,7 @@ export interface ProjectManagerOptions {
     readonly approvalRefs?: readonly string[];
     readonly gradePlanFreeze?: { readonly record: GradePlanRecord; readonly approvalRef: string };
   } | null>;
+  readonly getTechPackShareOutput?: (expectedRevisionId: string) => Promise<TechPackShareFreezeInput | null>;
   readonly saveFrozenArtifact?: (filename: string, bytes: Blob, mediaType: string) => Promise<boolean>;
   readonly confirm?: (message: string) => boolean;
   readonly packageOptions?: Pick<ProjectPackageOptions, "idFactory" | "now">;
@@ -93,7 +95,8 @@ export interface ProjectManagerOptions {
 
 type ProjectAction = "create" | "duplicate" | "rename" | "reload" | "switch" | "archive" | "restore"
   | "switch-project" | "export-package" | "import-package" | "compare-revisions" | "restore-revision"
-  | "freeze-outputs" | "download-frozen" | "save-tech-pack" | "discard-tech-pack";
+  | "freeze-outputs" | "download-frozen" | "save-tech-pack" | "discard-tech-pack"
+  | "begin-tech-pack-review" | "approve-tech-pack-review" | "freeze-tech-pack-share";
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (character) => ({
@@ -395,6 +398,18 @@ export class ProjectManager {
     });
     options.host.addEventListener("change", (event) => {
       const target = event.target;
+      if (target instanceof HTMLInputElement && target.dataset.techPackShareScope) {
+        const groups = techPackShareScopeGroups(this.options.workflow.snapshot.activeStyle.techPack);
+        const chosenIds = new Set([...this.options.host.querySelectorAll<HTMLInputElement>("[data-tech-pack-share-scope]:checked")]
+          .map((input) => input.dataset.techPackShareScope));
+        const count = groups.filter((group) => chosenIds.has(group.id))
+          .reduce((sum, group) => sum + group.fieldIds.length, 0);
+        const start = this.options.host.querySelector<HTMLButtonElement>("[data-project-action='begin-tech-pack-review']");
+        if (start) start.disabled = this.busy || this.techPackDraft !== null || this.options.hasUnsavedChanges() || count === 0;
+        const status = this.options.host.querySelector<HTMLElement>("[data-tech-pack-share-scope-count]");
+        if (status) status.textContent = `${count} fields selected`;
+        return;
+      }
       if (target instanceof HTMLSelectElement && target.id === "revision-left") {
         this.compareLeftId = target.value;
         return;
@@ -1088,6 +1103,46 @@ export class ProjectManager {
       ).join("")}</ul>` : `<p>No archived styles.</p>`) + `</section>`;
   }
 
+  private renderTechPackShareControls(record: TechPackRecord): string {
+    const approval = record.approval;
+    const groups = techPackShareScopeGroups(record);
+    const selected = new Set(approval.scopeFieldIds);
+    const state = approval.state;
+    const unsaved = this.techPackDraft !== null || this.options.hasUnsavedChanges();
+    const stageLabel = state === "DRAFT" ? "Draft" : state === "REVIEW" ? "In review"
+      : state === "APPROVED" ? "Scoped approval recorded" : "Frozen for local share";
+    const stageAction = state === "DRAFT" ? "begin-tech-pack-review"
+      : state === "REVIEW" ? "approve-tech-pack-review"
+        : state === "APPROVED" ? "freeze-tech-pack-share" : null;
+    const stageText = unsaved ? "Save or discard current edits before changing local review or share state."
+      : state === "DRAFT" ? "Select the fields included in this review."
+      : state === "REVIEW" ? "Review scope is locked to these saved fields."
+        : state === "APPROVED" ? "The local share will bind the ZIP, PDF, selected sections and current revision."
+          : `Frozen manifest ${approval.manifestId ?? "unavailable"}`;
+    const selectedCount = approval.scopeFieldIds.length;
+    const disabled = this.busy || unsaved || !record.revisionId;
+    const stageDisabled = disabled || groups.length === 0 || (state === "DRAFT" && selectedCount === 0)
+      || (state === "APPROVED" && !this.options.getTechPackShareOutput);
+    const scopeControls = groups.map((group) => {
+      const checked = group.fieldIds.every((fieldId) => selected.has(fieldId));
+      return `<label><input type="checkbox" data-tech-pack-share-scope="${escapeHtml(group.id)}"${checked ? " checked" : ""}`
+        + `${disabled || state !== "DRAFT" ? " disabled" : ""}> ${escapeHtml(group.label)} · ${group.fieldIds.length} fields</label>`;
+    }).join("");
+    const actor = approval.changedBy ?? "";
+    return `<section class="project-tech-pack-share" aria-label="Local Tech Pack review and share">`
+      + `<h4>Scoped local review and share</h4>`
+      + `<p>State: <strong>${stageLabel}</strong> · saved revision ${escapeHtml(record.revisionId ?? "not saved")}. `
+      + `Reviewer labels are self-attested locally; this does not establish identity, physical fit, supplier acceptance or production readiness.</p>`
+      + `<label for="tech-pack-share-actor">Local reviewer label (self-attested)</label>`
+      + `<input id="tech-pack-share-actor" type="text" maxlength="120" autocomplete="name" value="${escapeHtml(actor)}"${disabled ? " disabled" : ""}>`
+      + `<fieldset><legend>Fields in this review scope</legend>${scopeControls}</fieldset>`
+      + `<p>${escapeHtml(stageText)} <span data-tech-pack-share-scope-count>${state === "DRAFT" ? "0 fields selected" : `${selectedCount} fields are bound to this approval`}</span></p>`
+      + (stageAction ? `<button type="button" data-project-action="${stageAction}"${stageDisabled ? " disabled" : ""}>`
+        + `${state === "DRAFT" ? "Start review for selected fields" : state === "REVIEW" ? "Approve this revision and scope" : "Freeze local share"}</button>` : "")
+      + `<p>Editing and saving a new Tech Pack revision returns its review state to Draft and keeps earlier frozen bytes available.</p>`
+      + `</section>`;
+  }
+
   private renderRevisionHistory(loaded: LoadedProject): string {
     const revisions = loaded.styleRevisions.filter((revision) => revision.styleId === loaded.activeStyle.id)
       .slice().sort((left, right) => right.revisionNumber - left.revisionNumber);
@@ -1181,6 +1236,7 @@ export class ProjectManager {
         `<div class="project-tech-pack-actions">` +
         `<button type="button" data-project-action="save-tech-pack"${this.busy || !this.techPackDraft || this.techPackInputError ? " disabled" : ""}>Save tech-pack revision</button>` +
         `<button type="button" data-project-action="discard-tech-pack"${this.busy || !this.techPackDraft ? " disabled" : ""}>Discard tech-pack edits</button></div>` +
+        `${this.renderTechPackShareControls(activeTechPackRecord)}` +
         `${renderTechPackEditor({ record: activeTechPackRecord, recipeLabel: loaded.activeStyle.recipeId, disabled: this.busy })}` +
         `${renderTechPackT02Editor({
           record: activeTechPackRecord,
@@ -1300,6 +1356,9 @@ export class ProjectManager {
       this.render();
       return;
     }
+    if (action === "begin-tech-pack-review") return this.beginTechPackReview();
+    if (action === "approve-tech-pack-review") return this.approveTechPackReview();
+    if (action === "freeze-tech-pack-share") return this.freezeTechPackShare();
     if (this.techPackDraft && (action === "export-package" || action === "freeze-outputs")) {
       const legacyT01 = this.techPackDraft.schemaVersion === 1;
       this.message = action === "export-package"
@@ -1496,11 +1555,97 @@ export class ProjectManager {
     }, "Freezing exact digital output bytes…");
   }
 
+  private async beginTechPackReview(): Promise<void> {
+    if (this.techPackDraft || this.options.hasUnsavedChanges()) {
+      this.message = "Save or discard current edits before starting review of the saved Tech Pack revision.";
+      this.render();
+      return;
+    }
+    const loaded = this.options.workflow.snapshot;
+    const revisionId = loaded.activeStyle.revisionHeadId;
+    if (!revisionId) {
+      this.message = "Save the style before starting a scoped Tech Pack review.";
+      this.render();
+      return;
+    }
+    const selectedGroups = new Set([...this.options.host.querySelectorAll<HTMLInputElement>("[data-tech-pack-share-scope]:checked")]
+      .map((input) => input.dataset.techPackShareScope));
+    const scopeFieldIds = techPackShareScopeGroups(loaded.activeStyle.techPack)
+      .filter((group) => selectedGroups.has(group.id)).flatMap((group) => group.fieldIds);
+    const actor = this.options.host.querySelector<HTMLInputElement>("#tech-pack-share-actor")?.value ?? "";
+    return this.run(async () => {
+      const updated = await this.options.workflow.beginActiveTechPackReview(actor, scopeFieldIds, revisionId);
+      this.options.onStyleLoaded(updated, recoveryPayloadOrNull(updated));
+      this.message = `Started local review for ${scopeFieldIds.length} fields on revision ${revisionId.slice(0, 8)}. The reviewer label is self-attested.`;
+    }, "Starting scoped local review…");
+  }
+
+  private async approveTechPackReview(): Promise<void> {
+    if (this.techPackDraft || this.options.hasUnsavedChanges()) {
+      this.message = "Save or discard current edits before approving the saved Tech Pack revision.";
+      this.render();
+      return;
+    }
+    const loaded = this.options.workflow.snapshot;
+    const revisionId = loaded.activeStyle.revisionHeadId;
+    if (!revisionId) {
+      this.message = "The saved style has no revision to approve.";
+      this.render();
+      return;
+    }
+    const actor = this.options.host.querySelector<HTMLInputElement>("#tech-pack-share-actor")?.value ?? "";
+    return this.run(async () => {
+      const updated = await this.options.workflow.approveActiveTechPackReview(actor, revisionId);
+      this.options.onStyleLoaded(updated, recoveryPayloadOrNull(updated));
+      this.message = `Recorded scoped local approval for revision ${revisionId.slice(0, 8)}. The reviewer label is self-attested.`;
+    }, "Recording scoped local approval…");
+  }
+
+  private async freezeTechPackShare(): Promise<void> {
+    if (this.techPackDraft || this.options.hasUnsavedChanges()) {
+      this.message = "Save or discard current edits before freezing a Tech Pack share.";
+      this.render();
+      return;
+    }
+    const loaded = this.options.workflow.snapshot;
+    const revisionId = loaded.activeStyle.revisionHeadId;
+    const record = loaded.activeStyle.techPack;
+    const callback = this.options.getTechPackShareOutput;
+    if (!revisionId || record.approval.state !== "APPROVED" || !callback) {
+      this.message = "A current scoped approval and Tech Pack output generator are required before freezing a local share.";
+      this.render();
+      return;
+    }
+    const actor = this.options.host.querySelector<HTMLInputElement>("#tech-pack-share-actor")?.value ?? "";
+    return this.run(async () => {
+      const output = await callback(revisionId);
+      if (!output || output.revisionId !== revisionId) {
+        throw new Error("The generated Tech Pack files do not match the current saved revision. Reload and retry.");
+      }
+      const artifacts = output.artifacts.map((artifact) => `${artifact.displayName} (${artifact.bytes.byteLength} bytes)`).join("; ");
+      const prompt = `Freeze the local Tech Pack share for ${loaded.activeStyle.name}, revision ${revisionId} (${output.revisionContentDigest})?\n\n` +
+        `Scope: ${record.approval.scopeFieldIds.length} saved fields\n` +
+        `Production-pack sections: ${output.selectedSections.join(", ")}\n` +
+        `Files: ${artifacts}\n\n` +
+        `This stores exact ZIP and PDF bytes locally. The reviewer label is self-attested; this does not establish physical fit, supplier acceptance or production readiness.`;
+      if (!this.confirm(prompt)) {
+        this.message = "Local share freeze canceled; the scoped approval remains available.";
+        return;
+      }
+      const manifest = await this.options.workflow.freezeTechPackShare(actor, output);
+      const latest = this.options.workflow.snapshot;
+      this.options.onStyleLoaded(latest, recoveryPayloadOrNull(latest));
+      this.message = `Frozen ${manifest.artifacts.length} Tech Pack share files for revision ${manifest.revisionId.slice(0, 8)} · SHA-256 ${manifest.packetDigest.slice(0, 12)}.`;
+    }, "Generating and freezing exact Tech Pack share bytes…");
+  }
+
   private async downloadFrozenArtifact(manifestId: string, artifactId: string): Promise<void> {
     return this.run(async () => {
-      const { artifact } = await this.options.workflow.readFrozenArtifact(manifestId, artifactId);
+      const { manifest, artifact } = await this.options.workflow.readFrozenArtifact(manifestId, artifactId);
       const filename = artifact.displayName.replace(/[\\/:*?"<>|\u0000-\u001f]/g, "-").slice(0, 120) || "frozen-output";
-      const saved = this.options.saveFrozenArtifact
+      const saved = manifest.schemaVersion === 3
+        ? await this.downloadPackage(filename, artifact.bytes)
+        : this.options.saveFrozenArtifact
         ? await this.options.saveFrozenArtifact(filename, artifact.bytes, artifact.mediaType)
         : await this.downloadPackage(filename, artifact.bytes);
       this.message = saved ? `Downloaded stored bytes for ${filename}.` : `Download canceled for ${filename}.`;

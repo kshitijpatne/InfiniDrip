@@ -1,0 +1,29 @@
+{
+  "synthetic": true,
+  "sourceRevisionId": "11111111-1111-4111-8111-111111111111",
+  "sourceRevisionContentDigest": "7100f6ad1e236db3cbd51a2ef450ac016f9fbff43bdfdcb881e0281e104bbfd7",
+  "selectedSections": [
+    "identity",
+    "materials-bom",
+    "measurements-qa",
+    "construction",
+    "artwork",
+    "sources-open-items",
+    "approval-disclaimer"
+  ],
+  "repeatGenerationBytesMatch": true,
+  "repeatFreezePacketDigest": "a525770854e5bdb7762df9a7a1cc078cdfd0649238185f0b901ae500370913ed",
+  "frozenPacketDigest": "a525770854e5bdb7762df9a7a1cc078cdfd0649238185f0b901ae500370913ed",
+  "artifacts": [
+    {
+      "name": "frozen-tee.techpack.zip",
+      "byteLength": 3811,
+      "sha256": "39dc6c76281d48f8de4747b1783eb171d0667612de2e02ca730014e768835f69"
+    },
+    {
+      "name": "frozen-tee-production-pack.pdf",
+      "byteLength": 11720,
+      "sha256": "628d3be7425e0687b0a0e871eda752f608cdfa0313a80d526ebd8350e7fb8f01"
+    }
+  ]
+}

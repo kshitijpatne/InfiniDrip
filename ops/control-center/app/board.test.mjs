@@ -1036,6 +1036,10 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   const uiq10S774Admission = board.evidence.find((entry) => entry.id === "E-UIQ10-S774-ADMISSION");
   const uiq10S776Exit = board.evidence.find((entry) => entry.id === "E-UIQ10-S776-EXIT");
   const uiq10S777Exit = board.evidence.find((entry) => entry.id === "E-UIQ10-S777-EXIT");
+  const g05S778Start = board.evidence.find((entry) => entry.id === "E-G05-S778-START");
+  const g05S778Exit = board.evidence.find((entry) => entry.id === "E-G05-S778-EXIT");
+  const g05T05 = board.workItems.find((entry) => entry.id === "G05-T05");
+  const g05ExitWorkItem = board.workItems.find((entry) => entry.id === "G05-EXIT");
   const g05T04 = board.workItems.find((entry) => entry.id === "G05-T04");
   const g05Children = board.workItems.filter((entry) => entry.epicId === "EPIC-18");
   assert.equal(g05?.status, "In Progress");
@@ -1180,20 +1184,36 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.equal(g05S774Exit?.kind, "exit-report");
   assert.ok(g05T04?.evidenceRefs.includes(g05S774Exit.id));
   assert.ok(g05?.evidenceRefs.includes(g05S774Exit.id));
+  assert.equal(g05S778Start?.uri, "docs/research/epic18/S778-T05-freeze/start-packet.md");
+  assert.equal(g05S778Start?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S778Start.uri), g05S778Start.sha256);
+  assert.ok(g05T05?.evidenceRefs.includes(g05S778Start.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S778Start.id));
+  assert.equal(g05S778Exit?.kind, "exit-report");
+  assert.equal(g05S778Exit?.uri, "docs/research/epic18/S778-T05-freeze/exit-packet.md");
+  assert.equal(g05S778Exit?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S778Exit.uri), g05S778Exit.sha256);
+  assert.ok(g05T05?.evidenceRefs.includes(g05S778Exit.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S778Exit.id));
+  assert.equal(g05T05?.status, "In Progress");
+  assert.equal(g05ExitWorkItem?.status, "Backlog");
   assert.ok(g05?.evidenceRefs.includes(g05S774Start.id));
   const uiq10 = board.workItems.find((entry) => entry.id === "UIQ-10");
   assert.ok(uiq10?.evidenceRefs.includes(uiq10S774Admission.id));
   assert.ok(g05?.description.includes("numeric acceptance completed at S777"));
-  assert.ok(g05?.description.includes("S778 starts T05"));
+  assert.ok(g05?.description.includes("S778 completed exact-revision local approval/freeze"));
+  assert.ok(g05?.description.includes("S779 is next for edit invalidation"));
   assert.equal(g05T04?.acceptanceCriteria[0],
     "Slice 774 decides and records format, import/round-trip rules, sections/templates and simple/difficult example styles before writer code.");
   assert.ok(g05Card?.description.includes("S777 completed T04 and UIQ-10"));
-  assert.ok(g05Card?.description.includes("S778 starts T05"));
+  assert.ok(g05Card?.description.includes("S778 completed the exact-revision T05 freeze"));
+  assert.ok(g05Card?.description.includes("S779 invalidation"));
   assert.ok(g05Card?.acceptanceCriteria.some((entry) => entry.includes("Slice 774 admission")));
   assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("under its separate presentation-only admission"));
   assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("docs/planning/UIQ-10-ADMISSION.md"));
   assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("S777 completed under its separate presentation-only admission"));
-  assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("S778 starts T05"));
+  assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("S778 then completed the first T05 freeze boundary"));
+  assert.ok(board.workItems.find((entry) => entry.id === "UIQ-10")?.description.includes("S779 owns the admitted invalidation"));
   assert.deepEqual(g05Children.map((entry) => entry.id), [
     "EPIC-18", "UIQ-10", "G05-T01", "G05-T02", "G05-T03", "G05-T04", "G05-T05", "G05-EXIT",
   ]);
@@ -1204,8 +1224,6 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.equal(g05T04?.status, "Done");
   assert.ok(g05T04?.statusHistory.some((entry) => entry.status === "In Progress" && entry.evidenceRefs.includes(g05S774Start.id)));
   assert.ok(g05T04?.statusHistory.some((entry) => entry.status === "Done" && entry.evidenceRefs.includes(uiq10S777Exit.id)));
-  assert.ok(["G05-T05", "G05-EXIT"]
-    .every((id) => board.workItems.find((entry) => entry.id === id)?.status === "Backlog"));
   assert.equal(uiq10?.status, "Done");
   assert.ok(uiq10?.statusHistory.some((entry) => entry.status === "Done" && entry.evidenceRefs.includes(uiq10S777Exit.id)));
   assert.equal(uiq10S776Exit?.kind, "exit-report");

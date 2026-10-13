@@ -1539,3 +1539,37 @@ pass, and preserve any other Woven hold.
 - Verify every supported option scenario at every supported grade size using the source-bound package checks. For receiver evidence, require a source-bound saved/reopened fixture for every distinct serialized DXF exchange-structure/semantic class across all seven recipes; add a fixture when a supported option changes that serialized structure. Apply the existing 0.001 cm, identity, units, CUT/SEW, marks, and readability gates to every selected return. Include an explicit non-default grade-boundary sample.
 - Exact coordinate/shape variants that preserve the same serialized exchange structure do not each require a separate CAD save. This is a deliberate correction to the earlier “each materially distinct normalized geometry signature” formulation; it does not claim that every shape was individually round-tripped. S726 records 365 source packages, 315 normalized shape signatures, ten receiver structure classes, ten current structure fixtures, and one additional Trouser XL boundary fixture. LibreCAD compatibility is limited to the exact 11 saved/reopened/audited/reviewed returns.
 - The empirically tested route is LibreCAD 2.2.1.5 / `Drawing Exchange DXF 2000`, with local files on C:. This does not establish formal DXF conformance, ANSI/AAMA/ASTM support, industrial apparel-CAD certification, universal interoperability, fit, factory acceptance, or production readiness. Preserve all other V03 gates, the protected legacy export identities, and the complete Epic release gate.
+
+## EPIC-18/G05 — verified checkpoint after S777 (2026-10-13)
+
+Slice 777 completed from clean S776 commit
+`7102cfe61f58c6a79d2887b495dfed43f4d8233f` on `codex/epic-18-g05`, landing
+as `4178b4fcde0836451ddf8693427749d7ce0c4360`. The validated Control Center
+replay at revision 4645 records UIQ-10 and G05-T04 Done, EPIC-18 In Progress,
+and G05-T05/G05-EXIT Backlog. Its digest-bound exit packet is
+`docs/research/epic18/S777-T04-review/exit-packet.md`; the post-replay check is
+in the same directory. Slice 778 is the next admitted boundary: T05 immutable
+local-share freeze and deterministic manifests/digests, as ordered by
+`docs/planning/EPIC-18-S765-RESEQUENCING.md`. This is checkpoint
+reconciliation only; it does not change the C04 lifecycle/digest contract,
+T05 acceptance, or later S779–S781 gates.
+
+## EPIC-18/G05 — verified checkpoint after S778 (2026-10-13)
+
+S778 completes exact-revision local scoped approval and immutable Tech Pack
+share freeze with deterministic manifest/digest binding, original ZIP/PDF
+byte retention, integrity-checked read, and local download. The slice's start,
+exit, artifact and post-replay packets are under
+`docs/research/epic18/S778-T05-freeze/`. Validated exit replay links the
+digest-bound report to G05-T05 and EPIC-18 at board revision 4657. T05 remains
+In Progress for S779; EPIC-18 remains In Progress and G05-EXIT remains Backlog.
+
+The single next admitted boundary is S779: edit-driven dependency invalidation,
+visible stale/current state, preservation of prior frozen bytes, historical
+import compatibility, and all eight protected legacy export identities. The
+whole-app coverage run stopped at about 2.6 GB without a report; changed
+production modules and the exact changed app range have 100% four-metric
+coverage, and the settled global gate remains S780. Focused tests, TypeScript,
+build, protected regression/identity 17/17, synthetic output/render review,
+Chromium review and Control Center 42/42 pass. No export baseline moved. No
+physical sewing/fit, supplier, factory or production acceptance is claimed.

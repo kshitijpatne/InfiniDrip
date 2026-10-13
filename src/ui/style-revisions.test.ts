@@ -13,7 +13,9 @@ import {
   createFrozenOutputManifest,
   createStyleRevision,
   FROZEN_ARTIFACT_IDS,
+  FROZEN_TECH_PACK_ARTIFACT_LIMIT,
   GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+  TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION,
   jcsSha256Hex,
   parseFrozenOutputManifestRecord,
   parseStyleRevisionRecord,
@@ -37,6 +39,10 @@ const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
 const STYLE_ID = "b53a1a03-ea2e-4c4f-82dc-14ac86a29895";
 const REVISION_ID = "11111111-1111-4111-8111-111111111111";
 const MANIFEST_ID = "22222222-2222-4222-8222-222222222222";
+
+class OversizedTechPackBytes extends Uint8Array {
+  override get byteLength(): number { return FROZEN_TECH_PACK_ARTIFACT_LIMIT + 1; }
+}
 
 function revisionPack(style: ReturnType<typeof fixture>["style"], revisionId: string, revisionNumber: number) {
   return bindTechPackToRevision(style.techPack, revisionId, revisionNumber, TIME);
@@ -496,6 +502,118 @@ describe("immutable revision and frozen output records", () => {
     })).toBeNull();
   });
 
+  it("stores deterministic binary Tech Pack share artifacts and exact selected sections", async () => {
+    const revision = await revisionFixture();
+    const approvalRefs = [`tech-pack-approval-sha256:${"b".repeat(64)}`];
+    const artifacts: FrozenArtifactInput[] = [
+      { artifactId: "tech-pack-production-pdf", extension: "pdf", displayName: "production-pack.pdf", mediaType: "application/pdf", bytes: new Uint8Array([37, 80, 68, 70, 0, 255]) },
+      { artifactId: "tech-pack-exchange-zip", extension: "zip", displayName: "production-pack.techpack.zip", mediaType: "application/zip", bytes: new Uint8Array([80, 75, 3, 4, 0, 255]) },
+    ];
+    const input = {
+      manifestId: MANIFEST_ID,
+      styleId: STYLE_ID,
+      revision,
+      capturedAt: TIME,
+      selectedSizes: [],
+      selectedSections: ["identity", "materials-bom", "approval-disclaimer"],
+      unresolved: ["Local digital review only; physical fit and production readiness are not established."],
+      artifacts,
+      schemaVersion: TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION as typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs,
+    };
+    const manifest = await createFrozenOutputManifest(input, crypto);
+    expect(manifest.schemaVersion).toBe(3);
+    expect(manifest.payload.exporterVersion).toBe("infinidrip-techpack-share-v1");
+    expect(manifest.payload.selectedSections).toEqual(input.selectedSections);
+    expect(manifest.payload.selectedSizes).toEqual([]);
+    expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toEqual([
+      "tech-pack-exchange-zip", "tech-pack-production-pdf",
+    ]);
+    expect([...new Uint8Array(await manifest.artifacts[0]!.bytes.arrayBuffer())]).toEqual([80, 75, 3, 4, 0, 255]);
+    expect(parseFrozenOutputManifestRecord(manifest)).toEqual(manifest);
+    expect(await verifyFrozenOutputManifest(manifest, crypto)).toBe(true);
+    const repeated = await createFrozenOutputManifest({ ...input, capturedAt: "2026-10-13T17:00:00.000Z" }, crypto);
+    expect(repeated.packetDigest).toBe(manifest.packetDigest);
+
+    expect(parseFrozenOutputManifestRecord({
+      ...manifest,
+      payload: { ...manifest.payload, selectedSections: ["identity", "identity"] },
+    })).toBeNull();
+    expect(parseFrozenOutputManifestRecord({
+      ...manifest,
+      payload: { ...manifest.payload, selectedSections: ["unknown"] },
+    })).toBeNull();
+    expect(parseFrozenOutputManifestRecord({
+      ...manifest,
+      payload: { ...manifest.payload, approvalRefs: ["grade-plan-sha256:" + "b".repeat(64)] },
+    })).toBeNull();
+    expect(parseFrozenOutputManifestRecord({
+      ...manifest,
+      payload: { ...manifest.payload, exporterVersion: "infinidrip-exporters-v1" },
+    })).toBeNull();
+    expect(parseFrozenOutputManifestRecord({
+      ...manifest,
+      payload: Object.fromEntries(Object.entries(manifest.payload).filter(([key]) => key !== "selectedSections")),
+    })).toBeNull();
+    expect(parseFrozenOutputManifestRecord({
+      ...manifest,
+      artifacts: manifest.artifacts.map((artifact) => artifact.artifactId === "tech-pack-exchange-zip"
+        ? { ...artifact, mediaType: "application/octet-stream" } : artifact),
+    })).toBeNull();
+    const wrongZipPath = "artifacts/tech-pack-exchange-zip.bin";
+    const zipPathMismatch = {
+      ...manifest,
+      artifacts: manifest.artifacts.map((artifact) => artifact.artifactId === "tech-pack-exchange-zip"
+        ? { ...artifact, path: wrongZipPath } : artifact),
+      payload: {
+        ...manifest.payload,
+        artifacts: manifest.payload.artifacts.map((artifact) => artifact.artifactId === "tech-pack-exchange-zip"
+          ? { ...artifact, path: wrongZipPath } : artifact),
+      },
+    };
+    expect(parseFrozenOutputManifestRecord(zipPathMismatch)).toBeNull();
+    const pdfMediaTypeMismatch = {
+      ...manifest,
+      artifacts: manifest.artifacts.map((artifact) => artifact.artifactId === "tech-pack-production-pdf"
+        ? { ...artifact, mediaType: "application/octet-stream" } : artifact),
+      payload: {
+        ...manifest.payload,
+        artifacts: manifest.payload.artifacts.map((artifact) => artifact.artifactId === "tech-pack-production-pdf"
+          ? { ...artifact, mediaType: "application/octet-stream" } : artifact),
+      },
+    };
+    expect(parseFrozenOutputManifestRecord(pdfMediaTypeMismatch)).toBeNull();
+  });
+
+  it("rejects incomplete or over-limit binary Tech Pack freezes", async () => {
+    const revision = await revisionFixture();
+    const schemaVersion: typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION = TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION;
+    const artifacts: FrozenArtifactInput[] = [
+      { artifactId: "tech-pack-exchange-zip", extension: "zip", displayName: "production.zip", mediaType: "application/zip", bytes: new Uint8Array([1]) },
+      { artifactId: "tech-pack-production-pdf", extension: "pdf", displayName: "production.pdf", mediaType: "application/pdf", bytes: new Uint8Array([2]) },
+    ];
+    const base = {
+      manifestId: MANIFEST_ID, styleId: STYLE_ID, revision, capturedAt: TIME,
+      selectedSizes: [] as const, selectedSections: ["identity"], unresolved: ["Local-only."], artifacts,
+      schemaVersion, approvalRefs: [`tech-pack-approval-sha256:${"c".repeat(64)}`],
+    };
+    await expect(createFrozenOutputManifest({ ...base, selectedSizes: [{ sizeId: "m", label: "M" }] }, crypto))
+      .rejects.toThrow("identity or capture inputs");
+    await expect(createFrozenOutputManifest({ ...base, selectedSections: [] }, crypto)).rejects.toThrow("identity or capture inputs");
+    await expect(createFrozenOutputManifest({ ...base, selectedSections: ["not-a-section"] }, crypto)).rejects.toThrow("identity or capture inputs");
+    await expect(createFrozenOutputManifest({ ...base, selectedSections: ["identity", "identity"] }, crypto)).rejects.toThrow("identity or capture inputs");
+    await expect(createFrozenOutputManifest({ ...base, approvalRefs: [] }, crypto)).rejects.toThrow("identity or capture inputs");
+    await expect(createFrozenOutputManifest({ ...base, approvalRefs: ["invalid"] }, crypto)).rejects.toThrow("identity or capture inputs");
+    await expect(createFrozenOutputManifest({ ...base, approvalRefs: [undefined as unknown as string] }, crypto))
+      .rejects.toThrow("identity or capture inputs");
+    await expect(createFrozenOutputManifest({ ...base, artifacts: artifacts.slice(1) }, crypto)).rejects.toThrow("complete supported artifact set");
+    await expect(createFrozenOutputManifest({ ...base, artifacts: artifacts.map((artifact) => ({ ...artifact, bytes: undefined })) }, crypto))
+      .rejects.toThrow("empty or exceeds");
+    const oversized = artifacts.map((artifact) => ({ ...artifact, bytes: new OversizedTechPackBytes([1]) }));
+    await expect(createFrozenOutputManifest({ ...base, artifacts: oversized }, crypto)).rejects.toThrow("128 MiB per-file limit");
+    await expect(createFrozenOutputManifest({ ...base, unresolved: [] }, crypto)).rejects.toThrow("identity or capture inputs");
+  });
+
   it("rejects partial, duplicate, empty, oversized, or unsafe output sets before a capture is returned", async () => {
     const revision = await revisionFixture();
     const base = {
@@ -519,6 +637,9 @@ describe("immutable revision and frozen output records", () => {
     const empty = frozenInputs();
     empty[0] = { ...empty[0]!, content: "" };
     await expect(createFrozenOutputManifest({ ...base, artifacts: empty }, crypto)).rejects.toThrow("empty or exceeds");
+    const missingContent = frozenInputs();
+    missingContent[0] = { ...missingContent[0]!, content: undefined };
+    await expect(createFrozenOutputManifest({ ...base, artifacts: missingContent }, crypto)).rejects.toThrow("empty or exceeds");
     const tooLarge = frozenInputs();
     tooLarge[0] = { ...tooLarge[0]!, content: "x".repeat(32 * 1024 * 1024 + 1) };
     await expect(createFrozenOutputManifest({ ...base, artifacts: tooLarge }, crypto)).rejects.toThrow("empty or exceeds");

@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4653,
+  "itemId": "G05-T05",
+  "patch": {
+    "description": "Slices 778–779. S778 complete: exact saved revision approval/freeze with deterministic artifact manifest/digest and retained local ZIP/PDF bytes. S779 is the remaining T05 boundary: edit-driven dependency invalidation and visible stale/current state; preserve prior frozen bytes through edits; retain historical import compatibility; verify all eight protected legacy export identities. Close T05 only after both slice packets and the full acceptance evidence pass."
+  }
+}

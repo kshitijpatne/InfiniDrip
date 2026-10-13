@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4645,
+  "itemId": "G05-T05",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S778-START",
+    "kind": "document",
+    "uri": "docs/research/epic18/S778-T05-freeze/start-packet.md",
+    "sha256": "4333c4337efcf69eb22ecc352d37df2687cfc6a4a1f8b03d145f20715b403b35",
+    "verified": true,
+    "note": "Slice 778 starts the admitted T05 local-share freeze and deterministic manifest/digest boundary from verified S777. S779 retains dependency invalidation, prior-byte preservation, compatibility, and all eight protected export identity gates."
+  }
+}
