@@ -37,7 +37,7 @@ execution sequence is in
 | 779 | Done | T05 change control: edit-driven check/approval invalidation; explicit current/historical state; old ZIP/PDF byte retention; schema-v1/v2 compatibility; all eight protected export hashes unchanged. The enumerated focused suites pass 180 tests; `project-manager.ts` has 100% four-metric coverage; TypeScript, final-source Chromium and Control Center pass. Exit/replay: `docs/research/epic18/S779-T05-change-control/`; G05-T05 Done, board revision recorded in post-replay report. |
 | 780 | Done | Settled integrated Epic gate and pre-merge review. The first full suite passed 179/179 files and 3,161/3,161 tests at 100% statements/branches/functions/lines; build, readiness, browser/Electron, actual output and protected export checks passed. The optional second run stopped after one 15-second timeout during high memory use; the case passed in isolation, though the cause is not proven. Exit/rendered evidence: `docs/research/epic18/S780-integrated-gate/`; final board replay recorded there. |
 | 781 | Blocked at review gate | Initial PR #43 review found a high-severity legacy payload-v1 T01 first-save defect. No merge or closure; reconciliation: `docs/research/epic18/S781-merge-closeout/review-reconciliation.md`. |
-| 782 | In Progress | Remediate the unlinked T01 save on migrated payload-v1 heads with a guarded v2 child revision, a real v8-upgrade regression, 100% focused coverage, full integrated gate, and actual rendered proof. Admission: `EPIC-18-S782-REMEDIATION-ADMISSION.md`. |
+| 782 | Technical gates passed; review pending | Guarded migrated payload-v1 T01 first-save repair and actual v8 regression pass; focused 126/126 and global 179/179 / 3,161 tests have 100% four-metric coverage. Build/Electron, release/readiness, Control Center and actual browser/PDF/ZIP proof pass. Fresh exact-head Claude Code/OpenCode approvals and Codex acceptance remain pending. Evidence: docs/research/epic18/S782-T01-legacy-v1-save/exit-packet.md. |
 | 783 | Planned | Re-review the settled PR head; after both internal approvals and Codex acceptance, normally rebase-merge, verify main deployment and live output, then close the canonical board and durable records. |
 
 Remediation or follow-up uses the next unique slice number; no repeated or
@@ -45,39 +45,13 @@ same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
 the admission/exit evidence, and the canonical board through the validated
 command layer.
 
-## Current execution boundary — Slice 781 review blocked; Slice 782 remediation active
+## Current execution boundary — S782 technical gates passed; exact-head reviews pending
 
-S780 completed the admitted integrated review from S779 commit
-`0e557553e881add962c67dea49f282b3dbdd227d` and landed at
-`bfacbf68ef242f366e77b6c43ed548ee4fe130b8`. PR #43 targets `main`; refreshed
-`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-S780's global coverage and integrated output evidence remain unchanged in
-`docs/research/epic18/S780-integrated-gate/`.
+S780 completed the admitted integrated review from S779 commit 0e557553e881add962c67dea49f282b3dbdd227d and landed at bfacbf68ef242f366e77b6c43ed548ee4fe130b8. The verified origin/main ancestor is e9221ea5033ccfdd91bf1ebb353926f189477d75. S781 review found a real v8 migration compatibility defect: the payload-v1 revision head remained intact while its newly created T01 row was unlinked, causing a first changed T01 save to fail.
 
-The active S765 amendment preserves the original hash-bound S762 admission as
-historical. S781 began from S780 and its validated start replay ended at board
-revision 4702. Subsequent mergeability evidence and corrections advanced the
-canonical board to revision 4706; S782 admission/start records and refreshed
-mergeability facts advanced it to revision 4712. The review-reconciliation
-digest refresh advanced it to 4713. EPIC-18/G05-EXIT remain In Progress and
-G05-T01–T05/UIQ-10 remain Done. UIQ-09 remains Backlog behind EPIC-19.
+S782 is admitted under the goal's failed-gate remediation clause. The constrained implementation creates one payload-v2 child only for a verified same-style payload-v1 head with the migrated null/zero T01 identity. It preserves the parent and digest, creates no child for a no-op, and retains repository CAS rejection. The real migrated-v8 regression passes. Focused coverage is 126/126 with 100% statements, branches, functions and lines for the changed workflow module. The settled full gate is 179/179 files, 3,161/3,161 tests and 100% global four-metric coverage. Build/Electron workflow, web release 10/10, readiness 5/5, actual Chromium/PDF/ZIP proof and Control Center 42/42 pass. See docs/research/epic18/S782-T01-legacy-v1-save/exit-packet.md.
 
-PR #43 remains OPEN/CLEAN/MERGEABLE at S780. The effective-rules query for
-`main` returned `[]` and classic branch protection returned 404, so there is
-no formal GitHub approval gate. The owner separately requires two internal
-approvals (Claude Code and OpenCode); no outside GitHub user may be contacted.
-OpenCode approved the S780 head, but Claude requested changes for the legacy
-payload-v1 T01 save defect. Codex confirmed the defect in the real v8 migration
-fixture and workflow guards. No merge was attempted. See
-`docs/research/epic18/S781-merge-closeout/review-reconciliation.md` and the
-S782 packet `EPIC-18-S782-REMEDIATION-ADMISSION.md`.
-
-S782 is the narrow user-initiated first-save repair, with stale/CAS checks and
-the v1 parent preserved. After its full gate, both reviewers must reassess the
-updated PR head and Codex must accept the diff before normal rebase merge.
-S783 owns main workflow/deployment, actual preview verification, and final
-board/document closure. Local/no-cost, physical, supplier, factory, signing,
-compliance and production-claim holds remain unchanged.
+The validated board is revision 4725; the full Control Center run passed at revision 4723 after the summary correction. EPIC-18 and G05-EXIT remain In Progress; T01–T05/UIQ-10 remain Done; UIQ-09 remains Backlog behind EPIC-19. PR #43 remains unmerged. Its current S782 candidate must be committed and pushed, then receive fresh independent Claude Code/OpenCode reviews at the exact pushed head and Codex acceptance. GitHub's effective rules query for main returned [] and classic protection returned 404, so there is no formal GitHub approval gate. The owner's two internal approvals remain mandatory; no outside GitHub user may be contacted. S783 owns normal rebase merge after the reviews, main tests/build/web proof/deployment, actual live-preview verification, and canonical closeout. All local/no-cost, physical, supplier/factory, signing, compliance and production-claim holds remain unchanged.
 
 ## Previous execution boundary — Slice 779 complete; S780 next
 

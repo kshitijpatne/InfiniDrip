@@ -456,10 +456,17 @@ export class ProjectWorkflow {
       const current = this.loaded;
       const active = current.activeStyle;
       const stored = active.techPack;
+      const head = current.styleRevisions.find((revision) => revision.revisionId === active.revisionHeadId);
+      const isUnlinkedPayloadV1TechPack = head?.styleId === active.id
+        && head.payload.payloadVersion === 1
+        && stored.styleId === active.id
+        && stored.recipeId === active.recipeId
+        && stored.revisionId === null
+        && stored.revisionNumber === 0;
       if (candidate.styleId !== active.id) {
         throw new ProjectRepositoryError("conflict", "This T01 edit is based on an older style revision. Reload the project before saving it.");
       }
-      if (candidate.revisionId !== active.revisionHeadId) {
+      if (candidate.revisionId !== active.revisionHeadId && !isUnlinkedPayloadV1TechPack) {
         throw new ProjectRepositoryError("conflict", "This T01 edit is based on an older style revision. Reload the project before saving it.");
       }
       if (candidate.revisionId !== stored.revisionId) {
@@ -485,14 +492,13 @@ export class ProjectWorkflow {
       }
       const parsed = parseTechPackRecord(candidate);
       if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
-      const head = current.styleRevisions.find((revision) => revision.revisionId === active.revisionHeadId);
       if (!head) {
         throw new ProjectRepositoryError("invalid-data", "The active style has no matching verified immutable revision head.");
       }
       if (head.styleId !== active.id) {
         throw new ProjectRepositoryError("invalid-data", "The immutable revision head belongs to another style.");
       }
-      if (head.revisionNumber !== stored.revisionNumber) {
+      if (head.revisionNumber !== stored.revisionNumber && !isUnlinkedPayloadV1TechPack) {
         throw new ProjectRepositoryError("invalid-data", "The active style has no matching verified immutable revision head.");
       }
       if (parsed.value.pomData !== undefined

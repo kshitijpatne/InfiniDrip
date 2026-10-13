@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+  "migratedHeadPayloadVersion": 1,
+  "migratedHeadDigestPreserved": true,
+  "childPayloadVersion": 2,
+  "exactlyOneChild": true,
+  "childT01Value": "TP-S782-UI-01",
+  "renderedSaveStatus": "Saved T01 as immutable style revision r2. The design editor's unsaved edits, if any, remain in place.",
+  "renderedReviewStarted": true,
+  "renderedApprovalRecorded": true,
+  "renderedLocalShareFrozen": true,
+  "frozenManifestRevisionId": "a2ee2d10-cbcd-457f-bcc5-7e3a3f7f9321",
+  "frozenShareArtifacts": [
+    {
+      "artifactId": "tech-pack-exchange-zip",
+      "displayName": "production-pack.techpack.zip",
+      "mediaType": "application/zip",
+      "byteLength": 3902,
+      "sha256": "9d9bff4729c4239ba16765cf3d82b7efd02a37ad40da4c055f5c659849397665"
+    },
+    {
+      "artifactId": "tech-pack-production-pdf",
+      "displayName": "production-pack.pdf",
+      "mediaType": "application/pdf",
+      "byteLength": 11686,
+      "sha256": "d27d230005e9a97bf6e739ecc109bb03b6219f24368177ee129b81180f9e57c4"
+    }
+  ],
+  "zipEntryNames": [
+    "documents/production-pack.pdf",
+    "manifest.json",
+    "records/tech-pack.json"
+  ],
+  "productionAndPhysicalDisclaimerVisible": true
+}

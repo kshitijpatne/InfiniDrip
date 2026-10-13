@@ -1,0 +1,796 @@
+
+> InfiniDrip@0.0.1 coverage
+> vitest run --coverage --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 C:/Users/kshit/.codex/worktrees/epic-18-g05/designApp
+      Coverage enabled with v8
+
+ ✓ src/ui/app.test.ts (313 tests) 726808ms
+   ✓ mountApp > persists Single/Marker as a preview preference without dirtying or adding undo history 1831ms
+   ✓ mountApp > shows the revision-bound production pack as unavailable without a saved local style 643ms
+   ✓ mountApp > generates the production pack from the current saved revision, applies presets, and rejects a later revision 981ms
+   ✓ mountApp > previews an editable numeric package without saving, then explicitly applies it as a DRAFT revision 966ms
+   ✓ mountApp > invalidates a reviewed package when the saved head moves before explicit apply 977ms
+   ✓ mountApp > invalidates a reviewed package when a project-manager update observes a changed saved head 1156ms
+   ✓ mountApp > ignores superseded import work while reading the head, file, preview, and final head 1414ms
+   ✓ mountApp > invalidates changed saved review scope and reports current and unknown history-read failures 1116ms
+   ✓ mountApp > rechecks the head before apply, contains failed saves, and ignores a disposed completion 1982ms
+   ✓ mountApp > rejects oversized packages before reading and asks for a saved local style 903ms
+   ✓ mountApp > keeps a candidate with a sample round outside immutable history read-only 702ms
+   ✓ mountApp > shows a malformed-package correction and invalidates preview when the fresh head cannot be verified 777ms
+   ✓ mountApp > keeps malformed or mismatched saved revision identities unavailable 3325ms
+   ✓ mountApp > updates section selection only for valid controls and retains focus through rerender 903ms
+   ✓ mountApp > includes referenced local artwork and reports missing or unreadable local files 1748ms
+   ✓ mountApp > resolves bundled artwork only from the local app origin and rejects failed or redirected reads 1044ms
+   ✓ mountApp > freezes approved local Tech Pack files only while the scoped revision binding stays current 3570ms
+   ✓ mountApp > fails closed when the approved share loses a valid current Tech Pack context before generation 1424ms
+   ✓ mountApp > discards stale generation work and rechecks ready previews after saved-state or tab changes 5898ms
+   ✓ mountApp > downloads both revision-matched outputs and blocks stale or unsupported downloads 5627ms
+   ✓ mountApp > shows a render failure and disables exports when the current source throws 681ms
+   ✓ mountApp > reports the refreshed and on-demand outputs for a changed measurement 872ms
+   ✓ mountApp > maps woven hem turn to cutting outputs while keeping finished POMs independent 1315ms
+   ✓ mountApp > warns when tank shoulder width is not consumed by the drafted pattern 902ms
+   ✓ mountApp > draws the canvas and the garment on mount 560ms
+   ✓ mountApp > keeps every garment's Pattern labels and instructions in a piece-grouped key 3078ms
+   ✓ mountApp > lays out the Pattern key beside wide canvases and below narrow canvases 587ms
+   ✓ mountApp > starts a fresh Tee workspace with a knit-appropriate material 883ms
+   ✓ mountApp > opens the guided capture route with recipe help and keeps the full editor available 22719ms
+   ✓ mountApp > renders and gates guided capture against every current recipe field list 60015ms
+   ✓ mountApp > replaces the active canvas with Assembled, then returns to the same view 901ms
+   ✓ mountApp > redraws the canvas when a measurement changes 765ms
+   ✓ mountApp > uses flank +/- buttons and keeps the live boundary rail truthful 1447ms
+   ✓ mountApp > repeats a held stepper and suppresses the synthetic click 5923ms
+   ✓ mountApp > keeps the same +/- and range contract for recipe options, nesting width, and Edit coordinates 2014ms
+   ✓ mountApp > falls back to the original control if a stepper event detaches its input 760ms
+   ✓ mountApp > preserves an out-of-range field with an actionable correction on change 769ms
+   ✓ mountApp > recolours the garment when a fabric swatch is clicked 970ms
+   ✓ mountApp > opens the contextual appearance editor and updates color, texture, and shine 1869ms
+   ✓ mountApp > covers native appearance controls, wheel pointer input, and ignored keys 2158ms
+   ✓ mountApp > rejects an incomplete exact color without changing the live preview 704ms
+   ✓ mountApp > round-trips appearance choices through the existing local workspace save 2132ms
+   ✓ mountApp > switches the canvas to the body view when Body is clicked 808ms
+   ✓ mountApp > moves focus from a guidance note to its associated control 748ms
+   ✓ mountApp > handles inspector menus, missing guidance targets, and preview spotlights safely 4185ms
+   ✓ mountApp > routes a field-backed journey correction to its input 961ms
+   ✓ mountApp > supports readable single-figure body focus and bounded zoom 1102ms
+   ✓ mountApp > uses the solid inspection-toolbar grouping by default and preserves exact flag-off markup 1309ms
+   ✓ mountApp > keeps solid-only toolbar classes on paused renders and exact legacy fallback when disabled 1295ms
+   ✓ mountApp > keeps the back body figure named and fits a wide inspection SVG 983ms
+   ✓ mountApp > offers the schematic Side body view for both upper and lower garments 1525ms
+   ✓ mountApp > draws the tank without a sleeve, in both the body view and the assembled view (Slice 60) 897ms
+   ✓ mountApp > still draws the tee WITH a sleeve — the fix is garment-specific, not global 703ms
+   ✓ mountApp > downloads a file when an export button is clicked 1229ms
+   ✓ mountApp > exports the opt-in source-bound CAD DXF and integrity package without changing the legacy DXF 1747ms
+   ✓ mountApp > audits a returned CAD DXF from the app panel using local file readers 1575ms
+   ✓ mountApp > reports source-package export failures without silently producing either file 2591ms
+   ✓ mountApp > routes the download through window.electronAPI when running inside the desktop shell (Slice 46), skipping the Blob path entirely 1145ms
+   ✓ mountApp > routes a menu-triggered export (Slice 47) through the SAME button the mouse click uses, not a duplicated export path 1351ms
+   ✓ mountApp > registers no menu listener at all when electronAPI has no onExportRequested (a plain browser tab) 1154ms
+   ✓ mountApp > downloads a whole-style tech pack, ignoring the per-size picker 2447ms
+   ✓ mountApp > downloads a whole-run projector file, ignoring the per-size picker 1309ms
+   ✓ mountApp > downloads the A0 file at the picked size 1271ms
+   ✓ mountApp > exports the chosen size: the picker drives the filename and the geometry 1572ms
+   ✓ mountApp > offers one export size per graded step, defaulting to the base 574ms
+   ✓ mountApp > Save writes to localStorage and Load protects unsaved edits before restoring 1948ms
+   ✓ mountApp > closes the dirty-load confirmation with Escape and returns focus 992ms
+   ✓ mountApp > closes a load confirmation safely when its pending request is gone 561ms
+   ✓ mountApp > recovers an unfinished input without allowing drafting or Save to accept it 3410ms
+   ✓ mountApp > discards an unfinished recovery draft explicitly 1270ms
+   ✓ mountApp > recovers when the local option map predates the active recipe 2003ms
+   ✓ mountApp > preserves an incomplete recipe option through recovery 2490ms
+   ✓ mountApp > keeps the assembled inspection frame selected when invalid input pauses the draft 806ms
+   ✓ mountApp > rebuilds the semantic Edit source when a recipe option changes 1720ms
+   ✓ mountApp > opens field history immediately when the app has no project workflow 570ms
+   ✓ mountApp > selects the conventional front role for recipes without an explicit Edit role 1039ms
+   ✓ mountApp > keeps the reviewed journey incomplete when Electron cancels a file write 1582ms
+   ✓ mountApp > does not mark an older Electron export complete after the design changes 3741ms
+   ✓ mountApp > reports an Electron export write error without confirming export 2903ms
+   ✓ mountApp > reports when a browser cannot create the local export download 2551ms
+   ✓ mountApp > resets a selected export size when the next recipe does not support it 1193ms
+   ✓ mountApp > opens linked pages in inventory order and highlights only the mapped fields without editing values 1701ms
+   ✓ mountApp > steps through the measurement groups with the control-page buttons 986ms
+   ✓ mountApp > opens the first linked page from a keyboard-activated SVG piece 1407ms
+   ✓ mountApp > explains option-only blocks without navigating to an unrelated measurement 1811ms
+   ✓ mountApp > explains when a live pattern block has no reviewed mapping 664ms
+   ✓ mountApp > clears highlights on an unrelated page and ignores a stale page link 1715ms
+   ✓ mountApp > uses an explicit fallback when an option-only mapping has no explanatory text 1580ms
+   ✓ mountApp > explains when a mapped field has no page in the active garment 684ms
+   ✓ mountApp > preserves an incomplete Polo V2 option through recovery 2790ms
+   ✓ mountApp > undoes and redoes a Polo V2 option without changing body measurements 4300ms
+   ✓ mountApp > guards navigation while dirty and clears the guard after a valid Save 1302ms
+   ✓ mountApp > keeps bounded Undo/Redo separate from native text editing 4341ms
+   ✓ mountApp > keeps empty history and unrelated shortcuts as no-ops 3913ms
+   ✓ mountApp > Save shows a failure message when localStorage throws 727ms
+   ✓ mountApp > routes an unready menu export back to the current review stage 905ms
+   ✓ mountApp > Load is a no-op when nothing has been saved 759ms
+   ✓ mountApp > keeps dirty Load safe when no HTMLElement owns focus 1862ms
+   ✓ mountApp > changing the target style updates the style panel gap, not the measurements 837ms
+   ✓ mountApp > uses fit and material cards without bypassing the native state controls 1459ms
+   ✓ mountApp > surfaces a material mismatch when a woven garment gets an explicit knit choice 3449ms
+   ✓ mountApp > uses a garment-family material default until the user makes an explicit choice 2473ms
+   ✓ mountApp > shows a fabric-stretch ease note and updates it when fabric changes 791ms
+   ✓ mountApp > confirms Export only after Electron confirms the reviewed write 1452ms
+   ✓ mountApp > explains and gates a knit material selected for the woven shirt 1734ms
+   ✓ mountApp > shows the auto-measured spec sheet in the Spec view 851ms
+   ✓ mountApp > shows the fabric nesting estimate in the Nesting view 796ms
+   ✓ mountApp > re-nests when the fabric width changes, and ignores an invalid width 830ms
+   ✓ mountApp > renders the freeform editor with handles and a reset in the Edit view 1052ms
+   ✓ mountApp > persists an invalid semantic edit and pauses dependent outputs until correction 4179ms
+   ✓ mountApp > does not present preview checks as current when source input is invalid 1050ms
+   ✓ mountApp > applies keyboard coordinate edits and rejects incomplete or unknown coordinates 1584ms
+   ✓ mountApp > commits one durable semantic operation for a drag and clears it on reset 2625ms
+   ✓ mountApp > shows the production-readiness verdict in the Check view 962ms
+   ✓ mountApp > toggles the canvas between the pattern and the graded size run 983ms
+   ✓ mountApp > restores a previous save automatically on mount 1636ms
+   ✓ garment toggle > swaps the Pattern view to the darted fitted front and back to the tee 1374ms
+   ✓ garment toggle > carries the garment through the Spec view (the fitted sheet reports its dart) 1033ms
+   ✓ garment toggle > carries the garment through the Check view (the fitted report checks its dart) 1129ms
+   ✓ garment toggle > re-snapshots the freeform editor when the garment changes 1243ms
+   ✓ fabric width visibility > shows the bolt-width box only in the Nesting view, where it does something 955ms
+   ✓ woven hem-turn propagation > rebuilds all cut-line exports without changing finished POM values 9747ms
+   ✓ semantic Edit view > does not expose topology-changing dart shortcuts 2324ms
+   ✓ semantic Edit view > labels an edit candidate when a recipe has no registered sizes 955ms
+   ✓ semantic Edit view > uses the local operation ID fallback when randomUUID is unavailable 1506ms
+   ✓ semantic Edit view > keeps Edit usable and outputs paused when source hashing fails 2618ms
+   ✓ semantic Edit view > ignores a failed hash result after its source snapshot has been replaced 1430ms
+   ✓ semantic Edit view > keeps the rebase action harmless when source verification fails 2307ms
+   ✓ semantic Edit view > asks the user to wait when rebase is activated during source verification 2352ms
+   ✓ semantic Edit view > shows a guarded source failure if a recipe draft cannot be generated 1325ms
+   ✓ semantic Edit view > lists the fitted garment's recipe-authored roles for direct editing 1615ms
+   ✓ semantic Edit view > preserves edits when reselecting their recipe and clears them on a different recipe 3332ms
+   ✓ semantic Edit view > supports durable undo and redo as separate semantic history operations 2046ms
+   ✓ semantic Edit view > keeps coordinate no-ops empty and commits an exact y-only movement 2004ms
+   ✓ semantic Edit view > does not persist a non-finite pointer movement 2484ms
+   ✓ semantic Edit view > does not create a semantic edit when a drag returns to its start 2668ms
+   ✓ semantic Edit view > reports thrown operation-ID failures without losing the style draft 5064ms
+   ✓ semantic Edit view > blocks a drag whose source changes before release 2555ms
+   ✓ semantic Edit view > does not commit if a dragged pattern anchor no longer resolves 2342ms
+   ✓ semantic Edit view > saves semantic edits across reload and requires an explicit rebase after source changes 3846ms
+   ✓ semantic Edit view > keeps an unresolvable edit blocked when explicit rebase fails 2198ms
+   ✓ semantic Edit view > requires explicit edit review when tank shoulder width changes and directs users to strap width 2074ms
+   ✓ semantic Edit view > restores unsaved semantic operations from the versioned recovery record 3046ms
+   ✓ semantic Edit view > feeds saved semantic geometry into single-size and whole-run garment exports 3004ms
+   ✓ semantic Edit view > ignores clicks that are not semantic edit actions 1333ms
+   ✓ nesting scope toggle > uses the selected export size for the Single size nest 817ms
+   ✓ nesting scope toggle > switches the fabric view to a graded marker when Marker is clicked 941ms
+   ✓ body-view measurement linking > maps Tank-specific controls to their schematic dimensions and edges 1536ms
+   ✓ body-view measurement linking > makes Polo options live, persisted design controls separate from measurements 1341ms
+   ✓ body-view measurement linking > spotlights the Polo option's corresponding body feature 1436ms
+   ✓ body-view measurement linking > spotlights Woven options on matching assembled features 1849ms
+   ✓ body-view measurement linking > offers an honest Assembled route when the active Body view has no target 1793ms
+   ✓ body-view measurement linking > anchors a warning to its visible target and carries a dismissal into Check 1736ms
+   ✓ body-view measurement linking > handles spatial guidance geometry fallbacks and missing overlay hosts 5814ms
+   ✓ body-view measurement linking > blocks Check-to-Export when a reviewed style has a material warning 1743ms
+   ✓ body-view measurement linking > switches to the woven-shirt recipe and renders its live design details 1030ms
+   ✓ body-view measurement linking > keeps the woven neck measurement visible and live in Body view 1918ms
+   ✓ body-view measurement linking > maps Woven lower measurements to both Body figures and their side seams 1995ms
+   ✓ body-view measurement linking > runs the woven shirt through every user-facing view at the component exit 5462ms
+   ✓ body-view measurement linking > spotlights the hovered measurement's dimension and fades the rest 740ms
+   ✓ body-view measurement linking > keeps the spotlight after a slider change redraws the body 790ms
+   ✓ body-view measurement linking > lifts the outline edges the measurement shapes, and dims the silhouette 682ms
+   ✓ body-view measurement linking > restores the silhouette and every edge on mouse leave 717ms
+   ✓ body-view measurement linking > spotlights the outline from keyboard focus, not just hover 870ms
+   ✓ body-view measurement linking > keeps the outline spotlight after a slider change redraws the body 877ms
+   ✓ body-view measurement linking > keeps keyboard focus spotlighted after the pointer leaves the row 770ms
+   ✓ measurement-plausibility surfacing (Slice 32) > leaves fields un-outlined and the verdict clean for a sane body 582ms
+   ✓ measurement-plausibility surfacing (Slice 32) > amber-outlines an implausible field and clears it when fixed 895ms
+   ✓ measurement-plausibility surfacing (Slice 32) > switches the guidance verdict to a review count on an implausible value 719ms
+   ✓ measurement-plausibility surfacing (Slice 32) > withholds the green Ready banner in the check view while implausible 1043ms
+   ✓ measurement-plausibility surfacing (Slice 32) > stops the style panel reading green while implausible 690ms
+   ✓ guided journey > invalidates reviewed Export readiness when a design input changes 1684ms
+   ✓ guided journey > keeps the current tour DOM intact when the local foundation override is off 616ms
+   ✓ guided journey > mounts UIQ guidance inside Design readiness without replacing stage navigation 940ms
+   ✓ guided journey > retains the exact legacy readiness checklist when UIQ guidance is disabled 544ms
+   ✓ guided journey > mounts the UIQ-04 material panel as a collapsed, read-only view of existing state 802ms
+   ✓ guided journey > keeps the exact legacy material and appearance shell when UIQ material is disabled 629ms
+   ✓ guided journey > updates the same UIQ material panel when existing material or appearance state changes 911ms
+   ✓ guided journey > routes UIQ blocker review through existing correction focus without changing the input 1318ms
+   ✓ guided journey > routes recipe-field guidance into guided capture and tolerates a stale capture target 1611ms
+   ✓ guided journey > routes a blocker without a field to its existing stage 883ms
+   ✓ guided journey > opens the first run on the approved non-modal Welcome without hiding Garment 559ms
+   ✓ guided journey > integrates the branded visual into only the existing first-run welcome 731ms
+   ✓ guided journey > retains the exact legacy tutorial welcome when UIQ welcome is disabled 550ms
+   ✓ guided journey > ignores a resize after the inspection content host is detached 580ms
+   ✓ guided journey > ignores global shortcuts from an app mount that has been replaced 2361ms
+   ✓ guided journey > does not let a replaced app mount block before-unload 1739ms
+   ✓ guided journey > starts on Garment, then advances to Measure without choosing a garment 1265ms
+   ✓ guided journey > suppresses the undecided Welcome when someone navigates directly to another stage 1064ms
+   ✓ guided journey > opens an older saved workspace at Measure without auto-opening the tour 1898ms
+   ✓ guided journey > restores the active tour step and target after a reload 1723ms
+   ✓ guided journey > keeps the workspace usable and warns when tutorial persistence fails 779ms
+   ✓ guided journey > reaches Export through the reviewed stage path, with exports finally revealed 2189ms
+   ✓ guided journey > does not claim a browser download was written 1483ms
+   ✓ guided journey > never celebrates green while a measurement is implausible 1788ms
+   ✓ guided journey > skips without changing the current stage or design and retains replay 2167ms
+   ✓ guided journey > lets the active tour explain later stages while preserving invalid measurements and the Export gate 2672ms
+   ✓ guided journey > moves focus to the Check correction when a newly flagged value removes Next 1916ms
+   ✓ guided journey > finishes without exporting and keeps a replay action 2699ms
+   ✓ guided journey > returns the inspector to the new stage context when navigation changes stage 1113ms
+   ✓ guided journey > resumes a persisted journey where it left off 744ms
+   ✓ guided journey > steps back with the Back button 1640ms
+   ✓ guided journey > lets the first four stage chips revisit their stage and preferred view 1667ms
+   ✓ guided journey > keeps the legacy Done state from bypassing the reviewed journey 1702ms
+   ✓ guided journey > keeps the Slice-30 hover spotlight alive inside the journey 1517ms
+   ✓ switching to the skirt (Slice 38) > swaps the measurement controls to the skirt's fields 934ms
+   ✓ switching to the skirt (Slice 38) > keeps the re-rendered skirt inputs live (listeners re-wired) 896ms
+   ✓ switching to the skirt (Slice 38) > draws the skirt in both the assembled view and the body view (Slice 40) 885ms
+   ✓ skirt styles are selectable (Slice 39) > populates the target dropdown with skirt styles and switches target 817ms
+   ✓ switching to the trouser recipe (Slice 100) > routes all six export buttons through the live trouser recipe and picked size 3909ms
+   ✓ switching to the trouser recipe (Slice 100) > routes the registered lower-body recipe through controls, views, and Edit 4569ms
+   ✓ switching to the trouser recipe (Slice 100) > keeps option and measurement changes live in the shared draft-backed previews 3457ms
+   ✓ switching to the trouser recipe (Slice 100) > pauses invalid trouser options, reports material incompatibility, and restores saved state 4156ms
+   ✓ surface artwork panel (Slice 126) > renders the panel with an add form on the fit step 732ms
+   ✓ surface artwork panel (Slice 126) > rejects empty and duplicate names without adding anything 1032ms
+   ✓ surface artwork panel (Slice 126) > adds a placement with a true-scale preview polygon 1109ms
+   ✓ surface artwork panel (Slice 126) > creates a placement with its entered size and optional provenance reference 1285ms
+   ✓ surface artwork panel (Slice 126) > suggests the current garment's exact piece roles, including lower-body roles 1963ms
+   ✓ surface artwork panel (Slice 126) > falls back to manual role entry when the current draft cannot supply roles 1099ms
+   ✓ surface artwork panel (Slice 126) > keeps an invalid creation dimension visible and gives field-specific feedback 828ms
+   ✓ surface artwork panel (Slice 126) > rejects a blank placement height without filling or hiding the input 934ms
+   ✓ surface artwork panel (Slice 126) > keeps invalid values visible with an actionable error while drafting continues 1435ms
+   ✓ surface artwork panel (Slice 126) > recovers through the stepper and the kind select 1672ms
+   ✓ surface artwork panel (Slice 126) > edits transform fields into the nested transform 1274ms
+   ✓ surface artwork panel (Slice 126) > does not replace a manually edited numeric field while capturing raw input 1093ms
+   ✓ surface artwork panel (Slice 126) > removes a placement explicitly 1083ms
+   ✓ surface artwork panel (Slice 126) > round-trips artwork, including raw invalid values, through save and load 2924ms
+   ✓ surface artwork panel (Slice 126) > loads pre-surface saves with an empty set 2498ms
+   ✓ surface artwork panel (Slice 126) > isolates artwork sets per style and shares them across sizes 1216ms
+   ✓ surface artwork panel (Slice 126) > renders the panel for all seven garments with the assembled preview intact 3169ms
+   ✓ surface artwork panel (Slice 126) > renders at narrow and wide widths without errors 921ms
+   ✓ surface artwork panel (Slice 126) > treats a cleared field as explicitly incomplete 1044ms
+   ✓ surface artwork panel (Slice 126) > ignores stray surface controls that name no row 1377ms
+   ✓ surface artwork panel (Slice 126) > ignores typing in the add form until Add is pressed 1258ms
+   ✓ surface artwork panel (Slice 126) > survives a hostile save and recovers through explicit edits 2679ms
+   ✓ surface output (Slice 127) > disables the print sheet with an artwork reason when the style is empty 1333ms
+   ✓ surface output (Slice 127) > downloads the print sheet for the current style, ignoring the size picker 1792ms
+   ✓ surface output (Slice 127) > downloads the tech pack with the artwork section for the current style 1607ms
+   ✓ surface output (Slice 127) > leaves export filenames stable when the style is empty 1590ms
+   ✓ surface guidance (Slice 128) > shows artwork warnings in guidance with a Review action 1746ms
+   ✓ surface guidance (Slice 128) > focuses the failing control from the Review action 1884ms
+   ✓ surface guidance (Slice 128) > dismisses the warning until a pattern change brings it back 2284ms
+   ✓ surface guidance (Slice 128) > keeps artwork warnings visible on the Check view without gating exports 2027ms
+   ✓ surface frame guidance (Slice 130) > repairs an empty name through Review focus on the Name input 2458ms
+   ✓ surface frame guidance (Slice 130) > warns when artwork leaves its piece and when it covers the whole piece 1079ms
+   ✓ surface frame guidance (Slice 130) > names unknown piece roles with the available choices 967ms
+   ✓ surface frame guidance (Slice 130) > warns below the print floor for rated sources and stays silent otherwise 1384ms
+   ✓ surface frame guidance (Slice 130) > treats cleared optional source dimensions as unknown, not invalid 1570ms
+   ✓ surface frame guidance (Slice 130) > round-trips source dimensions through save and load 3158ms
+   ✓ nesting intelligence (Slice 133) > renders planning controls and estimate readouts on the fabric view 1403ms
+   ✓ nesting intelligence (Slice 133) > retains the exact legacy Nesting readout when UIQ-06 is disabled 1348ms
+   ✓ nesting intelligence (Slice 133) > renders the estimate for all seven garments without leaking values 4153ms
+   ✓ nesting intelligence (Slice 133) > recomputes truthfully across single-size and marker scopes 3762ms
+   ✓ nesting intelligence (Slice 133) > keeps invalid buffer visible with guidance while drafting continues 4037ms
+   ✓ nesting intelligence (Slice 133) > judges fits and shortage against fabric on hand 3001ms
+   ✓ nesting intelligence (Slice 133) > toggles the directional notice without changing placements 1875ms
+   ✓ nesting intelligence (Slice 133) > focuses the failing control from the Review action 3158ms
+   ✓ nesting intelligence (Slice 133) > round-trips planning values through save and load 2809ms
+   ✓ nesting intelligence (Slice 133) > rejects an invalid buffer visibly at save time 2029ms
+   ✓ nesting intelligence (Slice 133) > loads a null on-hand value as a blank input 4252ms
+   ✓ nesting intelligence (Slice 133) > loads pre-intelligence saves with planning defaults 3428ms
+   ✓ nesting intelligence (Slice 133) > restores raw invalid planning values through recovery 2831ms
+   ✓ nesting intelligence (Slice 133) > renders planning readouts at narrow and wide widths without errors 1547ms
+   ✓ safe local artwork import and persistence (Slice 200) > imports with the picker, saves only a stable asset reference, and reloads local artwork 3554ms
+   ✓ safe local artwork import and persistence (Slice 200) > uses the desktop bridge by default instead of browser storage 2265ms
+   ✓ safe local artwork import and persistence (Slice 200) > keeps desktop imports disabled when the local bridge is incomplete 899ms
+   ✓ safe local artwork import and persistence (Slice 200) > creates and revokes object-URL previews for local images 1416ms
+   ✓ safe local artwork import and persistence (Slice 200) > creates a placement from a dropped file on the new-placement drop target 1187ms
+   ✓ safe local artwork import and persistence (Slice 200) > accepts a dropped file on an existing placement and preserves it if replacement storage fails 1630ms
+   ✓ safe local artwork import and persistence (Slice 200) > shows a missing asset distinctly and restores it with the file picker 3394ms
+   ✓ safe local artwork import and persistence (Slice 200) > rejects a file clearly and blocks creation without changing design or storage 913ms
+   ✓ safe local artwork import and persistence (Slice 200) > keeps the new-file picker usable while checking and handles empty, multiple, and unknown-size selections 1193ms
+   ✓ safe local artwork import and persistence (Slice 200) > handles drag feedback and reports when a placement changes during replacement inspection 1318ms
+   ✓ safe local artwork import and persistence (Slice 200) > ignores an older replacement selection after a newer file is chosen 1191ms
+   ✓ safe local artwork import and persistence (Slice 200) > shows storage-unavailable preview feedback without a browser object-URL provider 4571ms
+   ✓ safe local artwork import and persistence (Slice 200) > blocks duplicate placement saves while a validated image is still being written 2057ms
+   ✓ bundled local artwork library (Slice 203) > searches, filters, and changes guidance without mutating the design or imported-art store 3306ms
+   ✓ bundled local artwork library (Slice 203) > stages a bundled item, saves its stable ID, and reloads its preview without imported storage 3757ms
+   ✓ bundled local artwork library (Slice 203) > stages and reloads a CMA reference using its institution and accession number 2780ms
+   ✓ bundled local artwork library (Slice 203) > keeps manual placement creation working with no artwork or source reference 1430ms
+   ✓ bundled local artwork library (Slice 203) > keeps the artwork target aligned when its placement or an earlier placement is removed 3576ms
+   ✓ bundled local artwork library (Slice 203) > clears UIQ artwork browsing filters without editing the design or losing the selected placement 1679ms
+   ✓ bundled local artwork library (Slice 203) > keeps the UIQ artwork rollback exact and ignores an injected clear action 992ms
+   ✓ bundled local artwork library (Slice 203) > uses the stable bundled ID when an artwork title cannot form a placement name 1147ms
+   ✓ bundled local artwork library (Slice 203) > replaces an existing placement's artwork metadata without changing its design values 5001ms
+   ✓ bundled local artwork library (Slice 203) > keeps the first-run journey on Garment and routes project backup bytes through the optional Electron binary-save bridge 1095ms
+   ✓ bundled local artwork library (Slice 203) > resumes guided measurement drafts from the active local style without turning them into readings 3299ms
+   ✓ bundled local artwork library (Slice 203) > keeps Measure and garment selection in place when a pending guided capture cannot be saved 1657ms
+   ✓ bundled local artwork library (Slice 203) > turns a ready guided capture into one saved custom style and withholds whole-run controls 27125ms
+   ✓ bundled local artwork library (Slice 203) > freezes the reviewed standard graded outputs through the project manager 2047ms
+   ✓ bundled local artwork library (Slice 203) > gates whole-run outputs on exact plan readiness and invalidates approval after edits 72153ms
+   ✓ bundled local artwork library (Slice 203) > rejects a forced review action when the explicit grade plan is incomplete 2870ms
+   ✓ bundled local artwork library (Slice 203) > discards stale grade-plan loads and reports failed context or repository loads 8854ms
+   ✓ bundled local artwork library (Slice 203) > keeps grade-plan creation blocked when a custom style has no saved measurement capture 926ms
+   ✓ bundled local artwork library (Slice 203) > evaluates custom one-size semantic edits only at step zero 4451ms
+   ✓ bundled local artwork library (Slice 203) > waits for semantic source verification before binding grade-plan POMs to saved edits 4134ms
+   ✓ bundled local artwork library (Slice 203) > reports a non-Error failure while saving a completed custom size 3184ms
+   ✓ bundled local artwork library (Slice 203) > reports failed guided capture loads, including a non-Error rejection 831ms
+   ✓ bundled local artwork library (Slice 203) > shows live front and back technical flats from one draft revision and refreshes on pattern edits 2483ms
+ ✓ src/ui/project-manager.test.ts (30 tests) 43323ms
+   ✓ accessible project and style manager > uses a custom one-size base only when its size ID is nonempty 609ms
+   ✓ accessible project and style manager > edits and saves revision-bound T02 POM actuals and QA observations 2344ms
+   ✓ accessible project and style manager > edits T03 provenance, adds/removes unresolved shells, blocks invalid JSON, and saves/reloads schema v3 968ms
+   ✓ accessible project and style manager > rejects disconnected, malformed, unsupported, and over-limit T03 drafts and actions 506ms
+   ✓ accessible project and style manager > validates T02 collection actions and edits each sample/QA observation field 9246ms
+   ✓ accessible project and style manager > edits and saves T01 from the project manager as one revision without replacing editor state 895ms
+   ✓ accessible project and style manager > discards T01 drafts and blocks backup or freezing until the draft is resolved 538ms
+   ✓ accessible project and style manager > reports empty and unchanged T01 save requests without adding a revision 728ms
+   ✓ accessible project and style manager > confirms before leaving a T01 draft and respects the maker's response 622ms
+   ✓ accessible project and style manager > rejects disconnected T01 controls and collection actions from a stale style draft 543ms
+   ✓ accessible project and style manager > adds, explicitly links, and safely removes local T01 material, BOM, colorway, and assignment records 12708ms
+   ✓ accessible project and style manager > uses secure browser IDs as a fallback and rejects an empty generated ID 651ms
+   ✓ accessible project and style manager > shows an actionable existing freeze blocker without enabling output capture 501ms
+   ✓ accessible project and style manager > compares and restores immutable revisions, freezes all seven exact outputs, and retrieves stored bytes 477ms
+   ✓ accessible project and style manager > creates, duplicates, renames, switches, archives, and restores styles 3761ms
+   ✓ accessible project and style manager > exports, imports a clean-profile package, handles idempotency/copy conflicts, and switches projects 709ms
+   ✓ accessible project and style manager > uses the browser download fallback and accepts an empty local-project selection 330ms
+   ✓ accessible project and style manager > offers an explicit scoped review, approval and exact local Tech Pack freeze flow 2215ms
+   ✓ accessible project and style manager > blocks review and freeze actions without a saved revision, clean draft or explicit scope 2756ms
+   ✓ accessible project and style manager > retains approval when frozen-share generation is missing, mismatched, or canceled 1407ms
+ ✓ src/ui/project-app.test.ts (19 tests) 40965ms
+   ✓ repository-backed app workflow > restores the exact project and recovery copy when operational clarity is off 2353ms
+   ✓ repository-backed app workflow > flushes a pending input before opening its field history dialog 1221ms
+   ✓ repository-backed app workflow > keeps field history closed and reports when the pending write fails 1086ms
+   ✓ repository-backed app workflow > shows a safe message when flushing history rejects a non-Error value 899ms
+   ✓ repository-backed app workflow > preserves a recovery failure when the field-history write later succeeds 1200ms
+   ✓ repository-backed app workflow > persists an edited style's recovery, switches, restores, saves, duplicates, archives, and reloads 10332ms
+   ✓ repository-backed app workflow > fails visibly and leaves the project unchanged when the default style template is invalid 868ms
+   ✓ repository-backed app workflow > freezes the app-generated outputs after review and saves verified bytes through Electron 4747ms
+   ✓ repository-backed app workflow > shows and reloads invalid raw field provenance through the mounted project workflow 2320ms
+   ✓ repository-backed app workflow > marks a same-value user capture in provenance without dirtying its saved design 721ms
+   ✓ repository-backed app workflow > ignores a delayed field-history write from a replaced app mount 2333ms
+   ✓ repository-backed app workflow > ignores delayed field-history success or failure after the active style changes 1686ms
+   ✓ repository-backed app workflow > ignores a delayed recovery failure after the user has switched to another style 3600ms
+   ✓ repository-backed app workflow > blocks garment changes, Save, and Load when exact field history could not be persisted 1547ms
+   ✓ repository-backed app workflow > keeps the source summary usable if a loaded style has no field-history record 969ms
+   ✓ repository-backed app workflow > reports a non-Error timer failure and blocks a pending recipe switch 1785ms
+   ✓ repository-backed app workflow > reports a non-Error timer failure on Save before committing an edited design 1147ms
+   ✓ repository-backed app workflow > reports a non-Error timer failure on Load and preserves the raw editor value 869ms
+   ✓ repository-backed app workflow > does not write a detached recipe field after switching garments 1272ms
+ ✓ src/ui/enhancements/guidance/guidance-panel.test.ts (100 tests) 659ms
+ ✓ src/ui/measurement-capture-panel.test.ts (22 tests) 1896ms
+   ✓ measurement capture panel > associates labels, descriptions and live status with unique ids that all resolve 609ms
+ ✓ src/ui/persist.test.ts (59 tests) 25ms
+ ✓ src/ui/enhancements/artwork/artwork-panel.test.ts (33 tests) 1966ms
+   ✓ search and filters > uses every taxonomy value without mutating order 383ms
+ ✓ src/ui/enhancements/material/material-panel.test.ts (101 tests) 483ms
+ ✓ src/ui/journey.test.ts (40 tests) 134ms
+ ✓ src/export/projector.test.ts (27 tests) 251ms
+ ✓ src/render/body.test.ts (37 tests) 95ms
+ ✓ src/render/skirt-figure.test.ts (27 tests) 403ms
+ ✓ src/ui/dxf-interchange-panel.test.ts (12 tests) 2915ms
+   ✓ local DXF return audit panel > routes a real generated package through the actual auditor for pass and fixed-gate failures 633ms
+   ✓ local DXF return audit panel > shows actual auditor reasons for malformed and misleading returns without partial counts 2023ms
+ ✓ src/surface/artwork-file.test.ts (30 tests) 75ms
+ ✓ src/ui/bugfix-p1.test.ts (13 tests) 37560ms
+   ✓ P1 input truth > restores the active workspace, option controls, swatch and view on Load and restart 8277ms
+   ✓ P1 input truth > rejects an incomplete save visibly and preserves the previous saved workspace 1777ms
+   ✓ P1 input truth > updates chest/hip totals in place, including incomplete inputs 2368ms
+   ✓ P1 input truth > gates every status and export on invalid woven option combinations 3800ms
+   ✓ P1 input truth > drafts negative ease verbatim and recovers from empty/range errors without losing focus 3461ms
+   ✓ P1 input truth > diagnoses empty and out-of-range options and safely resumes Edit 3142ms
+   ✓ P1 input truth > does not download when an invalid control disables output 1010ms
+   ✓ P1 input truth > keeps canceled and failed desktop exports incomplete with distinct feedback 1574ms
+   ✓ P1 input truth > invalidates a confirmed export after a later design change 2096ms
+   ✓ P1 input truth > does not celebrate an Electron export that finishes after a later edit 1946ms
+   ✓ P1 input truth > allows the confirmed-export celebration to be dismissed 1961ms
+   ✓ P1 input truth > reports a browser failure without claiming export completion 4415ms
+   ✓ P1 input truth > falls back to the base export size if a recipe loses the selected step 1731ms
+ ✓ src/quality/persistence-properties.test.ts (10 tests) 68ms
+ ✓ src/ui/studio.test.ts (19 tests) 71637ms
+   ✓ bounded measurement groups > keeps every 'Tee' field reachable exactly once through groups 6377ms
+   ✓ bounded measurement groups > keeps every 'Darted tee' field reachable exactly once through groups 7545ms
+   ✓ bounded measurement groups > keeps every 'Tank' field reachable exactly once through groups 8324ms
+   ✓ bounded measurement groups > keeps every 'Polo' field reachable exactly once through groups 14112ms
+   ✓ bounded measurement groups > keeps every 'Woven shirt' field reachable exactly once through groups 8535ms
+   ✓ bounded measurement groups > keeps every 'Skirt' field reachable exactly once through groups 2587ms
+   ✓ bounded measurement groups > keeps every 'Trouser' field reachable exactly once through groups 8091ms
+   ✓ bounded measurement groups > reveals a guidance target in its group before focusing the named input 1035ms
+   ✓ bounded measurement groups > keeps local workspace actions outside stage-specific export controls 911ms
+   ✓ bounded measurement groups > never dims a complete figure when the active view has no truthful field target 1618ms
+   ✓ reversible assembled lens > returns to pattern without losing the analysis or zoom context 1110ms
+   ✓ reversible assembled lens > returns to body without losing the analysis or zoom context 1121ms
+   ✓ reversible assembled lens > returns to nest without losing the analysis or zoom context 1047ms
+   ✓ reversible assembled lens > returns to spec without losing the analysis or zoom context 1165ms
+   ✓ reversible assembled lens > returns to fabric without losing the analysis or zoom context 1803ms
+   ✓ reversible assembled lens > returns to check without losing the analysis or zoom context 1072ms
+   ✓ reversible assembled lens > returns to edit without losing the analysis or zoom context 2086ms
+   ✓ reversible assembled lens > preserves transient Edit coordinates and blocks dragging the assembled picture 2140ms
+   ✓ reversible assembled lens > keeps the paused frame honest when incomplete input is toggled 957ms
+ ✓ src/export/export.test.ts (14 tests) 76ms
+ ✓ src/export/trouser-final.test.ts (3 tests) 251ms
+ ✓ src/ui/nesting-exit.test.ts (5 tests) 82176ms
+   ✓ EPIC-7 exit audit > shows empty-state planning readouts on every garment 16209ms
+   ✓ EPIC-7 exit audit > judges valid, invalid, too-short, and too-narrow states per garment 18756ms
+   ✓ EPIC-7 exit audit > keeps metrics deterministic across scope round-trips 14816ms
+   ✓ EPIC-7 exit audit > saves and reloads planning values on every garment 26628ms
+   ✓ EPIC-7 exit audit > renders planning readouts at narrow and wide widths without errors 5764ms
+ ✓ src/ui/enhancements/foundation/foundation.test.ts (28 tests) 47ms
+ ✓ src/ui/enhancements/foundation/tutorial-foundation.test.ts (7 tests) 42ms
+ ✓ src/render/trouser-figure.test.ts (5 tests) 174ms
+ ✓ src/ui/enhancements/inspection/inspection-toolbar.test.ts (3 tests) 65ms
+ ✓ src/export/polo-final.test.ts (4 tests) 338ms
+ ✓ src/render/croquis-contract.test.ts (8 tests) 396ms
+ ✓ src/render/surface-overlay.test.ts (8 tests) 32ms
+ ✓ src/export/surface-sheet.test.ts (6 tests) 26ms
+ ✓ src/render/croquis.test.ts (11 tests) 10ms
+ ✓ src/ui/surface-exit.test.ts (1 test) 24556ms
+   ✓ EPIC-6 exit audit > carries one style's artwork end to end on every garment 24555ms
+ ✓ src/ui/enhancements/entry/welcome-panel.test.ts (3 tests) 28ms
+ ✓ src/ui/accessibility.test.ts (2 tests) 17293ms
+   ✓ Slice 121 accessibility audit > keeps the Welcome, Garment, and Measure stages free of axe violations 6707ms
+   ✓ Slice 121 accessibility audit > covers Style, Check, Export, assembled, view-menu, and load-dialog states 10585ms
+ ✓ src/render/croquis-view.test.ts (2 tests) 34ms
+ ✓ src/ui/project-repository.test.ts (68 tests) 794ms
+stdout | src/ui/project-package.test.ts > portable local project package > exports, validates, and imports bounded and near-cap package fixtures
+PROJECT_PACKAGE_PRESSURE {"label":"4-MiB-coverage","assets":4,"uncompressedBytes":4194304,"archiveBytes":4216828,"elapsedMs":943,"peakRssBytes":351580160}
+
+ ✓ src/ui/project-package.test.ts (58 tests) 12037ms
+   ✓ portable local project package > enforces the immutable capture count and manifest-to-revision binding 569ms
+   ✓ portable local project package > backs up a frozen artifact larger than the artwork cap but within its own limit 1265ms
+   ✓ portable local project package > rejects tampered frozen-output archive metadata, revision links, and bytes 336ms
+   ✓ portable local project package > packages and reopens binary Tech Pack shares above the legacy 32 MiB text artifact limit 4177ms
+   ✓ portable local project package > rejects malformed manifests, excess assets, stale hashes, and oversized JSON before import 2731ms
+   ✓ portable local project package > enforces export asset, content, manifest, integrity, and cancellation boundaries 323ms
+   ✓ portable local project package > exports, validates, and imports bounded and near-cap package fixtures 946ms
+ ✓ src/render/technical-flat-projection.test.ts (41 tests) 1077ms
+ ✓ src/render/technical-flat-live.test.ts (46 tests) 1345ms
+   ✓ compileTechnicalFlatLiveView > applies the S351 residual rule and approved J/FG mapping to every Polo option 419ms
+ ✓ src/ui/project-workflow.test.ts (58 tests) 1259ms
+ ✓ src/render/technical-flat-svg.test.ts (42 tests) 1523ms
+   ✓ renderTechnicalFlatSvg > validates the paired Woven collar face halves as separate closed colorway contours 1031ms
+ ✓ src/ui/tech-pack-output.test.ts (23 tests) 6329ms
+   ✓ revision-bound production pack files > freezes actual synthetic Tee and Woven Shirt outputs as revision-bound binary shares 427ms
+   ✓ revision-bound production pack files > rejects oversized editable records before rendering and normalizes ZIP writer failures 4389ms
+ ✓ src/ui/view.test.ts (93 tests) 67ms
+ ✓ src/render/technical-flat-geometry.test.ts (20 tests) 1380ms
+   ✓ technical-flat source geometry > compiles exact mapped role outlines, marks and darts for every recipe and option endpoint 634ms
+   ✓ technical-flat source geometry > uses source-bound pattern-mark endpoints and exercises every supported option topology 376ms
+ ✓ src/edit/semantic-edit.test.ts (32 tests) 426ms
+ ✓ src/ui/grade-plan.test.ts (30 tests) 88ms
+ ✓ src/ui/tech-pack-editor.test.ts (33 tests) 69ms
+ ✓ src/ui/style-revisions.test.ts (12 tests) 611ms
+   ✓ immutable revision and frozen output records > rejects partial, duplicate, empty, oversized, or unsafe output sets before a capture is returned 514ms
+ ✓ src/ui/tech-pack-records.test.ts (145 tests) 53ms
+ ✓ src/render/technical-flat-assembly.test.ts (17 tests) 170ms
+ ✓ src/render/technical-flat-poms.test.ts (14 tests) 116ms
+ ✓ src/export/dxf-interchange-package.test.ts (10 tests) 40294ms
+   ✓ C04-bounded DXF interchange package > binds every registered recipe and grade row to an exact DXF and seam graph 16262ms
+   ✓ C04-bounded DXF interchange package > uses canonical option-key ordering and changes package revision when option data changes 1819ms
+   ✓ C04-bounded DXF interchange package > rejects piece roles that collide after safe block-name normalization 350ms
+   ✓ C04-bounded DXF interchange package > records every canonical S330 option configuration with fully resolved values 17270ms
+   ✓ C04-bounded DXF interchange package > materializes recipe defaults and rejects invalid or unsupported options 1222ms
+   ✓ C04-bounded DXF interchange package > rejects duplicate and empty source mark identities 1600ms
+   ✓ C04-bounded DXF interchange package > rejects DXF, manifest, schema and malformed package tampering 1578ms
+ ✓ src/ui/grade-plan-run.test.ts (13 tests) 984ms
+ ✓ src/ui/project-records.test.ts (10 tests) 30ms
+ ✓ src/export/techpack.test.ts (45 tests) 217ms
+ ✓ src/render/technical-flat-mapping.test.ts (14 tests) 130ms
+ ✓ src/render/woven-collar-view-projection.test.ts (10 tests) 68ms
+ ✓ src/ui/field-provenance.test.ts (12 tests) 34ms
+ ✓ src/render/technical-flat.test.ts (13 tests) 17ms
+ ✓ src/export/dxf-interchange-roundtrip.test.ts (9 tests) 7832ms
+   ✓ G04 receiver-return manifest audit > binds returned piece identities, outlines, marks, units and relations to the intact source package 1214ms
+   ✓ G04 receiver-return manifest audit > accepts only the selected-grade suffix while preserving unique source identities 1403ms
+   ✓ G04 receiver-return manifest audit > accepts a zero Z scale for planar pieces and rejects moved or repeated instances 423ms
+   ✓ G04 receiver-return manifest audit > accepts equivalent returned LWPOLYLINE outlines 455ms
+   ✓ G04 receiver-return manifest audit > allows sub-threshold coordinate rounding but rejects geometry beyond 0.001 cm 534ms
+   ✓ G04 receiver-return manifest audit > rejects missing identity, altered marks/layers, non-finite coordinates, and changed outline closure 1761ms
+   ✓ G04 receiver-return manifest audit > rejects a shortened contour, altered derived notch, and duplicate returned inserts 1572ms
+ ✓ src/ui/measurement-capture.test.ts (11 tests) 20ms
+ ✓ src/surface/artwork-library/search.test.ts (24 tests) 29ms
+ ✓ src/ui/tech-pack-presentation.test.ts (8 tests) 40ms
+ ✓ src/render/technical-flat-fragment-compiler.test.ts (10 tests) 47ms
+ ✓ src/ui/tech-pack-operation-reconciliation.test.ts (9 tests) 51ms
+ ✓ src/quality/surface-invariants.test.ts (25 tests) 679ms
+ ✓ src/drafting/polo.test.ts (20 tests) 76ms
+ ✓ src/ui/tech-pack-operation-records.test.ts (16 tests) 15ms
+ ✓ src/drafting/stitch.test.ts (39 tests) 27ms
+ ✓ src/drafting/shirt.test.ts (20 tests) 29ms
+ ✓ src/surface/artwork-store.test.ts (19 tests) 30ms
+ ✓ docs/research/epic17/S425-polo-h-segmented-locator-implementation/verify-option-outputs.test.ts (1 test) 6098ms
+   ✓ S425 Polo live H marker all-option rendered review > replays all 17 exact S399 source SVGs through the current renderer and retains all holds 6096ms
+ ✓ src/ui/tech-pack-t02-validation.test.ts (12 tests) 88ms
+ ✓ src/render/garment.test.ts (29 tests) 41ms
+ ✓ src/ui/artifact-dependencies.test.ts (6 tests) 587ms
+   ✓ field-to-artifact invalidation graph > distinguishes mark-only woven-shirt edits from cut geometry and measures button spacing 370ms
+ ✓ src/drafting/recipe.test.ts (22 tests) 85ms
+ ✓ src/ui/tech-pack-pom-records.test.ts (93 tests) 25ms
+ ✓ src/platform/feature-flags.test.ts (13 tests) 8ms
+ ✓ src/ui/tech-pack-t02-editor.test.ts (9 tests) 17ms
+ ✓ src/drafting/trouser-pocket.test.ts (6 tests) 27ms
+ ✓ src/drafting/tank.test.ts (23 tests) 19ms
+ ✓ src/ui/grade-plan-context.test.ts (8 tests) 106ms
+ ✓ src/render/technical-flat-overlays.test.ts (7 tests) 91ms
+ ✓ src/quality/polo-v2-pressure.test.ts (4 tests) 599ms
+ ✓ src/ui/tech-pack-sharing.test.ts (4 tests) 52ms
+ ✓ src/ui/custom-size-materialization.test.ts (6 tests) 209ms
+ ✓ src/guidance/plausibility.test.ts (30 tests) 18ms
+ ✓ src/drafting/neckline.test.ts (20 tests) 13ms
+ ✓ src/render/technical-flat-transform.test.ts (7 tests) 35ms
+ ✓ src/ui/tech-pack-sample-qa-records.test.ts (55 tests) 23ms
+ ✓ src/drafting/polo-collar.test.ts (11 tests) 25ms
+ ✓ src/export/adaptive-cut.test.ts (10 tests) 178ms
+ ✓ src/drafting/skirt.test.ts (20 tests) 16ms
+ ✓ src/drafting/grammar.test.ts (10 tests) 38ms
+ ✓ src/ui/measurement-help.test.ts (6 tests) 131ms
+ ✓ src/export/a0.test.ts (16 tests) 47ms
+ ✓ src/surface/store.test.ts (26 tests) 14ms
+ ✓ src/render/allowance.test.ts (14 tests) 16ms
+ ✓ src/surface/artwork-library/catalog.test.ts (3 tests) 111ms
+ ✓ src/ui/tech-pack-import-review.test.ts (6 tests) 6ms
+ ✓ src/export/named-dxf-blocks.test.ts (4 tests) 29ms
+ ✓ src/ui/grade-plan-run-panel.test.ts (7 tests) 8ms
+ ✓ src/ui/grade-plan-panel.test.ts (6 tests) 10ms
+ ✓ src/guidance/surface-notes.test.ts (16 tests) 10ms
+ ✓ src/drafting/trouser-tables.test.ts (6 tests) 22ms
+ ✓ docs/research/epic17/S348-woven-role-token/band-join-audit.test.ts (1 test) 488ms
+   ✓ S348 Woven source seam and accepted detail-only back display > preserves source stitching while distinguishing the assembled front from detached back detail 487ms
+ ✓ src/quality/guidance-properties.test.ts (7 tests) 99ms
+ ✓ src/ui/technical-flat-panel.test.ts (10 tests) 490ms
+   ✓ technicalFlatPanelMarkup > renders the accepted Woven projection and its detached band detail 313ms
+ ✓ src/ui/tech-pack-operation-editor.test.ts (4 tests) 12ms
+ ✓ src/surface/placement.test.ts (18 tests) 12ms
+ ✓ src/render/technical-flat-options.test.ts (6 tests) 155ms
+ ✓ src/export/woven-shirt-final.test.ts (3 tests) 371ms
+ ✓ src/export/dxf-centimeters.test.ts (8 tests) 65ms
+ ✓ src/drafting/dart.test.ts (26 tests) 14ms
+ ✓ src/quality/geometry-finiteness.test.ts (23 tests) 457ms
+ ✓ src/drafting/trouser-components.test.ts (5 tests) 12ms
+ ✓ src/ui/project-package-failure.test.ts (4 tests) 51ms
+ ✓ src/guidance/garment-check.test.ts (13 tests) 26ms
+ ✓ src/ui/project-package-writer.test.ts (2 tests) 37ms
+ ✓ src/drafting/pom.test.ts (14 tests) 11ms
+ ✓ src/export/nesting-intelligence.test.ts (16 tests) 10ms
+ ✓ src/render/canvas.test.ts (14 tests) 53ms
+ ✓ src/edit/edit.test.ts (12 tests) 10ms
+ ✓ src/drafting/component.test.ts (9 tests) 8ms
+ ✓ src/drafting/trouser.test.ts (7 tests) 15ms
+ ✓ src/export/pdf.test.ts (17 tests) 40ms
+ ✓ src/drafting/grading.test.ts (12 tests) 77ms
+ ✓ src/render/woven-detached-band-detail.test.ts (4 tests) 15ms
+ ✓ src/style/style.test.ts (18 tests) 32ms
+ ✓ src/drafting/armhole.test.ts (8 tests) 11ms
+ ✓ src/export/techpack-surface.test.ts (7 tests) 106ms
+ ✓ src/render/notch.test.ts (14 tests) 10ms
+ ✓ docs/research/epic17/S349-woven-back-band-pair/diagnose-source-crossings.test.ts (1 test) 183ms
+ ✓ src/surface/transform.test.ts (16 tests) 10ms
+ ✓ src/surface/piece-frames.test.ts (12 tests) 16ms
+ ✓ src/drafting/facets.test.ts (15 tests) 8ms
+ ✓ src/guidance/guidance.test.ts (9 tests) 16ms
+ ✓ src/drafting/waistband.test.ts (10 tests) 11ms
+ ✓ src/export/unfold.test.ts (9 tests) 17ms
+ ✓ src/drafting/tshirt-guidance.test.ts (12 tests) 12ms
+ ✓ src/drafting/sleeve.test.ts (6 tests) 16ms
+ ✓ src/ui/pattern-annotations.test.ts (4 tests) 32ms
+ ✓ src/export/nesting.test.ts (9 tests) 18ms
+ ✓ src/ui/controls.test.ts (9 tests) 6ms
+ ✓ src/export/nesting-proof-contract.test.ts (3 tests) 5ms
+ ✓ src/export/regression.test.ts (8 tests) 34ms
+ ✓ src/export/polo-final-pdf.test.ts (3 tests) 136ms
+ ✓ src/drafting/fit-compare.test.ts (11 tests) 10ms
+ ✓ src/drafting/tshirt-checks.test.ts (8 tests) 16ms
+ ✓ src/render/neckline-path.test.ts (6 tests) 6ms
+ ✓ src/ui/tech-pack-operation-validation.test.ts (2 tests) 6ms
+ ✓ src/quality/export-identity.test.ts (9 tests) 999ms
+   ✓ EPIC 10 — empty-placement export identity (Slice 144) > polo: an empty artwork set produces a byte-identical tech pack to no artwork argument at all, across valid measurements 386ms
+ ✓ src/ui/appearance.test.ts (5 tests) 6ms
+ ✓ src/drafting/tshirt.test.ts (10 tests) 9ms
+ ✓ src/guidance/check.test.ts (9 tests) 8ms
+ ✓ src/export/marker.test.ts (6 tests) 80ms
+ ✓ src/export/pattern-mark.test.ts (4 tests) 8ms
+ ✓ src/drafting/fitted.test.ts (6 tests) 14ms
+ ✓ src/drafting/bodice.test.ts (6 tests) 10ms
+ ✓ src/drafting/block.test.ts (5 tests) 8ms
+ ✓ src/ui/pattern-measurements.test.ts (2 tests) 29ms
+ ✓ src/drafting/piece.test.ts (7 tests) 5ms
+ ✓ src/drafting/shirt-contract.test.ts (3 tests) 6ms
+ ✓ src/render/pattern-mark.test.ts (3 tests) 4ms
+ ✓ src/drafting/trouser-contract.test.ts (3 tests) 7ms
+ ✓ docs/research/epic17/S361-woven-sleeve-band-normal-offset/normal-offset-candidate.test.ts (1 test) 22ms
+ ✓ src/geometry/curve.test.ts (6 tests) 5ms
+ ✓ src/geometry/rotate.test.ts (5 tests) 3ms
+ ✓ src/drafting/ease.test.ts (7 tests) 4ms
+ ✓ src/render/nest.test.ts (6 tests) 4ms
+ ✓ src/drafting/fitted-tables.test.ts (3 tests) 5ms
+ ✓ src/render/shape.test.ts (4 tests) 6ms
+ ✓ src/drafting/garment-check-golden.test.ts (3 tests) 33ms
+ ✓ src/render/fabric.test.ts (4 tests) 4ms
+ ✓ src/ui/history.test.ts (3 tests) 4ms
+ ✓ src/render/editor.test.ts (2 tests) 5ms
+ ✓ src/drafting/measurements.test.ts (5 tests) 4ms
+ ✓ src/drafting/options.test.ts (3 tests) 4ms
+ ✓ src/geometry/point.test.ts (7 tests) 5ms
+ ✓ src/drafting/pattern-mark.test.ts (1 test) 4ms
+ ✓ src/drafting/allowance.test.ts (1 test) 3ms
+
+ Test Files  179 passed (179)
+      Tests  3161 passed (3161)
+   Start at  19:03:43
+   Duration  1286.53s (transform 7.23s, setup 0ms, collect 43.66s, tests 1146.15s, environment 24.24s, prepare 19.71s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |      100 |     100 |     100 |                   
+ drafting          |     100 |      100 |     100 |     100 |                   
+  allowance.ts     |     100 |      100 |     100 |     100 |                   
+  armhole.ts       |     100 |      100 |     100 |     100 |                   
+  block.ts         |     100 |      100 |     100 |     100 |                   
+  bodice.ts        |     100 |      100 |     100 |     100 |                   
+  component.ts     |     100 |      100 |     100 |     100 |                   
+  dart.ts          |     100 |      100 |     100 |     100 |                   
+  ease.ts          |     100 |      100 |     100 |     100 |                   
+  facets.ts        |     100 |      100 |     100 |     100 |                   
+  fit-compare.ts   |     100 |      100 |     100 |     100 |                   
+  fitted-tables.ts |     100 |      100 |     100 |     100 |                   
+  fitted.ts        |     100 |      100 |     100 |     100 |                   
+  ...eck-golden.ts |     100 |      100 |     100 |     100 |                   
+  grading.ts       |     100 |      100 |     100 |     100 |                   
+  grammar.ts       |     100 |      100 |     100 |     100 |                   
+  measurements.ts  |     100 |      100 |     100 |     100 |                   
+  neckline.ts      |     100 |      100 |     100 |     100 |                   
+  options.ts       |     100 |      100 |     100 |     100 |                   
+  pattern-mark.ts  |     100 |      100 |     100 |     100 |                   
+  piece.ts         |     100 |      100 |     100 |     100 |                   
+  polo-collar.ts   |     100 |      100 |     100 |     100 |                   
+  polo.ts          |     100 |      100 |     100 |     100 |                   
+  pom.ts           |     100 |      100 |     100 |     100 |                   
+  recipe.ts        |     100 |      100 |     100 |     100 |                   
+  ...t-contract.ts |     100 |      100 |     100 |     100 |                   
+  shirt.ts         |     100 |      100 |     100 |     100 |                   
+  skirt.ts         |     100 |      100 |     100 |     100 |                   
+  sleeve.ts        |     100 |      100 |     100 |     100 |                   
+  stitch.ts        |     100 |      100 |     100 |     100 |                   
+  tank.ts          |     100 |      100 |     100 |     100 |                   
+  ...r-contract.ts |     100 |      100 |     100 |     100 |                   
+  ...r-guidance.ts |     100 |      100 |     100 |     100 |                   
+  ...ser-tables.ts |     100 |      100 |     100 |     100 |                   
+  trouser.ts       |     100 |      100 |     100 |     100 |                   
+  tshirt-checks.ts |     100 |      100 |     100 |     100 |                   
+  tshirt-grade.ts  |     100 |      100 |     100 |     100 |                   
+  ...t-guidance.ts |     100 |      100 |     100 |     100 |                   
+  ...rt-notches.ts |     100 |      100 |     100 |     100 |                   
+  tshirt-pom.ts    |     100 |      100 |     100 |     100 |                   
+  tshirt.ts        |     100 |      100 |     100 |     100 |                   
+  waistband.ts     |     100 |      100 |     100 |     100 |                   
+ edit              |     100 |      100 |     100 |     100 |                   
+  edit.ts          |     100 |      100 |     100 |     100 |                   
+  semantic-edit.ts |     100 |      100 |     100 |     100 |                   
+ export            |     100 |      100 |     100 |     100 |                   
+  a0.ts            |     100 |      100 |     100 |     100 |                   
+  adaptive-cut.ts  |     100 |      100 |     100 |     100 |                   
+  calibration.ts   |     100 |      100 |     100 |     100 |                   
+  ...entimeters.ts |     100 |      100 |     100 |     100 |                   
+  ...ge-package.ts |     100 |      100 |     100 |     100 |                   
+  ...-roundtrip.ts |     100 |      100 |     100 |     100 |                   
+  dxf.ts           |     100 |      100 |     100 |     100 |                   
+  layout.ts        |     100 |      100 |     100 |     100 |                   
+  marker.ts        |     100 |      100 |     100 |     100 |                   
+  ...dxf-blocks.ts |     100 |      100 |     100 |     100 |                   
+  ...telligence.ts |     100 |      100 |     100 |     100 |                   
+  ...f-contract.ts |     100 |      100 |     100 |     100 |                   
+  nesting.ts       |     100 |      100 |     100 |     100 |                   
+  pattern-mark.ts  |     100 |      100 |     100 |     100 |                   
+  pdf.ts           |     100 |      100 |     100 |     100 |                   
+  projector.ts     |     100 |      100 |     100 |     100 |                   
+  surface-sheet.ts |     100 |      100 |     100 |     100 |                   
+  svg.ts           |     100 |      100 |     100 |     100 |                   
+  techpack.ts      |     100 |      100 |     100 |     100 |                   
+  unfold.ts        |     100 |      100 |     100 |     100 |                   
+ geometry          |     100 |      100 |     100 |     100 |                   
+  curve.ts         |     100 |      100 |     100 |     100 |                   
+  point.ts         |     100 |      100 |     100 |     100 |                   
+  rotate.ts        |     100 |      100 |     100 |     100 |                   
+ guidance          |     100 |      100 |     100 |     100 |                   
+  check.ts         |     100 |      100 |     100 |     100 |                   
+  garment-check.ts |     100 |      100 |     100 |     100 |                   
+  guidance.ts      |     100 |      100 |     100 |     100 |                   
+  note.ts          |     100 |      100 |     100 |     100 |                   
+  plausibility.ts  |     100 |      100 |     100 |     100 |                   
+  surface-notes.ts |     100 |      100 |     100 |     100 |                   
+ platform          |     100 |      100 |     100 |     100 |                   
+  feature-flags.ts |     100 |      100 |     100 |     100 |                   
+ render            |     100 |      100 |     100 |     100 |                   
+  allowance.ts     |     100 |      100 |     100 |     100 |                   
+  body.ts          |     100 |      100 |     100 |     100 |                   
+  canvas.ts        |     100 |      100 |     100 |     100 |                   
+  croquis-view.ts  |     100 |      100 |     100 |     100 |                   
+  croquis.ts       |     100 |      100 |     100 |     100 |                   
+  editor.ts        |     100 |      100 |     100 |     100 |                   
+  fabric.ts        |     100 |      100 |     100 |     100 |                   
+  garment.ts       |     100 |      100 |     100 |     100 |                   
+  neckline-path.ts |     100 |      100 |     100 |     100 |                   
+  nest.ts          |     100 |      100 |     100 |     100 |                   
+  notch.ts         |     100 |      100 |     100 |     100 |                   
+  pattern-mark.ts  |     100 |      100 |     100 |     100 |                   
+  polo-details.ts  |     100 |      100 |     100 |     100 |                   
+  shape.ts         |     100 |      100 |     100 |     100 |                   
+  skirt-figure.ts  |     100 |      100 |     100 |     100 |                   
+  ...ce-overlay.ts |     100 |      100 |     100 |     100 |                   
+  ...t-assembly.ts |     100 |      100 |     100 |     100 |                   
+  ...t-compiler.ts |     100 |      100 |     100 |     100 |                   
+  ...t-geometry.ts |     100 |      100 |     100 |     100 |                   
+  ...-flat-live.ts |     100 |      100 |     100 |     100 |                   
+  ...at-mapping.ts |     100 |      100 |     100 |     100 |                   
+  ...at-options.ts |     100 |      100 |     100 |     100 |                   
+  ...t-overlays.ts |     100 |      100 |     100 |     100 |                   
+  ...-flat-poms.ts |     100 |      100 |     100 |     100 |                   
+  ...projection.ts |     100 |      100 |     100 |     100 |                   
+  ...l-flat-svg.ts |     100 |      100 |     100 |     100 |                   
+  ...-transform.ts |     100 |      100 |     100 |     100 |                   
+  ...nical-flat.ts |     100 |      100 |     100 |     100 |                   
+  theme.ts         |     100 |      100 |     100 |     100 |                   
+  ...ser-figure.ts |     100 |      100 |     100 |     100 |                   
+  ...projection.ts |     100 |      100 |     100 |     100 |                   
+  ...and-detail.ts |     100 |      100 |     100 |     100 |                   
+ style             |     100 |      100 |     100 |     100 |                   
+  style.ts         |     100 |      100 |     100 |     100 |                   
+ surface           |     100 |      100 |     100 |     100 |                   
+  artwork-file.ts  |     100 |      100 |     100 |     100 |                   
+  artwork-store.ts |     100 |      100 |     100 |     100 |                   
+  piece-frames.ts  |     100 |      100 |     100 |     100 |                   
+  placement.ts     |     100 |      100 |     100 |     100 |                   
+  store.ts         |     100 |      100 |     100 |     100 |                   
+  transform.ts     |     100 |      100 |     100 |     100 |                   
+ ...rtwork-library |     100 |      100 |     100 |     100 |                   
+  catalog.ts       |     100 |      100 |     100 |     100 |                   
+  search.ts        |     100 |      100 |     100 |     100 |                   
+ ui                |     100 |      100 |     100 |     100 |                   
+  app.ts           |     100 |      100 |     100 |     100 |                   
+  appearance.ts    |     100 |      100 |     100 |     100 |                   
+  ...pendencies.ts |     100 |      100 |     100 |     100 |                   
+  controls.ts      |     100 |      100 |     100 |     100 |                   
+  ...ialization.ts |     100 |      100 |     100 |     100 |                   
+  ...ange-panel.ts |     100 |      100 |     100 |     100 |                   
+  ...provenance.ts |     100 |      100 |     100 |     100 |                   
+  ...an-context.ts |     100 |      100 |     100 |     100 |                   
+  ...plan-panel.ts |     100 |      100 |     100 |     100 |                   
+  ...-run-panel.ts |     100 |      100 |     100 |     100 |                   
+  ...e-plan-run.ts |     100 |      100 |     100 |     100 |                   
+  grade-plan.ts    |     100 |      100 |     100 |     100 |                   
+  history.ts       |     100 |      100 |     100 |     100 |                   
+  journey.ts       |     100 |      100 |     100 |     100 |                   
+  ...ture-panel.ts |     100 |      100 |     100 |     100 |                   
+  ...nt-capture.ts |     100 |      100 |     100 |     100 |                   
+  ...ement-help.ts |     100 |      100 |     100 |     100 |                   
+  ...asurements.ts |     100 |      100 |     100 |     100 |                   
+  persist.ts       |     100 |      100 |     100 |     100 |                   
+  ...ct-manager.ts |     100 |      100 |     100 |     100 |                   
+  ...ct-package.ts |     100 |      100 |     100 |     100 |                   
+  ...ct-records.ts |     100 |      100 |     100 |     100 |                   
+  ...repository.ts |     100 |      100 |     100 |     100 |                   
+  ...t-workflow.ts |     100 |      100 |     100 |     100 |                   
+  ...-revisions.ts |     100 |      100 |     100 |     100 |                   
+  ...ack-editor.ts |     100 |      100 |     100 |     100 |                   
+  ...ort-review.ts |     100 |      100 |     100 |     100 |                   
+  ...ion-editor.ts |     100 |      100 |     100 |     100 |                   
+  ...nciliation.ts |     100 |      100 |     100 |     100 |                   
+  ...on-records.ts |     100 |      100 |     100 |     100 |                   
+  ...validation.ts |     100 |      100 |     100 |     100 |                   
+  ...ack-output.ts |     100 |      100 |     100 |     100 |                   
+  ...om-records.ts |     100 |      100 |     100 |     100 |                   
+  ...esentation.ts |     100 |      100 |     100 |     100 |                   
+  ...ck-records.ts |     100 |      100 |     100 |     100 |                   
+  ...qa-records.ts |     100 |      100 |     100 |     100 |                   
+  ...ck-sharing.ts |     100 |      100 |     100 |     100 |                   
+  ...t02-editor.ts |     100 |      100 |     100 |     100 |                   
+  ...validation.ts |     100 |      100 |     100 |     100 |                   
+  ...flat-panel.ts |     100 |      100 |     100 |     100 |                   
+  view.ts          |     100 |      100 |     100 |     100 |                   
+ ...ements/artwork |     100 |      100 |     100 |     100 |                   
+  artwork-panel.ts |     100 |      100 |     100 |     100 |                   
+ ...ncements/entry |     100 |      100 |     100 |     100 |                   
+  welcome-panel.ts |     100 |      100 |     100 |     100 |                   
+ ...nts/foundation |     100 |      100 |     100 |     100 |                   
+  foundation.ts    |     100 |      100 |     100 |     100 |                   
+  ...foundation.ts |     100 |      100 |     100 |     100 |                   
+ ...ments/guidance |     100 |      100 |     100 |     100 |                   
+  ...ance-panel.ts |     100 |      100 |     100 |     100 |                   
+ ...nts/inspection |     100 |      100 |     100 |     100 |                   
+  ...on-toolbar.ts |     100 |      100 |     100 |     100 |                   
+ ...ments/material |     100 |      100 |     100 |     100 |                   
+  ...rial-panel.ts |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------
+`nStart UTC: 2026-10-13 23:03:41Z`nEnd UTC: 2026-10-13 23:25:12Z`nElapsed seconds: 1290.7`nExit code: 0

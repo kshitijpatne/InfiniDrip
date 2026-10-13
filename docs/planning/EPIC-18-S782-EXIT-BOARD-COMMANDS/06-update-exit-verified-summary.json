@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4718,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "patch": {
+    "description": "Slices 780–783. S780 passed the integrated/global gate. S781 review found the migrated payload-v1 T01 first-save blocker. S782 has corrected it with a narrowly guarded payload-v2 child save that preserves the v1 parent/digest, does not create a child for a no-op, and retains stale repository CAS rejection. The real v8 migration regression, 126/126 focused tests with 100% changed-module coverage, and 179/179 full test files / 3,161/3,161 tests / 100% global four-metric coverage pass. Build/Electron workflow, web release 10/10, readiness 5/5, and actual browser save/review/freeze/PDF/ZIP proof pass. S782 evidence is in docs/research/epic18/S782-T01-legacy-v1-save/. The candidate awaits fresh independent Claude Code and OpenCode approvals on the exact pushed PR #43 head plus Codex review; GitHub imposes no formal approval gate, and no outside reviewer is to be contacted. S783 owns normal rebase merge, successful main CI/deployment, live preview verification, and validated board/durable closeout. Keep EPIC-18/G05-EXIT In Progress until deployment and verification pass."
+  }
+}
