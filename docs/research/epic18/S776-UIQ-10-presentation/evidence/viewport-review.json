@@ -1,0 +1,319 @@
+{
+  "url": "http://127.0.0.1:4175/",
+  "focusedAfterSummary": "production-pack-preset",
+  "completePack": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "document": {
+      "clientWidth": 390,
+      "scrollWidth": 390
+    },
+    "horizontalOverflow": false,
+    "panel": {
+      "width": 333,
+      "scrollWidth": 333,
+      "clientWidth": 333
+    },
+    "openTableWrap": {
+      "scrollWidth": 560,
+      "clientWidth": 313,
+      "scrollLeft": 0,
+      "keyboardFocusable": true,
+      "hint": "tech-pack-open-table-hint"
+    },
+    "openTable": {
+      "width": 560,
+      "firstHeader": "Field",
+      "lastHeader": "Next action"
+    },
+    "preset": "complete-pack",
+    "checkedSections": [
+      "identity",
+      "materials-bom",
+      "measurements-qa",
+      "construction",
+      "artwork",
+      "sources-open-items",
+      "approval-disclaimer"
+    ],
+    "sectionIds": [
+      "identity",
+      "materials-bom",
+      "measurements-qa",
+      "construction",
+      "artwork",
+      "sources-open-items",
+      "approval-disclaimer"
+    ],
+    "fields": {
+      "Style": "Not supplied",
+      "Style code": "Not supplied",
+      "Style ID": "a7ceb9de-701f-4716-892a-3c8c2e5022bc",
+      "Recipe": "tee",
+      "Recipe version": "unversioned",
+      "Saved revision": "r1 · 278f3a43-b304-4e31-8f4e-3dbd3a87c2fe",
+      "Revision content SHA 256": "c8f3808b5cedd6deca52105eea4492956ce956b2a9586fb51ff6453d2357e7ab",
+      "Selected preset": "Complete pack",
+      "Sections included": "Style and revision identity, Materials and bill of materials, Measurements and sample QA, Construction operations, Artwork references and attachments, Sources and open items, Review scope and disclaimer",
+      "Sections omitted": "None"
+    },
+    "revisionElement": "278f3a43-b304-4e31-8f4e-3dbd3a87c2fe",
+    "unresolvedRows": 6,
+    "unresolvedText": "Unresolved and conflicting items\nField\tRecorded state\tReason\tNext action\nrecord.cover.styleCode · cover.styleCode\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.styleName · cover.styleName\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.ownerLabel · cover.ownerLabel\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.intendedUse · cover.intendedUse\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.baseSizeId · cover.baseSizeId\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.measurementUnit · cover.measurementUnit\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.",
+    "approvalText": "Review scope and disclaimer\n\nNo review state is linked to this saved revision. Any review state from another revision is not shown.",
+    "disclaimer": "Local digital review only; no supplier or production acceptance is established.",
+    "tables": [
+      {
+        "className": "tech-pack-table tech-pack-open-table",
+        "columns": 4,
+        "rows": 6,
+        "width": 560,
+        "scrollWidth": 560,
+        "clientWidth": 560
+      }
+    ]
+  },
+  "measurementsQa": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "document": {
+      "clientWidth": 390,
+      "scrollWidth": 390
+    },
+    "horizontalOverflow": false,
+    "panel": {
+      "width": 333,
+      "scrollWidth": 333,
+      "clientWidth": 333
+    },
+    "openTableWrap": {
+      "scrollWidth": 560,
+      "clientWidth": 313,
+      "scrollLeft": 0,
+      "keyboardFocusable": true,
+      "hint": "tech-pack-open-table-hint"
+    },
+    "openTable": {
+      "width": 560,
+      "firstHeader": "Field",
+      "lastHeader": "Next action"
+    },
+    "preset": "measurements-qa",
+    "checkedSections": [
+      "identity",
+      "measurements-qa",
+      "sources-open-items",
+      "approval-disclaimer"
+    ],
+    "sectionIds": [
+      "identity",
+      "measurements-qa",
+      "sources-open-items",
+      "approval-disclaimer"
+    ],
+    "fields": {
+      "Style": "Not supplied",
+      "Style code": "Not supplied",
+      "Style ID": "a7ceb9de-701f-4716-892a-3c8c2e5022bc",
+      "Recipe": "tee",
+      "Recipe version": "unversioned",
+      "Saved revision": "r1 · 278f3a43-b304-4e31-8f4e-3dbd3a87c2fe",
+      "Revision content SHA 256": "c8f3808b5cedd6deca52105eea4492956ce956b2a9586fb51ff6453d2357e7ab",
+      "Selected preset": "Measurements + QA",
+      "Sections included": "Style and revision identity, Measurements and sample QA, Sources and open items, Review scope and disclaimer",
+      "Sections omitted": "Materials and bill of materials, Construction operations, Artwork references and attachments"
+    },
+    "revisionElement": "278f3a43-b304-4e31-8f4e-3dbd3a87c2fe",
+    "unresolvedRows": 6,
+    "unresolvedText": "Unresolved and conflicting items\nField\tRecorded state\tReason\tNext action\nrecord.cover.styleCode · cover.styleCode\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.styleName · cover.styleName\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.ownerLabel · cover.ownerLabel\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.intendedUse · cover.intendedUse\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.baseSizeId · cover.baseSizeId\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.measurementUnit · cover.measurementUnit\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.",
+    "approvalText": "Review scope and disclaimer\n\nNo review state is linked to this saved revision. Any review state from another revision is not shown.",
+    "disclaimer": "Local digital review only; no supplier or production acceptance is established.",
+    "tables": [
+      {
+        "className": "tech-pack-table tech-pack-open-table",
+        "columns": 4,
+        "rows": 6,
+        "width": 560,
+        "scrollWidth": 560,
+        "clientWidth": 560
+      }
+    ],
+    "mobileTableViewport": {
+      "x": -215,
+      "y": 693,
+      "width": 560,
+      "height": 515,
+      "visible": true
+    },
+    "mobileLayout": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "clientWidth": 390,
+        "scrollWidth": 390
+      },
+      "horizontalOverflow": false,
+      "panel": {
+        "width": 333,
+        "scrollWidth": 333,
+        "clientWidth": 333
+      },
+      "openTableWrap": {
+        "scrollWidth": 560,
+        "clientWidth": 313,
+        "scrollLeft": 247,
+        "keyboardFocusable": true,
+        "hint": "tech-pack-open-table-hint"
+      },
+      "openTable": {
+        "width": 560,
+        "firstHeader": "Field",
+        "lastHeader": "Next action"
+      },
+      "preset": "measurements-qa",
+      "checkedSections": [
+        "identity",
+        "measurements-qa",
+        "sources-open-items",
+        "approval-disclaimer"
+      ],
+      "sectionIds": [
+        "identity",
+        "measurements-qa",
+        "sources-open-items",
+        "approval-disclaimer"
+      ],
+      "fields": {
+        "Style": "Not supplied",
+        "Style code": "Not supplied",
+        "Style ID": "a7ceb9de-701f-4716-892a-3c8c2e5022bc",
+        "Recipe": "tee",
+        "Recipe version": "unversioned",
+        "Saved revision": "r1 · 278f3a43-b304-4e31-8f4e-3dbd3a87c2fe",
+        "Revision content SHA 256": "c8f3808b5cedd6deca52105eea4492956ce956b2a9586fb51ff6453d2357e7ab",
+        "Selected preset": "Measurements + QA",
+        "Sections included": "Style and revision identity, Measurements and sample QA, Sources and open items, Review scope and disclaimer",
+        "Sections omitted": "Materials and bill of materials, Construction operations, Artwork references and attachments"
+      },
+      "revisionElement": "278f3a43-b304-4e31-8f4e-3dbd3a87c2fe",
+      "unresolvedRows": 6,
+      "unresolvedText": "Unresolved and conflicting items\nField\tRecorded state\tReason\tNext action\nrecord.cover.styleCode · cover.styleCode\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.styleName · cover.styleName\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.ownerLabel · cover.ownerLabel\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.intendedUse · cover.intendedUse\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.baseSizeId · cover.baseSizeId\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.measurementUnit · cover.measurementUnit\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.",
+      "approvalText": "Review scope and disclaimer\n\nNo review state is linked to this saved revision. Any review state from another revision is not shown.",
+      "disclaimer": "Local digital review only; no supplier or production acceptance is established.",
+      "tables": [
+        {
+          "className": "tech-pack-table tech-pack-open-table",
+          "columns": 4,
+          "rows": 6,
+          "width": 560,
+          "scrollWidth": 560,
+          "clientWidth": 560
+        }
+      ]
+    },
+    "mobileKeyboardScroll": {
+      "focused": true,
+      "endPosition": 247,
+      "resetPosition": 0,
+      "movedHorizontally": true
+    },
+    "desktopTableViewport": {
+      "x": -231,
+      "y": 307,
+      "width": 560,
+      "height": 515,
+      "visible": true
+    },
+    "desktopLayout": {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "document": {
+        "clientWidth": 1280,
+        "scrollWidth": 1280
+      },
+      "horizontalOverflow": false,
+      "panel": {
+        "width": 309,
+        "scrollWidth": 309,
+        "clientWidth": 309
+      },
+      "openTableWrap": {
+        "scrollWidth": 560,
+        "clientWidth": 289,
+        "scrollLeft": 271,
+        "keyboardFocusable": true,
+        "hint": "tech-pack-open-table-hint"
+      },
+      "openTable": {
+        "width": 560,
+        "firstHeader": "Field",
+        "lastHeader": "Next action"
+      },
+      "preset": "measurements-qa",
+      "checkedSections": [
+        "identity",
+        "measurements-qa",
+        "sources-open-items",
+        "approval-disclaimer"
+      ],
+      "sectionIds": [
+        "identity",
+        "measurements-qa",
+        "sources-open-items",
+        "approval-disclaimer"
+      ],
+      "fields": {
+        "Style": "Not supplied",
+        "Style code": "Not supplied",
+        "Style ID": "a7ceb9de-701f-4716-892a-3c8c2e5022bc",
+        "Recipe": "tee",
+        "Recipe version": "unversioned",
+        "Saved revision": "r1 · 278f3a43-b304-4e31-8f4e-3dbd3a87c2fe",
+        "Revision content SHA 256": "c8f3808b5cedd6deca52105eea4492956ce956b2a9586fb51ff6453d2357e7ab",
+        "Selected preset": "Measurements + QA",
+        "Sections included": "Style and revision identity, Measurements and sample QA, Sources and open items, Review scope and disclaimer",
+        "Sections omitted": "Materials and bill of materials, Construction operations, Artwork references and attachments"
+      },
+      "revisionElement": "278f3a43-b304-4e31-8f4e-3dbd3a87c2fe",
+      "unresolvedRows": 6,
+      "unresolvedText": "Unresolved and conflicting items\nField\tRecorded state\tReason\tNext action\nrecord.cover.styleCode · cover.styleCode\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.styleName · cover.styleName\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.ownerLabel · cover.ownerLabel\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.intendedUse · cover.intendedUse\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.baseSizeId · cover.baseSizeId\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.\nrecord.cover.measurementUnit · cover.measurementUnit\tUNRESOLVED · UNCONFIRMED · INVALID\nValue: not supplied\tNo sourced T01 cover value exists in the source style record.\tReview and enter this cover value in the tech-pack editor.",
+      "approvalText": "Review scope and disclaimer\n\nNo review state is linked to this saved revision. Any review state from another revision is not shown.",
+      "disclaimer": "Local digital review only; no supplier or production acceptance is established.",
+      "tables": [
+        {
+          "className": "tech-pack-table tech-pack-open-table",
+          "columns": 4,
+          "rows": 6,
+          "width": 560,
+          "scrollWidth": 560,
+          "clientWidth": 560
+        }
+      ]
+    },
+    "desktopKeyboardScroll": {
+      "focused": true,
+      "endPosition": 271,
+      "resetPosition": 0,
+      "movedHorizontally": true
+    }
+  },
+  "pageErrors": [],
+  "screenshots": [
+    "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S776-UIQ-10-presentation\\evidence\\mobile-measurements-qa-controls.png",
+    "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S776-UIQ-10-presentation\\evidence\\mobile-measurements-qa-table-controls.png",
+    "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S776-UIQ-10-presentation\\evidence\\mobile-measurements-qa-open-items-left.png",
+    "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S776-UIQ-10-presentation\\evidence\\mobile-measurements-qa-open-items-right.png",
+    "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S776-UIQ-10-presentation\\evidence\\desktop-measurements-qa-controls.png",
+    "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S776-UIQ-10-presentation\\evidence\\desktop-measurements-qa-table-controls.png",
+    "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S776-UIQ-10-presentation\\evidence\\desktop-measurements-qa-open-items-left.png",
+    "C:\\Users\\kshit\\.codex\\worktrees\\epic-18-g05\\designApp\\docs\\research\\epic18\\S776-UIQ-10-presentation\\evidence\\desktop-measurements-qa-open-items-right.png"
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4625,
-  "updatedAt": "2026-10-13T06:18:30.341Z",
+  "revision": 4633,
+  "updatedAt": "2026-10-13T08:50:28.073Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -822,7 +822,9 @@
         "E-G05-S774-START",
         "E-G05-S774-EXIT",
         "E-G05-S775-START",
-        "E-G05-S775-EXIT"
+        "E-G05-S775-EXIT",
+        "E-UIQ10-S776-START",
+        "E-UIQ10-S776-EXIT"
       ]
     },
     {
@@ -15451,7 +15453,7 @@
       "title": "Production-pack presentation",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-10-02",
       "targetAt": null,
       "deliveredAt": null,
@@ -15473,7 +15475,7 @@
         "export byte identity",
         "source/revision identity"
       ],
-      "description": "Linked EPIC-18/G05 child. Its separate presentation-only admission was recorded in S774; UIQ-10 remains Backlog until the validated S776 start after S775 proves actual output and round trips. Scope: readable production-pack forms/tables, revision/approval visibility and selected sections. Exact admission and boundaries: docs/planning/UIQ-10-ADMISSION.md; parent sequence: docs/planning/EPIC-18-S765-RESEQUENCING.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md.",
+      "description": "Linked EPIC-18/G05 child. S776 is In Progress under its separate presentation-only admission after S775 proved actual output and round trips. Scope: readable production-pack forms/tables, exact revision/approval visibility, and selected sections. Exact boundaries: docs/planning/UIQ-10-ADMISSION.md; parent sequence: docs/planning/EPIC-18-S765-RESEQUENCING.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md.",
       "expectation": "The admitted production-pack presentation makes current section, revision, scoped approval and unresolved/readiness status readable without changing technical data, numeric methods, freeze rules or exports.",
       "acceptanceCriteria": [
         "A separate bounded admission names G05 data contract inputs, exact UI/file ownership, fallback, preserved behavior, rendered acceptance and exclusion of schema/POM/freeze/export decisions.",
@@ -15490,12 +15492,24 @@
           "role": "maintainer",
           "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-13T06:27:51.337Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Begin the separately admitted S776 presentation-only UIQ-10 implementation after S775's revision-bound output, round-trip, and actual-file review passed; preserve the S774 field, revision, section, source-label, approval and no-production-claim boundaries.",
+          "evidenceRefs": [
+            "E-UIQ10-S776-START"
+          ]
         }
       ],
       "comments": [],
       "evidenceRefs": [
         "E-UIQ-APPROVAL",
-        "E-UIQ10-S774-ADMISSION"
+        "E-UIQ10-S774-ADMISSION",
+        "E-UIQ10-S776-START",
+        "E-UIQ10-S776-EXIT"
       ],
       "flagKey": null
     },
@@ -16854,7 +16868,9 @@
         "E-G05-S774-DECISION",
         "E-G05-S774-EXIT",
         "E-G05-S775-START",
-        "E-G05-S775-EXIT"
+        "E-G05-S775-EXIT",
+        "E-UIQ10-S776-START",
+        "E-UIQ10-S776-EXIT"
       ],
       "flagKey": null
     },
@@ -31021,6 +31037,24 @@
       "sha256": "e35eaa1cc7769f34ee3312e014ae57ee4eaa018ec66e8922a89c879a45413948",
       "verified": true,
       "note": "S775 deterministic revision-bound PDF/ZIP output and bounded read-only import preview pass focused 22/22 at 100% four-metric module coverage; build, protected export identity, actual-file/render review and round-trip checks pass. T04 stays In Progress through S776/S777; UIQ-10 stays Backlog until its validated S776 start."
+    },
+    {
+      "id": "E-UIQ10-S776-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S776-UIQ-10-presentation/start-packet.md",
+      "commit": null,
+      "sha256": "0983f17096e8876d2b2c21adf0fdc7d904680a457c52e3ac22c7d6dd4abbc2a7",
+      "verified": true,
+      "note": "S776 starts the separately admitted presentation-only UIQ-10 after S775 output and round-trip proof; the packet bounds read-only revision-linked forms/tables, section selection, four-metric coverage and actual two-viewport review."
+    },
+    {
+      "id": "E-UIQ10-S776-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S776-UIQ-10-presentation/exit-packet.md",
+      "commit": null,
+      "sha256": "8ffca26e4a7d39a91018095090cdf0ed6f14328ec37b58880cf3a5adfd441d9a",
+      "verified": true,
+      "note": "S776 presentation, responsive table, revision/approval binding and rendered evidence pass; focused tests and protected export identity pass. UIQ-10 remains In Progress for S777 field/numeric and scoped-approval review."
     }
   ]
 }

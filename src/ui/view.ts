@@ -1,6 +1,7 @@
 // Builds the app's HTML as strings (same approach as the SVG canvas): a persistent
 // workspace header, a stable inspection canvas, and a bounded grouped inspector.
 // Pure, so the markup can be checked in tests without a browser.
+import "./enhancements/tech-pack/tech-pack-presentation.css";
 
 import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions, GradedSize, Block, Pom, specSheet } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
@@ -826,6 +827,9 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
     scope("selected-size", "Selected size files", "One size for cutting or CAD", PER_SIZE_EXPORTS) +
     scope("whole-run", "Whole graded run", "All graded sizes; ignores Selected size", WHOLE_RUN_EXPORTS) +
     scope("current-style", "Current style artwork", "One style's artwork; ignores Selected size", SURFACE_EXPORTS) +
+    `<details id="production-pack-details" class="tech-pack-presentation">` +
+    `<summary>Revision-bound production pack</summary>` +
+    `<div id="production-pack-host" aria-live="polite"></div></details>` +
     `</div>`;
 }
 

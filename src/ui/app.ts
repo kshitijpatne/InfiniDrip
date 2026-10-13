@@ -67,7 +67,7 @@ import { inspectArtworkFile, type InspectedArtworkFile } from "../surface/artwor
 import { createDxfInterchangePanel, requireDxfInterchangeSourceBlock } from "./dxf-interchange-panel";
 import {
   createElectronArtworkStore, createIndexedDbArtworkStore, createUnavailableArtworkStore,
-  loadArtworkAsset, storeArtworkFile,
+  isLocalArtworkAssetId, loadArtworkAsset, storeArtworkFile,
   type ArtworkAssetBridge, type ArtworkAssetWireRecord,
   type ArtworkAssetStore, type StoredArtworkAsset,
 } from "../surface/artwork-store";
@@ -77,6 +77,21 @@ import {
   tutorialStepForJourneyStep, celebrationMarkup, loadJourneyWithStatus, saveJourney,
 } from "./journey";
 import { ProjectWorkflow } from "./project-workflow";
+import {
+  createProductionPackOutputs,
+  PRODUCTION_PACK_PRESETS,
+  PRODUCTION_PACK_SECTIONS,
+  type ProductionPackAttachmentInput,
+  type ProductionPackPreset,
+  type ProductionPackSection,
+} from "./tech-pack-output";
+import {
+  productionPackOutputMatchesCurrentRevision,
+  renderProductionPackPanel,
+  type ProductionPackPanelState,
+  type ProductionPackRevisionBinding,
+} from "./tech-pack-presentation";
+import type { StyleRevisionRecord } from "./style-revisions";
 import {
   mountGuidancePanel,
   type GuidanceAction,
@@ -235,6 +250,7 @@ let activeMountRoot: HTMLElement | null = null;
 let activeMountGeneration = 0;
 let activeGuidancePanelControls: GuidancePanelControls | null = null;
 let activeMaterialPanelControls: ReturnType<typeof mountMaterialPanel> | null = null;
+let activeProductionPackCleanup: (() => void) | null = null;
 let semanticOperationSequence = 0;
 
 function nextSemanticOperationId(): string {
@@ -487,6 +503,8 @@ export function defaultArtworkAssetStore(): ArtworkAssetStore {
 }
 
 export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void {
+  activeProductionPackCleanup?.();
+  activeProductionPackCleanup = null;
   activeGuidancePanelControls?.dispose();
   activeGuidancePanelControls = null;
   activeMaterialPanelControls?.dispose();
@@ -558,12 +576,339 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const recoveryHost = root.querySelector<HTMLDivElement>("#recovery-host")!;
   const projectManagerHost = root.querySelector<HTMLDivElement>("#project-manager-host")!;
   const projectPersistenceState = root.querySelector<HTMLSpanElement>("#project-persistence-state")!;
+  const productionPackHost = root.querySelector<HTMLDivElement>("#production-pack-host")!;
   projectManagerHost.hidden = !projectWorkflow;
   projectPersistenceState.hidden = !projectWorkflow;
   if (projectWorkflow) {
     projectPersistenceState.textContent = "Saved in this style";
     projectPersistenceState.dataset.state = "saved";
   }
+
+  type ProductionPackContext = {
+    readonly loaded: LoadedProject;
+    readonly record: LoadedProject["activeStyle"]["techPack"];
+    readonly revision: StyleRevisionRecord;
+    readonly binding: ProductionPackRevisionBinding;
+  };
+  type ProductionPackContextResult =
+    | { readonly ok: true; readonly value: ProductionPackContext }
+    | { readonly ok: false; readonly message: string };
+  const productionPackContext = (loaded: LoadedProject | null | undefined): ProductionPackContextResult => {
+    if (!loaded) return { ok: false, message: "Open a saved local style to generate a revision-bound production pack." };
+    const style = loaded.activeStyle;
+    if (!style.revisionHeadId) {
+      return { ok: false, message: "This style has no saved revision head. Save the style, then generate the production-pack preview." };
+    }
+    const revision = loaded.styleRevisions.find((item) => item.revisionId === style.revisionHeadId);
+    if (!revision || revision.payload.payloadVersion !== 2) {
+      return { ok: false, message: "This style has no verified current tech-pack snapshot. Save a current style revision before generating the production pack." };
+    }
+    const record = style.techPack;
+    if (revision.styleId !== style.id || revision.revisionId !== style.revisionHeadId
+      || revision.revisionNumber !== record.revisionNumber || record.styleId !== style.id
+      || record.recipeId !== style.recipeId || record.revisionId !== revision.revisionId) {
+      return { ok: false, message: "The saved style and tech-pack revision identities do not match. Reload the project and review its current saved revision." };
+    }
+    return {
+      ok: true,
+      value: {
+        loaded,
+        record,
+        revision,
+        binding: {
+          styleId: style.id,
+          recipeId: record.recipeId,
+          recipeVersion: record.recipeVersion,
+          revisionId: revision.revisionId,
+          revisionNumber: revision.revisionNumber,
+          revisionContentDigest: revision.revisionContentDigest,
+          approvalState: record.approval.state,
+          approvalRevisionId: record.approval.revisionId,
+          approvalScopeFieldIds: [...record.approval.scopeFieldIds],
+        },
+      },
+    };
+  };
+  const productionPackBindingKey = (binding: ProductionPackRevisionBinding): string => JSON.stringify([
+    binding.styleId, binding.recipeId, binding.recipeVersion, binding.revisionId, binding.revisionNumber,
+    binding.revisionContentDigest, binding.approvalState, binding.approvalRevisionId, binding.approvalScopeFieldIds,
+  ]);
+  const productionPackSnapshotStamp = (loaded: LoadedProject | null | undefined): string => {
+    const context = productionPackContext(loaded);
+    if (context.ok) return productionPackBindingKey(context.value.binding);
+    if (!loaded) return "no-local-project";
+    const style = loaded.activeStyle;
+    return JSON.stringify([loaded.project.id, style.id, style.recipeId, style.revisionHeadId,
+      style.techPack.revisionId, style.techPack.revisionNumber, style.techPack.approval]);
+  };
+  const initialPackContext = productionPackContext(projectWorkflow?.snapshot);
+  let productionPackPreset: ProductionPackPreset = "complete-pack";
+  let productionPackSections: ProductionPackSection[] = [...PRODUCTION_PACK_PRESETS[productionPackPreset]];
+  let productionPackState: ProductionPackPanelState = initialPackContext.ok
+    ? { kind: "unavailable", message: "No preview has been generated for this saved revision yet. Choose sections, then generate the preview." }
+    : { kind: "unavailable", message: initialPackContext.message };
+  let productionPackRequest = 0;
+  let productionPackBlockedByFreshness = false;
+  let productionPackSnapshotKey = productionPackSnapshotStamp(projectWorkflow?.snapshot);
+  let productionPackFocusAfterGeneration = false;
+  const renderProductionPack = (): void => {
+    const active = document.activeElement instanceof HTMLElement && productionPackHost.contains(document.activeElement)
+      ? document.activeElement : null;
+    const focusId = active?.id || null;
+    const focusSection = active?.dataset.packSectionToggle || null;
+    const focusAction = active?.dataset.productionPackAction || null;
+    const context = productionPackContext(projectWorkflow?.snapshot);
+    productionPackHost.innerHTML = renderProductionPackPanel({
+      preset: productionPackPreset,
+      selectedSections: productionPackSections,
+      controlsDisabled: !projectWorkflow || !context.ok || productionPackBlockedByFreshness
+        || productionPackState.kind === "generating",
+      canGenerate: Boolean(projectWorkflow && context.ok && !productionPackBlockedByFreshness),
+      state: productionPackState,
+    });
+    const selector = focusId ? `#${focusId}`
+      : focusSection ? `[data-pack-section-toggle="${focusSection}"]`
+        : focusAction ? `[data-production-pack-action="${focusAction}"]` : null;
+    const replacement = selector ? productionPackHost.querySelector<HTMLElement>(selector) : null;
+    if (replacement && !("disabled" in replacement && replacement.disabled)) replacement.focus({ preventScroll: true });
+    if (productionPackFocusAfterGeneration && productionPackState.kind !== "generating") {
+      productionPackFocusAfterGeneration = false;
+      productionPackHost.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')?.focus({ preventScroll: true });
+    }
+  };
+  const markProductionPackStale = (message: string): void => {
+    productionPackRequest++;
+    productionPackBlockedByFreshness = true;
+    productionPackState = { kind: "stale", message };
+    renderProductionPack();
+  };
+  const syncProductionPackSnapshot = (): void => {
+    const nextKey = productionPackSnapshotStamp(projectWorkflow?.snapshot);
+    if (nextKey === productionPackSnapshotKey) return;
+    productionPackSnapshotKey = nextKey;
+    productionPackRequest++;
+    productionPackBlockedByFreshness = false;
+    const context = productionPackContext(projectWorkflow?.snapshot);
+    productionPackState = context.ok
+      ? { kind: "stale", message: "The saved style revision or its review scope changed. Generate a new preview for the current revision." }
+      : { kind: "unavailable", message: context.message };
+    renderProductionPack();
+  };
+  const resolveProductionPackAttachments = async (revision: StyleRevisionRecord): Promise<ProductionPackAttachmentInput[]> => {
+    const sources = new Map<string, string>();
+    for (const surface of Object.values(revision.payload.design.surface as SurfaceBook)) {
+      for (const candidate of surface.placements) {
+        if (typeof candidate !== "object" || candidate === null) continue;
+        const placement = candidate as { readonly assetId?: unknown; readonly sourceName?: unknown };
+        if (typeof placement.assetId === "string" && typeof placement.sourceName === "string" && placement.sourceName.trim()) {
+          sources.set(placement.assetId, placement.sourceName);
+        }
+      }
+    }
+    const attachments: ProductionPackAttachmentInput[] = [];
+    for (const reference of revision.payload.artwork) {
+      let name = reference.assetId;
+      let mediaType = reference.mimeType;
+      let sourceLabel: string | null = sources.get(reference.assetId) ?? "User-provided local artwork";
+      let attribution: string | null = null;
+      let bytes: Uint8Array;
+      if (isLocalArtworkAssetId(reference.assetId)) {
+        const stored = await loadArtworkAsset(reference.assetId, artworkAssetStore);
+        if (!stored) throw new Error(`Local artwork ${reference.assetId} is missing. Choose or restore the local file, then retry.`);
+        name = stored.name;
+        mediaType = stored.mimeType;
+        bytes = new Uint8Array(await stored.blob.arrayBuffer());
+      } else {
+        const bundled = ARTWORK_CATALOG.find((item) => item.assetId === reference.assetId);
+        if (!bundled) throw new Error(`Artwork ${reference.assetId} is not available as a bundled or local asset. Re-add it through the artwork flow.`);
+        const localUrl = new URL(bundled.image.localImageUrl, window.location.href);
+        if (localUrl.origin !== window.location.origin || localUrl.protocol !== window.location.protocol
+          || !["http:", "https:", "file:"].includes(localUrl.protocol)) {
+          throw new Error(`Bundled artwork ${reference.assetId} is not available from this app's local origin. Open the local artwork preview in this app and retry.`);
+        }
+        const response = await fetch(localUrl.href, { credentials: "same-origin" });
+        if (!response.ok) throw new Error(`Bundled local artwork ${reference.assetId} could not be read (HTTP ${response.status}). Retry in the app with its local artwork available.`);
+        const responseUrl = new URL(response.url || localUrl.href, window.location.href);
+        if (responseUrl.origin !== window.location.origin || responseUrl.protocol !== window.location.protocol) {
+          throw new Error(`Bundled artwork ${reference.assetId} redirected outside the local app origin. The remote response was not used.`);
+        }
+        name = bundled.image.filename;
+        mediaType = bundled.image.mimeType;
+        sourceLabel = artworkSourceReferenceText(bundled);
+        attribution = bundled.source.creditLine;
+        bytes = new Uint8Array(await response.arrayBuffer());
+      }
+      attachments.push({
+        assetId: reference.assetId,
+        name,
+        mediaType,
+        sourceLabel,
+        attribution,
+        bytes,
+      });
+    }
+    return attachments;
+  };
+  const readFreshProductionPackContext = async (): Promise<ProductionPackContextResult> => {
+    const latest = await projectWorkflow!.repository.loadProject(projectWorkflow!.snapshot.project.id);
+    return productionPackContext(latest);
+  };
+  const generateProductionPack = async (): Promise<void> => {
+    if (!projectWorkflow || productionPackState.kind === "generating" || productionPackBlockedByFreshness) return;
+    const expected = productionPackContext(projectWorkflow.snapshot);
+    if (!expected.ok) {
+      productionPackState = { kind: "unavailable", message: expected.message };
+      renderProductionPack();
+      return;
+    }
+    const request = ++productionPackRequest;
+    productionPackState = { kind: "generating" };
+    renderProductionPack();
+    try {
+      const fresh = await readFreshProductionPackContext();
+      if (request !== productionPackRequest || !isCurrentMount()) return;
+      if (!fresh.ok || productionPackBindingKey(fresh.value.binding) !== productionPackBindingKey(expected.value.binding)) {
+        markProductionPackStale(fresh.ok
+          ? "The saved revision or review scope changed in another window. Reload the project before generating a preview."
+          : fresh.message);
+        return;
+      }
+      const attachments = productionPackSections.includes("artwork")
+        ? await resolveProductionPackAttachments(fresh.value.revision) : [];
+      if (request !== productionPackRequest || !isCurrentMount()) return;
+      const outputs = await createProductionPackOutputs({
+        record: fresh.value.record,
+        revision: fresh.value.revision,
+        currentHeadRevisionId: fresh.value.revision.revisionId,
+        preset: productionPackPreset,
+        selectedSections: productionPackSections,
+        attachments,
+      });
+      const after = await readFreshProductionPackContext();
+      if (request !== productionPackRequest || !isCurrentMount()) return;
+      if (!after.ok || !productionPackOutputMatchesCurrentRevision(outputs, after.value.binding)
+        || productionPackBindingKey(expected.value.binding) !== productionPackBindingKey(after.value.binding)) {
+        markProductionPackStale("The saved revision or review scope changed while the preview was generating. Reload the project, then generate again.");
+        return;
+      }
+      productionPackBlockedByFreshness = false;
+      productionPackState = { kind: "ready", outputs };
+    } catch (error) {
+      if (request !== productionPackRequest || !isCurrentMount()) return;
+      productionPackState = {
+        kind: "unavailable",
+        message: `The production-pack preview could not be generated. ${error instanceof Error ? error.message : "Check the saved revision and local artwork, then retry."}`,
+      };
+    }
+    renderProductionPack();
+  };
+  const downloadProductionPack = async (kind: "pdf" | "archive"): Promise<void> => {
+    if (!projectWorkflow || productionPackState.kind !== "ready") return;
+    const outputs = productionPackState.outputs;
+    const request = productionPackRequest;
+    try {
+      const fresh = await readFreshProductionPackContext();
+      if (request !== productionPackRequest || !isCurrentMount()) return;
+      if (!fresh.ok || !productionPackOutputMatchesCurrentRevision(outputs, fresh.value.binding)) {
+        markProductionPackStale("This preview no longer matches the saved revision or review scope. Reload the project and generate a new preview before downloading.");
+        return;
+      }
+      const bytes = kind === "pdf" ? outputs.pdfBytes : outputs.archiveBytes;
+      const mime = kind === "pdf" ? "application/pdf" : "application/zip";
+      const extension = kind === "pdf" ? "production-pack.pdf" : "techpack.zip";
+      const filename = `${outputs.presentation.styleId}-r${outputs.presentation.revisionNumber}-${extension}`;
+      const url = URL.createObjectURL(new Blob([bytes.slice().buffer as ArrayBuffer], { type: mime }));
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = filename;
+      anchor.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (error) {
+      productionPackState = {
+        kind: "unavailable",
+        message: `The ${kind === "pdf" ? "PDF" : "editable ZIP"} download could not start. ${error instanceof Error ? error.message : "Check browser download support, then retry."}`,
+      };
+      renderProductionPack();
+    }
+  };
+  productionPackHost.addEventListener("change", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLSelectElement && target.id === "production-pack-preset") {
+      if (!(target.value in PRODUCTION_PACK_PRESETS)) return;
+      productionPackPreset = target.value as ProductionPackPreset;
+      productionPackSections = [...PRODUCTION_PACK_PRESETS[productionPackPreset]];
+    } else if (target instanceof HTMLInputElement && target.dataset.packSectionToggle) {
+      const section = target.dataset.packSectionToggle as ProductionPackSection;
+      const selected = new Set(productionPackSections);
+      if (target.checked) selected.add(section);
+      else selected.delete(section);
+      productionPackSections = PRODUCTION_PACK_PRESETS[productionPackPreset]
+        .filter((candidate) => selected.has(candidate))
+        .concat(PRODUCTION_PACK_SECTIONS.filter((candidate) => selected.has(candidate)
+          && !PRODUCTION_PACK_PRESETS[productionPackPreset].includes(candidate)));
+    } else return;
+    productionPackRequest++;
+    productionPackBlockedByFreshness = false;
+    const context = productionPackContext(projectWorkflow?.snapshot);
+    productionPackState = context.ok
+      ? { kind: "stale", message: "Section selection changed. Generate a new preview to show the selected sections." }
+      : { kind: "unavailable", message: context.message };
+    renderProductionPack();
+  });
+  productionPackHost.addEventListener("click", (event) => {
+    const tableScroll = event.target instanceof Element
+      ? event.target.closest<HTMLButtonElement>("[data-pack-table-scroll]") : null;
+    if (tableScroll) {
+      const tableWrap = productionPackHost.querySelector<HTMLDivElement>(".tech-pack-open-table-wrap");
+      if (!tableWrap) return;
+      tableWrap.scrollLeft = tableScroll.dataset.packTableScroll === "end"
+        ? Math.max(0, tableWrap.scrollWidth - tableWrap.clientWidth) : 0;
+      return;
+    }
+    const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-production-pack-action], [data-production-pack-download]") : null;
+    if (!target) return;
+    if (target.dataset.productionPackAction === "generate") {
+      productionPackFocusAfterGeneration = true;
+      void generateProductionPack();
+    } else if (target.dataset.productionPackDownload === "pdf" || target.dataset.productionPackDownload === "archive") {
+      void downloadProductionPack(target.dataset.productionPackDownload);
+    }
+  });
+  renderProductionPack();
+  let productionPackObserver: MutationObserver | null = null;
+  const recheckReadyProductionPack = async (): Promise<void> => {
+    if (!projectWorkflow || productionPackState.kind !== "ready") return;
+    const outputs = productionPackState.outputs;
+    const request = productionPackRequest;
+    try {
+      const fresh = await readFreshProductionPackContext();
+      if (request !== productionPackRequest || !isCurrentMount() || productionPackState.kind !== "ready"
+        || productionPackState.outputs !== outputs) return;
+      if (!fresh.ok || !productionPackOutputMatchesCurrentRevision(outputs, fresh.value.binding)) {
+        markProductionPackStale("The saved revision or review scope changed while this tab was inactive. Reload the project, then generate a new preview.");
+      }
+    } catch {
+      if (request === productionPackRequest && isCurrentMount()) {
+        markProductionPackStale("The current saved revision could not be checked. Reopen the project before downloading this preview.");
+      }
+    }
+  };
+  const productionPackOnFocus = (): void => { void recheckReadyProductionPack(); };
+  const productionPackOnVisibility = (): void => {
+    if (document.visibilityState === "visible") void recheckReadyProductionPack();
+  };
+  if (typeof MutationObserver !== "undefined") {
+    productionPackObserver = new MutationObserver(syncProductionPackSnapshot);
+    productionPackObserver.observe(projectManagerHost, { childList: true, subtree: true, attributes: true });
+    productionPackObserver.observe(projectPersistenceState, { childList: true, characterData: true, attributes: true, subtree: true });
+  }
+  window.addEventListener("focus", productionPackOnFocus);
+  document.addEventListener("visibilitychange", productionPackOnVisibility);
+  activeProductionPackCleanup = () => {
+    productionPackObserver?.disconnect();
+    window.removeEventListener("focus", productionPackOnFocus);
+    document.removeEventListener("visibilitychange", productionPackOnVisibility);
+  };
   const undoButton = root.querySelector<HTMLButtonElement>("#undo-pattern")!;
   const redoButton = root.querySelector<HTMLButtonElement>("#redo-pattern")!;
 
