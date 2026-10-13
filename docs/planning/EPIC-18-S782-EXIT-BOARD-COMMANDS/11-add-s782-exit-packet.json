@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4723,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S782-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic18/S782-T01-legacy-v1-save/exit-packet.md",
+    "sha256": "ef3eb2ec8da2e682ec9a9bf85f1fa6cad121379e6cf7003e7b000e28ab19f131",
+    "verified": true,
+    "note": "S782 narrow compatibility fix and technical gates verified; full global four-metric coverage, real v8 migration regression, Chromium PDF/ZIP proof, build/Electron, release/readiness, and final Control Center suite pass. Exact-head internal reviews remain pending; G05-EXIT stays In Progress."
+  }
+}

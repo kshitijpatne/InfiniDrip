@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4713,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S782-GLOBAL-COVERAGE",
+    "kind": "document",
+    "uri": "docs/research/epic18/S782-T01-legacy-v1-save/global-coverage.txt",
+    "sha256": "83e4f7fc6f6a5bd434a82994c74ace3ad78de24d4384ea51eae3fc40dcaff3ae",
+    "verified": true,
+    "note": "Settled S782 repository gate passes 179/179 test files, 3,161/3,161 tests, and 100% global statement, branch, function, and line coverage; one-worker override was used for this run."
+  }
+}

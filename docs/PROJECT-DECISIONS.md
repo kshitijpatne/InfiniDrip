@@ -2,6 +2,12 @@
 
 ## EPIC-18/G05 — next capability Epic admitted (2026-10-12)
 
+### S782 checkpoint — remediation verified; exact-head internal reviews pending (2026-10-13)
+
+S782 implements the admitted narrow fix for a migrated payload-v1 style whose T01 row is unlinked: the first authored T01 save creates one payload-v2 child and preserves the v1 parent/digest. No-op behavior and stale-write CAS protection remain. The real v8 migration regression, 126/126 focused tests with 100% changed-module coverage, and one full 179/179-file, 3,161/3,161-test, 100% global four-metric gate pass. Build/Electron, web release, readiness, Control Center, actual Chromium migration flow, and PDF/ZIP review pass. Evidence: docs/research/epic18/S782-T01-legacy-v1-save/.
+
+The validated board is at revision 4725; the Control Center suite passed 42/42 at revision 4723 after the summaries retained their catalog-required historical S780/S781/S782 phrases. EPIC-18 and G05-EXIT remain In Progress. PR #43 remains unmerged until the exact pushed head receives fresh independent Claude Code and OpenCode approvals and Codex accepts the actual diff. The effective GitHub rules query returned [] and classic branch protection returned 404, so there is no formal approval requirement. The owner's internal two-review gate remains; no outside GitHub user is to be contacted. S783 remains responsible for normal rebase merge, successful main deployment, actual preview verification and canonical closeout. Local/no-cost, physical, supplier/factory, signing, compliance and production-claim holds remain.
+
 ### S781 checkpoint — effective merge rules reconciled (2026-10-13)
 
 The active S765 amendment controls numbering: S780 is the integrated gate and

@@ -177,28 +177,34 @@ only through an explicitly admitted, linked Epic packet.
   schema-v1/v2 compatibility and all eight protected legacy identities.
   Changed `project-manager.ts` coverage is 100% across all four metrics;
   TypeScript, focused suites, final-source browser review and Control Center
-  pass. S780 completed the settled integrated gate: 179/179 files and
-  3,161/3,161 tests pass at 100% global statement, branch, function and line
-  coverage; build, readiness, browser/Electron, actual output and protected
-  export checks pass. The optional repeated run stopped on one timeout during
-  high memory use and the isolated case passed; the first full pass remains
-  the qualifying gate. The standard Windows Electron pack output rename failed
-  twice, while an isolated alternate-path package passed functional review.
-  S780 evidence is in `docs/research/epic18/S780-integrated-gate/`; its final
-  board replay is 4695. S781's initial replay ended at 4702; its mergeability
-  correction and review evidence advanced the canonical board to 4706; S782
-  admission/start records and refreshed mergeability facts advanced it to 4712;
-  the bound review-reconciliation digest refresh advanced it to 4713.
-  EPIC-18/G05-EXIT remain In Progress and T01–T05/UIQ-10 remain Done; UIQ-09
-  remains Backlog behind EPIC-19. PR #43 is OPEN/CLEAN/MERGEABLE. Effective
-  rules for `main` returned `[]` and classic protection returned 404, so no
-  formal approval gate applies. The owner requires two internal reviews:
-  OpenCode approved the S780 head, while Claude requested changes for a
-  high-severity legacy payload-v1 T01 save defect confirmed by Codex. No merge
-  was attempted and no outside GitHub user was contacted. S782's bounded
-  remediation admission is `docs/planning/EPIC-18-S782-REMEDIATION-ADMISSION.md`;
-  review details are in `docs/research/epic18/S781-merge-closeout/`.
-  S773's start-digest correction remains documented in its packet. Pattern
+  pass. S780 completed the settled integrated gate: 179/179 files and 3,161/3,161
+  tests pass at 100% global statement, branch, function and line coverage;
+  build, readiness, browser/Electron, actual output and protected export
+  checks pass. S781's initial review of PR #43 identified a high-severity
+  first-save defect for migrated payload-v1 T01 records; Codex reproduced it
+  against the actual v8 migration fixture. S782 is the admitted narrow repair:
+  a changed T01 record with the exact legacy null/zero identity may create one
+  payload-v2 child from a verified same-style v1 head while preserving its
+  parent/digest, keeping no-op saves stable and retaining stale-write CAS.
+  The actual v8 regression, 126/126 focused tests with 100% changed-module
+  coverage, and a new full 179/179-file, 3,161/3,161-test, 100% global gate
+  pass; build/Electron, web release 10/10, readiness 5/5, Control Center,
+  Chromium save/review/freeze, and actual PDF/ZIP review also pass. Evidence is
+  in `docs/research/epic18/S782-T01-legacy-v1-save/`.
+
+  Validated S782 board replay ended at revision 4725; its Control Center suite
+  passed 42/42 at revision 4723 after a summary correction. EPIC-18 and
+  G05-EXIT remain In Progress; G05-T01–T05 and UIQ-10 remain Done; UIQ-09
+  remains Backlog behind EPIC-19. PR #43 is still open and unmerged. The
+  effective `main` rules query returned `[]` and classic protection returned
+  404, so GitHub imposes no formal approval gate. The maintainer requires new
+  internal Claude Code and OpenCode reviews of the exact pushed S782 head plus
+  Codex acceptance; no outside GitHub reviewer is to be contacted. S783 owns
+  merge, main CI/deployment, live preview verification, and validated board
+  closeout. S782's admission is `docs/planning/EPIC-18-S782-REMEDIATION-ADMISSION.md`;
+  its exit and review handoff are under
+  `docs/research/epic18/S782-T01-legacy-v1-save/`. S773's start-digest
+  correction remains documented in its packet. Pattern
   identifiers do not establish construction facts or fit.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in

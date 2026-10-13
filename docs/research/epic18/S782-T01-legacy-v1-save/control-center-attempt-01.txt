@@ -1,0 +1,27 @@
+S782 Control Center attempt 1 — normalized diagnostic excerpt (not a byte-for-byte transcript)
+
+Command: npm run control-center:test
+Exit: 1
+Result: 42 tests; 41 passed, 1 failed.
+Failing test: Epic 14–30 catalog status matches closure, admission, and current exit evidence
+Location: ops/control-center/app/board.test.mjs:448:1 (assertion at line 1232)
+
+Failure emitted:
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+    assert.ok(g05?.description.includes("S780 passed the settled integrated gate"))
+Cause: the validated S782 board-summary edit used “S780 passed its integrated gate”; the catalog test requires the retained historical phrase.
+
+After correcting that phrase, the focused catalog test exposed the next retained historical assertion at line 1233:
+  assert.ok(g05?.description.includes("S781's initial review of PR #43 found a high-severity backward-compatibility defect"))
+The active catalog assertions also require:
+  "S782 is admitted to add the guarded first-save path and real migration regression"
+
+The Epic and G05-EXIT summaries were updated through validated board commands to retain the historical S780/S781/S782 anchors while adding the current S782 verification status. No test expectation or production code was changed.
+
+Focused recheck:
+  node --test --test-name-pattern='Epic 14–30 catalog status matches closure, admission, and current exit evidence' ops/control-center/app/board.test.mjs
+  Exit 0; 1 passed, 0 failed.
+
+Final Control Center gate on board revision 4723:
+  npm run control-center:test
+  Exit 0; 42 passed, 0 failed; duration 2462.9981 ms.

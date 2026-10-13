@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 4719,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Keep the current Epic catalog summary aligned with its verified S780 wording and corrected S782 status.",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; active ledger: docs/planning/EPIC-18-GOAL.md. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated gate: 179/179 files, 3,161/3,161 tests and 100% four-metric global coverage; build/readiness, browser/Electron, actual PDF/ZIP, and protected exports passed. S781 reviews found and confirmed that an upgraded payload-v1 style with unlinked T01 could not save its first T01 edit. S782 adds the guarded save: the authored edit creates one payload-v2 child, preserves the v1 parent/digest, keeps no-op behavior stable, and retains repository CAS rejection for stale writes. The real migrated-v8 regression and S782 verification pass: 126/126 focused tests with 100% changed-module coverage; 179/179 full test files, 3,161/3,161 tests and 100% global statement/branch/function/line coverage; production build/Electron workflow, web release 10/10, readiness 5/5, and actual browser save/review/freeze plus PDF/ZIP inspection. The updated candidate is not merged. Before merge, the owner requires fresh independent Claude Code and OpenCode approvals of the exact pushed PR #43 head and Codex acceptance; GitHub has no formal approval requirement on main. S783 owns normal rebase merge after those gates, main CI/deployment, actual live preview verification, and canonical closeout. Local/no-cost, physical, supplier, factory, signing, compliance, and production-claim holds remain explicit. UIQ-09 stays Backlog behind EPIC-19."
+  }
+}

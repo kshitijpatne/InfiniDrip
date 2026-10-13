@@ -68,35 +68,27 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S781 review found a blocker; S782 remediation active
+## Current checkpoint — S782 technical gates passed; exact-head reviews pending
 
-S780 completed the admitted integrated gate from S779 commit
-`0e557553e881add962c67dea49f282b3dbdd227d` and landed as
-`bfacbf68ef242f366e77b6c43ed548ee4fe130b8`. PR #43 is open against `main`;
-fresh `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an
-ancestor. S780's first full global run passed 179/179 files and 3,161/3,161
-tests at 100% across all four metrics; its evidence remains unchanged.
+S780 completed the admitted integrated gate and landed as bfacbf68ef242f366e77b6c43ed548ee4fe130b8. The refreshed origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75 remains the verified ancestor. S781 review of PR #43 found a high-severity first-save defect for upgraded payload-v1 styles; Codex confirmed it against the real v8 migration fixture.
 
-The initial S781 replay ended at revision 4702; corrected mergeability and
-review evidence advanced the board to revision 4706. EPIC-18 and G05-EXIT stay
-In Progress, T01–T05/UIQ-10 stay Done, and UIQ-09 stays Backlog behind EPIC-19.
-PR #43 is OPEN/CLEAN/MERGEABLE. The effective-rules query for `main` returned
-`[]` and classic branch protection returned 404; no formal approval gate
-applies. The owner nevertheless requires two internal approvals. OpenCode
-approved the S780 head; Claude requested changes for the legacy payload-v1 T01
-save defect. Codex independently confirmed it. No merge was attempted and no
-outside GitHub user was contacted. See
+S782 is admitted under the existing goal's failed-gate remediation clause. The narrow first-save implementation and real migrated-v8 regression pass. The candidate passes 126/126 focused tests with 100% changed-module coverage; one settled full gate passes 179/179 files, 3,161/3,161 tests and 100% global statements, branches, functions and lines. Build/Electron workflow, web release 10/10, readiness 5/5, actual browser and PDF/ZIP output, and Control Center 42/42 pass. Evidence is in docs/research/epic18/S782-T01-legacy-v1-save/.
+
+Validated S782 board replay advanced revision 4713 to 4725; the Control Center suite passed after the board-summary correction at revision 4723. EPIC-18 and G05-EXIT remain In Progress. T01–T05 and UIQ-10 remain Done; UIQ-09 remains Backlog behind EPIC-19. PR #43 is unmerged. No formal GitHub approval gate applies: the effective rules query for main returned [] and classic branch protection returned 404. The owner nevertheless requires two independent internal approvals, by Claude Code and OpenCode. No outside GitHub user is to be contacted.
+
+The single next action is commit S782 once as Slice 782 and push the candidate to PR #43. Then Claude Code and OpenCode review that exact immutable head in separate read-only worktrees; Codex reviews the actual diff and reports. Both must approve before S783 proceeds with normal rebase merge, main CI/build/web-proof/deployment, actual preview verification, and validated durable closeout. Local/no-cost, physical, supplier/factory, signing/compliance and production-claim holds remain unchanged.
+
+## Previous checkpoint — S781 review found blocker; S782 remediation active
+
+S781's first review replay ended at board revision 4702; its mergeability and
+S782 admission/reconciliation replays advanced the canonical board to 4713.
+PR #43 remained unmerged on the S780 candidate. OpenCode approved that initial
+head; Claude Code requested changes after identifying a first-save failure on
+a migrated payload-v1 style, which Codex reproduced against the actual v8
+migration fixture. S782 was admitted as the bounded remediation and S783 was
+reserved for merge/deployment only after the corrected head passed both fresh
+reviews. The review reconciliation is in
 `docs/research/epic18/S781-merge-closeout/review-reconciliation.md`.
-
-S782 is admitted under the existing goal's failed-gate remediation clause; its
-bounded fix and acceptance gates are in
-`EPIC-18-S782-REMEDIATION-ADMISSION.md`. S783 is reserved for the updated-head
-reviews, normal rebase merge, main workflow/deployment, actual preview check,
-and validated board/durable closeout. The original S762 admission, all
-local/no-cost limits, and physical/supplier/factory/signing/compliance/
-production-claim holds remain unchanged.
-
-## Previous checkpoint — S779 complete; S780 next
 
 S779 completed from landed S778 commit
 `e5c62ada9cec87b9e5daafff093824e91bd9ace0` on `codex/epic-18-g05`. Its start,
@@ -108,6 +100,8 @@ frozen files, schema-v1/v2 compatibility and all eight protected legacy
 export identities. S780 was the next integrated/global gate; S781 remains the
 merge/deployment and Epic-closeout boundary. No new product decision was
 open, and the S762 admission and all holds were unchanged.
+
+## Previous checkpoint — S779 complete; S780 next
 
 ## Previous checkpoint — S778 complete; S779 next
 

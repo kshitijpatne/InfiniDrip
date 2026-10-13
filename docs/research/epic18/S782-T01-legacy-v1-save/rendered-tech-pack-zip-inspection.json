@@ -1,0 +1,27 @@
+{
+  "packageFormat": "infinidrip-techpack",
+  "packageVersion": 1,
+  "recipeId": "tee",
+  "revisionId": "a2ee2d10-cbcd-457f-bcc5-7e3a3f7f9321",
+  "revisionNumber": 2,
+  "revisionContentDigest": "4a7a2612f99ed14da0b624d086b0375211728fb24aadca2560d2dc08347b0ce0",
+  "zippedT01StyleCode": "TP-S782-UI-01",
+  "zippedT01ApprovalState": "APPROVED",
+  "entries": [
+    {
+      "name": "documents/production-pack.pdf",
+      "byteLength": 11686,
+      "sha256": "d27d230005e9a97bf6e739ecc109bb03b6219f24368177ee129b81180f9e57c4"
+    },
+    {
+      "name": "manifest.json",
+      "byteLength": 863,
+      "sha256": "c22b03b122c2648ae6bdc68c706aca438aaf1f4b6f846fa957019ae2dcaf82ca"
+    },
+    {
+      "name": "records/tech-pack.json",
+      "byteLength": 3750,
+      "sha256": "ee2af88b290bfa2619d64ee94e614c07035f55cec2030231b17ae6e0e2fee6dd"
+    }
+  ]
+}

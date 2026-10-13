@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4722,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "patch": {
+    "description": "Slices 780–783. S780 passed the settled integrated gate. S781's initial review of PR #43 found a high-severity backward-compatibility defect: a migrated payload-v1 style can load with an unlinked T01 record whose first save fails. S782 is admitted to add the guarded first-save path and real migration regression. Its implementation now lets an authored T01 edit create one payload-v2 child while preserving the v1 parent/digest; no-op saves create no child and stale writes remain rejected by repository CAS. The real v8 migration regression, 126/126 focused tests with 100% changed-module coverage, and 179/179 full test files / 3,161/3,161 tests / 100% global four-metric coverage pass. Build/Electron workflow, web release 10/10, readiness 5/5, and actual browser save/review/freeze/PDF/ZIP proof pass. S782 evidence is in docs/research/epic18/S782-T01-legacy-v1-save/. The candidate awaits fresh independent Claude Code and OpenCode approvals on the exact pushed PR #43 head plus Codex review; GitHub imposes no formal approval gate, and no outside reviewer is to be contacted. S783 owns normal rebase merge, successful main CI/deployment, live preview verification, and validated board/durable closeout. Keep EPIC-18/G05-EXIT In Progress until deployment and verification pass."
+  }
+}

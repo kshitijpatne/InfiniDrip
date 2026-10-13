@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4715,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S782-RENDERED",
+    "kind": "rendered-output",
+    "uri": "docs/research/epic18/S782-T01-legacy-v1-save/rendered-output-review.md",
+    "sha256": "0390ab74d1132a207b1bc3631e306a6163c1b037c6841ecd8c9a9fdbdf2bc06c",
+    "verified": true,
+    "note": "Chromium proof opens and migrates a real v8-style IndexedDB fixture, saves T01, reviews/approves/freezes the v2 child, and inspects actual seven-page PDF and ZIP bytes; all synthetic/local and physical/production disclaimers remain."
+  }
+}

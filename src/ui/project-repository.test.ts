@@ -35,8 +35,10 @@ import {
   openProjectRepository,
   type ProjectBundleSnapshot,
 } from "./project-repository";
+import { openProjectWorkflow, type ProjectWorkflow } from "./project-workflow";
 import { createFieldObservationRecord, type FieldObservationRecord } from "./field-provenance";
 import { bindTechPackToRevision, parseTechPackRecord } from "./tech-pack-records";
+import { TECH_PACK_SHARE_ARTIFACTS } from "./tech-pack-sharing";
 import {
   createFrozenOutputManifest,
   createStyleRevision,
@@ -4429,6 +4431,12 @@ describe("G03 grade-plan persistence", () => {
     const name = databaseName();
     await createVersionEightDatabase(factory, name, "full", rows);
     const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const childRevisionId = testUuid(765);
+    const manifestId = testUuid(766);
+    let workflowIdIndex = 0;
+    let workflow: ProjectWorkflow | null = null;
+    let staleRepository: ProjectRepository | null = null;
+    let staleWorkflow: ProjectWorkflow | null = null;
     try {
       const loaded = await repository.readActiveProject();
       expect(loaded?.activeStyle).toMatchObject({
@@ -4440,8 +4448,86 @@ describe("G03 grade-plan persistence", () => {
       expect(loaded?.activeStyle.design).toEqual(legacy.style.design);
       expect(loaded?.project).toEqual(legacy.project);
       expect(loaded?.styleRevisions).toEqual([revision]);
+      workflow = await openProjectWorkflow({
+        repositoryOptions: { name, factory, crypto: webcrypto },
+        openRepository: async () => repository,
+        now: () => NEXT_TIME,
+        revisionIdFactory: () => [childRevisionId, manifestId][workflowIdIndex++] ?? testUuid(767),
+      });
+      staleRepository = await openProjectRepository({ name, factory, crypto: webcrypto });
+      staleWorkflow = await openProjectWorkflow({
+        repositoryOptions: { name, factory, crypto: webcrypto },
+        openRepository: async () => staleRepository!,
+        now: () => NEXT_TIME,
+        revisionIdFactory: () => testUuid(768),
+      });
+      const beforeSave = workflow.snapshot;
+      expect(beforeSave.activeStyle.techPack).toMatchObject({ revisionId: null, revisionNumber: 0 });
+      expect(beforeSave.styleRevisions.find((row) => row.revisionId === revision.revisionId)).toEqual(revision);
+      const noOp = await workflow.saveActiveTechPack(beforeSave.activeStyle.techPack);
+      expect(noOp).toBe(beforeSave);
+      expect(noOp.styleRevisions).toHaveLength(1);
+
+      const candidate = {
+        ...beforeSave.activeStyle.techPack,
+        cover: {
+          ...beforeSave.activeStyle.techPack.cover,
+          styleCode: {
+            ...beforeSave.activeStyle.techPack.cover.styleCode,
+            value: "TP-LEGACY-01",
+            provenance: "USER_CAPTURED" as const,
+            evidenceStatus: "USER_CONFIRMED" as const,
+            validationStatus: "VALID" as const,
+            method: "entered in the local tech-pack editor",
+            capturedBy: "S782 regression user",
+            capturedAt: NEXT_TIME,
+            unresolvedReason: null,
+            nextAction: null,
+          },
+        },
+      };
+      const saved = await workflow.saveActiveTechPack(candidate);
+      await expect(staleWorkflow.saveActiveTechPack(candidate)).rejects.toMatchObject({ code: "conflict" });
+      expect((await repository.readActiveProject())?.styleRevisions).toHaveLength(2);
+      const preservedParent = saved.styleRevisions.find((row) => row.revisionId === revision.revisionId);
+      const child = saved.styleRevisions.find((row) => row.revisionId === childRevisionId);
+      expect(preservedParent).toEqual(revision);
+      expect(child).toMatchObject({
+        revisionId: childRevisionId,
+        parentRevisionId: revision.revisionId,
+        revisionNumber: revision.revisionNumber + 1,
+        payload: { payloadVersion: 2 },
+      });
+      if (child?.payload.payloadVersion !== 2) throw new Error("Expected the saved migrated T01 child to use payload v2.");
+      expect(child.payload.techPack).toMatchObject({ revisionId: childRevisionId, revisionNumber: 2 });
+      expect(saved.activeStyle).toMatchObject({
+        revisionHeadId: childRevisionId,
+        techPack: { revisionId: childRevisionId, revisionNumber: 2 },
+      });
+
+      const scope = [saved.activeStyle.techPack.cover.styleName.fieldId];
+      const reviewed = await workflow.beginActiveTechPackReview("S782 local reviewer", scope, childRevisionId);
+      expect(reviewed.activeStyle.techPack.approval.state).toBe("REVIEW");
+      const approved = await workflow.approveActiveTechPackReview("S782 local approver", childRevisionId);
+      expect(approved.activeStyle.techPack.approval.state).toBe("APPROVED");
+      const frozen = await workflow.freezeTechPackShare("S782 local freezer", {
+        revisionId: childRevisionId,
+        revisionContentDigest: child.revisionContentDigest,
+        selectedSections: ["identity", "approval-disclaimer"],
+        artifacts: TECH_PACK_SHARE_ARTIFACTS.map((artifact, index) => ({
+          ...artifact,
+          bytes: new Uint8Array([80 + index, 75, 0, 255]),
+        })),
+      });
+      expect(frozen.payload.revisionId).toBe(childRevisionId);
+      expect(frozen.payload.unresolved).toContain("This digital package does not establish physical fit or production readiness.");
+      expect(frozen.artifacts.map((artifact) => artifact.byteLength)).toEqual([4, 4]);
+      expect(workflow.snapshot.styleRevisions.find((row) => row.revisionId === revision.revisionId)).toEqual(revision);
     } finally {
-      repository.close();
+      if (staleWorkflow) staleWorkflow.close();
+      else staleRepository?.close();
+      if (workflow) workflow.close();
+      else repository.close();
     }
     const upgraded = await rawDatabase(factory, name);
     expect(upgraded.version).toBe(9);
@@ -4453,11 +4539,18 @@ describe("G03 grade-plan persistence", () => {
     });
     expect(savedStyle).toMatchObject({
       schemaVersion: STYLE_RECORD_VERSION,
-      revisionHeadId: revision.revisionId,
-      techPack: { styleId: STYLE_ID },
+      revisionHeadId: childRevisionId,
+      techPack: { styleId: STYLE_ID, revisionId: childRevisionId, revisionNumber: 2 },
     });
     expect(savedStyle).not.toHaveProperty("design.techPack");
     upgraded.close();
+    expect(await rawGet(factory, name, PROJECT_STORES.styleRevisions, revision.revisionId)).toEqual(revision);
+    expect(await rawGet(factory, name, PROJECT_STORES.styleRevisions, childRevisionId)).toMatchObject({
+      revisionId: childRevisionId,
+      parentRevisionId: revision.revisionId,
+      revisionNumber: 2,
+      payload: { payloadVersion: 2 },
+    });
 
     const malformedName = databaseName();
     const malformedStyle = { ...oldStyle, schemaVersion: 99 };

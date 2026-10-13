@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "command": "npx vitest run src/ui/project-repository.test.ts -t 'upgrades a valid v8 style row atomically'",
+      "testsPassed": 1,
+      "testsFailed": 0,
+      "result": "The actual migrated v8 fixture was loaded; no-op T01 save stayed stable; first authored save created one payload-v2 child; stale candidate was rejected by repository CAS; local review, approval, and freeze completed."
+    },
+    {
+      "command": "npx vitest run src/ui/project-workflow.test.ts src/ui/project-repository.test.ts --coverage --coverage.include=src/ui/project-workflow.ts --coverage.reporter=text",
+      "testsPassed": 126,
+      "testsFailed": 0,
+      "changedProductionModule": "src/ui/project-workflow.ts",
+      "coveragePercent": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    },
+    {
+      "command": "node --check docs/research/epic18/S782-T01-legacy-v1-save/rendered-proof.cjs",
+      "result": "PASS"
+    }
+  ],
+  "renderedProof": "rendered-proof-verification.json",
+  "renderedOutputReview": "rendered-output-review.md",
+  "elapsedTime": {
+    "exactFocusedWallTimeCaptured": false,
+    "completionDeadlineUtc": "2026-10-13T23:03:41Z",
+    "note": "Focused tests and rendered output review completed before the full coverage run began. Their separate wall times were not captured during execution; no duration is inferred."
+  }
+}
