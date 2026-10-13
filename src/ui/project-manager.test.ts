@@ -96,6 +96,21 @@ function clickT01Action(host: HTMLElement, action: string, forceDisabled = false
   else button.click();
 }
 
+function clickT02Action(host: HTMLElement, action: string, roundId?: string): void {
+  const suffix = roundId ? `[data-t02-round-id="${roundId}"]` : "";
+  const button = host.querySelector<HTMLButtonElement>(`[data-t02-action="${action}"]${suffix}`);
+  if (!button) throw new Error(`Missing T02 action ${action}`);
+  button.click();
+}
+
+function editT02Control(host: HTMLElement, selector: string, value: string): void {
+  const control = host.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(selector);
+  if (!control) throw new Error(`Missing T02 control ${selector}`);
+  control.value = value;
+  const type = control instanceof HTMLSelectElement ? "change" : "input";
+  control.dispatchEvent(new Event(type, { bubbles: true }));
+}
+
 function loadedProject(): LoadedProject {
   const result = migrateLegacySaveFile({
     json: serialize(STANDARD_M, "#3A4150"), projectId: PROJECT_ID, styleId: STYLE_ID, migratedAt: TIME,
@@ -184,6 +199,470 @@ async function clickAndSettle(host: HTMLElement, selector: string): Promise<void
 }
 
 describe("accessible project and style manager", () => {
+  it("edits and saves revision-bound T02 POM actuals and QA observations", async () => {
+    let nextId = 701;
+    const state = await techPackHarness({
+      techPackIdFactory: () => `00000000-0000-4000-8000-${String(nextId++).padStart(12, "0")}`,
+      confirm: () => true,
+    });
+    try {
+      const { workflow, host, manager } = state;
+      expect(host.querySelector(".t02-editor")).not.toBeNull();
+      const parentRevision = workflow.snapshot.styleRevisions.find((revision) =>
+        revision.styleId === workflow.snapshot.activeStyle.id && revision.revisionId === workflow.snapshot.activeStyle.revisionHeadId);
+      expect(parentRevision).toBeDefined();
+
+      host.querySelector<HTMLInputElement>("[data-t02-new-pom-id]")!.value = "chest-width";
+      host.querySelector<HTMLInputElement>("[data-t02-new-pom-label]")!.value = "Chest width";
+      host.querySelector<HTMLSelectElement>("[data-t02-new-pom-unit]")!.value = "cm";
+      clickT02Action(host, "add-definition");
+      expect(host.querySelector("[data-t02-definition-id='chest-width']")?.textContent).toContain("Method UNRESOLVED");
+
+      const definitions = host.querySelector<HTMLTextAreaElement>("[data-t02-input='definitions']")!;
+      const validDefinitionJson = definitions.value;
+      definitions.value = "{";
+      definitions.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")?.disabled).toBe(true);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("valid JSON");
+      definitions.value = validDefinitionJson;
+      definitions.dispatchEvent(new Event("input", { bubbles: true }));
+
+      const revisionSelect = host.querySelector<HTMLSelectElement>("[data-t02-new-round-revision]")!;
+      revisionSelect.value = parentRevision!.revisionId;
+      host.querySelector<HTMLInputElement>("[data-t02-new-round-label]")!.value = "First sample";
+      host.querySelector<HTMLInputElement>("[data-t02-new-round-size]")!.value = "M";
+      host.querySelector<HTMLInputElement>("[data-t02-new-round-recorder]")!.value = "Local maker";
+      clickT02Action(host, "add-round");
+      const round = host.querySelector<HTMLElement>(".t02-round");
+      const roundId = round?.dataset.t02Round;
+      expect(roundId).toBeDefined();
+      expect(round?.querySelector("[data-t02-target-revision]")?.textContent).toContain(`r${parentRevision!.revisionNumber}`);
+      expect(round?.querySelector("[data-t02-target-revision]")?.textContent).toContain("Editing this round will not retarget it.");
+
+      const readingHost = host.querySelector<HTMLElement>(".t02-add-reading")!;
+      readingHost.querySelector<HTMLSelectElement>(`[data-t02-new-reading-pom="${roundId}"]`)!.value = "chest-width";
+      readingHost.querySelector<HTMLInputElement>(`[data-t02-new-reading-value="${roundId}"]`)!.value = "52.5";
+      readingHost.querySelector<HTMLInputElement>(`[data-t02-new-reading-method="${roundId}"]`)!.value = "Measured flat with tape";
+      readingHost.querySelector<HTMLTextAreaElement>(`[data-t02-new-reading-evidence="${roundId}"]`)!.value = "local-note-1";
+      clickT02Action(host, "add-measured-reading", roundId);
+      expect(host.querySelector(`[data-t02-reading='chest-width']`)?.textContent).toContain("Recorded sample actual");
+      expect(host.querySelector("[data-t02-predicted-value]")).toBeNull();
+
+      const observationHost = host.querySelector<HTMLElement>(".t02-add-observation")!;
+      observationHost.querySelector<HTMLSelectElement>(`[data-t02-new-observation-status="${roundId}"]`)!.value = "OBSERVED";
+      observationHost.querySelector<HTMLTextAreaElement>(`[data-t02-new-observation-note="${roundId}"]`)!.value = "Sample seam was observed for this review.";
+      clickT02Action(host, "add-observation", roundId);
+      expect(host.querySelector<HTMLSelectElement>(".t02-observation select")?.value).toBe("OBSERVED");
+      expect(host.querySelector(".t02-observation")?.textContent).toContain("Sample seam was observed");
+      expect(host.querySelector(".t02-observation select")?.textContent).not.toMatch(/pass|fail/i);
+
+      host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Saved the tech pack as immutable style revision"));
+      const saved = workflow.snapshot.activeStyle.techPack;
+      expect(saved.schemaVersion).toBe(2);
+      expect(saved.pomData?.sampleQaRounds).toHaveLength(1);
+      expect(saved.pomData?.sampleQaRounds[0].targetRevisionId).toBe(parentRevision!.revisionId);
+      expect(saved.pomData?.sampleQaRounds[0].targetRevisionNumber).toBe(parentRevision!.revisionNumber);
+      expect(saved.pomData?.sampleQaRounds[0].readings[0]).toMatchObject({
+        pomDefinitionId: "chest-width", status: "MEASURED", actualValue: 52.5, unit: "cm", method: "Measured flat with tape",
+      });
+      expect(saved.pomData?.sampleQaRounds[0].qaObservations[0]).toMatchObject({
+        status: "OBSERVED", note: "Sample seam was observed for this review.",
+      });
+      expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(parentRevision!.revisionId);
+
+      const managerActions = manager as unknown as {
+        handle(action: "save-tech-pack" | "discard-tech-pack" | "export-package" | "freeze-outputs"): Promise<void>;
+        freezeOutputs(): Promise<void>;
+        confirmTechPackDraftDiscard(): boolean;
+      };
+      await managerActions.handle("save-tech-pack");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("There are no unsaved tech-pack edits to save");
+      const actual = host.querySelector<HTMLInputElement>("[data-t02-property='actualValue']")!;
+      actual.value = "52.5";
+      actual.dispatchEvent(new Event("input", { bubbles: true }));
+      await managerActions.handle("save-tech-pack");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("No tech-pack content changed");
+
+      host.querySelector<HTMLInputElement>("[data-t02-new-pom-id]")!.value = "waist-width";
+      host.querySelector<HTMLInputElement>("[data-t02-new-pom-label]")!.value = "Waist width";
+      host.querySelector<HTMLSelectElement>("[data-t02-new-pom-unit]")!.value = "cm";
+      clickT02Action(host, "add-definition");
+      expect(managerActions.confirmTechPackDraftDiscard()).toBe(true);
+      expect(host.querySelector("#project-freeze-guidance")?.textContent).toContain("unsaved tech-pack edits");
+      await managerActions.handle("export-package");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("unsaved tech-pack edits before exporting");
+      await managerActions.handle("freeze-outputs");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("unsaved tech-pack edits before freezing");
+      await managerActions.freezeOutputs();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("unsaved tech-pack edits before freezing");
+      await managerActions.handle("discard-tech-pack");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Unsaved tech-pack edits were discarded");
+    } finally {
+      state.close();
+    }
+  });
+
+  it("validates T02 collection actions and edits each sample/QA observation field", async () => {
+    let nextId = 801;
+    const state = await techPackHarness({
+      techPackIdFactory: () => `00000000-0000-4000-8000-${String(nextId++).padStart(12, "0")}`,
+      confirm: () => true,
+    });
+    try {
+      const { host, workflow, manager } = state;
+      const parentRevision = workflow.snapshot.styleRevisions.find((revision) =>
+        revision.styleId === workflow.snapshot.activeStyle.id && revision.revisionId === workflow.snapshot.activeStyle.revisionHeadId)!;
+      const addDefinition = (id: string, label: string) => {
+        host.querySelector<HTMLInputElement>("[data-t02-new-pom-id]")!.value = id;
+        host.querySelector<HTMLInputElement>("[data-t02-new-pom-label]")!.value = label;
+        host.querySelector<HTMLSelectElement>("[data-t02-new-pom-unit]")!.value = "cm";
+        clickT02Action(host, "add-definition");
+      };
+      addDefinition("chest-width", "Chest width");
+      addDefinition("body-length", "Body length");
+
+      const addRound = host.querySelector<HTMLButtonElement>("[data-t02-action='add-round']")!;
+      addRound.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose an existing style revision");
+      const revisionSelect = host.querySelector<HTMLSelectElement>("[data-t02-new-round-revision]")!;
+      revisionSelect.value = "00000000-0000-4000-8000-000000009999";
+      host.querySelector<HTMLInputElement>("[data-t02-new-round-label]")!.value = "Sample";
+      host.querySelector<HTMLInputElement>("[data-t02-new-round-size]")!.value = "M";
+      host.querySelector<HTMLInputElement>("[data-t02-new-round-recorder]")!.value = "Maker";
+      addRound.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose an existing style revision");
+      revisionSelect.value = parentRevision.revisionId;
+      addRound.click();
+      const roundId = host.querySelector<HTMLElement>(".t02-round")!.dataset.t02Round!;
+
+      editT02Control(host, `[data-t02-input='round'][data-t02-round-id='${roundId}'][data-t02-property='sampleLabel']`, "Revised sample label");
+      editT02Control(host, `[data-t02-input='round'][data-t02-round-id='${roundId}'][data-t02-property='sampleSizeId']`, "L");
+      editT02Control(host, `[data-t02-input='round'][data-t02-round-id='${roundId}'][data-t02-property='recordedBy']`, "Reviewer");
+
+      const measuredForm = host.querySelector<HTMLElement>(".t02-add-reading")!;
+      const measuredSelect = measuredForm.querySelector<HTMLSelectElement>(`[data-t02-new-reading-pom='${roundId}']`)!;
+      measuredSelect.value = "chest-width";
+      clickT02Action(host, "add-measured-reading", roundId);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("explicit finite sample actual");
+      measuredForm.querySelector<HTMLInputElement>(`[data-t02-new-reading-value='${roundId}']`)!.value = "51.25";
+      measuredForm.querySelector<HTMLInputElement>(`[data-t02-new-reading-method='${roundId}']`)!.value = "Tape flat";
+      clickT02Action(host, "add-measured-reading", roundId);
+      editT02Control(host, `[data-t02-input='reading'][data-t02-round-id='${roundId}'][data-t02-pom-id='chest-width'][data-t02-property='actualValue']`, "");
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")?.disabled).toBe(true);
+      editT02Control(host, `[data-t02-input='reading'][data-t02-round-id='${roundId}'][data-t02-pom-id='chest-width'][data-t02-property='actualValue']`, "51.5");
+      editT02Control(host, `[data-t02-input='reading'][data-t02-round-id='${roundId}'][data-t02-pom-id='chest-width'][data-t02-property='method']`, "Measure laid flat");
+      editT02Control(host, `[data-t02-input='reading'][data-t02-round-id='${roundId}'][data-t02-pom-id='chest-width'][data-t02-property='evidenceRefs']`, "photo-1\nmaker-note-2");
+
+      const unresolvedForm = host.querySelector<HTMLElement>(".t02-add-unresolved-reading")!;
+      unresolvedForm.querySelector<HTMLSelectElement>(`[data-t02-new-unresolved-pom='${roundId}']`)!.value = "body-length";
+      clickT02Action(host, "add-unresolved-reading", roundId);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("reason and actionable next step");
+      unresolvedForm.querySelector<HTMLInputElement>(`[data-t02-new-unresolved-reason='${roundId}']`)!.value = "Sample not available";
+      unresolvedForm.querySelector<HTMLInputElement>(`[data-t02-new-unresolved-action='${roundId}']`)!.value = "Measure next sample";
+      clickT02Action(host, "add-unresolved-reading", roundId);
+      editT02Control(host, `[data-t02-input='reading'][data-t02-round-id='${roundId}'][data-t02-pom-id='body-length'][data-t02-property='unresolvedReason']`, "Awaiting sample");
+      editT02Control(host, `[data-t02-input='reading'][data-t02-round-id='${roundId}'][data-t02-pom-id='body-length'][data-t02-property='nextAction']`, "Measure the received sample");
+
+      const observationForm = host.querySelector<HTMLElement>(".t02-add-observation")!;
+      const observationStatus = observationForm.querySelector<HTMLSelectElement>(`[data-t02-new-observation-status='${roundId}']`)!;
+      observationStatus.value = "UNRESOLVED";
+      clickT02Action(host, "add-observation", roundId);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("enter a note");
+      observationForm.querySelector<HTMLTextAreaElement>(`[data-t02-new-observation-note='${roundId}']`)!.value = "Need a seam review";
+      clickT02Action(host, "add-observation", roundId);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("unresolved items also need a next action");
+      observationForm.querySelector<HTMLInputElement>(`[data-t02-new-observation-action='${roundId}']`)!.value = "Review after pressing";
+      clickT02Action(host, "add-observation", roundId);
+      const observationId = host.querySelector<HTMLElement>(".t02-observation")!.dataset.t02Observation!;
+      editT02Control(host, `[data-t02-input='observation'][data-t02-observation-id='${observationId}'][data-t02-property='status']`, "OBSERVED");
+      editT02Control(host, `[data-t02-input='observation'][data-t02-observation-id='${observationId}'][data-t02-property='note']`, "Seam reviewed");
+      editT02Control(host, `[data-t02-input='observation'][data-t02-observation-id='${observationId}'][data-t02-property='nextAction']`, "");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Unsaved T02 edits");
+
+      host.querySelector<HTMLButtonElement>(`[data-t02-action='remove-definition'][data-t02-pom-id='chest-width']`)!.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Remove this POM's sample readings");
+      host.querySelector<HTMLButtonElement>(`[data-t02-action='remove-reading'][data-t02-pom-id='body-length']`)!.click();
+      host.querySelector<HTMLButtonElement>(`[data-t02-action='remove-definition'][data-t02-pom-id='body-length']`)!.click();
+      expect(host.querySelector("[data-t02-definition-id='body-length']")).toBeNull();
+
+      const extraObservationStatus = host.querySelector<HTMLSelectElement>(`[data-t02-new-observation-status='${roundId}']`)!;
+      extraObservationStatus.value = "OBSERVED";
+      host.querySelector<HTMLTextAreaElement>(`[data-t02-new-observation-note='${roundId}']`)!.value = "Second note";
+      clickT02Action(host, "add-observation", roundId);
+      const secondObservationId = host.querySelectorAll<HTMLElement>(".t02-observation")[1]!.dataset.t02Observation!;
+      host.querySelector<HTMLButtonElement>(`[data-t02-action='remove-observation'][data-t02-observation-id='${secondObservationId}']`)!.click();
+      expect(host.querySelectorAll(".t02-observation")).toHaveLength(1);
+
+      const unknownAction = document.createElement("button");
+      unknownAction.dataset.t02Action = "unsupported";
+      host.querySelector(".project-manager")!.append(unknownAction);
+      unknownAction.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("not supported");
+
+      const validDefinitions = host.querySelector<HTMLTextAreaElement>("[data-t02-input='definitions']")!.value;
+      const definitions = host.querySelector<HTMLTextAreaElement>("[data-t02-input='definitions']")!;
+      definitions.value = "{";
+      definitions.dispatchEvent(new Event("input", { bubbles: true }));
+      (manager as unknown as { handleT02TechPackAction(target: HTMLElement): void }).handleT02TechPackAction(unknownAction);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("POM definition needs attention");
+      definitions.value = validDefinitions;
+      definitions.dispatchEvent(new Event("input", { bubbles: true }));
+
+      definitions.value = "[]";
+      definitions.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("POM definition needs attention");
+      const pendingControl = document.createElement("input");
+      pendingControl.dataset.t02Input = "round";
+      pendingControl.dataset.t02RoundId = roundId;
+      pendingControl.dataset.t02Property = "sampleLabel";
+      pendingControl.value = "Pending edit";
+      (manager as unknown as { updateT02TechPackFromControl(target: HTMLInputElement): void }).updateT02TechPackFromControl(pendingControl);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("POM definition needs attention");
+      (manager as unknown as { handleT02TechPackAction(target: HTMLElement): void }).handleT02TechPackAction(unknownAction);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("POM definition needs attention");
+      definitions.value = validDefinitions;
+      definitions.dispatchEvent(new Event("input", { bubbles: true }));
+
+      const definitionForm = host.querySelector<HTMLElement>(".t02-add-definition")!;
+      const newPomId = definitionForm.querySelector<HTMLInputElement>("[data-t02-new-pom-id]")!;
+      const newPomLabel = definitionForm.querySelector<HTMLInputElement>("[data-t02-new-pom-label]")!;
+      const newPomUnit = definitionForm.querySelector<HTMLSelectElement>("[data-t02-new-pom-unit]")!;
+      newPomId.value = "waist-width";
+      newPomLabel.value = "";
+      newPomUnit.value = "cm";
+      clickT02Action(host, "add-definition");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("stable POM ID, label, and unit");
+      newPomLabel.value = "Waist width";
+      newPomUnit.value = "";
+      clickT02Action(host, "add-definition");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("stable POM ID, label, and unit");
+      newPomUnit.value = "cm";
+      newPomId.value = "chest-width";
+      clickT02Action(host, "add-definition");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("T02 change needs attention");
+
+      const invokeAction = (action: string, round?: string, pom?: string, observation?: string) => {
+        const button = document.createElement("button");
+        button.dataset.t02Action = action;
+        if (round !== undefined) button.dataset.t02RoundId = round;
+        if (pom !== undefined) button.dataset.t02PomId = pom;
+        if (observation !== undefined) button.dataset.t02ObservationId = observation;
+        host.querySelector(".project-manager")!.append(button);
+        button.click();
+        button.remove();
+      };
+      invokeAction("remove-definition");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("POM definition is missing");
+      invokeAction("remove-round");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("sample/QA round is missing");
+      for (const action of ["add-measured-reading", "add-unresolved-reading", "remove-reading", "add-observation", "remove-observation"]) {
+        invokeAction(action, "missing-round");
+        expect(host.querySelector("#project-manager-status")?.textContent).toContain("sample/QA round is missing");
+      }
+
+      const direct = manager as unknown as {
+        updateT02TechPackFromControl(target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): void;
+        handleT02TechPackAction(target: HTMLElement): void;
+        techPackDraft: unknown;
+      };
+      const makeInput = (kind?: string, round = roundId, property?: string, pom?: string, observation?: string, value = "") => {
+        const input = document.createElement("input");
+        input.value = value;
+        if (kind !== undefined) input.dataset.t02Input = kind;
+        if (round !== undefined) input.dataset.t02RoundId = round;
+        if (property !== undefined) input.dataset.t02Property = property;
+        if (pom !== undefined) input.dataset.t02PomId = pom;
+        if (observation !== undefined) input.dataset.t02ObservationId = observation;
+        return input;
+      };
+      direct.updateT02TechPackFromControl(makeInput("round", "missing-round", "sampleLabel"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("no longer connected");
+      direct.updateT02TechPackFromControl(makeInput(undefined, roundId));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("no longer connected");
+      direct.updateT02TechPackFromControl(makeInput("reading", roundId, "method", "missing-pom"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("reading no longer exists");
+      direct.updateT02TechPackFromControl(makeInput("reading", roundId, "unsupported", "chest-width"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("not connected to a supported record field");
+      direct.updateT02TechPackFromControl(makeInput("observation", roundId, "note", undefined, "missing-observation"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("QA observation no longer exists");
+      direct.updateT02TechPackFromControl(makeInput("observation", roundId, "unsupported", undefined, observationId));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("not connected to a supported record field");
+      direct.updateT02TechPackFromControl(makeInput("round", roundId, "unsupported"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("not connected to a supported record field");
+
+      const noFormAction = (action: string, targetRound?: string) => {
+        const button = document.createElement("button");
+        button.dataset.t02Action = action;
+        if (targetRound !== undefined) button.dataset.t02RoundId = targetRound;
+        direct.handleT02TechPackAction(button);
+      };
+      noFormAction("add-definition");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("stable POM ID, label, and unit");
+      noFormAction("add-round");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose an existing style revision");
+      noFormAction("add-measured-reading", roundId);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose an existing POM definition");
+
+      const roundForm = host.querySelector<HTMLElement>(".t02-add-round")!;
+      roundForm.querySelector<HTMLSelectElement>("[data-t02-new-round-revision]")!.value = parentRevision.revisionId;
+      roundForm.querySelector<HTMLInputElement>("[data-t02-new-round-label]")!.value = "Second sample";
+      roundForm.querySelector<HTMLInputElement>("[data-t02-new-round-size]")!.value = "L";
+      roundForm.querySelector<HTMLInputElement>("[data-t02-new-round-recorder]")!.value = "Reviewer";
+      clickT02Action(host, "add-round");
+      expect(host.querySelectorAll(".t02-round")).toHaveLength(2);
+
+      const addDefinitionForm = host.querySelector<HTMLElement>(".t02-add-definition")!;
+      addDefinitionForm.querySelector<HTMLInputElement>("[data-t02-new-pom-id]")!.value = "waist-width";
+      addDefinitionForm.querySelector<HTMLInputElement>("[data-t02-new-pom-label]")!.value = "Waist width";
+      addDefinitionForm.querySelector<HTMLSelectElement>("[data-t02-new-pom-unit]")!.value = "cm";
+      clickT02Action(host, "add-definition");
+      const secondDefinitionForm = host.querySelector<HTMLElement>(".t02-add-definition")!;
+      secondDefinitionForm.querySelector<HTMLInputElement>("[data-t02-new-pom-id]")!.value = "neck-width";
+      secondDefinitionForm.querySelector<HTMLInputElement>("[data-t02-new-pom-label]")!.value = "Neck width";
+      secondDefinitionForm.querySelector<HTMLSelectElement>("[data-t02-new-pom-unit]")!.value = "cm";
+      clickT02Action(host, "add-definition");
+
+      const makeReadingForm = (className: string, action: string, targetRound: string, pom: string) => {
+        const form = document.createElement("div");
+        form.className = className;
+        const select = document.createElement("select");
+        select.dataset.t02NewReadingPom = targetRound;
+        select.dataset.t02NewUnresolvedPom = targetRound;
+        select.value = pom;
+        const option = document.createElement("option");
+        option.value = pom;
+        option.textContent = pom;
+        select.append(option);
+        form.append(select);
+        const button = document.createElement("button");
+        button.dataset.t02Action = action;
+        button.dataset.t02RoundId = targetRound;
+        form.append(button);
+        host.querySelector(".project-manager")!.append(form);
+        return { form, button };
+      };
+      const measuredMissingMethod = makeReadingForm("t02-add-reading", "add-measured-reading", roundId, "waist-width");
+      const measuredActual = document.createElement("input");
+      measuredActual.type = "number";
+      measuredActual.dataset.t02NewReadingValue = roundId;
+      measuredActual.value = "50";
+      measuredMissingMethod.form.append(measuredActual);
+      measuredMissingMethod.button.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("measurement method");
+      measuredMissingMethod.form.remove();
+
+      const measuredWithoutEvidence = makeReadingForm("t02-add-reading", "add-measured-reading", roundId, "waist-width");
+      const measuredValue = document.createElement("input");
+      measuredValue.type = "number";
+      measuredValue.dataset.t02NewReadingValue = roundId;
+      measuredValue.value = "50";
+      const measuredMethod = document.createElement("input");
+      measuredMethod.dataset.t02NewReadingMethod = roundId;
+      measuredMethod.value = "Laid flat with tape";
+      measuredWithoutEvidence.form.append(measuredValue, measuredMethod);
+      measuredWithoutEvidence.button.click();
+      measuredWithoutEvidence.form.remove();
+
+      const duplicateMeasured = makeReadingForm("t02-add-reading", "add-measured-reading", roundId, "waist-width");
+      duplicateMeasured.button.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("no reading in this round");
+      duplicateMeasured.form.remove();
+
+      const unresolvedWithoutFields = makeReadingForm("t02-add-unresolved-reading", "add-unresolved-reading", roundId, "neck-width");
+      unresolvedWithoutFields.button.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("unresolved sample reading needs");
+      const unresolvedReason = document.createElement("input");
+      unresolvedReason.dataset.t02NewUnresolvedReason = roundId;
+      unresolvedReason.value = "No sample received";
+      const unresolvedAction = document.createElement("input");
+      unresolvedAction.dataset.t02NewUnresolvedAction = roundId;
+      unresolvedAction.value = "Measure the next sample";
+      unresolvedWithoutFields.form.append(unresolvedReason, unresolvedAction);
+      unresolvedWithoutFields.button.click();
+      unresolvedWithoutFields.form.remove();
+
+      const observationWithoutHost = document.createElement("button");
+      observationWithoutHost.dataset.t02Action = "add-observation";
+      observationWithoutHost.dataset.t02RoundId = roundId;
+      direct.handleT02TechPackAction(observationWithoutHost);
+      const manualObservationForm = document.createElement("div");
+      manualObservationForm.className = "t02-add-observation";
+      const manualObservationStatus = document.createElement("select");
+      manualObservationStatus.dataset.t02NewObservationStatus = roundId;
+      manualObservationStatus.value = "UNRESOLVED";
+      const unresolvedStatusOption = document.createElement("option");
+      unresolvedStatusOption.value = "UNRESOLVED";
+      unresolvedStatusOption.textContent = "Unresolved";
+      manualObservationStatus.append(unresolvedStatusOption);
+      manualObservationForm.append(manualObservationStatus);
+      const observationButton = document.createElement("button");
+      observationButton.dataset.t02Action = "add-observation";
+      observationButton.dataset.t02RoundId = roundId;
+      manualObservationForm.append(observationButton);
+      host.querySelector(".project-manager")!.append(manualObservationForm);
+      observationButton.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("enter a note");
+      const observationNote = document.createElement("textarea");
+      observationNote.dataset.t02NewObservationNote = roundId;
+      observationNote.value = "A seam remains to review.";
+      manualObservationForm.append(observationNote);
+      observationButton.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("unresolved items also need a next action");
+      const observationAction = document.createElement("input");
+      observationAction.dataset.t02NewObservationAction = roundId;
+      observationAction.value = "Review after sewing";
+      manualObservationForm.append(observationAction);
+      observationButton.click();
+      manualObservationForm.remove();
+
+      const latestObservationId = host.querySelectorAll<HTMLElement>(".t02-observation")[1]!.dataset.t02Observation!;
+      direct.updateT02TechPackFromControl(makeInput("round", roundId, "sampleLabel", undefined, undefined, "Revised sample label"));
+      const latestActual = makeInput("reading", roundId, "actualValue", "waist-width") as HTMLInputElement;
+      latestActual.type = "number";
+      latestActual.value = "50";
+      direct.updateT02TechPackFromControl(latestActual);
+      direct.updateT02TechPackFromControl(makeInput("observation", roundId, "nextAction", undefined, observationId, "Review the sample"));
+      direct.updateT02TechPackFromControl(makeInput("observation", roundId, "status", undefined, observationId, "UNRESOLVED"));
+      const missingObservationId = document.createElement("button");
+      missingObservationId.dataset.t02Action = "remove-observation";
+      missingObservationId.dataset.t02RoundId = roundId;
+      direct.handleT02TechPackAction(missingObservationId);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("QA observation is missing");
+      invokeAction("remove-reading", roundId);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("sample reading is missing");
+      invokeAction("remove-reading", roundId, "waist-width");
+      invokeAction("remove-observation", roundId, undefined, latestObservationId);
+      const secondRoundId = host.querySelectorAll<HTMLElement>(".t02-round")[1]!.dataset.t02Round!;
+      host.querySelector<HTMLButtonElement>(`[data-t02-action='remove-round'][data-t02-round-id='${secondRoundId}']`)!.click();
+      expect(host.querySelectorAll(".t02-round")).toHaveLength(1);
+
+      const baseRecord = workflow.snapshot.activeStyle.techPack;
+      const validDraft = direct.techPackDraft;
+      direct.techPackDraft = { ...baseRecord, recipeId: "unsupported" };
+      const unavailableAction = document.createElement("button");
+      unavailableAction.dataset.t02Action = "unsupported";
+      direct.handleT02TechPackAction(unavailableAction);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("no T02 POM record contract");
+      const unsupportedDefinitions = document.createElement("textarea");
+      unsupportedDefinitions.dataset.t02Input = "definitions";
+      unsupportedDefinitions.value = "[]";
+      direct.updateT02TechPackFromControl(unsupportedDefinitions);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("no T02 POM record contract");
+      direct.updateT02TechPackFromControl(makeInput("round", roundId));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("no T02 POM record contract");
+      direct.techPackDraft = validDraft;
+
+      await workflow.createStyle("New style", workflow.snapshot.activeStyle.design);
+      direct.updateT02TechPackFromControl(makeInput("round", roundId));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("belongs to another style");
+      direct.handleT02TechPackAction(unavailableAction);
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("belongs to another style");
+    } finally {
+      state.close();
+    }
+  }, 15000);
+
   it("edits and saves T01 from the project manager as one revision without replacing editor state", async () => {
     const state = await techPackHarness();
     try {

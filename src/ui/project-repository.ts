@@ -47,6 +47,7 @@ import {
   type StyleRevisionRecord,
 } from "./style-revisions";
 import { techPackRevisionContent } from "./tech-pack-records";
+import { sampleRoundsMatchStyleHistory } from "./tech-pack-sample-qa-records";
 
 export const PROJECT_DATABASE_NAME = "infinidrip-projects";
 export const PROJECT_DATABASE_VERSION = 9;
@@ -893,6 +894,16 @@ async function verifyLoadedHistory(loaded: LoadedProject, crypto?: Crypto): Prom
       && (style.techPack.revisionId !== style.revisionHeadId
         || style.techPack.revisionNumber !== head.revisionNumber)) {
       throw new ProjectRepositoryError("invalid-data", "The saved T01 record references a missing or mismatched style revision.");
+    }
+    if (style.techPack.pomData !== undefined
+      && !sampleRoundsMatchStyleHistory(style.id, style.techPack.pomData, revisions)) {
+      throw new ProjectRepositoryError("invalid-data", "A saved sample/QA round references a missing or mismatched style revision.");
+    }
+    for (const revision of revisions) {
+      if (revision.payload.payloadVersion === 2 && revision.payload.techPack.pomData !== undefined
+        && !sampleRoundsMatchStyleHistory(style.id, revision.payload.techPack.pomData, revisions)) {
+        throw new ProjectRepositoryError("invalid-data", "A historical sample/QA round references a missing or mismatched style revision.");
+      }
     }
   }
   for (const manifest of loaded.exportManifests) {

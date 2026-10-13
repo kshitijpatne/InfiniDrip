@@ -94,9 +94,18 @@ only through an explicitly admitted, linked Epic packet.
   commands advance revision 4566→4571. Focused coverage is 100% across all
   four metrics, TypeScript and export identity 9/9 pass, and Control Center
   passes 42/42 after the final replay. G05-T02 and EPIC-18 remain In Progress.
-  S769 is the single next action: revision-bind sample/QA records while
-  keeping actual readings separate from predicted POMs, under the exact T02
-  boundaries in `docs/planning/EPIC-18-S765-RESEQUENCING.md`. UIQ-10 remains
+  S769 is complete: schema-v2 T02 data persists source-aware POM definitions
+  and sample/QA rounds bound to the same style's immutable history; actual
+  readings remain separate from predicted POMs, and package copies remap
+  internal revision references. Its start and exit packets are in
+  `docs/research/epic18/S769-T02-sample-qa-revision-binding/`; validated board
+  replays advance revision 4571→4575. Focused tests pass 405/405 with 100%
+  statement, branch, function and line coverage for all seven changed modules;
+  TypeScript, export identity 9/9, actual Chrome rendering and Control Center
+  42/42 pass. S770 is next for source-aware callout/size-run checks and
+  all-seven-recipe rendered proof. The active boundaries remain in
+  `docs/planning/EPIC-18-S765-RESEQUENCING.md`.
+  UIQ-10 remains
   linked and Backlog until its bounded S774 admission; UIQ-09 remains Backlog
   pending EPIC-19.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing

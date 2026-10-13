@@ -14,6 +14,7 @@ import {
 import type { FrozenArtifactInput } from "./style-revisions";
 import type { GradePlanRecord } from "./grade-plan";
 import type { FieldEvidenceStatus, FieldProvenance, FieldValidationStatus } from "./field-provenance";
+import { TECH_PACK_T02_RECORD_VERSION, parseTechPackRecord } from "./tech-pack-records";
 import type {
   TechPackBomRow,
   TechPackColorway,
@@ -25,6 +26,16 @@ import type {
   TechPackSemanticKind,
 } from "./tech-pack-records";
 import { renderTechPackEditor } from "./tech-pack-editor";
+import { renderTechPackT02Editor } from "./tech-pack-t02-editor";
+import { TECH_PACK_POM_RECIPE_IDS, TECH_PACK_POM_UNITS, type TechPackPomDefinition, type TechPackPomRecipeId } from "./tech-pack-pom-records";
+import {
+  emptyTechPackPomRecordSet,
+  parseTechPackPomRecordSet,
+  type TechPackPomRecordSet,
+  type TechPackPomSampleQaRound,
+  type TechPackPomSampleReading,
+  type TechPackPomQaObservation,
+} from "./tech-pack-sample-qa-records";
 
 export interface ProjectManagerOptions {
   readonly host: HTMLElement;
@@ -290,6 +301,7 @@ export class ProjectManager {
   private compareLeftId = "";
   private compareRightId = "";
   private techPackDraft: TechPackRecord | null = null;
+  private techPackDefinitionsJsonDraft: string | null = null;
   private techPackInputError = "";
   private projectManagerOpen = false;
   private projects: readonly LoadedProject[];
@@ -323,9 +335,16 @@ export class ProjectManager {
       }
       if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
         if (target.dataset.t01Input === "true") this.updateTechPackFromControl(target);
+        else if (target.dataset.t02Input) this.updateT02TechPackFromControl(target);
       }
     });
     options.host.addEventListener("click", (event) => {
+      const t02Target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-t02-action]") : null;
+      if (t02Target && !this.busy) {
+        event.preventDefault();
+        this.handleT02TechPackAction(t02Target);
+        return;
+      }
       const t01Target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-t01-action]") : null;
       if (t01Target && !this.busy) {
         event.preventDefault();
@@ -359,6 +378,10 @@ export class ProjectManager {
       }
       if (target instanceof HTMLSelectElement && target.dataset.t01Input === "true") {
         this.updateTechPackFromControl(target);
+        return;
+      }
+      if (target instanceof HTMLSelectElement && target.dataset.t02Input) {
+        this.updateT02TechPackFromControl(target);
         return;
       }
       if (!(target instanceof HTMLInputElement) || target.id !== "project-package-file") return;
@@ -407,7 +430,9 @@ export class ProjectManager {
     const guidance = this.busy ? "" : hasUnsavedDesign
       ? "Save the current style before freezing outputs."
       : this.techPackDraft !== null
-        ? "Save or discard the unsaved T01 edits before freezing outputs."
+        ? this.techPackDraft.schemaVersion === 1
+          ? "Save or discard the unsaved T01 edits before freezing outputs."
+          : "Save or discard unsaved tech-pack edits before freezing outputs."
         : freezeBlocker ?? (outputsReady ? "" : "Review Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.");
     const freezeGuidance = this.options.host.querySelector<HTMLElement>("#project-freeze-guidance");
     if (freezeGuidance) freezeGuidance.textContent = guidance;
@@ -485,7 +510,271 @@ export class ProjectManager {
 
   private discardTechPackDraft(): void {
     this.techPackDraft = null;
+    this.techPackDefinitionsJsonDraft = null;
     this.techPackInputError = "";
+  }
+
+  private t02Data(record: TechPackRecord): TechPackPomRecordSet | null {
+    if (record.pomData) return record.pomData;
+    if (!TECH_PACK_POM_RECIPE_IDS.includes(record.recipeId as TechPackPomRecipeId)) return null;
+    return emptyTechPackPomRecordSet(record.recipeId as TechPackPomRecipeId);
+  }
+
+  private t02DataWithPendingDefinitionDraft(record: TechPackRecord): { data: TechPackPomRecordSet | null; error: string | null } {
+    const data = this.t02Data(record);
+    if (!data || this.techPackDefinitionsJsonDraft === null) return { data, error: null };
+    try {
+      const parsedJson: unknown = JSON.parse(this.techPackDefinitionsJsonDraft);
+      const parsed = parseTechPackPomRecordSet({ ...data, definitions: parsedJson }, record.recipeId);
+      return parsed.ok ? { data: parsed.value, error: null } : { data: null, error: parsed.error };
+    } catch {
+      return { data: null, error: "POM definitions must be valid JSON matching the displayed schema." };
+    }
+  }
+
+  private applyT02Draft(record: TechPackRecord, data: TechPackPomRecordSet): void {
+    const candidate: TechPackRecord = { ...record, schemaVersion: TECH_PACK_T02_RECORD_VERSION, pomData: data };
+    const parsed = parseTechPackRecord(candidate);
+    this.techPackDraft = parsed.ok ? parsed.value : candidate;
+    this.techPackInputError = parsed.ok ? "" : parsed.error;
+    this.updateTechPackStatus(parsed.ok
+      ? "Unsaved T02 edits. Save the tech pack to create one immutable revision."
+      : `T02 edit needs attention: ${parsed.error}`);
+  }
+
+  private updateT02TechPackFromControl(target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): void {
+    const record = this.currentTechPackRecord();
+    if (!record) {
+      this.techPackInputError = "This T02 edit belongs to another style. Reload the active project before continuing.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    const inputKind = target.dataset.t02Input;
+    if (inputKind === "definitions" && target instanceof HTMLTextAreaElement) {
+      this.techPackDefinitionsJsonDraft = target.value;
+      let definitions: unknown;
+      try {
+        definitions = JSON.parse(target.value);
+      } catch {
+        this.techPackInputError = "POM definitions must be valid JSON matching the displayed schema.";
+        this.updateTechPackStatus(this.techPackInputError);
+        return;
+      }
+      const prior = this.t02Data(record);
+      if (!prior) {
+        this.techPackInputError = "This recipe has no T02 POM record contract.";
+        this.updateTechPackStatus(this.techPackInputError);
+        return;
+      }
+      const parsed = parseTechPackPomRecordSet({ ...prior, definitions }, record.recipeId);
+      if (!parsed.ok) {
+        this.techPackInputError = `POM definition needs attention: ${parsed.error}`;
+        this.updateTechPackStatus(this.techPackInputError);
+        return;
+      }
+      this.applyT02Draft(record, parsed.value);
+      return;
+    }
+    const pending = this.t02DataWithPendingDefinitionDraft(record);
+    const data = pending.data;
+    if (pending.error) {
+      this.techPackInputError = `POM definition needs attention: ${pending.error}`;
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    if (!data) {
+      this.techPackInputError = "This recipe has no T02 POM record contract.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    const roundId = target.dataset.t02RoundId;
+    const round = data.sampleQaRounds.find((candidate) => candidate.id === roundId);
+    if (!round || !inputKind) {
+      this.techPackInputError = "The edited T02 control is no longer connected to a sample/QA record.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    const property = target.dataset.t02Property;
+    const value = target.value;
+    let updatedRound: TechPackPomSampleQaRound | null = null;
+    if (inputKind === "round" && (property === "sampleLabel" || property === "sampleSizeId" || property === "recordedBy")) {
+      updatedRound = { ...round, [property]: value };
+    } else if (inputKind === "reading") {
+      const pomId = target.dataset.t02PomId;
+      const reading = round.readings.find((candidate) => candidate.pomDefinitionId === pomId);
+      if (!reading || !property) {
+        this.techPackInputError = "The edited T02 reading no longer exists. Reload before continuing.";
+        this.updateTechPackStatus(this.techPackInputError);
+        return;
+      }
+      let next: TechPackPomSampleReading | null = null;
+      if (reading.status === "MEASURED" && property === "actualValue" && target instanceof HTMLInputElement) {
+        next = { ...reading, actualValue: target.value === "" ? null : target.valueAsNumber };
+      } else if (reading.status === "MEASURED" && property === "method") {
+        next = { ...reading, method: value };
+      } else if (reading.status === "MEASURED" && property === "evidenceRefs" && target instanceof HTMLTextAreaElement) {
+        next = { ...reading, evidenceRefs: value.split(/\r?\n/).filter((entry) => entry.length > 0) };
+      } else if (reading.status === "UNRESOLVED" && property === "unresolvedReason") {
+        next = { ...reading, unresolvedReason: value };
+      } else if (reading.status === "UNRESOLVED" && property === "nextAction") {
+        next = { ...reading, nextAction: value };
+      }
+      if (next) updatedRound = { ...round, readings: round.readings.map((candidate) => candidate.pomDefinitionId === pomId ? next! : candidate) };
+    } else if (inputKind === "observation") {
+      const observationId = target.dataset.t02ObservationId;
+      const observation = round.qaObservations.find((candidate) => candidate.id === observationId);
+      if (!observation || !property) {
+        this.techPackInputError = "The edited T02 QA observation no longer exists. Reload before continuing.";
+        this.updateTechPackStatus(this.techPackInputError);
+        return;
+      }
+      let next: TechPackPomQaObservation | null = null;
+      if (property === "status" && (value === "OBSERVED" || value === "UNRESOLVED")) {
+        next = { ...observation, status: value };
+      } else if (property === "note") {
+        next = { ...observation, note: value };
+      } else if (property === "nextAction") {
+        next = { ...observation, nextAction: value === "" ? null : value };
+      }
+      if (next) updatedRound = { ...round, qaObservations: round.qaObservations.map((candidate) => candidate.id === observationId ? next! : candidate) };
+    }
+    if (!updatedRound) {
+      this.techPackInputError = "The edited T02 control is not connected to a supported record field.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    const updatedData = { ...data, sampleQaRounds: data.sampleQaRounds.map((candidate) => candidate.id === roundId ? updatedRound! : candidate) };
+    this.applyT02Draft(record, updatedData);
+  }
+
+  private handleT02TechPackAction(target: HTMLElement): void {
+    const record = this.currentTechPackRecord();
+    if (!record) {
+      this.techPackInputError = "This T02 edit belongs to another style. Reload the active project before continuing.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    const pending = this.t02DataWithPendingDefinitionDraft(record);
+    const data = pending.data;
+    if (pending.error) {
+      this.techPackInputError = `POM definition needs attention: ${pending.error}`;
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    if (!data) {
+      this.updateTechPackStatus("This recipe has no T02 POM record contract.");
+      return;
+    }
+    const action = target.dataset.t02Action;
+    const id = () => techPackRecordId(this.options.techPackIdFactory);
+    const rounds = [...data.sampleQaRounds];
+    const definitions = [...data.definitions.definitions];
+    let nextData: TechPackPomRecordSet = data;
+    const roundId = target.dataset.t02RoundId;
+    const round = rounds.find((candidate) => candidate.id === roundId);
+    const invalid = (message: string): void => { this.updateTechPackStatus(message); };
+    if (action === "add-definition") {
+      const host = target.closest<HTMLElement>(".t02-add-definition");
+      const pomId = host?.querySelector<HTMLInputElement>("[data-t02-new-pom-id]")?.value ?? "";
+      const label = host?.querySelector<HTMLInputElement>("[data-t02-new-pom-label]")?.value ?? "";
+      const unit = host?.querySelector<HTMLSelectElement>("[data-t02-new-pom-unit]")?.value ?? "";
+      if (!pomId.trim() || !label.trim() || !TECH_PACK_POM_UNITS.includes(unit as TechPackPomDefinition["unit"])) {
+        invalid("Enter an explicit stable POM ID, label, and unit before adding the definition."); return;
+      }
+      const unresolved = (fact: string) => ({
+        status: "UNRESOLVED" as const, value: null, unresolvedReason: "No source has been recorded for this POM fact.",
+        nextAction: `Review an authoritative garment source for ${fact}.`,
+      });
+      const definition: TechPackPomDefinition = {
+        id: pomId.trim(), label: label.trim(), unit: unit as TechPackPomDefinition["unit"],
+        method: unresolved("the measurement method"), landmarks: unresolved("the measurement landmarks"),
+        tolerance: unresolved("the tolerance"), sizeRangeSource: unresolved("the size range"), gradeRuleSource: unresolved("the grade rule"),
+      };
+      nextData = { ...data, definitions: { ...data.definitions, definitions: [...definitions, definition] } };
+      this.techPackDefinitionsJsonDraft = null;
+    } else if (action === "remove-definition") {
+      const pomId = target.dataset.t02PomId;
+      if (!pomId || !definitions.some((definition) => definition.id === pomId)) { invalid("The selected POM definition is missing from this T02 record."); return; }
+      if (rounds.some((candidate) => candidate.readings.some((reading) => reading.pomDefinitionId === pomId))) {
+        invalid("Remove this POM's sample readings before removing its definition."); return;
+      }
+      nextData = { ...data, definitions: { ...data.definitions, definitions: definitions.filter((definition) => definition.id !== pomId) } };
+      this.techPackDefinitionsJsonDraft = null;
+    } else if (action === "add-round") {
+      const host = target.closest<HTMLElement>(".t02-add-round");
+      const revisionId = host?.querySelector<HTMLSelectElement>("[data-t02-new-round-revision]")?.value ?? "";
+      const sampleLabel = host?.querySelector<HTMLInputElement>("[data-t02-new-round-label]")?.value.trim() ?? "";
+      const sampleSizeId = host?.querySelector<HTMLInputElement>("[data-t02-new-round-size]")?.value.trim() ?? "";
+      const recordedBy = host?.querySelector<HTMLInputElement>("[data-t02-new-round-recorder]")?.value.trim() ?? "";
+      const activeStyleId = this.options.workflow.snapshot.activeStyle.id;
+      const revision = this.options.workflow.snapshot.styleRevisions.find((candidate) => candidate.styleId === activeStyleId && candidate.revisionId === revisionId);
+      if (!revision || !sampleLabel || !sampleSizeId || !recordedBy) {
+        invalid("Choose an existing style revision and enter a sample label, size ID, and recorder before creating this round."); return;
+      }
+      rounds.push({ id: id(), targetRevisionId: revision.revisionId, targetRevisionNumber: revision.revisionNumber,
+        sampleLabel, sampleSizeId, recordedAt: new Date().toISOString(), recordedBy, readings: [], qaObservations: [] });
+      nextData = { ...data, sampleQaRounds: rounds };
+    } else if (action === "remove-round") {
+      if (!roundId || !round) { invalid("The selected sample/QA round is missing."); return; }
+      nextData = { ...data, sampleQaRounds: rounds.filter((candidate) => candidate.id !== roundId) };
+    } else if (action === "add-measured-reading" || action === "add-unresolved-reading") {
+      if (!round) { invalid("The selected sample/QA round is missing."); return; }
+      const host = target.closest<HTMLElement>(action === "add-measured-reading" ? ".t02-add-reading" : ".t02-add-unresolved-reading");
+      const selector = action === "add-measured-reading" ? `[data-t02-new-reading-pom="${round.id}"]` : `[data-t02-new-unresolved-pom="${round.id}"]`;
+      const pomId = host?.querySelector<HTMLSelectElement>(selector)?.value ?? "";
+      const definition = definitions.find((candidate) => candidate.id === pomId);
+      if (!definition || round.readings.some((reading) => reading.pomDefinitionId === pomId)) {
+        invalid("Choose an existing POM definition that has no reading in this round."); return;
+      }
+      let reading: TechPackPomSampleReading;
+      if (action === "add-measured-reading") {
+        const actual = host?.querySelector<HTMLInputElement>(`[data-t02-new-reading-value="${round.id}"]`);
+        const method = host?.querySelector<HTMLInputElement>(`[data-t02-new-reading-method="${round.id}"]`)?.value.trim() ?? "";
+        const evidence = host?.querySelector<HTMLTextAreaElement>(`[data-t02-new-reading-evidence="${round.id}"]`)?.value ?? "";
+        if (!actual || actual.value === "" || !Number.isFinite(actual.valueAsNumber) || !method) {
+          invalid("Enter an explicit finite sample actual and measurement method."); return;
+        }
+        reading = { pomDefinitionId: pomId, status: "MEASURED", actualValue: actual.valueAsNumber, unit: definition.unit, method,
+          evidenceRefs: evidence.split(/\r?\n/).filter((entry) => entry.length > 0), unresolvedReason: null, nextAction: null };
+      } else {
+        const reason = host?.querySelector<HTMLInputElement>(`[data-t02-new-unresolved-reason="${round.id}"]`)?.value.trim() ?? "";
+        const nextAction = host?.querySelector<HTMLInputElement>(`[data-t02-new-unresolved-action="${round.id}"]`)?.value.trim() ?? "";
+        if (!reason || !nextAction) { invalid("An unresolved sample reading needs a reason and actionable next step."); return; }
+        reading = { pomDefinitionId: pomId, status: "UNRESOLVED", actualValue: null, unit: null, method: null, evidenceRefs: [], unresolvedReason: reason, nextAction };
+      }
+      const updatedRound = { ...round, readings: [...round.readings, reading] };
+      nextData = { ...data, sampleQaRounds: rounds.map((candidate) => candidate.id === round.id ? updatedRound : candidate) };
+    } else if (action === "remove-reading") {
+      if (!round) { invalid("The selected sample/QA round is missing."); return; }
+      const pomId = target.dataset.t02PomId;
+      if (!pomId || !round.readings.some((reading) => reading.pomDefinitionId === pomId)) { invalid("The selected sample reading is missing."); return; }
+      nextData = { ...data, sampleQaRounds: rounds.map((candidate) => candidate.id === round.id
+        ? { ...candidate, readings: candidate.readings.filter((reading) => reading.pomDefinitionId !== pomId) } : candidate) };
+    } else if (action === "add-observation") {
+      if (!round) { invalid("The selected sample/QA round is missing."); return; }
+      const host = target.closest<HTMLElement>(".t02-add-observation");
+      const status = host?.querySelector<HTMLSelectElement>(`[data-t02-new-observation-status="${round.id}"]`)?.value ?? "";
+      const note = host?.querySelector<HTMLTextAreaElement>(`[data-t02-new-observation-note="${round.id}"]`)?.value.trim() ?? "";
+      const actionText = host?.querySelector<HTMLInputElement>(`[data-t02-new-observation-action="${round.id}"]`)?.value.trim() ?? "";
+      if ((status !== "OBSERVED" && status !== "UNRESOLVED") || !note || (status === "UNRESOLVED" && !actionText)) {
+        invalid("Choose Observed or Unresolved and enter a note; unresolved items also need a next action."); return;
+      }
+      const observation: TechPackPomQaObservation = { id: id(), status, note, nextAction: actionText || null };
+      nextData = { ...data, sampleQaRounds: rounds.map((candidate) => candidate.id === round.id
+        ? { ...candidate, qaObservations: [...candidate.qaObservations, observation] } : candidate) };
+    } else if (action === "remove-observation") {
+      if (!round) { invalid("The selected sample/QA round is missing."); return; }
+      const observationId = target.dataset.t02ObservationId;
+      if (!observationId || !round.qaObservations.some((observation) => observation.id === observationId)) { invalid("The selected QA observation is missing."); return; }
+      nextData = { ...data, sampleQaRounds: rounds.map((candidate) => candidate.id === round.id
+        ? { ...candidate, qaObservations: candidate.qaObservations.filter((observation) => observation.id !== observationId) } : candidate) };
+    } else {
+      invalid("That T02 sample/QA action is not supported."); return;
+    }
+    const parsed = parseTechPackPomRecordSet(nextData, record.recipeId);
+    if (!parsed.ok) { invalid(`T02 change needs attention: ${parsed.error}`); return; }
+    this.applyT02Draft(record, parsed.value);
+    this.render();
   }
 
   private handleTechPackAction(target: HTMLElement): void {
@@ -597,7 +886,9 @@ export class ProjectManager {
 
   private confirmTechPackDraftDiscard(): boolean {
     if (!this.techPackDraft) return true;
-    return this.confirm("Discard the unsaved T01 editor changes? The saved tech-pack revision will remain unchanged.");
+    return this.confirm(this.techPackDraft.schemaVersion === 1
+      ? "Discard the unsaved T01 editor changes? The saved tech-pack revision will remain unchanged."
+      : "Discard the unsaved tech-pack editor changes? The saved revision will remain unchanged.");
   }
 
   private renderStyles(styles: readonly StyleRecord[], activeId: string): string {
@@ -653,7 +944,9 @@ export class ProjectManager {
     const freezeGuidance = this.busy ? "" : hasUnsavedChanges
       ? "Save the current style before freezing outputs."
       : hasUnsavedTechPack
-        ? "Save or discard the unsaved T01 edits before freezing outputs."
+        ? this.techPackDraft?.schemaVersion === 1
+          ? "Save or discard the unsaved T01 edits before freezing outputs."
+          : "Save or discard unsaved tech-pack edits before freezing outputs."
         : freezeBlocker ?? (outputsReady ? "" : "Review Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.");
     return `<section class="project-revision-history" aria-labelledby="revision-history-title">` +
       `<h3 id="revision-history-title">Immutable revisions</h3>` +
@@ -673,13 +966,20 @@ export class ProjectManager {
     const open = this.options.host.querySelector<HTMLDetailsElement>(".project-manager-details")?.open ?? false;
     this.projectManagerOpen = open;
     const techPackEditor = open
-      ? `<section class="project-tech-pack" aria-label="Living technical pack T01">` +
-        `<h3>Living technical pack · T01</h3>` +
+      ? `<section class="project-tech-pack" aria-label="Living technical pack">` +
+        `<h3>Living technical pack · T01 and T02</h3>` +
         `<p>Editable production-planning values for ${escapeHtml(loaded.activeStyle.recipeId)}. Unknowns and their next actions remain visible. Saving creates one immutable revision; this does not verify physical fit, supplier facts, or factory acceptance.</p>` +
         `<div class="project-tech-pack-actions">` +
-        `<button type="button" data-project-action="save-tech-pack"${this.busy || !this.techPackDraft || this.techPackInputError ? " disabled" : ""}>Save T01 revision</button>` +
-        `<button type="button" data-project-action="discard-tech-pack"${this.busy || !this.techPackDraft ? " disabled" : ""}>Discard T01 edits</button></div>` +
+        `<button type="button" data-project-action="save-tech-pack"${this.busy || !this.techPackDraft || this.techPackInputError ? " disabled" : ""}>Save tech-pack revision</button>` +
+        `<button type="button" data-project-action="discard-tech-pack"${this.busy || !this.techPackDraft ? " disabled" : ""}>Discard tech-pack edits</button></div>` +
         `${renderTechPackEditor({ record: this.currentTechPackRecord() ?? loaded.activeStyle.techPack, recipeLabel: loaded.activeStyle.recipeId, disabled: this.busy })}` +
+        `${renderTechPackT02Editor({
+          record: this.currentTechPackRecord() ?? loaded.activeStyle.techPack,
+          revisions: loaded.styleRevisions.filter((revision) => revision.styleId === loaded.activeStyle.id)
+            .map((revision) => ({ revisionId: revision.revisionId, revisionNumber: revision.revisionNumber })),
+          definitionsJsonDraft: this.techPackDefinitionsJsonDraft,
+          disabled: this.busy,
+        })}` +
         `</section>`
       : "";
     this.options.host.innerHTML = `<details class="project-manager-details"${open ? " open" : ""}>` +
@@ -748,7 +1048,9 @@ export class ProjectManager {
     if (action === "save-tech-pack") {
       const candidate = this.techPackDraft;
       if (!candidate) {
-        this.message = "There are no unsaved T01 edits to save.";
+        this.message = this.currentTechPackRecord()?.schemaVersion === 1
+          ? "There are no unsaved T01 edits to save."
+          : "There are no unsaved tech-pack edits to save.";
         this.render();
         return;
       }
@@ -761,21 +1063,29 @@ export class ProjectManager {
         const loaded = await this.options.workflow.saveActiveTechPack(candidate);
         this.discardTechPackDraft();
         const revisionNumber = loaded.activeStyle.techPack.revisionNumber;
-        this.message = loaded.activeStyle.revisionHeadId === candidate.revisionId
-          ? `No T01 content changed; the saved style revision remains r${revisionNumber}.`
-          : `Saved T01 as immutable style revision r${revisionNumber}. The design editor's unsaved edits, if any, remain in place.`;
+        this.message = candidate.schemaVersion === 1
+          ? loaded.activeStyle.revisionHeadId === candidate.revisionId
+            ? `No T01 content changed; the saved style revision remains r${revisionNumber}.`
+            : `Saved T01 as immutable style revision r${revisionNumber}. The design editor's unsaved edits, if any, remain in place.`
+          : loaded.activeStyle.revisionHeadId === candidate.revisionId
+            ? `No tech-pack content changed; the saved style revision remains r${revisionNumber}.`
+            : `Saved the tech pack as immutable style revision r${revisionNumber}. The design editor's unsaved edits, if any, remain in place.`;
       }, "Saving the tech-pack revision…");
     }
     if (action === "discard-tech-pack") {
+      const wasLegacyT01 = this.techPackDraft?.schemaVersion === 1;
       this.discardTechPackDraft();
-      this.message = "Unsaved T01 edits were discarded; the saved tech-pack revision is unchanged.";
+      this.message = wasLegacyT01
+        ? "Unsaved T01 edits were discarded; the saved tech-pack revision is unchanged."
+        : "Unsaved tech-pack edits were discarded; the saved revision is unchanged.";
       this.render();
       return;
     }
     if (this.techPackDraft && (action === "export-package" || action === "freeze-outputs")) {
+      const legacyT01 = this.techPackDraft.schemaVersion === 1;
       this.message = action === "export-package"
-        ? "Save or discard the unsaved T01 edits before exporting a project backup."
-        : "Save or discard the unsaved T01 edits before freezing outputs.";
+        ? legacyT01 ? "Save or discard the unsaved T01 edits before exporting a project backup." : "Save or discard unsaved tech-pack edits before exporting a project backup."
+        : legacyT01 ? "Save or discard the unsaved T01 edits before freezing outputs." : "Save or discard unsaved tech-pack edits before freezing outputs.";
       this.render();
       return;
     }
@@ -933,7 +1243,9 @@ export class ProjectManager {
 
   private async freezeOutputs(): Promise<void> {
     if (this.techPackDraft !== null) {
-      this.message = "Save or discard the unsaved T01 edits before freezing outputs.";
+      this.message = this.techPackDraft.schemaVersion === 1
+        ? "Save or discard the unsaved T01 edits before freezing outputs."
+        : "Save or discard unsaved tech-pack edits before freezing outputs.";
       this.render();
       return;
     }

@@ -57,9 +57,17 @@ existing symmetric pattern tolerances were not reinterpreted as production
 sources. The 93 focused tests pass at 100% statement, branch, function, and
 line coverage; TypeScript and protected export identity 9/9 pass. Validated
 start/exit evidence advances the board to revision 4571; Control Center passes
-42/42 after the final replay. S769 is the next action under the active T02
-sequence: revision-bind sample/QA records while separating actual readings
-from predicted POMs.
+42/42 after the final replay. S769 is complete: schema-v2 T02 data persists
+source-aware POM definitions and revision-bound sample/QA records while
+actual readings remain separate from predicted POMs. Repository/package
+history validation and project-copy reference remapping pass. The 405 focused
+tests pass with 100% four-metric coverage for all seven changed production
+modules; TypeScript, protected export identity 9/9, actual Chrome rendering,
+Control Center 42/42 and diff hygiene pass. Its start/exit replay advances the
+board through revision 4575 and keeps G05-T02/EPIC-18 In Progress. The packets
+are in `docs/research/epic18/S769-T02-sample-qa-revision-binding/`; the single
+next action is S770's sourced callout/size-run checks and all-seven-recipe
+rendered review.
 
 UIQ-09 remains Backlog pending its EPIC-19/G06 admission and accepted
 starter/source contracts; it is not this next goal. UIQ-10 is already linked

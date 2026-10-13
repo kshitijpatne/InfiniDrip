@@ -1,6 +1,6 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 768 complete; S769 next
+## Current capability boundary — EPIC-18/G05 Slice 769 complete; S770 next
 
 EPIC-17/G04 is closed and its accepted technical-flat/CAD limits remain in
 force. EPIC-18/G05 Living production tech pack is admitted from
@@ -67,8 +67,23 @@ unresolved/conflicting source states. It is not yet persisted or revision
 bound. Existing symmetric centimeter `Pom.tolerance` values remain unchanged
 and are not promoted to manufacturing sources. The 93 focused contract tests
 pass at 100% four-metric coverage; board revision 4571 links the T02 exit.
-S769 is next for revision-bound sample/QA records. The active boundary,
-separate S774 UIQ-10 admission and S780 integrated gate remain in
+S769 extends the tech-pack record with a schema-v2 POM-data field while
+preserving the exact schema-v1 T01 shape and historical payload digests.
+`tech-pack-sample-qa-records.ts` owns strict bounded definitions, sample
+readings and QA observations. Each sample round binds to one existing revision
+of its style; predicted pattern POM values stay in a separate record path.
+Repository and package validation verify current and historical references,
+and project copies remap references through the copied revision map. The
+project manager renders the T02 controls and writes edits through immutable
+revision/CAS workflow; missing source facts stay unresolved and actionable.
+S769's start and exit packets are in
+`docs/research/epic18/S769-T02-sample-qa-revision-binding/`; validated board
+replay records the exit at revision 4575. Its focused suites pass 405/405 at
+100% statement, branch, function and line coverage for all seven changed
+production modules. TypeScript, protected export identity 9/9, the actual
+Chrome-rendered T02 form, and Control Center 42/42 pass. S770 is next for
+source-aware callout/size-run checks and all-seven-recipe rendered review.
+The active boundary, separate S774 UIQ-10 admission and S780 integrated gate remain in
 `docs/planning/EPIC-18-S765-RESEQUENCING.md` and
 `docs/planning/EPIC-18-GOAL.md`.
 

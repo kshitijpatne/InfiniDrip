@@ -28,6 +28,7 @@ import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex } from "./style-revisions";
 import { parseTechPackRecord, type TechPackRecord } from "./tech-pack-records";
+import { parseTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
 
 const cryptoApi = webcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -234,6 +235,84 @@ describe("local project/style workflow", () => {
       code: "conflict",
       message: expect.stringContaining("older style revision"),
     });
+  });
+
+  it("persists T02 definitions and actual readings against an existing revision without changing predictions", async () => {
+    const workflow = await open();
+    const before = workflow.snapshot;
+    const targetRevisionId = before.activeStyle.revisionHeadId!;
+    const pomData = parseTechPackPomRecordSet({
+      schemaVersion: 1,
+      definitions: {
+        schemaVersion: 1,
+        recipeId: "tee",
+        definitions: [{
+          id: "finished.chest",
+          label: "Finished chest width",
+          method: { status: "SOURCE_CONFIRMED", value: { kind: "STRAIGHT_LINE", instructions: "Measure flat at the cited landmarks." }, source: { uri: "docs/research/pom.md", title: "Reviewed POM", locator: "Table 1" } },
+          landmarks: { status: "SOURCE_CONFIRMED", value: [{ id: "side.chest", label: "Side seam at chest level" }], source: { uri: "docs/research/pom.md", title: "Reviewed POM", locator: "Table 1" } },
+          unit: "cm",
+          tolerance: { status: "UNRESOLVED", value: null, unresolvedReason: "No reviewed source establishes tolerance.", nextAction: "Review a source before entering tolerance." },
+          sizeRangeSource: { status: "UNRESOLVED", value: null, unresolvedReason: "No reviewed size chart is attached.", nextAction: "Attach a sourced size range." },
+          gradeRuleSource: { status: "UNRESOLVED", value: null, unresolvedReason: "No reviewed grade rule is attached.", nextAction: "Attach a versioned grade rule." },
+        }],
+      },
+      sampleQaRounds: [{
+        id: "20000000-0000-4000-8000-000000000003",
+        targetRevisionId,
+        targetRevisionNumber: 1,
+        sampleLabel: "Proto A",
+        sampleSizeId: "M",
+        recordedAt: TIME,
+        recordedBy: "Local reviewer",
+        readings: [{
+          pomDefinitionId: "finished.chest",
+          status: "MEASURED",
+          actualValue: 52.25,
+          unit: "cm",
+          method: "Tape across the finished flat garment at the listed landmark.",
+          evidenceRefs: ["local-note-1"],
+          unresolvedReason: null,
+          nextAction: null,
+        }],
+        qaObservations: [],
+      }],
+    }, "tee");
+    expect(pomData.ok).toBe(true);
+    if (!pomData.ok) return;
+    const candidate: TechPackRecord = {
+      ...before.activeStyle.techPack,
+      schemaVersion: 2,
+      pomData: pomData.value,
+    };
+
+    const saved = await workflow.saveActiveTechPack(candidate);
+    const head = saved.styleRevisions.find((revision) => revision.revisionId === saved.activeStyle.revisionHeadId)!;
+    expect(saved.activeStyle.techPack.schemaVersion).toBe(2);
+    expect(head.payload.payloadVersion).toBe(2);
+    if (head.payload.payloadVersion === 2) {
+      expect(head.payload.techPack.pomData?.sampleQaRounds[0]?.targetRevisionId).toBe(targetRevisionId);
+      expect(head.payload.techPack.pomData?.sampleQaRounds[0]?.readings[0]?.actualValue).toBe(52.25);
+      expect(head.payload.techPack.pomData?.sampleQaRounds[0]?.readings[0]).not.toHaveProperty("predictedValue");
+    }
+    expect(saved.activeStyle.revisionHeadId).not.toBe(targetRevisionId);
+
+    const invalidTarget = {
+      ...saved.activeStyle.techPack,
+      pomData: {
+        ...pomData.value,
+        sampleQaRounds: pomData.value.sampleQaRounds.map((round) => ({
+          ...round,
+          targetRevisionId: "99999999-9999-4999-8999-999999999999",
+        })),
+      },
+    } as TechPackRecord;
+    const beforeInvalidSave = await workflow.repository.readProjectBundle(PROJECT_ID);
+    await expect(workflow.saveActiveTechPack(invalidTarget)).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("existing revision in this style's immutable history"),
+    });
+    await expect(workflow.repository.readProjectBundle(PROJECT_ID)).resolves.toEqual(beforeInvalidSave);
   });
 
   it("rejects stale T01 compare-and-swap without partially changing any stored project rows", async () => {
