@@ -34,7 +34,7 @@ execution sequence is in
 | 776 | Done | Admitted UIQ-10 revision-bound presentation, section presets/toggles, visible unknowns, responsive/keyboard table review and exact-revision approval display. Renderer 8/8 with 100% four-metric coverage; focused app tests, TypeScript, export byte identity, actual PDF/ZIP and two-viewport browser review pass. Start/exit/rendered/replay evidence: `docs/research/epic18/S776-UIQ-10-presentation/`; board revision 4633. |
 | 777 | Done | T04/UIQ-10 exact package diff, stale-safe explicit apply, revision-bound sample validation, DRAFT approval reset, and Tee/Woven numeric/output/browser acceptance. 100% focused coverage for the renderer and changed app ranges; TypeScript and protected export identity 8/8 pass. Exit/rendered/replay: `docs/research/epic18/S777-T04-review/`; board revision 4645. |
 | 778 | Done | T05 freeze creation: explicit exact-revision scoped approval; schema-v3 manifest/digest binding; original ZIP/PDF bytes, integrity check and local downloads. Focused suites 183/183 plus app range 100% four-metric coverage; TypeScript/build, protected export identity 17/17, Tee/Woven synthetic outputs and two-viewport Chromium pass. Exit/replay: `docs/research/epic18/S778-T05-freeze/`; board revision 4657. |
-| 779 | Next | T05 change control: edit-driven dependency invalidation and visible stale/current state; preserve prior frozen bytes; historical import compatibility; verify all eight protected legacy export identities; close T05 only after full acceptance. |
+| 779 | Done | T05 change control: edit-driven check/approval invalidation; explicit current/historical state; old ZIP/PDF byte retention; schema-v1/v2 compatibility; all eight protected export hashes unchanged. The enumerated focused suites pass 180 tests; `project-manager.ts` has 100% four-metric coverage; TypeScript, final-source Chromium and Control Center pass. Exit/replay: `docs/research/epic18/S779-T05-change-control/`; G05-T05 Done, board revision recorded in post-replay report. |
 | 780 | Backlog | Settled integrated Epic gate, review and pre-merge PR candidate. |
 | 781 | Backlog | Merge, main CI/deploy, board and durable closeout. |
 
@@ -43,7 +43,27 @@ same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
 the admission/exit evidence, and the canonical board through the validated
 command layer.
 
-## Current execution boundary — Slice 778 complete
+## Current execution boundary — Slice 779 complete; S780 next
+
+S779 completed from landed S778 commit
+`e5c62ada9cec87b9e5daafff093824e91bd9ace0` on `codex/epic-18-g05`; refreshed
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
+Its start, exit, rendered-output and post-replay evidence are in
+`docs/research/epic18/S779-T05-change-control/`. The validated exit replay
+closes G05-T05 with both T05 boundary reports linked; final board revision and
+hash read-back are recorded in the post-replay report. T01–T05 and UIQ-10 are
+Done; EPIC-18 remains In Progress and G05-EXIT remains Backlog.
+
+S779 completes edit-driven review/approval invalidation, visible
+current/historical share state, prior ZIP/PDF byte retention, schema-v1/v2
+compatibility and all eight protected export identities without baseline
+movement. The changed manager module passes 100% four-metric coverage;
+TypeScript, focused suites, final-source Chromium and Control Center pass. S780
+is the next admitted settled integrated/global gate; S781 remains merge, main
+CI/deploy, and Epic closeout. The hash-bound S762 admission and all local/no-cost,
+supplier, physical and production-claim holds remain unchanged.
+
+## Previous execution boundary — Slice 778 complete
 
 S778 started from clean S777 commit
 `4178b4fcde0836451ddf8693427749d7ce0c4360` on `codex/epic-18-g05`; fresh

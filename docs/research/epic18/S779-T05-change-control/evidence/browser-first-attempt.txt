@@ -1,0 +1,9 @@
+Command: node docs/research/epic18/S779-T05-change-control/evidence/browser-change-control.mjs
+Exit: 1
+
+The Chromium run completed local review, approval and freeze, then stopped
+before saving the edit. Playwright reported that the provenance select was
+inside a closed <details> element. The script treated the empty-string value
+of the HTML open attribute as closed and toggled the element shut. The script
+now tests attribute absence explicitly before opening the details element; the
+browser sequence must be rerun from a fresh local context.

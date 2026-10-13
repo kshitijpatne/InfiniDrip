@@ -168,10 +168,17 @@ only through an explicitly admitted, linked Epic packet.
   export regression/identity 17/17, rendered outputs, two-viewport browser and
   Control Center 42/42 pass. The broad app-file coverage attempt stopped at
   about 2.6 GB without a report; its changed range passed and the settled
-  global gate remains S780. EPIC-18 and G05-T05 remain In Progress; G05-EXIT
-  remains Backlog. S779 is next for edit invalidation, prior-byte retention,
-  import compatibility and all eight protected legacy identities. S780
-  remains the integrated global gate. UIQ-09 remains Backlog behind EPIC-19. S773's
+  global gate remains S780. S779 completed T05 change control from landed S778
+  commit `e5c62ada9cec87b9e5daafff093824e91bd9ace0`; start, exit, rendered
+  output and replay evidence are in
+  `docs/research/epic18/S779-T05-change-control/`. Validated exit replay closes
+  G05-T05 after recording stale/current revision labels, old-byte retention,
+  schema-v1/v2 compatibility and all eight protected legacy identities.
+  Changed `project-manager.ts` coverage is 100% across all four metrics;
+  TypeScript, focused suites, final-source browser review and Control Center
+  pass. EPIC-18 remains In Progress; G05-EXIT remains Backlog. S780 is the
+  next integrated global gate; S781 remains merge/deployment and closeout.
+  UIQ-09 remains Backlog behind EPIC-19. S773's
   start-digest correction remains documented in its packet; pattern
   identifiers do not establish construction facts or fit.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing

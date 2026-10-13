@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4657,
-  "updatedAt": "2026-10-13T18:09:38.273Z",
+  "revision": 4673,
+  "updatedAt": "2026-10-13T19:15:33.838Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -788,7 +788,7 @@
       "title": "EPIC-18: G05 — Living production tech pack",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including the separately admitted UIQ-10 review/apply and numeric acceptance completed at S777. T05 is In Progress: S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests; S779 is next for edit invalidation, prior-byte retention, historical import compatibility and all eight protected export identities under docs/planning/EPIC-18-S765-RESEQUENCING.md. Integrated S780 and merge/deployment S781 gates remain ordered. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit.",
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including numeric acceptance completed at S777 and UIQ-10. S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests. S779 completed the remaining T05 invalidation and compatibility boundary; historical schema-v1/v2 paths and all eight protected export identities remain unchanged. T01–T05 and UIQ-10 are Done. S780 is next for the settled integrated/global gate and pre-merge PR candidate; S781 is merge/deployment and Epic closeout. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit.",
       "evidenceRefs": [
         "E-EPIC18-S762-ADMISSION",
         "E-EPIC18-S762-EXIT",
@@ -828,7 +828,10 @@
         "E-UIQ10-S777-START",
         "E-UIQ10-S777-EXIT",
         "E-G05-S778-START",
-        "E-G05-S778-EXIT"
+        "E-G05-S778-EXIT",
+        "E-G05-S779-START",
+        "E-G05-S779-EXIT",
+        "E-G05-S779-REPLAY"
       ]
     },
     {
@@ -5630,7 +5633,7 @@
         "unknown supplier/construction/standard facts stay visible and actionable",
         "no physical-fit, factory-acceptance, supplier-acceptance, or production-release claims"
       ],
-      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done; S777 completed T04 and UIQ-10. S778 completed the exact-revision T05 freeze and deterministic manifests/digests. T05 remains In Progress for S779 invalidation, prior-byte retention, import compatibility and eight protected export identities. S780 is the settled integrated gate; S781 is merge/deployment and Epic closeout. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit.",
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done; S777 completed T04 and UIQ-10. S778 completed the exact-revision T05 freeze. S779 completed the remaining T05 dependency invalidation and compatibility, including old-byte retention and all eight protected export identities unchanged. T01–T05 and UIQ-10 are Done. S780 is next for the settled integrated/global gate; S781 is merge/deployment and Epic closeout. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit.",
       "expectation": "Deliver an editable, provenance-aware, revision-bound local tech pack for all seven supported recipes, with explicit unknowns, predicted-versus-actual separation, scoped review/freeze, and deterministic digital outputs.",
       "acceptanceCriteria": [
         "Complete G05 T01–T05 in order across all seven supported recipes using the exact bounded packets in docs/planning/EPIC-18-ADMISSION.md.",
@@ -5699,6 +5702,16 @@
           "at": "2026-10-13T18:09:07.995Z",
           "actor": "Maintainer (via Codex)",
           "text": "Updated Epic metadata (description: Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including the separately admitted UIQ-10 review/apply and numeric acceptance completed at S777. T05 is In Progress: S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests; S779 is next for edit invalidation, prior-byte retention, historical import compatibility and all eight protected export identities under docs/planning/EPIC-18-S765-RESEQUENCING.md. Integrated S780 and merge/deployment S781 gates remain ordered. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit.). Preserve the validated historical S777 numeric-acceptance summary while keeping the current S778/S779 checkpoint in the Epic description."
+        },
+        {
+          "at": "2026-10-13T18:19:14.576Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Updated Epic metadata (description: Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including the separately admitted UIQ-10 review/apply and numeric acceptance completed at S777. T05 is In Progress: S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests; S779 is In Progress for edit invalidation, prior-byte retention, historical import compatibility and all eight protected export identities under docs/planning/EPIC-18-S765-RESEQUENCING.md. Integrated S780 and merge/deployment S781 gates remain ordered. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit.). Record the validated S779 start while preserving S777 historical acceptance and later S780/S781 gates."
+        },
+        {
+          "at": "2026-10-13T19:06:28.853Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Updated Epic metadata (description: Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including numeric acceptance completed at S777 and UIQ-10. S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests. S779 completed the remaining T05 invalidation and compatibility boundary; historical schema-v1/v2 paths and all eight protected export identities remain unchanged. T01–T05 and UIQ-10 are Done. S780 is next for the settled integrated/global gate and pre-merge PR candidate; S781 is merge/deployment and Epic closeout. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit.). Record verified completion of both T05 boundaries while preserving the admitted S780 integrated/global gate and S781 release closeout."
         }
       ],
       "evidenceRefs": [
@@ -15494,7 +15507,7 @@
         "export byte identity",
         "source/revision identity"
       ],
-      "description": "Linked EPIC-18/G05 child. S776 completed under its separate presentation-only admission after S775 proved actual output and round trips; S777 completed under its separate presentation-only admission with exact T04 package diff, scoped-approval review, and two-style numeric/rendered acceptance. Explicit Apply saves a new immutable DRAFT revision and ignores imported approval. UIQ-10 is Done under docs/planning/UIQ-10-ADMISSION.md. S778 then completed the first T05 freeze boundary; S779 owns the admitted invalidation and compatibility completion. Evidence: docs/research/epic18/S777-T04-review/exit-packet.md and docs/research/epic18/S778-T05-freeze/exit-packet.md; sequence: docs/planning/EPIC-18-S765-RESEQUENCING.md.",
+      "description": "Linked EPIC-18/G05 child. S776 completed under its separate presentation-only admission after S775 proved actual output and round trips; the admission contract is docs/planning/UIQ-10-ADMISSION.md. S777 completed under its separate presentation-only admission with exact T04 package diff, scoped-approval review, and two-style numeric/rendered acceptance. Explicit Apply saves a new immutable DRAFT revision and ignores imported approval. UIQ-10 is Done. S778 then completed the first T05 freeze boundary; S779 completed the admitted invalidation and compatibility boundary. Evidence: docs/research/epic18/S777-T04-review/exit-packet.md, docs/research/epic18/S778-T05-freeze/exit-packet.md, and docs/research/epic18/S779-T05-change-control/exit-packet.md; sequence: docs/planning/EPIC-18-S765-RESEQUENCING.md.",
       "expectation": "The admitted production-pack presentation makes current section, revision, scoped approval and unresolved/readiness status readable without changing technical data, numeric methods, freeze rules or exports.",
       "acceptanceCriteria": [
         "A separate bounded admission names G05 data contract inputs, exact UI/file ownership, fallback, preserved behavior, rendered acceptance and exclusion of schema/POM/freeze/export decisions.",
@@ -16923,10 +16936,10 @@
       "title": "G05 T05 — Freeze and change control",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-10-12",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-13",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -16942,7 +16955,7 @@
         "dependency invalidation",
         "legacy compatibility"
       ],
-      "description": "Slices 778–779. S778 complete: exact saved revision approval/freeze with deterministic artifact manifest/digest and retained local ZIP/PDF bytes. S779 is the remaining T05 boundary: edit-driven dependency invalidation and visible stale/current state; preserve prior frozen bytes through edits; retain historical import compatibility; verify all eight protected legacy export identities. Close T05 only after both slice packets and the full acceptance evidence pass.",
+      "description": "Slices 778–779 complete. S778 implemented exact saved revision approval/freeze with deterministic artifact manifest/digest and retained local ZIP/PDF bytes. S779 completed the remaining T05 change-control and compatibility boundary: saved edits invalidate review and revision-bound approval; historical shares remain downloadable with byte-identical files; schema-v1/v2 imports and all eight protected legacy export identities remain unchanged. T05 is Done after both slice packets and full acceptance evidence. S780 owns the settled integrated/global gate.",
       "expectation": "A frozen local-share package identifies its exact source revision and immutable files; later edits visibly stale dependent checks without rewriting the prior frozen bytes.",
       "acceptanceCriteria": [
         "Scoped approval and freeze are bound to the exact revision and approved artifact set.",
@@ -16968,12 +16981,25 @@
           "evidenceRefs": [
             "E-G05-S778-START"
           ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-13T19:06:24.117Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "S778 and S779 pass the admitted freeze, change-control, byte-retention, compatibility, and protected export-identity acceptance; the verified S779 exit report is linked.",
+          "evidenceRefs": [
+            "E-G05-S779-EXIT"
+          ]
         }
       ],
       "comments": [],
       "evidenceRefs": [
         "E-G05-S778-START",
-        "E-G05-S778-EXIT"
+        "E-G05-S778-EXIT",
+        "E-G05-S779-START",
+        "E-G05-S779-EXIT",
+        "E-G05-S779-REPLAY"
       ],
       "flagKey": null
     },
@@ -31147,6 +31173,33 @@
       "sha256": "d0d4add04386de5398a9ada86ea34ef84ffc087bb3cd31ca7d083c79226d39c3",
       "verified": true,
       "note": "S778 completes exact-revision local approval/freeze, schema-v3 artifact manifests, digest-verified original ZIP/PDF bytes and local downloads. Focused coverage, browser and synthetic output evidence pass; S779 retains T05 invalidation, prior-byte, compatibility and eight protected-identity gates."
+    },
+    {
+      "id": "E-G05-S779-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S779-T05-change-control/start-packet.md",
+      "commit": null,
+      "sha256": "d2ee431283c2ed48db8931ffe6bb6e84a842057a0759faa73c89236536608f7f",
+      "verified": true,
+      "note": "S779 starts from landed S778 and is the remaining admitted T05 boundary: edit-driven invalidation, visible stale/current state, retention of prior frozen bytes, historical import compatibility and all eight protected legacy export identities. T05 and EPIC-18 remain In Progress; S780/S781 gates remain ordered."
+    },
+    {
+      "id": "E-G05-S779-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S779-T05-change-control/exit-packet.md",
+      "commit": null,
+      "sha256": "57506f2561a2ea2f1328b7d7050c24c7128b45fb0d4b4723b70879598657f56c",
+      "verified": true,
+      "note": "Final S779 exit report: edit invalidation, stale/current state, historical-byte retention, compatibility, protected export identities, and diagnosed/reconciled Control Center evidence."
+    },
+    {
+      "id": "E-G05-S779-REPLAY",
+      "kind": "document",
+      "uri": "docs/research/epic18/S779-T05-change-control/post-replay-verification.md",
+      "commit": null,
+      "sha256": "c96fbcd831d46251bfb91d1ea173be78ef598cd029ac59f27561202732f5ccfe",
+      "verified": true,
+      "note": "Final S779 replay records the first 41/42 board assertion, validated admission-link correction, final revision 4673, and passing 42/42 Control Center verification."
     }
   ]
 }

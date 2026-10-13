@@ -5262,6 +5262,20 @@ describe("guided journey", () => {
     HTMLAnchorElement.prototype.click = vi.fn();
   };
 
+  it("invalidates reviewed Export readiness when a design input changes", () => {
+    const root = mount();
+    walkToOutput(root);
+
+    const output = root.querySelector<HTMLButtonElement>("#journey-step-output")!;
+    expect(output.disabled).toBe(false);
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("output");
+
+    setChest(root, "101");
+
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("refine");
+    expect(root.querySelector<HTMLButtonElement>("#journey-step-output")!.disabled).toBe(true);
+  });
+
   it("keeps the current tour DOM intact when the local foundation override is off", () => {
     const root = mount({ uiqFoundationEnabled: false });
     const panel = root.querySelector<HTMLElement>("#tutorial-panel");

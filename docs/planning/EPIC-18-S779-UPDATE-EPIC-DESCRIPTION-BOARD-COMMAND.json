@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 4665,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Record verified completion of both T05 boundaries while preserving the admitted S780 integrated/global gate and S781 release closeout.",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including numeric acceptance completed at S777 and UIQ-10. S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests. S779 completed the remaining T05 invalidation and compatibility boundary; historical schema-v1/v2 paths and all eight protected export identities remain unchanged. T01–T05 and UIQ-10 are Done. S780 is next for the settled integrated/global gate and pre-merge PR candidate; S781 is merge/deployment and Epic closeout. Local/no-cost, 100% coverage, physical, supplier, and production-claim holds remain explicit."
+  }
+}

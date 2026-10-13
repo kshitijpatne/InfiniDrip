@@ -13,7 +13,7 @@ import {
   type ProjectPackageOptions,
   type ProjectPackageProgress,
 } from "./project-package";
-import type { FrozenArtifactInput } from "./style-revisions";
+import { TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION, type FrozenArtifactInput } from "./style-revisions";
 import type { GradePlanRecord } from "./grade-plan";
 import type { FieldEvidenceStatus, FieldProvenance, FieldValidationStatus } from "./field-provenance";
 import { TECH_PACK_T02_RECORD_VERSION, TECH_PACK_T03_RECORD_VERSION, parseTechPackRecord } from "./tech-pack-records";
@@ -1103,11 +1103,14 @@ export class ProjectManager {
       ).join("")}</ul>` : `<p>No archived styles.</p>`) + `</section>`;
   }
 
-  private renderTechPackShareControls(record: TechPackRecord): string {
+  private renderTechPackShareControls(record: TechPackRecord, loaded: LoadedProject): string {
     const approval = record.approval;
     const groups = techPackShareScopeGroups(record);
     const selected = new Set(approval.scopeFieldIds);
     const state = approval.state;
+    const hasHistoricalShare = loaded.exportManifests.some((manifest) => manifest.styleId === record.styleId
+      && manifest.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+      && manifest.revisionId !== loaded.activeStyle.revisionHeadId);
     const unsaved = this.techPackDraft !== null || this.options.hasUnsavedChanges();
     const stageLabel = state === "DRAFT" ? "Draft" : state === "REVIEW" ? "In review"
       : state === "APPROVED" ? "Scoped approval recorded" : "Frozen for local share";
@@ -1119,6 +1122,13 @@ export class ProjectManager {
       : state === "REVIEW" ? "Review scope is locked to these saved fields."
         : state === "APPROVED" ? "The local share will bind the ZIP, PDF, selected sections and current revision."
           : `Frozen manifest ${approval.manifestId ?? "unavailable"}`;
+    const historicalShareNextStep = state === "DRAFT"
+      ? "Start a new scoped review, approve it and freeze a new share before sharing this revision."
+      : state === "REVIEW"
+        ? "Complete and approve the current scoped review, then freeze a new share before sharing this revision."
+        : state === "APPROVED"
+          ? "Freeze the current approved revision to create a new share."
+          : "A current share now exists; use Immutable revisions to retrieve earlier files.";
     const selectedCount = approval.scopeFieldIds.length;
     const disabled = this.busy || unsaved || !record.revisionId;
     const stageDisabled = disabled || groups.length === 0 || (state === "DRAFT" && selectedCount === 0)
@@ -1133,6 +1143,7 @@ export class ProjectManager {
       + `<h4>Scoped local review and share</h4>`
       + `<p>State: <strong>${stageLabel}</strong> · saved revision ${escapeHtml(record.revisionId ?? "not saved")}. `
       + `Reviewer labels are self-attested locally; this does not establish identity, physical fit, supplier acceptance or production readiness.</p>`
+      + (hasHistoricalShare ? `<p class="project-tech-pack-share-stale" role="status" aria-live="polite">Earlier frozen Tech Pack shares are historical and stale for the current saved revision. Their original bytes remain available under Immutable revisions. ${historicalShareNextStep}</p>` : "")
       + `<label for="tech-pack-share-actor">Local reviewer label (self-attested)</label>`
       + `<input id="tech-pack-share-actor" type="text" maxlength="120" autocomplete="name" value="${escapeHtml(actor)}"${disabled ? " disabled" : ""}>`
       + `<fieldset><legend>Fields in this review scope</legend>${scopeControls}</fieldset>`
@@ -1160,14 +1171,17 @@ export class ProjectManager {
       `<button type="button" data-project-action="restore-revision" data-revision-id="${escapeHtml(revision.revisionId)}"` +
       `${this.busy || revision.revisionId === loaded.activeStyle.revisionHeadId ? " disabled" : ""}>Restore as new revision</button></li>`
     ).join("")}</ol>` : `<p>No immutable revision history is available.</p>`;
-    const frozenRows = manifests.length ? `<ol>${manifests.map((manifest) =>
-      `<li><span>Captured ${escapeHtml(manifest.capturedAt)} · r${manifest.payload.revisionId === loaded.activeStyle.revisionHeadId
-        ? "current" : escapeHtml(revisions.find((revision) => revision.revisionId === manifest.revisionId)?.revisionNumber?.toString() ?? "historical")}` +
+    const frozenRows = manifests.length ? `<ol>${manifests.map((manifest) => {
+      const sourceRevision = revisions.find((revision) => revision.revisionId === manifest.revisionId);
+      const revisionStatus = manifest.revisionId === loaded.activeStyle.revisionHeadId
+        ? "Current for saved revision"
+        : `Historical${sourceRevision ? ` r${sourceRevision.revisionNumber}` : ""} · stale for current revision`;
+      return `<li><span>Captured ${escapeHtml(manifest.capturedAt)} · ${revisionStatus}` +
       `<br><code>${escapeHtml(manifest.packetDigest)}</code> · ${manifest.artifacts.length} verified files</span>` +
       `<ul>${manifest.artifacts.map((artifact) => `<li><button type="button" data-project-action="download-frozen"` +
         ` data-manifest-id="${escapeHtml(manifest.manifestId)}" data-artifact-id="${escapeHtml(artifact.artifactId)}"${this.busy ? " disabled" : ""}>Download ${escapeHtml(artifact.displayName)}</button>` +
         ` · ${artifact.byteLength} bytes · SHA-256 ${escapeHtml(artifact.sha256.slice(0, 12))}</li>`).join("")}</ul></li>`
-    ).join("")}</ol>` : `<p>No frozen output captures.</p>`;
+    }).join("")}</ol>` : `<p>No frozen output captures.</p>`;
     const hasUnsavedChanges = this.options.hasUnsavedChanges();
     const hasUnsavedTechPack = this.techPackDraft !== null;
     const outputsReady = this.options.canFreezeOutputs?.() === true;
@@ -1236,7 +1250,7 @@ export class ProjectManager {
         `<div class="project-tech-pack-actions">` +
         `<button type="button" data-project-action="save-tech-pack"${this.busy || !this.techPackDraft || this.techPackInputError ? " disabled" : ""}>Save tech-pack revision</button>` +
         `<button type="button" data-project-action="discard-tech-pack"${this.busy || !this.techPackDraft ? " disabled" : ""}>Discard tech-pack edits</button></div>` +
-        `${this.renderTechPackShareControls(activeTechPackRecord)}` +
+        `${this.renderTechPackShareControls(activeTechPackRecord, loaded)}` +
         `${renderTechPackEditor({ record: activeTechPackRecord, recipeLabel: loaded.activeStyle.recipeId, disabled: this.busy })}` +
         `${renderTechPackT02Editor({
           record: activeTechPackRecord,
