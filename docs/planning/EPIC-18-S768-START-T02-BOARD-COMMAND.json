@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T02",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S768-START",
+    "kind": "document",
+    "uri": "docs/research/epic18/S768-T02-pom-definition-contract/start-packet.md",
+    "sha256": "eaccfa2e66a0bcb12bdc2cc9d7107b7c116563b1fc8796602e876956c5d7420c",
+    "verified": true,
+    "note": "S768 starts the source-aware typed T02 POM definition contract; sample/QA persistence, recipe defaults, pattern, and export behavior remain out of scope."
+  },
+  "expectedRevision": 4566
+}

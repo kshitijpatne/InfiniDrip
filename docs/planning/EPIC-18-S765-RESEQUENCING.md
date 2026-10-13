@@ -64,7 +64,39 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S767 complete; S768 next
+## Current checkpoint — S768 complete; S769 next
+
+S768 started from clean S767 commit
+`a46ceaf3cb701b38b5c3418bada556e4a2ef0076` on `codex/epic-18-g05`, with
+fresh `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` as an ancestor.
+The digest-linked start packet and commands are in
+`docs/research/epic18/S768-T02-pom-definition-contract/` and
+`docs/planning/EPIC-18-S768-START-*.json`. Start evidence and the validated T02
+status transition advance board revision 4566→4569.
+
+S768 adds a standalone schema-v1 POM definition set and strict validator for
+the seven existing recipe IDs. Method, landmark, unit, signed asymmetric
+tolerance, size-range source, and grade-rule source have typed representations.
+Source-confirmed, unresolved, and conflicting facts are distinct; unknowns
+retain a reason and action. No recipe POMs, tolerance values, or grade rules
+are seeded. The current pattern functions and symmetric centimeter tolerance
+behavior remain unchanged. T01's immutable revision payload and persistence
+are unchanged; S769 owns revision binding and actual sample/QA records.
+
+Focused verification passes 93/93 with 100% four-metric coverage on
+`src/ui/tech-pack-pom-records.ts`; TypeScript and protected export identity 9/9
+pass. No UI/output code changed. Control Center passes 42/42 after the
+digest-verified exit replay. Start/exit evidence and commands advance the board
+to revision 4571; G05-T02 and EPIC-18 remain In Progress. The exit packet is
+`docs/research/epic18/S768-T02-pom-definition-contract/exit-packet.md`.
+
+The single next action is S769: add revision-bound editable sample/QA rounds
+and keep actual readings separate from predicted POMs. S770 then checks
+callouts and size runs and captures all-recipe rendered proof before closing
+T02. The S780 integrated gate, S774 separate UIQ-10 admission, no-cost/local
+limits, protected exports, and supplier/physical/production holds remain.
+
+## Previous checkpoint — S767 complete
 
 S766 completed payload-v2 immutable T01 snapshots/digests, strict payload-v1
 compatibility, workflow/package/repository head binding, and fail-closed stale

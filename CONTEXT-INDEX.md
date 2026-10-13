@@ -85,11 +85,20 @@ only through an explicitly admitted, linked Epic packet.
   sequence corrections and T01 exit evidence. Board revision 4566 records
   G05-T01 Done and EPIC-18 In Progress. The T01 editor has 127 focused tests,
   100% four-metric coverage on its three behavior modules, and actual
-  browser-rendered evidence for all seven recipes. S768 is the single next
-  action under the exact T02 boundaries in
-  `docs/planning/EPIC-18-S765-RESEQUENCING.md`. UIQ-10 remains linked and
-  Backlog until its bounded S774 admission; UIQ-09 remains Backlog pending
-  EPIC-19.
+  browser-rendered evidence for all seven recipes. S768 is complete: its
+  standalone schema-v1 T02 POM definition contract supports typed methods,
+  landmarks, units, asymmetric sourced tolerances, and explicit size/grade
+  sources without seeding recipe facts or changing T01, pattern, or export
+  behavior. Start/exit packets are in
+  `docs/research/epic18/S768-T02-pom-definition-contract/`; validated board
+  commands advance revision 4566→4571. Focused coverage is 100% across all
+  four metrics, TypeScript and export identity 9/9 pass, and Control Center
+  passes 42/42 after the final replay. G05-T02 and EPIC-18 remain In Progress.
+  S769 is the single next action: revision-bind sample/QA records while
+  keeping actual readings separate from predicted POMs, under the exact T02
+  boundaries in `docs/planning/EPIC-18-S765-RESEQUENCING.md`. UIQ-10 remains
+  linked and Backlog until its bounded S774 admission; UIQ-09 remains Backlog
+  pending EPIC-19.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.
