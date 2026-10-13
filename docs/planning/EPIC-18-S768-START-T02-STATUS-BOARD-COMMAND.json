@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "G05-T02",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Start the ordered S768 T02 typed POM-definition boundary after S767 closed T01.",
+  "evidenceRefs": ["E-G05-S768-START"],
+  "expectedRevision": 4567
+}

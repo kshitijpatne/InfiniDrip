@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4566,
-  "updatedAt": "2026-10-13T00:35:56.016Z",
+  "revision": 4571,
+  "updatedAt": "2026-10-13T00:53:08.762Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -799,7 +799,9 @@
         "E-G05-S766-START",
         "E-G05-S766-EXIT",
         "E-G05-S767-START",
-        "E-G05-S767-EXIT"
+        "E-G05-S767-EXIT",
+        "E-G05-S768-START",
+        "E-G05-S768-EXIT"
       ]
     },
     {
@@ -16611,7 +16613,7 @@
       "title": "G05 T02 — POM and sample/QA records",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-10-12",
       "targetAt": null,
       "deliveredAt": null,
@@ -16649,10 +16651,23 @@
           "role": "maintainer",
           "note": "Track admitted G05 T02 as the ordered follow-on packet; keep Backlog until T01 and upstream measurement/flat contracts are accepted.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-13T00:42:30.659Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Start the ordered S768 T02 typed POM-definition boundary after S767 closed T01.",
+          "evidenceRefs": [
+            "E-G05-S768-START"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-G05-S768-START",
+        "E-G05-S768-EXIT"
+      ],
       "flagKey": null
     },
     {
@@ -30690,6 +30705,24 @@
       "sha256": "b845042ed47f0b016e79e6507666906ea2ebb277cd9fb041b9bb3ab75870ff3a",
       "verified": true,
       "note": "S767 closes the local T01 editor across seven recipes with explicit unknowns, immutable save/CAS and cost inputs without totals; 127 focused tests, 100% changed-module coverage, TypeScript, export identity and browser-rendered evidence pass."
+    },
+    {
+      "id": "E-G05-S768-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S768-T02-pom-definition-contract/start-packet.md",
+      "commit": null,
+      "sha256": "eaccfa2e66a0bcb12bdc2cc9d7107b7c116563b1fc8796602e876956c5d7420c",
+      "verified": true,
+      "note": "S768 starts the source-aware typed T02 POM definition contract; sample/QA persistence, recipe defaults, pattern, and export behavior remain out of scope."
+    },
+    {
+      "id": "E-G05-S768-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S768-T02-pom-definition-contract/exit-packet.md",
+      "commit": null,
+      "sha256": "88e2bdac2228c66b0070bc7af437369f85b672f36c89321f53bf5653fa18e1e7",
+      "verified": true,
+      "note": "S768 defines the strict source-aware T02 POM contract for all seven current recipes; 93 focused tests have 100% changed-module coverage and protected export identities remain intact."
     }
   ]
 }

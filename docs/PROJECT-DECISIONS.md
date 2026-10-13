@@ -49,8 +49,17 @@ and manager coverage gates pass 127 focused tests at 100% statement, branch,
 function and line coverage; TypeScript, protected export identity 9/9, and
 seven-recipe browser rendering pass. The validated exit replay and future-card
 sequence corrections advance the board through revision 4566, with G05-T01
-Done and EPIC-18 In Progress. The next action is S768's typed T02 POM
-definitions under the active resequencing packet.
+Done and EPIC-18 In Progress. S768 completed the standalone schema-v1 T02 POM
+definition contract for all seven supported recipe IDs: typed measurement
+methods/landmarks/units, sourced asymmetric tolerance bounds, and explicit
+size-range/grade-rule source states. No recipe values were seeded and the
+existing symmetric pattern tolerances were not reinterpreted as production
+sources. The 93 focused tests pass at 100% statement, branch, function, and
+line coverage; TypeScript and protected export identity 9/9 pass. Validated
+start/exit evidence advances the board to revision 4571; Control Center passes
+42/42 after the final replay. S769 is the next action under the active T02
+sequence: revision-bind sample/QA records while separating actual readings
+from predicted POMs.
 
 UIQ-09 remains Backlog pending its EPIC-19/G06 admission and accepted
 starter/source contracts; it is not this next goal. UIQ-10 is already linked

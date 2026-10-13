@@ -1,6 +1,6 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 767 complete; S768 next
+## Current capability boundary — EPIC-18/G05 Slice 768 complete; S769 next
 
 EPIC-17/G04 is closed and its accepted technical-flat/CAD limits remain in
 force. EPIC-18/G05 Living production tech pack is admitted from
@@ -60,7 +60,14 @@ corrections and exit evidence. Board revision 4566 records G05-T01 Done and
 EPIC-18 In Progress. Focused tests pass 127/127 with 100% statement, branch,
 function and line coverage for the editor, manager and workflow modules;
 TypeScript, protected export identity 9/9 and seven-recipe browser rendering
-pass. The next action is S768's typed T02 POM definitions. The active boundary,
+pass. Slice 768 adds the standalone schema-v1 T02 POM definition contract in
+`src/ui/tech-pack-pom-records.ts`: typed methods, landmarks, units, sourced
+asymmetric tolerance, size-range and grade-rule references, and explicit
+unresolved/conflicting source states. It is not yet persisted or revision
+bound. Existing symmetric centimeter `Pom.tolerance` values remain unchanged
+and are not promoted to manufacturing sources. The 93 focused contract tests
+pass at 100% four-metric coverage; board revision 4571 links the T02 exit.
+S769 is next for revision-bound sample/QA records. The active boundary,
 separate S774 UIQ-10 admission and S780 integrated gate remain in
 `docs/planning/EPIC-18-S765-RESEQUENCING.md` and
 `docs/planning/EPIC-18-GOAL.md`.
