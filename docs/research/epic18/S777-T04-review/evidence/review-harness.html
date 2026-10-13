@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>S777 local review harness</title>
+    <style>
+      #fixture-status { font: 14px/1.4 system-ui, sans-serif; margin: 12px; }
+      #fixture-root { min-width: 0; }
+    </style>
+  </head>
+  <body>
+    <p id="fixture-status" role="status">Preparing a synthetic local style and editable package…</p>
+    <div id="fixture-root"></div>
+    <script type="module">
+      import { GARMENTS } from "/src/drafting/index.ts";
+      import { mountApp } from "/src/ui/app.ts";
+      import { defaultStretchFabricForGarment } from "/src/ui/persist.ts";
+      import { openProjectWorkflow } from "/src/ui/project-workflow.ts";
+      import { createProductionPackOutputs, previewProductionPackImport } from "/src/ui/tech-pack-output.ts";
+      import { parseTechPackPomRecordSet } from "/src/ui/tech-pack-sample-qa-records.ts";
+      import { strFromU8, strToU8, unzipSync, zipSync } from "fflate";
+
+      const query = new URLSearchParams(location.search);
+      const recipeId = query.get("recipe") === "woven-shirt" ? "woven-shirt" : "tee";
+      const incrementTime = (() => {
+        let step = 0;
+        return () => new Date(Date.parse("2026-10-13T09:30:00.000Z") + step++ * 1_000).toISOString();
+      })();
+      const workflow = await openProjectWorkflow({
+        repositoryOptions: { name: `s777-review-${recipeId}-${crypto.randomUUID()}`, crypto },
+        idFactory: () => crypto.randomUUID(),
+        revisionIdFactory: () => crypto.randomUUID(),
+        now: incrementTime,
+      });
+      const root = document.querySelector("#fixture-root");
+      if (!(root instanceof HTMLDivElement)) throw new Error("Review harness root is missing.");
+
+      if (workflow.snapshot.activeStyle.recipeId !== recipeId) {
+        const recipe = GARMENTS.find((candidate) => candidate.name === recipeId);
+        if (!recipe) throw new Error(`No synthetic test recipe exists for ${recipeId}.`);
+        const design = workflow.snapshot.activeStyle.design;
+        await workflow.saveActiveDesign({
+          ...design,
+          workspace: {
+            ...design.workspace,
+            garment: recipeId,
+            targetStyle: recipe.styles[0].name,
+            stretchFabric: defaultStretchFabricForGarment(recipeId),
+            exportStep: recipe.sizes[0].step,
+          },
+        });
+      }
+
+      const style = workflow.snapshot.activeStyle;
+      const startingRevision = workflow.snapshot.styleRevisions.find((revision) => revision.revisionId === style.revisionHeadId);
+      if (!startingRevision) throw new Error("Synthetic style has no saved starting revision.");
+      const actualValue = recipeId === "tee" ? 52.25 : 73.5;
+      const editedActualValue = recipeId === "tee" ? 52.375 : 73.625;
+      const pomData = parseTechPackPomRecordSet({
+        schemaVersion: 1,
+        definitions: {
+          schemaVersion: 1,
+          recipeId,
+          definitions: [{
+            id: "synthetic.finished-chest",
+            label: "Synthetic finished chest width",
+            method: { status: "UNRESOLVED", value: null, unresolvedReason: "Synthetic review fixture only.", nextAction: "Use an identified construction source." },
+            landmarks: { status: "UNRESOLVED", value: null, unresolvedReason: "Synthetic review fixture only.", nextAction: "Record reviewed measurement landmarks." },
+            unit: "cm",
+            tolerance: { status: "UNRESOLVED", value: null, unresolvedReason: "Synthetic review fixture only.", nextAction: "Review a sourced tolerance." },
+            sizeRangeSource: { status: "UNRESOLVED", value: null, unresolvedReason: "Synthetic review fixture only.", nextAction: "Attach a reviewed size range." },
+            gradeRuleSource: { status: "UNRESOLVED", value: null, unresolvedReason: "Synthetic review fixture only.", nextAction: "Attach a versioned grade rule." },
+          }],
+        },
+        sampleQaRounds: [{
+          id: crypto.randomUUID(),
+          targetRevisionId: startingRevision.revisionId,
+          targetRevisionNumber: startingRevision.revisionNumber,
+          sampleLabel: `Synthetic sample; no physical ${recipeId}`,
+          sampleSizeId: "M",
+          recordedAt: "2026-10-13T09:00:00.000Z",
+          recordedBy: "S777 synthetic fixture",
+          readings: [{
+            pomDefinitionId: "synthetic.finished-chest",
+            status: "MEASURED",
+            actualValue,
+            unit: "cm",
+            method: "Synthetic numeric value for import review only.",
+            evidenceRefs: ["S777 synthetic fixture; not a sewn-garment measurement"],
+            unresolvedReason: null,
+            nextAction: null,
+          }],
+          qaObservations: [],
+        }],
+      }, recipeId);
+      if (!pomData.ok) throw new Error(pomData.error);
+      await workflow.saveActiveTechPack({
+        ...style.techPack,
+        schemaVersion: 2,
+        pomData: pomData.value,
+      });
+
+      const withNumericRecord = workflow.snapshot;
+      const headId = withNumericRecord.activeStyle.revisionHeadId;
+      const reviewer = {
+        ...withNumericRecord.activeStyle.techPack,
+        approval: {
+          state: "REVIEW",
+          revisionId: headId,
+          scopeFieldIds: [withNumericRecord.activeStyle.techPack.cover.styleName.fieldId],
+          changedBy: "S777 synthetic reviewer",
+          changedAt: "2026-10-13T09:05:00.000Z",
+          manifestId: null,
+        },
+      };
+      const internals = workflow;
+      internals.loaded = {
+        ...withNumericRecord,
+        activeStyle: { ...withNumericRecord.activeStyle, techPack: reviewer },
+        styles: withNumericRecord.styles.map((candidate) => candidate.id === withNumericRecord.activeStyle.id
+          ? { ...candidate, techPack: reviewer }
+          : candidate),
+      };
+      await workflow.saveActiveDesign(withNumericRecord.activeStyle.design);
+
+      const saved = workflow.snapshot;
+      const revision = saved.styleRevisions.find((candidate) => candidate.revisionId === saved.activeStyle.revisionHeadId);
+      if (!revision) throw new Error("Reviewed synthetic style revision is missing.");
+      const exportInput = {
+        record: saved.activeStyle.techPack,
+        revision,
+        currentHeadRevisionId: revision.revisionId,
+        preset: "measurements-qa",
+        attachments: [],
+        crypto,
+      };
+      const outputs = await createProductionPackOutputs(exportInput);
+      const repeatedOutputs = await createProductionPackOutputs(exportInput);
+      const byteEqual = (left, right) => left.byteLength === right.byteLength
+        && left.every((value, index) => value === right[index]);
+      if (!byteEqual(outputs.pdfBytes, repeatedOutputs.pdfBytes)
+        || !byteEqual(outputs.archiveBytes, repeatedOutputs.archiveBytes)) {
+        throw new Error("Repeated exports for the same synthetic revision were not byte-identical.");
+      }
+
+      const entries = unzipSync(outputs.archiveBytes);
+      const editable = JSON.parse(strFromU8(entries["records/tech-pack.json"]));
+      editable.pomData.sampleQaRounds[0].sampleLabel += " · reviewed edit";
+      editable.pomData.sampleQaRounds[0].readings[0].actualValue = editedActualValue;
+      entries["records/tech-pack.json"] = strToU8(JSON.stringify(editable));
+      const editedArchiveBytes = zipSync(entries);
+      const preview = await previewProductionPackImport({
+        fileName: `${recipeId}-edited.techpack.zip`,
+        archiveBytes: editedArchiveBytes,
+        revisionHistory: saved.styleRevisions,
+        currentHeadRevisionId: revision.revisionId,
+        validateCandidate: (candidate) => candidate.pomData
+          && candidate.pomData.sampleQaRounds.every((round) => saved.styleRevisions.some((item) =>
+            item.styleId === candidate.styleId
+            && item.revisionId === round.targetRevisionId
+            && item.revisionNumber === round.targetRevisionNumber))
+          ? []
+          : [{ status: "INVALID", path: "pomData.sampleQaRounds", message: "A sample round must target this style's immutable history." }],
+        crypto,
+      });
+      if (preview.status !== "changed" || !preview.canApply || !preview.candidateRecord) {
+        throw new Error("Synthetic edited package did not produce an eligible changed review.");
+      }
+
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector("#welcome-start")?.click();
+      root.querySelector("#journey-step-fit")?.click();
+      root.querySelector("#journey-next")?.click();
+      root.querySelector("#journey-next")?.click();
+      root.querySelector("#tutorial-skip")?.click();
+      const details = document.querySelector("#production-pack-details");
+      if (!(details instanceof HTMLDetailsElement)) throw new Error("Production-pack details are missing.");
+      details.open = true;
+      const input = root.querySelector("[data-production-pack-import-file]");
+      if (!(input instanceof HTMLInputElement)) throw new Error("Import review file picker is missing.");
+      const transfer = new DataTransfer();
+      transfer.items.add(new File([editedArchiveBytes], `${recipeId}-edited.techpack.zip`, { type: "application/zip" }));
+      input.files = transfer.files;
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+
+      const waitForReview = async () => {
+        const limit = Date.now() + 15_000;
+        while (Date.now() < limit) {
+          if (root.querySelector('[data-import-status="changed"]')) return;
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        }
+        throw new Error("The mounted local import review did not finish.");
+      };
+      await waitForReview();
+      document.querySelector("#fixture-status")?.remove();
+      root.querySelector('[data-import-status="changed"]')?.scrollIntoView({ block: "start" });
+      const reader = new FileReader();
+      const toBase64 = (bytes) => new Promise((resolve, reject) => {
+        reader.onload = () => resolve(String(reader.result).split(",")[1]);
+        reader.onerror = () => reject(new Error("Could not encode synthetic evidence bytes."));
+        reader.readAsDataURL(new Blob([bytes]));
+      });
+      window.__S777Evidence = {
+        recipeId,
+        styleId: saved.activeStyle.id,
+        revisionId: revision.revisionId,
+        revisionNumber: revision.revisionNumber,
+        revisionContentDigest: revision.revisionContentDigest,
+        approval: saved.activeStyle.techPack.approval,
+        syntheticActual: actualValue,
+        editedActual: editedActualValue,
+        displayedDiff: preview.diff,
+        findings: preview.findings,
+        outputBytes: { pdf: outputs.pdfBytes.byteLength, archive: outputs.archiveBytes.byteLength, editedArchive: editedArchiveBytes.byteLength },
+        outputHashes: { pdf: await crypto.subtle.digest("SHA-256", outputs.pdfBytes).then((bytes) => [...new Uint8Array(bytes)].map((v) => v.toString(16).padStart(2, "0")).join("")), archive: await crypto.subtle.digest("SHA-256", outputs.archiveBytes).then((bytes) => [...new Uint8Array(bytes)].map((v) => v.toString(16).padStart(2, "0")).join("")) },
+        deterministic: true,
+        pdfBase64: await toBase64(outputs.pdfBytes),
+        archiveBase64: await toBase64(outputs.archiveBytes),
+        editedArchiveBase64: await toBase64(editedArchiveBytes),
+      };
+      document.documentElement.dataset.s777FixtureReady = "true";
+      window.__S777Workflow = workflow;
+    </script>
+  </body>
+</html>

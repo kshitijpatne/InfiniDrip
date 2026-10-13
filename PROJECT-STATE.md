@@ -1,14 +1,13 @@
-## Current boundary — EPIC-18/G05 Slice 776 complete
+## Current boundary — EPIC-18/G05 Slice 777 complete
 
-S776 started 2026-10-13 06:26:33 UTC on `codex/epic-18-g05` from clean S775
-commit `030d11b64f4e57877b5226bfcd2192e7db5aaf33`; fresh
+S777 started 2026-10-13 09:01:22 UTC on `codex/epic-18-g05` from clean S776
+commit `7102cfe61f58c6a79d2887b495dfed43f4d8233f`; fresh
 `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-The S776 start, exit, and rendered-review packets plus viewport evidence are
-in `docs/research/epic18/S776-UIQ-10-presentation/`. Validated start/exit
-replays link S776 to UIQ-10, G05-T04 and EPIC-18; the exit board revision is
-4633. EPIC-18 and G05-T04 remain In Progress; G05-T01/T02/T03 are Done; UIQ-10
-remains In Progress for S777; G05-T05 and G05-EXIT remain Backlog. UIQ-09
-remains Backlog behind EPIC-19.
+Its start, exit, rendered-review, and post-replay records are in
+`docs/research/epic18/S777-T04-review/`. Validated start/exit replay links
+S777 to UIQ-10, G05-T04, and EPIC-18 at canonical board revision 4645. At the exit checkpoint, UIQ-10 and
+G05-T04 are Done; EPIC-18 remains In Progress; G05-T01 through T04 are Done;
+G05-T05 and G05-EXIT remain Backlog. UIQ-09 remains Backlog behind EPIC-19.
 
 S775 added deterministic revision-bound production PDF and editable
 `.techpack.zip` outputs plus a bounded read-only import preview and field diff.
@@ -20,18 +19,25 @@ storage or artwork. No protected export identity moved. The S775 exit packet
 records the exact output hashes and bounded acceptance contract; its companion
 post-replay report records final board and diff verification.
 
-S776 implemented the separately admitted read-only UIQ-10 presentation:
-revision-bound forms/tables, section presets and toggles, matching-revision
-approval scope, visible source/open-item states, and actual-browser review at
-390×844 and 1280×800. The renderer has 100% focused four-metric coverage;
-mounted app tests, TypeScript, protected export identity and actual output/UI
-review pass. The app.ts whole-file focused coverage report remains below its
-100% threshold only on unrelated recovery and Electron-save lines; the exit
-packet records both that result and coverage of all added presentation code.
-The single next action is S777's final field/numeric and scoped-approval
-review. The full global coverage/build/browser/Electron/output gate remains at
-S780. The original hash-bound S762 admission and all local/no-cost, supplier,
-physical, sewing, fit and production-claim holds remain unchanged.
+S777 completed the explicit local `.techpack.zip` review/apply adapter for the
+strict S775 import preview. It shows exact nested before/after values, current
+revision/digest and saved review scope, rechecks local history and scope around
+preview/apply, validates sample-round revision references, and uses the
+immutable workflow save path only after explicit Apply. Imported approval is
+discarded; the saved revision is DRAFT with an empty review scope. The new
+renderer passes 6/6 at 100% statement/branch/function/line coverage; nine
+focused mounted-app tests cover all added `app.ts` statements, branches,
+functions, and lines at 100%. TypeScript and protected export identity 8/8
+pass. Tee and Woven Shirt packages, records, manifests, actual PDFs, numeric
+diffs, and 390×844/1280×800 browser captures were parsed, hash-checked, and
+visually inspected. The exit and rendered-review packets record that sample
+actuals are synthetic and remain separate from T02 predictions; no physical,
+supplier, or production acceptance is claimed. Control Center tests pass
+42/42 after replay and `git diff --check` passes. The single next action is
+S778's admitted T05 freeze and deterministic manifest/digest boundary. The
+full global coverage/build/browser/Electron/output gate remains at S780. The
+original hash-bound S762 admission and all local/no-cost, supplier, physical,
+sewing, fit and production-claim holds remain unchanged.
 
 S772 completed in commit `652605fde0cf48eb3a105636c7a8cd0373e4e0cd`
 (`Slice 772: add T03 operation editor and validation`). Its start, exit, and

@@ -1,0 +1,232 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R ] /Count 5 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 5 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+5 0 obj
+<< /Length 4125 >>
+stream
+BT /F1 14 Tf 42.52 800.787 Td (InfiniDrip production pack) Tj ET
+BT /F1 9 Tf 42.52 782.362 Td (Style d61603cc-a40f-43f3-93b2-dc3d4764b1b6  |  Recipe tee  |  Revision r2) Tj ET
+BT /F1 11 Tf 42.52 763.937 Td (Style and revision identity \(1/1\)) Tj ET
+BT /F1 8 Tf 42.52 745.512 Td (Style ID: d61603cc-a40f-43f3-93b2-dc3d4764b1b6) Tj ET
+BT /F1 8 Tf 42.52 731.339 Td (Style code: not recorded) Tj ET
+BT /F1 8 Tf 42.52 717.165 Td (Style name: not recorded) Tj ET
+BT /F1 8 Tf 42.52 702.992 Td (Recipe: tee \(unversioned\)) Tj ET
+BT /F1 8 Tf 42.52 688.819 Td (Saved revision: r2 \(463b9f3e-c47d-451e-bcdc-26e197392ad7\)) Tj ET
+BT /F1 8 Tf 42.52 674.646 Td (Revision content SHA-256:) Tj ET
+BT /F1 8 Tf 42.52 660.472 Td (04a7762b64e099043f11bf988dedfea8b7e786de59fd7864011b0977e710a9c7) Tj ET
+BT /F1 8 Tf 42.52 646.299 Td (Selected preset: measurements-qa) Tj ET
+BT /F1 8 Tf 42.52 632.126 Td (Sections omitted: materials-bom, construction, artwork) Tj ET
+BT /F1 8 Tf 42.52 617.953 Td (cover.baseSizeId [cover.baseSizeId]: not recorded) Tj ET
+BT /F1 8 Tf 42.52 603.78 Td (provenance: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 589.606 Td (evidenceStatus: "UNCONFIRMED") Tj ET
+BT /F1 8 Tf 42.52 575.433 Td (validationStatus: "INVALID") Tj ET
+BT /F1 8 Tf 42.52 561.26 Td (unresolvedReason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 547.087 Td (nextAction: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 532.913 Td (cover.intendedUse [cover.intendedUse]: not recorded) Tj ET
+BT /F1 8 Tf 42.52 518.74 Td (provenance: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 504.567 Td (evidenceStatus: "UNCONFIRMED") Tj ET
+BT /F1 8 Tf 42.52 490.394 Td (validationStatus: "INVALID") Tj ET
+BT /F1 8 Tf 42.52 476.22 Td (unresolvedReason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 462.047 Td (nextAction: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 447.874 Td (cover.measurementUnit [cover.measurementUnit]: not recorded) Tj ET
+BT /F1 8 Tf 42.52 433.701 Td (provenance: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 419.528 Td (evidenceStatus: "UNCONFIRMED") Tj ET
+BT /F1 8 Tf 42.52 405.354 Td (validationStatus: "INVALID") Tj ET
+BT /F1 8 Tf 42.52 391.181 Td (unresolvedReason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 377.008 Td (nextAction: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 362.835 Td (cover.ownerLabel [cover.ownerLabel]: not recorded) Tj ET
+BT /F1 8 Tf 42.52 348.661 Td (provenance: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 334.488 Td (evidenceStatus: "UNCONFIRMED") Tj ET
+BT /F1 8 Tf 42.52 320.315 Td (validationStatus: "INVALID") Tj ET
+BT /F1 8 Tf 42.52 306.142 Td (unresolvedReason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 291.969 Td (nextAction: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 277.795 Td (cover.styleCode [cover.styleCode]: not recorded) Tj ET
+BT /F1 8 Tf 42.52 263.622 Td (provenance: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 249.449 Td (evidenceStatus: "UNCONFIRMED") Tj ET
+BT /F1 8 Tf 42.52 235.276 Td (validationStatus: "INVALID") Tj ET
+BT /F1 8 Tf 42.52 221.102 Td (unresolvedReason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 206.929 Td (nextAction: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 192.756 Td (cover.styleName [cover.styleName]: not recorded) Tj ET
+BT /F1 8 Tf 42.52 178.583 Td (provenance: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 164.409 Td (evidenceStatus: "UNCONFIRMED") Tj ET
+BT /F1 8 Tf 42.52 150.236 Td (validationStatus: "INVALID") Tj ET
+BT /F1 8 Tf 42.52 136.063 Td (unresolvedReason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 121.89 Td (nextAction: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 7 Tf 42.52 31.181 Td (Local digital review only; no supplier or production acceptance is established.) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 7 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+7 0 obj
+<< /Length 4879 >>
+stream
+BT /F1 14 Tf 42.52 800.787 Td (InfiniDrip production pack) Tj ET
+BT /F1 9 Tf 42.52 782.362 Td (Style d61603cc-a40f-43f3-93b2-dc3d4764b1b6  |  Recipe tee  |  Revision r2) Tj ET
+BT /F1 11 Tf 42.52 763.937 Td (Measurements and sample QA \(1/2\)) Tj ET
+BT /F1 8 Tf 42.52 745.512 Td (measurements and QA.definitions.definitions[1].gradeRuleSource.nextAction: "Attach a) Tj ET
+BT /F1 8 Tf 42.52 731.339 Td (versioned grade rule.") Tj ET
+BT /F1 8 Tf 42.52 717.165 Td (measurements and QA.definitions.definitions[1].gradeRuleSource.status: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 702.992 Td (measurements and QA.definitions.definitions[1].gradeRuleSource.unresolvedReason:) Tj ET
+BT /F1 8 Tf 42.52 688.819 Td ("Synthetic review fixture only.") Tj ET
+BT /F1 8 Tf 42.52 674.646 Td (measurements and QA.definitions.definitions[1].gradeRuleSource.value: not recorded) Tj ET
+BT /F1 8 Tf 42.52 660.472 Td (measurements and QA.definitions.definitions[1].id: "synthetic.finished-chest") Tj ET
+BT /F1 8 Tf 42.52 646.299 Td (measurements and QA.definitions.definitions[1].label: "Synthetic finished chest) Tj ET
+BT /F1 8 Tf 42.52 632.126 Td (width") Tj ET
+BT /F1 8 Tf 42.52 617.953 Td (measurements and QA.definitions.definitions[1].landmarks.nextAction: "Record) Tj ET
+BT /F1 8 Tf 42.52 603.78 Td (reviewed measurement landmarks.") Tj ET
+BT /F1 8 Tf 42.52 589.606 Td (measurements and QA.definitions.definitions[1].landmarks.status: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 575.433 Td (measurements and QA.definitions.definitions[1].landmarks.unresolvedReason:) Tj ET
+BT /F1 8 Tf 42.52 561.26 Td ("Synthetic review fixture only.") Tj ET
+BT /F1 8 Tf 42.52 547.087 Td (measurements and QA.definitions.definitions[1].landmarks.value: not recorded) Tj ET
+BT /F1 8 Tf 42.52 532.913 Td (measurements and QA.definitions.definitions[1].method.nextAction: "Use an identified) Tj ET
+BT /F1 8 Tf 42.52 518.74 Td (construction source.") Tj ET
+BT /F1 8 Tf 42.52 504.567 Td (measurements and QA.definitions.definitions[1].method.status: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 490.394 Td (measurements and QA.definitions.definitions[1].method.unresolvedReason: "Synthetic) Tj ET
+BT /F1 8 Tf 42.52 476.22 Td (review fixture only.") Tj ET
+BT /F1 8 Tf 42.52 462.047 Td (measurements and QA.definitions.definitions[1].method.value: not recorded) Tj ET
+BT /F1 8 Tf 42.52 447.874 Td (measurements and QA.definitions.definitions[1].sizeRangeSource.nextAction: "Attach a) Tj ET
+BT /F1 8 Tf 42.52 433.701 Td (reviewed size range.") Tj ET
+BT /F1 8 Tf 42.52 419.528 Td (measurements and QA.definitions.definitions[1].sizeRangeSource.status: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 405.354 Td (measurements and QA.definitions.definitions[1].sizeRangeSource.unresolvedReason:) Tj ET
+BT /F1 8 Tf 42.52 391.181 Td ("Synthetic review fixture only.") Tj ET
+BT /F1 8 Tf 42.52 377.008 Td (measurements and QA.definitions.definitions[1].sizeRangeSource.value: not recorded) Tj ET
+BT /F1 8 Tf 42.52 362.835 Td (measurements and QA.definitions.definitions[1].tolerance.nextAction: "Review a) Tj ET
+BT /F1 8 Tf 42.52 348.661 Td (sourced tolerance.") Tj ET
+BT /F1 8 Tf 42.52 334.488 Td (measurements and QA.definitions.definitions[1].tolerance.status: "UNRESOLVED") Tj ET
+BT /F1 8 Tf 42.52 320.315 Td (measurements and QA.definitions.definitions[1].tolerance.unresolvedReason:) Tj ET
+BT /F1 8 Tf 42.52 306.142 Td ("Synthetic review fixture only.") Tj ET
+BT /F1 8 Tf 42.52 291.969 Td (measurements and QA.definitions.definitions[1].tolerance.value: not recorded) Tj ET
+BT /F1 8 Tf 42.52 277.795 Td (measurements and QA.definitions.definitions[1].unit: "cm") Tj ET
+BT /F1 8 Tf 42.52 263.622 Td (measurements and QA.definitions.recipeId: "tee") Tj ET
+BT /F1 8 Tf 42.52 249.449 Td (measurements and QA.definitions.schemaVersion: 1) Tj ET
+BT /F1 8 Tf 42.52 235.276 Td (measurements and QA.sampleQaRounds[1].id: "9b6972dd-91f5-4525-abb1-bcf4e8a2fa79") Tj ET
+BT /F1 8 Tf 42.52 221.102 Td (measurements and QA.sampleQaRounds[1].qaObservations: no entries recorded) Tj ET
+BT /F1 8 Tf 42.52 206.929 Td (measurements and QA.sampleQaRounds[1].readings[1].actualValue: 52.25) Tj ET
+BT /F1 8 Tf 42.52 192.756 Td (measurements and QA.sampleQaRounds[1].readings[1].evidenceRefs[1]: "S777 synthetic) Tj ET
+BT /F1 8 Tf 42.52 178.583 Td (fixture; not a sewn-garment measurement") Tj ET
+BT /F1 8 Tf 42.52 164.409 Td (measurements and QA.sampleQaRounds[1].readings[1].method: "Synthetic numeric value) Tj ET
+BT /F1 8 Tf 42.52 150.236 Td (for import review only.") Tj ET
+BT /F1 8 Tf 42.52 136.063 Td (measurements and QA.sampleQaRounds[1].readings[1].nextAction: not recorded) Tj ET
+BT /F1 8 Tf 42.52 121.89 Td (measurements and QA.sampleQaRounds[1].readings[1].pomDefinitionId:) Tj ET
+BT /F1 8 Tf 42.52 107.717 Td ("synthetic.finished-chest") Tj ET
+BT /F1 7 Tf 42.52 31.181 Td (Local digital review only; no supplier or production acceptance is established.) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 9 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+9 0 obj
+<< /Length 1507 >>
+stream
+BT /F1 14 Tf 42.52 800.787 Td (InfiniDrip production pack) Tj ET
+BT /F1 9 Tf 42.52 782.362 Td (Style d61603cc-a40f-43f3-93b2-dc3d4764b1b6  |  Recipe tee  |  Revision r2) Tj ET
+BT /F1 11 Tf 42.52 763.937 Td (Measurements and sample QA \(2/2\)) Tj ET
+BT /F1 8 Tf 42.52 745.512 Td (measurements and QA.sampleQaRounds[1].readings[1].status: "MEASURED") Tj ET
+BT /F1 8 Tf 42.52 731.339 Td (measurements and QA.sampleQaRounds[1].readings[1].unit: "cm") Tj ET
+BT /F1 8 Tf 42.52 717.165 Td (measurements and QA.sampleQaRounds[1].readings[1].unresolvedReason: not recorded) Tj ET
+BT /F1 8 Tf 42.52 702.992 Td (measurements and QA.sampleQaRounds[1].recordedAt: "2026-10-13T09:00:00.000Z") Tj ET
+BT /F1 8 Tf 42.52 688.819 Td (measurements and QA.sampleQaRounds[1].recordedBy: "S777 synthetic fixture") Tj ET
+BT /F1 8 Tf 42.52 674.646 Td (measurements and QA.sampleQaRounds[1].sampleLabel: "Synthetic sample; no physical) Tj ET
+BT /F1 8 Tf 42.52 660.472 Td (tee") Tj ET
+BT /F1 8 Tf 42.52 646.299 Td (measurements and QA.sampleQaRounds[1].sampleSizeId: "M") Tj ET
+BT /F1 8 Tf 42.52 632.126 Td (measurements and QA.sampleQaRounds[1].targetRevisionId:) Tj ET
+BT /F1 8 Tf 42.52 617.953 Td ("77c7bfe6-8ef4-4597-8490-53eaa1220ce5") Tj ET
+BT /F1 8 Tf 42.52 603.78 Td (measurements and QA.sampleQaRounds[1].targetRevisionNumber: 1) Tj ET
+BT /F1 8 Tf 42.52 589.606 Td (measurements and QA.schemaVersion: 1) Tj ET
+BT /F1 7 Tf 42.52 31.181 Td (Local digital review only; no supplier or production acceptance is established.) Tj ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 11 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+11 0 obj
+<< /Length 3432 >>
+stream
+BT /F1 14 Tf 42.52 800.787 Td (InfiniDrip production pack) Tj ET
+BT /F1 9 Tf 42.52 782.362 Td (Style d61603cc-a40f-43f3-93b2-dc3d4764b1b6  |  Recipe tee  |  Revision r2) Tj ET
+BT /F1 11 Tf 42.52 763.937 Td (Sources, provenance and open items \(1/1\)) Tj ET
+BT /F1 8 Tf 42.52 745.512 Td (record.cover.baseSizeId [cover.baseSizeId]: value=not recorded; UNRESOLVED /) Tj ET
+BT /F1 8 Tf 42.52 731.339 Td (UNCONFIRMED / INVALID) Tj ET
+BT /F1 8 Tf 42.52 717.165 Td (reason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 702.992 Td (next action: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 688.819 Td (record.cover.intendedUse [cover.intendedUse]: value=not recorded; UNRESOLVED /) Tj ET
+BT /F1 8 Tf 42.52 674.646 Td (UNCONFIRMED / INVALID) Tj ET
+BT /F1 8 Tf 42.52 660.472 Td (reason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 646.299 Td (next action: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 632.126 Td (record.cover.measurementUnit [cover.measurementUnit]: value=not recorded; UNRESOLVED) Tj ET
+BT /F1 8 Tf 42.52 617.953 Td (/ UNCONFIRMED / INVALID) Tj ET
+BT /F1 8 Tf 42.52 603.78 Td (reason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 589.606 Td (next action: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 575.433 Td (record.cover.ownerLabel [cover.ownerLabel]: value=not recorded; UNRESOLVED /) Tj ET
+BT /F1 8 Tf 42.52 561.26 Td (UNCONFIRMED / INVALID) Tj ET
+BT /F1 8 Tf 42.52 547.087 Td (reason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 532.913 Td (next action: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 518.74 Td (record.cover.styleCode [cover.styleCode]: value=not recorded; UNRESOLVED /) Tj ET
+BT /F1 8 Tf 42.52 504.567 Td (UNCONFIRMED / INVALID) Tj ET
+BT /F1 8 Tf 42.52 490.394 Td (reason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 476.22 Td (next action: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 462.047 Td (record.cover.styleName [cover.styleName]: value=not recorded; UNRESOLVED /) Tj ET
+BT /F1 8 Tf 42.52 447.874 Td (UNCONFIRMED / INVALID) Tj ET
+BT /F1 8 Tf 42.52 433.701 Td (reason: "No sourced T01 cover value exists in the source style record.") Tj ET
+BT /F1 8 Tf 42.52 419.528 Td (next action: "Review and enter this cover value in the tech-pack editor.") Tj ET
+BT /F1 8 Tf 42.52 405.354 Td (record.pomData.definitions.definitions[1].gradeRuleSource: UNRESOLVED) Tj ET
+BT /F1 8 Tf 42.52 391.181 Td (record.pomData.definitions.definitions[1].landmarks: UNRESOLVED) Tj ET
+BT /F1 8 Tf 42.52 377.008 Td (record.pomData.definitions.definitions[1].method: UNRESOLVED) Tj ET
+BT /F1 8 Tf 42.52 362.835 Td (record.pomData.definitions.definitions[1].sizeRangeSource: UNRESOLVED) Tj ET
+BT /F1 8 Tf 42.52 348.661 Td (record.pomData.definitions.definitions[1].tolerance: UNRESOLVED) Tj ET
+BT /F1 8 Tf 42.52 334.488 Td (The structured JSON retains the complete record, provenance, conflicts, unknowns and) Tj ET
+BT /F1 8 Tf 42.52 320.315 Td (unresolved next actions.) Tj ET
+BT /F1 7 Tf 42.52 31.181 Td (Local digital review only; no supplier or production acceptance is established.) Tj ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 13 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+13 0 obj
+<< /Length 986 >>
+stream
+BT /F1 14 Tf 42.52 800.787 Td (InfiniDrip production pack) Tj ET
+BT /F1 9 Tf 42.52 782.362 Td (Style d61603cc-a40f-43f3-93b2-dc3d4764b1b6  |  Recipe tee  |  Revision r2) Tj ET
+BT /F1 11 Tf 42.52 763.937 Td (Approval scope and review disclaimer \(1/1\)) Tj ET
+BT /F1 8 Tf 42.52 745.512 Td (Review state: REVIEW) Tj ET
+BT /F1 8 Tf 42.52 731.339 Td (Approval revision: "463b9f3e-c47d-451e-bcdc-26e197392ad7") Tj ET
+BT /F1 8 Tf 42.52 717.165 Td (Approval scope field IDs: cover.styleName) Tj ET
+BT /F1 8 Tf 42.52 702.992 Td (Review actor: "S777 synthetic reviewer") Tj ET
+BT /F1 8 Tf 42.52 688.819 Td (Review recorded at: "2026-10-13T09:05:00.000Z") Tj ET
+BT /F1 8 Tf 42.52 674.646 Td (Local digital review only. This file does not establish supplier acceptance,) Tj ET
+BT /F1 8 Tf 42.52 660.472 Td (physical fit, factory acceptance, compliance or production release.) Tj ET
+BT /F1 7 Tf 42.52 31.181 Td (Local digital review only; no supplier or production acceptance is established.) Tj ET
+endstream
+endobj
+xref
+0 14
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000142 00000 n 
+0000000239 00000 n 
+0000000365 00000 n 
+0000004542 00000 n 
+0000004668 00000 n 
+0000009599 00000 n 
+0000009725 00000 n 
+0000011284 00000 n 
+0000011412 00000 n 
+0000014897 00000 n 
+0000015025 00000 n 
+trailer
+<< /Size 14 /Root 1 0 R >>
+startxref
+16063
+%%EOF

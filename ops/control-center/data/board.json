@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4633,
-  "updatedAt": "2026-10-13T08:50:28.073Z",
+  "revision": 4645,
+  "updatedAt": "2026-10-13T16:13:15.300Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -788,7 +788,7 @@
       "title": "EPIC-18: G05 — Living production tech pack",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Current exact conditional slices 762–781 are recorded in docs/planning/EPIC-18-S765-RESEQUENCING.md. T01–T03 are Done; T04 is In Progress for S774–S777, with S775 output proof before the separately admitted UIQ-10 starts at S776. T05 and integrated S780–S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier and production-claim gates remain explicit.",
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including the separately admitted UIQ-10 review/apply and numeric acceptance completed at S777. S778 starts T05 under docs/planning/EPIC-18-S765-RESEQUENCING.md. T05 and integrated S780–S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier, and production-claim holds remain explicit.",
       "evidenceRefs": [
         "E-EPIC18-S762-ADMISSION",
         "E-EPIC18-S762-EXIT",
@@ -824,7 +824,9 @@
         "E-G05-S775-START",
         "E-G05-S775-EXIT",
         "E-UIQ10-S776-START",
-        "E-UIQ10-S776-EXIT"
+        "E-UIQ10-S776-EXIT",
+        "E-UIQ10-S777-START",
+        "E-UIQ10-S777-EXIT"
       ]
     },
     {
@@ -5626,7 +5628,7 @@
         "unknown supplier/construction/standard facts stay visible and actionable",
         "no physical-fit, factory-acceptance, supplier-acceptance, or production-release claims"
       ],
-      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Current exact conditional slices 762–781 are recorded in docs/planning/EPIC-18-S765-RESEQUENCING.md. T01–T03 are Done; T04 is In Progress for S774–S777, with S775 output proof before the separately admitted UIQ-10 starts at S776. T05 and integrated S780–S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier and production-claim gates remain explicit.",
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done; S777 completed T04 and UIQ-10. S778 starts T05 under docs/planning/EPIC-18-S765-RESEQUENCING.md. Integrated S780 and merge/deployment S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier, and production-claim holds remain explicit.",
       "expectation": "Deliver an editable, provenance-aware, revision-bound local tech pack for all seven supported recipes, with explicit unknowns, predicted-versus-actual separation, scoped review/freeze, and deterministic digital outputs.",
       "acceptanceCriteria": [
         "Complete G05 T01–T05 in order across all seven supported recipes using the exact bounded packets in docs/planning/EPIC-18-ADMISSION.md.",
@@ -5680,6 +5682,11 @@
           "at": "2026-10-13T05:17:18.736Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Current exact conditional slices 762–781 are recorded in docs/planning/EPIC-18-S765-RESEQUENCING.md. T01–T03 are Done; T04 is In Progress for S774–S777, with S775 output proof before the separately admitted UIQ-10 starts at S776. T05 and integrated S780–S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier and production-claim gates remain explicit.). Reconcile the live Epic summary to the validated S774 decision/admission and active S775-to-S776 sequence; no scope or status changes."
+        },
+        {
+          "at": "2026-10-13T16:13:10.485Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Updated Epic metadata (description: Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including the separately admitted UIQ-10 review/apply and numeric acceptance completed at S777. S778 starts T05 under docs/planning/EPIC-18-S765-RESEQUENCING.md. T05 and integrated S780–S781 gates remain ordered. Local/no-cost, eight-identity, 100% coverage, physical, supplier, and production-claim holds remain explicit.). Keep the Epic summary aligned with the verified S777 closure of T04/UIQ-10 and the admitted S778 T05 start while preserving the later integrated and release gates."
         }
       ],
       "evidenceRefs": [
@@ -15453,10 +15460,10 @@
       "title": "Production-pack presentation",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-10-02",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-13",
       "priority": "P1",
       "risk": "high",
       "owner": "Codex",
@@ -15475,7 +15482,7 @@
         "export byte identity",
         "source/revision identity"
       ],
-      "description": "Linked EPIC-18/G05 child. S776 is In Progress under its separate presentation-only admission after S775 proved actual output and round trips. Scope: readable production-pack forms/tables, exact revision/approval visibility, and selected sections. Exact boundaries: docs/planning/UIQ-10-ADMISSION.md; parent sequence: docs/planning/EPIC-18-S765-RESEQUENCING.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md.",
+      "description": "Linked EPIC-18/G05 child. S776 completed under its separate presentation-only admission after S775 proved actual output and round trips; S777 completed under its separate presentation-only admission by adding exact T04 package diff, scoped-approval review, and two-style numeric/rendered acceptance. Explicit Apply saves a new immutable DRAFT revision and ignores imported approval. UIQ-10 is Done; S778 starts T05. Evidence and boundaries: docs/research/epic18/S777-T04-review/exit-packet.md, docs/planning/UIQ-10-ADMISSION.md, and docs/planning/EPIC-18-S765-RESEQUENCING.md.",
       "expectation": "The admitted production-pack presentation makes current section, revision, scoped approval and unresolved/readiness status readable without changing technical data, numeric methods, freeze rules or exports.",
       "acceptanceCriteria": [
         "A separate bounded admission names G05 data contract inputs, exact UI/file ownership, fallback, preserved behavior, rendered acceptance and exclusion of schema/POM/freeze/export decisions.",
@@ -15502,6 +15509,16 @@
           "evidenceRefs": [
             "E-UIQ10-S776-START"
           ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-13T16:13:01.433Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "S777 passed the separately admitted T04 field-diff, scoped-approval, numeric/rendered, stale-safety, and explicit DRAFT-apply acceptance; the verified exit report is linked.",
+          "evidenceRefs": [
+            "E-UIQ10-S777-EXIT"
+          ]
         }
       ],
       "comments": [],
@@ -15509,7 +15526,9 @@
         "E-UIQ-APPROVAL",
         "E-UIQ10-S774-ADMISSION",
         "E-UIQ10-S776-START",
-        "E-UIQ10-S776-EXIT"
+        "E-UIQ10-S776-EXIT",
+        "E-UIQ10-S777-START",
+        "E-UIQ10-S777-EXIT"
       ],
       "flagKey": null
     },
@@ -16814,10 +16833,10 @@
       "title": "G05 T04 — Route-specific pack output",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-10-12",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-13",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -16860,6 +16879,16 @@
           "evidenceRefs": [
             "E-G05-S774-START"
           ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-13T16:13:08.531Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "S777 completed the admitted route-specific package output/import review and separately admitted UIQ-10 acceptance across Tee and Woven Shirt; the verified exit report is linked.",
+          "evidenceRefs": [
+            "E-UIQ10-S777-EXIT"
+          ]
         }
       ],
       "comments": [],
@@ -16870,7 +16899,9 @@
         "E-G05-S775-START",
         "E-G05-S775-EXIT",
         "E-UIQ10-S776-START",
-        "E-UIQ10-S776-EXIT"
+        "E-UIQ10-S776-EXIT",
+        "E-UIQ10-S777-START",
+        "E-UIQ10-S777-EXIT"
       ],
       "flagKey": null
     },
@@ -31055,6 +31086,24 @@
       "sha256": "8ffca26e4a7d39a91018095090cdf0ed6f14328ec37b58880cf3a5adfd441d9a",
       "verified": true,
       "note": "S776 presentation, responsive table, revision/approval binding and rendered evidence pass; focused tests and protected export identity pass. UIQ-10 remains In Progress for S777 field/numeric and scoped-approval review."
+    },
+    {
+      "id": "E-UIQ10-S777-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S777-T04-review/start-packet.md",
+      "commit": null,
+      "sha256": "cfb90ed4ba028ddce52051cfa72e2fd6939ce1074a7ebc09041c1c93f2ec6399",
+      "verified": true,
+      "note": "S777 starts the admitted T04 field-diff, scoped-approval, and two-style numeric/rendered acceptance. The packet bounds the local explicit import-review/apply path to the existing S775 API and revision-save flow; UIQ-10/T04 remain In Progress pending both acceptance reviews."
+    },
+    {
+      "id": "E-UIQ10-S777-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S777-T04-review/exit-packet.md",
+      "commit": null,
+      "sha256": "1307e6d24bbb36f08d3cf73c248f7764b36c40975b4a5f5129ab0cd2e7fbddb6",
+      "verified": true,
+      "note": "S777 completes explicit local import review/apply, exact field and numeric diff, scoped-approval checks, immutable DRAFT save, and Tee/Woven rendered acceptance. UIQ-10 is Done; the Epic stays In Progress for T05 and integrated gates."
     }
   ]
 }

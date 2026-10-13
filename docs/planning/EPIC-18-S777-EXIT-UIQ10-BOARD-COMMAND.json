@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4637,
+  "itemId": "UIQ-10",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-UIQ10-S777-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic18/S777-T04-review/exit-packet.md",
+    "sha256": "1307e6d24bbb36f08d3cf73c248f7764b36c40975b4a5f5129ab0cd2e7fbddb6",
+    "verified": true,
+    "note": "S777 completes explicit local import review/apply, exact field and numeric diff, scoped-approval checks, immutable DRAFT save, and Tee/Woven rendered acceptance. UIQ-10 is Done; the Epic stays In Progress for T05 and integrated gates."
+  }
+}

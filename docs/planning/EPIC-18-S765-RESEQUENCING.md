@@ -64,18 +64,16 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S776 complete; S777 next
+## Current checkpoint — S777 complete; S778 next
 
-S776 started from clean S775 commit
-`030d11b64f4e57877b5226bfcd2192e7db5aaf33` on `codex/epic-18-g05`; fresh
+S777 started from clean S776 commit
+`7102cfe61f58c6a79d2887b495dfed43f4d8233f` on `codex/epic-18-g05`; fresh
 `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-S775's start/exit packets, generated files and rendered evidence are in
-`docs/research/epic18/S775-T04-output-package/`. S776's start, exit,
-rendered-review and viewport evidence are in
-`docs/research/epic18/S776-UIQ-10-presentation/`. Validated start/exit replay
-links S776 to UIQ-10, G05-T04 and EPIC-18; the board is revision 4633. T01/T02/
-T03 are Done; T04 and EPIC-18 remain In Progress; UIQ-10 remains In Progress
-under its separate S774 admission for S777 review.
+S777's start, exit, rendered-review, and post-replay evidence are in
+`docs/research/epic18/S777-T04-review/`. Its validated start/exit replay links
+the slice to UIQ-10, G05-T04, and EPIC-18 at board revision 4645. G05-T01
+through T04 and UIQ-10 are Done; EPIC-18 remains In Progress; G05-T05 and
+G05-EXIT remain Backlog.
 
 S775 completed the separate `infinidrip-techpack` `.techpack.zip`, additive
 standalone PDF and strict bounded preview/import diff. Deterministic Tee and
@@ -86,15 +84,19 @@ identity and post-replay Control Center checks pass. The whole-project ZIP and
 protected legacy PDF stay separate; no storage writes, UI integration, freeze,
 or construction/fit/supplier/production claim is part of S775.
 
-S776 completed the presentation-only UIQ-10 layer. Renderer coverage is 100%
-across all four metrics; mounted tests, TypeScript, protected export identity,
-actual S775 file review and two-viewport output review are recorded in its
-exit packet. The app.ts whole-file focused threshold's unrelated uncovered
-recovery/Electron-save branches are documented there; the S776 code ranges
-passed focused coverage. The single next action is S777's final field/numeric
-and scoped-approval review. S780 stays the integrated/global/build/readiness/
-browser/Electron/output gate. The original hash-bound S762 admission remains
-unchanged; this active addendum controls the current sequence.
+S777 completed the admitted local import-review/apply flow. The renderer passed
+6/6 focused tests at 100% four-metric coverage, and every added `app.ts` range
+passed the focused four-metric gate. TypeScript, protected export identity
+8/8, actual Tee/Woven ZIP/PDF and numeric reconciliation, and 390×844/1280×800
+Chromium review pass. The saved approval remains bound to the displayed exact
+revision; stale heads and sample-history mismatches fail closed; explicit
+Apply creates a new immutable DRAFT revision with empty approval scope.
+Rendered-output and no-physical-claim limits are recorded in the S777 exit
+packet. The single next action is S778's admitted T05 immutable local-share
+freeze and deterministic manifest/digest implementation. S780 stays the
+integrated/global/build/readiness/browser/Electron/output gate. The original
+hash-bound S762 admission remains unchanged; this active addendum controls the
+current sequence.
 S772's start, exit, and replay packet is
 `docs/research/epic18/S772-T03-operation-editor-validation/`; its final board
 revision is 4597, with 192/192 focused tests, 100% four-metric changed-module

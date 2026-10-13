@@ -254,3 +254,138 @@
   background: #edf2f7;
   font-weight: 600;
 }
+
+.tech-pack-import-review {
+  min-width: 0;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #d8dee9;
+}
+
+.tech-pack-import-review > h3,
+.tech-pack-import-result > h3,
+.tech-pack-import-revision > h4,
+.tech-pack-import-approval > h4,
+.tech-pack-import-findings-section > h4 {
+  margin: 0 0 7px;
+  font-size: 12px;
+}
+
+.tech-pack-import-picker {
+  display: grid;
+  gap: 5px;
+  font-weight: 650;
+}
+
+.tech-pack-import-picker input {
+  min-width: 0;
+  max-width: 100%;
+  font: inherit;
+}
+
+.tech-pack-import-help,
+.tech-pack-import-empty,
+.tech-pack-import-open,
+.tech-pack-import-attachments {
+  margin: 6px 0;
+  overflow-wrap: anywhere;
+}
+
+.tech-pack-import-result {
+  min-width: 0;
+  margin-top: 10px;
+  padding: 9px;
+  border: 1px solid #cbd4df;
+  border-radius: 5px;
+  background: #f8fafc;
+}
+
+.tech-pack-import-revisions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+
+.tech-pack-import-revision,
+.tech-pack-import-approval {
+  min-width: 0;
+  margin: 7px 0;
+  padding: 7px;
+  border: 1px solid #d8dee9;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.tech-pack-import-revision dl {
+  display: grid;
+  grid-template-columns: minmax(68px, auto) minmax(0, 1fr);
+  gap: 3px 7px;
+  margin: 0;
+}
+
+.tech-pack-import-revision dt {
+  color: #405064;
+  font-weight: 650;
+}
+
+.tech-pack-import-revision dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.tech-pack-import-table-wrap {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.tech-pack-import-table-wrap:focus-visible {
+  outline: 3px solid #146b9a;
+  outline-offset: 2px;
+}
+
+.tech-pack-import-table {
+  min-width: 520px;
+  table-layout: fixed;
+}
+
+.tech-pack-import-table th:first-child {
+  width: 36%;
+}
+
+.tech-pack-import-table th,
+.tech-pack-import-table td {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.tech-pack-import-table code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.tech-pack-import-approval-notice,
+.tech-pack-import-result [role="status"],
+.tech-pack-import-state [role="alert"] {
+  margin: 7px 0;
+  padding: 7px 9px;
+  border-left: 3px solid #ad6b00;
+  background: #fff7e8;
+  overflow-wrap: anywhere;
+}
+
+.tech-pack-import-findings {
+  display: grid;
+  gap: 5px;
+  margin: 6px 0;
+  padding-left: 20px;
+}
+
+.tech-pack-import-findings li {
+  overflow-wrap: anywhere;
+}

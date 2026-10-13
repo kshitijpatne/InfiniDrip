@@ -1,6 +1,6 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 776 complete
+## Current capability boundary — EPIC-18/G05 Slice 777 complete
 
 S775 added `src/ui/tech-pack-output.ts`: deterministic, revision-bound
 standalone production PDF and `infinidrip-techpack` `.techpack.zip` output,
@@ -19,20 +19,28 @@ rendering and review pass. The files, start/exit packets and replay evidence
 are under `docs/research/epic18/S775-T04-output-package/`; the board records
 G05-T04 and EPIC-18 In Progress and UIQ-10 In Progress at revision 4630.
 
-S776 completed from S775 commit `030d11b64f4e57877b5226bfcd2192e7db5aaf33`
+S776 completed the revision-bound production-pack presentation. Its start,
+exit, and rendered-review evidence are in
+`docs/research/epic18/S776-UIQ-10-presentation/`; validated replay links it to
+UIQ-10, G05-T04, and EPIC-18 at board revision 4633.
+
+S777 started from clean S776 commit `7102cfe61f58c6a79d2887b495dfed43f4d8233f`
 with fresh `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` as an
-ancestor. Start, exit and rendered-review evidence are in
-`docs/research/epic18/S776-UIQ-10-presentation/`; the validated board replay
-links the result to UIQ-10, G05-T04 and EPIC-18 at revision 4633. The admitted
-read-only presentation consumes the S775 model for revision-bound forms and
-tables, section choices and matching-revision approval visibility. It keeps
-identity, source/open-item and disclaimer content visible, preserves unknowns
-and conflicts, rejects stale output, and provides keyboard access to narrow
-open-item columns. It does not change the writer, record schema, calculations,
-approval behavior, storage or legacy Tech Pack. No supplier, physical fit,
-factory or production claim is established. S777 is the next field/numeric and
-scoped-approval review; the integrated/global/build/readiness/browser/Electron/
-output gate remains at S780.
+ancestor. The local app now consumes the strict S775 import-preview API through
+an explicit review and Apply flow. It displays exact nested field changes,
+current style revision/digest and saved scoped approval; stale heads, changed
+scope, invalid history, and superseded async work fail closed. Apply uses the
+existing immutable workflow save path, discards imported approval, and leaves
+the new revision in DRAFT with an empty review scope. Package attachments stay
+read-only and no automatic apply occurs. The renderer and every changed app
+range pass focused 100% four-metric coverage. Tee/Woven Shirt package and PDF
+reconciliation and Chromium review at 390×844 and 1280×800 are in
+`docs/research/epic18/S777-T04-review/`. Sample actuals remain distinct from
+T02's separately calculated predictions; values and examples are explicitly
+synthetic, with no supplier, physical-fit, factory, or production claim.
+Validated replay closes UIQ-10 and G05-T04; EPIC-18 remains In Progress and
+S778 starts the admitted T05 freeze work. The integrated/global/build/readiness/
+browser/Electron/output gate remains at S780.
 
 S773's read-only T01/T03 reference reconciliation and all-seven rendered
 review remain the preceding code checkpoint; pattern identifiers do not
@@ -100,8 +108,8 @@ local editable source records, predicted-versus-actual POMs, sourced
 construction facts, generated digital output and immutable local sharing
 across the seven supported recipes. Unknowns remain visible. A frozen local
 share is not a supplier handoff, physical-fit result, production approval or
-factory acceptance. UIQ-10 remains a linked Backlog child until its separate
-bounded admission after T01–T03; UIQ-09/EPIC-19 and all launch, supplier,
+factory acceptance. UIQ-10 is the separately admitted child closed with S777;
+UIQ-09/EPIC-19 and all launch, supplier,
 physical and paid-service gates remain outside this admission. Details and the
 current verified checkpoint are in `docs/planning/EPIC-18-ADMISSION.md`, the
 active sequence addendum `docs/planning/EPIC-18-S765-RESEQUENCING.md`,
@@ -154,8 +162,9 @@ G05-T02 is Done at canonical board revision 4582. Its exit packets and
 digest-verified replay are in
 `docs/research/epic18/S770-T02-callout-size-run-validation/`. S773 closed T03
 at board revision 4611. S774 selected the T04 exchange/import contract and
-separately admitted UIQ-10 for S776. S775 output proof is complete; S776 is
-the next admitted presentation boundary.
+separately admitted UIQ-10. S775 output proof and S776 presentation are
+complete; S777 closes the T04 review boundary. S778 is the next admitted T05
+freeze boundary.
 The S780 integrated gate remains in
 `docs/planning/EPIC-18-S765-RESEQUENCING.md` and
 `docs/planning/EPIC-18-GOAL.md`.

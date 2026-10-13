@@ -1,0 +1,710 @@
+{
+  "generatedAt": "2026-10-13T15:31:06.031Z",
+  "browser": "Playwright Chromium",
+  "styles": [
+    {
+      "recipeId": "tee",
+      "styleId": "d61603cc-a40f-43f3-93b2-dc3d4764b1b6",
+      "revisionId": "463b9f3e-c47d-451e-bcdc-26e197392ad7",
+      "revisionNumber": 2,
+      "revisionContentDigest": "04a7762b64e099043f11bf988dedfea8b7e786de59fd7864011b0977e710a9c7",
+      "approval": {
+        "state": "REVIEW",
+        "revisionId": "463b9f3e-c47d-451e-bcdc-26e197392ad7",
+        "scopeFieldIds": [
+          "cover.styleName"
+        ],
+        "changedBy": "S777 synthetic reviewer",
+        "changedAt": "2026-10-13T09:05:00.000Z",
+        "manifestId": null
+      },
+      "syntheticActual": 52.25,
+      "editedActual": 52.375,
+      "displayedDiff": [
+        {
+          "path": "pomData.sampleQaRounds[0].readings[0].actualValue",
+          "change": "changed",
+          "before": 52.25,
+          "after": 52.375
+        },
+        {
+          "path": "pomData.sampleQaRounds[0].sampleLabel",
+          "change": "changed",
+          "before": "Synthetic sample; no physical tee",
+          "after": "Synthetic sample; no physical tee · reviewed edit"
+        }
+      ],
+      "findings": [],
+      "outputBytes": {
+        "pdf": 16409,
+        "archive": 4767,
+        "editedArchive": 4780
+      },
+      "deterministic": true,
+      "artifacts": [
+        {
+          "name": "tee-production-pack.pdf",
+          "byteLength": 16409,
+          "sha256": "9de8974f9aea940c365035d1e387533d71aedd901c74428f80e2d93ab880b0e1"
+        },
+        {
+          "name": "tee.techpack.zip",
+          "byteLength": 4767,
+          "sha256": "0f1eb14bedcb321e807f66915233c36a97014a9112f3a51a24e3562ec90dc907"
+        },
+        {
+          "name": "tee-edited.techpack.zip",
+          "byteLength": 4780,
+          "sha256": "6fc0bdd71a472a3c71679c1a8ed3355578f67617469f96e864f4a75efcb46d36"
+        },
+        {
+          "name": "tee-record.json",
+          "byteLength": 5230,
+          "sha256": "bb7bdd66848c7c5defe101f14f799792e0ad1b192641711e0d8c8372ec36c739"
+        },
+        {
+          "name": "tee-manifest.json",
+          "byteLength": 824,
+          "sha256": "3efc4aea3f9a7e0866ea09eaf33cf1803d2006bc7c11ae2a137651fbe35f14f1"
+        }
+      ],
+      "captures": [
+        {
+          "viewport": "390x844",
+          "documentClientWidth": 390,
+          "documentScrollWidth": 390,
+          "reviewClientWidth": 331,
+          "tableClientWidth": 313,
+          "tableScrollWidth": 520,
+          "innerTableWidth": 520,
+          "position": {
+            "top": 694.109375,
+            "bottom": 1904.109375,
+            "scrollables": [
+              {
+                "tag": "ASIDE",
+                "id": "studio-inspector",
+                "className": "",
+                "scrollTop": 2879,
+                "clientHeight": 153,
+                "scrollHeight": 4496
+              }
+            ]
+          },
+          "screenshots": [
+            {
+              "name": "tee-mobile-review-identity.png",
+              "byteLength": 46685,
+              "sha256": "3ddb82994c0bff67289fc16e46177c0424c7889d76e7b1d968b62d1525b5a4f6",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-result h3",
+                "inspector": {
+                  "top": 680.859375,
+                  "bottom": 836,
+                  "left": 8,
+                  "right": 382
+                },
+                "target": {
+                  "top": 689.109375,
+                  "bottom": 705.109375,
+                  "left": 32,
+                  "right": 345
+                },
+                "inspectorScrollTop": 2894,
+                "tableScrollLeft": null
+              }
+            },
+            {
+              "name": "tee-mobile-saved-approval.png",
+              "byteLength": 47105,
+              "sha256": "f520e617fbeeaaa2599373b51afba86891b49dcbe8c7d65bcab092bb002c98fa",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-approval",
+                "inspector": {
+                  "top": 680.859375,
+                  "bottom": 836,
+                  "left": 8,
+                  "right": 382
+                },
+                "target": {
+                  "top": 689.109375,
+                  "bottom": 832.109375,
+                  "left": 32,
+                  "right": 345
+                },
+                "inspectorScrollTop": 3428,
+                "tableScrollLeft": null
+              }
+            },
+            {
+              "name": "tee-mobile-diff-left.png",
+              "byteLength": 47701,
+              "sha256": "8cbf9cc6384a382f0e7330e8d1139f2df7936165620f7e819e7f82d77ded0027",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-table-wrap",
+                "inspector": {
+                  "top": 680.859375,
+                  "bottom": 836,
+                  "left": 8,
+                  "right": 382
+                },
+                "target": {
+                  "top": 689.109375,
+                  "bottom": 836.109375,
+                  "left": 32,
+                  "right": 345
+                },
+                "inspectorScrollTop": 3666,
+                "tableScrollLeft": 0
+              }
+            },
+            {
+              "name": "tee-mobile-diff-right.png",
+              "byteLength": 45551,
+              "sha256": "4ee5156c6e175e6928095aec6be7032f9b3258acd52e7fdf2236d43f3b1950c7",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-table-wrap",
+                "inspector": {
+                  "top": 680.859375,
+                  "bottom": 836,
+                  "left": 8,
+                  "right": 382
+                },
+                "target": {
+                  "top": 689.109375,
+                  "bottom": 836.109375,
+                  "left": 32,
+                  "right": 345
+                },
+                "inspectorScrollTop": 3666,
+                "tableScrollLeft": 207
+              }
+            },
+            {
+              "name": "tee-mobile-draft-apply.png",
+              "byteLength": 48056,
+              "sha256": "da19e3e7708b8d12c1fe79d40375080e48b4b112b192a8103bee26044193066a",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-approval-notice",
+                "inspector": {
+                  "top": 680.859375,
+                  "bottom": 836,
+                  "left": 8,
+                  "right": 382
+                },
+                "target": {
+                  "top": 689.109375,
+                  "bottom": 787.109375,
+                  "left": 32,
+                  "right": 345
+                },
+                "inspectorScrollTop": 3933,
+                "tableScrollLeft": null
+              }
+            }
+          ],
+          "keyboard": {
+            "pickerToTable": true,
+            "tableToApply": true,
+            "arrowScrollFrom": 0,
+            "arrowScrollTo": 207
+          }
+        },
+        {
+          "viewport": "1280x800",
+          "documentClientWidth": 1280,
+          "documentScrollWidth": 1280,
+          "reviewClientWidth": 307,
+          "tableClientWidth": 289,
+          "tableScrollWidth": 520,
+          "innerTableWidth": 520,
+          "position": {
+            "top": 306.890625,
+            "bottom": 1600.890625,
+            "scrollables": [
+              {
+                "tag": "ASIDE",
+                "id": "studio-inspector",
+                "className": "",
+                "scrollTop": 2852,
+                "clientHeight": 489,
+                "scrollHeight": 4553
+              }
+            ]
+          },
+          "screenshots": [
+            {
+              "name": "tee-desktop-review-identity.png",
+              "byteLength": 118522,
+              "sha256": "c8dca68673cca2baba6d9e6737927972bf892d4632f02353cac94b4b556f94ef",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-result h3",
+                "inspector": {
+                  "top": 293.5,
+                  "bottom": 784,
+                  "left": 16,
+                  "right": 366
+                },
+                "target": {
+                  "top": 301.890625,
+                  "bottom": 317.890625,
+                  "left": 40,
+                  "right": 329
+                },
+                "inspectorScrollTop": 2867,
+                "tableScrollLeft": null
+              }
+            },
+            {
+              "name": "tee-desktop-saved-approval.png",
+              "byteLength": 120376,
+              "sha256": "f9aa6cdb01f189699b7951c1ee4a3c83102df32e9037bb366d7a6d36023c18fd",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-approval",
+                "inspector": {
+                  "top": 293.5,
+                  "bottom": 784,
+                  "left": 16,
+                  "right": 366
+                },
+                "target": {
+                  "top": 301.890625,
+                  "bottom": 444.890625,
+                  "left": 40,
+                  "right": 329
+                },
+                "inspectorScrollTop": 3485,
+                "tableScrollLeft": null
+              }
+            },
+            {
+              "name": "tee-desktop-diff-left.png",
+              "byteLength": 119085,
+              "sha256": "3cc6bc2e8683d0228f374568f0d690abb6a733f69f4a2e495c361efa471deec4",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-table-wrap",
+                "inspector": {
+                  "top": 293.5,
+                  "bottom": 784,
+                  "left": 16,
+                  "right": 366
+                },
+                "target": {
+                  "top": 301.890625,
+                  "bottom": 448.890625,
+                  "left": 40,
+                  "right": 329
+                },
+                "inspectorScrollTop": 3723,
+                "tableScrollLeft": 0
+              }
+            },
+            {
+              "name": "tee-desktop-diff-right.png",
+              "byteLength": 114476,
+              "sha256": "67656f999f5d36c0a0888df0ddee64468a41ff4824199910b2da32fe45b2a45d",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-table-wrap",
+                "inspector": {
+                  "top": 293.5,
+                  "bottom": 784,
+                  "left": 16,
+                  "right": 366
+                },
+                "target": {
+                  "top": 301.890625,
+                  "bottom": 448.890625,
+                  "left": 40,
+                  "right": 329
+                },
+                "inspectorScrollTop": 3723,
+                "tableScrollLeft": 231
+              }
+            },
+            {
+              "name": "tee-desktop-draft-apply.png",
+              "byteLength": 119056,
+              "sha256": "2d97b36657ac6f8c29a4afd7e39e5834041d12477f98a8e4fe741276bd04c443",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-approval-notice",
+                "inspector": {
+                  "top": 293.5,
+                  "bottom": 784,
+                  "left": 16,
+                  "right": 366
+                },
+                "target": {
+                  "top": 301.890625,
+                  "bottom": 399.890625,
+                  "left": 40,
+                  "right": 329
+                },
+                "inspectorScrollTop": 3990,
+                "tableScrollLeft": null
+              }
+            }
+          ],
+          "keyboard": {
+            "pickerToTable": true,
+            "tableToApply": true,
+            "arrowScrollFrom": 207,
+            "arrowScrollTo": 231
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "recipeId": "woven-shirt",
+      "styleId": "3a3fba58-120d-4969-9689-f37cf1ce56e3",
+      "revisionId": "e81a6d6e-5170-412f-a096-96fd06c04645",
+      "revisionNumber": 3,
+      "revisionContentDigest": "0b94eefb3f87fbb0c0b5f30d24794135c4ff9d50d1515ba972c3a74bd4a667dc",
+      "approval": {
+        "state": "REVIEW",
+        "revisionId": "e81a6d6e-5170-412f-a096-96fd06c04645",
+        "scopeFieldIds": [
+          "cover.styleName"
+        ],
+        "changedBy": "S777 synthetic reviewer",
+        "changedAt": "2026-10-13T09:05:00.000Z",
+        "manifestId": null
+      },
+      "syntheticActual": 73.5,
+      "editedActual": 73.625,
+      "displayedDiff": [
+        {
+          "path": "pomData.sampleQaRounds[0].readings[0].actualValue",
+          "change": "changed",
+          "before": 73.5,
+          "after": 73.625
+        },
+        {
+          "path": "pomData.sampleQaRounds[0].sampleLabel",
+          "change": "changed",
+          "before": "Synthetic sample; no physical woven-shirt",
+          "after": "Synthetic sample; no physical woven-shirt · reviewed edit"
+        }
+      ],
+      "findings": [],
+      "outputBytes": {
+        "pdf": 16472,
+        "archive": 4796,
+        "editedArchive": 4809
+      },
+      "deterministic": true,
+      "artifacts": [
+        {
+          "name": "woven-shirt-production-pack.pdf",
+          "byteLength": 16472,
+          "sha256": "11ec8b25d95fab3b17fee313225e8ef28f11507d31d8ab299921225d78aed406"
+        },
+        {
+          "name": "woven-shirt.techpack.zip",
+          "byteLength": 4796,
+          "sha256": "d28e9aeac158f9d8fcf18711ffefad3b0587aed238270265adc08967fc9d38f9"
+        },
+        {
+          "name": "woven-shirt-edited.techpack.zip",
+          "byteLength": 4809,
+          "sha256": "129f2c0bb9cc0132c1fda08d8d342ce25a7e9fa1c93b95fb7ff392c2eae47d9e"
+        },
+        {
+          "name": "woven-shirt-record.json",
+          "byteLength": 5253,
+          "sha256": "b798d810cb655d7fa176cef5f6a4f00872c6d2606275ddd845a99b5a49575deb"
+        },
+        {
+          "name": "woven-shirt-manifest.json",
+          "byteLength": 832,
+          "sha256": "1e57aa5d37253acb8d604a6783b528958dd4df22ffb219c6e1c53a32fae42eda"
+        }
+      ],
+      "captures": [
+        {
+          "viewport": "390x844",
+          "documentClientWidth": 390,
+          "documentScrollWidth": 390,
+          "reviewClientWidth": 331,
+          "tableClientWidth": 313,
+          "tableScrollWidth": 520,
+          "innerTableWidth": 520,
+          "position": {
+            "top": 693.859375,
+            "bottom": 1903.859375,
+            "scrollables": [
+              {
+                "tag": "ASIDE",
+                "id": "studio-inspector",
+                "className": "",
+                "scrollTop": 2478,
+                "clientHeight": 153,
+                "scrollHeight": 4095
+              }
+            ]
+          },
+          "screenshots": [
+            {
+              "name": "woven-shirt-mobile-review-identity.png",
+              "byteLength": 47012,
+              "sha256": "598562baefe25c8373d8aa64e24cc55d9ae807fac338381ba07d3f4356171208",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-result h3",
+                "inspector": {
+                  "top": 680.859375,
+                  "bottom": 836,
+                  "left": 8,
+                  "right": 382
+                },
+                "target": {
+                  "top": 688.859375,
+                  "bottom": 704.859375,
+                  "left": 32,
+                  "right": 345
+                },
+                "inspectorScrollTop": 2493,
+                "tableScrollLeft": null
+              }
+            },
+            {
+              "name": "woven-shirt-mobile-saved-approval.png",
+              "byteLength": 47573,
+              "sha256": "9f551ef6a275d9d60d84cc46c460171e378727c0f03f9ac0a593a2febfb1d0b5",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-approval",
+                "inspector": {
+                  "top": 680.859375,
+                  "bottom": 836,
+                  "left": 8,
+                  "right": 382
+                },
+                "target": {
+                  "top": 688.859375,
+                  "bottom": 831.859375,
+                  "left": 32,
+                  "right": 345
+                },
+                "inspectorScrollTop": 3027,
+                "tableScrollLeft": null
+              }
+            },
+            {
+              "name": "woven-shirt-mobile-diff-left.png",
+              "byteLength": 48365,
+              "sha256": "5a479d984465de23da806bb72a8b55ea622928aec0d5eae722849902c3d76b08",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-table-wrap",
+                "inspector": {
+                  "top": 680.859375,
+                  "bottom": 836,
+                  "left": 8,
+                  "right": 382
+                },
+                "target": {
+                  "top": 688.859375,
+                  "bottom": 835.859375,
+                  "left": 32,
+                  "right": 345
+                },
+                "inspectorScrollTop": 3265,
+                "tableScrollLeft": 0
+              }
+            },
+            {
+              "name": "woven-shirt-mobile-diff-right.png",
+              "byteLength": 46288,
+              "sha256": "ec0b7a0f9b06a36a7fca0d2cd2115d8700de15072833dfd6a05c994c082e4437",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-table-wrap",
+                "inspector": {
+                  "top": 680.859375,
+                  "bottom": 836,
+                  "left": 8,
+                  "right": 382
+                },
+                "target": {
+                  "top": 688.859375,
+                  "bottom": 835.859375,
+                  "left": 32,
+                  "right": 345
+                },
+                "inspectorScrollTop": 3265,
+                "tableScrollLeft": 207
+              }
+            },
+            {
+              "name": "woven-shirt-mobile-draft-apply.png",
+              "byteLength": 48389,
+              "sha256": "74426f4f45e8fb698ceddff2c0012f3f59adef94b000f53913fca521e0bf0e4d",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-approval-notice",
+                "inspector": {
+                  "top": 680.859375,
+                  "bottom": 836,
+                  "left": 8,
+                  "right": 382
+                },
+                "target": {
+                  "top": 688.859375,
+                  "bottom": 786.859375,
+                  "left": 32,
+                  "right": 345
+                },
+                "inspectorScrollTop": 3532,
+                "tableScrollLeft": null
+              }
+            }
+          ],
+          "keyboard": {
+            "pickerToTable": true,
+            "tableToApply": true,
+            "arrowScrollFrom": 0,
+            "arrowScrollTo": 207
+          }
+        },
+        {
+          "viewport": "1280x800",
+          "documentClientWidth": 1280,
+          "documentScrollWidth": 1280,
+          "reviewClientWidth": 307,
+          "tableClientWidth": 289,
+          "tableScrollWidth": 520,
+          "innerTableWidth": 520,
+          "position": {
+            "top": 306.640625,
+            "bottom": 1600.640625,
+            "scrollables": [
+              {
+                "tag": "ASIDE",
+                "id": "studio-inspector",
+                "className": "",
+                "scrollTop": 2399,
+                "clientHeight": 489,
+                "scrollHeight": 4100
+              }
+            ]
+          },
+          "screenshots": [
+            {
+              "name": "woven-shirt-desktop-review-identity.png",
+              "byteLength": 135523,
+              "sha256": "6964590c253b6bc61ab12215d18024aa500313bb6d856a9414885a1dbbd5973a",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-result h3",
+                "inspector": {
+                  "top": 293.5,
+                  "bottom": 784,
+                  "left": 16,
+                  "right": 366
+                },
+                "target": {
+                  "top": 301.640625,
+                  "bottom": 317.640625,
+                  "left": 40,
+                  "right": 329
+                },
+                "inspectorScrollTop": 2414,
+                "tableScrollLeft": null
+              }
+            },
+            {
+              "name": "woven-shirt-desktop-saved-approval.png",
+              "byteLength": 137334,
+              "sha256": "1a8ef2df50da16b5d846d61e63d16c1b44de4b2fb988015c2f299497b8029ee8",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-approval",
+                "inspector": {
+                  "top": 293.5,
+                  "bottom": 784,
+                  "left": 16,
+                  "right": 366
+                },
+                "target": {
+                  "top": 301.640625,
+                  "bottom": 444.640625,
+                  "left": 40,
+                  "right": 329
+                },
+                "inspectorScrollTop": 3032,
+                "tableScrollLeft": null
+              }
+            },
+            {
+              "name": "woven-shirt-desktop-diff-left.png",
+              "byteLength": 135608,
+              "sha256": "43b0ffd90d9c0861d4619f0fd19ebd33c6963519ab4a5ce1c7f0d1008519ee03",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-table-wrap",
+                "inspector": {
+                  "top": 293.5,
+                  "bottom": 784,
+                  "left": 16,
+                  "right": 366
+                },
+                "target": {
+                  "top": 301.640625,
+                  "bottom": 448.640625,
+                  "left": 40,
+                  "right": 329
+                },
+                "inspectorScrollTop": 3270,
+                "tableScrollLeft": 0
+              }
+            },
+            {
+              "name": "woven-shirt-desktop-diff-right.png",
+              "byteLength": 131549,
+              "sha256": "ef5c8a0060ce4f0d972a4e6c1aeb8fd4765ece6c0e139781759119dbb7a14eab",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-table-wrap",
+                "inspector": {
+                  "top": 293.5,
+                  "bottom": 784,
+                  "left": 16,
+                  "right": 366
+                },
+                "target": {
+                  "top": 301.640625,
+                  "bottom": 448.640625,
+                  "left": 40,
+                  "right": 329
+                },
+                "inspectorScrollTop": 3270,
+                "tableScrollLeft": 231
+              }
+            },
+            {
+              "name": "woven-shirt-desktop-draft-apply.png",
+              "byteLength": 135008,
+              "sha256": "b783da93074a7ca92a56764bab379357e76d617923bb9bab8c5764f9ed23a5f5",
+              "anchor": {
+                "targetSelector": ".tech-pack-import-approval-notice",
+                "inspector": {
+                  "top": 293.5,
+                  "bottom": 784,
+                  "left": 16,
+                  "right": 366
+                },
+                "target": {
+                  "top": 301.640625,
+                  "bottom": 399.640625,
+                  "left": 40,
+                  "right": 329
+                },
+                "inspectorScrollTop": 3537,
+                "tableScrollLeft": null
+              }
+            }
+          ],
+          "keyboard": {
+            "pickerToTable": true,
+            "tableToApply": true,
+            "arrowScrollFrom": 207,
+            "arrowScrollTo": 231
+          }
+        }
+      ],
+      "pageErrors": []
+    }
+  ]
+}
