@@ -36,6 +36,7 @@ import {
   renderTechPackOperationValidation,
 } from "./tech-pack-operation-editor";
 import { evaluateTechPackOperationRecordSet } from "./tech-pack-operation-validation";
+import { buildTechPackReferenceReconciliation } from "./tech-pack-operation-reconciliation";
 import {
   TECH_PACK_OPERATION_RECIPE_IDS,
   TECH_PACK_OPERATION_RECORD_VERSION_V2,
@@ -1164,6 +1165,15 @@ export class ProjectManager {
       : null;
     const pendingT03 = activeTechPackRecord ? this.t03DataWithPendingDraft(activeTechPackRecord) : null;
     const t03Validation = evaluateTechPackOperationRecordSet(pendingT03?.data ?? null);
+    const t03ReferenceReconciliation = activeTechPackRecord
+      ? buildTechPackReferenceReconciliation(
+          activeTechPackRecord,
+          t02Recipe ?? null,
+          loaded.activeStyle.design.measurements,
+          t02Recipe ? loaded.activeStyle.design.garmentOptions[t02Recipe.name] ?? {} : {},
+          pendingT03?.data ?? null,
+        )
+      : null;
     const techPackEditor = open && activeTechPackRecord
       ? `<section class="project-tech-pack" aria-label="Living technical pack">` +
         `<h3>Living technical pack · T01, T02 and T03</h3>` +
@@ -1187,6 +1197,7 @@ export class ProjectManager {
           disabled: this.busy,
           validation: t03Validation,
           validationError: pendingT03?.error,
+          referenceReconciliation: t03ReferenceReconciliation,
         })}` +
         `</section>`
       : "";

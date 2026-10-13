@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4597,
-  "updatedAt": "2026-10-13T04:08:50.549Z",
+  "revision": 4611,
+  "updatedAt": "2026-10-13T04:54:05.189Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -812,7 +812,13 @@
         "E-G05-S771-REPLAY",
         "E-G05-S772-START",
         "E-G05-S772-EXIT",
-        "E-G05-S772-REPLAY"
+        "E-G05-S772-REPLAY",
+        "E-G05-S773-START",
+        "E-G05-S773-CLARIFICATION",
+        "E-G05-S773-RENDERED",
+        "E-G05-S773-EXIT",
+        "E-G05-S773-START-DIGEST-CORRECTED",
+        "E-G05-S773-REPLAY"
       ]
     },
     {
@@ -16702,10 +16708,10 @@
       "title": "G05 T03 — Construction operations",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-10-12",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-13",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -16749,6 +16755,16 @@
           "evidenceRefs": [
             "E-G05-S771-START"
           ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-13T04:48:49.581Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "S773 passed the admitted T03 BOM/pattern/component and seam-reference reconciliation, all-seven rendered review, 100% focused changed-module coverage, TypeScript and protected export identity gates.",
+          "evidenceRefs": [
+            "E-G05-S773-EXIT"
+          ]
         }
       ],
       "comments": [],
@@ -16758,7 +16774,13 @@
         "E-G05-S771-REPLAY",
         "E-G05-S772-START",
         "E-G05-S772-EXIT",
-        "E-G05-S772-REPLAY"
+        "E-G05-S772-REPLAY",
+        "E-G05-S773-START",
+        "E-G05-S773-CLARIFICATION",
+        "E-G05-S773-RENDERED",
+        "E-G05-S773-EXIT",
+        "E-G05-S773-START-DIGEST-CORRECTED",
+        "E-G05-S773-REPLAY"
       ],
       "flagKey": null
     },
@@ -16790,7 +16812,7 @@
       "description": "Slices 774–777. Resolve format/template matrix before writing, admit and complete linked UIQ-10 under its separate bounded packet, add revision-bound PDF/structured output/attachments, then review diffs, approval scope, rendering and numeric reconciliation.",
       "expectation": "Readable route-specific digital packs reproduce the authoritative revision and import/round-trip without altering legacy output behavior.",
       "acceptanceCriteria": [
-        "Slice 773 decides and records format, import/round-trip rules, sections/templates and simple/difficult example styles before writer code.",
+        "Slice 774 decides and records format, import/round-trip rules, sections/templates and simple/difficult example styles before writer code.",
         "PDF and chosen structured output are additive, revision-bound, deterministic where specified and validated from actual generated files.",
         "UIQ-10 receives its own bounded admission after T01–T03 and completes its forms/tables/revision/approval presentation acceptance before this packet closes.",
         "Two selected styles pass parsed and rendered review, numeric reconciliation, field-level diff and scoped-approval checks.",
@@ -30865,6 +30887,60 @@
       "sha256": "d0e31e94b694d1dc0ecbede6e13a33937249275357dd91c5937de3eeffb43aaf",
       "verified": true,
       "note": "S772 exit evidence, final coverage/export/rendered gates, board-card alignment, and the T03/Epic status boundary are verified; S773 is next."
+    },
+    {
+      "id": "E-G05-S773-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S773-T03-reference-reconciliation/start-packet.md",
+      "commit": null,
+      "sha256": "be215485e6017ce350e9455414ff43e6862a25020570131ebbc3dee8545992c6",
+      "verified": true,
+      "note": "S773 starts admitted T03 BOM/pattern/component and seam-reference reconciliation with all-seven rendered/source review; only code-derived topology is used, and no construction claims are made."
+    },
+    {
+      "id": "E-G05-S773-CLARIFICATION",
+      "kind": "document",
+      "uri": "docs/research/epic18/S773-T03-reference-reconciliation/scope-addendum.md",
+      "commit": null,
+      "sha256": "c47e4365f87e923358734ceadcd9ac050aa85c7c005546374bfde800c2a5a814",
+      "verified": true,
+      "note": "Clarifies that T01 accepts exact role keys or stable IDs while T03 preserves the existing lowercase stable-ID contract; records no schema migration or widened input acceptance."
+    },
+    {
+      "id": "E-G05-S773-RENDERED",
+      "kind": "document",
+      "uri": "docs/research/epic18/S773-T03-reference-reconciliation/rendered-review.md",
+      "commit": null,
+      "sha256": "2ba03cbfb1a7f495249a42d2dcbecc546e21a58b8213633955937427a2a59089",
+      "verified": true,
+      "note": "Records actual rendered T03 pattern inventories and empty-reference state for all seven supported recipe styles, plus ID guidance and non-source/non-fit limitations."
+    },
+    {
+      "id": "E-G05-S773-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S773-T03-reference-reconciliation/exit-packet.md",
+      "commit": null,
+      "sha256": "2d666482d37113814263148004b9a4fb692a8e6739b98c28d081f3b116cc4299",
+      "verified": true,
+      "note": "S773 implements read-only T01/T03 pattern-reference reconciliation with actionable invalid/missing states, 100% focused changed-module coverage, TypeScript, protected export identity and all-seven rendered review."
+    },
+    {
+      "id": "E-G05-S773-START-DIGEST-CORRECTED",
+      "kind": "document",
+      "uri": "docs/research/epic18/S773-T03-reference-reconciliation/start-evidence-hash-correction.md",
+      "commit": null,
+      "sha256": "b2993512d0a1f92bf7bd7d8e8e5858ff43beeb830fb128bc5d89952f5942e8b0",
+      "verified": true,
+      "note": "Retains the original start row and supplies a corrected, verifier-matching digest binding for the unchanged S773 start packet."
+    },
+    {
+      "id": "E-G05-S773-REPLAY",
+      "kind": "document",
+      "uri": "docs/research/epic18/S773-T03-reference-reconciliation/post-replay-verification.md",
+      "commit": null,
+      "sha256": "cea2ddc52632a1dcf1f7928940aa8733967ff518fc0ad0cbfe96d23443f25b4c",
+      "verified": true,
+      "note": "Records S773 post-exit board state, 39/39 focused tests, 100% changed-module coverage, TypeScript, protected export identity, all-seven rendered review, the start-digest correction and final board replay."
     }
   ]
 }

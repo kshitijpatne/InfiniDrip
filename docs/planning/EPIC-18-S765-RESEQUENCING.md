@@ -64,24 +64,37 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S772 complete; S773 next
+## Current checkpoint — S773 complete; S774 next
 
-S771 completed at `f802820f7a20fc7e1210d8fa709e0403ac4898bd` on
+S772 completed in commit `652605fde0cf48eb3a105636c7a8cd0373e4e0cd` on
 `codex/epic-18-g05`; fresh `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75`
-remains an ancestor. S772 started at 2026-10-13 03:10:01 UTC from that clean
-checkpoint and is complete. Its start, exit, and replay packet is
-`docs/research/epic18/S772-T03-operation-editor-validation/`. Validated start
-evidence advanced canonical board revision 4589→4591; exit/replay evidence
-records final revision 4597. G05-T03 and EPIC-18 remain In Progress. S772 adds
-the T03 operation editor, explicit value-origin schema-v2 states, and additive
-TechPack schema-v3 persistence through immutable style revisions while
-preserving T01/T02 and style-revision payload-v1/v2 history. Only
-source-confirmed values count as source evidence. Focused tests pass 192/192;
-all five changed production modules have 100% four-metric coverage; TypeScript,
-protected export identity 9/9, and isolated rendered save/reload review pass.
-No construction source facts were entered. S773 is now the sole next action:
-pattern/BOM/component reconciliation and all-recipe rendered/source review.
-S771's start, exit, and replay evidence is in
+remains an ancestor. S773 completed from that clean checkpoint. Its start,
+scope clarification, rendered review, exit and post-replay verification are in
+`docs/research/epic18/S773-T03-reference-reconciliation/`. Validated evidence
+and status replay leave canonical board revision 4611: G05-T03 is Done and
+EPIC-18 remains In Progress. T01/T02 are Done; UIQ-10 stays Backlog.
+
+S773 reconciles explicit T01 BOM and T03 operation component/seam refs against
+code-derived pattern roles and stitch declarations, then reviews all seven
+rendered recipe states. Focused tests pass 39/39 with 100% four-metric coverage
+for the three changed production modules; TypeScript, protected export identity
+17/17, Control Center 42/42 and diff hygiene pass. These IDs remain in-app
+identifiers and provide no construction, manufacturing, sewability or physical
+fit evidence. A verified supplemental record corrects the original start
+packet's mismatched SHA without rewriting the initial board record. G05-T04's
+stale S773 acceptance line is corrected to S774.
+
+The next single action is S774: resolve the structured editable format/import
+contract, section/template matrix and simple/difficult fixtures, then prepare
+UIQ-10's separate bounded admission while leaving that item Backlog. No writer
+code begins in this decision packet; the S780 integrated/global/build/Electron
+gate remains reserved.
+S772's start, exit, and replay packet is
+`docs/research/epic18/S772-T03-operation-editor-validation/`; its final board
+revision is 4597, with 192/192 focused tests, 100% four-metric changed-module
+coverage, TypeScript, protected export identity 9/9, rendered save/reload,
+Control Center 42/42, and diff hygiene passing. S771's start, exit, and replay
+evidence is in
 `docs/research/epic18/S771-T03-operation-record-contract/`; the S770 T02 exit
 and replay proof is in
 `docs/research/epic18/S770-T02-callout-size-run-validation/` and records 45/45

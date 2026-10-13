@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "G05-T03",
+  "status": "Done",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "S773 passed the admitted T03 BOM/pattern/component and seam-reference reconciliation, all-seven rendered review, 100% focused changed-module coverage, TypeScript and protected export identity gates.",
+  "evidenceRefs": ["E-G05-S773-EXIT"],
+  "expectedRevision": 4606
+}
