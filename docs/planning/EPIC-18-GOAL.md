@@ -30,7 +30,7 @@ execution sequence is in
 | 772 | Done | T03 operation editing/validation and additive schema-v3 immutable persistence; distinguish source-confirmed facts from recipe defaults, estimates, user decisions, unresolved and conflicting values. Commit: `652605fde0cf48eb3a105636c7a8cd0373e4e0cd`. Exit/replay: `docs/research/epic18/S772-T03-operation-editor-validation/`; final board revision 4597. |
 | 773 | Done | T03 read-only BOM/pattern/component and seam-reference reconciliation plus all-seven rendered review. Focused 39/39; changed-module coverage 100% across all four metrics; TypeScript and protected export identity 17/17 pass. Start/clarification/rendered/exit/replay evidence: `docs/research/epic18/S773-T03-reference-reconciliation/`; final board revision 4611. |
 | 774 | Done | T04 selected the `infinidrip-techpack` `.techpack.zip` plus standalone PDF contract, strict preview-first/stale-safe import, sections/presets, determinism and Tee/Woven Shirt fixtures; admitted UIQ-10 separately for S776 while it remains Backlog. Decision/exit and UIQ admission: `docs/research/epic18/S774-T04-format-and-UIQ10-admission/` and `docs/planning/UIQ-10-ADMISSION.md`; final board revision 4621. Control Center 42/42 after replay. |
-| 775 | Backlog | Additive revision-bound PDF/structured output and attachments, with actual-file and round-trip checks. |
+| 775 | Done | Additive revision-bound PDF/ZIP output and bounded read-only import preview/diff. Focused 22/22; new-module coverage 100% across all four metrics; build, protected export identity 17/17 and actual rendered/file review pass. Start/exit/replay: `docs/research/epic18/S775-T04-output-package/`; board revision 4625. |
 | 776 | Backlog | Only the admitted UIQ-10 production-pack forms/tables, revision/approval and selected-section presentation, with focused coverage and rendered evidence. |
 | 777 | Backlog | Field diff, scoped approval, readable rendered/numeric review; close UIQ-10 and T04. |
 | 778–779 | Backlog | T05: immutable local-share manifests, invalidation, import compatibility and legacy identities. |
@@ -42,34 +42,36 @@ same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
 the admission/exit evidence, and the canonical board through the validated
 command layer.
 
-## Current execution boundary — Slice 774 complete
+## Current execution boundary — Slice 775 complete
 
-S774 completed from S773 commit
-`e673e282855c14d39db41d198b9a0272f632a84b` on `codex/epic-18-g05`; fresh
+S775 started from clean S774 commit
+`56a50ab39eb0f11051138ff9909afe9035fb9da2` on `codex/epic-18-g05`; fresh
 `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-Starting board revision 4611 and final revision 4621 are recorded in the
-hash-linked S774 start, decision/admission and exit evidence under
-`docs/research/epic18/S774-T04-format-and-UIQ10-admission/`. The board records
-G05-T01/T02/T03 Done, G05-T04 and EPIC-18 In Progress, and UIQ-10 Backlog with
-its separate admission evidence.
+The digest-bound start packet is
+`docs/research/epic18/S775-T04-output-package/start-packet.md`; validated start
+evidence links it to G05-T04 and EPIC-18 at board revision 4623. G05-T01/T02/T03
+are Done, G05-T04 and EPIC-18 are In Progress, and UIQ-10 remains Backlog with
+its separate S776 admission.
 
-S774 selected the additive standalone production PDF and revision-bound
-`infinidrip-techpack` `.techpack.zip`, defined the strict import/round-trip,
-section/template and deterministic-output contracts, and selected Tee/Woven
-Shirt structural fixtures. UIQ-10's presentation-only S776 admission is
-`docs/planning/UIQ-10-ADMISSION.md`. It remains Backlog pending the S776 start
-after S775 output proof. No writer, importer or presentation code changed.
-Control Center tests pass 42/42 after all replays at board revision 4621. The
-first run identified and corrected a stale T04 Backlog expectation in the
-board regression test; the final test requires T04 In Progress with S774 start
-evidence while T05, G05-EXIT and UIQ-10 remain Backlog. The original S762
-admission remains untouched; the active S765 addendum supersedes its historical
-S773 timing.
+S775 completed additive deterministic PDF/ZIP outputs and a bounded,
+preview-only import/diff API. Actual Tee and Woven Shirt files are retained;
+archives are extracted and checked, embedded PDFs are byte-identical to the
+standalone PDFs, and repeat runs are byte-identical. Focused tests pass 22/22
+with 100% statement, branch, function and line coverage for the new module;
+TypeScript/Vite build, protected export identity 17/17, rendered PDF review and
+post-replay Control Center verification pass. Exact output hashes, the
+acceptance record and replay evidence are in
+`docs/research/epic18/S775-T04-output-package/`. The validated exit replay at
+board revision 4625 leaves G05-T04 and EPIC-18 In Progress and UIQ-10 Backlog.
+S775 writes no revision, local storage or artwork and changes no legacy
+export identity. No schema, project-backup, freeze, UI or garment-source
+change was admitted. S780 remains the settled global coverage,
+build/readiness, browser/Electron and integrated-output gate.
 
-The next single action is S775: implement both additive output files and prove
-actual PDF/ZIP byte determinism, validation and unchanged/stale/edited import
-round-trips. The S780 full repository/global coverage, build, readiness,
-browser/Electron and integrated output gate remains unchanged.
+The next single action is S776: start the separately admitted presentation-only
+UIQ-10 scope after fresh branch/board verification and validated start replay.
+The original hash-bound S762 admission remains unchanged; the S765 addendum
+controls execution order.
 
 S772 completed in commit `652605fde0cf48eb3a105636c7a8cd0373e4e0cd` with
 192/192 focused tests, 100% coverage for all five changed production modules,

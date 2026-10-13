@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4621,
+  "itemId": "G05-T04",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S775-START",
+    "kind": "document",
+    "uri": "docs/research/epic18/S775-T04-output-package/start-packet.md",
+    "sha256": "bf63f41b5c8bff78fab016dfe0d6820574c0ba2091648607d6d713ea82c23895",
+    "verified": true,
+    "note": "S775 starts additive PDF and revision-bound editable ZIP output with bounded, read-only import preview and actual-file/round-trip proof; legacy outputs, project backup, freeze and UI stay outside this slice."
+  }
+}

@@ -1,28 +1,33 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 774 complete
+## Current capability boundary — EPIC-18/G05 Slice 775 complete
 
-S774 completed on `codex/epic-18-g05` from S773 commit
-`e673e282855c14d39db41d198b9a0272f632a84b`; fresh
-`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-Validated start, decision, UIQ-10 admission and exit evidence records board
-revision 4621: G05-T01/T02/T03 are Done, G05-T04 and EPIC-18 remain In Progress,
-and UIQ-10 remains Backlog. S774 selects a separate revision-bound
-`infinidrip-techpack` `.techpack.zip` plus an additive standalone production
-PDF. The bundle is distinct from the whole-project backup, preserves full
-editable schema-v1/v2/v3 records, and uses preview-first import with stale-head
-protection. It sets deterministic output as a tested S775 requirement; no
-writer or importer code has started. UIQ-10's presentation-only S776 admission
-is `docs/planning/UIQ-10-ADMISSION.md`.
+S775 added `src/ui/tech-pack-output.ts`: deterministic, revision-bound
+standalone production PDF and `infinidrip-techpack` `.techpack.zip` output,
+plus strict bounded read-only import preview and field diff. Export verifies
+the current committed revision and matching complete T01/T02/T03 record;
+imports verify the canonical manifest, archive paths/sizes, immutable PDF and
+artwork hashes, exact identity and verified local history. No-op imports make
+no candidate. Stale imports remain read-only; edited imports require caller
+semantic validation and reset any review state to DRAFT before a candidate is
+returned. This API never writes a revision, artwork or storage.
 
-S773's read-only T01/T03 reference reconciliation and all-seven rendered review
-remain the preceding code checkpoint; pattern identifiers do not establish
-source, construction, sewability, physical fit, supplier acceptance or
-production validity. The S774 exit evidence is in
-`docs/research/epic18/S774-T04-format-and-UIQ10-admission/`; its final focused
-Control Center suite passes 42/42 at revision 4621. The next boundary is S775
-output implementation and actual-file/round-trip proof. The
-integrated/global/build/Electron gate remains at S780.
+The focused S775 suite passes 22/22 with 100% statement, branch, function and
+line coverage for the new module. TypeScript/Vite build, protected export
+identity 17/17, and actual Tee/Woven Shirt PDF/ZIP generation, parsing,
+rendering and review pass. The files, start/exit packets and replay evidence
+are under `docs/research/epic18/S775-T04-output-package/`; the board records
+G05-T04 and EPIC-18 In Progress and UIQ-10 Backlog at revision 4625.
+
+S776 is the next admitted boundary: presentation-only UIQ-10. The whole-project
+backup and protected legacy Tech Pack remain separate. No supplier, physical
+fit, factory or production claim is established. The integrated/global/build/
+readiness/browser/Electron/output gate remains at S780.
+
+S773's read-only T01/T03 reference reconciliation and all-seven rendered
+review remain the preceding code checkpoint; pattern identifiers do not
+establish source, construction, sewability, physical fit, supplier acceptance
+or production validity.
 
 S772 completed the local T03 operation editor/validation with explicit
 source-confirmed, recipe-default, estimate, user-decision, unresolved, and
@@ -138,8 +143,9 @@ source-aware callout/size-run checks and all-seven-recipe rendered review;
 G05-T02 is Done at canonical board revision 4582. Its exit packets and
 digest-verified replay are in
 `docs/research/epic18/S770-T02-callout-size-run-validation/`. S773 closed T03
-at board revision 4611. S774 then selected the T04 exchange/import contract
-and separately admitted UIQ-10 for S776; S775 is the next output boundary.
+at board revision 4611. S774 selected the T04 exchange/import contract and
+separately admitted UIQ-10 for S776. S775 output proof is complete; S776 is
+the next admitted presentation boundary.
 The S780 integrated gate remains in
 `docs/planning/EPIC-18-S765-RESEQUENCING.md` and
 `docs/planning/EPIC-18-GOAL.md`.

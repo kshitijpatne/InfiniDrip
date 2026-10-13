@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4623,
+  "itemId": "G05-T04",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S775-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic18/S775-T04-output-package/exit-packet.md",
+    "sha256": "e35eaa1cc7769f34ee3312e014ae57ee4eaa018ec66e8922a89c879a45413948",
+    "verified": true,
+    "note": "S775 deterministic revision-bound PDF/ZIP output and bounded read-only import preview pass focused 22/22 at 100% four-metric module coverage; build, protected export identity, actual-file/render review and round-trip checks pass. T04 stays In Progress through S776/S777; UIQ-10 stays Backlog until its validated S776 start."
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4621,
-  "updatedAt": "2026-10-13T05:17:23.469Z",
+  "revision": 4625,
+  "updatedAt": "2026-10-13T06:18:30.341Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -820,7 +820,9 @@
         "E-G05-S773-START-DIGEST-CORRECTED",
         "E-G05-S773-REPLAY",
         "E-G05-S774-START",
-        "E-G05-S774-EXIT"
+        "E-G05-S774-EXIT",
+        "E-G05-S775-START",
+        "E-G05-S775-EXIT"
       ]
     },
     {
@@ -16850,7 +16852,9 @@
       "evidenceRefs": [
         "E-G05-S774-START",
         "E-G05-S774-DECISION",
-        "E-G05-S774-EXIT"
+        "E-G05-S774-EXIT",
+        "E-G05-S775-START",
+        "E-G05-S775-EXIT"
       ],
       "flagKey": null
     },
@@ -30999,6 +31003,24 @@
       "sha256": "49ce83590cceee9dd57c6dcf26564168db52d7657ea7892d6e8a9ae5d9c25f8a",
       "verified": true,
       "note": "S774 records the selected T04 package/import/template/fixture contract and the separate S776 UIQ-10 admission; writer code remains S775."
+    },
+    {
+      "id": "E-G05-S775-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S775-T04-output-package/start-packet.md",
+      "commit": null,
+      "sha256": "bf63f41b5c8bff78fab016dfe0d6820574c0ba2091648607d6d713ea82c23895",
+      "verified": true,
+      "note": "S775 starts additive PDF and revision-bound editable ZIP output with bounded, read-only import preview and actual-file/round-trip proof; legacy outputs, project backup, freeze and UI stay outside this slice."
+    },
+    {
+      "id": "E-G05-S775-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S775-T04-output-package/exit-packet.md",
+      "commit": null,
+      "sha256": "e35eaa1cc7769f34ee3312e014ae57ee4eaa018ec66e8922a89c879a45413948",
+      "verified": true,
+      "note": "S775 deterministic revision-bound PDF/ZIP output and bounded read-only import preview pass focused 22/22 at 100% four-metric module coverage; build, protected export identity, actual-file/render review and round-trip checks pass. T04 stays In Progress through S776/S777; UIQ-10 stays Backlog until its validated S776 start."
     }
   ]
 }
