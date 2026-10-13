@@ -1,14 +1,14 @@
-## Current boundary — EPIC-18/G05 Slice 775 complete
+## Current boundary — EPIC-18/G05 Slice 776 complete
 
-S775 started 2026-10-13 05:22:28 UTC on `codex/epic-18-g05` from clean S774
-commit `56a50ab39eb0f11051138ff9909afe9035fb9da2`; fresh
-`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remained an ancestor.
-Its start packet, exit packet and rendered/output proof are in
-`docs/research/epic18/S775-T04-output-package/`; validated start/exit commands
-link S775 to G05-T04 and EPIC-18 through board revision 4625. G05-T01/T02/T03
-are Done; G05-T04 and EPIC-18 remain In Progress; G05-T05, G05-EXIT and UIQ-10
-remain Backlog. UIQ-10 retains its separate S776 admission at
-`docs/planning/UIQ-10-ADMISSION.md`. UIQ-09 remains Backlog behind EPIC-19.
+S776 started 2026-10-13 06:26:33 UTC on `codex/epic-18-g05` from clean S775
+commit `030d11b64f4e57877b5226bfcd2192e7db5aaf33`; fresh
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
+The S776 start, exit, and rendered-review packets plus viewport evidence are
+in `docs/research/epic18/S776-UIQ-10-presentation/`. Validated start/exit
+replays link S776 to UIQ-10, G05-T04 and EPIC-18; the exit board revision is
+4633. EPIC-18 and G05-T04 remain In Progress; G05-T01/T02/T03 are Done; UIQ-10
+remains In Progress for S777; G05-T05 and G05-EXIT remain Backlog. UIQ-09
+remains Backlog behind EPIC-19.
 
 S775 added deterministic revision-bound production PDF and editable
 `.techpack.zip` outputs plus a bounded read-only import preview and field diff.
@@ -20,12 +20,18 @@ storage or artwork. No protected export identity moved. The S775 exit packet
 records the exact output hashes and bounded acceptance contract; its companion
 post-replay report records final board and diff verification.
 
-The single next action is S776, the already admitted presentation-only UIQ-10
-implementation, after fresh branch/board verification and its validated start
-replay. S777 remains the diff/approval and rendered/numeric T04 review. The
-full global coverage/build/browser/Electron/output gate remains at S780. The
-original hash-bound S762 admission and all local/no-cost, supplier, physical,
-sewing, fit and production-claim holds remain unchanged.
+S776 implemented the separately admitted read-only UIQ-10 presentation:
+revision-bound forms/tables, section presets and toggles, matching-revision
+approval scope, visible source/open-item states, and actual-browser review at
+390×844 and 1280×800. The renderer has 100% focused four-metric coverage;
+mounted app tests, TypeScript, protected export identity and actual output/UI
+review pass. The app.ts whole-file focused coverage report remains below its
+100% threshold only on unrelated recovery and Electron-save lines; the exit
+packet records both that result and coverage of all added presentation code.
+The single next action is S777's final field/numeric and scoped-approval
+review. The full global coverage/build/browser/Electron/output gate remains at
+S780. The original hash-bound S762 admission and all local/no-cost, supplier,
+physical, sewing, fit and production-claim holds remain unchanged.
 
 S772 completed in commit `652605fde0cf48eb3a105636c7a8cd0373e4e0cd`
 (`Slice 772: add T03 operation editor and validation`). Its start, exit, and

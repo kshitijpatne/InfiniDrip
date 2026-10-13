@@ -1,6 +1,6 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 775 complete
+## Current capability boundary — EPIC-18/G05 Slice 776 complete
 
 S775 added `src/ui/tech-pack-output.ts`: deterministic, revision-bound
 standalone production PDF and `infinidrip-techpack` `.techpack.zip` output,
@@ -17,12 +17,22 @@ line coverage for the new module. TypeScript/Vite build, protected export
 identity 17/17, and actual Tee/Woven Shirt PDF/ZIP generation, parsing,
 rendering and review pass. The files, start/exit packets and replay evidence
 are under `docs/research/epic18/S775-T04-output-package/`; the board records
-G05-T04 and EPIC-18 In Progress and UIQ-10 Backlog at revision 4625.
+G05-T04 and EPIC-18 In Progress and UIQ-10 In Progress at revision 4630.
 
-S776 is the next admitted boundary: presentation-only UIQ-10. The whole-project
-backup and protected legacy Tech Pack remain separate. No supplier, physical
-fit, factory or production claim is established. The integrated/global/build/
-readiness/browser/Electron/output gate remains at S780.
+S776 completed from S775 commit `030d11b64f4e57877b5226bfcd2192e7db5aaf33`
+with fresh `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` as an
+ancestor. Start, exit and rendered-review evidence are in
+`docs/research/epic18/S776-UIQ-10-presentation/`; the validated board replay
+links the result to UIQ-10, G05-T04 and EPIC-18 at revision 4633. The admitted
+read-only presentation consumes the S775 model for revision-bound forms and
+tables, section choices and matching-revision approval visibility. It keeps
+identity, source/open-item and disclaimer content visible, preserves unknowns
+and conflicts, rejects stale output, and provides keyboard access to narrow
+open-item columns. It does not change the writer, record schema, calculations,
+approval behavior, storage or legacy Tech Pack. No supplier, physical fit,
+factory or production claim is established. S777 is the next field/numeric and
+scoped-approval review; the integrated/global/build/readiness/browser/Electron/
+output gate remains at S780.
 
 S773's read-only T01/T03 reference reconciliation and all-seven rendered
 review remain the preceding code checkpoint; pattern identifiers do not

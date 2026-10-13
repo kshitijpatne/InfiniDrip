@@ -1,0 +1,256 @@
+.tech-pack-presentation {
+  min-width: 0;
+  max-width: 100%;
+  margin: 8px 0;
+  border: 1px solid #d8dee9;
+  border-radius: 8px;
+  background: #fff;
+  color: #263241;
+}
+
+.tech-pack-presentation > summary {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.tech-pack-presentation__panel {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: 10px;
+  border-top: 1px solid #d8dee9;
+  color: #263241;
+  font: 12px/1.5 system-ui, sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.tech-pack-presentation *,
+.tech-pack-presentation *::before,
+.tech-pack-presentation *::after {
+  box-sizing: border-box;
+}
+
+.tech-pack-presentation button,
+.tech-pack-presentation select {
+  max-width: 100%;
+  min-height: 34px;
+  border: 1px solid #8794a5;
+  border-radius: 5px;
+  padding: 6px 9px;
+  background: #fff;
+  color: #263241;
+  font: inherit;
+}
+
+.tech-pack-presentation button:focus-visible,
+.tech-pack-presentation select:focus-visible,
+.tech-pack-presentation input:focus-visible {
+  outline: 3px solid #146b9a;
+  outline-offset: 2px;
+}
+
+.tech-pack-presentation button:disabled,
+.tech-pack-presentation select:disabled,
+.tech-pack-presentation input:disabled {
+  cursor: not-allowed;
+  opacity: .7;
+}
+
+.tech-pack-pack-controls {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.tech-pack-preset-label,
+.tech-pack-section-choices legend {
+  color: #405064;
+  font-weight: 650;
+}
+
+.tech-pack-section-choices {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  margin: 3px 0;
+  padding: 7px;
+  border: 1px solid #d8dee9;
+  border-radius: 5px;
+}
+
+.tech-pack-section-choice {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: start;
+  gap: 6px;
+}
+
+.tech-pack-section-choice input {
+  margin: 2px 0 0;
+}
+
+.tech-pack-ready,
+.tech-pack-pack-section,
+.tech-pack-data {
+  min-width: 0;
+}
+
+.tech-pack-snapshot-note,
+.tech-pack-open-state {
+  border-left: 3px solid #ad6b00;
+  padding: 7px 9px;
+  background: #fff7e8;
+}
+
+.tech-pack-download-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 9px 0;
+}
+
+.tech-pack-download-actions button {
+  flex: 1 1 130px;
+}
+
+.tech-pack-output-identities {
+  padding-left: 18px;
+  overflow-wrap: anywhere;
+}
+
+.tech-pack-output-identities code,
+.tech-pack-table code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.tech-pack-pack-section {
+  margin: 12px 0;
+  padding-top: 9px;
+  border-top: 1px solid #d8dee9;
+}
+
+.tech-pack-pack-section > h3 {
+  margin: 0 0 7px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.tech-pack-data {
+  margin: 6px 0;
+  padding: 6px;
+  border-left: 2px solid #9cb1c5;
+  background: #f7f9fc;
+}
+
+.tech-pack-data > h4 {
+  margin: 0 0 4px;
+  color: #405064;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.tech-pack-fields {
+  display: grid;
+  grid-template-columns: minmax(82px, .38fr) minmax(0, 1fr);
+  gap: 4px 8px;
+  margin: 0;
+}
+
+.tech-pack-field-row {
+  display: contents;
+}
+
+.tech-pack-fields dt {
+  color: #405064;
+  font-weight: 600;
+}
+
+.tech-pack-fields dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.tech-pack-table-wrap {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 7px 0;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.tech-pack-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 11px;
+}
+
+.tech-pack-table caption {
+  padding: 4px 0;
+  text-align: left;
+  font-weight: 700;
+}
+
+.tech-pack-table th,
+.tech-pack-table td {
+  min-width: 0;
+  padding: 5px;
+  border: 1px solid #cbd4df;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.tech-pack-table th {
+  background: #edf2f7;
+  font-weight: 650;
+}
+
+.tech-pack-open-table th:first-child {
+  width: 24%;
+}
+
+.tech-pack-open-table {
+  min-width: 560px;
+}
+
+.tech-pack-table-scroll-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 5px 0;
+}
+
+.tech-pack-table-scroll-controls button {
+  flex: 1 1 auto;
+}
+
+.tech-pack-table-scroll-hint {
+  margin: 4px 0;
+  font-size: 11px;
+}
+
+.tech-pack-open-table-wrap:focus-visible {
+  outline: 2px solid #1867a8;
+  outline-offset: 2px;
+}
+
+.tech-pack-empty,
+.tech-pack-disclaimer {
+  margin: 6px 0;
+  overflow-wrap: anywhere;
+}
+
+.tech-pack-disclaimer {
+  padding: 8px;
+  border: 1px solid #cbd4df;
+  border-radius: 4px;
+  background: #edf2f7;
+  font-weight: 600;
+}

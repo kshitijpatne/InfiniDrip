@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4629,
+  "itemId": "UIQ-10",
+  "patch": {
+    "description": "Linked EPIC-18/G05 child. S776 is In Progress under its separate presentation-only admission after S775 proved actual output and round trips. Scope: readable production-pack forms/tables, exact revision/approval visibility, and selected sections. Exact boundaries: docs/planning/UIQ-10-ADMISSION.md; parent sequence: docs/planning/EPIC-18-S765-RESEQUENCING.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md."
+  }
+}

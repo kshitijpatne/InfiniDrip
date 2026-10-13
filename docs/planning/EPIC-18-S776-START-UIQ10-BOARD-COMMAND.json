@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4625,
+  "itemId": "UIQ-10",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-UIQ10-S776-START",
+    "kind": "document",
+    "uri": "docs/research/epic18/S776-UIQ-10-presentation/start-packet.md",
+    "sha256": "0983f17096e8876d2b2c21adf0fdc7d904680a457c52e3ac22c7d6dd4abbc2a7",
+    "verified": true,
+    "note": "S776 starts the separately admitted presentation-only UIQ-10 after S775 output and round-trip proof; the packet bounds read-only revision-linked forms/tables, section selection, four-metric coverage and actual two-viewport review."
+  }
+}

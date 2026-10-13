@@ -146,10 +146,16 @@ only through an explicitly admitted, linked Epic packet.
   board revision 4625. The deterministic revision-bound writer and bounded
   read-only import preview pass 22/22 focused tests with 100% four-metric
   coverage, TypeScript/Vite build, protected export identity 17/17, actual-file
-  parsing/render review, and final Control Center verification. G05-T04 and
-  EPIC-18 remain In Progress; UIQ-10 remains Backlog with its separate S776
-  admission. The next action is S776 after fresh checkpoint verification and
-  validated start replay. UIQ-09 remains Backlog behind EPIC-19. S773's
+  parsing/render review, and final Control Center verification. S776 completed
+  the admitted read-only UIQ-10 presentation from S775 commit
+  `030d11b64f4e57877b5226bfcd2192e7db5aaf33`. Its start, exit, rendered-review
+  and viewport evidence are in `docs/research/epic18/S776-UIQ-10-presentation/`;
+  validated replay links the result to UIQ-10, G05-T04 and EPIC-18 at board
+  revision 4633. Renderer coverage is 100% across all four metrics; focused
+  mounted tests, TypeScript, protected export identity and 390×844/1280×800
+  review pass. UIQ-10, G05-T04 and EPIC-18 remain In Progress for S777's
+  field/numeric and scoped-approval review. S780 remains the integrated global
+  gate. UIQ-09 remains Backlog behind EPIC-19. S773's
   start-digest correction remains documented in its packet; pattern
   identifiers do not establish construction facts or fit.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing

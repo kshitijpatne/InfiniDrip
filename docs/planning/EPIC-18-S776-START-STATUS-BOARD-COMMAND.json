@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4628,
+  "itemId": "UIQ-10",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Begin the separately admitted S776 presentation-only UIQ-10 implementation after S775's revision-bound output, round-trip, and actual-file review passed; preserve the S774 field, revision, section, source-label, approval and no-production-claim boundaries.",
+  "evidenceRefs": ["E-UIQ10-S776-START"]
+}

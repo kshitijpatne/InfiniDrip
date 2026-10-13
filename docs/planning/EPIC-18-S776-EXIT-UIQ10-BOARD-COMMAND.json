@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4630,
+  "itemId": "UIQ-10",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-UIQ10-S776-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic18/S776-UIQ-10-presentation/exit-packet.md",
+    "sha256": "8ffca26e4a7d39a91018095090cdf0ed6f14328ec37b58880cf3a5adfd441d9a",
+    "verified": true,
+    "note": "S776 presentation, responsive table, revision/approval binding and rendered evidence pass; focused tests and protected export identity pass. UIQ-10 remains In Progress for S777 field/numeric and scoped-approval review."
+  }
+}

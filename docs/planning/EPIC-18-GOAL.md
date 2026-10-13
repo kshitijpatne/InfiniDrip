@@ -31,7 +31,7 @@ execution sequence is in
 | 773 | Done | T03 read-only BOM/pattern/component and seam-reference reconciliation plus all-seven rendered review. Focused 39/39; changed-module coverage 100% across all four metrics; TypeScript and protected export identity 17/17 pass. Start/clarification/rendered/exit/replay evidence: `docs/research/epic18/S773-T03-reference-reconciliation/`; final board revision 4611. |
 | 774 | Done | T04 selected the `infinidrip-techpack` `.techpack.zip` plus standalone PDF contract, strict preview-first/stale-safe import, sections/presets, determinism and Tee/Woven Shirt fixtures; admitted UIQ-10 separately for S776 while it remains Backlog. Decision/exit and UIQ admission: `docs/research/epic18/S774-T04-format-and-UIQ10-admission/` and `docs/planning/UIQ-10-ADMISSION.md`; final board revision 4621. Control Center 42/42 after replay. |
 | 775 | Done | Additive revision-bound PDF/ZIP output and bounded read-only import preview/diff. Focused 22/22; new-module coverage 100% across all four metrics; build, protected export identity 17/17 and actual rendered/file review pass. Start/exit/replay: `docs/research/epic18/S775-T04-output-package/`; board revision 4625. |
-| 776 | Backlog | Only the admitted UIQ-10 production-pack forms/tables, revision/approval and selected-section presentation, with focused coverage and rendered evidence. |
+| 776 | Done | Admitted UIQ-10 revision-bound presentation, section presets/toggles, visible unknowns, responsive/keyboard table review and exact-revision approval display. Renderer 8/8 with 100% four-metric coverage; focused app tests, TypeScript, export byte identity, actual PDF/ZIP and two-viewport browser review pass. Start/exit/rendered/replay evidence: `docs/research/epic18/S776-UIQ-10-presentation/`; board revision 4633. |
 | 777 | Backlog | Field diff, scoped approval, readable rendered/numeric review; close UIQ-10 and T04. |
 | 778–779 | Backlog | T05: immutable local-share manifests, invalidation, import compatibility and legacy identities. |
 | 780 | Backlog | Settled integrated Epic gate, review and pre-merge PR candidate. |
@@ -42,16 +42,16 @@ same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
 the admission/exit evidence, and the canonical board through the validated
 command layer.
 
-## Current execution boundary — Slice 775 complete
+## Current execution boundary — Slice 776 complete
 
-S775 started from clean S774 commit
-`56a50ab39eb0f11051138ff9909afe9035fb9da2` on `codex/epic-18-g05`; fresh
+S776 started from clean S775 commit
+`030d11b64f4e57877b5226bfcd2192e7db5aaf33` on `codex/epic-18-g05`; fresh
 `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-The digest-bound start packet is
-`docs/research/epic18/S775-T04-output-package/start-packet.md`; validated start
-evidence links it to G05-T04 and EPIC-18 at board revision 4623. G05-T01/T02/T03
-are Done, G05-T04 and EPIC-18 are In Progress, and UIQ-10 remains Backlog with
-its separate S776 admission.
+Its start, exit, rendered-review and viewport evidence are in
+`docs/research/epic18/S776-UIQ-10-presentation/`; validated start/exit evidence
+links it to UIQ-10, G05-T04 and EPIC-18 at board revision 4633. G05-T01/T02/T03
+are Done; G05-T04 and EPIC-18 remain In Progress; UIQ-10 remains In Progress
+under the S774 admission for S777 review.
 
 S775 completed additive deterministic PDF/ZIP outputs and a bounded,
 preview-only import/diff API. Actual Tee and Woven Shirt files are retained;
@@ -68,10 +68,14 @@ export identity. No schema, project-backup, freeze, UI or garment-source
 change was admitted. S780 remains the settled global coverage,
 build/readiness, browser/Electron and integrated-output gate.
 
-The next single action is S776: start the separately admitted presentation-only
-UIQ-10 scope after fresh branch/board verification and validated start replay.
-The original hash-bound S762 admission remains unchanged; the S765 addendum
-controls execution order.
+S776 completed the admitted read-only UIQ-10 presentation. The renderer passed
+8/8 focused tests at 100% four-metric coverage; focused mounted checks,
+TypeScript, protected export identity and the actual PDF/ZIP and
+390×844/1280×800 review pass. The app.ts full-file threshold's unrelated
+recovery/Electron-save gaps and targeted coverage detail are recorded in the
+exit packet. The next single action is S777's field/numeric and scoped-approval
+review; S780 remains the settled integrated gate. The original hash-bound S762
+admission remains unchanged; the S765 addendum controls execution order.
 
 S772 completed in commit `652605fde0cf48eb3a105636c7a8cd0373e4e0cd` with
 192/192 focused tests, 100% coverage for all five changed production modules,

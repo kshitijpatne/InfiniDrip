@@ -49,6 +49,8 @@ import {
 } from "./measurement-capture";
 import * as measurementHelp from "./measurement-help";
 import { PATTERN_MEASUREMENT_MAP, type PatternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
+import { EMPTY_TRANSFORM } from "../surface/placement";
+import { surfaceAdd, surfaceKey } from "../surface/store";
 
 const mutablePatternMeasurementMap = PATTERN_MEASUREMENT_MAP as unknown as
   Record<string, Record<string, PatternMeasurementDefinition>>;
@@ -162,6 +164,772 @@ describe("mountApp", () => {
       localStorage.clear();
     }
   }, 15_000);
+
+  it("shows the revision-bound production pack as unavailable without a saved local style", () => {
+    let productionPackClick: EventListener | null = null;
+    const originalAddEventListener = HTMLElement.prototype.addEventListener;
+    const addEventListener = vi.spyOn(HTMLElement.prototype, "addEventListener").mockImplementation(function (
+      this: HTMLElement,
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions,
+    ) {
+      if (this.id === "production-pack-host" && type === "click" && typeof listener === "function") {
+        productionPackClick = listener;
+      }
+      originalAddEventListener.call(this, type, listener, options);
+    });
+    const root = mount();
+    addEventListener.mockRestore();
+    const panel = root.querySelector("#production-pack-host")!;
+    expect(panel.textContent).toContain("Open a saved local style");
+    expect(root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.disabled).toBe(true);
+    expect(root.querySelector<HTMLSelectElement>("#production-pack-preset")!.disabled).toBe(true);
+    root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!
+      .dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    const unavailableDownload = document.createElement("button");
+    unavailableDownload.dataset.productionPackDownload = "pdf";
+    panel.append(unavailableDownload);
+    unavailableDownload.click();
+    const unavailableTableControl = document.createElement("button");
+    unavailableTableControl.dataset.packTableScroll = "end";
+    panel.append(unavailableTableControl);
+    unavailableTableControl.click();
+    const unrelatedClick = document.createElement("button");
+    panel.append(unrelatedClick);
+    unrelatedClick.click();
+    productionPackClick!({ target: document.createTextNode("not an element") } as unknown as Event);
+    window.dispatchEvent(new Event("focus"));
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+
+  it("generates the production pack from the current saved revision, applies presets, and rejects a later revision", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-production-pack-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-01T12:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      const generate = (): HTMLButtonElement => root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!;
+      generate().click();
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+      const originalHead = workflow.snapshot.activeStyle.revisionHeadId!;
+      expect(root.querySelector(".tech-pack-ready")!.getAttribute("data-revision-id")).toBe(originalHead);
+      expect(root.querySelector('[data-pack-section="materials-bom"]')).not.toBeNull();
+
+      const preset = root.querySelector<HTMLSelectElement>("#production-pack-preset")!;
+      preset.value = "measurements-qa";
+      preset.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector(".tech-pack-ready")).toBeNull();
+      expect(root.querySelector('[role="alert"]')?.textContent).toContain("Section selection changed");
+      generate().click();
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+      expect(root.querySelector('[data-pack-section="measurements-qa"]')).not.toBeNull();
+      expect(root.querySelector('[data-pack-section="materials-bom"]')).toBeNull();
+
+      const tableWrap = root.querySelector<HTMLDivElement>(".tech-pack-open-table-wrap")!;
+      Object.defineProperty(tableWrap, "scrollWidth", { configurable: true, value: 560 });
+      Object.defineProperty(tableWrap, "clientWidth", { configurable: true, value: 300 });
+      tableWrap.scrollLeft = 42;
+      root.querySelector<HTMLButtonElement>('[data-pack-table-scroll="start"]')!.click();
+      expect(tableWrap.scrollLeft).toBe(0);
+      root.querySelector<HTMLButtonElement>('[data-pack-table-scroll="end"]')!.click();
+      expect(tableWrap.scrollLeft).toBe(260);
+      Object.defineProperty(tableWrap, "scrollWidth", { configurable: true, value: 100 });
+      Object.defineProperty(tableWrap, "clientWidth", { configurable: true, value: 300 });
+      root.querySelector<HTMLButtonElement>('[data-pack-table-scroll="end"]')!.click();
+      expect(tableWrap.scrollLeft).toBe(0);
+
+      const current = workflow.snapshot.activeStyle.techPack;
+      const currentName = current.cover.styleName;
+      await workflow.saveActiveTechPack({
+        ...current,
+        cover: {
+          ...current.cover,
+          styleName: {
+            ...currentName,
+            value: "Synthetic UIQ-10 review fixture",
+            provenance: "USER_CAPTURED",
+            evidenceStatus: "UNCONFIRMED",
+            validationStatus: "VALID",
+            method: "synthetic UIQ-10 test value",
+            capturedBy: "S776 integration test",
+            capturedAt: "2026-10-01T12:00:00.000Z",
+            unresolvedReason: null,
+            nextAction: null,
+          },
+        },
+      });
+      expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(originalHead);
+      window.dispatchEvent(new Event("focus"));
+      await vi.waitFor(() => expect(root.querySelector('[role="alert"]')?.textContent)
+        .toContain("changed while this tab was inactive"));
+      expect(root.querySelector(".tech-pack-ready")).toBeNull();
+      expect(generate().disabled).toBe(true);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 20_000);
+
+  it("keeps malformed or mismatched saved revision identities unavailable", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-production-pack-invalid-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-01T12:00:00.000Z",
+    });
+    const base = workflow.snapshot;
+    const mutableWorkflow = workflow as unknown as { loaded: typeof base };
+    const cases: Array<{ name: string; loaded: typeof base; message: string }> = [
+      {
+        name: "missing head",
+        loaded: { ...base, activeStyle: { ...base.activeStyle, revisionHeadId: null } },
+        message: "no saved revision head",
+      },
+      {
+        name: "missing revision",
+        loaded: { ...base, styleRevisions: [] },
+        message: "no verified current tech-pack snapshot",
+      },
+      {
+        name: "unsupported snapshot version",
+        loaded: {
+          ...base,
+          styleRevisions: base.styleRevisions.map((revision) => ({
+            ...revision,
+            payload: { ...revision.payload, payloadVersion: 1 },
+          })) as unknown as typeof base.styleRevisions,
+        },
+        message: "no verified current tech-pack snapshot",
+      },
+      {
+        name: "revision style identity",
+        loaded: {
+          ...base,
+          styleRevisions: base.styleRevisions.map((revision, index) => index === 0
+            ? { ...revision, styleId: "00000000-0000-4000-8000-000000000001" }
+            : revision),
+        },
+        message: "identities do not match",
+      },
+      {
+        name: "record revision identity",
+        loaded: {
+          ...base,
+          activeStyle: {
+            ...base.activeStyle,
+            techPack: { ...base.activeStyle.techPack, revisionId: "00000000-0000-4000-8000-000000000002" },
+          },
+        },
+        message: "identities do not match",
+      },
+    ];
+    try {
+      for (const [index, scenario] of cases.entries()) {
+        mutableWorkflow.loaded = scenario.loaded;
+        const root = document.createElement("div");
+        document.body.append(root);
+        mountApp(root, { projectWorkflow: workflow });
+        expect(root.querySelector("#production-pack-host")?.textContent, scenario.name).toContain(scenario.message);
+        expect(root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')?.disabled, scenario.name).toBe(true);
+        root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!
+          .dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        const unavailableDownload = document.createElement("button");
+        unavailableDownload.dataset.productionPackDownload = "pdf";
+        root.querySelector("#production-pack-host")!.append(unavailableDownload);
+        unavailableDownload.click();
+        root.remove();
+        mutableWorkflow.loaded = base;
+        if (index < cases.length - 1) await Promise.resolve();
+      }
+    } finally {
+      mutableWorkflow.loaded = base;
+      workflow.close();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 20_000);
+
+  it("updates section selection only for valid controls and retains focus through rerender", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-production-pack-sections-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-01T12:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      const panel = root.querySelector<HTMLElement>("#production-pack-host")!;
+      const preset = root.querySelector<HTMLSelectElement>("#production-pack-preset")!;
+      preset.value = "not-a-preset";
+      preset.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector<HTMLSelectElement>("#production-pack-preset")?.value).toBe("");
+
+      preset.focus();
+      preset.value = "materials-construction";
+      preset.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(document.activeElement).toBe(root.querySelector("#production-pack-preset"));
+      expect(root.querySelector('[data-pack-section-toggle="construction"]')).not.toBeNull();
+      expect(root.querySelector<HTMLInputElement>('[data-pack-section-toggle="measurements-qa"]')?.checked).toBe(false);
+
+      preset.value = "measurements-qa";
+      preset.dispatchEvent(new Event("change", { bubbles: true }));
+      const addArtwork = root.querySelector<HTMLInputElement>('[data-pack-section-toggle="artwork"]')!;
+      addArtwork.checked = true;
+      addArtwork.focus();
+      addArtwork.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(document.activeElement).toBe(root.querySelector('[data-pack-section-toggle="artwork"]'));
+      expect(root.querySelector('[role="alert"]')?.textContent).toContain("Section selection changed");
+
+      const removeArtwork = root.querySelector<HTMLInputElement>('[data-pack-section-toggle="artwork"]')!;
+      removeArtwork.checked = false;
+      removeArtwork.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector<HTMLInputElement>('[data-pack-section-toggle="artwork"]')?.checked).toBe(false);
+
+      const unrelatedInput = document.createElement("input");
+      panel.append(unrelatedInput);
+      unrelatedInput.dispatchEvent(new Event("change", { bubbles: true }));
+      panel.dispatchEvent(new Event("change", { bubbles: true }));
+      const textTarget = document.createTextNode("not an action element");
+      panel.append(textTarget);
+      panel.addEventListener("click", (event) => event.stopPropagation(), { once: true });
+      textTarget.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      const unrelatedAction = document.createElement("button");
+      unrelatedAction.dataset.productionPackAction = "unknown";
+      panel.append(unrelatedAction);
+      unrelatedAction.click();
+      panel.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 20_000);
+
+  it("includes referenced local artwork and reports missing or unreadable local files", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const assets = memoryArtworkStore();
+    const assetId = "local-0123456789abcdef0123456789abcdef-png";
+    const storedAsset: StoredArtworkAsset = {
+      assetId,
+      name: "synthetic-logo.png",
+      mimeType: "image/png",
+      blob: new NodeBlob(["synthetic local artwork bytes"], { type: "image/png" }) as unknown as Blob,
+    };
+    assets.records.set(assetId, storedAsset);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-production-pack-artwork-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-01T12:00:00.000Z",
+      artworkStore: assets.store,
+    });
+    const style = workflow.snapshot.activeStyle;
+    const design = style.design;
+    const key = surfaceKey(style.recipeId, style.name);
+    const nextSurface = surfaceAdd(design.surface, key, style.name, {
+      id: "synthetic-logo",
+      kind: "print",
+      pieceRole: "front",
+      widthCm: 5,
+      heightCm: 5,
+      transform: EMPTY_TRANSFORM,
+      zOrder: 1,
+      sourceName: "",
+      assetId,
+    });
+    await workflow.saveActiveDesign({ ...design, surface: nextSurface });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow, artworkAssetStore: assets.store });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+      expect(root.querySelector(".tech-pack-ready")?.textContent).toContain("synthetic-logo.png");
+      expect(root.querySelector(".tech-pack-ready")?.textContent).toContain("Revision-bound local artwork attachments");
+      expect(root.querySelector(".tech-pack-ready")?.textContent).toContain("User-provided local artwork");
+
+      assets.records.delete(assetId);
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')?.click();
+      await vi.waitFor(() => expect(root.querySelector('#production-pack-host [role="status"]')?.textContent)
+        .toContain("Local artwork"));
+      expect(root.querySelector(".tech-pack-ready")).toBeNull();
+
+      vi.mocked(assets.store.get).mockRejectedValueOnce("local profile unavailable");
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')?.click();
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("Check the saved revision and local artwork, then retry."));
+
+      const pendingAsset = deferred<StoredArtworkAsset | null>();
+      vi.mocked(assets.store.get).mockReturnValueOnce(pendingAsset.promise);
+      const beforePendingRead = vi.mocked(assets.store.get).mock.calls.length;
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(vi.mocked(assets.store.get).mock.calls.length).toBe(beforePendingRead + 1));
+      const preset = root.querySelector<HTMLSelectElement>("#production-pack-preset")!;
+      preset.value = "measurements-qa";
+      preset.dispatchEvent(new Event("change", { bubbles: true }));
+      pendingAsset.resolve(null);
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+      expect(root.querySelector('#production-pack-host [role="alert"]')?.textContent)
+        .toContain("Section selection changed");
+
+      assets.records.set(assetId, storedAsset);
+      const completePreset = root.querySelector<HTMLSelectElement>("#production-pack-preset")!;
+      completePreset.value = "complete-pack";
+      completePreset.dispatchEvent(new Event("change", { bubbles: true }));
+      const detachedAssetRead = deferred<StoredArtworkAsset | null>();
+      vi.mocked(assets.store.get).mockReturnValueOnce(detachedAssetRead.promise);
+      const beforeDetachedAsset = vi.mocked(assets.store.get).mock.calls.length;
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(vi.mocked(assets.store.get).mock.calls.length).toBe(beforeDetachedAsset + 1));
+      mountApp(root, { projectWorkflow: workflow, artworkAssetStore: assets.store });
+      detachedAssetRead.resolve(storedAsset);
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+      expect(root.querySelector(".tech-pack-ready")).toBeNull();
+      expect(root.querySelector("#production-pack-host")?.textContent).toContain("No preview has been generated");
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 25_000);
+
+  it("resolves bundled artwork only from the local app origin and rejects failed or redirected reads", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const bundled = ARTWORK_CATALOG[0]!;
+    const mutableImage = bundled.image as { localImageUrl: string };
+    const originalImageUrl = mutableImage.localImageUrl;
+    const styleName = "Bundled artwork review";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-production-pack-bundled-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-01T12:00:00.000Z",
+    });
+    const style = workflow.snapshot.activeStyle;
+    await workflow.saveActiveDesign({
+      ...style.design,
+      surface: surfaceAdd(style.design.surface, surfaceKey(style.recipeId, style.name), style.name, {
+        id: "bundled-textile-study",
+        kind: "print",
+        pieceRole: "front",
+        widthCm: 8,
+        heightCm: 8,
+        transform: EMPTY_TRANSFORM,
+        zOrder: 1,
+        sourceName: styleName,
+        assetId: bundled.assetId,
+      }),
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    const fetchMock = vi.fn(async () => ({
+      ok: true,
+      status: 200,
+      url: "",
+      arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer,
+    } as Response));
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      const base = workflow.snapshot;
+      const headId = base.activeStyle.revisionHeadId!;
+      const head = base.styleRevisions.find((revision) => revision.revisionId === headId)!;
+      const replaceHead = (revision: typeof head): typeof base => ({
+        ...base,
+        styleRevisions: base.styleRevisions.map((candidate) => candidate.revisionId === headId ? revision : candidate),
+      });
+      const unknownReferenceRevision = {
+        ...head,
+        payload: {
+          ...head.payload,
+          artwork: [{ assetId: "builtin-not-in-catalog", mimeType: "image/png", byteLength: 1, sha256: "a".repeat(64) }],
+        },
+      } as typeof head;
+      const missingBundledRecord = vi.spyOn(workflow.repository, "loadProject")
+        .mockResolvedValueOnce(replaceHead(unknownReferenceRevision));
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("not available as a bundled or local asset"));
+      missingBundledRecord.mockRestore();
+
+      const design = head.payload.design;
+      const key = surfaceKey(base.activeStyle.recipeId, base.activeStyle.name);
+      const malformedPlacementRevision = {
+        ...head,
+        payload: {
+          ...head.payload,
+          design: {
+            ...design,
+            surface: {
+              ...design.surface,
+              [key]: { styleName: base.activeStyle.name, placements: ["non-object raw placement"] },
+            },
+          },
+        },
+      } as typeof head;
+      const malformedPlacement = vi.spyOn(workflow.repository, "loadProject")
+        .mockResolvedValueOnce(replaceHead(malformedPlacementRevision));
+      mutableImage.localImageUrl = `${window.location.origin}/bundled-artwork.jpg`;
+      vi.stubGlobal("fetch", fetchMock);
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("The saved style revision is invalid or has no supported tech-pack snapshot."));
+      malformedPlacement.mockRestore();
+
+      const fetchCountBeforeOriginCheck = fetchMock.mock.calls.length;
+      mutableImage.localImageUrl = "https://remote.invalid/artwork.jpg";
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("not available from this app's local origin"));
+      expect(fetchMock).toHaveBeenCalledTimes(fetchCountBeforeOriginCheck);
+
+      mutableImage.localImageUrl = `${window.location.origin}/bundled-artwork.jpg`;
+      fetchMock.mockImplementationOnce(async () => ({
+        ok: false,
+        status: 503,
+        url: "",
+        arrayBuffer: async () => new ArrayBuffer(0),
+      } as Response));
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("could not be read (HTTP 503)"));
+
+      fetchMock.mockImplementationOnce(async () => ({
+        ok: true,
+        status: 200,
+        url: "https://remote.invalid/redirected-artwork.jpg",
+        arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer,
+      } as Response));
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("redirected outside the local app origin"));
+
+      fetchMock.mockImplementationOnce(async () => ({
+        ok: true,
+        status: 200,
+        url: "",
+        arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer,
+      } as Response));
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("does not match the saved revision"));
+      expect(fetchMock).toHaveBeenCalledTimes(4);
+    } finally {
+      mutableImage.localImageUrl = originalImageUrl;
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 25_000);
+
+  it("discards stale generation work and rechecks ready previews after saved-state or tab changes", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-production-pack-freshness-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-01T12:00:00.000Z",
+    });
+    const base = workflow.snapshot;
+    const changed = {
+      ...base,
+      activeStyle: {
+        ...base.activeStyle,
+        techPack: {
+          ...base.activeStyle.techPack,
+          approval: {
+            ...base.activeStyle.techPack.approval,
+            scopeFieldIds: [...base.activeStyle.techPack.approval.scopeFieldIds, "cover.styleCode"],
+          },
+        },
+      },
+    };
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      const originalLoadProject = workflow.repository.loadProject.bind(workflow.repository);
+      const earlyRead = deferred<typeof base | null>();
+      const earlyLoad = vi.spyOn(workflow.repository, "loadProject").mockReturnValueOnce(earlyRead.promise);
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(earlyLoad).toHaveBeenCalledTimes(1));
+      const earlyPreset = root.querySelector<HTMLSelectElement>("#production-pack-preset")!;
+      earlyPreset.value = "measurements-qa";
+      earlyPreset.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector("#production-pack-host")?.textContent).toContain("Section selection changed");
+      earlyRead.resolve(base);
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+      expect(root.querySelector(".tech-pack-ready")).toBeNull();
+      earlyLoad.mockRestore();
+
+      const detachedRead = deferred<typeof base | null>();
+      const detachedLoad = vi.spyOn(workflow.repository, "loadProject").mockReturnValueOnce(detachedRead.promise);
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(detachedLoad).toHaveBeenCalledTimes(1));
+      mountApp(root, { projectWorkflow: workflow });
+      detachedRead.resolve(base);
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+      expect(root.querySelector(".tech-pack-ready")).toBeNull();
+      expect(root.querySelector("#production-pack-host")?.textContent).toContain("No preview has been generated");
+      detachedLoad.mockRestore();
+
+      const lateRead = deferred<typeof base | null>();
+      let readCount = 0;
+      const loadProject = vi.spyOn(workflow.repository, "loadProject").mockImplementation((projectId) => {
+        readCount++;
+        return readCount === 2 ? lateRead.promise : originalLoadProject(projectId);
+      });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(readCount).toBe(2));
+      lateRead.resolve(changed);
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("review scope changed while the preview was generating"));
+      expect(root.querySelector(".tech-pack-ready")).toBeNull();
+      loadProject.mockRestore();
+
+      mountApp(root, { projectWorkflow: workflow });
+      const postOutputRead = deferred<typeof base | null>();
+      let postOutputReadCount = 0;
+      const postOutputLoad = vi.spyOn(workflow.repository, "loadProject").mockImplementation((projectId) => {
+        postOutputReadCount++;
+        return postOutputReadCount === 2 ? postOutputRead.promise : originalLoadProject(projectId);
+      });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(postOutputReadCount).toBe(2));
+      const pendingPreset = root.querySelector<HTMLSelectElement>("#production-pack-preset")!;
+      pendingPreset.value = "measurements-qa";
+      pendingPreset.dispatchEvent(new Event("change", { bubbles: true }));
+      postOutputRead.resolve(base);
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+      expect(root.querySelector("#production-pack-host")?.textContent).toContain("Section selection changed");
+      expect(root.querySelector(".tech-pack-ready")).toBeNull();
+      postOutputLoad.mockRestore();
+
+      mountApp(root, { projectWorkflow: workflow });
+      const noCurrentProject = vi.spyOn(workflow.repository, "loadProject").mockResolvedValueOnce(null);
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("Open a saved local style"));
+      noCurrentProject.mockRestore();
+
+      mountApp(root, { projectWorkflow: workflow });
+      const changedBeforeGeneration = vi.spyOn(workflow.repository, "loadProject").mockResolvedValueOnce(changed);
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("changed in another window"));
+      changedBeforeGeneration.mockRestore();
+
+      mountApp(root, { projectWorkflow: workflow });
+      const readFailure = vi.spyOn(workflow.repository, "loadProject")
+        .mockRejectedValueOnce(new Error("read-only local store"));
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("The production-pack preview could not be generated. read-only local store"));
+      readFailure.mockRestore();
+
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+
+      root.querySelector<HTMLElement>("#project-manager-host")!.setAttribute("data-recheck", "same-binding");
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+
+      const mutableWorkflow = workflow as unknown as { loaded: typeof base };
+      const missingHead = {
+        ...base,
+        activeStyle: { ...base.activeStyle, revisionHeadId: null },
+      };
+      mutableWorkflow.loaded = missingHead;
+      root.querySelector<HTMLElement>("#project-persistence-state")!.textContent = "Current revision missing";
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("no saved revision head"));
+      const invalidContextPreset = root.querySelector<HTMLSelectElement>("#production-pack-preset")!;
+      invalidContextPreset.value = "materials-construction";
+      invalidContextPreset.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector("#production-pack-host")?.textContent).toContain("no saved revision head");
+      mutableWorkflow.loaded = base;
+      root.querySelector<HTMLElement>("#project-persistence-state")!.textContent = "Saved in this style";
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("saved style revision or its review scope changed"));
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!
+        .dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+
+      mutableWorkflow.loaded = changed;
+      root.querySelector<HTMLElement>("#project-persistence-state")!.textContent = "Saved review scope changed";
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("saved style revision or its review scope changed"));
+      expect(root.querySelector(".tech-pack-ready")).toBeNull();
+      mutableWorkflow.loaded = base;
+      root.querySelector<HTMLElement>("#project-persistence-state")!.textContent = "Saved in this style";
+      await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+        .toContain("saved style revision or its review scope changed"));
+
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!
+        .dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+      const freshRead = vi.spyOn(workflow.repository, "loadProject");
+      window.dispatchEvent(new Event("focus"));
+      await vi.waitFor(() => expect(freshRead).toHaveBeenCalledTimes(1));
+      expect(root.querySelector(".tech-pack-ready")).not.toBeNull();
+
+      const priorVisibility = Object.getOwnPropertyDescriptor(document, "visibilityState");
+      try {
+        Object.defineProperty(document, "visibilityState", { configurable: true, value: "hidden" });
+        const hiddenCallCount = freshRead.mock.calls.length;
+        document.dispatchEvent(new Event("visibilitychange"));
+        await Promise.resolve();
+        expect(freshRead).toHaveBeenCalledTimes(hiddenCallCount);
+        Object.defineProperty(document, "visibilityState", { configurable: true, value: "visible" });
+        document.dispatchEvent(new Event("visibilitychange"));
+        await vi.waitFor(() => expect(freshRead).toHaveBeenCalledTimes(hiddenCallCount + 1));
+        freshRead.mockRejectedValueOnce(new Error("local revision store unavailable"));
+        window.dispatchEvent(new Event("focus"));
+        await vi.waitFor(() => expect(root.querySelector("#production-pack-host")?.textContent)
+          .toContain("current saved revision could not be checked"));
+      } finally {
+        if (priorVisibility) Object.defineProperty(document, "visibilityState", priorVisibility);
+        else Reflect.deleteProperty(document, "visibilityState");
+      }
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!
+        .dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      const blockedDownload = document.createElement("button");
+      blockedDownload.dataset.productionPackDownload = "pdf";
+      root.querySelector("#production-pack-host")!.append(blockedDownload);
+      blockedDownload.click();
+      freshRead.mockRestore();
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("downloads both revision-matched outputs and blocks stale or unsupported downloads", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-production-pack-download-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-01T12:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    const originalUrl = Object.getOwnPropertyDescriptor(URL, "createObjectURL");
+    const originalRevoke = Object.getOwnPropertyDescriptor(URL, "revokeObjectURL");
+    const createUrl = vi.fn(() => "blob:synthetic-production-pack");
+    const revokeUrl = vi.fn();
+    const downloads: HTMLAnchorElement[] = [];
+    const anchorClick = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function (this: HTMLAnchorElement) {
+      downloads.push(this);
+    });
+    Object.defineProperty(URL, "createObjectURL", { configurable: true, value: createUrl });
+    Object.defineProperty(URL, "revokeObjectURL", { configurable: true, value: revokeUrl });
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+
+      for (const [kind, expectedName] of [
+        ["pdf", "production-pack.pdf"],
+        ["archive", "techpack.zip"],
+      ] as const) {
+        root.querySelector<HTMLButtonElement>(`[data-production-pack-download="${kind}"]`)!.click();
+        await vi.waitFor(() => expect(anchorClick).toHaveBeenCalledTimes(kind === "pdf" ? 1 : 2));
+        expect(downloads[downloads.length - 1]?.download).toContain(expectedName);
+      }
+      expect(createUrl).toHaveBeenCalledTimes(2);
+      await vi.waitFor(() => expect(revokeUrl).toHaveBeenCalledTimes(2));
+      expect(revokeUrl).toHaveBeenCalledTimes(2);
+
+      const pendingDownloadRead = deferred<typeof workflow.snapshot | null>();
+      const pendingDownload = vi.spyOn(workflow.repository, "loadProject").mockReturnValueOnce(pendingDownloadRead.promise);
+      root.querySelector<HTMLButtonElement>('[data-production-pack-download="pdf"]')!.click();
+      await vi.waitFor(() => expect(pendingDownload).toHaveBeenCalledTimes(1));
+      const selectionDuringDownload = root.querySelector<HTMLSelectElement>("#production-pack-preset")!;
+      selectionDuringDownload.value = "measurements-qa";
+      selectionDuringDownload.dispatchEvent(new Event("change", { bubbles: true }));
+      pendingDownloadRead.resolve(workflow.snapshot);
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+      expect(root.querySelector('#production-pack-host [role="alert"]')?.textContent)
+        .toContain("Section selection changed");
+      expect(anchorClick).toHaveBeenCalledTimes(2);
+      pendingDownload.mockRestore();
+
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+      const detachedDownloadRead = deferred<typeof workflow.snapshot | null>();
+      const detachedDownload = vi.spyOn(workflow.repository, "loadProject").mockReturnValueOnce(detachedDownloadRead.promise);
+      root.querySelector<HTMLButtonElement>('[data-production-pack-download="pdf"]')!.click();
+      await vi.waitFor(() => expect(detachedDownload).toHaveBeenCalledTimes(1));
+      mountApp(root, { projectWorkflow: workflow });
+      detachedDownloadRead.resolve(workflow.snapshot);
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
+      expect(anchorClick).toHaveBeenCalledTimes(2);
+      detachedDownload.mockRestore();
+
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+      const loadProject = vi.spyOn(workflow.repository, "loadProject").mockResolvedValueOnce(null);
+      root.querySelector<HTMLButtonElement>('[data-production-pack-download="pdf"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector('#production-pack-host [role="alert"]')?.textContent)
+        .toContain("no longer matches the saved revision"));
+      expect(anchorClick).toHaveBeenCalledTimes(2);
+      loadProject.mockRestore();
+
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+      createUrl.mockImplementationOnce(() => { throw new Error("blocked blob URL"); });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-download="archive"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector('#production-pack-host [role="status"]')?.textContent)
+        .toContain("editable ZIP download could not start"));
+      expect(anchorClick).toHaveBeenCalledTimes(2);
+
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-action="generate"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
+      createUrl.mockImplementationOnce(() => { throw "blocked PDF URL"; });
+      root.querySelector<HTMLButtonElement>('[data-production-pack-download="pdf"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector('#production-pack-host [role="status"]')?.textContent)
+        .toContain("The PDF download could not start. Check browser download support, then retry."));
+    } finally {
+      workflow.close();
+      root.remove();
+      anchorClick.mockRestore();
+      if (originalUrl) Object.defineProperty(URL, "createObjectURL", originalUrl);
+      else Reflect.deleteProperty(URL, "createObjectURL");
+      if (originalRevoke) Object.defineProperty(URL, "revokeObjectURL", originalRevoke);
+      else Reflect.deleteProperty(URL, "revokeObjectURL");
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 25_000);
 
   it("serializes only meaningful saved drafts and preserves every optional draft field", () => {
     const session = createMeasurementCaptureSession(
