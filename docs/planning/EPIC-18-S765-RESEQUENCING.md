@@ -64,34 +64,32 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S774 complete; S775 next
+## Current checkpoint — S775 complete; S776 next
 
-S774 completed from S773 commit
-`e673e282855c14d39db41d198b9a0272f632a84b` on `codex/epic-18-g05`; fresh
+S775 started from clean S774 commit
+`56a50ab39eb0f11051138ff9909afe9035fb9da2` on `codex/epic-18-g05`; fresh
 `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-S773's start, clarification, rendered review, exit and replay are in
-`docs/research/epic18/S773-T03-reference-reconciliation/`. S774's start,
-format/import decision, separate UIQ-10 admission, exit and post-replay checks
-are in `docs/research/epic18/S774-T04-format-and-UIQ10-admission/`; the linked
-admission is `docs/planning/UIQ-10-ADMISSION.md`. Validated S774 replay leaves
-board revision 4621: T01/T02/T03 Done, T04 and EPIC-18 In Progress, UIQ-10
-Backlog. G05-T04 remains In Progress because its output, UIQ presentation and
-review boundaries continue through S775–S777.
+The S775 start/exit packets, generated files and rendered evidence are in
+`docs/research/epic18/S775-T04-output-package/`. Validated start and exit
+commands link S775 to G05-T04 and EPIC-18 through board revision 4625. The
+board records T01/T02/T03 Done, T04 and EPIC-18 In Progress, and UIQ-10
+Backlog with its S774 admission evidence.
 
-S774 selected a dedicated `infinidrip-techpack` `.techpack.zip` plus standalone
-additive PDF, with strict revision-bound preview-first import, section presets,
-Tee/Woven Shirt structural fixtures and deterministic output as a tested S775
-requirement. The shared project ZIP and legacy PDF remain separate. UIQ-10 has
-presentation-only S776 ownership; it cannot start until S775 validates actual
-output and round trips. The focused Control Center suite passes 42/42 after
-final replay. A stale board regression assertion was updated to require T04 In
-Progress with S774 evidence while preserving T05, G05-EXIT and UIQ-10 Backlog.
-The original hash-bound S762 admission remains unchanged; this active addendum
-supersedes its historical S773 timing for the T04 decision.
+S775 completed the separate `infinidrip-techpack` `.techpack.zip`, additive
+standalone PDF and strict bounded preview/import diff. Deterministic Tee and
+Woven Shirt files were parsed, hash-checked and rendered; unchanged, edited and
+stale round-trips and archive bounds pass. The new module has 100% focused
+statement, branch, function and line coverage; build, protected export
+identity and post-replay Control Center checks pass. The whole-project ZIP and
+protected legacy PDF stay separate; no storage writes, UI integration, freeze,
+or construction/fit/supplier/production claim is part of S775.
 
-The next single action is S775: implement both additive outputs and prove
-actual PDF/ZIP bytes, size/path validation and unchanged/stale/edited
-round-trips. S780 remains the integrated/global/build/Electron/output gate.
+The next single action is S776, using the existing
+`docs/planning/UIQ-10-ADMISSION.md` for presentation-only UIQ-10 after fresh
+branch/board verification and validated start replay. UIQ-10 remains Backlog
+until then. S780 stays the integrated/global/build/readiness/browser/Electron/
+output gate. The original hash-bound S762 admission remains unchanged; this
+active addendum controls the current sequence.
 S772's start, exit, and replay packet is
 `docs/research/epic18/S772-T03-operation-editor-validation/`; its final board
 revision is 4597, with 192/192 focused tests, 100% four-metric changed-module
