@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4582,
-  "updatedAt": "2026-10-13T02:47:26.942Z",
+  "revision": 4589,
+  "updatedAt": "2026-10-13T03:02:12.032Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -806,7 +806,10 @@
         "E-G05-S769-EXIT",
         "E-G05-S770-START",
         "E-G05-S770-EXIT",
-        "E-G05-S770-REPLAY"
+        "E-G05-S770-REPLAY",
+        "E-G05-S771-START",
+        "E-G05-S771-EXIT",
+        "E-G05-S771-REPLAY"
       ]
     },
     {
@@ -16696,7 +16699,7 @@
       "title": "G05 T03 — Construction operations",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-10-12",
       "targetAt": null,
       "deliveredAt": null,
@@ -16733,10 +16736,24 @@
           "role": "maintainer",
           "note": "Track admitted G05 T03 after the style/material and POM/QA contracts; unknown source facts remain held.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-13T02:55:02.063Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Start admitted S771 T03 source-aware operation-record contract after T02 closes at S770.",
+          "evidenceRefs": [
+            "E-G05-S771-START"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-G05-S771-START",
+        "E-G05-S771-EXIT",
+        "E-G05-S771-REPLAY"
+      ],
       "flagKey": null
     },
     {
@@ -30788,6 +30805,33 @@
       "sha256": "f374f2ad756a771f5de397700056b4de0160e875b2b60ea639ae80be88ddad43",
       "verified": true,
       "note": "S770 board closeout is verified at revision 4580; the 42-test Control Center suite and diff check pass, with the final focused coverage, TypeScript, and export identity evidence recorded."
+    },
+    {
+      "id": "E-G05-S771-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S771-T03-operation-record-contract/start-packet.md",
+      "commit": null,
+      "sha256": "4c04a24c7b022b9a4b7e73b03bd70063a715162330c589bdc951262c8b69585e",
+      "verified": true,
+      "note": "S771 starts the standalone source-aware T03 operation-record contract with explicit unknowns and component/seam refs; editing, persistence, and pattern/BOM reconciliation remain out of scope."
+    },
+    {
+      "id": "E-G05-S771-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S771-T03-operation-record-contract/exit-packet.md",
+      "commit": null,
+      "sha256": "b0685891fc96e1c8ad2b51daaafb8248f2d7877fa3636fd546f6392608cd3a1a",
+      "verified": true,
+      "note": "S771 completes the standalone strict T03 operation source-record contract for all seven recipe IDs; focused tests, 100% changed-module coverage, TypeScript, and protected export identity pass. G05-T03 remains In Progress for S772/S773."
+    },
+    {
+      "id": "E-G05-S771-REPLAY",
+      "kind": "document",
+      "uri": "docs/research/epic18/S771-T03-operation-record-contract/post-replay-verification.md",
+      "commit": null,
+      "sha256": "517e29f17f01e9bc204705c23301e658d74e1deb72c08966b78358a8eb0272ee",
+      "verified": true,
+      "note": "S771 exit evidence and focused gates are verified; board remains G05-T03 and EPIC-18 In Progress for S772 and S773."
     }
   ]
 }

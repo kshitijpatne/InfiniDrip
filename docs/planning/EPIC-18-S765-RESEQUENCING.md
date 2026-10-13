@@ -64,25 +64,26 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S770 complete; S771 next
+## Current checkpoint — S771 complete; S772 next
 
-S770 started at 2026-10-13 02:15:23 UTC from S769 commit
-`65032f5dba1272b6edc3a926d08a878126f8dbb3` on `codex/epic-18-g05`; refreshed
+S771 started at 2026-10-13 02:54:10 UTC from clean S770 commit
+`25cd67b1f9c180598b844e905595ca744a670b8c` on `codex/epic-18-g05`; fresh
 `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-The hash-bound start packet is
-`docs/research/epic18/S770-T02-callout-size-run-validation/start-packet.md`;
-exit and post-replay verification are beside it. Start evidence advanced the
-canonical board 4575→4577. S770 exit and verification replays advance it to
-revision 4582, mark G05-T02 Done, and leave EPIC-18 In Progress. Focused tests
-pass 45/45 with 100% four-metric coverage for the three changed production
-modules; TypeScript, export identity 9/9, all-seven rendered review, Control
-Center 42/42, and `git diff --check` pass. The checked UI keeps source gaps
-actionable, uses exact POM labels, shows predictions separately from actuals,
-and does not claim to validate a grade formula, physical fit, supplier
-acceptance, or production readiness. The single next action is S771: refresh
-branch and board state, reserve the next unique number, then begin the admitted
-T03 operation-record and component/BOM-integrity boundary through its validated
-start replay. S771 remains Backlog until that replay.
+The hash-bound start and exit packets are in
+`docs/research/epic18/S771-T03-operation-record-contract/`. Validated start,
+exit, and replay evidence advances canonical board revision 4582→4589, marks
+G05-T03 In Progress, and keeps EPIC-18 In Progress. S771 implements only the
+standalone source-aware operation-record contract with explicit unknowns,
+conflicts, and component/seam references; it seeds no recipe data and performs
+no pattern/BOM reconciliation. Thirteen focused tests pass at 100% four-metric
+coverage; TypeScript, protected export identity 9/9, Control Center 42/42, and
+diff hygiene pass. S772 is next: operation editing and validation. S773
+separately handles pattern/BOM reconciliation and all-recipe rendered/source
+review. The S770 T02 exit and replay proof is in
+`docs/research/epic18/S770-T02-callout-size-run-validation/` and records 45/45
+focused tests, 100% changed-module coverage, export identity 9/9, seven-recipe
+rendering, Control Center 42/42 and board revision 4582. Its sourced-data,
+physical-fit, supplier and production-claim holds remain active.
 
 ## Previous checkpoint — S769 complete
 

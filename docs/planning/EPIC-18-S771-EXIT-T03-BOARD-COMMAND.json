@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T03",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S771-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic18/S771-T03-operation-record-contract/exit-packet.md",
+    "sha256": "b0685891fc96e1c8ad2b51daaafb8248f2d7877fa3636fd546f6392608cd3a1a",
+    "verified": true,
+    "note": "S771 completes the standalone strict T03 operation source-record contract for all seven recipe IDs; focused tests, 100% changed-module coverage, TypeScript, and protected export identity pass. G05-T03 remains In Progress for S772/S773."
+  },
+  "expectedRevision": 4585
+}

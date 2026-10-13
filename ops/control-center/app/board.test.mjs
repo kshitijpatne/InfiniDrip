@@ -1005,6 +1005,9 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   const g05S770Start = board.evidence.find((entry) => entry.id === "E-G05-S770-START");
   const g05S770Exit = board.evidence.find((entry) => entry.id === "E-G05-S770-EXIT");
   const g05S770Replay = board.evidence.find((entry) => entry.id === "E-G05-S770-REPLAY");
+  const g05S771Start = board.evidence.find((entry) => entry.id === "E-G05-S771-START");
+  const g05S771Exit = board.evidence.find((entry) => entry.id === "E-G05-S771-EXIT");
+  const g05S771Replay = board.evidence.find((entry) => entry.id === "E-G05-S771-REPLAY");
   const g05Children = board.workItems.filter((entry) => entry.epicId === "EPIC-18");
   assert.equal(g05?.status, "In Progress");
   assert.equal(g05Card?.status, "In Progress");
@@ -1075,12 +1078,32 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.equal(hashEvidenceArtifact(g05S770Replay.uri), g05S770Replay.sha256);
   assert.ok(g05T02?.evidenceRefs.includes(g05S770Replay.id));
   assert.ok(g05?.evidenceRefs.includes(g05S770Replay.id));
+  assert.equal(g05S771Start?.uri, "docs/research/epic18/S771-T03-operation-record-contract/start-packet.md");
+  assert.equal(g05S771Start?.kind, "document");
+  assert.equal(g05S771Start?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S771Start.uri), g05S771Start.sha256);
+  const g05T03 = board.workItems.find((entry) => entry.id === "G05-T03");
+  assert.ok(g05T03?.evidenceRefs.includes(g05S771Start.id));
+  assert.ok(g05T03?.statusHistory.some((entry) => entry.status === "In Progress" && entry.evidenceRefs.includes(g05S771Start.id)));
+  assert.ok(g05?.evidenceRefs.includes(g05S771Start.id));
+  assert.equal(g05S771Exit?.uri, "docs/research/epic18/S771-T03-operation-record-contract/exit-packet.md");
+  assert.equal(g05S771Exit?.kind, "exit-report");
+  assert.equal(g05S771Exit?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S771Exit.uri), g05S771Exit.sha256);
+  assert.ok(g05T03?.evidenceRefs.includes(g05S771Exit.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S771Exit.id));
+  assert.equal(g05S771Replay?.uri, "docs/research/epic18/S771-T03-operation-record-contract/post-replay-verification.md");
+  assert.equal(g05S771Replay?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S771Replay.uri), g05S771Replay.sha256);
+  assert.ok(g05T03?.evidenceRefs.includes(g05S771Replay.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S771Replay.id));
   assert.deepEqual(g05Children.map((entry) => entry.id), [
     "EPIC-18", "UIQ-10", "G05-T01", "G05-T02", "G05-T03", "G05-T04", "G05-T05", "G05-EXIT",
   ]);
   assert.equal(board.workItems.find((entry) => entry.id === "G05-T01")?.status, "Done");
   assert.equal(board.workItems.find((entry) => entry.id === "G05-T02")?.status, "Done");
-  assert.ok(["G05-T03", "G05-T04", "G05-T05", "G05-EXIT", "UIQ-10"]
+  assert.equal(g05T03?.status, "In Progress");
+  assert.ok(["G05-T04", "G05-T05", "G05-EXIT", "UIQ-10"]
     .every((id) => board.workItems.find((entry) => entry.id === id)?.status === "Backlog"));
   assert.deepEqual(board.workItems.find((entry) => entry.id === "UIQ-10")?.dependencies,
     ["EPIC-17", "G05-T01", "G05-T02", "G05-T03"]);

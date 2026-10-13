@@ -1,31 +1,33 @@
-## Current boundary — EPIC-18/G05 Slice 770 complete
+## Current boundary — EPIC-18/G05 Slice 771 complete
 
-S770 started 2026-10-13 02:15:23 UTC from clean S769 commit
-`65032f5dba1272b6edc3a926d08a878126f8dbb3` on `codex/epic-18-g05`. Fresh
-`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor;
-769 is the highest assigned slice, so 770 is unique. The canonical board was
-revision 4575 at start. Its digest-bound start packet is
-`docs/research/epic18/S770-T02-callout-size-run-validation/start-packet.md`;
-validated T02 and Epic evidence commands advance the board to revision 4577
-and preserve G05-T01 Done and G05-T02/EPIC-18 In Progress at start. S770 exit
-and post-replay evidence are in
-`docs/research/epic18/S770-T02-callout-size-run-validation/`.
+S771 started 2026-10-13 02:54:10 UTC from clean S770 commit
+`25cd67b1f9c180598b844e905595ca744a670b8c` on `codex/epic-18-g05`. Fresh
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor and
+S771 is the unique next slice. The digest-bound start packet is
+`docs/research/epic18/S771-T03-operation-record-contract/start-packet.md`.
+Validated start, exit, and post-replay evidence advances canonical board
+revision 4582→4589 and links the digest-bound packets to G05-T03 and EPIC-18.
+G05-T03 and EPIC-18 remain In Progress; G05-T01/T02 are Done. S771 adds the
+standalone strict T03 source-aware operation-record contract for all seven
+recipe IDs. The contract preserves unresolved/conflicting facts, requires
+portable source references, validates component/seam reference syntax, and
+checks finite explicit-unit seam allowances without choosing or clamping
+values. No recipe operation facts, T01/T02 schema, persistence, editor, or
+product output changed. Focused tests pass 13/13 at 100% statement, branch,
+function and line coverage; TypeScript, protected export identity 9/9, Control
+Center 42/42 after replay, and `git diff --check` pass. No export baseline
+moved.
 
-S770 completes source-aware T02 callout/size-run checks and rendered review for
-all seven recipes. Its focused tests pass 45/45; all three changed production
-modules have 100% statement, branch, function and line coverage. TypeScript,
-protected export identity 9/9, Control Center 42/42, and `git diff --check`
-pass. Board revision 4582 records G05-T02 Done and EPIC-18 In Progress. The
-rendered fixtures retain unresolved exact-label source actions, show the
-XS–XL run with M base, and keep pattern predictions separate from sample
-actuals. No export baseline moved. The exit and replay-verification evidence
-are hash-linked to G05-T02 and EPIC-18.
-
-The next action is S771: refresh branch/upstream/board state, reserve the next
-unique slice, then start the admitted T03 sourced operation-record and
-component/BOM-integrity boundary. T03–T05, G05-EXIT, and UIQ-10 remain Backlog;
-the S780 global/build/Electron gate, separate S774 UIQ-10 admission, and
-supplier/physical/production holds remain unchanged.
+S770 is complete: 45 focused tests pass with 100% statement, branch, function
+and line coverage for all three changed production modules; TypeScript,
+protected export identity 9/9, all-seven rendered review, Control Center 42/42,
+and `git diff --check` pass. Board revision 4582 recorded G05-T02 Done. Its
+exit and replay evidence remain in
+`docs/research/epic18/S770-T02-callout-size-run-validation/`. S772 is the next
+authorized boundary: T03 operation editing and validation. S773 separately
+reconciles BOM/pattern/component references and performs the all-recipe
+rendered/source review. The S780 global/build/Electron gate, separate S774
+UIQ-10 admission, and all supplier/physical/production holds remain unchanged.
 
 ## Previous boundary — EPIC-18/G05 Slice 769 complete
 

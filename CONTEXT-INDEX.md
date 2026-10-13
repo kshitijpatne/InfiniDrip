@@ -112,9 +112,13 @@ only through an explicitly admitted, linked Epic packet.
   four-metric coverage for all three changed production modules; TypeScript,
   export identity 9/9, all-seven rendered review, Control Center 42/42 and
   `git diff --check` pass. Its validated commands are in
-  `docs/planning/EPIC-18-S770-*`. S771 T03 is the single next boundary and
-  remains Backlog until its validated start replay. The active boundaries
-  remain in `docs/planning/EPIC-18-S765-RESEQUENCING.md`.
+  `docs/planning/EPIC-18-S770-*`. S771 T03 is complete at canonical board
+  revision 4589 with G05-T03 and EPIC-18 In Progress. Its source-aware
+  operation-record start/exit evidence is in
+  `docs/research/epic18/S771-T03-operation-record-contract/`. Operation
+  editing/validation is S772; component/pattern/BOM reconciliation with
+  rendered/source review is S773. The active boundaries remain in
+  `docs/planning/EPIC-18-S765-RESEQUENCING.md`.
   UIQ-10 remains
   linked and Backlog until its bounded S774 admission; UIQ-09 remains Backlog
   pending EPIC-19.
