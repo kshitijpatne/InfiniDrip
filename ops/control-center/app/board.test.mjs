@@ -1229,11 +1229,9 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.ok(g05?.evidenceRefs.includes(g05S774Start.id));
   const uiq10 = board.workItems.find((entry) => entry.id === "UIQ-10");
   assert.ok(uiq10?.evidenceRefs.includes(uiq10S774Admission.id));
-  assert.ok(g05?.description.includes("numeric acceptance completed at S777"));
-  assert.ok(g05?.description.includes("S778 completed exact-revision local approval/freeze"));
-  assert.ok(g05?.description.includes("numeric acceptance completed at S777"));
-  assert.ok(g05?.description.includes("S778 completed exact-revision local approval/freeze"));
-  assert.ok(g05?.description.includes("S779 completed the remaining T05 invalidation and compatibility boundary"));
+  assert.ok(g05?.description.includes("S780 passed the settled integrated gate"));
+  assert.ok(g05?.description.includes("S781's initial review of PR #43 found a high-severity backward-compatibility defect"));
+  assert.ok(g05?.description.includes("S782 is admitted to add the guarded first-save path and real migration regression"));
   assert.ok(g05T05?.description.includes("S779 completed the remaining T05 change-control and compatibility boundary"));
   assert.equal(g05T04?.acceptanceCriteria[0],
     "Slice 774 decides and records format, import/round-trip rules, sections/templates and simple/difficult example styles before writer code.");

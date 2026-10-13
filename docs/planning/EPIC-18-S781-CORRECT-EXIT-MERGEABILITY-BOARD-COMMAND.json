@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4705,
+  "itemId": "G05-EXIT",
+  "patch": {
+    "description": "Slices 780–781. S780 passed the settled integrated Epic gate: 179/179 test files, 3,161/3,161 tests, and 100% global statement/branch/function/line coverage; build/release/readiness, browser/Electron functional review, actual PDF/ZIP inspection and protected export checks passed. The standard Windows packaged-output path hit EPERM on rename twice; the isolated temporary package path and functional review passed. S781 owns PR #43 merge, main CI/deployment, live preview verification, then canonical board and durable closeout. PR #43 is OPEN/CLEAN/MERGEABLE. GitHub's effective-rules query for main returned [] and classic branch protection returned 404, so no formal approval gate applies. The product owner requested independent internal read-only Claude Code and OpenCode approvals before normal rebase merge; no outside reviewers are to be contacted. Keep this item In Progress until main verification and deployment pass."
+  }
+}

@@ -1,6 +1,6 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 779 complete; S780 next
+## Current capability boundary — S780 complete; S781 review blocked; S782 active
 
 The local Tech Pack share path supports scoped review, approval and freezing
 for one exact saved revision. Its schema-v3 manifest binds the approval,
@@ -12,19 +12,33 @@ captures as historical/stale, retains their downloads, and describes how to
 review and freeze the new revision. Saved design changes reset Tech Pack
 approval to DRAFT while append-only manifests preserve the previous bytes.
 Schema-v1/v2 imports and the eight protected legacy exports retain their
-existing contracts. S778/S779 implementation and actual output/browser
-evidence are in `docs/research/epic18/S778-T05-freeze/` and
+existing contracts. S778/S779 implementation and browser evidence are in
+`docs/research/epic18/S778-T05-freeze/` and
 `docs/research/epic18/S779-T05-change-control/`.
 
-S779 passes the focused compatibility/export gates, 100% statement, branch,
-function and line coverage for changed production module `project-manager.ts`,
-TypeScript, final-source Chromium review at 390×844 and 1280×800, and the
-validated board replay that closes G05-T05. The reviewed synthetic ZIP/PDF
-remain byte-identical after edit. The whole-app coverage attempt from S778
-stopped at about 2.6 GB without a report; the required settled integrated/global
-gate remains assigned to S780. EPIC-18 remains In Progress and G05-EXIT remains
-Backlog. S781 retains merge, main CI/deployment and Epic closeout. No physical
-fit, supplier or production claim is made.
+S779 passed its focused compatibility/export gates, four-metric coverage for
+changed production code, TypeScript and final-source browser review. Its
+synthetic ZIP/PDF remained byte-identical after edits. S780 then passed the
+settled integrated gate: 179/179 test files, 3,161/3,161 tests and 100%
+global statement/branch/function/line coverage; build/readiness,
+browser/Electron, actual PDF/ZIP review and all eight protected export
+identities passed. Detailed S780 evidence is in
+`docs/research/epic18/S780-integrated-gate/`. The standard Windows Electron
+output rename failed twice with EPERM; packaged functional review passed from
+an isolated alternate path. An optional repeat had one test timeout whose
+cause is unproven; the isolated test passed and the qualifying full run remains
+valid.
+
+The initial S781 review found that styles with an older payload-v1 revision
+head can load with an unlinked T01 record whose first save is rejected. S782
+is fixing this with a guarded payload-v2 child save that preserves the old
+parent. See `docs/planning/EPIC-18-S782-REMEDIATION-ADMISSION.md` and
+`docs/research/epic18/S781-merge-closeout/review-reconciliation.md`. EPIC-18
+and G05-EXIT remain In Progress; G05-T01–T05 and UIQ-10 are Done; UIQ-09
+remains Backlog behind EPIC-19. S783 owns the post-review PR #43 merge, main
+CI/deployment, actual preview verification and board closeout. Physical fit,
+supplier/factory acceptance, signing, compliance and production readiness are
+not established. All local/no-cost and provider/launch holds remain in force.
 
 At the previous S777 checkpoint, the exit replay closed UIQ-10 and G05-T04;
 S778 was then next. Its detailed import/apply behavior is in

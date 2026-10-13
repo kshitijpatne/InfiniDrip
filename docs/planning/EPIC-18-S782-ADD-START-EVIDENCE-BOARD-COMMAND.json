@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4708,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S782-START",
+    "kind": "document",
+    "uri": "docs/research/epic18/S782-T01-legacy-v1-save/start-packet.md",
+    "sha256": "6cc0e3eea54a54cd7eb4269ae81dbebd68a79851142dbc8427d67f7acba722bd",
+    "verified": true,
+    "note": "Start S782 from S780 candidate bfacbf68, fresh origin/main e9221ea5 as ancestor, and canonical board revision 4706; record exact compatibility scope and full gates."
+  }
+}

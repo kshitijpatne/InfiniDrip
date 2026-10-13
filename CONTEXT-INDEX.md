@@ -44,9 +44,10 @@ only through an explicitly admitted, linked Epic packet.
   active worktrees, refs, open PRs and the canonical board before using a
   main-based snapshot. Each lane retains its own scope/approval gates.
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
-- `docs/planning/EPIC-18-ADMISSION.md`, `EPIC-18-S765-RESEQUENCING.md` and
-  `EPIC-18-GOAL.md` — maintainer-admitted G05 scope, active ordered Slice
-  762–781 boundaries, acceptance gates, non-goals and current stopping point.
+- `docs/planning/EPIC-18-ADMISSION.md`, `EPIC-18-S765-RESEQUENCING.md`,
+  `EPIC-18-GOAL.md` and `EPIC-18-S782-REMEDIATION-ADMISSION.md` — admitted G05
+  scope, active S762–S783 slice sequence, acceptance gates, non-goals and
+  current remediation/closeout checkpoint.
   The hash-bound S762 admission remains unchanged; the S765 addendum records
   the package-copy correction and current sequence. Slice 763's T01 schema/validator
   is complete; its start and exit evidence are in
@@ -183,12 +184,21 @@ only through an explicitly admitted, linked Epic packet.
   high memory use and the isolated case passed; the first full pass remains
   the qualifying gate. The standard Windows Electron pack output rename failed
   twice, while an isolated alternate-path package passed functional review.
-  S780 records and rendered review are in
-  `docs/research/epic18/S780-integrated-gate/`. At board revision 4695,
-  EPIC-18 and G05-EXIT remain In Progress; T01–T05 and UIQ-10 are Done.
-  S781 is the next and final admitted merge/deployment/closeout boundary.
-  UIQ-09 remains Backlog behind EPIC-19. S773's
-  start-digest correction remains documented in its packet; pattern
+  S780 evidence is in `docs/research/epic18/S780-integrated-gate/`; its final
+  board replay is 4695. S781's initial replay ended at 4702; its mergeability
+  correction and review evidence advanced the canonical board to 4706; S782
+  admission/start records and refreshed mergeability facts advanced it to 4712;
+  the bound review-reconciliation digest refresh advanced it to 4713.
+  EPIC-18/G05-EXIT remain In Progress and T01–T05/UIQ-10 remain Done; UIQ-09
+  remains Backlog behind EPIC-19. PR #43 is OPEN/CLEAN/MERGEABLE. Effective
+  rules for `main` returned `[]` and classic protection returned 404, so no
+  formal approval gate applies. The owner requires two internal reviews:
+  OpenCode approved the S780 head, while Claude requested changes for a
+  high-severity legacy payload-v1 T01 save defect confirmed by Codex. No merge
+  was attempted and no outside GitHub user was contacted. S782's bounded
+  remediation admission is `docs/planning/EPIC-18-S782-REMEDIATION-ADMISSION.md`;
+  review details are in `docs/research/epic18/S781-merge-closeout/`.
+  S773's start-digest correction remains documented in its packet. Pattern
   identifiers do not establish construction facts or fit.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in

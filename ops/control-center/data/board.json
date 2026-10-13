@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4695,
-  "updatedAt": "2026-10-13T21:29:53.306Z",
+  "revision": 4713,
+  "updatedAt": "2026-10-13T22:58:42.594Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -788,7 +788,7 @@
       "title": "EPIC-18: G05 — Living production tech pack",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including numeric acceptance completed at S777 and UIQ-10. S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests. S779 completed the remaining T05 invalidation and compatibility boundary; historical schema-v1/v2 paths and all eight protected export identities remain unchanged. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated gate: 179/179 test files, 3,161/3,161 tests, and 100% global statement/branch/function/line coverage; build, readiness, browser/Electron functional output, actual PDF/ZIP, and protected export checks passed. The optional repeat stopped on one timeout during high memory use and the isolated case passed; the standard Windows Electron package path hit EPERM twice while isolated package functional review passed. S781 is next for merge/deployment and Epic closeout. Local/no-cost, physical, supplier, and production-claim holds remain explicit.",
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 scope is docs/planning/EPIC-18-ADMISSION.md and current ledger docs/planning/EPIC-18-GOAL.md. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated gate: 179/179 files, 3,161/3,161 tests, 100% global statement/branch/function/line coverage; build/readiness, browser/Electron, actual PDF/ZIP and protected exports passed. S781's initial review of PR #43 found a high-severity backward-compatibility defect: a migrated payload-v1 style can load with an unlinked T01 record whose first save fails. OpenCode approved that old candidate; Claude requested changes; Codex confirmed the finding. No merge was attempted. S782 is admitted to add the guarded first-save path and real migration regression; PR #43 must pass the fresh full gate and both internal agents must approve its updated head. S783 owns normal rebase merge, successful main deployment, actual preview verification and canonical closeout. Local/no-cost, physical, supplier, factory, signing, compliance and production-claim holds remain explicit. UIQ-09 remains Backlog behind EPIC-19.",
       "evidenceRefs": [
         "E-EPIC18-S762-ADMISSION",
         "E-EPIC18-S762-EXIT",
@@ -839,7 +839,10 @@
         "E-G05-S780-EXIT",
         "E-G05-S780-RENDERED",
         "E-G05-S780-COVERAGE-CONFIRMATION",
-        "E-G05-S780-REPLAY"
+        "E-G05-S780-REPLAY",
+        "E-G05-S781-START",
+        "E-G05-S781-START-REPLAY",
+        "E-G05-S781-MERGEABILITY"
       ]
     },
     {
@@ -5725,6 +5728,11 @@
           "at": "2026-10-13T21:23:43.152Z",
           "actor": "Maintainer (via Codex)",
           "text": "Updated Epic metadata (description: Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. T01–T04 are Done, including numeric acceptance completed at S777 and UIQ-10. S778 completed exact-revision local approval/freeze and deterministic artifact manifests/digests. S779 completed the remaining T05 invalidation and compatibility boundary; historical schema-v1/v2 paths and all eight protected export identities remain unchanged. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated gate: 179/179 test files, 3,161/3,161 tests, and 100% global statement/branch/function/line coverage; build, readiness, browser/Electron functional output, actual PDF/ZIP, and protected export checks passed. The optional repeat stopped on one timeout during high memory use and the isolated case passed; the standard Windows Electron package path hit EPERM twice while isolated package functional review passed. S781 is next for merge/deployment and Epic closeout. Local/no-cost, physical, supplier, and production-claim holds remain explicit.). Record the verified S780 integrated result and preserve S781 as the remaining admitted merge/deployment closeout."
+        },
+        {
+          "at": "2026-10-13T22:41:17.903Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Updated Epic metadata (description: Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 scope is docs/planning/EPIC-18-ADMISSION.md and current ledger docs/planning/EPIC-18-GOAL.md. T01–T05 and UIQ-10 are Done. S780 passed the settled integrated gate: 179/179 files, 3,161/3,161 tests, 100% global statement/branch/function/line coverage; build/readiness, browser/Electron, actual PDF/ZIP and protected exports passed. S781's initial review of PR #43 found a high-severity backward-compatibility defect: a migrated payload-v1 style can load with an unlinked T01 record whose first save fails. OpenCode approved that old candidate; Claude requested changes; Codex confirmed the finding. No merge was attempted. S782 is admitted to add the guarded first-save path and real migration regression; PR #43 must pass the fresh full gate and both internal agents must approve its updated head. S783 owns normal rebase merge, successful main deployment, actual preview verification and canonical closeout. Local/no-cost, physical, supplier, factory, signing, compliance and production-claim holds remain explicit. UIQ-09 remains Backlog behind EPIC-19.). Record the review blocker and admitted S782 remediation before code changes; preserve EPIC-18 in progress and the S783 deployment closeout gate."
         }
       ],
       "evidenceRefs": [
@@ -17042,7 +17050,7 @@
         "eight protected export hashes",
         "deployment and claim accuracy"
       ],
-      "description": "Slices 780–781. S780 passed the settled integrated Epic gate: 179/179 test files, 3,161/3,161 tests, and 100% global statement/branch/function/line coverage; build/release/readiness, browser/Electron functional review, actual PDF/ZIP inspection and protected export checks passed. The standard Windows packaged-output path hit EPERM on rename twice; the isolated temporary package path and functional review passed. S781 verifies PR merge ancestry, main CI/deployment and applicable live output, then completes canonical board and durable project closeout.",
+      "description": "Slices 780–783. S780 passed the settled integrated Epic gate: 179/179 test files, 3,161/3,161 tests and 100% global statement/branch/function/line coverage; build/readiness, browser/Electron, actual PDF/ZIP and protected export checks passed. S781's initial closeout review found a high-severity compatibility defect: existing payload-v1 styles can load with an unlinked T01 record that cannot be saved. OpenCode approved the S780 head; Claude requested changes; Codex confirmed the finding. PR #43 remains OPEN/CLEAN/MERGEABLE. GitHub's effective-rules query for main returned [] and classic branch protection returned 404, so no formal approval gate applies. The product owner requires two internal approvals and no outside reviewers. S782 is fixing the first T01 save via a guarded payload-v2 child, with full gates and new reviews of the exact updated PR head. S783 owns normal rebase merge, main CI/deployment, actual preview verification and canonical closeout. Keep this item In Progress until verification and deployment pass.",
       "expectation": "The full G05/UIQ-10 candidate is proven at 100% coverage and integrated behavior, safely merged/deployed, and closed with durable evidence and explicit remaining external/physical gates.",
       "acceptanceCriteria": [
         "All seven recipes and every G05/UIQ-10 criterion pass, with actual parsed/rendered output review.",
@@ -17079,7 +17087,13 @@
         "E-G05-S780-EXIT",
         "E-G05-S780-RENDERED",
         "E-G05-S780-COVERAGE-CONFIRMATION",
-        "E-G05-S780-REPLAY"
+        "E-G05-S780-REPLAY",
+        "E-G05-S781-START",
+        "E-G05-S781-START-REPLAY",
+        "E-G05-S781-MERGEABILITY",
+        "E-G05-S781-REVIEW-RECONCILIATION",
+        "E-G05-S782-ADMISSION",
+        "E-G05-S782-START"
       ],
       "flagKey": null
     }
@@ -31304,6 +31318,60 @@
       "sha256": "9c5d6e5e3cd4df0482e48f8404ce4f84284a8af06f07b57e73b33e0cc669a211",
       "verified": true,
       "note": "S780 final board replay and digest read-back at revision 4695; final Control Center tests pass 42/42 and G05-EXIT stays In Progress for S781."
+    },
+    {
+      "id": "E-G05-S781-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S781-merge-closeout/start-packet.md",
+      "commit": null,
+      "sha256": "b7fa6514f8e9164b050defafd8e253371d4d17909a5a0bf682806e6f89cb1910",
+      "verified": true,
+      "note": "S781 start packet corrected: GitHub effective-rules query for main returned no rules; no formal PR review gate applies. Owner requested two internal agent reviews."
+    },
+    {
+      "id": "E-G05-S781-START-REPLAY",
+      "kind": "document",
+      "uri": "docs/research/epic18/S781-merge-closeout/start-replay-verification.md",
+      "commit": null,
+      "sha256": "b59a2ed4057fd6efbf729931cc2edff22abbd6a253d685923a51cb3ebc7415ac",
+      "verified": true,
+      "note": "S781 start replay corrected: prior formal two-review blocker superseded by branch-effective rules result []; PR #43 reports MERGEABLE/CLEAN; Control Center start suite 42/42."
+    },
+    {
+      "id": "E-G05-S781-MERGEABILITY",
+      "kind": "document",
+      "uri": "docs/research/epic18/S781-merge-closeout/mergeability-adjudication.md",
+      "commit": null,
+      "sha256": "208f10a696f7e32ad4a96854465dc8ad3b6815b50fdef3ecc3b7d629098f5ee0",
+      "verified": true,
+      "note": "Effective branch rules confirmed for main; initial reviewer-launch state is historical and completed outcomes are now reconciled in review-reconciliation.md. No formal approval gate applies; the owner's two internal approvals remain the merge gate."
+    },
+    {
+      "id": "E-G05-S781-REVIEW-RECONCILIATION",
+      "kind": "document",
+      "uri": "docs/research/epic18/S781-merge-closeout/review-reconciliation.md",
+      "commit": null,
+      "sha256": "81591360db934be5243fe16b769c6260816d9e96c7456a066d88481fc7c61c73",
+      "verified": true,
+      "note": "Records the separate review results: OpenCode approved the S780 head; Claude requested changes for a high-severity legacy v1 T01 save defect confirmed by Codex. Captured CLI outputs bind their current file digests. No merge was attempted; S782 is the admitted remediation."
+    },
+    {
+      "id": "E-G05-S782-ADMISSION",
+      "kind": "document",
+      "uri": "docs/planning/EPIC-18-S782-REMEDIATION-ADMISSION.md",
+      "commit": null,
+      "sha256": "e8504f358ee164031a0bc1b8533354cc397a2b8f4a91486abc42bf9e68fa92d4",
+      "verified": true,
+      "note": "Admits S782 under the existing failed-gate remediation allowance: guarded first T01 save on a migrated payload-v1 head, real v8 fixture, 100% changed-module coverage, full integrated gate, actual rendered proof and two fresh internal reviews."
+    },
+    {
+      "id": "E-G05-S782-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S782-T01-legacy-v1-save/start-packet.md",
+      "commit": null,
+      "sha256": "6cc0e3eea54a54cd7eb4269ae81dbebd68a79851142dbc8427d67f7acba722bd",
+      "verified": true,
+      "note": "Start S782 from S780 candidate bfacbf68, fresh origin/main e9221ea5 as ancestor, and canonical board revision 4706; record exact compatibility scope and full gates."
     }
   ]
 }

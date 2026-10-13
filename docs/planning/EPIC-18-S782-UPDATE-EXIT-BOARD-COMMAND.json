@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4709,
+  "itemId": "G05-EXIT",
+  "patch": {
+    "description": "Slices 780–783. S780 passed the settled integrated Epic gate: 179/179 test files, 3,161/3,161 tests and 100% global statement/branch/function/line coverage; build/readiness, browser/Electron, actual PDF/ZIP and protected export checks passed. S781's initial closeout review found a high-severity compatibility defect: existing payload-v1 styles can load with an unlinked T01 record that cannot be saved. OpenCode approved the S780 head; Claude requested changes; Codex confirmed the finding. PR #43 remains OPEN/CLEAN/MERGEABLE. GitHub's effective-rules query for main returned [] and classic branch protection returned 404, so no formal approval gate applies. The product owner requires two internal approvals and no outside reviewers. S782 is fixing the first T01 save via a guarded payload-v2 child, with full gates and new reviews of the exact updated PR head. S783 owns normal rebase merge, main CI/deployment, actual preview verification and canonical closeout. Keep this item In Progress until verification and deployment pass."
+  }
+}

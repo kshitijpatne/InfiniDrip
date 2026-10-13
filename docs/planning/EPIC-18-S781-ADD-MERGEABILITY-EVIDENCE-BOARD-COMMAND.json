@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4703,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S781-MERGEABILITY",
+    "kind": "document",
+    "uri": "docs/research/epic18/S781-merge-closeout/mergeability-adjudication.md",
+    "sha256": "c42a81b97fda8016329579f0381f06b38c24dc27aa27af32537f6989f631f4c2",
+    "verified": true,
+    "note": "Corrects the mistaken formal approval assumption: branch-effective rules query for main returned []; classic protection returned 404; PR #43 is MERGEABLE/CLEAN. Owner requests internal Claude Code and OpenCode approvals before normal rebase merge; no outside reviewers."
+  }
+}

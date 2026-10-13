@@ -1,34 +1,42 @@
-## Current boundary — EPIC-18/G05 Slice 780 complete; S781 next
+## Current boundary — EPIC-18/G05 S781 review blocker; S782 remediation active
 
-S780 completed the admitted integrated gate from landed S779 commit
-`0e557553e881add962c67dea49f282b3dbdd227d` on `codex/epic-18-g05`. Fresh
-`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor;
-S780 is unique after branch S779 and origin/main S761. Start, coverage,
-rendered/output, exit and final replay evidence is in
-`docs/research/epic18/S780-integrated-gate/`. The qualifying full suite passes
-179/179 files and 3,161/3,161 tests at 100% statements, branches, functions,
-and lines. The production build, local release/readiness checks, browser and
-packaged Electron review, actual synthetic PDF/ZIP inspection, and eight
-protected export identities pass without moving a baseline.
+S780 is landed as `bfacbf68ef242f366e77b6c43ed548ee4fe130b8` and PR #43 is
+open against `main`. Fresh `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75`
+remains an ancestor. The active S765 amendment preserves the hash-bound S762
+admission as historical. S780 is the settled integrated gate; S781 began the
+PR review/merge closeout, but its initial review gate found a high-severity
+legacy payload-v1 T01 save defect. The S782 remediation admission is
+`docs/planning/EPIC-18-S782-REMEDIATION-ADMISSION.md`.
 
-The optional second full-run attempt stopped after one test timeout during
-high memory use; that same test passed in isolation. Its cause is not proven,
-and it does not replace or invalidate the first complete passing gate. The
-standard Windows Electron output-path rename failed twice with EPERM; the
-same pinned tooling succeeded at an isolated temporary path and the packaged
-app passed functional review. No production source behavior changed during
-S780. T01–T05 and UIQ-10 are Done; EPIC-18 and G05-EXIT remain In Progress
-through S781. The validated final board replay is revision 4695; its hashes
-and read-back are in the S780 post-replay report. S780's commit ID is recorded
-at the S781 start boundary to avoid a same-slice fixup.
+The canonical board was at revision 4695 at S781 start and its start replay
+ended at 4702; corrected mergeability evidence advanced it to 4706, then S782
+admission/start records and refreshed mergeability facts advanced it to
+revision 4712; a validated refresh binding the corrected review-reconciliation
+digest advanced it to revision 4713. EPIC-18/G05-EXIT remain In Progress;
+G05-T01–T05 and UIQ-10 are Done; UIQ-09 remains Backlog behind EPIC-19. PR #43
+is OPEN/CLEAN/MERGEABLE.
 
-S781 is the single next action: open the reviewed candidate as a PR, merge it
-after required checks, verify refreshed `origin/main` ancestry and deployment,
-confirm applicable live output, then close the canonical board and synchronize
-durable cross-project state and downstream reforecast. Physical sewing/fit,
-supplier/factory acceptance, signing, compliance clearance and production
-readiness remain unestablished; all local/no-cost and provider/launch holds
-remain in force.
+The repository-level `no-crap-code` ruleset lists two approvals and linear
+history, but GitHub's effective-rules query for `main` returned `[]`; classic
+branch protection returned 404, so no formal approval gate applies to this
+target. The owner separately requires two internal reviews. OpenCode approved
+the S780 candidate; Claude requested changes for the legacy v1 save defect,
+which Codex confirmed in the v8 migration fixture and workflow guards. No
+merge was attempted and no outside user was contacted. Full outcomes are in
+`docs/research/epic18/S781-merge-closeout/review-reconciliation.md`. After
+S782's fix, both reviewers must approve the updated PR head and Codex must
+reconcile the actual diff. S783 then owns normal rebase merge, the main
+test/build/web-proof/deploy workflow, actual preview verification, and
+validated board/document closeout. The S781 Control Center suite passed 42/42
+at revision 4702. At revision 4712, the updated Epic catalog assertion passed
+its focused check 1/1; final S782 board replay and integrated verification
+remain pending.
+
+The standard Windows Electron pack output rename failed twice with EPERM; the
+same pinned tools succeeded at an isolated temporary path and packaged
+functional review passed. Physical sewing/fit, supplier/factory acceptance,
+signing, compliance and production claims remain unestablished; local/no-cost
+and provider/launch holds remain in force.
 
 ## Previous boundary — EPIC-18/G05 Slice 778 complete
 
