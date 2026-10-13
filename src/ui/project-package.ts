@@ -47,6 +47,7 @@ import {
   type StyleRecord,
 } from "./project-records";
 import { bindTechPackToRevision, techPackRevisionContent, type TechPackRecord } from "./tech-pack-records";
+import { sampleRoundsMatchStyleHistory } from "./tech-pack-sample-qa-records";
 import {
   type ImportProjectBundleOutcome,
   type ProjectBundleSnapshot,
@@ -1088,6 +1089,16 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
   for (const style of styles) {
     const history = styleRevisions.filter((revision) => revision.styleId === style.id)
       .sort((left, right) => left.revisionNumber - right.revisionNumber);
+    if (style.techPack.pomData !== undefined
+      && !sampleRoundsMatchStyleHistory(style.id, style.techPack.pomData, history)) {
+      throw new ProjectPackageError("invalid-package", "Style sample/QA round targets another style or a missing revision.");
+    }
+    for (const revision of history) {
+      if (revision.payload.payloadVersion === 2 && revision.payload.techPack.pomData !== undefined
+        && !sampleRoundsMatchStyleHistory(style.id, revision.payload.techPack.pomData, history)) {
+        throw new ProjectPackageError("invalid-package", "Historical sample/QA round targets another style or a missing revision.");
+      }
+    }
     const head = history[history.length - 1];
     if (head?.payload.payloadVersion === 2
       && (canonical(head.payload.design) !== canonical(style.design)
@@ -1314,8 +1325,19 @@ function remapTechPackForCopy(
     }
     revisionId = remappedRevision;
   }
+  const pomData = techPack.pomData === undefined ? undefined : {
+    ...techPack.pomData,
+    sampleQaRounds: techPack.pomData.sampleQaRounds.map((round) => {
+      const targetRevisionId = revisionIds.get(round.targetRevisionId);
+      if (!targetRevisionId) {
+        throw new ProjectPackageError("invalid-package", "A copied sample/QA round references a revision outside the copied style history.");
+      }
+      return { ...round, targetRevisionId };
+    }),
+  };
   return {
     ...techPack,
+    ...(pomData === undefined ? {} : { pomData }),
     cover: remapTechPackFields(techPack.cover, revisionIds),
     materials: techPack.materials.map((material) => remapTechPackFields(material, revisionIds)),
     bomRows: techPack.bomRows.map((row) => remapTechPackFields(row, revisionIds)),

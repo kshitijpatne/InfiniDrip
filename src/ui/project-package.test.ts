@@ -1379,6 +1379,22 @@ describe("portable local project package", () => {
     };
     const reviewedTechPack: StyleRecord["techPack"] = {
       ...source.style.techPack,
+      schemaVersion: 2,
+      pomData: {
+        schemaVersion: 1,
+        definitions: { schemaVersion: 1, recipeId: "tee", definitions: [] },
+        sampleQaRounds: [{
+          id: "77777777-7777-4777-8777-777777777777",
+          targetRevisionId: revision.revisionId,
+          targetRevisionNumber: 1,
+          sampleLabel: "Sample A",
+          sampleSizeId: "M",
+          recordedAt: TIME,
+          recordedBy: "fixture reviewer",
+          readings: [],
+          qaObservations: [],
+        }],
+      },
       revisionId: "abcdefab-cdef-4abc-8def-abcdefabcdef",
       revisionNumber: 2,
       cover: {
@@ -1461,6 +1477,53 @@ describe("portable local project package", () => {
     }, memoryAssets(), { crypto });
     const archive = await readProjectPackage(packed, { crypto });
 
+    const missingSampleRevision = "88888888-8888-4888-8888-888888888888";
+    const invalidCurrentRound = await replacePackageManifest(packed, (manifest) => {
+      const styles = manifest.styles as Array<Record<string, unknown>>;
+      const techPack = styles[0]!.techPack as Record<string, unknown>;
+      const pomData = techPack.pomData as Record<string, unknown>;
+      const rounds = pomData.sampleQaRounds as Array<Record<string, unknown>>;
+      rounds[0]!.targetRevisionId = missingSampleRevision;
+    });
+    await expect(readProjectPackage(invalidCurrentRound, { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("Style sample/QA round targets another style or a missing revision."),
+    });
+
+    const historicalPayload = reviewedRevision.payload;
+    if (historicalPayload.payloadVersion !== 2) throw new Error("The T02 historical fixture requires a payload-v2 revision.");
+    const invalidHistoricalTechPack = {
+      ...historicalPayload.techPack,
+      pomData: {
+        ...historicalPayload.techPack.pomData!,
+        sampleQaRounds: historicalPayload.techPack.pomData!.sampleQaRounds.map((round) => ({
+          ...round,
+          targetRevisionId: missingSampleRevision,
+        })),
+      },
+    };
+    const invalidHistoricalRevision = await createStyleRevision({
+      styleId: historicalPayload.styleId,
+      revisionId: historicalPayload.revisionId,
+      parentRevisionId: historicalPayload.parentRevisionId,
+      revisionNumber: historicalPayload.revisionNumber,
+      createdAt: reviewedRevision.createdAt,
+      design: historicalPayload.design,
+      fieldObservations: historicalPayload.fieldObservations,
+      artwork: historicalPayload.artwork,
+      techPack: invalidHistoricalTechPack,
+    }, crypto);
+    const invalidHistoricalRound = await replacePackageManifest(packed, (manifest) => {
+      const revisions = manifest.styleRevisions as Array<Record<string, unknown>>;
+      const index = revisions.findIndex((candidate) => candidate.revisionId === invalidHistoricalRevision.revisionId);
+      if (index < 0) throw new Error("The T02 historical revision is missing from the package fixture.");
+      revisions[index] = invalidHistoricalRevision as unknown as Record<string, unknown>;
+    });
+    await expect(readProjectPackage(invalidHistoricalRound, { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("Historical sample/QA round targets another style or a missing revision."),
+    });
+
     const nonCopyTarget = await repository();
     await expect(importProjectPackage(nonCopyTarget, memoryAssets(), archive, false, { crypto, now: () => TIME }))
       .resolves.toMatchObject({ status: "imported", projectId: source.project.id, importedAsCopy: false });
@@ -1497,6 +1560,38 @@ describe("portable local project package", () => {
     });
     await expect(rejectedCopyTarget.readActiveProject()).resolves.toBeNull();
 
+    const invalidCopyRoundArchive = {
+      ...archive,
+      manifest: {
+        ...archive.manifest,
+        styles: archive.manifest.styles.map((candidate) => candidate.id === reviewedStyle.id
+          ? {
+            ...candidate,
+            techPack: {
+              ...candidate.techPack,
+              pomData: {
+                ...candidate.techPack.pomData!,
+                sampleQaRounds: candidate.techPack.pomData!.sampleQaRounds.map((round) => ({
+                  ...round,
+                  targetRevisionId: missingSampleRevision,
+                })),
+              },
+            },
+          }
+          : candidate),
+      },
+    } as ProjectPackageArchive;
+    const rejectedCopyRoundTarget = await repository();
+    await expect(importProjectPackage(rejectedCopyRoundTarget, memoryAssets(), invalidCopyRoundArchive, true, {
+      crypto,
+      now: () => "2026-09-24T16:00:01.000Z",
+      idFactory: deterministicUuidFactory(),
+    })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("A copied sample/QA round references a revision outside the copied style history."),
+    });
+    await expect(rejectedCopyRoundTarget.readActiveProject()).resolves.toBeNull();
+
     const copyTarget = await repository();
     const copied = await importProjectPackage(copyTarget, memoryAssets(), archive, true, {
       crypto,
@@ -1517,6 +1612,13 @@ describe("portable local project package", () => {
         : field;
     expect(copiedStyle!.techPack).toEqual({
       ...reviewedTechPack,
+      pomData: {
+        ...reviewedTechPack.pomData!,
+        sampleQaRounds: reviewedTechPack.pomData!.sampleQaRounds.map((round) => ({
+          ...round,
+          targetRevisionId: copiedBaseRevision!.revisionId,
+        })),
+      },
       styleId: copiedStyle!.id,
       revisionId: copiedRevision!.revisionId,
       cover: {
@@ -1549,6 +1651,11 @@ describe("portable local project package", () => {
     });
     expect(archive.manifest.styles[0]?.techPack).toEqual(reviewedTechPack);
     expect(copiedStyle!.techPack.revisionId).toBe(copiedStyle!.revisionHeadId);
+    expect(copiedRevision!.payload.payloadVersion).toBe(2);
+    if (copiedRevision!.payload.payloadVersion === 2) {
+      expect(copiedRevision!.payload.techPack.pomData?.sampleQaRounds[0]?.targetRevisionId)
+        .toBe(copiedBaseRevision!.revisionId);
+    }
   });
 
   it("remaps a multi-revision chain and its local artwork when copying a v3 package", async () => {

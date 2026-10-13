@@ -1,0 +1,15 @@
+{
+  "role": "maintainer",
+  "expectedRevision": 4571,
+  "evidence": {
+    "sha256": "9efe79d8dac032fc7dd80f6367a27a677403fc5c245f61cedc9fb7b0631c85fa",
+    "verified": true,
+    "note": "S769 starts revision-bound editable POM and sample/QA records with actuals separate from predicted values; preserve historical revision digests and project-copy references.",
+    "id": "E-G05-S769-START",
+    "uri": "docs/research/epic18/S769-T02-sample-qa-revision-binding/start-packet.md",
+    "kind": "document"
+  },
+  "itemId": "G05-T02",
+  "type": "addEvidence",
+  "actor": "Maintainer (via Codex)"
+}

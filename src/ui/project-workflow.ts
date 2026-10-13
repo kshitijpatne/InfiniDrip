@@ -46,6 +46,7 @@ import {
   type RevisionArtworkDigest,
   type StyleRevisionRecord,
 } from "./style-revisions";
+import { sampleRoundsMatchStyleHistory } from "./tech-pack-sample-qa-records";
 import {
   bindTechPackToRevision,
   createEmptyTechPackRecord,
@@ -479,6 +480,10 @@ export class ProjectWorkflow {
       }
       if (head.revisionNumber !== stored.revisionNumber) {
         throw new ProjectRepositoryError("invalid-data", "The active style has no matching verified immutable revision head.");
+      }
+      if (parsed.value.pomData !== undefined
+        && !sampleRoundsMatchStyleHistory(active.id, parsed.value.pomData, current.styleRevisions)) {
+        throw new ProjectRepositoryError("invalid-data", "A sample/QA round must target an existing revision in this style's immutable history.");
       }
       if (head.payload.payloadVersion === 2
         && canonicalizeJcs(techPackRevisionContent(head.payload.techPack))

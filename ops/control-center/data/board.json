@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4571,
-  "updatedAt": "2026-10-13T00:53:08.762Z",
+  "revision": 4575,
+  "updatedAt": "2026-10-13T02:08:06.872Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -801,7 +801,9 @@
         "E-G05-S767-START",
         "E-G05-S767-EXIT",
         "E-G05-S768-START",
-        "E-G05-S768-EXIT"
+        "E-G05-S768-EXIT",
+        "E-G05-S769-START",
+        "E-G05-S769-EXIT"
       ]
     },
     {
@@ -16666,7 +16668,9 @@
       "comments": [],
       "evidenceRefs": [
         "E-G05-S768-START",
-        "E-G05-S768-EXIT"
+        "E-G05-S768-EXIT",
+        "E-G05-S769-START",
+        "E-G05-S769-EXIT"
       ],
       "flagKey": null
     },
@@ -30723,6 +30727,24 @@
       "sha256": "88e2bdac2228c66b0070bc7af437369f85b672f36c89321f53bf5653fa18e1e7",
       "verified": true,
       "note": "S768 defines the strict source-aware T02 POM contract for all seven current recipes; 93 focused tests have 100% changed-module coverage and protected export identities remain intact."
+    },
+    {
+      "id": "E-G05-S769-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S769-T02-sample-qa-revision-binding/start-packet.md",
+      "commit": null,
+      "sha256": "9efe79d8dac032fc7dd80f6367a27a677403fc5c245f61cedc9fb7b0631c85fa",
+      "verified": true,
+      "note": "S769 starts revision-bound editable POM and sample/QA records with actuals separate from predicted values; preserve historical revision digests and project-copy references."
+    },
+    {
+      "id": "E-G05-S769-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S769-T02-sample-qa-revision-binding/exit-packet.md",
+      "commit": null,
+      "sha256": "d4a4dc5238e1866f4692a0880b1254066231a87eb94d97bbfb373be7b6d13fb1",
+      "verified": true,
+      "note": "S769 persists source-aware T02 definitions and revision-bound sample/QA rounds; 405 focused tests pass with 100% changed-module coverage, the live T02 form renders, and protected exports remain byte-identical."
     }
   ]
 }

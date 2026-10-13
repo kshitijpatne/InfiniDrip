@@ -1000,6 +1000,8 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   const g05S767Exit = board.evidence.find((entry) => entry.id === "E-G05-S767-EXIT");
   const g05S768Start = board.evidence.find((entry) => entry.id === "E-G05-S768-START");
   const g05S768Exit = board.evidence.find((entry) => entry.id === "E-G05-S768-EXIT");
+  const g05S769Start = board.evidence.find((entry) => entry.id === "E-G05-S769-START");
+  const g05S769Exit = board.evidence.find((entry) => entry.id === "E-G05-S769-EXIT");
   const g05Children = board.workItems.filter((entry) => entry.epicId === "EPIC-18");
   assert.equal(g05?.status, "In Progress");
   assert.equal(g05Card?.status, "In Progress");
@@ -1040,6 +1042,17 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.equal(hashEvidenceArtifact(g05S768Exit.uri), g05S768Exit.sha256);
   assert.ok(board.workItems.find((entry) => entry.id === "G05-T02")?.evidenceRefs.includes(g05S768Exit.id));
   assert.ok(g05?.evidenceRefs.includes(g05S768Exit.id));
+  assert.equal(g05S769Start?.uri, "docs/research/epic18/S769-T02-sample-qa-revision-binding/start-packet.md");
+  assert.equal(g05S769Start?.kind, "document");
+  assert.equal(g05S769Start?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S769Start.uri), g05S769Start.sha256);
+  assert.ok(board.workItems.find((entry) => entry.id === "G05-T02")?.evidenceRefs.includes(g05S769Start.id));
+  assert.equal(g05S769Exit?.uri, "docs/research/epic18/S769-T02-sample-qa-revision-binding/exit-packet.md");
+  assert.equal(g05S769Exit?.kind, "exit-report");
+  assert.equal(g05S769Exit?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S769Exit.uri), g05S769Exit.sha256);
+  assert.ok(board.workItems.find((entry) => entry.id === "G05-T02")?.evidenceRefs.includes(g05S769Exit.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S769Exit.id));
   assert.deepEqual(g05Children.map((entry) => entry.id), [
     "EPIC-18", "UIQ-10", "G05-T01", "G05-T02", "G05-T03", "G05-T04", "G05-T05", "G05-EXIT",
   ]);

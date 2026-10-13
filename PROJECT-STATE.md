@@ -1,12 +1,15 @@
-## Current boundary — EPIC-18/G05 Slice 768 complete; Slice 769 next
+## Current boundary — EPIC-18/G05 Slice 769 complete; Slice 770 next
 
-S768 started at 2026-10-13 00:40:58 UTC from clean S767 commit
-`a46ceaf3cb701b38b5c3418bada556e4a2ef0076` on `codex/epic-18-g05`. Fresh
-`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor.
-S768 was the unique next slice. Board revision 4566 had EPIC-18 In Progress,
-G05-T01 Done, and G05-T02 Backlog. The hash-linked start packet is
-`docs/research/epic18/S768-T02-pom-definition-contract/start-packet.md`; the
-validated replay moved T02 to In Progress at revision 4569.
+S768 landed as `e39ebe9f6cdb0cd1af5abe7c0e0ecc70cbd8fdf6` (`Slice 768: define
+source-aware T02 POM record contract`). S769 started at 2026-10-13 00:59:04 UTC
+from that clean commit on `codex/epic-18-g05`; fresh
+`origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor and
+768 was the highest assigned slice, so 769 is unique. The board was revision
+4571 at start with EPIC-18/G05-T02 In Progress and G05-T01 Done. The digest-
+linked S769 start packet is `docs/research/epic18/S769-T02-sample-qa-revision-binding/start-packet.md`;
+validated start and exit evidence replay advances the board through revision
+4575. The S769 exit packet is
+`docs/research/epic18/S769-T02-sample-qa-revision-binding/exit-packet.md`.
 
 S768 added the standalone schema-v1 POM-definition set and strict parser in
 `src/ui/tech-pack-pom-records.ts` for all seven existing recipe IDs. Definitions
@@ -16,33 +19,25 @@ size-range and grade-rule sources. Source-confirmed, unresolved, and conflicting
 facts cannot be confused. Missing facts stay visible with a reason and next
 step; no recipe values, tolerance, or grade rule are seeded. The existing
 pattern POM functions and symmetric centimeter `Pom.tolerance` values remain
-unchanged and are not treated as production sources. T01 storage, payload-v2,
-pattern/grading, UI, and output paths were not changed. S769 owns persistence
-and revision binding with editable sample/QA records.
+unchanged and are not treated as production sources. S768 did not modify T01
+storage, payload-v2, pattern/grading, UI, or output paths.
 
-The focused suite passes 93/93 with 100% statement, branch, function, and line
-coverage for the changed production module. TypeScript and protected export
-identity pass, with the export check at 9/9. No rendered UI behavior changed;
-all-recipe rendered evidence remains S770. Validated exit evidence advances
-the board from revision 4569 to 4571 and leaves G05-T02 and EPIC-18 In Progress.
-Control Center passes 42/42 after the replay; `git diff --check` passes. The
-full repository/global gate, build, browser/Electron and release gates remain
-scheduled for S780.
+S769 now persists T02 POM definitions with revision-bound sample/QA rounds in
+tech-pack schema v2 while preserving T01 schema v1 and historical revision
+digests. Actual readings remain separate from predicted pattern POMs. Current
+and historical round references are validated in repository history and
+packages, and internal revision references remap on project copy. All 405
+focused application tests pass; all seven changed production modules have
+100% statement, branch, function and line coverage. TypeScript and protected
+export identity 9/9 pass. The live Chrome render shows the editable T02
+definition and sample/QA forms and preserves visible no-fit claims. The
+validated Control Center replay passes 42/42; no export baseline moved.
 
-No safe disjoint work was identified for this shared model contract. S768
-elapsed time is recorded in its exit packet as implementation, focused
-verification, external-agent wait, and maintainer-decision time separately;
-both wait categories are zero. The exit packet and validated board commands
-are under `docs/research/epic18/S768-T02-pom-definition-contract/` and
-`docs/planning/EPIC-18-S768-*-BOARD-COMMAND.json`.
-
-The single next action is S769: add revision-bound editable sample/QA rounds
-with readings distinct from predicted POMs. S770 adds source-aware callout and
-size-run checks plus all-seven-recipe rendered proof to close T02. The separate
-S774 UIQ-10 admission, S780 integrated gate, local/no-cost scope, protected
-export identities, and supplier/physical/production holds remain unchanged.
-UIQ-09 remains Backlog pending EPIC-19.
-
+The single next action is S770: implement source-aware callout and size-run
+checks, then review actual rendered behavior across all seven recipes and
+close G05-T02. The separate S774 UIQ-10 admission, S780 integrated gate,
+local/no-cost scope, protected export identities, and supplier/physical/
+production holds remain unchanged. UIQ-09 remains Backlog pending EPIC-19.
 ## Previous boundary — EPIC-18/G05 Slice 767 complete
 
 S767 began at 2026-10-12 22:36:08 UTC from clean S766 commit
@@ -72,11 +67,9 @@ board through revision 4566. G05-T01 is Done and EPIC-18 remains In Progress;
 G05-T02–T05, G05-EXIT and UIQ-10 remain Backlog; UIQ-09 remains Backlog pending
 EPIC-19. The S767 board commands are under `docs/planning/EPIC-18-S767-*.json`.
 
-The active S765 sequence remains exact. The single next action is S768: define
-typed T02 POM methods, landmarks and units, sourced tolerances and explicit
-size/grade-rule sources. S769 adds revision-bound sample/QA records separate
-from predictions; S770 completes callout/size-run checks and all-recipe
-rendered evidence. UIQ-10 remains a separate S774 admission; the global,
+The active S765 sequence remains exact. The single next action is S770:
+complete T02 callout/size-run checks and all-recipe rendered evidence.
+UIQ-10 remains a separate S774 admission; the global,
 Electron and release gates remain scheduled for S780. Supplier, physical-fit,
 factory-acceptance and production claims remain held. The hash-bound S762
 admission remains unchanged.

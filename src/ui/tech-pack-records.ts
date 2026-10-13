@@ -1,9 +1,13 @@
-/** Schema-v1 editable T01 tech-pack records and strict, pure validation.
- * Storage, migration, UI and immutable revision integration are separate slices. */
+/** Backward-compatible T01/T02 editable tech-pack records and strict validation. */
 import type { FieldEvidenceStatus, FieldProvenance } from "./field-provenance";
 import type { RecordResult } from "./project-records";
+import {
+  parseTechPackPomRecordSet,
+  type TechPackPomRecordSet,
+} from "./tech-pack-sample-qa-records";
 
 export const TECH_PACK_RECORD_VERSION = 1;
+export const TECH_PACK_T02_RECORD_VERSION = 2;
 export const TECH_PACK_MAX_RECORDS = 10_000;
 export const UNVERSIONED_RECIPE_MARKER = "unversioned";
 
@@ -127,7 +131,8 @@ export interface TechPackScopedApproval {
 }
 
 export interface TechPackRecord {
-  readonly schemaVersion: typeof TECH_PACK_RECORD_VERSION;
+  readonly schemaVersion: typeof TECH_PACK_RECORD_VERSION | typeof TECH_PACK_T02_RECORD_VERSION;
+  readonly pomData?: TechPackPomRecordSet;
   readonly styleId: string;
   readonly recipeId: string;
   readonly recipeVersion: string;
@@ -268,6 +273,7 @@ const RECORD_KEYS = [
   "schemaVersion", "styleId", "recipeId", "recipeVersion", "revisionId", "revisionNumber",
   "createdAt", "updatedAt", "cover", "materials", "bomRows", "colorways", "approval",
 ];
+const T02_RECORD_KEYS = [...RECORD_KEYS, "pomData"];
 
 type FieldKind = "text" | "number" | "boolean";
 
@@ -549,8 +555,12 @@ function parseApproval(value: unknown, revisionId: string | null, fieldIds: Set<
 
 /** Strict parser for the additive T01 record; it does not read or write storage. */
 export function parseTechPackRecord(value: unknown): RecordResult<TechPackRecord> {
-  if (!exactKeys(value, RECORD_KEYS)) return fail("Tech-pack record fields are incomplete or unknown.");
-  if (value.schemaVersion !== TECH_PACK_RECORD_VERSION) return fail("Unsupported tech-pack record schema version.");
+  if (!object(value)) return fail("Tech-pack record fields are incomplete or unknown.");
+  const keys = value.schemaVersion === TECH_PACK_RECORD_VERSION
+    ? RECORD_KEYS
+    : value.schemaVersion === TECH_PACK_T02_RECORD_VERSION ? T02_RECORD_KEYS : null;
+  if (!keys) return fail("Unsupported tech-pack record schema version.");
+  if (!exactKeys(value, keys)) return fail("Tech-pack record fields are incomplete or unknown.");
   if (!uuid(value.styleId) || !nonEmpty(value.recipeId, 120) || !nonEmpty(value.recipeVersion, 120)) {
     return fail("Tech-pack style and recipe identity is invalid.");
   }
@@ -599,8 +609,7 @@ export function parseTechPackRecord(value: unknown): RecordResult<TechPackRecord
   }
   const approval = parseApproval(value.approval, value.revisionId as string | null, fieldIds);
   if (!approval.ok) return fail(approval.error);
-  return { ok: true, value: {
-    schemaVersion: TECH_PACK_RECORD_VERSION,
+  const base = {
     styleId: value.styleId,
     recipeId: value.recipeId,
     recipeVersion: value.recipeVersion,
@@ -613,5 +622,15 @@ export function parseTechPackRecord(value: unknown): RecordResult<TechPackRecord
     bomRows,
     colorways,
     approval: approval.value,
+  };
+  if (value.schemaVersion === TECH_PACK_RECORD_VERSION) {
+    return { ok: true, value: { schemaVersion: TECH_PACK_RECORD_VERSION, ...base } };
+  }
+  const pomData = parseTechPackPomRecordSet(value.pomData, value.recipeId as string);
+  if (!pomData.ok) return fail(pomData.error);
+  return { ok: true, value: {
+    schemaVersion: TECH_PACK_T02_RECORD_VERSION,
+    ...base,
+    pomData: pomData.value,
   } };
 }

@@ -210,3 +210,58 @@
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
+
+/* Slice 769 T02 sample and QA controls. Scoped to avoid changing the T01/editor shell. */
+.t02-editor {
+  --t02-panel: #f4f7f9;
+  --t02-paper: #ffffff;
+  --t02-text: #10212f;
+  --t02-muted: #3d5a6c;
+  --t02-accent: #0b5cad;
+  --t02-border: #7c99ad;
+  --t02-unknown-bg: #fdf3f3;
+  --t02-unknown-text: #8f1d1d;
+
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 12px;
+  border: 1px solid var(--t02-border);
+  border-radius: 8px;
+  background: var(--t02-panel);
+  color: var(--t02-text);
+  font: 14px/1.5 system-ui, sans-serif;
+}
+
+.t02-editor,
+.t02-editor * { box-sizing: border-box; }
+.t02-editor h3,
+.t02-editor h4,
+.t02-editor h5,
+.t02-editor h6 { margin: 0; line-height: 1.3; overflow-wrap: anywhere; }
+.t02-editor > p { margin: 0; color: var(--t02-muted); }
+.t02-editor > section { display: grid; gap: 10px; min-width: 0; padding: 10px; border: 1px solid var(--t02-border); border-radius: 8px; background: var(--t02-paper); }
+.t02-editor article { display: grid; gap: 8px; min-width: 0; padding: 10px; border: 1px dashed var(--t02-border); border-radius: 8px; }
+.t02-editor .t02-add-definition,
+.t02-editor .t02-add-round,
+.t02-editor .t02-add-reading,
+.t02-editor .t02-add-unresolved-reading,
+.t02-editor .t02-add-observation { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); align-items: end; gap: 8px; min-width: 0; }
+.t02-editor label { display: grid; gap: 4px; min-width: 0; color: var(--t02-text); font-size: 12px; font-weight: 600; }
+.t02-editor input,
+.t02-editor select,
+.t02-editor textarea { width: 100%; max-width: 100%; min-width: 0; padding: 7px 8px; border: 1px solid var(--t02-border); border-radius: 6px; background: var(--t02-paper); color: var(--t02-text); font: 14px/1.4 system-ui, sans-serif; }
+.t02-editor textarea { resize: vertical; }
+.t02-editor input:focus-visible,
+.t02-editor select:focus-visible,
+.t02-editor textarea:focus-visible,
+.t02-editor button:focus-visible { outline: 2px solid var(--t02-accent); outline-offset: 2px; }
+.t02-editor button { width: fit-content; max-width: 100%; padding: 7px 10px; border: 1px solid var(--t02-border); border-radius: 6px; background: var(--t02-paper); color: var(--t02-text); font: 600 12px/1.4 system-ui, sans-serif; cursor: pointer; }
+.t02-editor button:disabled,
+.t02-editor input:disabled,
+.t02-editor select:disabled,
+.t02-editor textarea:disabled { opacity: .65; cursor: not-allowed; }
+.t02-editor [data-t02-reading-status="UNRESOLVED"],
+.t02-editor [data-t02-empty] { padding: 6px 8px; border-radius: 6px; background: var(--t02-unknown-bg); color: var(--t02-unknown-text); }
+.t02-editor [data-t02-target-revision] { overflow-wrap: anywhere; color: var(--t02-muted); }

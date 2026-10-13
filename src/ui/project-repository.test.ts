@@ -33,9 +33,10 @@ import {
   PROJECT_STORES,
   ProjectRepository,
   openProjectRepository,
+  type ProjectBundleSnapshot,
 } from "./project-repository";
 import { createFieldObservationRecord, type FieldObservationRecord } from "./field-provenance";
-import { bindTechPackToRevision } from "./tech-pack-records";
+import { bindTechPackToRevision, parseTechPackRecord } from "./tech-pack-records";
 import {
   createFrozenOutputManifest,
   createStyleRevision,
@@ -878,6 +879,141 @@ describe("transactional project repository", () => {
         fieldObservations: loaded!.fieldObservations,
         expectedProjectRevision: loaded!.project.revision,
       })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("must append one immutable revision") });
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("rejects current and historical T02 rounds that target missing style revisions", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    try {
+      await repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+      const initial = await repository.readProjectBundle(PROJECT_ID);
+      if (!initial) throw new Error("First-run project was not persisted.");
+
+      const pomData = (targetRevisionId: string | null, targetRevisionNumber: number, roundNumber: number) => ({
+        schemaVersion: 1,
+        definitions: { schemaVersion: 1, recipeId: "tee", definitions: [] },
+        sampleQaRounds: targetRevisionId === null ? [] : [{
+          id: testUuid(910 + roundNumber),
+          targetRevisionId,
+          targetRevisionNumber,
+          sampleLabel: `Proto ${roundNumber}`,
+          sampleSizeId: "M",
+          recordedAt: roundNumber === 1 ? TIME : roundNumber === 2 ? NEXT_TIME : "2026-09-24T16:00:02.000Z",
+          recordedBy: "fixture reviewer",
+          readings: [],
+          qaObservations: [],
+        }],
+      });
+      const packFor = (
+        base: StyleRecord["techPack"],
+        revisionId: string,
+        revisionNumber: number,
+        targetRevisionId: string | null,
+        targetRevisionNumber: number,
+      ) => {
+        const parsed = parseTechPackRecord({
+          ...base,
+          schemaVersion: 2,
+          pomData: pomData(targetRevisionId, targetRevisionNumber, revisionNumber),
+        });
+        if (!parsed.ok) throw new Error(parsed.error);
+        const timestamp = revisionNumber === 1 ? TIME : revisionNumber === 2 ? NEXT_TIME : "2026-09-24T16:00:02.000Z";
+        return bindTechPackToRevision(parsed.value, revisionId, revisionNumber, timestamp);
+      };
+      const revisionFor = async (
+        snapshot: ProjectBundleSnapshot,
+        revisionId: string,
+        revisionNumber: number,
+        parentRevisionId: string | null,
+        techPack: StyleRecord["techPack"],
+        createdAt: string,
+      ) => createStyleRevision({
+        styleId: snapshot.styles[0]!.id,
+        revisionId,
+        parentRevisionId,
+        revisionNumber,
+        createdAt,
+        design: snapshot.styles[0]!.design,
+        fieldObservations: snapshot.fieldObservations![0]!,
+        artwork: [],
+        techPack,
+      }, webcrypto);
+      const saveRevision = async (
+        snapshot: ProjectBundleSnapshot,
+        revisionId: string,
+        revisionNumber: number,
+        parentRevisionId: string | null,
+        targetRevisionId: string | null,
+        targetRevisionNumber: number,
+        createdAt: string,
+      ) => {
+        const style = snapshot.styles[0]!;
+        const techPack = packFor(style.techPack, revisionId, revisionNumber, targetRevisionId, targetRevisionNumber);
+        const revision = await revisionFor(snapshot, revisionId, revisionNumber, parentRevisionId, techPack, createdAt);
+        await repository.saveProjectBundle({
+          project: { ...snapshot.project, revision: snapshot.project.revision + 1, updatedAt: createdAt },
+          styles: [{
+            ...style,
+            revision: style.revision + 1,
+            updatedAt: createdAt,
+            revisionHeadId: revisionId,
+            techPack,
+          }],
+          fieldObservations: snapshot.fieldObservations,
+          styleRevisions: [revision],
+          expectedProjectRevision: snapshot.project.revision,
+        });
+        const saved = await repository.readProjectBundle(PROJECT_ID);
+        if (!saved) throw new Error("Revision-bound project was not readable.");
+        return { saved, revision };
+      };
+
+      const firstId = testUuid(801);
+      const first = await saveRevision(initial, firstId, 1, null, null, 0, TIME);
+      const secondId = testUuid(802);
+      const second = await saveRevision(first.saved, secondId, 2, firstId, firstId, 1, NEXT_TIME);
+      const thirdId = testUuid(803);
+      const thirdTime = "2026-09-24T16:00:02.000Z";
+      const third = await saveRevision(second.saved, thirdId, 3, secondId, firstId, 1, thirdTime);
+
+      const missingRevisionId = testUuid(899);
+      const invalidCurrentPack = packFor(third.saved.styles[0]!.techPack, thirdId, 3, missingRevisionId, 1);
+      const invalidCurrentRevision = await revisionFor(
+        third.saved, thirdId, 3, secondId, invalidCurrentPack, thirdTime,
+      );
+      await rawPut(factory, name, PROJECT_STORES.styles, {
+        ...third.saved.styles[0]!,
+        techPack: invalidCurrentPack,
+      });
+      await rawPut(factory, name, PROJECT_STORES.styleRevisions, invalidCurrentRevision);
+      await expect(repository.readProjectBundle(PROJECT_ID)).rejects.toMatchObject({
+        code: "invalid-data",
+        message: expect.stringContaining("A saved sample/QA round references a missing or mismatched style revision."),
+      });
+
+      await rawPut(factory, name, PROJECT_STORES.styles, third.saved.styles[0]);
+      await rawPut(factory, name, PROJECT_STORES.styleRevisions, third.revision);
+      const secondPayload = second.revision.payload;
+      if (secondPayload.payloadVersion !== 2) throw new Error("The T02 historical fixture requires a payload-v2 revision.");
+      const invalidHistoricalPack = packFor(
+        secondPayload.techPack,
+        secondId,
+        2,
+        missingRevisionId,
+        1,
+      );
+      const invalidHistoricalRevision = await revisionFor(
+        second.saved, secondId, 2, firstId, invalidHistoricalPack, NEXT_TIME,
+      );
+      await rawPut(factory, name, PROJECT_STORES.styleRevisions, invalidHistoricalRevision);
+      await expect(repository.readProjectBundle(PROJECT_ID)).rejects.toMatchObject({
+        code: "invalid-data",
+        message: expect.stringContaining("A historical sample/QA round references a missing or mismatched style revision."),
+      });
     } finally {
       repository.close();
     }

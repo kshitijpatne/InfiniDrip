@@ -5,11 +5,13 @@ import {
   parseTechPackRecord,
   TECH_PACK_MAX_RECORDS,
   TECH_PACK_RECORD_VERSION,
+  TECH_PACK_T02_RECORD_VERSION,
   UNVERSIONED_RECIPE_MARKER,
   type TechPackField,
   type TechPackFieldValue,
   type TechPackSemanticKind,
 } from "./tech-pack-records";
+import { emptyTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
 
 const NOW = "2026-10-12T20:00:00.000Z";
 const STYLE_ID = "10000000-0000-4000-8000-000000000001";
@@ -192,6 +194,39 @@ function unresolvedWith(extra: Partial<TechPackField<null>>): TechPackField<null
 function userTextWith(extra: Partial<TechPackField<string>>): TechPackField<string> {
   return field("cover.styleCode", "STYLE_CONTROL", "style", extra);
 }
+
+describe("versioned T02 tech-pack extension", () => {
+  it("accepts a schema-v2 record with explicit empty T02 data and retains its detached data through revision binding", () => {
+    const record = {
+      ...validRecord(),
+      schemaVersion: TECH_PACK_T02_RECORD_VERSION,
+      recipeId: "tee",
+      pomData: emptyTechPackPomRecordSet("tee"),
+    };
+    const parsed = parseTechPackRecord(record);
+    expect(parsed).toEqual({ ok: true, value: record });
+    if (!parsed.ok) return;
+    const bound = bindTechPackToRevision(parsed.value, REVISION_ID, 1, NOW);
+    expect(bound.schemaVersion).toBe(TECH_PACK_T02_RECORD_VERSION);
+    expect(bound.pomData).toEqual(record.pomData);
+    expect(bound.pomData).not.toBe(record.pomData);
+  });
+
+  it("keeps a legacy schema-v1 record shape unchanged for historical digest comparisons", () => {
+    const record = validRecord();
+    const parsed = parseTechPackRecord(record);
+    expect(parsed).toEqual({ ok: true, value: record });
+    if (parsed.ok) expect(parsed.value).not.toHaveProperty("pomData");
+  });
+
+  it("rejects missing, unknown, or recipe-mismatched T02 data", () => {
+    const base = { ...validRecord(), schemaVersion: TECH_PACK_T02_RECORD_VERSION, recipeId: "tee" };
+    expect(parseTechPackRecord(base).ok).toBe(false);
+    expect(parseTechPackRecord({ ...base, pomData: emptyTechPackPomRecordSet("tee"), extra: true }).ok).toBe(false);
+    expect(parseTechPackRecord({ ...base, pomData: emptyTechPackPomRecordSet("polo") }).ok).toBe(false);
+    expect(parseTechPackRecord({ ...base, schemaVersion: 99, pomData: emptyTechPackPomRecordSet("tee") }).ok).toBe(false);
+  });
+});
 
 describe("parseTechPackRecord", () => {
   it("accepts a typed draft with explicit unknowns and returns a detached canonical graph", () => {
