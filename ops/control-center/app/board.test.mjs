@@ -432,7 +432,7 @@ test("contributors can submit review but cannot complete work", () => {
   assert.equal(canTransition("Done", "In Progress", "reviewer"), false);
 });
 
-test("Epic 14–30 catalog status matches closure and admission evidence", () => {
+test("Epic 14–30 catalog status matches closure, admission, and current exit evidence", () => {
   for (let index = 1; index <= 17; index += 1) {
     const id = `EPIC-${index + 13}`;
     const goal = `G${String(index).padStart(2, "0")}`;
@@ -997,6 +997,7 @@ test("Epic 14–30 catalog status matches closure and admission evidence", () =>
   const g05Exit = board.evidence.find((entry) => entry.id === "E-EPIC18-S762-EXIT");
   const g05Start = board.evidence.find((entry) => entry.id === "E-G05-S763-START");
   const g05S763Exit = board.evidence.find((entry) => entry.id === "E-G05-S763-EXIT");
+  const g05S767Exit = board.evidence.find((entry) => entry.id === "E-G05-S767-EXIT");
   const g05Children = board.workItems.filter((entry) => entry.epicId === "EPIC-18");
   assert.equal(g05?.status, "In Progress");
   assert.equal(g05Card?.status, "In Progress");
@@ -1021,10 +1022,16 @@ test("Epic 14–30 catalog status matches closure and admission evidence", () =>
   assert.equal(hashEvidenceArtifact(g05S763Exit.uri), g05S763Exit.sha256);
   assert.ok(board.workItems.find((entry) => entry.id === "G05-T01")?.evidenceRefs.includes(g05S763Exit.id));
   assert.ok(g05?.evidenceRefs.includes(g05S763Exit.id));
+  assert.equal(g05S767Exit?.uri, "docs/research/epic18/S767-T01-editor/exit-packet.md");
+  assert.equal(g05S767Exit?.kind, "exit-report");
+  assert.equal(g05S767Exit?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S767Exit.uri), g05S767Exit.sha256);
+  assert.ok(board.workItems.find((entry) => entry.id === "G05-T01")?.evidenceRefs.includes(g05S767Exit.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S767Exit.id));
   assert.deepEqual(g05Children.map((entry) => entry.id), [
     "EPIC-18", "UIQ-10", "G05-T01", "G05-T02", "G05-T03", "G05-T04", "G05-T05", "G05-EXIT",
   ]);
-  assert.equal(board.workItems.find((entry) => entry.id === "G05-T01")?.status, "In Progress");
+  assert.equal(board.workItems.find((entry) => entry.id === "G05-T01")?.status, "Done");
   assert.ok(["G05-T02", "G05-T03", "G05-T04", "G05-T05", "G05-EXIT", "UIQ-10"]
     .every((id) => board.workItems.find((entry) => entry.id === id)?.status === "Backlog"));
   assert.deepEqual(board.workItems.find((entry) => entry.id === "UIQ-10")?.dependencies,

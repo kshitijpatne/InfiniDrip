@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "itemId": "G05-T04",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "patch": {
+    "description": "Slices 774–777. Resolve format/template matrix before writing, admit and complete linked UIQ-10 under its separate bounded packet, add revision-bound PDF/structured output/attachments, then review diffs, approval scope, rendering and numeric reconciliation."
+  },
+  "expectedRevision": 4560
+}

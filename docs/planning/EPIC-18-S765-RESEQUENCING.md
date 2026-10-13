@@ -64,19 +64,36 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S766 complete; S767 next
+## Current checkpoint — S767 complete; S768 next
 
 S766 completed payload-v2 immutable T01 snapshots/digests, strict payload-v1
 compatibility, workflow/package/repository head binding, and fail-closed stale
 saves. Its start/exit packets are in
-`docs/research/epic18/S766-T01-revision-payload/`; validated start and exit
-board replays are the four `EPIC-18-S766-*-BOARD-COMMAND.json` files under
-`docs/planning/`. Five changed production modules pass all four 100% coverage
-metrics across 316 focused tests; TypeScript, Control Center 42/42, protected
-export identity 9/9 and diff hygiene pass. Board revision 4555 records exit
-evidence while EPIC-18 and G05-T01 remain In Progress. A validated sequence
-description correction at revision 4556 updates the canonical G05-T01 card;
-its command is `docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json`.
-The S766 full commit SHA is captured by the S767 start packet. S767 is the next bounded T01 editor,
-all-recipe propagation and rendered-proof boundary; the original S762
-admission and its acceptance gates remain unchanged.
+`docs/research/epic18/S766-T01-revision-payload/`; the landed commit is
+`66379ae19dee15c72e5816c601f51c5b2d5463aa`.
+
+S767 started from that clean checkpoint with digest-verified start evidence;
+its packet is `docs/research/epic18/S767-T01-editor/start-packet.md`. It landed
+as `Slice 767: add local all-recipe T01 editor` and closes the T01 editing,
+provenance/unknown, cost-input, immutable-save/CAS, stale/frozen and
+seven-recipe rendered-proof boundary. The full exit evidence is
+`docs/research/epic18/S767-T01-editor/exit-packet.md`; 127 focused tests pass,
+the editor/manager/workflow modules have 100% four-metric focused coverage,
+TypeScript and export identity 9/9 pass, and real-browser output is captured
+for all seven recipes. Control Center passes 42/42 after the validated board
+replay.
+
+The S767 start replay advanced board revision 4556→4558. Five future-card
+descriptions were corrected to match this active sequence, advancing 4558→4563;
+the validated T01 exit replay advances 4563→4566. G05-T01 is Done, EPIC-18
+remains In Progress, and G05-T02–T05, G05-EXIT and UIQ-10 remain Backlog. The
+eight S767 command files are under `docs/planning/EPIC-18-S767-*`; they preserve
+the original S762 admission, the active ordered boundaries and all acceptance
+gates.
+
+The single next action is S768: define typed T02 POMs with methods, landmarks,
+units, sourced tolerances and size/grade-rule sources. S769 adds revision-bound
+sample/QA records separate from predicted POMs; S770 completes sourced
+callout/size-run checks and all-recipe rendered evidence. UIQ-10 remains a
+separate S774 admission after T01–T03, and supplier/physical/production claims
+remain held.

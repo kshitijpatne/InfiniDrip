@@ -22,7 +22,7 @@ execution sequence is in
 | 764 | Done | T01: backward-safe style persistence, transactional migration and legacy package compatibility plus save/reload/copy proof. Exit: `docs/research/epic18/S764-T01-persistence-migration/exit-packet.md`; validated exit replay: `docs/planning/EPIC-18-S764-EXIT-BOARD-COMMANDS.json`. |
 | 765 | Done | S764 follow-up: remap packaged `inheritedFrom.revisionId` references during project copy, preserve external provenance and source data. Exit: `docs/research/epic18/S765-T01-package-copy-reference-remap/exit-packet.md`; validated T01/Epic replays: `docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json` and `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`. |
 | 766 | Done | T01: immutable payload-v2 snapshots/digests, strict historical-v1 verification, exact workflow/package/repository head binding and stale-write rejection. Exit: `docs/research/epic18/S766-T01-revision-payload/exit-packet.md`; validated start/exit evidence is recorded by the S766 board commands. |
-| 767 | Backlog | T01: editing and all-recipe propagation, explicit unknowns, cost/view updates, stale/frozen behavior and rendered proof; close T01. |
+| 767 | Done | T01: all-recipe editor, explicit unknowns, cost-input view, revision-bound save, stale/frozen behavior and seven-recipe browser-rendered proof. Exit: `docs/research/epic18/S767-T01-editor/exit-packet.md`; validated start/exit evidence and sequence corrections are recorded by the S767 board commands. |
 | 768–770 | Backlog | T02: POM definitions, grade/source boundaries, sample/QA separation and all-recipe checks. |
 | 771–773 | Backlog | T03: sourced operation records, explicit unknowns, component/BOM integrity and all-recipe review. |
 | 774–777 | Backlog | T04: resolve output format, admit/implement/review linked UIQ-10 after T01–T03, generate PDF/structured output, approvals, diff and two-style review. |
@@ -35,37 +35,45 @@ same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
 the admission/exit evidence, and the canonical board through the validated
 command layer.
 
-## Current execution boundary — Slice 766 complete
+## Current execution boundary — Slice 767 complete; Slice 768 next
 
-S766 started at 2026-10-12 21:33:39 UTC from committed S765
-`af6191ed8bb465a59da089ec8362ca5741c28d0a` on `codex/epic-18-g05`. The fresh
-fetch confirms `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains
-an ancestor and no files were dirty at start. The canonical board advanced
-4551→4553 with digest-verified start evidence on G05-T01 and EPIC-18; statuses
-are unchanged. The exact S766 payload-v2 / strict-v1 compatibility, workflow,
-repository, package and concurrency boundary is recorded in
-`docs/research/epic18/S766-T01-revision-payload/start-packet.md`. Validated
-start replays are `docs/planning/EPIC-18-S766-START-T01-BOARD-COMMAND.json`
-and `docs/planning/EPIC-18-S766-START-EPIC-BOARD-COMMAND.json`.
+S767 started at 2026-10-12 22:36:08 UTC from clean S766 commit
+`66379ae19dee15c72e5816c601f51c5b2d5463aa` on `codex/epic-18-g05`. The fresh
+start check retained `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75`
+as an ancestor; S767 was the unique next slice. Its start packet is
+`docs/research/epic18/S767-T01-editor/start-packet.md`; validated start
+commands advance the canonical board 4556→4558 with digest-verified evidence.
 
-S766 is complete at the single landed subject `Slice 766: snapshot T01 in
-immutable style revisions`. The full landed SHA is captured at the S767 start
-boundary. The exit packet records payload-v2 T01 identity, strict v1
-compatibility, mutable scoped-review overlay semantics, package copy behavior
-and repository CAS/head checks. All five changed production modules pass
-100% statement, branch, function and line coverage across 316 focused tests;
-TypeScript, Control Center 42/42, export identity 9/9 and `git diff --check`
-pass. Validated exit evidence advances the board 4553→4555; EPIC-18/G05-T01
-remain In Progress and all other work-item statuses remain unchanged. A
-validated sequence-description correction updates the canonical G05-T01 card
-through board revision 4556; command:
-`docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json`.
+S767 landed as `Slice 767: add local all-recipe T01 editor`. The editor supports
+all seven recipes, preserves field provenance and actionable unknowns, exposes
+material/BOM cost inputs without totals, saves one immutable v2 child through
+the existing CAS workflow, blocks stale edits, and preserves historical frozen
+outputs and separate unsaved design state. The exit packet and actual rendered
+proof are in `docs/research/epic18/S767-T01-editor/exit-packet.md` and its
+`rendered/` directory.
 
-The single next action is to start S767 from the landed S766 commit and board
-revision 4556. S767 implements T01 editing, all-seven-recipe propagation,
-explicit unknowns, cost/view changes, stale/frozen behavior and rendered proof
-before closing G05-T01. UIQ-10 remains Backlog for its separately admitted S774
-scope; UIQ-09 remains Backlog pending EPIC-19.
+The focused renderer, manager, workflow and mounted-app suites pass 127/127;
+the three behavior modules report 100% statement, branch, function and line
+coverage. TypeScript, protected export identity 9/9, seven-recipe browser
+rendering and `git diff --check` pass. The validated S767 replay advances the
+board from revision 4563 to 4566: G05-T01 is Done, EPIC-18 remains In Progress,
+and T02–T05, G05-EXIT and UIQ-10 remain Backlog. Control Center passes 42/42
+after the replay.
+
+The S767 start packet assigned the disjoint renderer to Claude Code. Claude CLI
+authentication failed; OpenCode completed that isolated renderer assignment
+using the prescribed Muse Spark 1.3 xhigh normal mode and returned explicit
+`WORK FINISHED`. Codex reviewed the actual diff and rendered output before
+integration. The agent run overlapped Codex work, with zero blocked wait;
+maintainer-decision wait was zero.
+
+The single next action is S768: implement typed POM definitions with methods,
+landmarks, units, sourced tolerances, and explicit size/grade-rule sources.
+S769 then adds revision-bound sample/QA records separate from predicted POMs;
+S770 adds callout/size-run checks and all-recipe rendered evidence. The S780
+integrated gate, separate S774 UIQ-10 admission, local/no-cost boundaries,
+protected export identities, and physical/supplier/production holds remain
+unchanged. UIQ-09 remains Backlog pending EPIC-19.
 
 ## Previous verified boundary — Slice 765 complete
 

@@ -1,40 +1,40 @@
-## Current boundary — EPIC-18/G05 Slice 766 complete
+## Current boundary — EPIC-18/G05 Slice 767 complete; Slice 768 next
 
-S766 started at 2026-10-12 21:33:39 UTC from clean committed S765
-`af6191ed8bb465a59da089ec8362ca5741c28d0a` on `codex/epic-18-g05`. Fresh
-verification confirmed `origin/main`
-`e9221ea5033ccfdd91bf1ebb353926f189477d75` is an ancestor. Its single landed
-commit subject is `Slice 766: snapshot T01 in immutable style revisions`; the
-full SHA is captured by the S767 start packet. Validated exit evidence
-advanced the board from revision 4553 to 4555. A validated G05-T01 card
-description update at revision 4556 now reflects the S767 editor boundary.
-EPIC-18 and G05-T01 remain In Progress; G05-T02–T05, G05-EXIT and UIQ-10
-remain Backlog; UIQ-09 remains Backlog pending EPIC-19.
+S767 began at 2026-10-12 22:36:08 UTC from clean S766 commit
+`66379ae19dee15c72e5816c601f51c5b2d5463aa` on `codex/epic-18-g05`. Fresh
+start verification retained `origin/main`
+`e9221ea5033ccfdd91bf1ebb353926f189477d75` as an ancestor and confirmed S767
+was the unique next slice. Its hash-linked start packet is
+`docs/research/epic18/S767-T01-editor/start-packet.md`; validated start commands
+advanced the canonical board 4556→4558.
 
-S766 adds strict payload-v2 T01 snapshots and digest identity while retaining
-exact historical payload-v1 parsing/digests. Workflow, package, and atomic
-repository load/save paths bind the authored T01 content to the immutable
-head and fail closed on stale or mismatched writes. Scoped review approval and
-its activity timestamp remain live overlays; authored T01 fields remain
-revision-bound. The exit packet is
-`docs/research/epic18/S766-T01-revision-payload/exit-packet.md`; its validated
-exit commands are
-`docs/planning/EPIC-18-S766-EXIT-T01-BOARD-COMMAND.json` and
-`docs/planning/EPIC-18-S766-EXIT-EPIC-BOARD-COMMAND.json`.
-The canonical board is now revision 4556; its sequence correction is recorded
-by `docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json`.
+S767 landed as `Slice 767: add local all-recipe T01 editor`. The shared editor
+supports editable cover, material/trim, BOM and colorway records for Tee,
+Darted Tee, Tank, Polo, Woven Shirt, Skirt and Trouser. Field provenance and
+actionable unknowns remain visible; saves create one immutable-v2 child through
+workflow/repository CAS; cost inputs display without invented totals; stale
+edits fail closed; existing frozen artifacts and separately unsaved design
+state are preserved. The exit packet is
+`docs/research/epic18/S767-T01-editor/exit-packet.md`, with seven actual
+browser-rendered captures beside it.
 
-Final S766 verification: 316 focused tests across five test files; all five
-changed production modules pass 100% statement, branch, function and line
-coverage; `npx tsc --noEmit` passes; protected export identity is 9/9;
-Control Center is 42/42; and `git diff --check` passes. The S780 integrated
-global/browser/Electron/output gates remain pending by plan. The hash-bound
-S762 admission and prior slice evidence are unchanged.
+The focused editor, manager, workflow and mounted-app suites pass 127/127; the
+three behavior modules report 100% statement, branch, function and line
+coverage. TypeScript, protected export identity 9/9, all-seven browser proof,
+Control Center 42/42 after board replay and `git diff --check` pass. Validated
+future-card corrections and digest-verified T01/Epic exit evidence advance the
+board through revision 4566. G05-T01 is Done and EPIC-18 remains In Progress;
+G05-T02–T05, G05-EXIT and UIQ-10 remain Backlog; UIQ-09 remains Backlog pending
+EPIC-19. The S767 board commands are under `docs/planning/EPIC-18-S767-*.json`.
 
-The single next action is to start S767 from the landed S766 commit and board
-revision 4556. S767 implements T01 editing and all-seven-recipe propagation,
-unknowns, cost/view behavior, stale/frozen handling and rendered proof; it
-remains the boundary that closes G05-T01.
+The active S765 sequence remains exact. The single next action is S768: define
+typed T02 POM methods, landmarks and units, sourced tolerances and explicit
+size/grade-rule sources. S769 adds revision-bound sample/QA records separate
+from predictions; S770 completes callout/size-run checks and all-recipe
+rendered evidence. UIQ-10 remains a separate S774 admission; the global,
+Electron and release gates remain scheduled for S780. Supplier, physical-fit,
+factory-acceptance and production claims remain held. The hash-bound S762
+admission remains unchanged.
 
 The previous boundary, S765, completed copy-time remapping of in-package
 `inheritedFrom.revisionId` references and preservation of external provenance.

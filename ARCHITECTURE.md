@@ -1,6 +1,6 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 766 complete
+## Current capability boundary — EPIC-18/G05 Slice 767 complete; S768 next
 
 EPIC-17/G04 is closed and its accepted technical-flat/CAD limits remain in
 force. EPIC-18/G05 Living production tech pack is admitted from
@@ -22,8 +22,12 @@ immutable style-revision payload v2 digests the complete T01 snapshot while
 strict payload-v1 parsing and historical digests remain unchanged. Workflow,
 package and concurrency-safe repository saves bind authored T01 content to
 the revision head. Scoped approval and its activity timestamp remain a mutable
-review overlay, so review does not rewrite authored revision history. S767 is
-the next boundary for editing, all-recipe propagation and rendered proof.
+review overlay, so review does not rewrite authored revision history. S767
+completes the shared all-recipe T01 editor, field-level provenance and
+actionable unknowns, one-child revision-bound saves, material/BOM cost inputs
+without totals, stale-style protection and preservation of prior frozen bytes.
+Actual browser-rendered proof covers all seven supported recipes. The editor
+does not establish physical fit, supplier facts or factory acceptance.
 G05 covers
 local editable source records, predicted-versus-actual POMs, sourced
 construction facts, generated digital output and immutable local sharing
@@ -48,8 +52,18 @@ packet is `docs/research/epic18/S766-T01-revision-payload/exit-packet.md` and
 its validated exit commands are `docs/planning/EPIC-18-S766-EXIT-T01-BOARD-COMMAND.json`
 and `docs/planning/EPIC-18-S766-EXIT-EPIC-BOARD-COMMAND.json`. Board revision
 4555 records the S766 exit evidence with G05-T01 and EPIC-18 still In Progress.
-A validated sequence update at revision 4556 corrects the G05-T01 description
-to include its S767 editor boundary.
+A validated sequence update at revision 4556 corrected the G05-T01 description
+to include its S767 editor boundary. The S767 start and exit packets are in
+`docs/research/epic18/S767-T01-editor/`; validated commands under
+`docs/planning/EPIC-18-S767-*.json` record start evidence, future-card sequence
+corrections and exit evidence. Board revision 4566 records G05-T01 Done and
+EPIC-18 In Progress. Focused tests pass 127/127 with 100% statement, branch,
+function and line coverage for the editor, manager and workflow modules;
+TypeScript, protected export identity 9/9 and seven-recipe browser rendering
+pass. The next action is S768's typed T02 POM definitions. The active boundary,
+separate S774 UIQ-10 admission and S780 integrated gate remain in
+`docs/planning/EPIC-18-S765-RESEQUENCING.md` and
+`docs/planning/EPIC-18-GOAL.md`.
 
 ## UI roadmap checkpoint — Slice 761
 

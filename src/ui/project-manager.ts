@@ -13,6 +13,18 @@ import {
 } from "./project-package";
 import type { FrozenArtifactInput } from "./style-revisions";
 import type { GradePlanRecord } from "./grade-plan";
+import type { FieldEvidenceStatus, FieldProvenance, FieldValidationStatus } from "./field-provenance";
+import type {
+  TechPackBomRow,
+  TechPackColorway,
+  TechPackColorwayAssignment,
+  TechPackField,
+  TechPackFieldValue,
+  TechPackMaterial,
+  TechPackRecord,
+  TechPackSemanticKind,
+} from "./tech-pack-records";
+import { renderTechPackEditor } from "./tech-pack-editor";
 
 export interface ProjectManagerOptions {
   readonly host: HTMLElement;
@@ -46,11 +58,12 @@ export interface ProjectManagerOptions {
   readonly confirm?: (message: string) => boolean;
   readonly packageOptions?: Pick<ProjectPackageOptions, "idFactory" | "now">;
   readonly initialStatusMessage?: string;
+  readonly techPackIdFactory?: () => string;
 }
 
 type ProjectAction = "create" | "duplicate" | "rename" | "reload" | "switch" | "archive" | "restore"
   | "switch-project" | "export-package" | "import-package" | "compare-revisions" | "restore-revision"
-  | "freeze-outputs" | "download-frozen";
+  | "freeze-outputs" | "download-frozen" | "save-tech-pack" | "discard-tech-pack";
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (character) => ({
@@ -72,6 +85,186 @@ function styleLabel(style: StyleRecord): string {
 function projectPackageFilename(name: string): string {
   const safe = name.normalize("NFKC").replace(/[^A-Za-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60) || "project";
   return `${safe}.infinidrip.zip`;
+}
+
+function unresolvedTechPackField<T extends TechPackFieldValue>(
+  fieldId: string,
+  semanticKind: TechPackSemanticKind,
+): TechPackField<T> {
+  return {
+    fieldId,
+    semanticKind,
+    value: null as T,
+    unit: null,
+    provenance: "UNRESOLVED",
+    evidenceStatus: "UNCONFIRMED",
+    validationStatus: "INVALID",
+    sourceRef: null,
+    method: null,
+    capturedBy: null,
+    capturedAt: null,
+    inputRefs: [],
+    ruleId: null,
+    ruleVersion: null,
+    inheritedFrom: null,
+    unresolvedReason: "No sourced value has been entered.",
+    nextAction: "Enter a value with its source, or record why it remains unknown and the next action.",
+    evidenceRefs: [],
+    confidence: "NOT_ASSESSED",
+  };
+}
+
+function emptyTechPackMaterial(id: string): TechPackMaterial {
+  const field = <T extends TechPackFieldValue>(name: string, kind: TechPackSemanticKind) =>
+    unresolvedTechPackField<T>(`material.${id}.${name}`, kind);
+  return {
+    id,
+    category: "fabric",
+    name: field<string | null>("name", "MATERIAL_PROPERTY"),
+    supplier: field<string | null>("supplier", "MATERIAL_PROPERTY"),
+    articleId: field<string | null>("articleId", "MATERIAL_PROPERTY"),
+    lotId: field<string | null>("lotId", "MATERIAL_PROPERTY"),
+    composition: field<string | null>("composition", "MATERIAL_PROPERTY"),
+    construction: field<string | null>("construction", "MATERIAL_PROPERTY"),
+    weight: field<number | null>("weight", "MATERIAL_PROPERTY"),
+    usableWidth: field<number | null>("usableWidth", "MATERIAL_PROPERTY"),
+    finish: field<string | null>("finish", "MATERIAL_PROPERTY"),
+    color: field<string | null>("color", "MATERIAL_PROPERTY"),
+    directionalBehavior: field<string | null>("directionalBehavior", "MATERIAL_PROPERTY"),
+    unitCost: field<number | null>("unitCost", "MATERIAL_PROPERTY"),
+    currency: field<string | null>("currency", "MATERIAL_PROPERTY"),
+    costBasis: field<string | null>("costBasis", "MATERIAL_PROPERTY"),
+  };
+}
+
+function emptyTechPackBomRow(id: string, materialId: string): TechPackBomRow {
+  const field = <T extends TechPackFieldValue>(name: string, kind: TechPackSemanticKind) =>
+    unresolvedTechPackField<T>(`bom.${id}.${name}`, kind);
+  return {
+    id,
+    componentRef: field<string | null>("componentRef", "PANEL_GEOMETRY"),
+    placement: field<string | null>("placement", "STYLE_CONTROL"),
+    materialId,
+    quantity: field<number | null>("quantity", "MATERIAL_PROPERTY"),
+    quantityBasis: field<TechPackBomRow["quantityBasis"]["value"]>("quantityBasis", "MATERIAL_PROPERTY"),
+    requiredness: field<boolean | null>("requiredness", "STYLE_CONTROL"),
+  };
+}
+
+function emptyTechPackColorway(id: string): TechPackColorway {
+  return {
+    id,
+    name: unresolvedTechPackField<string | null>(`colorway.${id}.name`, "STYLE_CONTROL"),
+    assignments: [],
+  };
+}
+
+function emptyTechPackAssignment(
+  id: string,
+  bomRowId: string,
+  materialId: string,
+): TechPackColorwayAssignment {
+  return {
+    id,
+    bomRowId,
+    materialId,
+    color: unresolvedTechPackField<string | null>(`assignment.${id}.color`, "MATERIAL_PROPERTY"),
+  };
+}
+
+function techPackRecordId(factory?: () => string): string {
+  const id = factory?.() ?? globalThis.crypto?.randomUUID?.();
+  if (!id) throw new Error("Secure local IDs are unavailable; the tech-pack change was not applied.");
+  return id;
+}
+
+function isTechPackField(value: unknown): value is TechPackField<TechPackFieldValue> {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    && typeof (value as { readonly fieldId?: unknown }).fieldId === "string";
+}
+
+function updateTechPackField(
+  record: TechPackRecord,
+  fieldId: string,
+  property: string,
+  value: unknown,
+): TechPackRecord | null {
+  let found = false;
+  const update = (field: TechPackField<TechPackFieldValue>): TechPackField<TechPackFieldValue> => {
+    if (field.fieldId !== fieldId) return field;
+    found = true;
+    if (property === "inheritedRevisionId" || property === "inheritedProvenance" || property === "inheritedSourceRef") {
+      const prior = field.inheritedFrom;
+      const inheritedFrom = {
+        revisionId: prior?.revisionId ?? "",
+        provenance: prior?.provenance ?? ("" as Exclude<FieldProvenance, "INHERITED" | "UNRESOLVED">),
+        sourceRef: prior?.sourceRef ?? null,
+      };
+      if (property === "inheritedRevisionId") inheritedFrom.revisionId = value as string;
+      if (property === "inheritedProvenance") inheritedFrom.provenance = value as Exclude<FieldProvenance, "INHERITED" | "UNRESOLVED">;
+      if (property === "inheritedSourceRef") inheritedFrom.sourceRef = value as string | null;
+      return { ...field, inheritedFrom };
+    }
+    if (property === "provenance" && value !== "INHERITED" && field.inheritedFrom !== null) {
+      return { ...field, provenance: value as FieldProvenance, inheritedFrom: null };
+    }
+    if (property === "value") return { ...field, value: value as TechPackFieldValue };
+    if (property === "unit") return { ...field, unit: value as string | null };
+    if (property === "provenance") return { ...field, provenance: value as FieldProvenance };
+    if (property === "evidenceStatus") return { ...field, evidenceStatus: value as FieldEvidenceStatus };
+    if (property === "validationStatus") return { ...field, validationStatus: value as FieldValidationStatus };
+    if (property === "sourceRef" || property === "method" || property === "capturedBy" || property === "capturedAt"
+      || property === "ruleId" || property === "ruleVersion" || property === "unresolvedReason" || property === "nextAction") {
+      return { ...field, [property]: value as string | null };
+    }
+    if (property === "inputRefs" || property === "evidenceRefs") {
+      return { ...field, [property]: value as readonly string[] };
+    }
+    return field;
+  };
+  const updateFields = <T extends object>(source: T): T => {
+    let changed = false;
+    const result = { ...source } as Record<string, unknown>;
+    for (const [key, member] of Object.entries(source)) {
+      if (!isTechPackField(member)) continue;
+      const next = update(member);
+      if (next !== member) {
+        result[key] = next;
+        changed = true;
+      }
+    }
+    return changed ? result as T : source;
+  };
+  const cover = updateFields(record.cover);
+  const materials = record.materials.map((material) => updateFields(material));
+  const bomRows = record.bomRows.map((row) => updateFields(row));
+  const colorways = record.colorways.map((colorway) => ({
+    ...colorway,
+    ...updateFields(colorway),
+    assignments: colorway.assignments.map((assignment) => updateFields(assignment)),
+  }));
+  return found ? { ...record, cover, materials, bomRows, colorways } : null;
+}
+
+function techPackControlValue(target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement, property: string): unknown {
+  if (property === "inputRefs" || property === "evidenceRefs") {
+    return target.value.split(/\r?\n/).filter((entry) => entry.length > 0);
+  }
+  if (property === "value") {
+    if (target instanceof HTMLInputElement && target.type === "number") {
+      if (target.value === "") return null;
+      return Number.isFinite(target.valueAsNumber) ? target.valueAsNumber : Number.NaN;
+    }
+    if (target instanceof HTMLSelectElement && ["", "true", "false"].includes(target.value)) {
+      return target.value === "" ? null : target.value === "true";
+    }
+    return target.value === "" ? null : target.value;
+  }
+  if (property === "inheritedRevisionId") return target.value;
+  if (property === "value" || property === "unit" || property === "sourceRef" || property === "method"
+    || property === "capturedBy" || property === "capturedAt" || property === "ruleId" || property === "ruleVersion"
+    || property === "unresolvedReason" || property === "nextAction" || property === "inheritedSourceRef") return target.value === "" ? null : target.value;
+  return target.value;
 }
 
 function progressLabel(value: ProjectPackageProgress): string {
@@ -96,6 +289,9 @@ export class ProjectManager {
   private revisionComparison = "";
   private compareLeftId = "";
   private compareRightId = "";
+  private techPackDraft: TechPackRecord | null = null;
+  private techPackInputError = "";
+  private projectManagerOpen = false;
   private projects: readonly LoadedProject[];
   private readonly cancelPortal: HTMLDivElement;
 
@@ -112,13 +308,30 @@ export class ProjectManager {
     }
     this.cancelPortal = portal;
     this.cancelPortal.querySelector("button")!.onclick = () => this.controller?.abort();
+    options.host.addEventListener("toggle", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLDetailsElement) || !target.classList.contains("project-manager-details")) return;
+      if (target.open === this.projectManagerOpen) return;
+      this.projectManagerOpen = target.open;
+      this.render();
+    }, true);
     options.host.addEventListener("input", (event) => {
       const target = event.target;
       if (target instanceof HTMLInputElement && target.id === "project-style-name") {
         this.styleNameDraft = target.value;
+        return;
+      }
+      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
+        if (target.dataset.t01Input === "true") this.updateTechPackFromControl(target);
       }
     });
     options.host.addEventListener("click", (event) => {
+      const t01Target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-t01-action]") : null;
+      if (t01Target && !this.busy) {
+        event.preventDefault();
+        this.handleTechPackAction(t01Target);
+        return;
+      }
       const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-project-action]") : null;
       const action = target?.dataset.projectAction as ProjectAction | undefined;
       if (!action || this.busy) return;
@@ -144,6 +357,10 @@ export class ProjectManager {
         this.compareRightId = target.value;
         return;
       }
+      if (target instanceof HTMLSelectElement && target.dataset.t01Input === "true") {
+        this.updateTechPackFromControl(target);
+        return;
+      }
       if (!(target instanceof HTMLInputElement) || target.id !== "project-package-file") return;
       const file = target.files?.[0] ?? null;
       target.value = "";
@@ -165,6 +382,222 @@ export class ProjectManager {
   refresh(message?: string): void {
     if (message !== undefined) this.message = message;
     this.render();
+  }
+
+  private currentTechPackRecord(): TechPackRecord | null {
+    const active = this.options.workflow.snapshot.activeStyle;
+    if (this.techPackDraft && this.techPackDraft.styleId !== active.id) return null;
+    return this.techPackDraft ?? active.techPack;
+  }
+
+  private updateTechPackStatus(message: string): void {
+    this.message = message;
+    const status = this.options.host.querySelector<HTMLElement>("#project-manager-status");
+    if (status) status.textContent = message;
+    const save = this.options.host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']");
+    if (save) save.disabled = this.busy || this.techPackDraft === null || this.techPackInputError.length > 0;
+    const discard = this.options.host.querySelector<HTMLButtonElement>("[data-project-action='discard-tech-pack']");
+    if (discard) discard.disabled = this.busy || this.techPackDraft === null;
+    const freeze = this.options.host.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']");
+    const hasUnsavedDesign = this.options.hasUnsavedChanges();
+    const outputsReady = this.options.canFreezeOutputs?.() === true;
+    const freezeBlocker = this.options.getFreezeBlocker?.() ?? null;
+    const canFreeze = !this.busy && !hasUnsavedDesign && this.techPackDraft === null && outputsReady && freezeBlocker === null;
+    if (freeze) freeze.disabled = !canFreeze;
+    const guidance = this.busy ? "" : hasUnsavedDesign
+      ? "Save the current style before freezing outputs."
+      : this.techPackDraft !== null
+        ? "Save or discard the unsaved T01 edits before freezing outputs."
+        : freezeBlocker ?? (outputsReady ? "" : "Review Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.");
+    const freezeGuidance = this.options.host.querySelector<HTMLElement>("#project-freeze-guidance");
+    if (freezeGuidance) freezeGuidance.textContent = guidance;
+  }
+
+  private updateTechPackFromControl(target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): void {
+    const record = this.currentTechPackRecord();
+    if (!record) {
+      this.techPackInputError = "This T01 edit belongs to another style. Reload the active project before continuing.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    const fieldId = target.dataset.t01FieldId;
+    const property = target.dataset.t01FieldProperty ?? (fieldId ? "value" : undefined);
+    let updated: TechPackRecord | null = null;
+    if (fieldId && property) {
+      const value = techPackControlValue(target, property);
+      if (typeof value === "number" && Number.isNaN(value)) {
+        this.techPackInputError = "Enter a finite numeric value or leave the quantity explicitly unknown.";
+        this.updateTechPackStatus(this.techPackInputError);
+        return;
+      }
+      updated = updateTechPackField(record, fieldId, property, value);
+      if (!updated) {
+        this.techPackInputError = "The edited T01 field is not in the current record. Reload before continuing.";
+        this.updateTechPackStatus(this.techPackInputError);
+        return;
+      }
+    } else if (target.dataset.t01MaterialField === "category" && target.dataset.t01MaterialId) {
+      if (target.value !== "fabric" && target.value !== "trim") {
+        this.techPackInputError = "Choose Fabric or Trim for this material.";
+        this.updateTechPackStatus(this.techPackInputError);
+        return;
+      }
+      const materialId = target.dataset.t01MaterialId;
+      updated = {
+        ...record,
+        materials: record.materials.map((material) => material.id === materialId
+          ? { ...material, category: target.value as TechPackMaterial["category"] }
+          : material),
+      };
+    } else if (target.dataset.t01BomField === "materialId" && target.dataset.t01BomRowId) {
+      const rowId = target.dataset.t01BomRowId;
+      updated = {
+        ...record,
+        bomRows: record.bomRows.map((row) => row.id === rowId ? { ...row, materialId: target.value } : row),
+      };
+    } else if (target.dataset.t01AssignmentField && target.dataset.t01AssignmentId) {
+      const assignmentId = target.dataset.t01AssignmentId;
+      const propertyName = target.dataset.t01AssignmentField;
+      if (propertyName !== "bomRowId" && propertyName !== "materialId") {
+        this.techPackInputError = "The colorway assignment field is unsupported. Reload the editor before continuing.";
+        this.updateTechPackStatus(this.techPackInputError);
+        return;
+      }
+      updated = {
+        ...record,
+        colorways: record.colorways.map((colorway) => ({
+          ...colorway,
+          assignments: colorway.assignments.map((assignment) => assignment.id === assignmentId
+            ? { ...assignment, [propertyName]: target.value }
+            : assignment),
+        })),
+      };
+    }
+    if (!updated) {
+      this.techPackInputError = "The edited T01 control is not connected to a record field.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    this.techPackDraft = updated;
+    this.techPackInputError = "";
+    this.updateTechPackStatus("Unsaved T01 edits. Save the tech pack to create one immutable revision.");
+  }
+
+  private discardTechPackDraft(): void {
+    this.techPackDraft = null;
+    this.techPackInputError = "";
+  }
+
+  private handleTechPackAction(target: HTMLElement): void {
+    const record = this.currentTechPackRecord();
+    if (!record) {
+      this.techPackInputError = "This T01 edit belongs to another style. Reload the active project before continuing.";
+      this.updateTechPackStatus(this.techPackInputError);
+      return;
+    }
+    const action = target.dataset.t01Action;
+    const nextId = () => techPackRecordId(this.options.techPackIdFactory);
+    let updated: TechPackRecord;
+    const message = "Unsaved T01 edits. Save the tech pack to create one immutable revision.";
+    if (action === "add-fabric" || action === "add-trim") {
+      const material = emptyTechPackMaterial(nextId());
+      updated = { ...record, materials: [...record.materials, { ...material, category: action === "add-fabric" ? "fabric" : "trim" }] };
+    } else if (action === "add-bom-row") {
+      if (record.materials.length === 0) {
+        this.updateTechPackStatus("Add a material before adding a BOM row; each row must reference an existing material.");
+        return;
+      }
+      const select = target.closest<HTMLElement>(".t01-bom")?.querySelector<HTMLSelectElement>("[data-t01-new-bom-material]");
+      const materialId = select?.value ?? "";
+      if (!record.materials.some((material) => material.id === materialId)) {
+        this.updateTechPackStatus("Choose a material for this BOM row before adding it.");
+        return;
+      }
+      updated = { ...record, bomRows: [...record.bomRows, emptyTechPackBomRow(nextId(), materialId)] };
+    } else if (action === "add-colorway") {
+      updated = { ...record, colorways: [...record.colorways, emptyTechPackColorway(nextId())] };
+    } else if (action === "add-assignment") {
+      const colorwayId = target.dataset.t01ColorwayId;
+      const colorwayHost = target.closest<HTMLElement>("[data-t01-colorway]");
+      const rowId = colorwayHost?.querySelector<HTMLSelectElement>("[data-t01-new-assignment-row]")?.value ?? "";
+      const materialId = colorwayHost?.querySelector<HTMLSelectElement>("[data-t01-new-assignment-material]")?.value ?? "";
+      if (!record.colorways.some((colorway) => colorway.id === colorwayId)) {
+        this.updateTechPackStatus("The selected colorway is no longer in this T01 record. Reload before adding an assignment.");
+        return;
+      }
+      if (!record.bomRows.some((row) => row.id === rowId) || !record.materials.some((material) => material.id === materialId)) {
+        this.updateTechPackStatus("Choose an existing BOM row and material before adding this colorway assignment.");
+        return;
+      }
+      const duplicate = record.colorways.find((colorway) => colorway.id === colorwayId)
+        ?.assignments.some((assignment) => assignment.bomRowId === rowId);
+      if (duplicate) {
+        this.updateTechPackStatus("This colorway already has an assignment for that BOM row. Edit or remove it before adding another.");
+        return;
+      }
+      updated = {
+        ...record,
+        colorways: record.colorways.map((colorway) => colorway.id === colorwayId
+          ? { ...colorway, assignments: [...colorway.assignments, emptyTechPackAssignment(nextId(), rowId, materialId)] }
+          : colorway),
+      };
+    } else if (action === "remove-material") {
+      const materialId = target.dataset.t01MaterialId;
+      if (!materialId || !record.materials.some((material) => material.id === materialId)) {
+        this.updateTechPackStatus("The selected material is missing from this T01 record. Reload before removing it.");
+        return;
+      }
+      if (record.bomRows.some((row) => row.materialId === materialId)
+        || record.colorways.some((colorway) => colorway.assignments.some((assignment) => assignment.materialId === materialId))) {
+        this.updateTechPackStatus("Reassign or remove BOM rows and colorway assignments that reference this material before removing it.");
+        return;
+      }
+      updated = { ...record, materials: record.materials.filter((material) => material.id !== materialId) };
+    } else if (action === "remove-bom-row") {
+      const rowId = target.dataset.t01BomRowId;
+      if (!rowId || !record.bomRows.some((row) => row.id === rowId)) {
+        this.updateTechPackStatus("The selected BOM row is missing from this T01 record. Reload before removing it.");
+        return;
+      }
+      if (record.colorways.some((colorway) => colorway.assignments.some((assignment) => assignment.bomRowId === rowId))) {
+        this.updateTechPackStatus("Remove colorway assignments for this BOM row before removing the row.");
+        return;
+      }
+      updated = { ...record, bomRows: record.bomRows.filter((row) => row.id !== rowId) };
+    } else if (action === "remove-colorway") {
+      const colorwayId = target.dataset.t01ColorwayId;
+      if (!colorwayId || !record.colorways.some((colorway) => colorway.id === colorwayId)) {
+        this.updateTechPackStatus("The selected colorway is missing from this T01 record. Reload before removing it.");
+        return;
+      }
+      updated = { ...record, colorways: record.colorways.filter((colorway) => colorway.id !== colorwayId) };
+    } else if (action === "remove-assignment") {
+      const colorwayId = target.dataset.t01ColorwayId;
+      const assignmentId = target.dataset.t01AssignmentId;
+      const colorway = record.colorways.find((candidate) => candidate.id === colorwayId);
+      if (!colorway || !assignmentId || !colorway.assignments.some((assignment) => assignment.id === assignmentId)) {
+        this.updateTechPackStatus("The selected colorway assignment is missing from this T01 record. Reload before removing it.");
+        return;
+      }
+      updated = {
+        ...record,
+        colorways: record.colorways.map((candidate) => candidate.id === colorwayId
+          ? { ...candidate, assignments: candidate.assignments.filter((assignment) => assignment.id !== assignmentId) }
+          : candidate),
+      };
+    } else {
+      this.updateTechPackStatus("That T01 collection action is not supported.");
+      return;
+    }
+    this.techPackDraft = updated;
+    this.techPackInputError = "";
+    this.updateTechPackStatus(message);
+    this.render();
+  }
+
+  private confirmTechPackDraftDiscard(): boolean {
+    if (!this.techPackDraft) return true;
+    return this.confirm("Discard the unsaved T01 editor changes? The saved tech-pack revision will remain unchanged.");
   }
 
   private renderStyles(styles: readonly StyleRecord[], activeId: string): string {
@@ -213,12 +646,15 @@ export class ProjectManager {
         ` · ${artifact.byteLength} bytes · SHA-256 ${escapeHtml(artifact.sha256.slice(0, 12))}</li>`).join("")}</ul></li>`
     ).join("")}</ol>` : `<p>No frozen output captures.</p>`;
     const hasUnsavedChanges = this.options.hasUnsavedChanges();
+    const hasUnsavedTechPack = this.techPackDraft !== null;
     const outputsReady = this.options.canFreezeOutputs?.() === true;
     const freezeBlocker = this.options.getFreezeBlocker?.() ?? null;
-    const canFreeze = !this.busy && !hasUnsavedChanges && outputsReady && freezeBlocker === null;
+    const canFreeze = !this.busy && !hasUnsavedChanges && !hasUnsavedTechPack && outputsReady && freezeBlocker === null;
     const freezeGuidance = this.busy ? "" : hasUnsavedChanges
       ? "Save the current style before freezing outputs."
-      : freezeBlocker ?? (outputsReady ? "" : "Review Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.");
+      : hasUnsavedTechPack
+        ? "Save or discard the unsaved T01 edits before freezing outputs."
+        : freezeBlocker ?? (outputsReady ? "" : "Review Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.");
     return `<section class="project-revision-history" aria-labelledby="revision-history-title">` +
       `<h3 id="revision-history-title">Immutable revisions</h3>` +
       `<p>Revision digests verify saved digital content. They do not establish fit or factory acceptance.</p>${historyRows}` +
@@ -235,6 +671,17 @@ export class ProjectManager {
   private render(): void {
     const loaded = this.options.workflow.snapshot;
     const open = this.options.host.querySelector<HTMLDetailsElement>(".project-manager-details")?.open ?? false;
+    this.projectManagerOpen = open;
+    const techPackEditor = open
+      ? `<section class="project-tech-pack" aria-label="Living technical pack T01">` +
+        `<h3>Living technical pack · T01</h3>` +
+        `<p>Editable production-planning values for ${escapeHtml(loaded.activeStyle.recipeId)}. Unknowns and their next actions remain visible. Saving creates one immutable revision; this does not verify physical fit, supplier facts, or factory acceptance.</p>` +
+        `<div class="project-tech-pack-actions">` +
+        `<button type="button" data-project-action="save-tech-pack"${this.busy || !this.techPackDraft || this.techPackInputError ? " disabled" : ""}>Save T01 revision</button>` +
+        `<button type="button" data-project-action="discard-tech-pack"${this.busy || !this.techPackDraft ? " disabled" : ""}>Discard T01 edits</button></div>` +
+        `${renderTechPackEditor({ record: this.currentTechPackRecord() ?? loaded.activeStyle.techPack, recipeLabel: loaded.activeStyle.recipeId, disabled: this.busy })}` +
+        `</section>`
+      : "";
     this.options.host.innerHTML = `<details class="project-manager-details"${open ? " open" : ""}>` +
       `<summary>Project & styles · ${escapeHtml(loaded.activeStyle.name)}</summary>` +
       `<div class="project-manager" aria-busy="${this.busy}">` +
@@ -257,7 +704,8 @@ export class ProjectManager {
       `<button type="button" data-project-action="duplicate"${this.busy ? " disabled" : ""}>Duplicate current design</button>` +
       `<button type="button" data-project-action="rename"${this.busy ? " disabled" : ""}>Rename current style</button>` +
       `<button type="button" data-project-action="reload"${this.busy ? " disabled" : ""}>Reload project</button>` +
-      `</div>` + this.renderStyles(loaded.styles, loaded.activeStyle.id) + this.renderRevisionHistory(loaded) + `</div></details>`;
+      `</div>` + this.renderStyles(loaded.styles, loaded.activeStyle.id) + techPackEditor +
+      this.renderRevisionHistory(loaded) + `</div></details>`;
     this.cancelPortal.hidden = !(this.busy && this.controller);
     if (this.busy && this.controller) {
       this.cancelPortal.querySelector("span")!.textContent = this.message;
@@ -297,6 +745,43 @@ export class ProjectManager {
   }
 
   private async handle(action: ProjectAction, styleId?: string, target?: HTMLElement | null): Promise<void> {
+    if (action === "save-tech-pack") {
+      const candidate = this.techPackDraft;
+      if (!candidate) {
+        this.message = "There are no unsaved T01 edits to save.";
+        this.render();
+        return;
+      }
+      if (this.techPackInputError) {
+        this.message = this.techPackInputError;
+        this.render();
+        return;
+      }
+      return this.run(async () => {
+        const loaded = await this.options.workflow.saveActiveTechPack(candidate);
+        this.discardTechPackDraft();
+        const revisionNumber = loaded.activeStyle.techPack.revisionNumber;
+        this.message = loaded.activeStyle.revisionHeadId === candidate.revisionId
+          ? `No T01 content changed; the saved style revision remains r${revisionNumber}.`
+          : `Saved T01 as immutable style revision r${revisionNumber}. The design editor's unsaved edits, if any, remain in place.`;
+      }, "Saving the tech-pack revision…");
+    }
+    if (action === "discard-tech-pack") {
+      this.discardTechPackDraft();
+      this.message = "Unsaved T01 edits were discarded; the saved tech-pack revision is unchanged.";
+      this.render();
+      return;
+    }
+    if (this.techPackDraft && (action === "export-package" || action === "freeze-outputs")) {
+      this.message = action === "export-package"
+        ? "Save or discard the unsaved T01 edits before exporting a project backup."
+        : "Save or discard the unsaved T01 edits before freezing outputs.";
+      this.render();
+      return;
+    }
+    const mayLeaveT01Draft = action === "import-package" || action === "switch-project" || action === "create"
+      || action === "duplicate" || action === "reload" || action === "switch" || action === "restore-revision";
+    if (this.techPackDraft && mayLeaveT01Draft && !this.confirmTechPackDraftDiscard()) return;
     if (action === "export-package") return this.exportPackage();
     if (action === "import-package") {
       this.options.host.querySelector<HTMLInputElement>("#project-package-file")?.click();
@@ -327,6 +812,7 @@ export class ProjectManager {
       return this.run(async () => {
         const loaded = await this.options.workflow.restoreStyleRevision(revisionId);
         this.options.onStyleLoaded(loaded, loaded.activeRecovery?.payload ?? null);
+        this.discardTechPackDraft();
         this.revisionComparison = "";
         const head = loaded.styleRevisions.find((revision) => revision.revisionId === loaded.activeStyle.revisionHeadId);
         this.message = `Restored revision as r${head?.revisionNumber ?? "new"}.`;
@@ -360,6 +846,7 @@ export class ProjectManager {
       return this.run(async () => {
         const loaded = await this.options.workflow.switchProject(selectedId);
         this.options.onStyleLoaded(loaded, recoveryPayloadOrNull(loaded));
+        this.discardTechPackDraft();
         this.projects = await this.options.workflow.repository.listProjects();
         this.message = `Opened ${loaded.project.name}.`;
       }, "Opening project…");
@@ -370,6 +857,7 @@ export class ProjectManager {
         const loaded = await this.options.workflow.createStyle(name, this.options.getBlankDesign(), "first-run-default");
         this.styleNameDraft = "";
         this.options.onStyleLoaded(loaded, loaded.activeRecovery?.payload ?? null);
+        this.discardTechPackDraft();
         this.message = `Created ${loaded.activeStyle.name}.`;
       });
     }
@@ -385,6 +873,7 @@ export class ProjectManager {
       return this.run(async () => {
         const loaded = await this.options.workflow.createStyle(name, design, "copied-style");
         this.options.onStyleLoaded(loaded, loaded.activeRecovery?.payload ?? null);
+        this.discardTechPackDraft();
         this.message = `Created a copy named ${loaded.activeStyle.name}.`;
       });
     }
@@ -401,6 +890,7 @@ export class ProjectManager {
       return this.run(async () => {
         const loaded = await this.options.workflow.reload();
         this.options.onStyleLoaded(loaded, loaded.activeRecovery?.payload ?? null);
+        this.discardTechPackDraft();
         this.message = hadUnsaved
           ? `Reloaded ${loaded.activeStyle.name}. The latest stored project version is now loaded.`
           : `Reloaded ${loaded.activeStyle.name}.`;
@@ -421,6 +911,7 @@ export class ProjectManager {
       return this.run(async () => {
         const loaded = await this.options.workflow.switchStyle(styleId);
         this.options.onStyleLoaded(loaded, loaded.activeRecovery?.payload ?? null);
+        this.discardTechPackDraft();
         this.message = hadUnsaved
           ? `Switched to ${loaded.activeStyle.name}. The previous style's latest stored version remains available.`
           : `Switched to ${loaded.activeStyle.name}.`;
@@ -441,6 +932,11 @@ export class ProjectManager {
   }
 
   private async freezeOutputs(): Promise<void> {
+    if (this.techPackDraft !== null) {
+      this.message = "Save or discard the unsaved T01 edits before freezing outputs.";
+      this.render();
+      return;
+    }
     if (this.options.hasUnsavedChanges()) {
       this.message = "Save the current style before freezing outputs.";
       this.render();
@@ -559,6 +1055,7 @@ export class ProjectManager {
       }
       const loaded = await this.options.workflow.reload();
       this.options.onStyleLoaded(loaded, recoveryPayloadOrNull(loaded));
+      this.discardTechPackDraft();
       this.projects = await this.options.workflow.repository.listProjects();
       this.message = result.importedAsCopy
         ? `Imported a separate copy: ${loaded.project.name}.`

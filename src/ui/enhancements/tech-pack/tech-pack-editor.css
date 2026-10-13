@@ -1,0 +1,212 @@
+/*
+ * Slice 767 isolated pure T01 editor renderer styles.
+ *
+ * Presentation only: every selector is scoped under the .t01-editor root so
+ * this stylesheet cannot affect elements outside the renderer output. Tokens
+ * are declared locally on the root rather than assumed from a shared
+ * production stylesheet. Contrast pairs against the panel background:
+ *   text  (#10212f) on panel (#f4f7f9): ~14.5:1
+ *   muted (#3d5a6c) on panel (#f4f7f9): ~7.0:1
+ *   accent(#0b5cad) on panel (#f4f7f9): ~7.0:1   (focus outline, needs 3:1)
+ *   danger(#8f1d1d) on paper (#fdf3f3): ~8.5:1
+ * All pairs clear the 4.5:1 normal-text and 3:1 UI-component/focus minimums.
+ */
+
+.t01-editor {
+  --t01-panel: #f4f7f9;
+  --t01-paper: #ffffff;
+  --t01-text: #10212f;
+  --t01-muted: #3d5a6c;
+  --t01-accent: #0b5cad;
+  --t01-border: #7c99ad;
+  --t01-unknown-bg: #fdf3f3;
+  --t01-unknown-text: #8f1d1d;
+  --t01-radius: 8px;
+  --t01-space: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--t01-space);
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  padding: var(--t01-space);
+  border: 1px solid var(--t01-border);
+  border-radius: var(--t01-radius);
+  background-color: var(--t01-panel);
+  color: var(--t01-text);
+  font-family: system-ui, sans-serif;
+}
+
+.t01-editor,
+.t01-editor * {
+  box-sizing: border-box;
+}
+
+.t01-editor h2,
+.t01-editor h3,
+.t01-editor h4,
+.t01-editor h5 {
+  margin: 0;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.t01-editor .t01-boundary {
+  margin: 0;
+  color: var(--t01-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.t01-editor .t01-metadata,
+.t01-editor .t01-cover,
+.t01-editor .t01-materials,
+.t01-editor .t01-bom,
+.t01-editor .t01-colorways {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid var(--t01-border);
+  border-radius: var(--t01-radius);
+  background-color: var(--t01-paper);
+  min-width: 0;
+}
+
+.t01-editor .t01-material,
+.t01-editor .t01-bom-row,
+.t01-editor .t01-colorway,
+.t01-editor .t01-assignment {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border: 1px dashed var(--t01-border);
+  border-radius: var(--t01-radius);
+  min-width: 0;
+}
+
+.t01-editor .t01-field label,
+.t01-editor .t01-field-meta-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  min-width: 0;
+}
+
+.t01-editor .t01-label {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.t01-editor .t01-controls {
+  padding: 8px;
+  border: 1px dotted var(--t01-border);
+  border-radius: 6px;
+  background-color: var(--t01-panel);
+  min-width: 0;
+}
+
+.t01-editor .t01-controls > summary {
+  color: var(--t01-text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.t01-editor .t01-controls > summary:focus-visible {
+  outline: 2px solid var(--t01-accent);
+  outline-offset: 2px;
+}
+
+.t01-editor .t01-controls-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+}
+
+.t01-editor .t01-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.t01-editor .t01-actions button {
+  padding: 6px 10px;
+  border: 1px solid var(--t01-border);
+  border-radius: 6px;
+  background-color: var(--t01-paper);
+  color: var(--t01-text);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.t01-editor .t01-actions button:focus-visible {
+  outline: 2px solid var(--t01-accent);
+  outline-offset: 1px;
+}
+
+.t01-editor .t01-actions button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.t01-editor .t01-field input,
+.t01-editor .t01-field select,
+.t01-editor .t01-field-meta-row input,
+.t01-editor .t01-field-meta-row select,
+.t01-editor .t01-field-meta-row textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--t01-border);
+  border-radius: 6px;
+  background-color: var(--t01-paper);
+  color: var(--t01-text);
+  font: inherit;
+}
+
+.t01-editor .t01-field-meta-row textarea {
+  resize: vertical;
+}
+
+.t01-editor .t01-field input:focus-visible,
+.t01-editor .t01-field select:focus-visible,
+.t01-editor .t01-field-meta-row input:focus-visible,
+.t01-editor .t01-field-meta-row select:focus-visible,
+.t01-editor .t01-field-meta-row textarea:focus-visible {
+  outline: 2px solid var(--t01-accent);
+  outline-offset: 1px;
+}
+
+.t01-editor .t01-field input:disabled,
+.t01-editor .t01-field select:disabled,
+.t01-editor .t01-field-meta-row input:disabled,
+.t01-editor .t01-field-meta-row select:disabled,
+.t01-editor .t01-field-meta-row textarea:disabled {
+  opacity: 0.65;
+}
+
+.t01-editor .t01-meta {
+  margin: 0;
+  color: var(--t01-muted);
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.t01-editor .t01-unknown {
+  margin: 0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background-color: var(--t01-unknown-bg);
+  color: var(--t01-unknown-text);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}

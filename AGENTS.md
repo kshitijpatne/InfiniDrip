@@ -61,11 +61,17 @@ is authoritative for maintainer decisions that are not derivable from code.
   concurrency-safe saves are verified. Its start/exit packets and board
   evidence are in `docs/research/epic18/S766-T01-revision-payload/` and the
   validated start/exit commands under `docs/planning/EPIC-18-S766-*`.
-  G05-T01 and EPIC-18 remain In Progress at board revision 4556 after the
-  validated card-sequence correction
-  `docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json`. Slice 767
-  is next for T01 editing, all-recipe propagation and rendered proof; start it
-  from the landed S766 commit recorded in the next start packet.
+  G05-T01 is Done and EPIC-18 remains In Progress at board revision 4566.
+  S767 completes the all-recipe T01 editor, revision-bound save, cost-input
+  view and rendered proof from S766 commit
+  `66379ae19dee15c72e5816c601f51c5b2d5463aa`. Its start and exit packets are
+  in `docs/research/epic18/S767-T01-editor/`; validated start, future-card
+  correction and exit commands are `docs/planning/EPIC-18-S767-*.json`.
+  The exit evidence records 127 focused tests, 100% focused coverage for the
+  editor/manager/workflow modules, TypeScript, export identity and actual
+  browser-rendered proof for all seven recipes. G05-T02–T05, G05-EXIT and
+  UIQ-10 remain Backlog; the current next action is S768 under the exact T02
+  boundaries in `docs/planning/EPIC-18-S765-RESEQUENCING.md`.
   UIQ-08 is Done through Slice 760 and UIQ-01 is Done as a review-only
   checkpoint through Slice 761. UIQ-09 remains Backlog pending EPIC-19/G06
   admission. UIQ-10 is linked to EPIC-18 but remains Backlog until its bounded

@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "itemId": "G05-T02",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "patch": {
+    "description": "Slices 768–770. Add sourced POM methods/landmarks/units/tolerances, size and grade sources, revision-bound sample/QA rounds, callout and size-run checks, with all-recipe rendered evidence."
+  },
+  "expectedRevision": 4558
+}

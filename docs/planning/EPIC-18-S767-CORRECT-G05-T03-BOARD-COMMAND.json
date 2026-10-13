@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "itemId": "G05-T03",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "patch": {
+    "description": "Slices 771–773. Define and implement component/seam-linked construction operations with provenance; source-backed facts only, explicit unknowns, BOM-to-pattern/component reconciliation and all-recipe review."
+  },
+  "expectedRevision": 4559
+}
