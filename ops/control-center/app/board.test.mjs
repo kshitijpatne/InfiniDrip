@@ -11,6 +11,7 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..")
 const g04FinalExitRecorded = board.evidence.some((entry) => entry.id === "E-G04-S732-EXIT");
 const expectedG04V03Status = g04FinalExitRecorded ? "Done" : "In Progress";
 const g05AdmissionRecorded = board.evidence.some((entry) => entry.id === "E-EPIC18-S762-ADMISSION");
+const g05FinalExitRecorded = board.evidence.some((entry) => entry.id === "E-G05-S784-EXIT" && entry.kind === "exit-report" && entry.verified === true);
 
 function hashEvidenceArtifact(uri) {
   const artifact = readFileSync(resolve(projectRoot, uri));
@@ -453,10 +454,10 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
     const card = board.workItems.find((entry) => entry.id === id);
     const expectedEpicStatus = id === "EPIC-14" || id === "EPIC-15" || id === "EPIC-16"
       ? "Closed" : id === "EPIC-17" ? (g04FinalExitRecorded ? "Closed" : "In Progress")
-        : id === "EPIC-18" && g05AdmissionRecorded ? "In Progress" : "Backlog";
+        : id === "EPIC-18" && g05AdmissionRecorded ? (g05FinalExitRecorded ? "Closed" : "In Progress") : "Backlog";
     const expectedCardStatus = id === "EPIC-14" || id === "EPIC-15" || id === "EPIC-16"
       ? "Done" : id === "EPIC-17" ? (g04FinalExitRecorded ? "Done" : "In Progress")
-        : id === "EPIC-18" && g05AdmissionRecorded ? "In Progress" : "Backlog";
+        : id === "EPIC-18" && g05AdmissionRecorded ? (g05FinalExitRecorded ? "Done" : "In Progress") : "Backlog";
     assert.equal(epic?.status, expectedEpicStatus);
     assert.equal(card?.status, expectedCardStatus);
     assert.equal(card?.type, "epic");
@@ -951,7 +952,7 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.equal(laterEpics.length, 15);
   assert.equal(laterEpics.find((entry) => entry.id === "EPIC-16")?.status, "Closed");
   assert.equal(laterEpics.find((entry) => entry.id === "EPIC-17")?.status, g04FinalExitRecorded ? "Closed" : "In Progress");
-  assert.equal(laterEpics.find((entry) => entry.id === "EPIC-18")?.status, g05AdmissionRecorded ? "In Progress" : "Backlog");
+  assert.equal(laterEpics.find((entry) => entry.id === "EPIC-18")?.status, g05AdmissionRecorded ? (g05FinalExitRecorded ? "Closed" : "In Progress") : "Backlog");
   assert.ok(laterEpics.filter((entry) => !["EPIC-16", "EPIC-17", "EPIC-18"].includes(entry.id))
     .every((entry) => entry.status === "Backlog"),
   "goals after admitted EPIC-18 remain in Backlog");
@@ -1042,12 +1043,14 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   const g05S779Exit = board.evidence.find((entry) => entry.id === "E-G05-S779-EXIT");
   const g05S779Replay = board.evidence.find((entry) => entry.id === "E-G05-S779-REPLAY");
   const g05S780Start = board.evidence.find((entry) => entry.id === "E-G05-S780-START");
+  const g05S784Start = board.evidence.find((entry) => entry.id === "E-G05-S784-START");
+  const g05S784Exit = board.evidence.find((entry) => entry.id === "E-G05-S784-EXIT");
   const g05T05 = board.workItems.find((entry) => entry.id === "G05-T05");
   const g05ExitWorkItem = board.workItems.find((entry) => entry.id === "G05-EXIT");
   const g05T04 = board.workItems.find((entry) => entry.id === "G05-T04");
   const g05Children = board.workItems.filter((entry) => entry.epicId === "EPIC-18");
-  assert.equal(g05?.status, "In Progress");
-  assert.equal(g05Card?.status, "In Progress");
+  assert.equal(g05?.status, "Closed");
+  assert.equal(g05Card?.status, "Done");
   assert.deepEqual(g05Card?.dependencies, ["EPIC-15", "EPIC-16", "EPIC-17"]);
   assert.equal(g05Admission?.uri, "docs/planning/EPIC-18-ADMISSION.md");
   assert.equal(g05Admission?.verified, true);
@@ -1224,8 +1227,20 @@ test("Epic 14–30 catalog status matches closure, admission, and current exit e
   assert.equal(hashEvidenceArtifact(g05S780Start.uri), g05S780Start.sha256);
   assert.ok(g05ExitWorkItem?.evidenceRefs.includes(g05S780Start.id));
   assert.ok(g05?.evidenceRefs.includes(g05S780Start.id));
-  assert.equal(g05ExitWorkItem?.status, "In Progress");
+  assert.equal(g05ExitWorkItem?.status, "Done");
   assert.ok(g05ExitWorkItem?.statusHistory.some((entry) => entry.status === "In Progress" && entry.evidenceRefs.includes(g05S780Start.id)));
+  assert.ok(g05ExitWorkItem?.statusHistory.some((entry) => entry.status === "Done" && entry.evidenceRefs.includes(g05S784Exit.id)));
+  assert.equal(g05S784Start?.kind, "document");
+  assert.equal(g05S784Start?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S784Start.uri), g05S784Start.sha256);
+  assert.ok(g05ExitWorkItem?.evidenceRefs.includes(g05S784Start.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S784Start.id));
+  assert.equal(g05S784Exit?.kind, "exit-report");
+  assert.equal(g05S784Exit?.verified, true);
+  assert.equal(hashEvidenceArtifact(g05S784Exit.uri), g05S784Exit.sha256);
+  assert.ok(g05ExitWorkItem?.evidenceRefs.includes(g05S784Exit.id));
+  assert.ok(g05?.evidenceRefs.includes(g05S784Exit.id));
+  assert.ok(g05Card?.evidenceRefs.includes(g05S784Exit.id));
   assert.ok(g05?.evidenceRefs.includes(g05S774Start.id));
   const uiq10 = board.workItems.find((entry) => entry.id === "UIQ-10");
   assert.ok(uiq10?.evidenceRefs.includes(uiq10S774Admission.id));

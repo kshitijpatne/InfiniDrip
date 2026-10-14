@@ -1,0 +1,9 @@
+{
+  "type": "addEpicEvidence",
+  "expectedRevision": 4736,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Link the S784 start checkpoint to the admitted EPIC-18 record.",
+  "evidenceId": "E-G05-S784-START"
+}

@@ -1,8 +1,8 @@
 # EPIC-18 / G05 — Goal ledger
 
-**Status:** In Progress. **Start:** 2026-10-12 19:40:12 UTC. **Owner:** Codex.
+**Status:** Complete at Slice 784. **Start:** 2026-10-12 19:40:12 UTC. **Owner:** Codex.
 **Start commit:** `origin/main` `e9221ea5033ccfdd91bf1ebb353926f189477d75`.
-**Admission/current board:** Slice 762; board revision 4521 at start.
+**Admission start:** Slice 762; canonical board revision 4521 at start.
 
 ## Intended outcome
 
@@ -39,12 +39,22 @@ execution sequence is in
 | 781 | Blocked at review gate | Initial PR #43 review found a high-severity legacy payload-v1 T01 first-save defect. No merge or closure; reconciliation: `docs/research/epic18/S781-merge-closeout/review-reconciliation.md`. |
 | 782 | Done | Guarded migrated payload-v1 T01 first-save repair and actual v8 regression pass; focused 126/126 and global 179/179 / 3,161 tests have 100% four-metric coverage. Both reviewers approved exact S782 head 19c101df and Codex accepted the code/evidence. Their reports and the low-severity PDF checkout finding are retained under `docs/research/epic18/S782-T01-legacy-v1-save/`; S783 handles that one-file metadata fix. |
 | 783 | Done | Preserve the exact S782 PDF bytes in Windows checkouts using one path-specific binary attribute. A fresh `core.autocrlf=true` checkout reproduced and then corrected the 11,887→11,686-byte conversion; PDF, ZIP and manifest blobs remain unchanged. Control Center passes 42/42 after the board summary update. Exit/hash proof: `docs/research/epic18/S783-pdf-evidence-line-endings/`; exit replay reached revision 4733 and the S782 hash-reconciliation supplement advanced the board to 4735. |
-| 784 | Planned | Re-review exact updated PR #43 head with Claude Code and OpenCode (inspect S783 delta and confirm S782 approvals); after Codex acceptance, normally rebase-merge, verify main CI/build/web proof/Cloudflare Pages deployment and live preview, then close the canonical board and durable records. |
+| 784 | Done | Exact updated PR #43 head f7543010e3932096572549fca36d4e275eceb9c5 approved by Claude Code and OpenCode and accepted by Codex; PR rebase-merged as 6e4009e8ffee358e9de244b2229c03dbaf4d4665. Main workflow 38490072411 passed the full suite/build/web proof/Cloudflare Pages deploy; immutable and stable preview URLs returned HTTP 200. Validated closeout replay closed EPIC-18 at board revision 4745. Exit evidence: `docs/research/epic18/S784-closeout/exit-packet.md`. |
 
-Remediation or follow-up uses the next unique slice number; no repeated or
-same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
-the admission/exit evidence, and the canonical board through the validated
-command layer.
+## Final goal boundary — EPIC-18/G05 closed
+
+S784 completed exact-head internal review, Codex acceptance, merge, main
+verification and deployment, live preview verification, and durable board and
+document closeout. The board is at revision 4745; EPIC-18 and G05-EXIT are
+closed/Done, T01–T05 and UIQ-10 are Done, and UIQ-09 remains Backlog behind
+EPIC-19. The final checkpoint and validation records are in
+`docs/research/epic18/S784-closeout/`. No next numbered Epic is admitted.
+
+Any separately admitted remediation or follow-up uses its next unique slice
+number; no repeated or same-slice fixup commit. At each boundary, update this
+ledger, `PROJECT-STATE.md`, the admission/exit evidence, and the canonical board
+through the validated command layer. No follow-up is admitted by this completed
+goal.
 
 ## Current execution boundary — S783 verified; S784 exact-head review and release next
 

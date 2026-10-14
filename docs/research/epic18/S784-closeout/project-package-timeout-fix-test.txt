@@ -1,0 +1,14 @@
+
+> InfiniDrip@0.0.1 test
+> vitest run src/ui/project-package.test.ts -t packages and reopens binary Tech Pack shares above the legacy 32 MiB text artifact limit --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 C:/Users/kshit/.codex/worktrees/epic-18-g05/designApp
+
+ ✓ src/ui/project-package.test.ts (58 tests | 57 skipped) 1354ms
+   ✓ portable local project package > packages and reopens binary Tech Pack shares above the legacy 32 MiB text artifact limit 1353ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 57 skipped (58)
+   Start at  21:18:13
+   Duration  3.74s (transform 983ms, setup 0ms, collect 1.97s, tests 1.35s, environment 0ms, prepare 89ms)

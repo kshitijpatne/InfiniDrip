@@ -1,0 +1,11 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4738,
+  "itemId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Record that S784 completed G05 and preserve the established summary-card history.",
+  "patch": {
+    "description": "Maintainer-admitted G05 capability for seven supported recipes. T01–T05 and UIQ-10 are Done; UIQ-09 remains Backlog behind EPIC-19. S777 completed T04 and UIQ-10. S778 completed the exact-revision T05 freeze. S779 completed the remaining T05 dependency invalidation and compatibility, including old-byte retention and all eight protected export identities unchanged. S780 passed the settled integrated gate. S781–S783 resolved the backward-compatibility and Windows evidence-byte findings. S784 completed exact-head internal review, Codex acceptance, PR #43 rebase merge, successful main verification/deployment and validated closeout. EPIC-18 is Closed with all linked work items Done. Physical, supplier/factory, signing, compliance, production-claim and launch-backed service holds remain unchanged."
+  }
+}

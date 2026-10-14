@@ -1,0 +1,222 @@
+
+> InfiniDrip@0.0.1 coverage
+> vitest run --coverage --maxWorkers=1
+
+
+ RUN  v2.1.9 C:/Users/kshit/.codex/worktrees/epic-18-g05/designApp
+      Coverage enabled with v8
+
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+RangeError: options.minThreads and options.maxThreads must not conflict
+ ❯ new Tinypool node_modules/tinypool/dist/index.js:745:120
+ ❯ createForksPool node_modules/vitest/dist/chunks/resolveConfig.rBxzbVsl.js:6756:16
+ ❯ forks node_modules/vitest/dist/chunks/resolveConfig.rBxzbVsl.js:7664:20
+ ❯ node_modules/vitest/dist/chunks/resolveConfig.rBxzbVsl.js:7690:27
+ ❯ executeTests node_modules/vitest/dist/chunks/resolveConfig.rBxzbVsl.js:7681:5
+ ❯ node_modules/vitest/dist/chunks/cli-api.DqsSTaIi.js:10818:9
+ ❯ Vitest.runFiles node_modules/vitest/dist/chunks/cli-api.DqsSTaIi.js:10840:12
+ ❯ Vitest.start node_modules/vitest/dist/chunks/cli-api.DqsSTaIi.js:10682:7
+ ❯ startVitest node_modules/vitest/dist/chunks/cli-api.DqsSTaIi.js:11848:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ Test Files  no tests
+      Tests  no tests
+     Errors  1 error
+   Start at  20:45:48
+   Duration  2.66s (transform 0ms, setup 0ms, collect 0ms, tests 0ms, environment 0ms, prepare 0ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |       0 |    28.57 |   28.57 |       0 |
+ drafting          |       0 |       30 |      30 |       0 |
+  allowance.ts     |       0 |      100 |     100 |       0 | 22-31
+  armhole.ts       |       0 |        0 |       0 |       0 | 1-82
+  block.ts         |       0 |      100 |     100 |       0 | 36-50
+  bodice.ts        |       0 |        0 |       0 |       0 | 1-130
+  component.ts     |       0 |        0 |       0 |       0 | 1-70
+  dart.ts          |       0 |        0 |       0 |       0 | 1-200
+  ease.ts          |       0 |      100 |     100 |       0 | 25-62
+  facets.ts        |       0 |      100 |     100 |       0 | 28-74
+  fit-compare.ts   |       0 |      100 |     100 |       0 | 24-90
+  fitted-tables.ts |       0 |        0 |       0 |       0 | 1-85
+  fitted.ts        |       0 |        0 |       0 |       0 | 1-104
+  ...eck-golden.ts |       0 |        0 |       0 |       0 | 1-165
+  grading.ts       |       0 |      100 |     100 |       0 | 35-78
+  grammar.ts       |       0 |        0 |       0 |       0 | 1-177
+  measurements.ts  |       0 |      100 |     100 |       0 | 32-61
+  neckline.ts      |       0 |        0 |       0 |       0 | 1-147
+  options.ts       |       0 |      100 |     100 |       0 | 24-47
+  pattern-mark.ts  |       0 |      100 |     100 |       0 | 26-34
+  piece.ts         |       0 |        0 |       0 |       0 | 1-54
+  polo-collar.ts   |       0 |        0 |       0 |       0 | 1-404
+  polo.ts          |       0 |        0 |       0 |       0 | 1-741
+  pom.ts           |       0 |        0 |       0 |       0 | 1-104
+  recipe.ts        |       0 |        0 |       0 |       0 | 1-494
+  ...t-contract.ts |       0 |      100 |     100 |       0 | 11-97
+  shirt.ts         |       0 |        0 |       0 |       0 | 1-907
+  skirt.ts         |       0 |        0 |       0 |       0 | 1-253
+  sleeve.ts        |       0 |        0 |       0 |       0 | 1-91
+  stitch.ts        |       0 |        0 |       0 |       0 | 1-122
+  tank.ts          |       0 |        0 |       0 |       0 | 1-142
+  ...r-contract.ts |       0 |      100 |     100 |       0 | 7-56
+  ...r-guidance.ts |       0 |        0 |       0 |       0 | 1-123
+  ...ser-tables.ts |       0 |        0 |       0 |       0 | 1-161
+  trouser.ts       |       0 |        0 |       0 |       0 | 1-703
+  tshirt-checks.ts |       0 |        0 |       0 |       0 | 1-99
+  tshirt-grade.ts  |       0 |      100 |     100 |       0 | 8-24
+  ...t-guidance.ts |       0 |        0 |       0 |       0 | 1-99
+  ...rt-notches.ts |       0 |        0 |       0 |       0 | 1-60
+  tshirt-pom.ts    |       0 |        0 |       0 |       0 | 1-87
+  tshirt.ts        |       0 |        0 |       0 |       0 | 1-79
+  waistband.ts     |       0 |        0 |       0 |       0 | 1-67
+ edit              |       0 |        0 |       0 |       0 |
+  edit.ts          |       0 |        0 |       0 |       0 | 1-118
+  semantic-edit.ts |       0 |        0 |       0 |       0 | 1-828
+ export            |       0 |       25 |      25 |       0 |
+  a0.ts            |       0 |        0 |       0 |       0 | 1-299
+  adaptive-cut.ts  |       0 |        0 |       0 |       0 | 1-204
+  calibration.ts   |       0 |        0 |       0 |       0 | 1-40
+  ...entimeters.ts |       0 |        0 |       0 |       0 | 1-91
+  ...ge-package.ts |       0 |        0 |       0 |       0 | 1-473
+  ...-roundtrip.ts |       0 |        0 |       0 |       0 | 1-327
+  dxf.ts           |       0 |        0 |       0 |       0 | 1-72
+  layout.ts        |       0 |        0 |       0 |       0 | 1-89
+  marker.ts        |       0 |        0 |       0 |       0 | 1-59
+  ...dxf-blocks.ts |       0 |      100 |     100 |       0 | 19-268
+  ...telligence.ts |       0 |      100 |     100 |       0 | 16-89
+  ...f-contract.ts |       0 |      100 |     100 |       0 | 8-142
+  nesting.ts       |       0 |        0 |       0 |       0 | 1-88
+  pattern-mark.ts  |       0 |      100 |     100 |       0 | 7-90
+  pdf.ts           |       0 |        0 |       0 |       0 | 1-278
+  projector.ts     |       0 |        0 |       0 |       0 | 1-254
+  surface-sheet.ts |       0 |        0 |       0 |       0 | 1-95
+  svg.ts           |       0 |        0 |       0 |       0 | 1-80
+  techpack.ts      |       0 |        0 |       0 |       0 | 1-712
+  unfold.ts        |       0 |      100 |     100 |       0 | 15-45
+ geometry          |       0 |    33.33 |   33.33 |       0 |
+  curve.ts         |       0 |        0 |       0 |       0 | 1-41
+  point.ts         |       0 |      100 |     100 |       0 | 10-22
+  rotate.ts        |       0 |        0 |       0 |       0 | 1-23
+ guidance          |       0 |       50 |      50 |       0 |
+  check.ts         |       0 |      100 |     100 |       0 | 27-96
+  garment-check.ts |       0 |        0 |       0 |       0 | 1-85
+  guidance.ts      |       0 |        0 |       0 |       0 | 1-28
+  note.ts          |       0 |      100 |     100 |       0 | 19
+  plausibility.ts  |       0 |      100 |     100 |       0 | 28-142
+  surface-notes.ts |       0 |        0 |       0 |       0 | 1-144
+ platform          |       0 |      100 |     100 |       0 |
+  feature-flags.ts |       0 |      100 |     100 |       0 | 34-196
+ render            |       0 |    15.62 |   15.62 |       0 |
+  allowance.ts     |       0 |        0 |       0 |       0 | 1-169
+  body.ts          |       0 |        0 |       0 |       0 | 1-277
+  canvas.ts        |       0 |        0 |       0 |       0 | 1-206
+  croquis-view.ts  |       0 |        0 |       0 |       0 | 1-56
+  croquis.ts       |       0 |        0 |       0 |       0 | 1-338
+  editor.ts        |       0 |        0 |       0 |       0 | 1-66
+  fabric.ts        |       0 |        0 |       0 |       0 | 1-81
+  garment.ts       |       0 |        0 |       0 |       0 | 1-257
+  neckline-path.ts |       0 |      100 |     100 |       0 | 25-56
+  nest.ts          |       0 |        0 |       0 |       0 | 1-87
+  notch.ts         |       0 |        0 |       0 |       0 | 1-137
+  pattern-mark.ts  |       0 |      100 |     100 |       0 | 6-52
+  polo-details.ts  |       0 |        0 |       0 |       0 | 1-230
+  shape.ts         |       0 |        0 |       0 |       0 | 1-52
+  skirt-figure.ts  |       0 |        0 |       0 |       0 | 1-209
+  ...ce-overlay.ts |       0 |      100 |     100 |       0 | 23-51
+  ...t-assembly.ts |       0 |        0 |       0 |       0 | 1-442
+  ...t-compiler.ts |       0 |        0 |       0 |       0 | 1-318
+  ...t-geometry.ts |       0 |        0 |       0 |       0 | 1-421
+  ...-flat-live.ts |       0 |        0 |       0 |       0 | 1-1014
+  ...at-mapping.ts |       0 |        0 |       0 |       0 | 1-404
+  ...at-options.ts |       0 |        0 |       0 |       0 | 1-116
+  ...t-overlays.ts |       0 |        0 |       0 |       0 | 1-223
+  ...-flat-poms.ts |       0 |        0 |       0 |       0 | 1-393
+  ...projection.ts |       0 |        0 |       0 |       0 | 1-2135
+  ...l-flat-svg.ts |       0 |        0 |       0 |       0 | 1-1011
+  ...-transform.ts |       0 |        0 |       0 |       0 | 1-111
+  ...nical-flat.ts |       0 |      100 |     100 |       0 | 8-421
+  theme.ts         |       0 |      100 |     100 |       0 | 5-19
+  ...ser-figure.ts |       0 |        0 |       0 |       0 | 1-351
+  ...projection.ts |       0 |        0 |       0 |       0 | 1-351
+  ...and-detail.ts |       0 |        0 |       0 |       0 | 1-72
+ style             |       0 |      100 |     100 |       0 |
+  style.ts         |       0 |      100 |     100 |       0 | 22-146
+ surface           |       0 |    33.33 |   33.33 |       0 |
+  artwork-file.ts  |       0 |      100 |     100 |       0 | 3-264
+  artwork-store.ts |       0 |        0 |       0 |       0 | 1-217
+  piece-frames.ts  |       0 |        0 |       0 |       0 | 1-108
+  placement.ts     |       0 |      100 |     100 |       0 | 45-118
+  store.ts         |       0 |        0 |       0 |       0 | 1-147
+  transform.ts     |       0 |        0 |       0 |       0 | 1-77
+ ...rtwork-library |       0 |       50 |      50 |       0 |
+  catalog.ts       |       0 |      100 |     100 |       0 | 9-773
+  search.ts        |       0 |        0 |       0 |       0 | 1-314
+ ui                |       0 |    29.26 |   29.26 |       0 |
+  app.ts           |       0 |        0 |       0 |       0 | 1-5897
+  appearance.ts    |       0 |        0 |       0 |       0 | 1-117
+  ...pendencies.ts |       0 |        0 |       0 |       0 | 1-154
+  controls.ts      |       0 |      100 |     100 |       0 | 15-98
+  ...ialization.ts |       0 |        0 |       0 |       0 | 1-91
+  ...ange-panel.ts |       0 |      100 |     100 |       0 | 9-96
+  ...provenance.ts |       0 |        0 |       0 |       0 | 1-641
+  ...an-context.ts |       0 |        0 |       0 |       0 | 1-117
+  ...plan-panel.ts |       0 |        0 |       0 |       0 | 1-96
+  ...-run-panel.ts |       0 |        0 |       0 |       0 | 1-112
+  ...e-plan-run.ts |       0 |        0 |       0 |       0 | 1-244
+  grade-plan.ts    |       0 |      100 |     100 |       0 | 4-523
+  history.ts       |       0 |      100 |     100 |       0 | 12-38
+  journey.ts       |       0 |      100 |     100 |       0 | 13-579
+  ...ture-panel.ts |       0 |      100 |     100 |       0 | 78-338
+  ...nt-capture.ts |       0 |        0 |       0 |       0 | 1-376
+  ...ement-help.ts |       0 |        0 |       0 |       0 | 1-290
+  ...asurements.ts |       0 |      100 |     100 |       0 | 12-89
+  persist.ts       |       0 |        0 |       0 |       0 | 1-357
+  ...ct-manager.ts |       0 |        0 |       0 |       0 | 1-1775
+  ...ct-package.ts |       0 |        0 |       0 |       0 | 1-1745
+  ...ct-records.ts |       0 |        0 |       0 |       0 | 1-533
+  ...repository.ts |       0 |        0 |       0 |       0 | 1-1968
+  ...t-workflow.ts |       0 |        0 |       0 |       0 | 1-1206
+  ...-revisions.ts |       0 |        0 |       0 |       0 | 1-616
+  ...ack-editor.ts |       0 |      100 |     100 |       0 | 42-492
+  ...ort-review.ts |       0 |      100 |     100 |       0 | 26-146
+  ...ion-editor.ts |       0 |        0 |       0 |       0 | 1-123
+  ...nciliation.ts |       0 |      100 |     100 |       0 | 57-510
+  ...on-records.ts |       0 |      100 |     100 |       0 | 4-392
+  ...validation.ts |       0 |        0 |       0 |       0 | 1-138
+  ...ack-output.ts |       0 |        0 |       0 |       0 | 1-1094
+  ...om-records.ts |       0 |      100 |     100 |       0 | 5-351
+  ...esentation.ts |       0 |        0 |       0 |       0 | 1-358
+  ...ck-records.ts |       0 |        0 |       0 |       0 | 1-651
+  ...qa-records.ts |       0 |        0 |       0 |       0 | 1-283
+  ...ck-sharing.ts |       0 |        0 |       0 |       0 | 1-202
+  ...t02-editor.ts |       0 |        0 |       0 |       0 | 1-227
+  ...validation.ts |       0 |        0 |       0 |       0 | 1-252
+  ...flat-panel.ts |       0 |        0 |       0 |       0 | 1-109
+  view.ts          |       0 |        0 |       0 |       0 | 1-1415
+ ...ements/artwork |       0 |        0 |       0 |       0 |
+  artwork-panel.ts |       0 |        0 |       0 |       0 | 1-569
+ ...ncements/entry |       0 |      100 |     100 |       0 |
+  welcome-panel.ts |       0 |      100 |     100 |       0 | 2-47
+ ...nts/foundation |       0 |       50 |      50 |       0 |
+  foundation.ts    |       0 |      100 |     100 |       0 | 6-59
+  ...foundation.ts |       0 |        0 |       0 |       0 | 1-47
+ ...ments/guidance |       0 |        0 |       0 |       0 |
+  ...ance-panel.ts |       0 |        0 |       0 |       0 | 1-437
+ ...nts/inspection |       0 |      100 |     100 |       0 |
+  ...on-toolbar.ts |       0 |      100 |     100 |       0 | 2-25
+ ...ments/material |       0 |        0 |       0 |       0 |
+  ...rial-panel.ts |       0 |        0 |       0 |       0 | 1-285
+-------------------|---------|----------|---------|---------|-------------------
+ERROR: Coverage for lines (0%) does not meet global threshold (100%)
+ERROR: Coverage for functions (28.57%) does not meet global threshold (100%)
+ERROR: Coverage for statements (0%) does not meet global threshold (100%)
+ERROR: Coverage for branches (28.57%) does not meet global threshold (100%)

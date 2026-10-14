@@ -1,0 +1,16 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4735,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Record the verified S784 start checkpoint before exact-head review and release closeout.",
+  "evidence": {
+    "id": "E-G05-S784-START",
+    "kind": "document",
+    "uri": "docs/research/epic18/S784-closeout/start-packet.md",
+    "sha256": "436ff3500d3a18719aaa3ab3f42562e74f7b8bc3e259f99d8b70b3d4dd0ea346",
+    "verified": true,
+    "note": "S784 starts at board revision 4735 from the exact S783 PR #43 head and records the two-review/Codex acceptance, merge, main deployment, live preview and canonical closure gates."
+  }
+}

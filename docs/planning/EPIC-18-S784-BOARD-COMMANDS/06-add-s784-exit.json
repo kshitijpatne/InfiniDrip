@@ -1,0 +1,16 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4740,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Attach the verified S784 release and closeout exit report to G05-EXIT.",
+  "evidence": {
+    "id": "E-G05-S784-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic18/S784-closeout/exit-packet.md",
+    "sha256": "da3e1554994fc4a25a8b1c2adb5d1a7839b41bbb731ca1f38de828070e7c0413",
+    "verified": true,
+    "note": "S784's exact-head reviews and Codex acceptance passed; PR #43 merged; main workflow 38490072411 passed the full 179-file/3,161-test suite, production build, web-artifact proof and Pages deploy; both live preview URLs returned HTTP 200. Validated closure replay ends at board revision 4745."
+  }
+}

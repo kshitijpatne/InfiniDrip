@@ -1,0 +1,12 @@
+{
+  "type": "updateEpicStatus",
+  "expectedRevision": 4744,
+  "epicId": "EPIC-18",
+  "status": "Closed",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Every linked EPIC-18 work item is Done with verified non-incomplete evidence, and the verified S784 exit report is linked.",
+  "evidenceRefs": [
+    "E-G05-S784-EXIT"
+  ]
+}

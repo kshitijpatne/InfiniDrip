@@ -1,11 +1,11 @@
 # EPIC-18/G05 — S765 execution-sequence amendment
 
-**Status:** active. **Recorded:** 2026-10-12. **Applies after:** Slice 764.
-**Current assigned slice sequence:** S762–S784, including the S781 review
-boundary, its S782 remediation, and S783 merge/deployment closeout. This is a
-boundary plan, not a claim that every assigned slice has landed a commit.
+**Status:** complete at Slice 784. **Recorded:** 2026-10-12; closed 2026-10-14.
+**Admitted slice sequence:** S762–S784, including the S781 review boundary,
+its S782 remediation, and S783/S784 closeout. This records the completed
+sequence; it does not admit follow-on work.
 **Original admission:** `EPIC-18-ADMISSION.md`, retained unchanged as the
-digest-bound S762 authority and original plan. The active ledger is
+digest-bound S762 authority and original plan. The completed ledger is
 `EPIC-18-GOAL.md`.
 
 ## Reason and authority
@@ -27,11 +27,11 @@ new feature, reduce a gate, or change the maintainer's product decisions.
 
 The original S762 admission file is intentionally retained byte-for-byte
 because the canonical board carries its digest-bound evidence. This addendum
-and the current goal ledger define the active execution order after S764.
+and the goal ledger define the admitted execution order after S764.
 
-## Active ordered boundaries
+## Admitted ordered boundaries (historical plan)
 
-| Slice | Active boundary |
+| Slice | Admitted boundary |
 | ---: | --- |
 | 765 | Remap package-contained T01 field-level inherited revision links through the copy map; preserve explicit external provenance links; add focused package-copy proof. No revision-payload integration. |
 | 766 | T01 immutable style-revision payload integration and concurrency-safe save; include T01 in new revision digest identity while preserving strict read/verification of historical payload v1. |
@@ -55,11 +55,11 @@ and the current goal ledger define the active execution order after S764.
 | 784 | After S783, both independent internal agents review the exact updated head and Codex accepts it; normal rebase-merge PR #43, pass main CI/build/web-proof/Cloudflare Pages deployment, verify actual live preview, and close the canonical board and durable state. |
 
 The original S762–S780 baseline remains visible in the admission as historical
-context. S773's planned UIQ-10 admission moves to S774, after T01–T03 as
+context. S773's planned UIQ-10 admission moved to S774, after T01–T03 as
 before. The eight protected export identities, full coverage requirements,
 local/no-cost scope, seven-recipe breadth, supplier/physical/production holds,
-PR review and deployment gates remain unchanged. Reforecast only if a later
-verified boundary changes the plan; dates remain conditional.
+PR review and deployment gates remained unchanged through the completed plan.
+Dates were conditional and are retained as historical estimates.
 
 ## S765 packet — completed
 
@@ -69,13 +69,13 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S783 PDF byte-preservation verified; S784 closeout next
+## Final checkpoint — S784 closeout complete
 
 S782 committed and pushed as `19c101dfeff43a8761e431a488ab61d092dae73f` on `codex/epic-18-g05`; verified `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor. The S782 full and rendered gates passed, and Claude Code and OpenCode both approved the exact head. Claude identified that a fresh Windows checkout CRLF-converts the retained 11,686-byte S782 PDF, producing 11,887 different bytes because the specific path is not marked binary. Codex independently reproduced the discrepancy in the clean reviewer checkout. The reports are stored in `docs/research/epic18/S782-T01-legacy-v1-save/`.
 
-S783 added one path-specific `.gitattributes` binary rule and verified that Git restores the exact 11,686-byte S782 PDF in a Windows checkout with `core.autocrlf=true`, after reproducing the 11,887-byte CRLF conversion. The PDF, ZIP and artifact manifest remain unchanged. The Control Center suite passed 42/42 after the summary update. Exit/hash proof is under `docs/research/epic18/S783-pdf-evidence-line-endings/`; validated exit commands advanced the board from revision 4731 to 4733, and a separate S782 exit-evidence hash reconciliation advanced it to 4735. EPIC-18/G05-EXIT remain In Progress. T01–T05/UIQ-10 remain Done; UIQ-09 remains Backlog behind EPIC-19.
+S783 added one path-specific `.gitattributes` binary rule and verified that Git restores the exact 11,686-byte S782 PDF in a Windows checkout with `core.autocrlf=true`, after reproducing the 11,887-byte CRLF conversion. The PDF, ZIP and artifact manifest remain unchanged. The Control Center suite passed 42/42 after the summary update. Exit/hash proof is under `docs/research/epic18/S783-pdf-evidence-line-endings/`; validated exit commands advanced the board from revision 4731 to 4733, and a separate S782 exit-evidence hash reconciliation advanced it to 4735.
 
-The next action is to commit and push S783 to PR #43. S784 then reviews the exact updated head with both independent internal CLI agents; Codex accepts the diff before normal rebase merge, main CI/build/web-proof/Cloudflare Pages deploy, actual preview verification and validated board/durable closure. The GitHub effective-rules query for `main` returned `[]` and classic branch protection returned 404; no formal approval gate applies. No outside GitHub reviewer is to be contacted. The local/no-cost, physical, supplier/factory, signing, compliance and production-claim holds remain.
+S784 completed the exact-head review, merge and release gates. Claude Code and OpenCode approved PR #43 head `f7543010e3932096572549fca36d4e275eceb9c5`; Codex accepted the S783 delta. The PR rebase-merged at `6e4009e8ffee358e9de244b2229c03dbaf4d4665`. Main workflow `38490072411` passed its full test/build/web-proof/deployment run, and both live preview URLs returned HTTP 200. Validated closeout commands advanced the canonical board from revision 4735 to 4745, marking G05-EXIT and the EPIC-18 summary card Done and the Epic Closed. Full details and evidence are in `docs/research/epic18/S784-closeout/`. No outside GitHub reviewer was contacted; the GitHub rules do not require formal approvals. The local/no-cost, physical, supplier/factory, signing, compliance and production-claim holds remain. No new Epic is admitted.
 ## Previous checkpoint — S781 review found blocker; S782 remediation active
 
 S781's first review replay ended at board revision 4702; its mergeability and
