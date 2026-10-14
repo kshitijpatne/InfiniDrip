@@ -50,9 +50,12 @@ only through an explicitly admitted, linked Epic packet.
   S762–S784 boundaries, acceptance gates and non-goals. EPIC-18/G05 closed at
   S784 after exact-head internal review, PR #43 merge, successful main
   deployment/live verification and validated board replay to revision 4745.
+  Slice 785 reconciles the historical coverage-attempt and test-timeout record;
+  the current canonical board is revision 4748.
   The terminal evidence is under
-  `docs/research/epic18/S784-closeout/`; S783 byte-preservation evidence is
-  under `docs/research/epic18/S783-pdf-evidence-line-endings/`.
+  `docs/research/epic18/S784-closeout/`, with its S785 supplement under
+  `docs/research/epic18/S785-closeout-reconciliation/`; S783 byte-preservation
+  evidence is under `docs/research/epic18/S783-pdf-evidence-line-endings/`.
   The hash-bound S762 admission remains unchanged; the S765 addendum records
   the package-copy correction and completed sequence. Slice 763's T01 schema/validator
   is complete; its start and exit evidence are in

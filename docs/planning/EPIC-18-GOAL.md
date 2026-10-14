@@ -40,29 +40,34 @@ execution sequence is in
 | 782 | Done | Guarded migrated payload-v1 T01 first-save repair and actual v8 regression pass; focused 126/126 and global 179/179 / 3,161 tests have 100% four-metric coverage. Both reviewers approved exact S782 head 19c101df and Codex accepted the code/evidence. Their reports and the low-severity PDF checkout finding are retained under `docs/research/epic18/S782-T01-legacy-v1-save/`; S783 handles that one-file metadata fix. |
 | 783 | Done | Preserve the exact S782 PDF bytes in Windows checkouts using one path-specific binary attribute. A fresh `core.autocrlf=true` checkout reproduced and then corrected the 11,887→11,686-byte conversion; PDF, ZIP and manifest blobs remain unchanged. Control Center passes 42/42 after the board summary update. Exit/hash proof: `docs/research/epic18/S783-pdf-evidence-line-endings/`; exit replay reached revision 4733 and the S782 hash-reconciliation supplement advanced the board to 4735. |
 | 784 | Done | Exact updated PR #43 head f7543010e3932096572549fca36d4e275eceb9c5 approved by Claude Code and OpenCode and accepted by Codex; PR rebase-merged as 6e4009e8ffee358e9de244b2229c03dbaf4d4665. Main workflow 38490072411 passed the full suite/build/web proof/Cloudflare Pages deploy; immutable and stable preview URLs returned HTTP 200. Validated closeout replay closed EPIC-18 at board revision 4745. Exit evidence: `docs/research/epic18/S784-closeout/exit-packet.md`. |
+| 785 | Recorded | Reconcile the S784 closeout narrative with its preserved run logs: disclose the worker-pool setup failure, single 32 MiB test timeout and timeout-only test adjustment, record the settled passing gate, and correct stale “S784 next” wording. Add hash-bound supplemental start/exit evidence through the validated board command layer; board revision 4748. No product implementation, output, or acceptance gate changed. Evidence: `docs/research/epic18/S785-closeout-reconciliation/`. |
 
 ## Final goal boundary — EPIC-18/G05 closed
 
 S784 completed exact-head internal review, Codex acceptance, merge, main
 verification and deployment, live preview verification, and durable board and
-document closeout. The board is at revision 4745; EPIC-18 and G05-EXIT are
+document closeout. S785 reconciles the retained execution history and adds a
+supplemental board-linked exit record; it does not reopen EPIC-18 or admit
+product work. The board is at revision 4748; EPIC-18 and G05-EXIT are
 closed/Done, T01–T05 and UIQ-10 are Done, and UIQ-09 remains Backlog behind
 EPIC-19. The final checkpoint and validation records are in
-`docs/research/epic18/S784-closeout/`. No next numbered Epic is admitted.
+`docs/research/epic18/S784-closeout/` and
+`docs/research/epic18/S785-closeout-reconciliation/`. No next numbered Epic is
+admitted.
 
 Any separately admitted remediation or follow-up uses its next unique slice
 number; no repeated or same-slice fixup commit. At each boundary, update this
 ledger, `PROJECT-STATE.md`, the admission/exit evidence, and the canonical board
-through the validated command layer. No follow-up is admitted by this completed
-goal.
+through the validated command layer. S785 is a closeout-evidence correction
+only; no new product follow-up or Epic is admitted by this completed goal.
 
-## Current execution boundary — S783 verified; S784 exact-head review and release next
+## Previous execution boundary — S783 verified; S784 exact-head review and release next
 
 S782's narrow v8-migration T01 repair passed its focused 126/126 changed-area coverage, the settled 179/179-file and 3,161/3,161-test full gate with 100% four-metric coverage, build/Electron, web release, readiness, Control Center, and actual Chromium/PDF/ZIP output. Both independent internal agents approved exact S782 PR #43 head 19c101dfeff43a8761e431a488ab61d092dae73f; Codex accepted the production fix and its evidence. Claude reported a low-severity issue: a fresh Windows checkout converted S782's generated PDF from 11,686 bytes/SHA d27d2300…57c4 to 11,887 bytes/SHA 03a1c84a…a297. Codex reproduced it in the clean Claude review worktree; OpenCode reported no findings. Reports are stored in docs/research/epic18/S782-T01-legacy-v1-save/.
 
 S783 added one path-specific `.gitattributes` binary rule and verified Git checkout restores the committed PDF's exact bytes in a Windows worktree with `core.autocrlf=true`. No production source, test, PDF/ZIP content, rendering or export identity changed. The fresh checkout first reproduced CRLF conversion; the rule restored exact bytes, and the PDF, ZIP and artifact manifest still match their S782 blobs. The Control Center suite passed 42/42 after the board summaries were updated. Exit/hash proof is under `docs/research/epic18/S783-pdf-evidence-line-endings/`; validated exit replay advances board revision 4731→4733 and retains EPIC-18/G05-EXIT In Progress. T01–T05/UIQ-10 remain Done; UIQ-09 remains Backlog behind EPIC-19.
 
-The next action is to commit and push S783 to PR #43, then begin S784 with fresh independent Claude Code and OpenCode approvals of the exact updated head and Codex acceptance. S784 then owns normal rebase merge, main CI/build/web-proof/Cloudflare Pages deployment, actual live-preview verification and validated canonical closeout. GitHub has no formal approval requirement on main; the owner requires the internal reviews and no outside GitHub users are to be contacted. Physical, supplier/factory, signing/compliance and production-claim holds remain unchanged.
+At this historical boundary, the next action was to commit and push S783 to PR #43, then begin S784 with fresh independent Claude Code and OpenCode reviews of the exact updated head and Codex acceptance. S784 subsequently completed the normal rebase merge, main CI/build/web-proof/Cloudflare Pages deployment, actual live-preview verification and validated canonical closeout. GitHub has no formal approval requirement on main; the owner requires the internal reviews and no outside GitHub users are to be contacted. Physical, supplier/factory, signing/compliance and production-claim holds remain unchanged.
 ## Previous execution boundary — Slice 779 complete; S780 next
 
 S779 completed from landed S778 commit

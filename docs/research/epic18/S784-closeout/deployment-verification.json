@@ -49,5 +49,5 @@
       "content_type": "text/html; charset=utf-8"
     }
   ],
-  "no_rerun_scope": "No local product test, build, rendering, browser scenario or export check was repeated. The GitHub main workflow ran the required integrated gate. S784's remaining changes are release evidence, documentation and validated board state only."
+  "no_rerun_scope": "S784 reran the focused Control Center suite (42/42), the one 32 MiB binary package test after increasing only its timeout, and one settled full coverage gate (179/179 files, 3,161/3,161 tests, 100% in all four metrics). The first global invocation failed before test collection because --maxWorkers=1 conflicted with configured minThreads/maxThreads; the next full run timed out only that test at the default 5,000 ms limit. No product rendering, browser/Electron, export generation, protected export identity, or baseline check was rerun locally. PR #43's main workflow passed the integrated tests, build, deterministic web proof, and Cloudflare Pages deployment. S784 changed test expectations and one test timeout, but no product implementation or generated output."
 }

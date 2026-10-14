@@ -1,0 +1,16 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4745,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Record the bounded S785 reconciliation of S784 closeout execution and scope evidence.",
+  "evidence": {
+    "id": "E-G05-S785-START",
+    "kind": "document",
+    "uri": "docs/research/epic18/S785-closeout-reconciliation/start-packet.md",
+    "sha256": "6e0eea28fc7d4cae4e02e59fabe6cadb132d27b0bbf3075959c027f7e98c9248",
+    "verified": true,
+    "note": "S785 starts from the exact S784 PR #44 head to reconcile stale boundary wording and accurately disclose preserved coverage-attempt evidence without changing product behavior or rerunning passing gates."
+  }
+}
