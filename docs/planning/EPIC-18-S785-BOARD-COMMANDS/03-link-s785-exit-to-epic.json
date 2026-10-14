@@ -1,0 +1,9 @@
+{
+  "type": "addEpicEvidence",
+  "expectedRevision": 4747,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Make the S785 closeout reconciliation directly discoverable from the completed EPIC-18 record.",
+  "evidenceId": "E-G05-S785-EXIT"
+}

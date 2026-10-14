@@ -41,15 +41,17 @@ is authoritative for maintainer decisions that are not derivable from code.
   invalid combinations by silently clamping inputs.
 - Code signing has not started.
 - EPIC-16/G03 and EPIC-17/G04 are closed and verified on `origin/main`.
-  EPIC-18/G05 Living production tech pack closed at Slice 784. PR #43 was
+  EPIC-18/G05 Living production tech pack closed at Slice 784; Slice 785
+  reconciles its closeout evidence without changing product behavior. PR #43 was
   rebase-merged at `6e4009e8ffee358e9de244b2229c03dbaf4d4665`; main workflow
   `38490072411` passed the complete test/build/web-proof/deployment run and
   both preview URLs returned HTTP 200. The canonical board is at revision
-  4745, with EPIC-18 Closed and G05-EXIT Done. The admission and completed
+  4748, with EPIC-18 Closed and G05-EXIT Done. The admission and completed
   sequence remain documented in `docs/planning/EPIC-18-ADMISSION.md`,
   `docs/planning/EPIC-18-S765-RESEQUENCING.md`, and
   `docs/planning/EPIC-18-GOAL.md`; exact S784 review, deployment, and replay
-  evidence is in `docs/research/epic18/S784-closeout/`.
+  evidence is in `docs/research/epic18/S784-closeout/`; the S785 correction is
+  in `docs/research/epic18/S785-closeout-reconciliation/`.
   T01–T05 and UIQ-10 are Done; UIQ-09 remains Backlog behind EPIC-19. No
   subsequent Epic is admitted. Preserve the approved UI overlay
   `docs/planning/UI-ENHANCEMENT-SEQUENCE.md`; sequence position alone is not

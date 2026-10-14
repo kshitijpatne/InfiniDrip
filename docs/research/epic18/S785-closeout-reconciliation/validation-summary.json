@@ -1,0 +1,57 @@
+{
+  "slice": "S785",
+  "objective": "Reconcile S784 closeout documentation with the retained execution logs and attach supplemental hash-bound start/exit evidence through the validated board layer.",
+  "startedAtUtc": "2026-10-14T01:51:59Z",
+  "startingCommit": "01130ee6806a55b414496a68f0dd5f5b483b3345",
+  "startingOriginMain": "6e4009e8ffee358e9de244b2229c03dbaf4d4665",
+  "startingBoardRevision": 4745,
+  "closingBoardRevision": 4748,
+  "reservedSlice": 785,
+  "priorExactHeadReviews": {
+    "reviewedHead": "01130ee6806a55b414496a68f0dd5f5b483b3345",
+    "claudeCode": "REQUEST_CHANGES for two documentation-only consistency findings; WORK FINISHED",
+    "openCode": "APPROVE; stale execution heading informational; no blocking findings; WORK FINISHED",
+    "codexDisposition": "Accept both verified factual corrections before PR #44 merge."
+  },
+  "changes": [
+    "Relabeled and rewrote the historical S783/S784 ledger boundary in the past tense.",
+    "Recorded the Vitest worker-pool setup failure before test collection, the subsequent single 32 MiB case timeout, the one-test timeout adjustment, its focused pass, and the settled full-coverage pass.",
+    "Clarified that S784 changed Control Center expectations and one test timeout, but no product implementation or output behavior; corrected the local no-rerun scope.",
+    "Preserved both hash-bound S784 packets and attached supplemental S785 start/exit evidence to G05-EXIT and EPIC-18 through three validated commands."
+  ],
+  "boardReplay": {
+    "startRevision": 4745,
+    "commands": [
+      { "file": "docs/planning/EPIC-18-S785-BOARD-COMMANDS/01-add-s785-start.json", "resultRevision": 4746 },
+      { "file": "docs/planning/EPIC-18-S785-BOARD-COMMANDS/02-add-s785-exit.json", "resultRevision": 4747 },
+      { "file": "docs/planning/EPIC-18-S785-BOARD-COMMANDS/03-link-s785-exit-to-epic.json", "resultRevision": 4748 }
+    ],
+    "epic18": "Closed",
+    "epic18SummaryCard": "Done",
+    "g05Exit": "Done",
+    "g05T01ThroughT05": "Done",
+    "uiq10": "Done",
+    "uiq09": "Backlog",
+    "originalS784EvidenceHashesPreserved": true
+  },
+  "evidenceHashes": {
+    "E-G05-S784-START": "436ff3500d3a18719aaa3ab3f42562e74f7b8bc3e259f99d8b70b3d4dd0ea346",
+    "E-G05-S784-EXIT": "da3e1554994fc4a25a8b1c2adb5d1a7839b41bbb731ca1f38de828070e7c0413",
+    "E-G05-S785-START": "6e0eea28fc7d4cae4e02e59fabe6cadb132d27b0bbf3075959c027f7e98c9248",
+    "E-G05-S785-EXIT": "92dd953079696f5ca8ed0676b8974cec5d0891af743e3e09a051e838164792be"
+  },
+  "recordChecks": {
+    "jsonParse": "passed for both S784 records, the S785 validation summary and the canonical board",
+    "lfNormalizedHashes": "passed for S784 and S785 start/exit evidence; all four hashes match canonical board records",
+    "boardStateAndEvidenceHashAudit": "passed at revision 4748; EPIC-18 Closed, its summary card and G05-EXIT Done, T01-T05/UIQ-10 Done, UIQ-09 Backlog; S785 exit linked to both G05-EXIT and EPIC-18",
+    "gitDiffCheck": "passed",
+    "testsBuildRenderingAndExportRechecks": "not run; documentation/board-only follow-up and no relevant product change"
+  },
+  "reviewGate": "The prior reports reviewed S784 head 01130ee6806a55b414496a68f0dd5f5b483b3345 and do not approve the S785-updated head. Fresh independent Claude Code and OpenCode exact-head reviews plus Codex acceptance are required before merge; merge and the resulting main workflow/deployment must be verified.",
+  "timeAccounting": {
+    "implementationAndBoardReplaySeconds": 269,
+    "recordVerificationSeconds": 2,
+    "externalAgentReviewWaitSeconds": "tracked separately from dispatch to both explicit WORK FINISHED signals and reported at task closeout",
+    "maintainerDecisionWaitSeconds": 0
+  }
+}

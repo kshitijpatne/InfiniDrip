@@ -1,0 +1,16 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4746,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Attach the verified S785 supplement documenting S784 coverage attempts and correcting its closeout record.",
+  "evidence": {
+    "id": "E-G05-S785-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic18/S785-closeout-reconciliation/exit-packet.md",
+    "sha256": "92dd953079696f5ca8ed0676b8974cec5d0891af743e3e09a051e838164792be",
+    "verified": true,
+    "note": "S785 supplements the immutable S784 closeout evidence with a verified worker-setup failure, single-test timeout and recovery chronology; it preserves all S784 hashes and leaves product behavior and EPIC-18 statuses unchanged."
+  }
+}

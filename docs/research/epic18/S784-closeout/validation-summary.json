@@ -48,6 +48,18 @@
     }
   ],
   "globalCoverage": {
+    "workerConfigurationAttempt": {
+      "status": "failed_before_test_collection",
+      "command": "npm run coverage -- --maxWorkers=1",
+      "exitCode": 1,
+      "testFiles": "no tests collected",
+      "tests": "no tests ran",
+      "failure": {
+        "cause": "Vitest could not construct its worker pool because the supplied maxWorkers value conflicted with configured minThreads/maxThreads bounds.",
+        "error": "RangeError: options.minThreads and options.maxThreads must not conflict",
+        "evidence": "global-coverage-worker-config-failure.txt"
+      }
+    },
     "initialAttempt": {
       "status": "failed",
       "command": "npm run coverage -- --maxWorkers=1 --minWorkers=1",
@@ -97,8 +109,8 @@
     "mainWorkflowWallSeconds": 367
   },
   "scopeNotes": [
-    "The initial full-gate timeout is preserved and disclosed; the final settled gate passed after the single-test timeout adjustment.",
-    "No product rendering, browser/Electron, export regeneration, protected export identity, or baseline check was repeated because the S783 delta and S784 closeout changes do not alter those paths.",
+    "The first coverage invocation failed before test collection on conflicting worker bounds; the next full run timed out only the 32 MiB package test at 5,914 ms against the default 5,000 ms limit. Both logs are preserved. The single-test timeout was raised to 15,000 ms without changing assertions or behavior; its focused case and one settled full gate then passed.",
+    "S784 changed Control Center test expectations and the timeout of one existing package test, but no product implementation or generated output. Product rendering, browser/Electron, export regeneration, protected export identity, and baseline checks were not rerun because neither the S783 delta nor these test-only adjustments alter those paths.",
     "Local/no-cost, physical-fit, supplier/factory, signing, compliance, production-readiness, and launch-backed service holds remain unchanged.",
     "EPIC-19 and UIQ-09 were not admitted by this closeout."
   ]
