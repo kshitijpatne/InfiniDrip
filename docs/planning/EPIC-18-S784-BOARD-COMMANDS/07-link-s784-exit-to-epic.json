@@ -1,0 +1,9 @@
+{
+  "type": "addEpicEvidence",
+  "expectedRevision": 4741,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Link the verified S784 exit report to the EPIC-18 record.",
+  "evidenceId": "E-G05-S784-EXIT"
+}

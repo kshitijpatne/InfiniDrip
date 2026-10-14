@@ -1,0 +1,12 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4743,
+  "itemId": "EPIC-18",
+  "status": "Done",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "S784 is complete and every EPIC-18 child is Done with verified evidence.",
+  "evidenceRefs": [
+    "E-G05-S784-EXIT"
+  ]
+}

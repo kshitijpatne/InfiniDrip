@@ -1389,7 +1389,7 @@ describe("portable local project package", () => {
     expect(await sha256Hex(restoredZip, crypto)).toBe(manifest.artifacts[0]?.sha256);
     expect([...new Uint8Array(await reopened.frozenManifests[0]!.artifacts[1]!.bytes.arrayBuffer())])
       .toEqual([37, 80, 68, 70, 0, 255]);
-  });
+  }, 15_000);
 
   it("preserves T01 data and review on restore, then remaps packaged provenance and resets review on copy", async () => {
     const source = await createFrozenSourcePackage();

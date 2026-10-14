@@ -1,0 +1,12 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4742,
+  "itemId": "G05-EXIT",
+  "status": "Done",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "All S784 exact-head review, merge, main deployment, live-preview and durable-evidence gates passed.",
+  "evidenceRefs": [
+    "E-G05-S784-EXIT"
+  ]
+}

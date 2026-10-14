@@ -1,0 +1,53 @@
+{
+  "pr": {
+    "number": 43,
+    "url": "https://github.com/kshitijpatne/InfiniDrip/pull/43",
+    "reviewed_head": "f7543010e3932096572549fca36d4e275eceb9c5",
+    "state": "MERGED",
+    "method": "rebase",
+    "merge_commit": "6e4009e8ffee358e9de244b2229c03dbaf4d4665",
+    "merged_at_utc": "2026-10-14T00:25:14Z",
+    "origin_main_contains_merge": true
+  },
+  "github_actions": {
+    "workflow": "Deploy web preview to Cloudflare Pages",
+    "run_id": 38490072411,
+    "run_url": "https://github.com/kshitijpatne/InfiniDrip/actions/runs/38490072411",
+    "head_sha": "6e4009e8ffee358e9de244b2229c03dbaf4d4665",
+    "status": "completed",
+    "conclusion": "success",
+    "duration": "6m07s",
+    "steps": {
+      "npm_ci": "passed",
+      "chromium_install": "passed",
+      "full_test_suite": {
+        "status": "passed",
+        "test_files": "179/179",
+        "tests": "3161/3161"
+      },
+      "production_build": "passed",
+      "deterministic_web_artifact_proof": "passed (2 tests)",
+      "cloudflare_pages_deploy": "passed"
+    },
+    "immutable_deployment_url": "https://715579f1.infinidrip-preview.pages.dev",
+    "workflow_annotations": [
+      "Nonblocking GitHub Actions notice: actions/checkout@v4 and actions/setup-node@v4 are being forced onto Node.js 24 because Node.js 20 is deprecated.",
+      "Nonblocking GitHub Actions notice: ubuntu-latest is scheduled to migrate to Ubuntu 26 beginning 2026-10-19."
+    ]
+  },
+  "live_preview_checks": [
+    {
+      "url": "https://715579f1.infinidrip-preview.pages.dev/",
+      "method": "HEAD",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://infinidrip-preview.pages.dev/",
+      "method": "HEAD",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    }
+  ],
+  "no_rerun_scope": "No local product test, build, rendering, browser scenario or export check was repeated. The GitHub main workflow ran the required integrated gate. S784's remaining changes are release evidence, documentation and validated board state only."
+}

@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 4739,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Record the final reviewed PR merge and successful main deployment before closing EPIC-18.",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 execution contract: docs/planning/EPIC-18-ADMISSION.md; ledger and final state: docs/planning/EPIC-18-GOAL.md. T01–T05 and UIQ-10 are Done; UIQ-09 remains Backlog behind EPIC-19. S780 passed the settled integrated gate: 179/179 files, 3,161/3,161 tests and 100% global statement, branch, function and line coverage; build/readiness, browser/Electron, actual PDF/ZIP and protected export checks passed. S781's initial review of PR #43 found a high-severity backward-compatibility defect: a migrated payload-v1 style could load with an unlinked T01 record whose first save failed. S782 is admitted to add the guarded first-save path and real migration regression; that fix and its focused/global gates passed. S783 added a path-specific binary attribute and fresh Windows checkout hash proof. S784 received independent Claude Code and OpenCode approval plus Codex acceptance for exact PR #43 head f7543010e3932096572549fca36d4e275eceb9c5; PR #43 was rebase-merged at 6e4009e8ffee358e9de244b2229c03dbaf4d4665. Main workflow 38490072411 passed 179/179 test files and 3,161/3,161 tests, production build, deterministic web-artifact proof and Cloudflare Pages deployment; immutable and stable preview URLs returned HTTP 200. Validated S784 closeout evidence is docs/research/epic18/S784-closeout/. EPIC-18 is Closed after all linked work items were completed with verified evidence and exit-report reference. No outside GitHub user was contacted and GitHub has no formal approval requirement for main. Local/no-cost, physical, supplier/factory, signing, compliance and production-claim holds remain explicit; launch-backed features stay deferred."
+  }
+}

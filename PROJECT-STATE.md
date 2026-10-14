@@ -1,4 +1,13 @@
-## Current boundary — S783 PDF evidence fix verified; S784 reviews and release next
+## Current boundary — EPIC-18/G05 closed at Slice 784
+
+S784 began 2026-10-14 00:18:10 UTC from the exact-head closeout handoff. The reviewed PR #43 head was f7543010e3932096572549fca36d4e275eceb9c5; Claude Code and OpenCode both approved it, and Codex accepted the S783-only delta. GitHub's effective main rules impose no formal approval gate. No outside GitHub reviewer was contacted.
+
+PR #43 was rebase-merged at 2026-10-14 00:25:14 UTC as 6e4009e8ffee358e9de244b2229c03dbaf4d4665, now on origin/main. Main workflow 38490072411 succeeded against that SHA in 6m07s: 179/179 test files, 3,161/3,161 tests, production build, deterministic web proof and Cloudflare Pages deployment. The immutable deployment URL https://715579f1.infinidrip-preview.pages.dev/ and stable URL https://infinidrip-preview.pages.dev/ both returned HTTP 200. Exact reviewer reports and deployment evidence are under docs/research/epic18/S784-closeout/.
+
+The validated canonical board replay advances revision 4735→4745. G05-EXIT and the EPIC-18 summary card are Done; the EPIC-18 record is Closed. G05-T01–T05 and UIQ-10 remain Done. UIQ-09 remains Backlog behind EPIC-19. The final Control Center suite passed 42/42 after updating the canonical closeout assertions. Because those test assertions changed, one settled local global-coverage gate also passed at 179/179 files, 3,161/3,161 tests and 100% statement, branch, function and line coverage. The product render/export gates were not repeated; S784 changed no product source, generated output, protected export or baseline.
+
+Nonblocking workflow notices concern Node.js 20 deprecation (the Actions v4 steps ran under Node.js 24) and the announced ubuntu-latest migration to Ubuntu 26 on 2026-10-19. No product or release gate failed. All local/no-cost, physical, supplier/factory, signing, compliance and production-claim holds remain unchanged. Do not admit EPIC-19 or UIQ-09 automatically; the next numbered Epic requires explicit maintainer admission.
+## Previous boundary — S783 PDF evidence fix verified
 
 S780 remains the settled integrated G05 gate. S781 found the migrated payload-v1 T01 first-save defect; S782 fixes it by creating one payload-v2 child only for the verified same-style v1 head and the legacy unlinked null/zero T01 identity. The v1 parent/digest, no-op behavior and stale repository CAS protections remain intact.
 
@@ -6,7 +15,7 @@ S782's actual v8 migration regression passes; its focused suite is 126/126 with 
 
 S783 added only the path-specific `.gitattributes` binary rule. A fresh Windows checkout reproduced CRLF expansion (11,887 bytes); forcing checkout under the candidate rule restored the exact committed 11,686-byte PDF hash. The S782 PDF, ZIP and artifact manifest still match their committed Git blobs. The focused Control Center suite passed 42/42 at board revision 4731 after the summary update. Full details are in `docs/research/epic18/S783-pdf-evidence-line-endings/`. S783 exit replay reached revision 4733; a final S782 exit-evidence hash reconciliation advanced the canonical board to 4735. EPIC-18 and G05-EXIT remain In Progress. T01–T05 and UIQ-10 remain Done; UIQ-09 remains Backlog behind EPIC-19.
 
-S784 is the next boundary: push the S783 commit to PR #43, obtain fresh exact-head read-only reviews from both internal CLIs, and record Codex acceptance. Then normal rebase merge, main CI/build/web-proof/Cloudflare Pages deployment, actual live-preview verification, and validated board/durable closeout. GitHub has no formal approval requirement on main; the owner requires these internal approvals and no outside GitHub user is to be contacted. Local/no-cost, physical, supplier/factory, signing, compliance and production-claim holds remain unchanged.
+At the S783 boundary, the next recorded action was S784 exact-head review, merge, deployment and canonical closeout. S784 completed that sequence; its evidence is under docs/research/epic18/S784-closeout/. Local/no-cost, physical, supplier/factory, signing, compliance and production-claim holds remain unchanged.
 ## Previous boundary — EPIC-18/G05 Slice 778 complete
 
 Slice 778 started 2026-10-13 16:27:34 UTC on `codex/epic-18-g05` from clean

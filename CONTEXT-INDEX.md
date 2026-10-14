@@ -45,14 +45,16 @@ only through an explicitly admitted, linked Epic packet.
   main-based snapshot. Each lane retains its own scope/approval gates.
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
 - `docs/planning/EPIC-18-ADMISSION.md`, `EPIC-18-S765-RESEQUENCING.md`,
-  `EPIC-18-GOAL.md`, `EPIC-18-S782-REMEDIATION-ADMISSION.md` and `EPIC-18-S783-REMEDIATION-ADMISSION.md` — admitted G05
-  scope, active S762–S784 slice sequence, acceptance gates, non-goals and
-  current remediation/closeout checkpoint. The latest completed S783 byte
-  preservation proof and exit are under
-  `docs/research/epic18/S783-pdf-evidence-line-endings/`; S784 is the next
-  exact-head review, merge, deployment and canonical closeout boundary.
+  `EPIC-18-GOAL.md`, `EPIC-18-S782-REMEDIATION-ADMISSION.md` and
+  `EPIC-18-S783-REMEDIATION-ADMISSION.md` — admitted G05 scope, ordered
+  S762–S784 boundaries, acceptance gates and non-goals. EPIC-18/G05 closed at
+  S784 after exact-head internal review, PR #43 merge, successful main
+  deployment/live verification and validated board replay to revision 4745.
+  The terminal evidence is under
+  `docs/research/epic18/S784-closeout/`; S783 byte-preservation evidence is
+  under `docs/research/epic18/S783-pdf-evidence-line-endings/`.
   The hash-bound S762 admission remains unchanged; the S765 addendum records
-  the package-copy correction and current sequence. Slice 763's T01 schema/validator
+  the package-copy correction and completed sequence. Slice 763's T01 schema/validator
   is complete; its start and exit evidence are in
   `docs/research/epic18/S763-T01-record-contract/`, with the validated board
   replays in `docs/planning/EPIC-18-S763-START-BOARD-COMMANDS.json` and

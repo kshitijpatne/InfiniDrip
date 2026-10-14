@@ -41,44 +41,19 @@ is authoritative for maintainer decisions that are not derivable from code.
   invalid combinations by silently clamping inputs.
 - Code signing has not started.
 - EPIC-16/G03 and EPIC-17/G04 are closed and verified on `origin/main`.
-  EPIC-18/G05 Living production tech pack is maintainer-admitted from
-  `e9221ea5033ccfdd91bf1ebb353926f189477d75` on 2026-10-12 at Slice 762;
-  admission, acceptance, non-goals, risks and gates are in
-  `docs/planning/EPIC-18-ADMISSION.md`; the active 762–781 execution sequence
-  is in `docs/planning/EPIC-18-S765-RESEQUENCING.md` and
-  `docs/planning/EPIC-18-GOAL.md`. Slice 763 froze the additive schema-v1 T01
-  typed record, strict parser and C03/C04 provenance rules with 100% focused
-  coverage. Slice 764 completed backward-safe style persistence and migration.
-  Slice 765 completed package-copy remapping for nested T01 inherited-source
-  links, preserving external provenance and source data; its start/exit packets
-  and validated board replays are in
-  `docs/research/epic18/S765-T01-package-copy-reference-remap/`; exit evidence
-  is linked by
-  `docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json` and
-  `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`. The S762 admission
-  stays hash-stable. Slice 766 is complete: payload-v2 includes T01 in
-  immutable revision identity; strict payload-v1 compatibility and
-  concurrency-safe saves are verified. Its start/exit packets and board
-  evidence are in `docs/research/epic18/S766-T01-revision-payload/` and the
-  validated start/exit commands under `docs/planning/EPIC-18-S766-*`.
-  G05-T01 is Done and EPIC-18 remains In Progress at board revision 4566.
-  S767 completes the all-recipe T01 editor, revision-bound save, cost-input
-  view and rendered proof from S766 commit
-  `66379ae19dee15c72e5816c601f51c5b2d5463aa`. Its start and exit packets are
-  in `docs/research/epic18/S767-T01-editor/`; validated start, future-card
-  correction and exit commands are `docs/planning/EPIC-18-S767-*.json`.
-  The exit evidence records 127 focused tests, 100% focused coverage for the
-  editor/manager/workflow modules, TypeScript, export identity and actual
-  browser-rendered proof for all seven recipes. G05-T02–T05, G05-EXIT and
-  UIQ-10 remain Backlog; the current next action is S768 under the exact T02
-  boundaries in `docs/planning/EPIC-18-S765-RESEQUENCING.md`.
-  UIQ-08 is Done through Slice 760 and UIQ-01 is Done as a review-only
-  checkpoint through Slice 761. UIQ-09 remains Backlog pending EPIC-19/G06
-  admission. UIQ-10 is linked to EPIC-18 but remains Backlog until its bounded
-  admission after T01–T03, planned for Slice 774 after the S765 correction.
-  Preserve the approved UI
-  overlay `docs/planning/UI-ENHANCEMENT-SEQUENCE.md`; sequence position alone
-  is not implementation authority. Launch, physical, and supplier gates remain
+  EPIC-18/G05 Living production tech pack closed at Slice 784. PR #43 was
+  rebase-merged at `6e4009e8ffee358e9de244b2229c03dbaf4d4665`; main workflow
+  `38490072411` passed the complete test/build/web-proof/deployment run and
+  both preview URLs returned HTTP 200. The canonical board is at revision
+  4745, with EPIC-18 Closed and G05-EXIT Done. The admission and completed
+  sequence remain documented in `docs/planning/EPIC-18-ADMISSION.md`,
+  `docs/planning/EPIC-18-S765-RESEQUENCING.md`, and
+  `docs/planning/EPIC-18-GOAL.md`; exact S784 review, deployment, and replay
+  evidence is in `docs/research/epic18/S784-closeout/`.
+  T01–T05 and UIQ-10 are Done; UIQ-09 remains Backlog behind EPIC-19. No
+  subsequent Epic is admitted. Preserve the approved UI overlay
+  `docs/planning/UI-ENHANCEMENT-SEQUENCE.md`; sequence position alone is not
+  implementation authority. Launch, physical, and supplier gates remain
   closed; no physical-fit or production-readiness claim is authorized.
 
 ## Durable workflow rules

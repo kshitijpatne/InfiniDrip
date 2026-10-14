@@ -1,0 +1,11 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4737,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Replace the pending S784 gate with its verified merge, deployment and canonical closeout result.",
+  "patch": {
+    "description": "Slices 780–784 complete the integrated review and release boundary. S780 passed the settled integrated gate. S781's initial review of PR #43 found a high-severity backward-compatibility defect: migrated payload-v1 styles can load with an unlinked T01 record that cannot be saved. S782 added the guarded first-save path and real v8 migration regression; its focused 126/126 and global 179/179-file, 3,161/3,161-test four-metric gate passed. S783 preserved the S782 PDF bytes in fresh Windows checkouts. S784 received exact-head Claude Code and OpenCode approval plus Codex acceptance, rebase-merged PR #43 at 6e4009e8ffee358e9de244b2229c03dbaf4d4665, and verified successful main test/build/web-proof/Cloudflare Pages run 38490072411 and HTTP 200 from both the immutable and stable preview URLs. See docs/research/epic18/S784-closeout/. This exit is Done; EPIC-18 is Closed after validated evidence replay. No formal GitHub approval gate applies; no outside reviewer was contacted. Local/no-cost, physical, supplier/factory, signing, compliance and production-claim holds remain explicit."
+  }
+}

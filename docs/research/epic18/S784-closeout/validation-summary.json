@@ -1,0 +1,105 @@
+{
+  "slice": "S784",
+  "objective": "Review and accept the exact S783 PR head, merge and verify its main deployment, then close EPIC-18/G05 through the validated canonical board layer.",
+  "startedAtUtc": "2026-10-14T00:18:10Z",
+  "startingBoardRevision": 4735,
+  "closingBoardRevision": 4745,
+  "release": {
+    "pullRequest": 43,
+    "reviewedHead": "f7543010e3932096572549fca36d4e275eceb9c5",
+    "mergeCommit": "6e4009e8ffee358e9de244b2229c03dbaf4d4665",
+    "reviewDecision": "Codex accepted; Claude Code CLI and OpenCode CLI returned APPROVE and WORK FINISHED",
+    "formalGitHubApprovalsRequired": false,
+    "outsideReviewersContacted": false,
+    "mainWorkflowRun": "38490072411",
+    "mainWorkflowStatus": "success",
+    "mainWorkflowWallSeconds": 367,
+    "testFiles": "179/179",
+    "tests": "3161/3161",
+    "productionBuild": "passed",
+    "deterministicWebProof": "passed",
+    "cloudflarePagesDeployment": "passed",
+    "immutablePreview": {
+      "url": "https://715579f1.infinidrip-preview.pages.dev/",
+      "headStatus": 200
+    },
+    "stablePreview": {
+      "url": "https://infinidrip-preview.pages.dev/",
+      "headStatus": 200
+    }
+  },
+  "focusedVerification": [
+    {
+      "name": "Control Center board and command-layer suite",
+      "command": "npm run control-center:test",
+      "status": "passed",
+      "tests": "42/42",
+      "durationMilliseconds": 1917.7093,
+      "evidence": "control-center-suite.txt"
+    },
+    {
+      "name": "32 MiB binary Tech Pack package round-trip after timeout adjustment",
+      "command": "npm test -- src/ui/project-package.test.ts -t \"packages and reopens binary Tech Pack shares above the legacy 32 MiB text artifact limit\" --maxWorkers=1 --minWorkers=1",
+      "status": "passed",
+      "testFileResults": "1 passed; 57 skipped by the focused name filter",
+      "caseDurationMilliseconds": 1353,
+      "commandDurationSeconds": 3.74,
+      "evidence": "project-package-timeout-fix-test.txt"
+    }
+  ],
+  "globalCoverage": {
+    "initialAttempt": {
+      "status": "failed",
+      "command": "npm run coverage -- --maxWorkers=1 --minWorkers=1",
+      "exitCode": 1,
+      "testFiles": "178 passed; 1 failed of 179",
+      "tests": "3160 passed; 1 failed of 3161",
+      "vitestDurationSeconds": 1842.47,
+      "wallSeconds": 1844.2,
+      "failure": {
+        "test": "src/ui/project-package.test.ts > portable local project package > packages and reopens binary Tech Pack shares above the legacy 32 MiB text artifact limit",
+        "cause": "The 32 MiB binary round-trip exceeded Vitest's default 5000 ms test timeout under coverage; the test reported 5914 ms.",
+        "evidence": "global-coverage-initial-timeout.txt"
+      }
+    },
+    "adjustment": {
+      "file": "src/ui/project-package.test.ts",
+      "change": "Raised only this binary round-trip test's timeout from the default 5000 ms to 15000 ms; assertions and behavior are unchanged."
+    },
+    "settledAttempt": {
+      "status": "passed",
+      "command": "npm run coverage -- --maxWorkers=1 --minWorkers=1",
+      "exitCode": 0,
+      "startedAtUtc": "2026-10-14T01:18:27Z",
+      "finishedAtUtc": "2026-10-14T01:36:07Z",
+      "testFiles": "179/179",
+      "tests": "3161/3161",
+      "vitestDurationSeconds": 1057.60,
+      "wallSeconds": 1060,
+      "coveragePercent": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      },
+      "evidence": "global-coverage.txt"
+    }
+  },
+  "timeAccounting": {
+    "preCoverageElapsedToValidatedBoardClosureSeconds": 1632,
+    "implementationActiveTime": "Not independently instrumented; the recorded 1632-second interval spans S784 start to the revision-4745 replay and includes review/release activity.",
+    "focusedControlCenterSeconds": 1.918,
+    "focusedTimeoutCaseCommandSeconds": 3.74,
+    "initialGlobalCoverageWallSeconds": 1844.2,
+    "finalGlobalCoverageWallSeconds": 1060,
+    "externalReviewerWait": "Not independently timed. Both exact-head reports completed before PR #43 was merged; no reviewer wait remained at the merge decision.",
+    "maintainerDecisionWaitSeconds": 0,
+    "mainWorkflowWallSeconds": 367
+  },
+  "scopeNotes": [
+    "The initial full-gate timeout is preserved and disclosed; the final settled gate passed after the single-test timeout adjustment.",
+    "No product rendering, browser/Electron, export regeneration, protected export identity, or baseline check was repeated because the S783 delta and S784 closeout changes do not alter those paths.",
+    "Local/no-cost, physical-fit, supplier/factory, signing, compliance, production-readiness, and launch-backed service holds remain unchanged.",
+    "EPIC-19 and UIQ-09 were not admitted by this closeout."
+  ]
+}
