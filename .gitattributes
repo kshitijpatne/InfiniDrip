@@ -8,3 +8,4 @@ docs/research/epic18/S778-T05-freeze/evidence/synthetic/*.pdf binary
 docs/research/epic18/S779-T05-change-control/evidence/*.pdf binary
 # Captured UIQ CLI logs preserve terminal formatting and trailing table padding.
 docs/research/uiq*/**/*.log -whitespace
+docs/research/epic18/S782-T01-legacy-v1-save/*.pdf binary

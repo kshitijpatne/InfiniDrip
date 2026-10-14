@@ -1,0 +1,16 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4731,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Record S783's reproduced and corrected Windows PDF checkout conversion, exact hash proof, unchanged ZIP/manifest blobs, and the focused board suite result; retain exit In Progress pending S784.",
+  "evidence": {
+    "id": "E-G05-S783-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic18/S783-pdf-evidence-line-endings/exit-packet.md",
+    "sha256": "75763b8c305c93be152b7cdbe4f4e868cdc415bdadefe2bf129d36daeaf60c49",
+    "verified": true,
+    "note": "S783 restores the exact 11,686-byte committed S782 PDF after reproducing its 11,887-byte CRLF checkout. PDF, ZIP and artifact manifest match their committed blobs. Control Center passes 42/42 after the board summary update. Product tests, builds, rendering and export baselines were not rerun or changed; S784 still owns exact-head reviews, merge, deployment and canonical closeout."
+  }
+}

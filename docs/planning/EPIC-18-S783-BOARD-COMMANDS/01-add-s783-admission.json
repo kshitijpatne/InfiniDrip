@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4725,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "note": "Admit the bounded S783 Windows PDF evidence byte-preservation follow-up from the independent S782 exact-head review; retain Epic and exit In Progress.",
+    "id": "E-G05-S783-ADMISSION",
+    "uri": "docs/planning/EPIC-18-S783-REMEDIATION-ADMISSION.md",
+    "verified": true,
+    "sha256": "f66d08e57ae080b6e9ceead06735ec411c9db75a94878673d17521e1b6f667a9",
+    "kind": "document"
+  }
+}

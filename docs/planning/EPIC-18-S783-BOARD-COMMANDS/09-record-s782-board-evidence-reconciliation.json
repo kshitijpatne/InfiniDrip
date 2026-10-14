@@ -1,0 +1,16 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4733,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Record the confirmed historical S782 exit-packet digest mismatch and its immutable-source reconciliation without rewriting prior board history.",
+  "evidence": {
+    "id": "E-G05-S782-EXIT-RECONCILIATION",
+    "kind": "document",
+    "uri": "docs/research/epic18/S783-pdf-evidence-line-endings/S782-board-evidence-reconciliation.md",
+    "sha256": "505f972bc67d3fad6dfecbe0b5aebe3c9ebc2a05671cbc9d3a32b6c03b6adbad",
+    "verified": true,
+    "note": "S782's committed exit packet is restored to its immutable 19c101d content. This addendum preserves the later approval reports, documents the prior board hash mismatch, and makes the current S782/S783/S784 checkpoint auditable. The old evidence record is retained as history; this reference supplements it."
+  }
+}

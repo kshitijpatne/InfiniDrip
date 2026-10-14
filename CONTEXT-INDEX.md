@@ -45,9 +45,12 @@ only through an explicitly admitted, linked Epic packet.
   main-based snapshot. Each lane retains its own scope/approval gates.
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
 - `docs/planning/EPIC-18-ADMISSION.md`, `EPIC-18-S765-RESEQUENCING.md`,
-  `EPIC-18-GOAL.md` and `EPIC-18-S782-REMEDIATION-ADMISSION.md` — admitted G05
-  scope, active S762–S783 slice sequence, acceptance gates, non-goals and
-  current remediation/closeout checkpoint.
+  `EPIC-18-GOAL.md`, `EPIC-18-S782-REMEDIATION-ADMISSION.md` and `EPIC-18-S783-REMEDIATION-ADMISSION.md` — admitted G05
+  scope, active S762–S784 slice sequence, acceptance gates, non-goals and
+  current remediation/closeout checkpoint. The latest completed S783 byte
+  preservation proof and exit are under
+  `docs/research/epic18/S783-pdf-evidence-line-endings/`; S784 is the next
+  exact-head review, merge, deployment and canonical closeout boundary.
   The hash-bound S762 admission remains unchanged; the S765 addendum records
   the package-copy correction and current sequence. Slice 763's T01 schema/validator
   is complete; its start and exit evidence are in
@@ -180,32 +183,34 @@ only through an explicitly admitted, linked Epic packet.
   pass. S780 completed the settled integrated gate: 179/179 files and 3,161/3,161
   tests pass at 100% global statement, branch, function and line coverage;
   build, readiness, browser/Electron, actual output and protected export
-  checks pass. S781's initial review of PR #43 identified a high-severity
-  first-save defect for migrated payload-v1 T01 records; Codex reproduced it
-  against the actual v8 migration fixture. S782 is the admitted narrow repair:
-  a changed T01 record with the exact legacy null/zero identity may create one
-  payload-v2 child from a verified same-style v1 head while preserving its
-  parent/digest, keeping no-op saves stable and retaining stale-write CAS.
-  The actual v8 regression, 126/126 focused tests with 100% changed-module
-  coverage, and a new full 179/179-file, 3,161/3,161-test, 100% global gate
-  pass; build/Electron, web release 10/10, readiness 5/5, Control Center,
-  Chromium save/review/freeze, and actual PDF/ZIP review also pass. Evidence is
-  in `docs/research/epic18/S782-T01-legacy-v1-save/`.
+  checks pass. S781's initial PR #43 review found the migrated payload-v1
+  T01 first-save defect, which Codex reproduced against the real v8 fixture.
+  S782 repaired the guarded save and passed 126/126 focused tests with 100%
+  changed-module coverage, a new 179/179-file, 3,161/3,161-test, 100% global
+  gate, build/Electron, web/readiness, Control Center, Chromium save/review/
+  freeze and actual PDF/ZIP review. Claude Code and OpenCode approved exact
+  S782 head `19c101dfeff43a8761e431a488ab61d092dae73f`; their JSON-only reports
+  are in `docs/research/epic18/S782-T01-legacy-v1-save/`. Claude reported that
+  a fresh Windows checkout changed the S782 PDF from the committed 11,686-byte
+  hash to 11,887 CRLF-converted bytes. Codex reproduced this in a clean
+  reviewer worktree.
 
-  Validated S782 board replay ended at revision 4725; its Control Center suite
-  passed 42/42 at revision 4723 after a summary correction. EPIC-18 and
-  G05-EXIT remain In Progress; G05-T01–T05 and UIQ-10 remain Done; UIQ-09
-  remains Backlog behind EPIC-19. PR #43 is still open and unmerged. The
-  effective `main` rules query returned `[]` and classic protection returned
-  404, so GitHub imposes no formal approval gate. The maintainer requires new
-  internal Claude Code and OpenCode reviews of the exact pushed S782 head plus
-  Codex acceptance; no outside GitHub reviewer is to be contacted. S783 owns
-  merge, main CI/deployment, live preview verification, and validated board
-  closeout. S782's admission is `docs/planning/EPIC-18-S782-REMEDIATION-ADMISSION.md`;
-  its exit and review handoff are under
-  `docs/research/epic18/S782-T01-legacy-v1-save/`. S773's start-digest
-  correction remains documented in its packet. Pattern
-  identifiers do not establish construction facts or fit.
+  S783 completed its one-path binary-attribute fix and verified that a Windows
+  checkout restores the exact PDF hash; no product code, tests, PDF/ZIP content
+  or export baseline changed. Its admission is
+  `docs/planning/EPIC-18-S783-REMEDIATION-ADMISSION.md`; start/hash/exit proof
+  is in `docs/research/epic18/S783-pdf-evidence-line-endings/`. The validated
+  start and exit replays advance board revision 4725→4733; the S782 exit-hash
+  reconciliation records final board revision 4735. EPIC-18 and G05-EXIT remain In
+  Progress; T01–T05/UIQ-10 remain Done; UIQ-09 remains Backlog behind EPIC-19.
+  PR #43 is open and unmerged. S784 owns exact-updated-head Claude Code/OpenCode
+  reviews, Codex acceptance, normal rebase merge, main workflow/Cloudflare Pages
+  deployment, live preview verification, and canonical closeout. The effective
+  main rules query returned `[]` and classic protection returned 404, so there
+  is no formal GitHub approval gate. The maintainer requires only the two
+  internal reviews; no outside GitHub user is to be contacted. S773's start-
+  digest correction remains documented in its packet. Pattern identifiers do
+  not establish construction facts or fit.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.

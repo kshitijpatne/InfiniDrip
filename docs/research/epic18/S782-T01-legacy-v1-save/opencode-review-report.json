@@ -1,0 +1,44 @@
+{
+  "status": "COMPLETE",
+  "review_decision": "APPROVE",
+  "summary": "HEAD verified as exact assigned SHA 19c101dfeff43a8761e431a488ab61d092dae73f ('Slice 782: repair legacy v1 first T01 save') on a clean worktree; no branch-following. The S782 production delta is a minimal 12-line guard in src/ui/project-workflow.ts plus a real-v8-migration regression in src/ui/project-repository.test.ts; no export/writer modules change. The exception is tightly limited to a changed same-style/same-recipe unlinked null/zero T01 record under a verified same-style payload-v1 head; the v1 parent row and digest are preserved byte-identical; no-op saves return the current snapshot without a child; stale-tab saves fail at repository CAS without a duplicate child; payload-v2 binding (createStyleRevision stamps current version 2), parseTechPackRecord, pomData history, ordinary v2 identity/content checks, review/freeze disclaimers, the eight protected export identities, local/no-cost scope, and synthetic/local-only claims are all preserved and evidenced. No unresolved release-blocking or material correctness issue remains. Two evidence-artifact diff-check whitespace notes and three test-hygiene/record-keeping notes are nonblocking.",
+  "branch": "opencode/slice-782-pr43-review at 19c101dfeff43a8761e431a488ab61d092dae73f (PR #43 source branch: codex/epic-18-g05; base origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75 verified as ancestor; worktree clean)",
+  "changed_files": [
+    "src/ui/project-workflow.ts (production: +7-line isUnlinkedPayloadV1TechPack guard, 2 bypass conditions on pre-existing identity checks, head-lookup hoist; all other save logic unchanged)",
+    "src/ui/project-repository.test.ts (test-only: extends the actual v8-upgrade fixture with no-op stability, single v2 child, intact v1 parent, stale-CAS rejection, revision-bound review/approval/freeze, disclaimer assertions)",
+    "ops/control-center/data/board.json (validated S782 evidence replay; board revision 4725; EPIC-18 and G05-EXIT In Progress)",
+    "ARCHITECTURE.md, CONTEXT-INDEX.md, PROJECT-STATE.md, docs/PROJECT-DECISIONS.md, docs/planning/EPIC-18-GOAL.md, docs/planning/EPIC-18-S765-RESEQUENCING.md (S782 checkpoint reconciliation only)",
+    "docs/planning/EPIC-18-S782-EXIT-BOARD-COMMANDS/01..12 JSON (validated board replay commands)",
+    "docs/research/epic18/S782-T01-legacy-v1-save/ (exit-packet.md, focused-verification.json, boundary-verification.json, rendered-proof-verification.json, rendered-output-review.md, rendered-tech-pack-artifact-manifest.json, rendered-tech-pack-zip-inspection.json, rendered-proof.cjs, rendered-proof-fixture.json, control-center-attempt-01.txt, global-coverage.txt, rendered-tech-pack-extracted.txt, rendered-tech-pack-pdfinfo.txt, review-handoff.md, S782-legacy-v1-tech-pack.pdf/.zip, 7 rendered page PNGs, 3 UI screenshots)"
+  ],
+  "tests_run": [],
+  "coverage": {
+    "source": "retained evidence only; not rerun per read-only review instruction",
+    "focused": "126/126 tests pass across project-workflow.test.ts + project-repository.test.ts with 100% statements/branches/functions/lines for changed module src/ui/project-workflow.ts (docs/research/epic18/S782-T01-legacy-v1-save/focused-verification.json, status PASS)",
+    "full_settled_gate": "179/179 files, 3161/3161 tests, 100% global statements/branches/functions/lines in 1290.7s single-worker run (boundary-verification.json, evidence global-coverage.txt)"
+  },
+  "build_and_typecheck": {
+    "source": "retained evidence only; not rerun per read-only review instruction",
+    "build_electron_workflow": "npm run electron:verify-project-workflow PASS including pre-steps npm run build (181 Vite modules; existing large-chunk warning only) and npm run electron:build-main; Chromium and Electron restart/persistence checks PASS",
+    "web_release": "10/10 PASS (2.84s)",
+    "readiness": "5/5 PASS (2.94s)",
+    "control_center": "42/42 PASS at board revision 4723; earlier attempt-01 failure diagnosed as omitted catalog-required summary phrases, corrected via board replay with no production/test change"
+  },
+  "rendered_or_export_evidence": {
+    "rendered_proof": "PASS: real Chromium (HeadlessChrome/151.0.7922.34) migrated the v8 fixture, saved T01 as immutable r2 child of preserved v1 head, completed scoped review, self-attested approval, local freeze; save status 'Saved T01 as immutable style revision r2' (rendered-proof-verification.json; screenshots rendered-t01-saved.png, rendered-t01-saved-field.png, rendered-t01-frozen.png)",
+    "artifacts": "production-pack.pdf 11686 bytes sha256 d27d230005e9a97bf6e739ecc109bb03b6219f24368177ee129b81180f9e57c4 (7 A4 pages, visually reviewed); production-pack.techpack.zip 3902 bytes sha256 9d9bff4729c4239ba16765cf3d82b7efd02a37ad40da4c055f5c659849397665 (manifest.json + records/tech-pack.json bound to r2, styleCode TP-S782-UI-01, APPROVED); manifest/ZIP cross-checked (rendered-tech-pack-artifact-manifest.json, rendered-tech-pack-zip-inspection.json, rendered-output-review.md)",
+    "export_identities": "no export source, fixture, threshold, or baseline changed in S782 (name-only src delta is the 2 files above); full-suite protected export tests pass per exit packet; eight protected legacy hashes retained as recorded for S780",
+    "claims_boundary": "all PDF pages and frozen manifest carry local-digital-review disclaimers; evidence explicitly synthetic/local with no physical-fit, supplier, factory, compliance, or production-release claim"
+  },
+  "findings": [],
+  "known_limitations": [
+    "NONBLOCKING: 'git diff --check HEAD^..HEAD' reports trailing-whitespace warnings confined to committed generated evidence (S782-legacy-v1-tech-pack.pdf text lines 180-197, global-coverage.txt lines 614-794); zero warnings in src/ or other hand-authored files. Generated artifacts have recorded hashes; no action required.",
+    "NONBLOCKING (test hygiene only): in the extended v8-upgrade test, if staleWorkflow construction threw, the opened staleRepository would leak (src/ui/project-repository.test.ts:4434-4445 finally relies on staleWorkflow.close()); and shared repository close is delegated to workflow.close(). No production impact.",
+    "NONBLOCKING: the guard does not pin head.revisionNumber (e.g. to 1); a hypothetical v1 head at revision 0 with an unlinked stored record would also qualify and yield child number head+1=1. Still exactly one child from a verified head under the same-style/recipe/null-zero conjunction; harmless.",
+    "NONBLOCKING (record-keeping): focused-verification.json declares exactFocusedWallTimeCaptured:false; focused wall time is bounded only by the 17m04s combined post-edit interval in the exit packet. Does not affect gate validity.",
+    "Design-edit-first on a migrated v1 style follows the pre-existing unchanged path (S781 defect statement implies it unblocked saves); S782 neither alters nor regresses that path and the settled full gate is green."
+  ],
+  "follow_up_needed": [
+    "S783: after this and the Claude Code exact-head review both return APPROVE plus WORK FINISHED and Codex accepts the integrated candidate, proceed with normal rebase merge of PR #43, main CI/build/web-proof/deployment, live preview verification, and validated board closeout. No merge or GitHub-state change is authorized by this review."
+  ]
+}

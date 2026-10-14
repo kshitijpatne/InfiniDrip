@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 4729,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Record the approved S782 result and bounded S783 PDF-evidence correction while reserving S784 for the exact-head review and merge/deployment closeout.",
+  "patch": {
+    "description": "Maintainer-admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 scope is docs/planning/EPIC-18-ADMISSION.md and the current ledger docs/planning/EPIC-18-GOAL.md. T01–T05 and UIQ-10 are Done; UIQ-09 remains Backlog behind EPIC-19. S780 passed the settled integrated gate: 179/179 files, 3,161/3,161 tests and 100% global statement/branch/function/line coverage; build/readiness, browser/Electron, actual PDF/ZIP and protected exports passed. S781's initial review of PR #43 found a high-severity backward-compatibility defect: a migrated payload-v1 style can load with an unlinked T01 record whose first save fails. S782 is admitted to add the guarded first-save path and real migration regression; the S782 change and all technical gates now pass, and Claude Code and OpenCode approved exact head 19c101dfeff43a8761e431a488ab61d092dae73f. Claude identified a low-severity S782 PDF checkout byte-conversion issue, reproduced by Codex. S783 adds only a path-specific binary attribute and fresh-Windows-checkout hash proof. S784 owns fresh exact-updated-head internal reviews, Codex acceptance, normal rebase merge, main CI/build/web-proof/Cloudflare Pages deployment, actual live-preview verification and validated canonical closeout. No formal GitHub approval gate applies; the maintainer's two internal approvals remain required. No outside GitHub reviewer is to be contacted. Physical, supplier/factory, signing, compliance and production-claim holds remain explicit; local/no-cost and provider/launch holds remain."
+  }
+}
