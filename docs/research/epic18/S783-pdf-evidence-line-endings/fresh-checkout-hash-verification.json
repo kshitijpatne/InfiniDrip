@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "slice": "S783",
+  "verifiedAtUtc": "2026-10-14T00:03:02Z",
+  "candidateCommitAtVerification": "19c101dfeff43a8761e431a488ab61d092dae73f",
+  "candidateAttribute": {
+    "file": ".gitattributes",
+    "rule": "docs/research/epic18/S782-T01-legacy-v1-save/*.pdf binary",
+    "target": "docs/research/epic18/S782-T01-legacy-v1-save/S782-legacy-v1-tech-pack.pdf"
+  },
+  "freshWindowsCheckout": {
+    "baselineCommit": "19c101dfeff43a8761e431a488ab61d092dae73f",
+    "coreAutocrlf": true,
+    "beforeCandidateAttribute": {
+      "gitLsFilesEol": "i/lf w/crlf attr/",
+      "byteLength": 11887,
+      "sha256": "03a1c84a35f5d8809cf29daa48b52f0b2cbda6ec58c24c1691de611304efa297"
+    },
+    "withCandidateAttribute": {
+      "gitCheckAttr": "binary: set",
+      "recheckoutProcedure": "Copied and staged the candidate .gitattributes in the detached scratch worktree, removed only the checked-out PDF file, then ran git checkout-index --force for that tracked PDF.",
+      "gitLsFilesEol": "i/lf w/lf attr/-text",
+      "byteLength": 11686,
+      "sha256": "d27d230005e9a97bf6e739ecc109bb03b6219f24368177ee129b81180f9e57c4"
+    }
+  },
+  "committedEvidence": {
+    "pdf": {
+      "gitBlob": "f65e0aaa80b2faa9dbbb1ba5cdcfb351f5cb4c22",
+      "byteLength": 11686,
+      "sha256": "d27d230005e9a97bf6e739ecc109bb03b6219f24368177ee129b81180f9e57c4",
+      "worktreeMatchesHeadBlob": true
+    },
+    "zip": {
+      "gitBlob": "1f26b688869b9933bd31c6b3609f53967f3273bb",
+      "byteLength": 3902,
+      "sha256": "9d9bff4729c4239ba16765cf3d82b7efd02a37ad40da4c055f5c659849397665",
+      "worktreeMatchesHeadBlob": true
+    },
+    "artifactManifest": {
+      "file": "docs/research/epic18/S782-T01-legacy-v1-save/rendered-tech-pack-artifact-manifest.json",
+      "gitBlob": "9b219ca71a89182d8358843a7836a67ae2ee6163",
+      "worktreeMatchesHeadBlob": true,
+      "embeddedPdfSha256": "d27d230005e9a97bf6e739ecc109bb03b6219f24368177ee129b81180f9e57c4",
+      "embeddedPdfByteLength": 11686
+    }
+  },
+  "result": "PASS",
+  "scope": "Git checkout conversion and byte/hash comparison only; no product tests, builds, browser/Electron checks, rendering, ZIP contents, PDF contents, or export baselines were changed or rerun."
+}

@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4730,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "patch": {
+    "description": "Slices 780–784. S780 passed the settled integrated G05 gate: 179/179 test files, 3,161/3,161 tests and 100% global statement/branch/function/line coverage; build/readiness, browser/Electron, actual PDF/ZIP and protected export checks passed. S781's initial closeout review found a high-severity compatibility defect: migrated payload-v1 styles can load with an unlinked T01 record that cannot be saved. OpenCode approved the S780 head; Claude requested changes; Codex confirmed the finding. S782 adds the guarded first T01 save through one payload-v2 child and the real v8 migration regression; focused 126/126 and global 179/179 / 3,161 tests have 100% four-metric coverage. Build/Electron, release/readiness, Control Center and actual browser/PDF/ZIP proof pass. Claude Code and OpenCode approved exact S782 head 19c101dfeff43a8761e431a488ab61d092dae73f. Claude's low-severity finding showed the S782 PDF changed bytes in a fresh Windows checkout because it lacked a binary attribute. S783 adds only that path-specific attribute and verifies the fresh checkout matches the committed PDF hash; product code, tests, rendering, ZIP and export baselines remain unchanged. S784 owns fresh independent reviews of the exact updated PR #43 head plus Codex acceptance, normal rebase merge, main npm test/build/web-proof/Cloudflare Pages deployment, actual live-preview verification and validated board/durable closeout. GitHub imposes no formal approval gate; the two internal reviews remain the maintainer's merge condition, and no outside reviewer is to be contacted. Keep EPIC-18/G05-EXIT In Progress until all S784 gates pass."
+  }
+}

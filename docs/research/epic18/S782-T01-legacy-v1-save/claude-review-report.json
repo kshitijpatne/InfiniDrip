@@ -1,0 +1,76 @@
+{
+  "status": "COMPLETE",
+  "review_decision": "APPROVE",
+  "summary": "I reviewed PR #43 read-only at exact HEAD 19c101dfeff43a8761e431a488ab61d092dae73f (confirmed with git rev-parse HEAD; the worktree was clean). origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75 is the merge base. The full origin/main...HEAD range is the whole EPIC-18 branch: 21 commits, S762 through S782. I reviewed the S782 remediation delta in depth. S782 changes only one production file, src/ui/project-workflow.ts (+12/-? lines), and one test file, src/ui/project-repository.test.ts. The new exception is narrow and correct. It applies only when the verified head belongs to the active style and uses payload v1, and the stored T01 record has the same style and recipe with revisionId null and revisionNumber 0. The existing checks then force the candidate to carry the same null/0 identity, recipe, recipeVersion and createdAt. The candidate still has to parse. No-op saves return early, and the v2 head-content check is unchanged. The child is bound to a new payload-v2 revision numbered head+1, and its parent is the untouched v1 head. The repository CAS, the parent/head-number checks and the payload-v2 requirement are unchanged. I found no correctness, compatibility, scope or claim problem in the remediation. One low-severity evidence-integrity issue is reported: .gitattributes does not mark the new S782 PDF as binary, so a Windows checkout with core.autocrlf=true rewrites it and it no longer matches its recorded SHA-256. The committed blob itself is correct, so this does not block approval.",
+  "branch": "claude/slice-782-pr43-review @ 19c101dfeff43a8761e431a488ab61d092dae73f (PR #43 head per assignment; base origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75)",
+  "changed_files": {
+    "full_pr_range": "origin/main...HEAD: EPIC-18 S762–S782. It includes 49 src/ files (+19,408/-125) plus docs, evidence and board files. Earlier slices were not re-reviewed line by line beyond what S782 depends on.",
+    "s782_commit": [
+      "src/ui/project-workflow.ts (saveActiveTechPack legacy payload-v1 exception)",
+      "src/ui/project-repository.test.ts (real v8-upgrade regression extended through save/no-op/stale/review/approve/freeze)",
+      "ARCHITECTURE.md, CONTEXT-INDEX.md, PROJECT-STATE.md, docs/PROJECT-DECISIONS.md, docs/planning/EPIC-18-GOAL.md, docs/planning/EPIC-18-S765-RESEQUENCING.md (status text)",
+      "docs/planning/EPIC-18-S782-EXIT-BOARD-COMMANDS/01–12 *.json, ops/control-center/data/board.json",
+      "docs/research/epic18/S782-T01-legacy-v1-save/* (exit packet, verification JSON, rendered proof script/fixture, PNGs, PDF, ZIP, extracted text, pdfinfo, coverage log, handoff)"
+    ]
+  },
+  "tests_run": [],
+  "coverage": "Not rerun (review only). Recorded results: 126/126 focused tests with 100% statements, branches, functions and lines for src/ui/project-workflow.ts (focused-verification.json). The full settled gate passed 179/179 files and 3,161/3,161 tests with 100% on all four global metrics (boundary-verification.json, global-coverage.txt). Note that the coverage provider is v8 (vitest.config.ts:16). v8 branch coverage does not track each operand of the new && chain separately, so 100% branch coverage does not show that every conjunct has a negative test. See the nonblocking observations.",
+  "build_and_typecheck": "Not rerun. Recorded: npm run build, npm run electron:build-main and npm run electron:verify-project-workflow passed (browser and Electron), with Vite's existing large-chunk warning. web:release:test passed 10/10, readiness:drill:test 5/5 and control-center:test 42/42 at board revision 4723. One earlier Control Center failure was caused by catalog wording and is diagnosed in control-center-attempt-01.txt; the fix changed no code or test expectations.",
+  "rendered_or_export_evidence": "I checked the retained evidence against itself and against git. In rendered-proof-verification.json, the migrated head is payload v1 with its digest preserved, there is exactly one payload-v2 child, and review, approval and freeze were rendered. In rendered-tech-pack-artifact-manifest.json and rendered-tech-pack-zip-inspection.json, the revision a2ee2d10… (r2), the digest, the style code TP-S782-UI-01 and the APPROVED state all agree. The ZIP on disk hashes to 9d9bff47…7665, which matches. The embedded documents/production-pack.pdf inside the ZIP hashes to d27d2300…57c4, which matches. The committed PDF blob (git cat-file) is 11,686 bytes with SHA d27d2300…57c4, which matches. The checked-out PDF on this Windows worktree is 11,887 bytes with SHA 03a1c84a…a297, which does not match; it was CRLF-converted (finding F1). rendered-tech-pack-extracted.txt shows the 'Local digital review only; no supplier or production acceptance is established.' footer on every page. It also contains the statement that local review does not establish supplier acceptance, physical fit, factory acceptance, compliance or production release. The regression at src/ui/project-repository.test.ts:4523 asserts the physical-fit/production-readiness disclaimer in the frozen payload. S782 changes no export source, fixture, threshold or baseline, so the eight protected export identities can only be affected by earlier slices, and those are recorded as passing in the full gate.",
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "Low",
+      "blocking": false,
+      "file": ".gitattributes",
+      "line": 8,
+      "title": "S782 PDF evidence is not marked binary, so Windows checkouts change its bytes",
+      "impact": ".gitattributes lines 2–8 mark the retained PDFs from earlier slices as binary ('Preserve generated inspection evidence byte-for-byte', line 1). There is no entry for docs/research/epic18/S782-T01-legacy-v1-save/*.pdf. Git treats S782-legacy-v1-tech-pack.pdf as text; the diffstat shows it as 202 lines. With core.autocrlf=true it checks out with CRLF line endings. Anyone who checks out on Windows and verifies the PDF against rendered-output-review.md or the artifact manifest (11,686 bytes, d27d2300…) will see a mismatch, which undermines the byte-exact evidence claim. Product behavior and the committed blob are unaffected.",
+      "evidence": "git ls-files --eol shows 'i/lf w/crlf attr/' for the PDF. In this worktree, wc -c gives 11887 and sha256sum gives 03a1c84a35f5…a297. git cat-file -p HEAD:<pdf> gives 11686 bytes with sha256 d27d230005e9…57c4. git check-attr shows no binary attribute.",
+      "recommended_fix": "Add 'docs/research/epic18/S782-T01-legacy-v1-save/*.pdf binary' after .gitattributes:8, following the existing per-slice pattern. The index blob is already LF and correct, so no evidence needs regenerating."
+    }
+  ],
+  "nonblocking_observations": [
+    {
+      "file": "src/ui/project-workflow.ts",
+      "line": "459-465",
+      "note": "The exception is tight in practice. With the exception active, line 472 forces candidate.revisionId to be null, line 475 forces candidate.revisionNumber to be 0, lines 478–488 enforce recipe, recipeVersion and createdAt, and line 494 requires the parse to succeed. The conjuncts stored.styleId === active.id and stored.recipeId === active.recipeId duplicate parseStyleRecord (src/ui/project-records.ts:312) and line 478, so they are defensive rather than load-bearing. The code checks for a null/0 unlinked record, not specifically for the empty migrated default. That makes no practical difference, because the unlinked content was never immutable and the candidate replaces it."
+    },
+    {
+      "file": "src/ui/project-workflow.ts",
+      "line": "469, 501",
+      "note": "After the first legacy save the head becomes payload v2, so the exception turns off. A repeated or stale null/0 candidate then fails the conflict check at line 469 in the same tab, or the repository CAS from another tab (src/ui/project-repository.ts:1499–1541, expectedProjectRevision). The regression covers this at src/ui/project-repository.test.ts:4490–4491: the result is a conflict, and the revision count stays at 2."
+    },
+    {
+      "file": "src/ui/project-workflow.ts",
+      "line": "508-514",
+      "note": "The v2 head-content check is unchanged and still applies only to payload-v2 heads. A v1 head has no T01 content to compare. The no-op early return at lines 513–514 runs before any ID is allocated or anything is written. The test asserts identity equality and that only one revision exists (project-repository.test.ts:4467–4469)."
+    },
+    {
+      "file": "src/ui/project-workflow.test.ts",
+      "line": "511-540",
+      "note": "There is no unit-level negative test aimed at the boundary of the new exception: a v1 head with a stored record that is already linked plus a null/0 candidate, a v1 head belonging to another style, or v2 heads with an unlinked stored record. With v8 coverage these operand cases are not tracked as separate branches. Code reasoning shows they are rejected by the existing checks (lines 469/472/498/501), so this is a gap in test hardening, not a defect. Optional follow-up."
+    },
+    {
+      "file": "src/ui/project-repository.test.ts",
+      "line": "4494, 4547",
+      "note": "The v1 parent is confirmed unchanged both in memory (toEqual(revision), which includes revisionContentDigest) and in raw IndexedDB after the database is closed. The child has payloadVersion 2, parentRevisionId equal to the v1 ID, and revisionNumber 2, and the bound techPack has revisionId equal to the child ID."
+    },
+    {
+      "file": "docs (ARCHITECTURE.md:3-9, docs/PROJECT-DECISIONS.md:5-9, exit-packet.md)",
+      "line": "n/a",
+      "note": "The status text matches the code and evidence. It keeps the local/no-cost, self-attested approval, physical-fit, supplier/factory, signing, compliance and production-readiness holds. It assigns merge and deployment to S783 and introduces no new garment, provider or paid feature."
+    }
+  ],
+  "known_limitations": [
+    "I did not rerun tests, builds, browser or Electron checks, or PDF/ZIP rendering, as instructed. Those results come from the retained evidence.",
+    "The earlier EPIC-18 slices (S762–S780) in the full PR range were not re-reviewed line by line. The review covered the S782 delta and the code paths it touches (saveActiveTechPack, saveDesignInQueue, repository saveProjectBundle revision/CAS validation, parseStyleRecord migration default, and the v2 requirements for freeze and output).",
+    "I did not recompute the hashes of the eight protected export identities. S782 changes no export code, and the recorded full gate reports them passing.",
+    "Plan-mode file writing was not used; this report is the only output."
+  ],
+  "follow_up_needed": [
+    "Optional, low priority: add the S782 PDF binary rule to .gitattributes (F1) so the evidence stays byte-exact in Windows checkouts.",
+    "Optional: add negative unit tests for the boundary of the v1 exception (v1 head with a linked stored record, v1 head owned by another style, v2 head with an unlinked record).",
+    "The process gate is unchanged: the OpenCode exact-head review and Codex integration acceptance are still required before the S783 merge."
+  ]
+}

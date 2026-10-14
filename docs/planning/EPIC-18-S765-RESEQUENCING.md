@@ -1,7 +1,7 @@
 # EPIC-18/G05 — S765 execution-sequence amendment
 
 **Status:** active. **Recorded:** 2026-10-12. **Applies after:** Slice 764.
-**Current assigned slice sequence:** S762–S783, including the S781 review
+**Current assigned slice sequence:** S762–S784, including the S781 review
 boundary, its S782 remediation, and S783 merge/deployment closeout. This is a
 boundary plan, not a claim that every assigned slice has landed a commit.
 **Original admission:** `EPIC-18-ADMISSION.md`, retained unchanged as the
@@ -51,7 +51,8 @@ and the current goal ledger define the active execution order after S764.
 | 780 | Settled integrated G05 gate, global 100% coverage, build, Control Center, release/readiness, browser/Electron, actual output replay and reviewed PR candidate. |
 | 781 | Review the S780 PR candidate and reconcile effective mergeability. Initial independent review found a blocking legacy payload-v1 T01 first-save defect; do not merge. |
 | 782 | Allow a guarded first T01 save on an unlinked payload-v1 head to create one payload-v2 child; add real migrated-v8 regression, focused/full gates and rendered proof. |
-| 783 | After two internal approvals and Codex review, rebase-merge PR #43; verify main CI/deploy and live preview; close the canonical board and reconcile durable state. |
+| 783 | Correct the independently reproduced S782 PDF Windows-checkout byte conversion with a path-specific `.gitattributes` binary rule; verify a clean Windows checkout against the committed PDF hash. No product code or tests. |
+| 784 | After S783, both independent internal agents review the exact updated head and Codex accepts it; normal rebase-merge PR #43, pass main CI/build/web-proof/Cloudflare Pages deployment, verify actual live preview, and close the canonical board and durable state. |
 
 The original S762–S780 baseline remains visible in the admission as historical
 context. S773's planned UIQ-10 admission moves to S774, after T01–T03 as
@@ -68,16 +69,13 @@ gates are in
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
 
-## Current checkpoint — S782 technical gates passed; exact-head reviews pending
+## Current checkpoint — S783 PDF byte-preservation verified; S784 closeout next
 
-S780 completed the admitted integrated gate and landed as bfacbf68ef242f366e77b6c43ed548ee4fe130b8. The refreshed origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75 remains the verified ancestor. S781 review of PR #43 found a high-severity first-save defect for upgraded payload-v1 styles; Codex confirmed it against the real v8 migration fixture.
+S782 committed and pushed as `19c101dfeff43a8761e431a488ab61d092dae73f` on `codex/epic-18-g05`; verified `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor. The S782 full and rendered gates passed, and Claude Code and OpenCode both approved the exact head. Claude identified that a fresh Windows checkout CRLF-converts the retained 11,686-byte S782 PDF, producing 11,887 different bytes because the specific path is not marked binary. Codex independently reproduced the discrepancy in the clean reviewer checkout. The reports are stored in `docs/research/epic18/S782-T01-legacy-v1-save/`.
 
-S782 is admitted under the existing goal's failed-gate remediation clause. The narrow first-save implementation and real migrated-v8 regression pass. The candidate passes 126/126 focused tests with 100% changed-module coverage; one settled full gate passes 179/179 files, 3,161/3,161 tests and 100% global statements, branches, functions and lines. Build/Electron workflow, web release 10/10, readiness 5/5, actual browser and PDF/ZIP output, and Control Center 42/42 pass. Evidence is in docs/research/epic18/S782-T01-legacy-v1-save/.
+S783 added one path-specific `.gitattributes` binary rule and verified that Git restores the exact 11,686-byte S782 PDF in a Windows checkout with `core.autocrlf=true`, after reproducing the 11,887-byte CRLF conversion. The PDF, ZIP and artifact manifest remain unchanged. The Control Center suite passed 42/42 after the summary update. Exit/hash proof is under `docs/research/epic18/S783-pdf-evidence-line-endings/`; validated exit commands advanced the board from revision 4731 to 4733, and a separate S782 exit-evidence hash reconciliation advanced it to 4735. EPIC-18/G05-EXIT remain In Progress. T01–T05/UIQ-10 remain Done; UIQ-09 remains Backlog behind EPIC-19.
 
-Validated S782 board replay advanced revision 4713 to 4725; the Control Center suite passed after the board-summary correction at revision 4723. EPIC-18 and G05-EXIT remain In Progress. T01–T05 and UIQ-10 remain Done; UIQ-09 remains Backlog behind EPIC-19. PR #43 is unmerged. No formal GitHub approval gate applies: the effective rules query for main returned [] and classic branch protection returned 404. The owner nevertheless requires two independent internal approvals, by Claude Code and OpenCode. No outside GitHub user is to be contacted.
-
-The single next action is commit S782 once as Slice 782 and push the candidate to PR #43. Then Claude Code and OpenCode review that exact immutable head in separate read-only worktrees; Codex reviews the actual diff and reports. Both must approve before S783 proceeds with normal rebase merge, main CI/build/web-proof/deployment, actual preview verification, and validated durable closeout. Local/no-cost, physical, supplier/factory, signing/compliance and production-claim holds remain unchanged.
-
+The next action is to commit and push S783 to PR #43. S784 then reviews the exact updated head with both independent internal CLI agents; Codex accepts the diff before normal rebase merge, main CI/build/web-proof/Cloudflare Pages deploy, actual preview verification and validated board/durable closure. The GitHub effective-rules query for `main` returned `[]` and classic branch protection returned 404; no formal approval gate applies. No outside GitHub reviewer is to be contacted. The local/no-cost, physical, supplier/factory, signing, compliance and production-claim holds remain.
 ## Previous checkpoint — S781 review found blocker; S782 remediation active
 
 S781's first review replay ended at board revision 4702; its mergeability and

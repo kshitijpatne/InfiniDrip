@@ -1,0 +1,8 @@
+{
+  "type": "addEpicEvidence",
+  "expectedRevision": 4734,
+  "epicId": "EPIC-18",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidenceId": "E-G05-S782-EXIT-RECONCILIATION"
+}

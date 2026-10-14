@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4727,
+  "itemId": "G05-EXIT",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "note": "Start S783 from approved S782 candidate 19c101df, verified origin/main e9221ea5 ancestor, board 4725, and the independently reproduced fresh-Windows PDF hash mismatch.",
+    "id": "E-G05-S783-START",
+    "uri": "docs/research/epic18/S783-pdf-evidence-line-endings/start-packet.md",
+    "verified": true,
+    "sha256": "a6ff8693a413ed02f5b6f1a8e6e7fbf2838a20c30d5a9cf273e0b252c48fabb4",
+    "kind": "document"
+  }
+}
