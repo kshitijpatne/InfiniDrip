@@ -3162,9 +3162,16 @@ describe("mountApp", () => {
     }
   });
 
-  it("round-trips neckband output settings through local Save and Load", () => {
+  it("round-trips neckband settings across a Tee body-option edit, Save/Load, and export", async () => {
     localStorage.clear();
     const root = mount();
+    const style = root.querySelector<HTMLSelectElement>("#style-target")!;
+    style.value = "Classic tee";
+    style.dispatchEvent(new Event("change", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>('[data-set-option="chestEase"]')!.click();
+    const chestEase = root.querySelector<HTMLInputElement>('[data-option="chestEase"]')!;
+    chestEase.value = "7";
+    chestEase.dispatchEvent(new Event("input", { bubbles: true }));
     const ratio = root.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandLengthPercent]')!;
     const width = root.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandFinishedWidthCm]')!;
     clickId(root, "save-pattern");
@@ -3180,6 +3187,10 @@ describe("mountApp", () => {
     ratio.dispatchEvent(new Event("input", { bubbles: true }));
     width.value = "2.4";
     width.dispatchEvent(new Event("input", { bubbles: true }));
+    chestEase.value = "8";
+    chestEase.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(ratio.value).toBe("84");
+    expect(width.value).toBe("2.4");
     clickId(root, "save-pattern");
     ratio.value = "78";
     ratio.dispatchEvent(new Event("input", { bubbles: true }));
@@ -3189,8 +3200,25 @@ describe("mountApp", () => {
     clickId(root, "workspace-confirm-accept");
     expect(ratio.value).toBe("84");
     expect(width.value).toBe("2.4");
-  });
+    expect(root.querySelector<HTMLInputElement>('[data-option="chestEase"]')!.value).toBe("8");
 
+    const files = new Map<string, string>();
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename: string, content: string) => {
+        files.set(filename, content);
+        return { saved: true, filePath: filename };
+      }),
+    };
+    try {
+      reachExportStage(root);
+      clickId(root, "export-tee-neckband");
+      await vi.waitFor(() => expect(files.has("tee-M-neckband.svg")).toBe(true));
+      expect(files.get("tee-M-neckband.svg")).toContain("at 84.0%");
+      expect(files.get("tee-M-neckband.svg")).toContain('data-cut-width-cm="6"');
+    } finally {
+      delete window.electronAPI;
+    }
+  });
   it("hydrates saved neckband output settings when reopening the workspace", () => {
     localStorage.clear();
     const first = mount();

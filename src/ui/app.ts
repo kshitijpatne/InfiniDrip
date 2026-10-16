@@ -4417,7 +4417,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const value = input.value.trim() === "" ? NaN : Number(input.value);
         garmentOptions = {
           ...garmentOptions,
-          [recipe.name]: { ...recipeOptions(), [id]: value },
+          [recipe.name]: { ...(garmentOptions[recipe.name] ?? {}), ...recipeOptions(), [id]: value },
         };
         editedFront = null;
         markOutputDirty();
