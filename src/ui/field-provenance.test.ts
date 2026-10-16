@@ -99,6 +99,18 @@ describe("C03 field definitions and append-only observations", () => {
     expect(getFieldDefinition("tee", "chest")?.limitBasis).toBe("existing-ui-guardrail-not-industry-standard");
   });
 
+  it("defines shoulder input as examiner-sourced biacromial breadth without verifying user capture", () => {
+    const shoulder = getFieldDefinitions("tee").find((definition) => definition.inputKey === "shoulderWidth");
+    expect(shoulder).toMatchObject({
+      semanticKind: "BODY_MEASURE",
+      label: "Shoulder width (biacromial breadth)",
+      meaning: expect.stringContaining("lateral borders of the left and right acromial processes"),
+      captureBoundary: expect.stringContaining("do not record who took them"),
+    });
+    expect(shoulder?.captureBoundary).toContain("not verified by the app");
+    expect(shoulder?.captureBoundary).toContain("Self-measure reliability and garment fit are not established");
+  });
+
   it("records an unset optional Tee chest control as inheriting the current shared ease", () => {
     const base = styleFor("tee");
     const teeOptions = { ...base.design.garmentOptions.tee };

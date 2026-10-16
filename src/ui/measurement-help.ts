@@ -64,6 +64,11 @@ const SRC_S10: MeasurementHelpSource = Object.freeze({
   scope: "Teaching guide; plain wording only; not a qualified procedure; heuristics are not standards; does not validate fit.",
 });
 
+const SRC_CDC_NHANES_III: MeasurementHelpSource = Object.freeze({
+  id: "CDC-NHANES-III",
+  scope: "Examiner-administered biacromial breadth method only; does not validate self-measurement, population transfer, or garment fit.",
+});
+
 const SRC_S06: MeasurementHelpSource = Object.freeze({
   id: "S06",
   scope: "Health waist protocol at one site; not a garment wear line; does not validate fit.",
@@ -158,7 +163,7 @@ const DRAFT_USE_SUFFIX: Readonly<Record<string, Readonly<Record<string, string>>
 const LIMITS_ADDITION: Readonly<Record<string, string>> = Object.freeze({
   neck: "Open gate G-neck-path: exact path and posture are unreviewed. Never infer from chest, appearance, or gender. Confidence stays NOT_ASSESSED; no fit claim.",
   chest: "Open gate G-chest-path: exact level and plane are unreviewed. The derived neckline is a formula, not a measurement. Confidence stays NOT_ASSESSED; no fit claim.",
-  shoulderWidth: "Open gate G-shoulder-endpoints: endpoints and straight-span versus tape path are unreviewed. Confidence stays NOT_ASSESSED; no fit claim.",
+  shoulderWidth: "CDC/NCHS NHANES III Body Measurements (Anthropometry) Manual §3.3.1.6 describes examiner-operated sliding calipers and reports biacromial breadth to 0.1 cm. Source: https://wwwn.cdc.gov/nchs/Data/Nhanes3/Manuals/anthro.pdf. Confidence stays NOT_ASSESSED; no fit claim.",
   bicep: "Open gate G-bicep-station: level, side, and posture are undefined. Do not read the sleeve as fit-validated. Confidence stays NOT_ASSESSED.",
   length: "Finished-target control only; not stature. Confidence stays NOT_ASSESSED.",
   armholeDepth: "Pattern target only; no body record exists. Older body or finished labels are superseded. Confidence stays NOT_ASSESSED; no fit claim.",
@@ -191,7 +196,7 @@ const LIMITS_SUFFIX: Readonly<Record<string, Readonly<Record<string, string>>>> 
 const EXTRA_SOURCES: Readonly<Record<string, readonly MeasurementHelpSource[]>> = Object.freeze({
   neck: Object.freeze([SRC_S09]),
   chest: Object.freeze([SRC_S10]),
-  shoulderWidth: Object.freeze([SRC_S10]),
+  shoulderWidth: Object.freeze([SRC_S10, SRC_CDC_NHANES_III]),
   waist: Object.freeze([SRC_S06, SRC_S08]),
   hip: Object.freeze([SRC_S07]),
   crotchDepth: Object.freeze([SRC_S11]),

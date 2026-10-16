@@ -7,6 +7,13 @@ describe("FIELDS", () => {
     // FIELDS must carry metadata for every key on Measurements (waist/hip added s37).
     expect(FIELDS.map((f) => f.id).sort()).toEqual(Object.keys(STANDARD_M).sort());
   });
+
+  it("labels shoulder width as biacromial breadth at the source's recorded precision", () => {
+    expect(FIELDS.find((field) => field.id === "shoulderWidth")).toMatchObject({
+      label: "Shoulder width (biacromial breadth)",
+      step: 0.1,
+    });
+  });
 });
 
 describe("inputError", () => {

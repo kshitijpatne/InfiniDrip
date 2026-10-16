@@ -14,6 +14,7 @@ const ALLOWED_SOURCE_IDS = new Set([
   "S11",
   "S13",
   "S14",
+  "CDC-NHANES-III",
 ]);
 
 /** Prescriptive measuring-step fragments that must never appear in help body text. */
@@ -154,6 +155,13 @@ describe("measurement help catalog", () => {
     const tankShoulder = measurementHelpFor("tank", "body.shoulder-breadth")!;
     expect(tankShoulder.draftUse.toLowerCase()).toContain("does not read this value");
     expect(tankShoulder.draftUse.toLowerCase()).toContain("follows the strap point");
+    const teeShoulder = measurementHelpFor("tee", "body.shoulder-breadth")!;
+    expect(teeShoulder.meaning).toContain("lateral borders of the left and right acromial processes");
+    expect(teeShoulder.sources.map((source) => source.id)).toContain("CDC-NHANES-III");
+    expect(teeShoulder.limits).toContain("examiner-operated sliding calipers");
+    expect(teeShoulder.limits).toContain("reports biacromial breadth to 0.1 cm");
+    expect(teeShoulder.limits).toContain("https://wwwn.cdc.gov/nchs/Data/Nhanes3/Manuals/anthro.pdf");
+    expect(teeShoulder.qualificationNote).toContain("gives no measuring steps and claims no fit");
     // Skirt guided range keeps the Maxi contradiction visible without clamping.
     const skirtLength = measurementHelpFor("skirt", "target.skirt-waistline-to-hem")!;
     expect(skirtLength.guardrailNote).toContain("40–100 cm");
