@@ -282,6 +282,17 @@ describe("exportButtonsMarkup", () => {
     expect(tankMarkup).toContain('data-export-format="export-tee-selected-techpack" hidden');
   });
 
+  it("renders saved neckband output settings separately from recipe controls", () => {
+    const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const markup = exportButtonsMarkup(tee.sizes, "tee", {
+      teeNeckbandLengthPercent: 88,
+      teeNeckbandFinishedWidthCm: 2.5,
+    });
+
+    expect(markup).toContain('data-tee-neckband-option="teeNeckbandLengthPercent" type="number" required value="88"');
+    expect(markup).toContain('data-tee-neckband-option="teeNeckbandFinishedWidthCm" type="number" required value="2.5"');
+  });
+
   it("shows the separate neckband template only for the Tee", () => {
     const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
     const teeMarkup = exportButtonsMarkup(tee.sizes, "tee");
@@ -289,6 +300,9 @@ describe("exportButtonsMarkup", () => {
 
     expect(teeMarkup).toContain('data-export-scope="tee-neckband" class="export-scope">');
     expect(teeMarkup).toContain('id="export-tee-neckband"');
+    expect(teeMarkup).toContain('data-tee-neckband-option="teeNeckbandLengthPercent"');
+    expect(teeMarkup).toContain('data-tee-neckband-option="teeNeckbandFinishedWidthCm"');
+    expect(teeMarkup).not.toContain('data-option="teeNeckbandLengthPercent"');
     expect(tankMarkup).toContain('data-export-scope="tee-neckband" class="export-scope" hidden>');
   });
 });

@@ -3125,15 +3125,22 @@ describe("mountApp", () => {
     };
     try {
       const root = mount();
-      const ratio = root.querySelector<HTMLInputElement>('input[data-option="teeNeckbandLengthPercent"]')!;
-      const finishedWidth = root.querySelector<HTMLInputElement>('input[data-option="teeNeckbandFinishedWidthCm"]')!;
+      const teeRecipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      expect(teeRecipe.options?.map((option) => option.id)).not.toEqual(expect.arrayContaining([
+        "teeNeckbandLengthPercent", "teeNeckbandFinishedWidthCm",
+      ]));
+      expect(root.querySelector('#controls-panel input[data-option="teeNeckbandLengthPercent"]')).toBeNull();
+      expect(root.querySelector('#controls-panel input[data-option="teeNeckbandFinishedWidthCm"]')).toBeNull();
+      const ratio = root.querySelector<HTMLInputElement>('input[data-tee-neckband-option="teeNeckbandLengthPercent"]')!;
+      const finishedWidth = root.querySelector<HTMLInputElement>('input[data-tee-neckband-option="teeNeckbandFinishedWidthCm"]')!;
       expect(ratio.value).toBe("75");
       expect(finishedWidth.value).toBe("2");
+      reachExportStage(root);
       ratio.value = "85";
       ratio.dispatchEvent(new Event("input", { bubbles: true }));
       finishedWidth.value = "2.3";
       finishedWidth.dispatchEvent(new Event("input", { bubbles: true }));
-      reachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#journey-step-output")?.getAttribute("aria-current")).toBe("step");
       clickId(root, "export-tee-neckband");
       await vi.waitFor(() => expect(files.has("tee-M-neckband.svg")).toBe(true));
 
@@ -3155,6 +3162,102 @@ describe("mountApp", () => {
     }
   });
 
+  it("round-trips neckband output settings through local Save and Load", () => {
+    localStorage.clear();
+    const root = mount();
+    const ratio = root.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandLengthPercent]')!;
+    const width = root.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandFinishedWidthCm]')!;
+    clickId(root, "save-pattern");
+    ratio.value = "84";
+    ratio.dispatchEvent(new Event("input", { bubbles: true }));
+    width.value = "2.4";
+    width.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, "load-pattern");
+    clickId(root, "workspace-confirm-accept");
+    expect(ratio.value).toBe("75");
+    expect(width.value).toBe("2");
+    ratio.value = "84";
+    ratio.dispatchEvent(new Event("input", { bubbles: true }));
+    width.value = "2.4";
+    width.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, "save-pattern");
+    ratio.value = "78";
+    ratio.dispatchEvent(new Event("input", { bubbles: true }));
+    width.value = "2.1";
+    width.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, "load-pattern");
+    clickId(root, "workspace-confirm-accept");
+    expect(ratio.value).toBe("84");
+    expect(width.value).toBe("2.4");
+  });
+
+  it("hydrates saved neckband output settings when reopening the workspace", () => {
+    localStorage.clear();
+    const first = mount();
+    const ratio = first.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandLengthPercent]')!;
+    const width = first.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandFinishedWidthCm]')!;
+    ratio.value = "87";
+    ratio.dispatchEvent(new Event("input", { bubbles: true }));
+    width.value = "2.7";
+    width.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(first, "save-pattern");
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandLengthPercent]')!.value).toBe("87");
+    expect(reopened.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandFinishedWidthCm]')!.value).toBe("2.7");
+  });
+
+  it("restores neckband output settings from local recovery", () => {
+    localStorage.clear();
+    const first = mount();
+    const ratio = first.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandLengthPercent]')!;
+    const width = first.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandFinishedWidthCm]')!;
+    ratio.value = "86";
+    ratio.dispatchEvent(new Event("input", { bubbles: true }));
+    width.value = "2.6";
+    width.dispatchEvent(new Event("input", { bubbles: true }));
+
+    const recovered = mount();
+    expect(recovered.querySelector("#recovery-host")?.textContent).toContain("Unfinished draft found");
+    recovered.querySelector<HTMLButtonElement>("#recovery-accept")!.click();
+    expect(recovered.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandLengthPercent]')!.value).toBe("86");
+    expect(recovered.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandFinishedWidthCm]')!.value).toBe("2.6");
+  });
+
+  it("rejects invalid neckband output settings with a specific correction and no download", () => {
+    const saveFile = vi.fn(async () => ({ saved: true }));
+    window.electronAPI = { saveFile };
+    try {
+      const root = mount();
+      reachExportStage(root);
+      const ratio = root.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandLengthPercent]')!;
+      const width = root.querySelector<HTMLInputElement>('[data-tee-neckband-option=teeNeckbandFinishedWidthCm]')!;
+      ratio.value = "74";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(ratio.validationMessage).toContain("75–90%");
+      expect(root.querySelector("#tee-neckband-control-error")?.textContent).toContain("75–90%");
+      ratio.value = "91";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(ratio.validationMessage).toContain("75–90%");
+      ratio.value = "75.5";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(ratio.validationMessage).toContain("increments of 1%");
+      width.value = "2.35";
+      width.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(width.validationMessage).toContain("0.1 cm");
+      ratio.value = "";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(ratio.validationMessage).toContain("enter a value");
+      Object.defineProperty(ratio, "value", { configurable: true, value: "1e999" });
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(ratio.getAttribute("aria-invalid")).toBe("true");
+      clickId(root, "export-tee-neckband");
+      expect(saveFile).not.toHaveBeenCalled();
+      expect(root.querySelector("#persist-status")?.textContent).toContain("finite number");
+    } finally {
+      delete window.electronAPI;
+    }
+  });
   it("reports neckband template generation errors without writing a partial file", () => {
     const generate = vi.spyOn(teeDrafting, "teeNeckbandTemplateSvg")
       .mockImplementationOnce(() => { throw new Error("neckline geometry unavailable"); })

@@ -4,6 +4,7 @@
 import "./enhancements/tech-pack/tech-pack-presentation.css";
 
 import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions, GradedSize, Block, Pom, specSheet } from "../drafting";
+import { TEE_NECKBAND_OPTIONS } from "../drafting/tshirt";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
@@ -836,7 +837,7 @@ const exportFormatMarkup = (format: ExportFormat, activeGarment: string): string
 /** Download buttons for the export files, a size picker, plus Save/Load pattern state.
  *  The size picker drives every selected-size export and the Single size nesting
  *  scope; whole-run documents deliberately remain independent of that choice. */
-export function exportButtonsMarkup(sizes: readonly SizeStep[], activeGarment = "tee"): string {
+export function exportButtonsMarkup(sizes: readonly SizeStep[], activeGarment = "tee", teeNeckbandOptions: GarmentOptions = {}): string {
   const options = sizes
     .map((s) => `<option value="${s.step}" ${s.step === 0 ? "selected" : ""}>${s.label}</option>`)
     .join("");
@@ -844,15 +845,31 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[], activeGarment = 
     `<label class="export-size-picker">` +
     `Selected size <select id="export-size" aria-label="Selected size for per-size exports" style="padding:4px 8px;font-size:12px;background:${T.background};` +
     `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select></label>`;
+  const teeNeckbandControls = TEE_NECKBAND_OPTIONS.map((option) => {
+    const stored = teeNeckbandOptions[option.id];
+    const value = Number.isFinite(stored) ? stored : option.defaultValue;
+    const inputId = "tee-neckband-" + option.id;
+    return '<label style="display:flex;flex-direction:column;gap:4px;min-width:150px;font-size:12px;color:' + T.label + '">' +
+      option.label + ' (' + option.unit + ')' +
+      '<input id="' + inputId + '" data-tee-neckband-option="' + option.id + '" type="number" required value="' + value +
+      '" min="' + option.min + '" max="' + option.max + '" step="' + option.step +
+      '" aria-describedby="tee-neckband-control-help tee-neckband-control-error" ' +
+      'style="box-sizing:border-box;max-width:180px;padding:6px 8px;background:' + T.background + ';color:' + T.line +
+      ';border:1px solid ' + BORDER + ';border-radius:5px;font:inherit"/></label>';
+  }).join("");
   const teeNeckband =
-    `<div data-export-scope="tee-neckband" class="export-scope"${activeGarment === "tee" ? "" : " hidden"}>` +
-    `<div class="export-scope-heading"><strong>Tee neckband</strong><span>Separate cut template · selected size · provisional</span></div>` +
-    `<div class="export-format-grid"><div class="export-format" data-export-format="export-tee-neckband">` +
-    `<button id="export-tee-neckband" type="button" aria-describedby="export-tee-neckband-description" ` +
-    `title="True-scale provisional rib-knit neckband template for the selected Tee size" class="export-format-button">Neckband SVG</button>` +
-    `<span id="export-tee-neckband-description" class="export-format-description">` +
-    `Cuttable rectangle calculated from the selected Tee neckline. Adjust the provisional ratio and width; verify the 10 cm scale line.</span>` +
-    `</div></div></div>`;
+    '<div data-export-scope="tee-neckband" class="export-scope"' + (activeGarment === "tee" ? "" : " hidden") + '>' +
+    '<div class="export-scope-heading"><strong>Tee neckband</strong><span>Separate cut template · selected size · provisional</span></div>' +
+    '<fieldset data-tee-neckband-controls style="display:flex;flex-direction:column;gap:8px;margin:0 0 8px;padding:8px;border:1px solid ' + BORDER + '">' +
+    '<legend>Output settings</legend><div style="display:flex;gap:10px;flex-wrap:wrap">' + teeNeckbandControls + '</div>' +
+    '<p id="tee-neckband-control-help" style="margin:0;font-size:11px;color:' + T.label + '">These provisional drafting settings affect the neckband SVG only. They do not validate fabric recovery or physical fit.</p>' +
+    '<p id="tee-neckband-control-error" role="alert" aria-live="polite" hidden style="margin:0;color:' + T.lineActive + '"></p></fieldset>' +
+    '<div class="export-format-grid"><div class="export-format" data-export-format="export-tee-neckband">' +
+    '<button id="export-tee-neckband" type="button" aria-describedby="export-tee-neckband-description" ' +
+    'title="True-scale provisional rib-knit neckband template for the selected Tee size" class="export-format-button">Neckband SVG</button>' +
+    '<span id="export-tee-neckband-description" class="export-format-description">' +
+    'Cuttable rectangle calculated from the selected Tee neckline. Adjust the provisional ratio and width; verify the 10 cm scale line.</span>' +
+    '</div></div></div>';
   const scope = (name: string, title: string, consequence: string, formats: readonly ExportFormat[]): string =>
     `<div data-export-scope="${name}" class="export-scope">` +
     `<div class="export-scope-heading"><strong>${title}</strong><span>${consequence}</span></div>` +
@@ -1409,6 +1426,7 @@ export function appShellMarkup(
   fieldObservations?: FieldObservationRecord,
   uiqMaterialEnabled = false,
   uiqOperationalClarityEnabled = false,
+  teeNeckbandOptions: GarmentOptions = {},
 ): string {
   const activeGarmentLabel = GARMENTS.find((g) => g.name === activeGarment)?.label ?? activeGarment;
   return `<main id="infini-shell" aria-labelledby="product-title">` +
@@ -1438,7 +1456,7 @@ export function appShellMarkup(
       : "") +
     `${controlsMarkup(m, fields, [], {}, activeGarment, fieldObservations)}` +
     `<details id="guidance-details"><summary>Guidance & corrections</summary><div id="guidance-host"></div></details>` +
-    `${exportButtonsMarkup(sizes, activeGarment)}</aside>` +
+    `${exportButtonsMarkup(sizes, activeGarment, teeNeckbandOptions)}</aside>` +
     `<div id="infini-workspace"><div id="canvas-tools">${viewToggleMarkup("pattern")}` +
     `<button id="assembled-preview-toggle" type="button" aria-pressed="false" aria-controls="canvas-host">Assembled</button></div>` +
     `${bodyCroquisToggleMarkup("front-back")}<div id="spatial-cue" role="status" hidden>` +

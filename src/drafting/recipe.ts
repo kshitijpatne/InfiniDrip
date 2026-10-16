@@ -18,7 +18,7 @@ import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
-import { draftTshirt, TEE_GRAMMAR, TEE_NECKBAND_OPTIONS } from "./tshirt";
+import { draftTshirt, TEE_GRAMMAR } from "./tshirt";
 import { draftFitted, FITTED_GRAMMAR } from "./fitted";
 import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
@@ -168,7 +168,6 @@ export const TEE: GarmentRecipe = {
   sizes: TSHIRT_SIZES,
   checks: sleevedTopPanelChecks(true),
   options: [
-    ...TEE_NECKBAND_OPTIONS,
     {
       id: "chestEase",
       label: "Classic chest ease",
