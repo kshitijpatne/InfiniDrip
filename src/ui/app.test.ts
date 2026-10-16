@@ -368,7 +368,7 @@ describe("mountApp", () => {
       preset.value = "measurements-qa";
       preset.dispatchEvent(new Event("change", { bubbles: true }));
       expect(root.querySelector(".tech-pack-ready")).toBeNull();
-      expect(root.querySelector('[role="alert"]')?.textContent).toContain("Section selection changed");
+      expect(root.querySelector('#production-pack-host [role="alert"]')?.textContent).toContain("Section selection changed");
       generate().click();
       await vi.waitFor(() => expect(root.querySelector(".tech-pack-ready")).not.toBeNull());
       expect(root.querySelector('[data-pack-section="measurements-qa"]')).not.toBeNull();
@@ -409,7 +409,7 @@ describe("mountApp", () => {
       });
       expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(originalHead);
       window.dispatchEvent(new Event("focus"));
-      await vi.waitFor(() => expect(root.querySelector('[role="alert"]')?.textContent)
+      await vi.waitFor(() => expect(root.querySelector('#production-pack-host [role="alert"]')?.textContent)
         .toContain("changed while this tab was inactive"));
       expect(root.querySelector(".tech-pack-ready")).toBeNull();
       expect(generate().disabled).toBe(true);
@@ -1124,7 +1124,7 @@ describe("mountApp", () => {
       addArtwork.focus();
       addArtwork.dispatchEvent(new Event("change", { bubbles: true }));
       expect(document.activeElement).toBe(root.querySelector('[data-pack-section-toggle="artwork"]'));
-      expect(root.querySelector('[role="alert"]')?.textContent).toContain("Section selection changed");
+      expect(root.querySelector('#production-pack-host [role="alert"]')?.textContent).toContain("Section selection changed");
 
       const removeArtwork = root.querySelector<HTMLInputElement>('[data-pack-section-toggle="artwork"]')!;
       removeArtwork.checked = false;
