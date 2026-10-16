@@ -3095,6 +3095,58 @@ describe("mountApp", () => {
     expect(created).toEqual(["tee-techpack.pdf"]); // size picker does not rename it
   });
 
+  it("downloads one selected-size Tee Tech Pack and preserves the whole-run bytes", async () => {
+    const saveFile = vi.fn(async (filename: string, content: string) => ({ saved: true, filePath: `${filename}:${content.length}` }));
+    window.electronAPI = { saveFile };
+    try {
+      const root = mount();
+      reachExportStage(root);
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
+      const wholeRunBytes = saveFile.mock.calls[0]![1];
+
+      const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+      size.value = "1";
+      size.dispatchEvent(new Event("change", { bubbles: true }));
+      const selectedLabel = size.options[size.selectedIndex]!.textContent!.trim();
+      const selectedTechPack = root.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!;
+      expect(selectedTechPack.disabled).toBe(false);
+      expect(selectedTechPack.closest<HTMLElement>("[data-export-format]")!.hidden).toBe(false);
+      selectedTechPack.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+
+      const [filename, content] = saveFile.mock.calls[1]!;
+      expect(filename).toBe(`tee-${selectedLabel}-selected-techpack.pdf`);
+      expect(content).toContain(`Tee - ${selectedLabel} - Pattern Piece Overview \\(1/1\\)`);
+      expect(content).toContain("Digital draft only; physical fit has not been validated.");
+      for (const otherSize of ["XS", "S", "M", "L", "XL"].filter((label) => label !== selectedLabel)) {
+        expect(content).not.toContain(`Tee - ${otherSize} - Pattern Piece Overview`);
+      }
+
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(3));
+      expect(saveFile.mock.calls[2]![1]).toBe(wholeRunBytes);
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
+  it("hides and rejects the Tee selected-size Tech Pack for other garments", () => {
+    const saveFile = vi.fn(async () => ({ saved: true }));
+    window.electronAPI = { saveFile };
+    try {
+      const root = mount();
+      clickId(root, "garment-tank");
+      reachExportStage(root);
+      const action = root.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!;
+      expect(action.closest<HTMLElement>("[data-export-format]")!.hidden).toBe(true);
+      action.click();
+      expect(saveFile).not.toHaveBeenCalled();
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
   it("downloads a whole-run projector file, ignoring the per-size picker", () => {
     const created: string[] = [];
     URL.createObjectURL = vi.fn(() => "blob:test");
@@ -8599,11 +8651,19 @@ describe("bundled local artwork library (Slice 203)", () => {
       await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
       expect(saveFile.mock.calls[0]![0]).toBe("tee-techpack.pdf");
       expect(saveFile.mock.calls[0]![1]).toContain("Tee - S - Pattern Piece Overview");
-      root.querySelector<HTMLButtonElement>("#export-projector")!.click();
+      const selectedTechPack = root.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!;
+      expect(selectedTechPack.disabled).toBe(false);
+      selectedTechPack.click();
       await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
-      expect(saveFile.mock.calls[1]![0]).toBe("tee-projector.svg");
-      expect(saveFile.mock.calls[1]![1]).toContain('inkscape:label="Size S"');
-      expect(saveFile.mock.calls[1]![1]).toContain("not applicable");
+      expect(saveFile.mock.calls[1]![0]).toBe("tee-M-selected-techpack.pdf");
+      expect(saveFile.mock.calls[1]![1]).toContain("Tee - M - Pattern Piece Overview \\(1/1\\)");
+      expect(saveFile.mock.calls[1]![1]).toContain("Digital draft only; physical fit has not been validated.");
+      expect(saveFile.mock.calls[1]![1]).not.toContain("Tee - S - Pattern Piece Overview");
+      root.querySelector<HTMLButtonElement>("#export-projector")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(3));
+      expect(saveFile.mock.calls[2]![0]).toBe("tee-projector.svg");
+      expect(saveFile.mock.calls[2]![1]).toContain('inkscape:label="Size S"');
+      expect(saveFile.mock.calls[2]![1]).toContain("not applicable");
 
       // Capture the approved run before changing saved nesting controls.
       root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
@@ -8624,8 +8684,8 @@ describe("bundled local artwork library (Slice 203)", () => {
       await vi.waitFor(() => expect(root.querySelector("#canvas-host")?.textContent).toContain("cm wide"));
       expect(root.querySelector("#canvas-host")?.textContent).toContain("This POM does not apply to the smallest declared size.");
       root.querySelector<HTMLButtonElement>("#export-svg")!.click();
-      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(3));
-      expect(saveFile.mock.calls[2]![0]).toBe("tee-M.svg");
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(4));
+      expect(saveFile.mock.calls[3]![0]).toBe("tee-M.svg");
       delete window.electronAPI;
 
       // A real nesting-input edit invalidates the saved output base; changing

@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { PDFDocument } from "pdf-lib";
 import { FITTED, SKIRT, STANDARD_M, TANK, TEE, POLO, TROUSER, WOVEN_SHIRT, STRETCH_FABRICS, blockPieces, rolePiece, sampleSpec, type Block } from "../drafting";
 import { PAGE_A4, PAGE_LETTER, pt } from "./pdf";
-import { exportTechPack, exportTechPackV2, exportTechPackV2ForGradePlan, pdfString } from "./techpack";
+import { exportTechPack, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, pdfString } from "./techpack";
 
 // ── pdfString ─────────────────────────────────────────────────────────────────
 
@@ -381,6 +381,37 @@ describe("exportTechPackV2ForGradePlan", () => {
       undefined, undefined, [], "", "M", [{ sizeLabel, pomLabel, reason: "Not part of this style." }]);
     expect(() => exportWith("XL", chestPom.label)).toThrow("does not match a declared size and POM");
     expect(() => exportWith("M", "Not a recipe POM")).toThrow("does not match a declared size and POM");
+  });
+});
+
+describe("exportTechPackV2ForSelectedSize", () => {
+  it("writes one selected size and labels the Fit Record as digital and physically unvalidated", async () => {
+    const size = {
+      label: "M",
+      measurements: STANDARD_M,
+      options: {},
+      block: TEE.draft(STANDARD_M, {}),
+    };
+    const output = exportTechPackV2ForSelectedSize(TEE, size);
+    const streams = pageStreams(output);
+    expect(await parsedPageCount(output)).toBe(4);
+    expect(streams[0]).toContain("Tee - M - Pattern Piece Overview");
+    const specText = shownText(streams[1]!).join("\n");
+    expect(specText).toContain("M");
+    expect(["XS", "S", "M", "L", "XL"].filter((label) => specText.split("\n").includes(label)))
+      .toEqual(["M"]);
+    const fitStream = streams.find((stream) => stream.includes("Fit Record"))!;
+    const fitText = shownText(fitStream);
+    expect(fitText).toContain("Digital draft only; physical fit has not been validated.");
+    expect(fitText).toContain("Actual");
+    expect(fitText).toContain("Pass?");
+    const positioned = positionedText(fitStream);
+    const actualX = pt(1.5 + 7.5 + 2 + 4.2);
+    const passX = pt(1.5 + 7.5 + 2 + 4.2 + 2.4 + 0.4);
+    expect(positioned.filter((entry) => Math.abs(entry.x - actualX) < 0.001).map((entry) => entry.text))
+      .toEqual(["Actual"]);
+    expect(positioned.filter((entry) => Math.abs(entry.x - passX) < 0.001).map((entry) => entry.text))
+      .toEqual(["Pass?"]);
   });
 });
 
