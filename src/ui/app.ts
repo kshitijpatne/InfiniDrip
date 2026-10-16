@@ -5,6 +5,7 @@
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
+import { TEE_NECKBAND_OPTIONS, teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
@@ -556,6 +557,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     stretchFabric: defaultStretchFabricForGarment(DEFAULT_WORKSPACE.garment),
   };
   let recipe: GarmentRecipe = garmentByName(initialWorkspace.garment);
+  const initialTeeNeckbandOptions: GarmentOptions = Object.fromEntries(
+    TEE_NECKBAND_OPTIONS.map((option) => [
+      option.id,
+      saved?.garmentOptions.tee?.[option.id] ?? option.defaultValue,
+    ]),
+  );
   let appearance: Appearance = saved?.appearance ?? DEFAULT_APPEARANCE;
   let surfaceBook: SurfaceBook = saved?.surface ?? {};
   let pendingArtwork: InspectedArtworkFile | null = null;
@@ -567,7 +574,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let appearanceOpen = false;
   root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields,
     initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations(), uiqMaterialEnabled,
-    uiqOperationalClarityEnabled);
+    uiqOperationalClarityEnabled, initialTeeNeckbandOptions);
   root.querySelector<HTMLElement>("#export-host")!.append(createDxfInterchangePanel({
     audit: (sourcePackage, returnedDxf) => auditDxfInterchangeRoundTrip(sourcePackage as never, returnedDxf),
     readFile: (file) => file.text(),
@@ -575,6 +582,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   const teeSelectedTechPackExport = root.querySelector<HTMLElement>('[data-export-format="export-tee-selected-techpack"]')!;
+  const teeNeckbandExportScope = root.querySelector<HTMLElement>('[data-export-scope="tee-neckband"]')!;
   let technicalFlatTextMeasurer: TechnicalFlatMeasureText | null = null;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
@@ -2894,6 +2902,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   const draw = (): void => {
     teeSelectedTechPackExport.hidden = recipe.name !== "tee";
+    teeNeckbandExportScope.hidden = recipe.name !== "tee";
     try {
       drawCurrentView();
     } catch (error) {
@@ -4408,7 +4417,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const value = input.value.trim() === "" ? NaN : Number(input.value);
         garmentOptions = {
           ...garmentOptions,
-          [recipe.name]: { ...recipeOptions(), [id]: value },
+          [recipe.name]: { ...(garmentOptions[recipe.name] ?? {}), ...recipeOptions(), [id]: value },
         };
         editedFront = null;
         markOutputDirty();
@@ -5328,6 +5337,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // that was active before Load.
     syncWorkspace(true);
     syncGarmentChoices();
+    syncTeeNeckbandInputsFromState();
     history = emptyHistory();
     historyPresent = captureDraftSnapshot();
     pendingRecovery = recovery;
@@ -5440,9 +5450,83 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       if (allowed()) action();
     });
   };
+  const currentTeeNeckbandOptions = (): GarmentOptions => Object.fromEntries(
+    TEE_NECKBAND_OPTIONS.map((option) => {
+      const input = root.querySelector<HTMLInputElement>(
+        '[data-tee-neckband-option="' + option.id + '"]',
+      )!;
+      return [option.id, Number(input.value)];
+    }),
+  );
+  const teeNeckbandInputError = (option: typeof TEE_NECKBAND_OPTIONS[number], input: HTMLInputElement): string => {
+    const raw = input.value.trim();
+    const range = option.min + "–" + option.max + (option.unit === "%" ? "%" : " " + option.unit);
+    if (raw === "") return option.label + ": enter a value from " + range + ".";
+    const value = Number(raw);
+    if (!Number.isFinite(value)) return option.label + ": enter a finite number from " + range + ".";
+    if (value < option.min) return option.label + ": use a value from " + range + ".";
+    if (value > option.max) return option.label + ": use a value from " + range + ".";
+    const stepCount = (value - option.min) / option.step;
+    if (Math.abs(stepCount - Math.round(stepCount)) > 1e-7) {
+      return option.label + ": use increments of " + option.step + (option.unit === "%" ? "%" : " " + option.unit) + ".";
+    }
+    return "";
+  };
+  const validateTeeNeckbandInputs = (): string => {
+    let firstError = "";
+    root.querySelectorAll<HTMLInputElement>("[data-tee-neckband-option]").forEach((input) => {
+      const option = TEE_NECKBAND_OPTIONS.find((candidate) => candidate.id === input.dataset.teeNeckbandOption)!;
+      const error = teeNeckbandInputError(option, input);
+      input.setCustomValidity(error);
+      input.setAttribute("aria-invalid", String(error !== ""));
+      if (firstError === "") firstError = error;
+    });
+    const feedback = root.querySelector<HTMLElement>("#tee-neckband-control-error")!;
+    feedback.textContent = firstError;
+    feedback.hidden = firstError === "";
+    return firstError;
+  };
+  const syncTeeNeckbandInputsFromState = (): void => {
+    root.querySelectorAll<HTMLInputElement>("[data-tee-neckband-option]").forEach((input) => {
+      const option = TEE_NECKBAND_OPTIONS.find((candidate) => candidate.id === input.dataset.teeNeckbandOption)!;
+      const stored = garmentOptions.tee?.[option.id];
+      input.value = String(stored === undefined ? option.defaultValue : stored);
+    });
+    validateTeeNeckbandInputs();
+  };
+  root.querySelectorAll<HTMLInputElement>("[data-tee-neckband-option]").forEach((input) => {
+    const option = TEE_NECKBAND_OPTIONS.find((candidate) => candidate.id === input.dataset.teeNeckbandOption)!;
+    input.addEventListener("input", () => {
+      const error = teeNeckbandInputError(option, input);
+      if (error === "") {
+        garmentOptions = {
+          ...garmentOptions,
+          tee: { ...(garmentOptions.tee ?? {}), [option.id]: Number(input.value) },
+        };
+      }
+      validateTeeNeckbandInputs();
+      markOutputDirty(false, true);
+      draw();
+    });
+  });
   onExport("#export-svg", () => {
     download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), exportAllowances(), recipe.notches), "image/svg+xml");
   });
+  onExport("#export-tee-neckband", () => {
+    try {
+      const inputError = validateTeeNeckbandInputs();
+      if (inputError !== "") throw new Error(inputError);
+      const settings = teeNeckbandSettings(selectedGradePlanSize(), currentTeeNeckbandOptions());
+      const output = teeNeckbandTemplateSvg(
+        exportPieces(),
+        settings.lengthPercent,
+        settings.finishedWidthCm,
+      );
+      download(`${recipe.name}-${exportSizeLabel()}-neckband.svg`, output, "image/svg+xml");
+    } catch (error) {
+      flash(error instanceof Error ? error.message : "The neckband template could not be generated.", BLUEPRINT.lineActive);
+    }
+  }, () => recipe.name === "tee" && canExport());
   onExport("#export-dxf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
   });
@@ -5697,6 +5781,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const raw = options[input.dataset.option!];
       if (raw !== undefined) input.value = raw;
     });
+    syncTeeNeckbandInputsFromState();
   };
 
   function acceptRecovery(file: Omit<RecoveryFile, "v">): void {
