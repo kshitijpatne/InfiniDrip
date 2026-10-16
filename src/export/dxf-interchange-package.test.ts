@@ -162,10 +162,10 @@ describe("C04-bounded DXF interchange package", () => {
       const options: Record<string, number> = {};
       Object.assign(options, testCase.options ?? {});
       Object.assign(options, testCase.optionValues ?? {});
-      const resolvedOptions = Object.fromEntries((recipe.options ?? []).map((definition) => [
-        definition.id,
-        options[definition.id] ?? definition.defaultValue,
-      ]));
+      const resolvedOptions = Object.fromEntries((recipe.options ?? []).flatMap((definition) => {
+        if (definition.optional && !Object.prototype.hasOwnProperty.call(options, definition.id)) return [];
+        return [[definition.id, options[definition.id] ?? definition.defaultValue]];
+      }));
       const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, resolvedOptions)[2];
       let candidate;
       try {
@@ -208,6 +208,22 @@ describe("C04-bounded DXF interchange package", () => {
       options: [{ ...option, step: 0 }],
     }, defaultGraded))
       .rejects.toThrow(`polo option "${option.id}" must match its 0 step`);
+  });
+
+  it("keeps an unset optional Tee chest override absent in a non-default shared-ease DXF package", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const measurements = { ...STANDARD_M, ease: 8 };
+    const inheritedGraded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, {})[2]!;
+    const inherited = await createDxfInterchangePackage(recipe, inheritedGraded, {});
+    expect(inherited.manifest.options).toEqual({});
+    expect(await verifyDxfInterchangePackage(inherited)).toBe(true);
+
+    const explicitOptions = { chestEase: 10 };
+    const explicitGraded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, explicitOptions)[2]!;
+    const explicit = await createDxfInterchangePackage(recipe, explicitGraded, explicitOptions);
+    expect(explicit.manifest.options).toEqual(explicitOptions);
+    expect(explicit.manifest.revisionId).not.toBe(inherited.manifest.revisionId);
+    expect(await verifyDxfInterchangePackage(explicit)).toBe(true);
   });
 
   it("rejects duplicate and empty source mark identities", async () => {

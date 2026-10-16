@@ -19,6 +19,8 @@ import { openProjectWorkflow } from "./project-workflow";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import { createProjectPackage, readProjectPackage } from "./project-package";
 import { createFieldObservationRecord } from "./field-provenance";
+import * as techPackT02Validation from "./tech-pack-t02-validation";
+import * as techPackOperationReconciliation from "./tech-pack-operation-reconciliation";
 import { emptyTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
 import {
   TECH_PACK_OPERATION_MAX_RECORDS,
@@ -224,6 +226,81 @@ async function clickAndSettle(host: HTMLElement, selector: string): Promise<void
 }
 
 describe("accessible project and style manager", () => {
+  it("keeps a saved Classic-only option out of non-Classic Tee T02 and T03 evaluation", async () => {
+    const t02 = vi.spyOn(techPackT02Validation, "evaluateTechPackT02");
+    const t03 = vi.spyOn(techPackOperationReconciliation, "buildTechPackReferenceReconciliation");
+    const state = await techPackHarness();
+    try {
+      const { workflow, manager } = state;
+      const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      const nonClassic = recipe.styles.find((candidate) => candidate.name !== "Classic tee")!;
+      const design = workflow.snapshot.activeStyle.design;
+      await workflow.saveActiveDesign({
+        ...design,
+        workspace: { ...design.workspace, targetStyle: nonClassic.name },
+        garmentOptions: { ...design.garmentOptions, tee: { ...design.garmentOptions.tee, chestEase: 8 } },
+      });
+      t02.mockClear();
+      t03.mockClear();
+      manager.refresh();
+
+      expect(t02).toHaveBeenCalledWith(expect.objectContaining({
+        recipe,
+        options: expect.not.objectContaining({ chestEase: 8 }),
+      }));
+      expect(t03).toHaveBeenCalledWith(expect.anything(), recipe, expect.anything(),
+        expect.not.objectContaining({ chestEase: 8 }), expect.anything());
+      expect(workflow.snapshot.activeStyle.design.garmentOptions.tee?.chestEase).toBe(8);
+    } finally {
+      t02.mockRestore();
+      t03.mockRestore();
+      state.close();
+    }
+  });
+
+  it("handles missing option definitions and unsupported T03 recipe references", async () => {
+    const t02 = vi.spyOn(techPackT02Validation, "evaluateTechPackT02");
+    const t03 = vi.spyOn(techPackOperationReconciliation, "buildTechPackReferenceReconciliation");
+    const state = await techPackHarness();
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const optionsDescriptor = Object.getOwnPropertyDescriptor(recipe, "options");
+    try {
+      const { workflow, manager } = state;
+      const nonClassic = recipe.styles.find((candidate) => candidate.name !== "Classic tee")!;
+      const design = workflow.snapshot.activeStyle.design;
+      await workflow.saveActiveDesign({
+        ...design,
+        workspace: { ...design.workspace, targetStyle: nonClassic.name },
+        garmentOptions: { ...design.garmentOptions, tee: { ...design.garmentOptions.tee, chestEase: 8 } },
+      });
+
+      Object.defineProperty(recipe, "options", { ...optionsDescriptor, value: undefined });
+      t02.mockClear();
+      t03.mockClear();
+      manager.refresh();
+      expect(t02).toHaveBeenCalledWith(expect.objectContaining({ recipe, options: {} }));
+      expect(t03).toHaveBeenCalledWith(expect.anything(), recipe, expect.anything(), {}, expect.anything());
+
+      const record = workflow.snapshot.activeStyle.techPack;
+      if (!record) throw new Error("The Tech Pack fixture did not create a record.");
+      (manager as unknown as { techPackDraft: TechPackRecord | null }).techPackDraft = {
+        ...record,
+        recipeId: "unsupported-recipe",
+      };
+      t02.mockClear();
+      t03.mockClear();
+      manager.refresh();
+      expect(t02).not.toHaveBeenCalled();
+      expect(t03).toHaveBeenCalledWith(expect.objectContaining({ recipeId: "unsupported-recipe" }),
+        null, expect.objectContaining({ ease: 10 }), {}, null);
+    } finally {
+      if (optionsDescriptor) Object.defineProperty(recipe, "options", optionsDescriptor);
+      t02.mockRestore();
+      t03.mockRestore();
+      state.close();
+    }
+  });
+
   it("uses a custom one-size base only when its size ID is nonempty", () => {
     const state = harness();
     const { host, manager, workflow, setSnapshot } = state;

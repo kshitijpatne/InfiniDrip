@@ -1,7 +1,7 @@
 import type { LoadedProject, ProjectRepositoryError } from "./project-repository";
 import { isCustomOneSizeStyle } from "./project-records";
 import type { RecoveryPayload, SavedDesign, StyleRecord } from "./project-records";
-import { GARMENTS } from "../drafting";
+import { GARMENTS, garmentOptionsForStyle } from "../drafting";
 import { ProjectWorkflow, type TechPackShareFreezeInput } from "./project-workflow";
 import type { ArtworkAssetStore } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
@@ -1228,7 +1228,8 @@ export class ProjectManager {
           data: pendingT02.data,
           recipe: t02Recipe,
           measurements: loaded.activeStyle.design.measurements,
-          options: loaded.activeStyle.design.garmentOptions[t02Recipe.name] ?? {},
+          options: garmentOptionsForStyle(t02Recipe.options ?? [],
+            loaded.activeStyle.design.garmentOptions[t02Recipe.name] ?? {}, loaded.activeStyle.design.workspace.targetStyle, false),
           sizeSteps: t02SizeSteps,
         })
       : null;
@@ -1239,7 +1240,8 @@ export class ProjectManager {
           activeTechPackRecord,
           t02Recipe ?? null,
           loaded.activeStyle.design.measurements,
-          t02Recipe ? loaded.activeStyle.design.garmentOptions[t02Recipe.name] ?? {} : {},
+          t02Recipe ? garmentOptionsForStyle(t02Recipe.options ?? [],
+            loaded.activeStyle.design.garmentOptions[t02Recipe.name] ?? {}, loaded.activeStyle.design.workspace.targetStyle, false) : {},
           pendingT03?.data ?? null,
         )
       : null;

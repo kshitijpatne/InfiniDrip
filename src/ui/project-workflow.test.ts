@@ -22,7 +22,7 @@ import { ProjectRepositoryError, type LoadedProject, type ProjectRepository } fr
 import { changedPaths, openProjectWorkflow, ProjectWorkflow } from "./project-workflow";
 import { approveGradePlan, createGradePlanDraft, reviewGradePlan, updateGradePlanDraft } from "./grade-plan";
 import { createGradePlanContext } from "./grade-plan-context";
-import { createFieldObservationRecord, currentFieldObservation, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
+import { createFieldObservationRecord, currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition } from "./field-provenance";
 import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
@@ -1759,7 +1759,7 @@ describe("G03 capture persistence through the project workflow", () => {
     workflows.push(workflow);
     await workflow.loadMeasurementCapture("tee");
     let session = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
-    getFieldDefinitions("tee").forEach((definition, index) => {
+    getCaptureFieldDefinitions("tee").forEach((definition, index) => {
       const isBody = definition.semanticKind === "BODY_MEASURE";
       session = addCaptureReadingForField(session, definition.id, {
         id: `00000000-0000-4000-8000-${String(index + 201).padStart(12, "0")}`,
@@ -1831,7 +1831,7 @@ describe("G03 capture persistence through the project workflow", () => {
     workflows.push(workflow);
     await workflow.loadMeasurementCapture("tee");
     let session = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
-    getFieldDefinitions("tee").forEach((definition, index) => {
+    getCaptureFieldDefinitions("tee").forEach((definition, index) => {
       const body = definition.semanticKind === "BODY_MEASURE";
       session = addCaptureReadingForField(session, definition.id, {
         id: `00000000-0000-4000-8000-${String(index + 401).padStart(12, "0")}`,
@@ -1990,7 +1990,7 @@ describe("G03 capture persistence through the project workflow", () => {
 
     await workflow.loadMeasurementCapture("tee");
     let session = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
-    getFieldDefinitions("tee").forEach((definition, index) => {
+    getCaptureFieldDefinitions("tee").forEach((definition, index) => {
       const isBody = definition.semanticKind === "BODY_MEASURE";
       session = addCaptureReadingForField(session, definition.id, {
         id: `00000000-0000-4000-8000-${String(index + 301).padStart(12, "0")}`,

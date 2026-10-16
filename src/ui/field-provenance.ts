@@ -40,6 +40,8 @@ export interface FieldDefinition {
   readonly recipeId: string;
   readonly inputKind: FieldInputKind;
   readonly inputKey: string;
+  readonly optional?: boolean;
+  readonly fallbackMeasurement?: keyof SavedDesign["measurements"];
   readonly label: string;
   readonly semanticKind: FieldSemanticKind;
   readonly unit: string;
@@ -206,6 +208,7 @@ const PROVENANCE = new Set<FieldProvenance>([
 const EVIDENCE = new Set<FieldEvidenceStatus>(["UNCONFIRMED", "USER_CONFIRMED", "SOURCE_CONFIRMED", "SAMPLE_MEASURED", "CONFLICT"]);
 const SEMANTIC_KINDS = new Set<FieldSemanticKind>(["BODY_MEASURE", "GARMENT_MEASURE", "FINISHED_POM", "PATTERN_PARAMETER", "STYLE_CONTROL"]);
 const definitionsByRecipe = new Map<string, readonly FieldDefinition[]>();
+const OPTIONAL_INHERITANCE_SOURCE = "Optional control is unset and inherits the shared measurement; it is not an independent user selection or fit validation.";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -215,16 +218,38 @@ function validTimestamp(value: unknown): value is string {
   return typeof value === "string" && Number.isFinite(Date.parse(value)) && new Date(Date.parse(value)).toISOString() === value;
 }
 
+function isUnsetOptional(design: SavedDesign, definition: FieldDefinition): boolean {
+  return definition.inputKind === "option" && definition.optional === true
+    && !Object.prototype.hasOwnProperty.call(design.garmentOptions[definition.recipeId] ?? {}, definition.inputKey);
+}
+
 function currentValue(design: SavedDesign, definition: FieldDefinition): number {
   if (definition.inputKind === "measurement") {
     return design.measurements[definition.inputKey as keyof SavedDesign["measurements"]];
   }
-  const current = design.garmentOptions[definition.recipeId]?.[definition.inputKey];
+  const options = design.garmentOptions[definition.recipeId] ?? {};
+  const current = options[definition.inputKey];
+  if (isUnsetOptional(design, definition) && definition.fallbackMeasurement) {
+    const inherited = design.measurements[definition.fallbackMeasurement];
+    if (typeof inherited === "number" && Number.isFinite(inherited)) return inherited;
+  }
   return typeof current === "number" && Number.isFinite(current) ? current : definition.defaultValue;
 }
 
-function validationStatus(definition: FieldDefinition, rawValue: string, value: number | null): FieldValidationStatus {
-  return value !== null && Number.isFinite(value) && value >= definition.min && value <= definition.max
+function validationStatus(
+  definition: FieldDefinition,
+  rawValue: string,
+  value: number | null,
+  provenance?: FieldProvenance,
+  sourceText?: string,
+): FieldValidationStatus {
+  const inheritedControl = definition.optional && definition.fallbackMeasurement !== undefined
+    && provenance === "INHERITED" && sourceText === OPTIONAL_INHERITANCE_SOURCE
+    ? FIELDS.find((field) => field.id === definition.fallbackMeasurement)
+    : undefined;
+  const min = inheritedControl?.min ?? definition.min;
+  const max = inheritedControl?.max ?? definition.max;
+  return value !== null && Number.isFinite(value) && value >= min && value <= max
     && rawValue.trim() !== "" && Number.isFinite(Number(rawValue))
     ? "VALID" : "INVALID";
 }
@@ -269,7 +294,7 @@ function makeObservation(
     semanticKind: definition.semanticKind,
     provenance,
     evidenceStatus,
-    validationStatus: validationStatus(definition, rawValue, canonicalValue),
+    validationStatus: validationStatus(definition, rawValue, canonicalValue, provenance, sourceText),
     sourceLabel: sourceText,
     recordedAt,
     styleRevision,
@@ -338,6 +363,8 @@ export function getFieldDefinitions(recipeId: string): readonly FieldDefinition[
       max: option.max,
       step: option.step,
       defaultValue: option.defaultValue,
+      ...(option.optional ? { optional: true } : {}),
+      ...(option.fallbackMeasurement ? { fallbackMeasurement: option.fallbackMeasurement } : {}),
       limitBasis: "existing-ui-guardrail-not-industry-standard",
     });
   }
@@ -348,6 +375,11 @@ export function getFieldDefinitions(recipeId: string): readonly FieldDefinition[
 
 export function getAllFieldDefinitions(): readonly FieldDefinition[] {
   return GARMENTS.flatMap((recipe) => getFieldDefinitions(recipe.name));
+}
+
+/** Capture excludes optional controls because their inherited value needs no independent reading. */
+export function getCaptureFieldDefinitions(recipeId: string): readonly FieldDefinition[] {
+  return getFieldDefinitions(recipeId).filter((definition) => !definition.optional);
 }
 
 export function getFieldDefinition(recipeId: string, inputKey: string, inputKind?: FieldInputKind): FieldDefinition | undefined {
@@ -364,7 +396,9 @@ export function createFieldObservationRecord(
   const observations = getFieldDefinitions(style.recipeId).map((definition, index) => {
     const value = currentValue(style.design, definition);
     const raw = String(value);
-    return makeObservation(definition, index + 1, raw, value, initialProvenance(origin), sourceLabel(origin),
+    const inherited = isUnsetOptional(style.design, definition);
+    return makeObservation(definition, index + 1, raw, value,
+      inherited ? "INHERITED" : initialProvenance(origin), inherited ? OPTIONAL_INHERITANCE_SOURCE : sourceLabel(origin),
       origin === "first-run-default" ? recordedAt : null, style.revision);
   });
   return {
@@ -391,7 +425,7 @@ export function createFieldObservationRecordFromCapture(
   if (!validTimestamp(recordedAt) || session.recipeId !== style.recipeId || session.styleId !== style.id) {
     throw new Error("A ready recipe-matched capture is required to create field history.");
   }
-  const definitions = getFieldDefinitions(style.recipeId);
+  const definitions = getCaptureFieldDefinitions(style.recipeId);
   if (definitions.length === 0 || definitions.length !== session.fields.length) {
     throw new Error("The capture does not exactly cover the style's current recipe inputs.");
   }
@@ -482,8 +516,9 @@ export function parseFieldObservationRecord(value: unknown): { readonly ok: true
       || (entry.recordedAt !== null && !validTimestamp(entry.recordedAt))
       || !Number.isSafeInteger(entry.styleRevision) || (entry.styleRevision as number) < 1
       || entry.confidence !== "NOT_ASSESSED"
-      || entry.validationStatus !== validationStatus(definition, entry.rawValue, entry.canonicalValue as number | null)) {
-      return fail("Field observation value, source, semantic definition, or validation status is invalid.");
+      || entry.validationStatus !== validationStatus(definition, entry.rawValue, entry.canonicalValue as number | null,
+        entry.provenance as FieldProvenance, entry.sourceLabel as string)) {
+    return fail("Field observation value, source, semantic definition, or validation status is invalid.");
     }
   }
   if (priorRevision !== value.revision) return fail("Field observation record revision does not match its append history.");
@@ -502,7 +537,7 @@ export function currentFieldObservation(
   return undefined;
 }
 
-function recoveryRawValue(payload: RecoveryPayload, definition: FieldDefinition): { raw: string; value: number | null } {
+function recoveryRawValue(payload: RecoveryPayload, definition: FieldDefinition): { raw: string; value: number | null; inherited: boolean } {
   let raw = "";
   if (definition.inputKind === "measurement") {
     const captured = payload.rawMeasurements[definition.inputKey as keyof typeof payload.rawMeasurements];
@@ -510,13 +545,23 @@ function recoveryRawValue(payload: RecoveryPayload, definition: FieldDefinition)
     raw = captured === undefined ? stored === null ? "" : String(stored) : captured;
   } else {
     const captured = payload.rawOptions[definition.recipeId]?.[definition.inputKey];
-    const stored = payload.garmentOptions[definition.recipeId]?.[definition.inputKey];
+    const options = payload.garmentOptions[definition.recipeId] ?? {};
+    const stored = options[definition.inputKey];
+    const storedExplicitly = Object.prototype.hasOwnProperty.call(options, definition.inputKey);
+    if (definition.optional && definition.fallbackMeasurement && !storedExplicitly
+      && (captured === undefined || captured.trim() === "")) {
+      const inherited = payload.measurements[definition.fallbackMeasurement];
+      const value = typeof inherited === "number" && Number.isFinite(inherited) ? inherited : null;
+      return { raw: value === null ? "" : String(value), value, inherited: true };
+    }
     raw = captured === undefined
-      ? stored === null || stored === undefined ? String(definition.defaultValue) : String(stored)
+      ? storedExplicitly
+        ? stored === null ? "" : String(stored)
+        : String(definition.defaultValue)
       : captured;
   }
   const number = raw.trim() === "" ? null : Number(raw);
-  return { raw, value: number !== null && Number.isFinite(number) ? number : null };
+  return { raw, value: number !== null && Number.isFinite(number) ? number : null, inherited: false };
 }
 
 function priorMeaningForInput(record: FieldObservationRecord, definition: FieldDefinition): FieldObservation | undefined {
@@ -569,15 +614,18 @@ export function appendRecoveryFieldObservations(
   }
   let next = record;
   for (const definition of getFieldDefinitions(payload.workspace.garment)) {
-    const { raw, value } = recoveryRawValue(payload, definition);
+    const { raw, value, inherited } = recoveryRawValue(payload, definition);
     const current = currentFieldObservation(next, definition);
     const directlyChanged = changedInput?.recipeId === definition.recipeId
       && changedInput.inputKind === definition.inputKind && changedInput.inputKey === definition.inputKey;
-    const requestedProvenance = directlyChanged ? provenanceForUserEdit(definition) : undefined;
+    const requestedProvenance = inherited ? "INHERITED" : directlyChanged ? provenanceForUserEdit(definition) : undefined;
     if (current?.rawValue === raw && current.canonicalValue === value
       && (!requestedProvenance || current.provenance === requestedProvenance)) continue;
     const oldMeaning = current ? undefined : priorMeaningForInput(next, definition);
-    if (!directlyChanged && oldMeaning) {
+    if (inherited) {
+      next = appendOne(next, definition, raw, value, recordedAt, style.revision,
+        "INHERITED", OPTIONAL_INHERITANCE_SOURCE);
+    } else if (!directlyChanged && oldMeaning) {
       next = appendOne(next, definition, raw, value, recordedAt, style.revision,
         "UNRESOLVED", "The shared legacy control value carried across recipes has a different reference meaning; review it.");
     } else if (directlyChanged) {
@@ -604,13 +652,15 @@ export function reconcileDesignFieldObservations(
   for (const definition of getFieldDefinitions(design.workspace.garment)) {
     const value = currentValue(design, definition);
     const current = currentFieldObservation(next, definition);
-    if (current?.canonicalValue === value && current.validationStatus === "VALID") continue;
+    const inherited = isUnsetOptional(design, definition);
+    if (current?.canonicalValue === value && current.validationStatus === "VALID"
+      && (!inherited || current.provenance === "INHERITED")) continue;
     const oldMeaning = current ? undefined : priorMeaningForInput(next, definition);
-    const source = oldMeaning
+    const source = inherited ? OPTIONAL_INHERITANCE_SOURCE : oldMeaning
       ? "The shared legacy control value carried across recipes has a different reference meaning; review it."
       : "Saved design value differs from its observation; the specific input event or source was not recorded.";
     next = appendOne(next, definition, String(value), value, recordedAt, style.revision,
-      "UNRESOLVED", source);
+      inherited ? "INHERITED" : "UNRESOLVED", source);
   }
   return next;
 }

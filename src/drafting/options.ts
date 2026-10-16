@@ -34,6 +34,24 @@ export function defaultGarmentOptions(definitions: readonly GarmentOption[]): Ga
   return Object.fromEntries(definitions.filter((d) => !d.optional).map((d) => [d.id, d.defaultValue]));
 }
 
+/** Defaults and saved values that are active for one selected recipe style. */
+export function garmentOptionsForStyle(
+  definitions: readonly GarmentOption[],
+  saved: GarmentOptions,
+  style: string,
+  includeDefaults = true,
+): GarmentOptions {
+  const applicable = definitions.filter((definition) =>
+    definition.appliesToStyle === undefined || definition.appliesToStyle === style);
+  const options: Record<string, number> = includeDefaults ? { ...defaultGarmentOptions(applicable) } : {};
+  for (const definition of applicable) {
+    if (Object.prototype.hasOwnProperty.call(saved, definition.id)) {
+      options[definition.id] = saved[definition.id]!;
+    }
+  }
+  return options;
+}
+
 /**
  * Restores persisted numeric values only when they fit a recipe's declared
  * range. This is load validation, not live-input clamping: future UI guidance

@@ -106,7 +106,11 @@ describe("explicit grade-plan base context", () => {
   });
 
   it("inherits an unset optional Tee chest ease, but targets an explicit finite value and rejects invalid values", async () => {
-    const base = styleFor("tee");
+    const initial = designFor("tee");
+    const base = styleFor("tee", {
+      ...initial,
+      workspace: { ...initial.workspace, targetStyle: "Classic tee" },
+    });
     const inheritedOptions = { ...base.design.garmentOptions.tee };
     delete inheritedOptions.chestEase;
     const inherited = value(await createGradePlanContext(PROJECT_ID, styleFor("tee", {
@@ -131,6 +135,22 @@ describe("explicit grade-plan base context", () => {
       ok: false,
       errors: ["Save an explicit value for every recipe control before creating a grade plan."],
     });
+  });
+
+  it("keeps a stored Classic-only override dormant in a different Tee style's grade-plan context", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const nonClassic = recipe.styles.find((candidate) => candidate.name !== "Classic tee")!;
+    const base = styleFor("tee");
+    const dormant = styleFor("tee", {
+      ...base.design,
+      workspace: { ...base.design.workspace, targetStyle: nonClassic.name },
+      garmentOptions: { ...base.design.garmentOptions, tee: { ...base.design.garmentOptions.tee, chestEase: 8 } },
+    });
+    const context = value(await createGradePlanContext(PROJECT_ID, dormant, captureFor()));
+    const inheritedBlock = recipe.draft(dormant.design.measurements, {});
+    expect(context.targets.some((target) => target.targetId === "option.tee.chestEase")).toBe(false);
+    expect(context.targets.filter((target) => target.kind === "pom").map((target) => target.baseValue))
+      .toEqual(recipe.poms.map((pom) => pom.measure(inheritedBlock)));
   });
 
   it("fails closed for legacy styles, mismatched captures, missing revision heads, and missing explicit recipe controls", async () => {

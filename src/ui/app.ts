@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, wovenHipStationY } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { wovenShirtAllowances } from "../drafting/shirt";
@@ -1475,18 +1475,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const activeOptionDefinitions = (forRecipe: GarmentRecipe = recipe) =>
     (forRecipe.options ?? []).filter((option) =>
       option.appliesToStyle === undefined || option.appliesToStyle === targetStyle);
-  const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => {
-    const values = {
-      ...defaultGarmentOptions(forRecipe.options ?? []),
-      ...(garmentOptions[forRecipe.name] ?? {}),
-    };
-    for (const option of forRecipe.options ?? []) {
-      if (option.appliesToStyle !== undefined && option.appliesToStyle !== targetStyle) {
-        delete (values as Record<string, number>)[option.id];
-      }
-    }
-    return values;
-  };
+  const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => garmentOptionsForStyle(
+    forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle,
+  );
   const styleMatchMeasurements = (): Measurements => {
     const overrides = Object.fromEntries(activeOptionDefinitions()
       .filter((option) => option.fallbackMeasurement !== undefined && recipeOptions()[option.id] !== undefined)

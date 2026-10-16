@@ -86,8 +86,9 @@ function resolveOptions(recipe: GarmentRecipe, options: GarmentOptions): Garment
   const unknown = Object.keys(options).find((id) => !definitionsById.has(id));
   if (unknown) throw new Error(`Unsupported ${recipe.name} option "${unknown}"`);
 
-  return Object.fromEntries(definitions.map((definition) => {
+  return Object.fromEntries(definitions.flatMap((definition) => {
     const supplied = Object.prototype.hasOwnProperty.call(options, definition.id);
+    if (!supplied && definition.optional) return [];
     const value: unknown = supplied ? (options as Record<string, unknown>)[definition.id] : definition.defaultValue;
     if (typeof value !== "number" || !Number.isFinite(value)) {
       throw new Error(`${recipe.name} option "${definition.id}" must be a finite number`);
@@ -98,7 +99,7 @@ function resolveOptions(recipe: GarmentRecipe, options: GarmentOptions): Garment
     if (definition.step <= 0 || Math.abs((value - definition.min) / definition.step - Math.round((value - definition.min) / definition.step)) > 1e-8) {
       throw new Error(`${recipe.name} option "${definition.id}" must match its ${definition.step} step`);
     }
-    return [definition.id, value];
+    return [[definition.id, value]];
   }));
 }
 

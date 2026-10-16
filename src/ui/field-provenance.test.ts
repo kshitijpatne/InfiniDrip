@@ -12,6 +12,7 @@ import {
   currentFieldObservation,
   fieldDefinitionById,
   getAllFieldDefinitions,
+  getCaptureFieldDefinitions,
   getFieldDefinition,
   getFieldDefinitions,
   isKnownFieldProvenance,
@@ -96,6 +97,30 @@ describe("C03 field definitions and append-only observations", () => {
     expect(getFieldDefinition("tee", "ease")?.semanticKind).toBe("STYLE_CONTROL");
     expect(getFieldDefinition("tank", "strapWidth")?.semanticKind).toBe("STYLE_CONTROL");
     expect(getFieldDefinition("tee", "chest")?.limitBasis).toBe("existing-ui-guardrail-not-industry-standard");
+  });
+
+  it("records an unset optional Tee chest control as inheriting the current shared ease", () => {
+    const base = styleFor("tee");
+    const teeOptions = { ...base.design.garmentOptions.tee };
+    delete teeOptions.chestEase;
+    const style = {
+      ...base,
+      design: {
+        ...base.design,
+        measurements: { ...base.design.measurements, ease: 5 },
+        garmentOptions: { ...base.design.garmentOptions, tee: teeOptions },
+      },
+    };
+    const definition = getFieldDefinition("tee", "chestEase", "option")!;
+    const record = createFieldObservationRecord(style, TIME, "existing-local-style");
+    expect(currentFieldObservation(record, definition)).toMatchObject({
+      rawValue: "5",
+      canonicalValue: 5,
+      provenance: "INHERITED",
+      validationStatus: "VALID",
+      sourceLabel: expect.stringContaining("inherits the shared measurement"),
+    });
+    expect(parseFieldObservationRecord(record).ok).toBe(true);
   });
 
   it("records first-run defaults as presets and legacy values as unresolved, without confidence claims", () => {
@@ -199,6 +224,29 @@ describe("C03 field definitions and append-only observations", () => {
     expect(() => createFieldObservationRecordFromCapture(woven, "yesterday", ready)).toThrow("ready recipe-matched capture");
     const changed = { ...woven, design: { ...woven.design, measurements: { ...woven.design.measurements, chest: 99 } } };
     expect(() => createFieldObservationRecordFromCapture(changed, TIME, ready)).toThrow("does not match the saved custom style");
+  });
+
+  it("creates Tee capture history without inventing an observation for the unset optional control", () => {
+    const tee = styleFor("tee");
+    let session = createMeasurementCaptureSession(tee.id, "tee", TIME, tee.id);
+    getCaptureFieldDefinitions("tee").forEach((definition, index) => {
+      const bodyMeasure = definition.semanticKind === "BODY_MEASURE";
+      session = addCaptureReadingForField(session, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 301).padStart(12, "0")}`,
+        rawValue: String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: bodyMeasure ? "USER_CAPTURED" : "USER_SELECTED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: "Entered in guided capture.",
+        captureMethod: bodyMeasure ? "Tape; technique unqualified" : null,
+        capturedAt: bodyMeasure ? TIME : null,
+        measurer: bodyMeasure ? "SELF" : null,
+      }, TIME);
+    });
+    expect(session.fields).toHaveLength(7);
+    const record = createFieldObservationRecordFromCapture(tee, TIME, session);
+    expect(currentFieldObservation(record, getFieldDefinition("tee", "chestEase", "option")!)).toBeUndefined();
+    expect(parseFieldObservationRecord(record).ok).toBe(true);
   });
 
   it("appends raw user edits without clamping invalid values or mutating previous history", () => {
@@ -431,6 +479,85 @@ describe("C03 field definitions and append-only observations", () => {
     const reconciled = reconcileDesignFieldObservations(teeHistory, skirtStyle, skirtStyle.design, "2026-09-24T16:00:03.000Z");
     expect(currentFieldObservation(reconciled, getFieldDefinition("skirt", "length")!))
       .toMatchObject({ provenance: "UNRESOLVED", sourceLabel: expect.stringContaining("different reference meaning") });
+  });
+
+  it("records resetting optional Tee chest ease as inherited shared ease, not as a user selection", () => {
+    const base = styleFor("tee");
+    const explicitOptions = { ...base.design.garmentOptions.tee, chestEase: 8 };
+    const explicitStyle = {
+      ...base,
+      revision: 2,
+      design: {
+        ...base.design,
+        measurements: { ...base.design.measurements, ease: 5 },
+        garmentOptions: { ...base.design.garmentOptions, tee: explicitOptions },
+      },
+    };
+    const definition = getFieldDefinition("tee", "chestEase", "option")!;
+    const original = createFieldObservationRecord(explicitStyle, TIME, "existing-local-style");
+    const selected = appendRecoveryFieldObservations(original, explicitStyle, recoveryFor(explicitStyle),
+      "2026-09-24T16:00:01.000Z", { recipeId: "tee", inputKind: "option", inputKey: "chestEase" });
+    expect(currentFieldObservation(selected, definition)?.provenance).toBe("USER_SELECTED");
+
+    const resetOptions = { ...explicitOptions };
+    Reflect.deleteProperty(resetOptions, "chestEase");
+    const resetStyle = {
+      ...explicitStyle,
+      revision: 3,
+      design: { ...explicitStyle.design, garmentOptions: { ...explicitStyle.design.garmentOptions, tee: resetOptions } },
+    };
+    const resetBase = recoveryFor(explicitStyle, { rawOptions: { tee: { chestEase: "" } } });
+    const resetPayload = {
+      ...resetBase,
+      measurements: { ...resetBase.measurements, ease: 5 },
+      garmentOptions: { ...resetBase.garmentOptions, tee: resetOptions },
+    } as unknown as RecoveryPayload;
+    const reset = appendRecoveryFieldObservations(selected, resetStyle, resetPayload, "2026-09-24T16:00:02.000Z",
+      { recipeId: "tee", inputKind: "option", inputKey: "chestEase" });
+    expect(currentFieldObservation(reset, definition)).toMatchObject({
+      rawValue: "5",
+      canonicalValue: 5,
+      provenance: "INHERITED",
+      validationStatus: "VALID",
+      sourceLabel: expect.stringContaining("inherits the shared measurement"),
+    });
+    expect(parseFieldObservationRecord(reset).ok).toBe(true);
+  });
+
+  it("preserves invalid optional inheritance and explicit-null recovery without inventing a value", () => {
+    const base = styleFor("tee");
+    const teeOptions = { ...base.design.garmentOptions.tee };
+    delete teeOptions.chestEase;
+    const style = {
+      ...base,
+      revision: 2,
+      design: {
+        ...base.design,
+        measurements: { ...base.design.measurements, ease: 5 },
+        garmentOptions: { ...base.design.garmentOptions, tee: teeOptions },
+      },
+    };
+    const definition = getFieldDefinition("tee", "chestEase", "option")!;
+    const original = createFieldObservationRecord(style, TIME, "existing-local-style");
+    const invalidFallback = appendRecoveryFieldObservations(original, style, recoveryFor(style, {
+      measurements: { ease: Number.NaN }, rawOptions: { tee: { chestEase: "" } },
+    }), "2026-09-24T16:00:03.000Z", { recipeId: "tee", inputKind: "option", inputKey: "chestEase" });
+    expect(currentFieldObservation(invalidFallback, definition)).toMatchObject({
+      rawValue: "", canonicalValue: null, provenance: "INHERITED", validationStatus: "INVALID",
+    });
+    expect(parseFieldObservationRecord(invalidFallback).ok).toBe(true);
+
+    const basePayload = recoveryFor(style);
+    const explicitNullPayload = {
+      ...basePayload,
+      garmentOptions: { ...basePayload.garmentOptions, tee: { chestEase: null } },
+    } as unknown as RecoveryPayload;
+    const explicitNull = appendRecoveryFieldObservations(original, style, explicitNullPayload,
+      "2026-09-24T16:00:04.000Z", { recipeId: "tee", inputKind: "option", inputKey: "chestEase" });
+    expect(currentFieldObservation(explicitNull, definition)).toMatchObject({
+      rawValue: "", canonicalValue: null, provenance: "USER_SELECTED", validationStatus: "INVALID",
+    });
+    expect(parseFieldObservationRecord(explicitNull).ok).toBe(true);
   });
 
   it("preserves an absent raw measurement when its stored canonical value is null", () => {

@@ -2,7 +2,7 @@ import { GARMENTS, STANDARD_M, blockPieces, defaultGarmentOptions, draftAtSize }
 import { exportA0Pdf, exportDxf, exportPdf, exportSvg } from "../export";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import { DEFAULT_APPEARANCE } from "./appearance";
-import { getFieldDefinitions } from "./field-provenance";
+import { getCaptureFieldDefinitions } from "./field-provenance";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
 import { DEFAULT_WORKSPACE, deserialize, serialize, defaultStretchFabricForGarment } from "./persist";
 import {
@@ -38,7 +38,7 @@ function seedFor(recipeId: string): SavedDesign {
 
 function readySession(recipeId: string, varyValues = false) {
   let session = createMeasurementCaptureSession("3f0c6a2e-8d1b-4c5e-9a7f-2b6d8e1c4a90", recipeId, TIME, null);
-  getFieldDefinitions(recipeId).forEach((definition, index) => {
+  getCaptureFieldDefinitions(recipeId).forEach((definition, index) => {
     const bodyMeasure = definition.semanticKind === "BODY_MEASURE";
     const higher = definition.defaultValue + definition.step;
     const lower = definition.defaultValue - definition.step;
@@ -67,7 +67,7 @@ describe("custom one-size design materialization", () => {
       const seed = seedFor(recipe.name);
       const session = readySession(recipe.name);
       const result = materializeCustomSizeDesign(seed, session);
-      const definitions = getFieldDefinitions(recipe.name);
+      const definitions = getCaptureFieldDefinitions(recipe.name);
       for (const definition of definitions) {
         const expected = definition.defaultValue;
         if (definition.inputKind === "measurement") {
@@ -75,6 +75,9 @@ describe("custom one-size design materialization", () => {
         } else {
           expect(result.garmentOptions[recipe.name]?.[definition.inputKey]).toBe(expected);
         }
+      }
+      if (recipe.name === "tee") {
+        expect(Object.prototype.hasOwnProperty.call(result.garmentOptions.tee, "chestEase")).toBe(false);
       }
       expect(Object.keys(result.garmentOptions)).toEqual([recipe.name]);
       expect(result.workspace).toMatchObject({ garment: recipe.name, exportStep: 0, nestScope: "single" });
@@ -87,7 +90,7 @@ describe("custom one-size design materialization", () => {
       const design = materializeCustomSizeDesign(seedFor(recipe.name), readySession(recipe.name, true));
       const options = design.garmentOptions[recipe.name] ?? {};
       expect(design.workspace.exportStep, recipe.name).toBe(0);
-      expect(Object.keys(options), recipe.name).toEqual((recipe.options ?? []).map((option) => option.id));
+      expect(Object.keys(options), recipe.name).toEqual((recipe.options ?? []).filter((option) => !option.optional).map((option) => option.id));
 
       const customBlock = draftAtSize(
         design.measurements, recipe.grade, 0, recipe.draft, options,
@@ -152,7 +155,7 @@ describe("custom one-size design materialization", () => {
       expect(() => materializeCustomSizeDesign(seedFor("tee"), readySession("tee")))
         .toThrow("missing or invalid");
       selectedValues.mockReturnValue(Object.fromEntries(
-        getFieldDefinitions("tee").map((definition) => [definition.inputKey,
+        getCaptureFieldDefinitions("tee").map((definition) => [definition.inputKey,
           definition.inputKey === "chest" ? Number.NaN : definition.defaultValue]),
       ));
       expect(() => materializeCustomSizeDesign(seedFor("tee"), readySession("tee")))

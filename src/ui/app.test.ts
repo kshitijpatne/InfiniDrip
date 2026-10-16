@@ -41,7 +41,7 @@ import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney, tutorialMarkup } from "./journey";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
-import { currentFieldObservation, getFieldDefinitions } from "./field-provenance";
+import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
   addCaptureReadingForField,
@@ -2400,7 +2400,7 @@ describe("mountApp", () => {
       clickId(root, "journey-guided");
 
       const fields = [...root.querySelectorAll<HTMLElement>(".measurement-capture-panel__field")];
-      const definitions = getFieldDefinitions(recipe.name);
+      const definitions = getCaptureFieldDefinitions(recipe.name);
       expect(fields.map((field) => field.dataset.fieldId), recipe.name)
         .toEqual(definitions.map((definition) => definition.id));
       for (let index = 0; index < fields.length; index += 1) {
@@ -8124,7 +8124,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       now: () => "2026-09-24T16:00:00.000Z",
     });
     const styleId = workflow.snapshot.activeStyle.id;
-    const session = getFieldDefinitions("tee").reduce((current, definition, index) => addCaptureReadingForField(
+    const session = getCaptureFieldDefinitions("tee").reduce((current, definition, index) => addCaptureReadingForField(
       current,
       definition.id,
       {
@@ -8460,7 +8460,7 @@ describe("bundled local artwork library (Slice 203)", () => {
     try {
       await workflow.loadMeasurementCapture("tee");
       let session = createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", now, workflow.snapshot.activeStyle.id);
-      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+      for (const [index, definition] of getCaptureFieldDefinitions("tee").entries()) {
         session = addCaptureReadingForField(session, definition.id, {
           id: webcrypto.randomUUID(),
           rawValue: String(definition.defaultValue),
@@ -8480,7 +8480,10 @@ describe("bundled local artwork library (Slice 203)", () => {
       const options = customDesign.garmentOptions.tee ?? {};
       const sourceInputs = {
         measurements: Object.fromEntries(recipe.fields.map((field) => [field, customDesign.measurements[field]])),
-        options: Object.fromEntries((recipe.options ?? []).map((option) => [option.id, options[option.id]!])),
+        options: Object.fromEntries((recipe.options ?? []).flatMap((option) => {
+          const value = options[option.id];
+          return value === undefined ? [] : [[option.id, value]];
+        })),
       };
       const sourceBlock = recipe.draft(customDesign.measurements, options);
       const fingerprint = await editEngine.semanticEditSourceFingerprint(
@@ -9003,7 +9006,7 @@ describe("bundled local artwork library (Slice 203)", () => {
     try {
       await workflow.loadMeasurementCapture("tee");
       let session = createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", now, workflow.snapshot.activeStyle.id);
-      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+      for (const [index, definition] of getCaptureFieldDefinitions("tee").entries()) {
         session = addCaptureReadingForField(session, definition.id, {
           id: webcrypto.randomUUID(),
           rawValue: String(definition.defaultValue),
@@ -9106,7 +9109,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       const baseStyleId = workflow.snapshot.activeStyle.id;
       await workflow.loadMeasurementCapture("tee");
       let session = createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", now, baseStyleId);
-      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+      for (const [index, definition] of getCaptureFieldDefinitions("tee").entries()) {
         session = addCaptureReadingForField(session, definition.id, {
           id: webcrypto.randomUUID(),
           rawValue: String(definition.defaultValue),
@@ -9191,7 +9194,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       let session = createMeasurementCaptureSession(
         webcrypto.randomUUID(), "tee", capturedAt, workflow.snapshot.activeStyle.id,
       );
-      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+      for (const [index, definition] of getCaptureFieldDefinitions("tee").entries()) {
         session = addCaptureReadingForField(session, definition.id, {
           id: webcrypto.randomUUID(),
           rawValue: String(definition.defaultValue),
@@ -9262,7 +9265,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       let session = createMeasurementCaptureSession(
         webcrypto.randomUUID(), "tee", capturedAt, workflow.snapshot.activeStyle.id,
       );
-      for (const definition of getFieldDefinitions("tee")) {
+      for (const definition of getCaptureFieldDefinitions("tee")) {
         session = addCaptureReadingForField(session, definition.id, {
           id: webcrypto.randomUUID(),
           rawValue: String(definition.defaultValue),
@@ -9283,7 +9286,10 @@ describe("bundled local artwork library (Slice 203)", () => {
       const options = design.garmentOptions.tee ?? {};
       const sourceInputs = {
         measurements: Object.fromEntries(recipe.fields.map((field) => [field, design.measurements[field]])),
-        options: Object.fromEntries((recipe.options ?? []).map((option) => [option.id, options[option.id]!])),
+        options: Object.fromEntries((recipe.options ?? []).flatMap((option) => {
+          const value = options[option.id];
+          return value === undefined ? [] : [[option.id, value]];
+        })),
       };
       const sourceBlock = recipe.draft(design.measurements, options);
       const fingerprint = await editEngine.semanticEditSourceFingerprint(
@@ -9381,7 +9387,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       let session = createMeasurementCaptureSession(
         webcrypto.randomUUID(), "tee", capturedAt, workflow.snapshot.activeStyle.id,
       );
-      for (const definition of getFieldDefinitions("tee")) {
+      for (const definition of getCaptureFieldDefinitions("tee")) {
         session = addCaptureReadingForField(session, definition.id, {
           id: webcrypto.randomUUID(),
           rawValue: String(definition.defaultValue),
@@ -9402,7 +9408,10 @@ describe("bundled local artwork library (Slice 203)", () => {
       const options = design.garmentOptions.tee ?? {};
       const sourceInputs = {
         measurements: Object.fromEntries(recipe.fields.map((field) => [field, design.measurements[field]])),
-        options: Object.fromEntries((recipe.options ?? []).map((option) => [option.id, options[option.id]!])),
+        options: Object.fromEntries((recipe.options ?? []).flatMap((option) => {
+          const value = options[option.id];
+          return value === undefined ? [] : [[option.id, value]];
+        })),
       };
       const sourceBlock = recipe.draft(design.measurements, options);
       const sourceFingerprint = await semanticEditEngine.semanticEditSourceFingerprint(
@@ -9541,7 +9550,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       clickId(root, "welcome-start");
       clickId(root, "journey-guided");
       await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
-      for (const definition of getFieldDefinitions("tee")) {
+      for (const definition of getCaptureFieldDefinitions("tee")) {
         const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
           .find((button) => button.dataset.fieldId === definition.id)!;
         preset.click();

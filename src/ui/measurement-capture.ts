@@ -1,5 +1,5 @@
 /** Versioned, source-aware measurement-first session records for G03. */
-import { getFieldDefinitions, type FieldDefinition, type FieldEvidenceStatus, type FieldProvenance } from "./field-provenance";
+import { getCaptureFieldDefinitions, type FieldDefinition, type FieldEvidenceStatus, type FieldProvenance } from "./field-provenance";
 
 export const MEASUREMENT_CAPTURE_SCHEMA_VERSION = 1;
 export const MEASUREMENT_CAPTURE_DEFINITION_VERSION = 1;
@@ -124,7 +124,7 @@ export function createMeasurementCaptureSession(
   if (!UUID.test(id)) throw new Error("Measurement capture session ID must be a UUID.");
   if (styleId !== null && !UUID.test(styleId)) throw new Error("Measurement capture style ID must be a UUID or null.");
   if (!validTimestamp(createdAt)) throw new Error("Measurement capture timestamp must be canonical UTC time.");
-  const definitions = getFieldDefinitions(recipeId);
+  const definitions = getCaptureFieldDefinitions(recipeId);
   if (definitions.length === 0) throw new Error("Measurement capture requires a supported recipe.");
   return {
     schemaVersion: MEASUREMENT_CAPTURE_SCHEMA_VERSION,
@@ -170,7 +170,7 @@ export function addCaptureReadingForField(
   if (input.capturedAt !== null && !validTimestamp(input.capturedAt)) throw new Error("Capture date must be canonical UTC time.");
   if (input.measurer !== null && !CAPTURE_MEASURERS.has(input.measurer)) throw new Error("Measurement capture measurer is invalid.");
   const currentField = fieldFor(session, fieldId);
-  const definition = getFieldDefinitions(session.recipeId).find((candidate) => candidate.id === fieldId);
+  const definition = getCaptureFieldDefinitions(session.recipeId).find((candidate) => candidate.id === fieldId);
   if (!currentField || !definition || currentField.semanticId !== definition.semanticId) {
     throw new Error("Measurement capture field is not defined by the active recipe.");
   }
@@ -204,7 +204,7 @@ export function acceptCapturePreset(
   presetName = "Standard M digital preset; not measured wearer data",
 ): MeasurementCaptureSession {
   const field = fieldFor(session, fieldId);
-  const definition = getFieldDefinitions(session.recipeId).find((candidate) => candidate.id === fieldId);
+  const definition = getCaptureFieldDefinitions(session.recipeId).find((candidate) => candidate.id === fieldId);
   if (!field || !definition) throw new Error("Measurement capture field is not defined by the active recipe.");
   return addCaptureReadingForField(session, fieldId, {
     id: readingId,
@@ -243,7 +243,7 @@ export function assessCaptureField(field: MeasurementCaptureField, recipeId: str
     state: "ambiguous", issue: "ambiguous", correction: "Choose one recorded value or add another reading.",
   };
   const selected = field.readings.find((reading) => reading.id === field.selectedReadingId);
-  const definition = getFieldDefinitions(recipeId).find((candidate) => candidate.id === field.fieldId);
+  const definition = getCaptureFieldDefinitions(recipeId).find((candidate) => candidate.id === field.fieldId);
   if (!selected || !definition) return {
     state: "invalid", issue: "unsupported-field", correction: "Reload this garment's current field list before continuing.",
   };
@@ -345,7 +345,7 @@ export function parseMeasurementCaptureSession(value: unknown):
     || !Array.isArray(session.fields) || session.fields.length > MEASUREMENT_CAPTURE_MAX_FIELDS) {
     return fail("Measurement capture identity, timestamp, revision, or field list is invalid.");
   }
-  const definitions = getFieldDefinitions(session.recipeId);
+  const definitions = getCaptureFieldDefinitions(session.recipeId);
   if (definitions.length === 0 || session.fields.length !== definitions.length) return fail("Measurement capture must cover every current recipe input exactly once.");
   const seenReadingIds = new Set<string>();
   for (let index = 0; index < session.fields.length; index += 1) {
