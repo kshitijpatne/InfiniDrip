@@ -20,11 +20,21 @@ describe("controlsMarkup", () => {
     expect(html).toContain('data-field="ease"');
   });
 
-  it("explains ease as finished wearing room", () => {
-    const html = controlsMarkup(STANDARD_M, TEE.fields);
+  it("labels the Tee chest calculation as a modeled draft estimate", () => {
+    const html = controlsMarkup(STANDARD_M, TEE.fields, [], {}, "tee");
     expect(html).toContain("Ease");
+    expect(html).toContain("Modeled chest circumference:");
+    expect(html).toContain("Digital draft estimate; not measured on a sewn sample.");
+    expect(html).toContain("110 cm");
+    expect(html).not.toContain("Finished chest:");
+  });
+
+  it("preserves the chest summary wording for non-Tee recipes", () => {
+    const html = controlsMarkup(STANDARD_M, ["chest", "ease"], [], {}, "woven-shirt");
     expect(html).toContain("Finished chest:");
     expect(html).toContain("110 cm");
+    expect(html).not.toContain("Modeled chest circumference");
+    expect(html).not.toContain("Digital draft estimate; not measured on a sewn sample.");
   });
 
   it("does not invent a finished-width summary for unrelated fields", () => {
@@ -362,7 +372,7 @@ describe("inspectionMarkup", () => {
 
 describe("woven option controls", () => {
   it("groups construction options and shows units plus correction help", () => {
-    const html = controlsMarkup(STANDARD_M, WOVEN_SHIRT.fields, WOVEN_SHIRT_OPTION_DEFINITIONS);
+    const html = controlsMarkup(STANDARD_M, WOVEN_SHIRT.fields, WOVEN_SHIRT_OPTION_DEFINITIONS, {}, "woven-shirt");
     expect((html.match(/data-option-group=/g) || [])).toHaveLength(5);
     expect(html).toContain('data-field-unit="option-buttonCount"');
     expect(html).toContain(">buttons<");
