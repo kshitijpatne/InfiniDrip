@@ -246,18 +246,39 @@ export function controlsMarkup(
   const chestSummaryDisclosure = recipeId === "tee"
     ? "<span data-modeled-chest-disclosure style=\"display:block;margin-top:2px;font-size:10px;line-height:1.4\">Digital draft estimate; not measured on a sewn sample.</span>"
     : "";
+  const modeledChestEase = recipeId === "tee" ? values.chestEase ?? m.ease : m.ease;
   const finished = fields.includes("crotchDepth")
     ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished waist: <span data-finished="waist" style="color:${T.line};font-family:ui-monospace,monospace">${m.waist + m.ease} cm</span> · Finished hip: <span data-finished="hip" style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
     : fields.includes("chest")
-    ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">${chestSummaryLabel}: <span data-finished="chest" style="color:${T.line};font-family:ui-monospace,monospace">${m.chest + m.ease} cm</span>${chestSummaryDisclosure}</div>`
+    ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">${chestSummaryLabel}: <span data-finished="chest" style="color:${T.line};font-family:ui-monospace,monospace">${m.chest + modeledChestEase} cm</span>${chestSummaryDisclosure}</div>`
     : fields.includes("hip")
       ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished hip: <span data-finished="hip" style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
       : "";
-  const optionRows = (option: GarmentOption): string => field(
-    `option-${option.id}`, option.label, values[option.id] ?? option.defaultValue,
-    option.min, option.max, option.step, option,
-    fieldSourceMarkup(recipeId, "option", option.id, fieldObservations),
-  ).replace(`data-field="option-${option.id}"`, `data-option="${option.id}"`);
+  const optionRows = (option: GarmentOption): string => {
+    const explicit = Object.prototype.hasOwnProperty.call(values, option.id);
+    const inherited = option.fallbackMeasurement
+      ? m[option.fallbackMeasurement]
+      : option.defaultValue;
+    const value = explicit ? values[option.id]! : inherited;
+    const row = field(
+      `option-${option.id}`, option.label, value,
+      option.min, option.max, option.step, option,
+      fieldSourceMarkup(recipeId, "option", option.id, fieldObservations),
+    ).replace(`data-field="option-${option.id}"`, `data-option="${option.id}"`);
+    const input = option.optional && !explicit
+      ? row.replace(`data-option="${option.id}"`, `data-option="${option.id}" disabled`)
+      : row;
+    if (!option.optional) return input;
+    const mode = explicit ? "Independent chest allowance is active for this style."
+      : `Inherits the shared fit allowance: ${inherited} cm.`;
+    const setAction = explicit ? " hidden" : "";
+    const resetAction = explicit ? "" : " hidden";
+    return input +
+      `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-3px 0 8px 0;font-size:11px;color:${T.label}">` +
+      `<span data-option-mode="${option.id}" role="status">${mode}</span>` +
+      `<button type="button" data-set-option="${option.id}"${setAction}>Set independent value</button>` +
+      `<button type="button" data-reset-option="${option.id}"${resetAction}>Use shared fit allowance</button></div>`;
+  };
   const groups = new Map<string, GarmentOption[]>();
   options.forEach((option) => {
     const group = option.group ?? "Design options";

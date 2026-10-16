@@ -1,6 +1,6 @@
 import type { GarmentOptionsByRecipe, Measurements } from "../drafting";
 import { GARMENTS, STANDARD_M } from "../drafting";
-import { getFieldDefinitions } from "./field-provenance";
+import { getCaptureFieldDefinitions } from "./field-provenance";
 import type { SavedDesign } from "./project-records";
 import {
   measurementCaptureReadiness,
@@ -25,7 +25,7 @@ export function materializeCustomSizeDesign(
   if (!recipe || seed.workspace.garment !== recipe.name) {
     throw new Error("Choose the captured garment's fresh design seed before creating a custom style.");
   }
-  const definitions = getFieldDefinitions(recipe.name);
+  const definitions = getCaptureFieldDefinitions(recipe.name);
   if (!measurementCaptureReadiness(session).ready) {
     throw new Error("Resolve every measurement field before creating a custom one-size style.");
   }

@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, wovenHipStationY } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { wovenShirtAllowances } from "../drafting/shirt";
@@ -1382,6 +1382,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       .map((input) => [input.dataset.field, input.value])) as Partial<Record<keyof Measurements, string>>;
   const currentRawOptions = (): Record<string, Record<string, string>> => ({
     [recipe.name]: Object.fromEntries([...root.querySelectorAll<HTMLInputElement>("input[data-option]")]
+      .filter((input) => {
+        const id = input.dataset.option!;
+        const definition = recipe.options?.find((option) => option.id === id);
+        return !definition?.optional || Object.prototype.hasOwnProperty.call(garmentOptions[recipe.name] ?? {}, id);
+      })
       .map((input) => [input.dataset.option, input.value])),
   });
   const captureDraftSnapshot = (): DraftSnapshot => ({
@@ -1467,20 +1472,33 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   /** Design options live per recipe, never in body measurements. Existing saved
    * values stay verbatim so guidance can explain an invalid combination. */
-  const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => ({
-    ...defaultGarmentOptions(forRecipe.options ?? []),
-    ...(garmentOptions[forRecipe.name] ?? {}),
-  });
+  const activeOptionDefinitions = (forRecipe: GarmentRecipe = recipe) =>
+    (forRecipe.options ?? []).filter((option) =>
+      option.appliesToStyle === undefined || option.appliesToStyle === targetStyle);
+  const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => garmentOptionsForStyle(
+    forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle,
+  );
+  const styleMatchMeasurements = (): Measurements => {
+    const overrides = Object.fromEntries(activeOptionDefinitions()
+      .filter((option) => option.fallbackMeasurement !== undefined && recipeOptions()[option.id] !== undefined)
+      .map((option) => [option.fallbackMeasurement!, recipeOptions()[option.id]!])) as Partial<Measurements>;
+    return Object.keys(overrides).length === 0 ? measurements : { ...measurements, ...overrides };
+  };
   const currentSemanticSourceInputs = (): SemanticEditSourceInputs => {
     const sourceMeasurements = new Set<string>(recipe.fields);
     // Tank shoulderWidth is deliberately not converted to strapWidth, but it is
     // a visible fit input that must still trigger explicit edit review/rebase.
     if (recipe.name === "tank") sourceMeasurements.add("shoulderWidth");
+    const optionValues = recipeOptions();
+    const sourceOptions: Record<string, number> = {};
+    for (const option of recipe.options ?? []) {
+      const value = optionValues[option.id];
+      if (value !== undefined) sourceOptions[option.id] = value;
+    }
     return {
       measurements: Object.fromEntries([...sourceMeasurements].map((field) =>
         [field, measurements[field as keyof Measurements]])),
-      options: Object.fromEntries((recipe.options ?? []).map((option) =>
-        [option.id, recipeOptions()[option.id]])),
+      options: sourceOptions,
     };
   };
   const resolveSemanticSource = (): SemanticSourceRuntime => {
@@ -1792,11 +1810,33 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const error = inputError(measurements[field.id], field);
       if (error) errors.set(field.id, error);
     }
-    for (const option of recipe.options ?? []) {
-      const error = inputError(recipeOptions()[option.id], option);
+    for (const option of activeOptionDefinitions()) {
+      const value = recipeOptions()[option.id];
+      if (option.optional && value === undefined) continue;
+      const error = inputError(value as number, option);
       if (error) errors.set(`option-${option.id}`, error);
     }
     return errors;
+  };
+  const syncOptionalOptionControls = (): void => {
+    for (const option of activeOptionDefinitions()) {
+      if (!option.optional) continue;
+      const input = root.querySelector<HTMLInputElement>(`input[data-option="${option.id}"]`)!;
+      const status = root.querySelector<HTMLElement>(`[data-option-mode="${option.id}"]`)!;
+      const setButton = root.querySelector<HTMLButtonElement>(`[data-set-option="${option.id}"]`)!;
+      const resetButton = root.querySelector<HTMLButtonElement>(`[data-reset-option="${option.id}"]`)!;
+      const values = garmentOptions[recipe.name] ?? {};
+      const explicit = Object.prototype.hasOwnProperty.call(values, option.id);
+      if (!explicit && option.fallbackMeasurement) {
+        input.value = String(measurements[option.fallbackMeasurement]);
+      }
+      input.disabled = !explicit;
+      status.textContent = explicit
+        ? `Independent value: ${input.value || "enter a number"} cm.`
+        : `Inherited from shared fit allowance: ${input.value} cm.`;
+      setButton.hidden = explicit;
+      resetButton.hidden = !explicit;
+    }
   };
   const materialCompatibilityNote = (): Note | null =>
     (recipe.name === "woven-shirt" || recipe.name === "trouser") && stretchFabric.family === "knit"
@@ -2873,13 +2913,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   const drawCurrentView = (): void => {
     applyDisclosure();
+    syncOptionalOptionControls();
     const errors = inputErrors();
     const valid = designValid();
     const semanticState = errors.size === 0 && (semanticEdits !== null || view === "edit")
       ? currentSemanticState()
       : null;
     root.querySelectorAll<HTMLElement>("[data-finished]").forEach((total) => {
-      const value = measurements[total.dataset.finished as keyof Measurements] + measurements.ease;
+      const field = total.dataset.finished as keyof Measurements;
+      const ease = field === "chest" ? recipeOptions().chestEase ?? measurements.ease : measurements.ease;
+      const value = measurements[field] + ease;
       total.textContent = Number.isFinite(value) ? `${value} cm` : "Enter complete measurements";
     });
     root.querySelectorAll<HTMLInputElement>("[data-field], [data-option]").forEach((input) => {
@@ -2930,7 +2973,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         canvasHost.querySelector<HTMLElement>("#inspection-toolbar")!.classList.add("uiq-inspection-toolbar--opaque");
       }
       renderGuidance([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
-      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false) + gradePlanPanel() + renderSurface();
+      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(styleMatchMeasurements(), targetStyle, recipe.styles), styleNames(recipe.styles), false) + gradePlanPanel() + renderSurface();
       syncSurfaceValidity();
       syncSurfaceAssetPreviews();
       renderJourney();
@@ -3177,7 +3220,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     renderGuidance(guidanceNotes);
     updateMaterialClarity(guidanceNotes);
     // Style = prescriptive: the gap from current measurements to the chosen target.
-    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible) + gradePlanPanel() + renderSurface();
+    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(styleMatchMeasurements(), targetStyle, recipe.styles), styleNames(recipe.styles), plausible) + gradePlanPanel() + renderSurface();
     syncSurfaceValidity();
     syncSurfaceAssetPreviews();
     // Amber-outline any measurement input whose value is out of plausible range
@@ -4160,7 +4203,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // Re-render the measurement panel to this garment's fields (a skirt shows
     // waist/hip, not chest/sleeve), then re-attach its listeners.
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-      measurements, recipe.fields, recipe.options, recipeOptions(), recipe.name, activeFieldObservations());
+      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
     wireMeasurementInputs();
     syncExportSizes();
     applyDisclosure();
@@ -4382,6 +4425,33 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const persistOptionObservation = (): void => commitFieldObservation(recipeId, "option", id);
       input.addEventListener("change", persistOptionObservation);
       input.addEventListener("focusout", persistOptionObservation);
+    });
+    root.querySelectorAll<HTMLButtonElement>("[data-set-option]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.dataset.setOption!;
+        const definition = recipe.options!.find((option) => option.id === id)!;
+        const input = root.querySelector<HTMLInputElement>(`input[data-option="${id}"]`);
+        if (!input) return;
+        input.disabled = false;
+        input.value = String(measurements[definition.fallbackMeasurement!]);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.focus();
+      });
+    });
+    root.querySelectorAll<HTMLButtonElement>("[data-reset-option]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.dataset.resetOption!;
+        const definition = recipe.options!.find((option) => option.id === id)!;
+        if (definition.appliesToStyle !== undefined && definition.appliesToStyle !== targetStyle) return;
+        const explicit = { ...garmentOptions[recipe.name]! };
+        delete explicit[id];
+        garmentOptions = { ...garmentOptions, [recipe.name]: explicit };
+        editedFront = null;
+        markOutputDirty();
+        draw();
+        scheduleFieldObservation(recipe.name, "option", id);
+        commitFieldObservation(recipe.name, "option", id);
+      });
     });
     root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {
       const field = row.dataset.dimRow!;
@@ -4624,6 +4694,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     if (sel.id === "style-target") {
       targetStyle = sel.value;
+      root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
+        measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
+      wireMeasurementInputs();
       markOutputDirty();
       draw();
     }
@@ -5576,7 +5649,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     hoveredDim = null;
     focusedDim = null;
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-      measurements, recipe.fields, recipe.options, recipeOptions(), recipe.name, activeFieldObservations());
+      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
     wireMeasurementInputs();
     GARMENTS.forEach((g) => {
       const button = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;

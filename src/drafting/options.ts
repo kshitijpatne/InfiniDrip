@@ -12,6 +12,12 @@ export interface GarmentOption {
   readonly help?: string;
   /** Construction area used to group related controls in the UI. */
   readonly group?: string;
+  /** Optional controls inherit their declared measurement until explicitly set. */
+  readonly optional?: boolean;
+  /** Measurement inherited while an optional control is unset. */
+  readonly fallbackMeasurement?: keyof import("./measurements").Measurements;
+  /** Style that activates this control; its saved value remains dormant otherwise. */
+  readonly appliesToStyle?: string;
   readonly defaultValue: number;
   readonly min: number;
   readonly max: number;
@@ -25,7 +31,25 @@ export const EMPTY_GARMENT_OPTIONS: GarmentOptions = {};
 
 /** Defaults are recipe data, so a future recipe never relies on UI state. */
 export function defaultGarmentOptions(definitions: readonly GarmentOption[]): GarmentOptions {
-  return Object.fromEntries(definitions.map((d) => [d.id, d.defaultValue]));
+  return Object.fromEntries(definitions.filter((d) => !d.optional).map((d) => [d.id, d.defaultValue]));
+}
+
+/** Defaults and saved values that are active for one selected recipe style. */
+export function garmentOptionsForStyle(
+  definitions: readonly GarmentOption[],
+  saved: GarmentOptions,
+  style: string,
+  includeDefaults = true,
+): GarmentOptions {
+  const applicable = definitions.filter((definition) =>
+    definition.appliesToStyle === undefined || definition.appliesToStyle === style);
+  const options: Record<string, number> = includeDefaults ? { ...defaultGarmentOptions(applicable) } : {};
+  for (const definition of applicable) {
+    if (Object.prototype.hasOwnProperty.call(saved, definition.id)) {
+      options[definition.id] = saved[definition.id]!;
+    }
+  }
+  return options;
 }
 
 /**
@@ -39,9 +63,15 @@ export function restoreGarmentOptions(
   const raw = typeof saved === "object" && saved !== null
     ? saved as Record<string, unknown>
     : {};
-  return Object.fromEntries(definitions.map((d) => {
+  return Object.fromEntries(definitions.flatMap((d) => {
     const value = raw[d.id];
-    return [d.id, typeof value === "number" && Number.isFinite(value) &&
-      value >= d.min && value <= d.max ? value : d.defaultValue];
+    if (d.optional) {
+      if (!Object.prototype.hasOwnProperty.call(raw, d.id)) return [];
+      // Preserve an explicitly saved invalid optional value so the UI can show
+      // actionable correction guidance instead of silently choosing a value.
+      return [[d.id, typeof value === "number" ? value : Number.NaN]];
+    }
+    return [[d.id, typeof value === "number" && Number.isFinite(value) &&
+      value >= d.min && value <= d.max ? value : d.defaultValue]];
   }));
 }

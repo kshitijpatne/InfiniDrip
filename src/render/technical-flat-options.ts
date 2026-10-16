@@ -51,6 +51,7 @@ function validateValues(recipe: GarmentRecipe, raw: unknown): { options: Garment
   const values: Record<string, number> = {};
   for (const definition of definitions) {
     const supplied = Object.prototype.hasOwnProperty.call(input, definition.id);
+    if (definition.optional && !supplied) continue;
     const candidate = supplied ? input[definition.id] : definition.defaultValue;
     if (typeof candidate !== "number" || !Number.isFinite(candidate)) {
       issues.push({ code: "INVALID_OPTION_VALUE", optionId: definition.id,

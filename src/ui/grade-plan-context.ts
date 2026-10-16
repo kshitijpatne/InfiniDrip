@@ -1,4 +1,4 @@
-import { GARMENTS, type GarmentRecipe } from "../drafting";
+import { GARMENTS, garmentOptionsForStyle, type GarmentRecipe } from "../drafting";
 import { FIELDS } from "./controls";
 import { canonicalizeJcs, sha256Hex } from "./style-revisions";
 import { isCustomOneSizeStyle, type MeasurementCaptureRecord, type StyleRecord } from "./project-records";
@@ -40,17 +40,24 @@ export async function createGradePlanContext(
   if (!style.revisionHeadId) return invalid("Save the style revision before creating a grade plan.");
   const recipe = requireRecipe(style.recipeId);
   if (!recipe) return invalid("The style recipe is not supported by this application version.");
-  const baseOptions = style.design.garmentOptions[recipe.name] ?? {};
-  const optionTargets = (recipe.options ?? []).map((option) => {
+  const baseOptions = garmentOptionsForStyle(
+    recipe.options ?? [], style.design.garmentOptions[recipe.name] ?? {}, style.design.workspace.targetStyle, false,
+  );
+  const applicableOptions = (recipe.options ?? []).filter((option) =>
+    option.appliesToStyle === undefined || option.appliesToStyle === style.design.workspace.targetStyle);
+  const optionTargets = applicableOptions.flatMap((option) => {
     const value = baseOptions[option.id];
-    if (typeof value !== "number" || !Number.isFinite(value)) return null;
-    return {
+    // An unset optional control means the recipe inherits its normal inputs.
+    // Keep that behavior across grade sizes by leaving it out of the target set.
+    if (option.optional && value === undefined) return [];
+    if (typeof value !== "number" || !Number.isFinite(value)) return [null];
+    return [{
       targetId: `option.${recipe.name}.${option.id}`,
       kind: "option" as const,
       label: option.label,
       unit: option.unit ?? "unitless",
       baseValue: value,
-    };
+    }];
   });
   if (optionTargets.some((target) => target === null)) {
     return invalid("Save an explicit value for every recipe control before creating a grade plan.");

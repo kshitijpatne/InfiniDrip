@@ -18,6 +18,14 @@ import { sleevedTopStitches } from "./tshirt-checks";
 import { bodice } from "./bodice";
 import { sleeve as sleeveComponent } from "./sleeve";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
+import type { Component } from "./component";
+import type { GarmentOptions } from "./options";
+
+type TeeBodiceParams = { readonly position: "front" | "back"; readonly chestEase?: number };
+const teeBodice: Component<TeeBodiceParams> = (m, params) => bodice(
+  params.chestEase === undefined ? m : { ...m, ease: params.chestEase },
+  { position: params.position },
+);
 
 /** Thin wrapper over the Bodice component (Phase B2, Slice 53) — kept so
  *  existing callers (armholeLength below, fitted.ts's draftBack reuse,
@@ -56,8 +64,14 @@ export function draftSleeve(m: Measurements): Piece {
 export const TEE_GRAMMAR = garmentGrammar(
   "tee",
   [
-    componentNode("front", "bodice", bodice, () => ({ position: "front" as const })),
-    componentNode("back", "bodice", bodice, () => ({ position: "back" as const })),
+    componentNode("front", "bodice", teeBodice, (context) => ({
+      position: "front" as const,
+      ...(context.options.chestEase === undefined ? {} : { chestEase: context.options.chestEase }),
+    })),
+    componentNode("back", "bodice", teeBodice, (context) => ({
+      position: "back" as const,
+      ...(context.options.chestEase === undefined ? {} : { chestEase: context.options.chestEase }),
+    })),
     componentNode(
       "sleeve",
       "sleeve",
@@ -74,6 +88,6 @@ export const TEE_GRAMMAR = garmentGrammar(
 );
 
 /** Draft a complete t-shirt block from one set of measurements. */
-export function draftTshirt(m: Measurements): Block {
-  return composeBlock(TEE_GRAMMAR, m);
+export function draftTshirt(m: Measurements, options: GarmentOptions = {}): Block {
+  return composeBlock(TEE_GRAMMAR, m, options);
 }

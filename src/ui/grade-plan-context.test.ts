@@ -78,9 +78,15 @@ describe("explicit grade-plan base context", () => {
         captureRevision: 4,
       });
       expect(context.binding.fingerprint).toMatch(/^[0-9a-f]{64}$/);
-      expect(context.targets).toHaveLength(recipe.fields.length + (recipe.options?.length ?? 0) + recipe.poms.length);
+      const savedOptions = style.design.garmentOptions[recipe.name] ?? {};
+      const savedOptionIds = (recipe.options ?? [])
+        .filter((option) => typeof savedOptions[option.id] === "number")
+        .map((option) => `option.${recipe.name}.${option.id}`);
+      expect(context.targets).toHaveLength(recipe.fields.length + savedOptionIds.length + recipe.poms.length);
       expect(context.targets.filter((target) => target.kind === "measurement").map((target) => target.targetId))
         .toEqual(recipe.fields.map((field) => `measurement.${String(field)}`));
+      expect(context.targets.filter((target) => target.kind === "option").map((target) => target.targetId))
+        .toEqual(savedOptionIds);
       expect(context.targets.filter((target) => target.kind === "pom").map((target) => target.baseValue))
         .toEqual(expect.arrayContaining(recipe.poms.map((pom) => pom.measure(recipe.draft(style.design.measurements, style.design.garmentOptions[recipe.name])))));
       expect(new Set(context.targets.map((target) => target.targetId)).size).toBe(context.targets.length);
@@ -97,6 +103,54 @@ describe("explicit grade-plan base context", () => {
     const next = value(await createGradePlanContext(PROJECT_ID, changed, captureFor()));
     expect(value(await createGradePlanContext(PROJECT_ID, style, captureFor())).binding.fingerprint).toBe(base.binding.fingerprint);
     expect(next.binding.fingerprint).not.toBe(base.binding.fingerprint);
+  });
+
+  it("inherits an unset optional Tee chest ease, but targets an explicit finite value and rejects invalid values", async () => {
+    const initial = designFor("tee");
+    const base = styleFor("tee", {
+      ...initial,
+      workspace: { ...initial.workspace, targetStyle: "Classic tee" },
+    });
+    const inheritedOptions = { ...base.design.garmentOptions.tee };
+    delete inheritedOptions.chestEase;
+    const inherited = value(await createGradePlanContext(PROJECT_ID, styleFor("tee", {
+      ...base.design,
+      garmentOptions: { ...base.design.garmentOptions, tee: inheritedOptions },
+    }), captureFor()));
+    expect(inherited.targets.some((target) => target.targetId === "option.tee.chestEase")).toBe(false);
+    expect(inherited.targets.find((target) => target.targetId === "measurement.ease")?.baseValue)
+      .toBe(STANDARD_M.ease);
+
+    const explicit = value(await createGradePlanContext(PROJECT_ID, styleFor("tee", {
+      ...base.design,
+      garmentOptions: { ...base.design.garmentOptions, tee: { ...inheritedOptions, chestEase: 8 } },
+    }), captureFor()));
+    expect(explicit.targets.find((target) => target.targetId === "option.tee.chestEase"))
+      .toMatchObject({ kind: "option", baseValue: 8 });
+
+    expect(await createGradePlanContext(PROJECT_ID, styleFor("tee", {
+      ...base.design,
+      garmentOptions: { ...base.design.garmentOptions, tee: { ...inheritedOptions, chestEase: Number.POSITIVE_INFINITY } },
+    }), captureFor())).toMatchObject({
+      ok: false,
+      errors: ["Save an explicit value for every recipe control before creating a grade plan."],
+    });
+  });
+
+  it("keeps a stored Classic-only override dormant in a different Tee style's grade-plan context", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const nonClassic = recipe.styles.find((candidate) => candidate.name !== "Classic tee")!;
+    const base = styleFor("tee");
+    const dormant = styleFor("tee", {
+      ...base.design,
+      workspace: { ...base.design.workspace, targetStyle: nonClassic.name },
+      garmentOptions: { ...base.design.garmentOptions, tee: { ...base.design.garmentOptions.tee, chestEase: 8 } },
+    });
+    const context = value(await createGradePlanContext(PROJECT_ID, dormant, captureFor()));
+    const inheritedBlock = recipe.draft(dormant.design.measurements, {});
+    expect(context.targets.some((target) => target.targetId === "option.tee.chestEase")).toBe(false);
+    expect(context.targets.filter((target) => target.kind === "pom").map((target) => target.baseValue))
+      .toEqual(recipe.poms.map((pom) => pom.measure(inheritedBlock)));
   });
 
   it("fails closed for legacy styles, mismatched captures, missing revision heads, and missing explicit recipe controls", async () => {

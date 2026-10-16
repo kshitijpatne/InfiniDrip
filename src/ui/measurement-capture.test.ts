@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS } from "../drafting";
+import { getCaptureFieldDefinitions } from "./field-provenance";
 import {
   acceptCapturePreset,
   addCaptureReadingForField,
@@ -42,11 +43,23 @@ describe("measurement-first capture session", () => {
     expect(GARMENTS).toHaveLength(7);
     for (const recipe of GARMENTS) {
       const session = createMeasurementCaptureSession(SESSION_ID, recipe.name, TIME);
-      expect(session.fields).toHaveLength(recipe.fields.length + (recipe.options?.length ?? 0));
+      expect(session.fields).toHaveLength(recipe.fields.length + (recipe.options ?? []).filter((option) => !option.optional).length);
       expect(session.fields.every((field) => field.readings.length === 0 && field.selectedReadingId === null)).toBe(true);
       expect(measurementCaptureReadiness(session).ready).toBe(false);
       expect(parseMeasurementCaptureSession(session)).toEqual({ ok: true, value: session });
     }
+  });
+
+  it("keeps the legacy seven-field Tee capture valid and excludes the optional chest control", () => {
+    const legacySession = teeSession();
+    expect(legacySession.fields).toHaveLength(7);
+    expect(legacySession.fields.map((field) => field.fieldId)).toEqual(
+      getCaptureFieldDefinitions("tee").map((definition) => definition.id),
+    );
+    expect(legacySession.fields.some((field) => field.inputKey === "chestEase")).toBe(false);
+    expect(parseMeasurementCaptureSession(legacySession)).toEqual({ ok: true, value: legacySession });
+    expect(() => addCaptureReadingForField(legacySession, "style.tee.chest-ease", baseReading(), TIME))
+      .toThrow("not defined by the active recipe");
   });
 
   it("preserves raw precision, converts inches without rounding, and waits for explicit selection between readings", () => {
