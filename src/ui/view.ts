@@ -242,10 +242,14 @@ export function controlsMarkup(
   const measurementFields = fields
     .map((id) => FIELDS.find((f) => f.id === id))
     .filter((f): f is Field => f !== undefined);
+  const chestSummaryLabel = recipeId === "tee" ? "Modeled chest circumference" : "Finished chest";
+  const chestSummaryDisclosure = recipeId === "tee"
+    ? "<span data-modeled-chest-disclosure style=\"display:block;margin-top:2px;font-size:10px;line-height:1.4\">Digital draft estimate; not measured on a sewn sample.</span>"
+    : "";
   const finished = fields.includes("crotchDepth")
     ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished waist: <span data-finished="waist" style="color:${T.line};font-family:ui-monospace,monospace">${m.waist + m.ease} cm</span> · Finished hip: <span data-finished="hip" style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
     : fields.includes("chest")
-    ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished chest: <span data-finished="chest" style="color:${T.line};font-family:ui-monospace,monospace">${m.chest + m.ease} cm</span></div>`
+    ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">${chestSummaryLabel}: <span data-finished="chest" style="color:${T.line};font-family:ui-monospace,monospace">${m.chest + m.ease} cm</span>${chestSummaryDisclosure}</div>`
     : fields.includes("hip")
       ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished hip: <span data-finished="hip" style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
       : "";
