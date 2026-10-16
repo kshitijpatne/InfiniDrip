@@ -2059,6 +2059,114 @@ describe("mountApp", () => {
       .toBe("2 Measure — complete");
   });
 
+  it("keeps the Classic Tee chest allowance optional, independent, resettable, and persistent", async () => {
+    localStorage.clear();
+    let root = mount();
+    const chooseStyle = (name: string): void => {
+      const target = root.querySelector<HTMLSelectElement>("#style-target")!;
+      target.value = name;
+      target.dispatchEvent(new Event("change", { bubbles: true }));
+    };
+    const modeledChest = (): string => root.querySelector<HTMLElement>('[data-finished="chest"]')!.textContent!;
+    chooseStyle("Classic tee");
+
+    let chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
+    expect(chestEase.disabled).toBe(true);
+    expect(root.querySelector<HTMLElement>('[data-option-mode="chestEase"]')!.textContent)
+      .toContain("Inherited from shared fit allowance: 10 cm");
+
+    const sharedEase = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+    sharedEase.value = "5";
+    sharedEase.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(modeledChest()).toBe("105 cm");
+    expect(chestEase.disabled).toBe(true);
+    root.querySelector<HTMLButtonElement>('[data-set-option="chestEase"]')!.click();
+    chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
+    expect(chestEase.disabled).toBe(false);
+    expect(chestEase.value).toBe("5");
+    expect(chestEase.getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector<HTMLElement>("#error-option-chestEase")!.textContent).toContain("7");
+
+    chestEase.value = "8";
+    chestEase.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(chestEase.getAttribute("aria-invalid")).toBe("false");
+    expect(modeledChest()).toBe("108 cm");
+    chestEase.value = "";
+    chestEase.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(chestEase.getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector<HTMLElement>('[data-option-mode="chestEase"]')!.textContent)
+      .toContain("enter a number");
+    chestEase.value = "8";
+    chestEase.dispatchEvent(new Event("input", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>('[data-reset-option="chestEase"]')!.click();
+    chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
+    expect(chestEase.disabled).toBe(true);
+    expect(modeledChest()).toBe("105 cm");
+
+    root.querySelector<HTMLButtonElement>('[data-set-option="chestEase"]')!.click();
+    chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
+    chestEase.value = "8";
+    chestEase.dispatchEvent(new Event("input", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>("#save-pattern")!.click();
+    root.remove();
+
+    root = mount();
+    chooseStyle("Classic tee");
+    chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
+    expect(chestEase.value).toBe("8");
+    expect(chestEase.disabled).toBe(false);
+    expect(modeledChest()).toBe("108 cm");
+    const staleSet = root.querySelector<HTMLButtonElement>('[data-set-option="chestEase"]')!;
+    const staleReset = root.querySelector<HTMLButtonElement>('[data-reset-option="chestEase"]')!;
+    chooseStyle("Relaxed tee");
+    expect(root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    expect(modeledChest()).toBe("105 cm");
+    staleSet.click();
+    staleReset.click();
+    chooseStyle("Classic tee");
+    chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
+    expect(chestEase.value).toBe("8");
+    expect(modeledChest()).toBe("108 cm");
+    clickId(root, "garment-polo");
+    expect(root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    expect(root.querySelector<HTMLInputElement>('input[data-option="placketLength"]')).not.toBeNull();
+    clickId(root, "garment-skirt");
+    expect(root.querySelector<HTMLElement>('[data-finished="hip"]')!.textContent).toBe("105 cm");
+    clickId(root, "garment-trouser");
+    expect(root.querySelector<HTMLElement>('[data-finished="waist"]')!.textContent).toBe("89 cm");
+    expect(root.querySelector<HTMLElement>('[data-finished="hip"]')!.textContent).toBe("105 cm");
+    clickId(root, "garment-fitted");
+    expect(root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    clickId(root, "garment-tee");
+    chooseStyle("Classic tee");
+    chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
+    expect(chestEase.value).toBe("8");
+    expect(modeledChest()).toBe("108 cm");
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    clickId(root, "view-edit");
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+  });
+
+  it("validates semantic editing with an explicit Classic Tee chest allowance", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const fingerprintSpy = vi.spyOn(semanticEditEngine, "semanticEditSourceFingerprint");
+    const root = mount();
+    clickId(root, "garment-tee");
+    const style = root.querySelector<HTMLSelectElement>("#style-target")!;
+    style.value = "Classic tee";
+    style.dispatchEvent(new Event("change", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>('[data-set-option="chestEase"]')!.click();
+    const chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
+    chestEase.value = "8";
+    chestEase.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(chestEase.getAttribute("aria-invalid")).toBe("false");
+    clickId(root, "view-edit");
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    const lastFingerprintCall = fingerprintSpy.mock.calls[fingerprintSpy.mock.calls.length - 1];
+    expect(lastFingerprintCall?.[3]?.options).toEqual({ chestEase: 8 });
+  });
+
   it("opens the guided capture route with recipe help and keeps the full editor available", () => {
     localStorage.clear();
     const root = mount();
@@ -8065,6 +8173,52 @@ describe("bundled local artwork library (Slice 203)", () => {
       workflow.close();
       root.remove();
       vi.unstubAllGlobals();
+    }
+  });
+
+  it("creates a one-size custom Skirt through the empty recipe-option fallback", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-custom-skirt-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "welcome-start");
+      clickId(root, "garment-skirt");
+      await vi.waitFor(() => expect(root.querySelector("#current-garment")?.textContent).toBe("Skirt"));
+      const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+      expect(recipe.options).toBeUndefined();
+
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      for (const definition of getFieldDefinitions("skirt")) {
+        const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+          .find((button) => button.dataset.fieldId === definition.id);
+        if (!preset) throw new Error(`No digital preset button for ${definition.id}`);
+        preset.click();
+      }
+
+      expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(false);
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("fit"),
+        { timeout: 20_000 });
+      expect(workflow.snapshot.activeStyle.recipeId).toBe("skirt");
+      expect(workflow.snapshot.activeStyle.design.garmentOptions.skirt).toEqual({});
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
     }
   });
 

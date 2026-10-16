@@ -2749,7 +2749,7 @@ describe("portable local project package", () => {
     const options = defaultGarmentOptions(recipe.options ?? []);
     const sourceInputs = {
       measurements: Object.fromEntries(recipe.fields.map((field) => [field, STANDARD_M[field]])),
-      options: Object.fromEntries((recipe.options ?? []).map((option) => [option.id, options[option.id]])),
+      options,
     };
     const base = recipe.draft(STANDARD_M, options);
     const fingerprint = await semanticEditSourceFingerprint(recipe.name, base, crypto, sourceInputs);

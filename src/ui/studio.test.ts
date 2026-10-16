@@ -24,6 +24,11 @@ beforeEach(() => {
 describe("bounded measurement groups", () => {
   it.each(GARMENTS)("keeps every $label field reachable exactly once through groups", (recipe) => {
     click(`#garment-${recipe.name}`);
+    if (recipe.name === "tee") {
+      const style = root.querySelector<HTMLSelectElement>("#style-target")!;
+      style.value = "Classic tee";
+      style.dispatchEvent(new Event("change", { bubbles: true }));
+    }
     const pages = [...root.querySelectorAll<HTMLFieldSetElement>("[data-control-page]")];
     const inputs = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input")];
     expect(inputs).toHaveLength(recipe.fields.length + (recipe.options?.length ?? 0));

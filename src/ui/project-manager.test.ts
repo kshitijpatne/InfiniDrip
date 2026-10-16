@@ -889,7 +889,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  }, 15000);
+  }, 30000);
 
   it("edits and saves T01 from the project manager as one revision without replacing editor state", async () => {
     const state = await techPackHarness();

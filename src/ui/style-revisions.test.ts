@@ -166,8 +166,17 @@ describe("immutable revision and frozen output records", () => {
     expect(v2Payload).toHaveProperty("techPack");
 
     const { techPack: _techPack, ...v1Fields } = v2Payload;
+    // Recreate the historical v1 catalog: the Tee style-control observation
+    // was added after v1 and must not alter the fixed legacy payload digest.
+    const historicalObservations = v2Payload.fieldObservations.observations
+      .filter((observation) => observation.semanticId !== "style.tee.chest-ease");
     const legacyPayload: LegacyStyleRevisionPayload = {
       ...v1Fields,
+      fieldObservations: {
+        ...v2Payload.fieldObservations,
+        revision: historicalObservations.length,
+        observations: historicalObservations,
+      },
       payloadVersion: STYLE_REVISION_LEGACY_PAYLOAD_VERSION,
     };
     const legacy: StyleRevisionRecord = {

@@ -26,6 +26,24 @@ describe("technical-flat option and topology validation", () => {
     }
   });
 
+  it("keeps an unset optional Tee control absent while validating explicit values", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee");
+    if (!recipe) throw new Error("Tee recipe is missing.");
+    const inherited = validateTechnicalFlatOptions(recipe, STANDARD_M, undefined, revisionId);
+    expect(inherited.issues).toEqual([]);
+    expect(inherited.options).not.toHaveProperty("chestEase");
+
+    const explicit = validateTechnicalFlatOptions(recipe, STANDARD_M, { chestEase: 8 }, revisionId);
+    expect(explicit.issues).toEqual([]);
+    expect(explicit.options).toMatchObject({ chestEase: 8 });
+
+    const invalid = validateTechnicalFlatOptions(recipe, STANDARD_M, { chestEase: 6.5 }, revisionId);
+    expect(invalid.options).toBeNull();
+    expect(invalid.issues).toContainEqual(expect.objectContaining({
+      code: "OPTION_OUT_OF_RANGE", optionId: "chestEase",
+    }));
+  });
+
   it("returns field-specific actionable issues without drafting invalid supplied values", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt");
     if (!recipe) throw new Error("Woven shirt recipe is missing.");

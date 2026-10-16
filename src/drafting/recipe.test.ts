@@ -5,6 +5,7 @@ import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, TROUSER, GARMENTS, garmentByName 
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
+import { edgeLength } from "./piece";
 import { derive } from "./measurements";
 import { necklineEdge } from "./neckline";
 import { garmentReport } from "../guidance/garment-check";
@@ -125,6 +126,21 @@ describe("recipe callbacks", () => {
       recipe.techPackForFabric?.({ name: "Cotton woven", family: "woven", stretchPercent: 0 });
       recipe.techPackForFabric?.({ name: "Cotton jersey", family: "knit", stretchPercent: 25 });
     }
+  });
+
+  it("applies an optional Tee chest ease to the bodice while retaining shared sleeve ease", () => {
+    const inherited = TEE.draft(STANDARD_M);
+    expect(TEE.draft(STANDARD_M, {})).toEqual(inherited);
+    const independent = TEE.draft(STANDARD_M, { chestEase: 8 });
+    const inheritedFrontSide = pieceEdge(rolePiece(inherited, "front"), "side");
+    const independentFrontSide = pieceEdge(rolePiece(independent, "front"), "side");
+    expect(inheritedFrontSide.kind).toBe("line");
+    expect(independentFrontSide.kind).toBe("line");
+    if (inheritedFrontSide.kind !== "line" || independentFrontSide.kind !== "line") return;
+    expect(inheritedFrontSide.start.x).toBeCloseTo(27.5);
+    expect(independentFrontSide.start.x).toBeCloseTo(27);
+    expect(edgeLength(pieceEdge(rolePiece(independent, "sleeve"), "hem")))
+      .toBeCloseTo(edgeLength(pieceEdge(rolePiece(inherited, "sleeve"), "hem")));
   });
 });
 
