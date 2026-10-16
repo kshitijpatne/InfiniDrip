@@ -782,6 +782,7 @@ interface ExportFormat {
   readonly id: string;
   readonly label: string;
   readonly description: string;
+  readonly garment?: string;
 }
 
 const PER_SIZE_EXPORTS: readonly ExportFormat[] = [
@@ -789,6 +790,7 @@ const PER_SIZE_EXPORTS: readonly ExportFormat[] = [
   { id: "export-dxf", label: "DXF", description: "CAD exchange file · selected size" },
   { id: "export-pdf", label: "PDF", description: "Tiled paper print · selected size" },
   { id: "export-a0", label: "A0", description: "Full-sheet print · selected size" },
+  { id: "export-tee-selected-techpack", label: "Tech Pack · selected size", description: "One-size digital draft · physical fit not validated", garment: "tee" },
 ];
 
 const WHOLE_RUN_EXPORTS: readonly ExportFormat[] = [
@@ -800,8 +802,8 @@ const SURFACE_EXPORTS: readonly ExportFormat[] = [
   { id: "export-surface-sheet", label: "Print sheet", description: "Artwork print sheet, true scale · current style" },
 ];
 
-const exportFormatMarkup = (format: ExportFormat): string =>
-  `<div class="export-format" data-export-format="${format.id}">` +
+const exportFormatMarkup = (format: ExportFormat, activeGarment: string): string =>
+  `<div class="export-format" data-export-format="${format.id}"${format.garment && format.garment !== activeGarment ? " hidden" : ""}>` +
   `<button id="${format.id}" type="button" aria-describedby="${format.id}-description" ` +
   `title="${format.description}" class="export-format-button">${format.label}</button>` +
   `<span id="${format.id}-description" class="export-format-description">${format.description}</span></div>`;
@@ -809,7 +811,7 @@ const exportFormatMarkup = (format: ExportFormat): string =>
 /** Download buttons for the export files, a size picker, plus Save/Load pattern state.
  *  The size picker drives every selected-size export and the Single size nesting
  *  scope; whole-run documents deliberately remain independent of that choice. */
-export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
+export function exportButtonsMarkup(sizes: readonly SizeStep[], activeGarment = "tee"): string {
   const options = sizes
     .map((s) => `<option value="${s.step}" ${s.step === 0 ? "selected" : ""}>${s.label}</option>`)
     .join("");
@@ -820,11 +822,11 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
   const scope = (name: string, title: string, consequence: string, formats: readonly ExportFormat[]): string =>
     `<div data-export-scope="${name}" class="export-scope">` +
     `<div class="export-scope-heading"><strong>${title}</strong><span>${consequence}</span></div>` +
-    `<div class="export-format-grid">${formats.map(exportFormatMarkup).join("")}</div></div>`;
+    `<div class="export-format-grid">${formats.map((format) => exportFormatMarkup(format, activeGarment)).join("")}</div></div>`;
   return `<div id="export-host" style="display:flex;flex-direction:column;gap:2px;align-items:stretch;flex-wrap:wrap;margin:4px 0">` +
     `<div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em">Export</div>` +
-    `<div class="export-size-context">${sizePicker}<span>Drives the four selected-size files and Single size nesting.</span></div>` +
-    scope("selected-size", "Selected size files", "One size for cutting or CAD", PER_SIZE_EXPORTS) +
+    `<div class="export-size-context">${sizePicker}<span>Drives selected-size files and Single size nesting.</span></div>` +
+    scope("selected-size", "Selected size files", "One size for cutting, CAD, or a draft Tech Pack", PER_SIZE_EXPORTS) +
     scope("whole-run", "Whole graded run", "All graded sizes; ignores Selected size", WHOLE_RUN_EXPORTS) +
     scope("current-style", "Current style artwork", "One style's artwork; ignores Selected size", SURFACE_EXPORTS) +
     `<details id="production-pack-details" class="tech-pack-presentation">` +
@@ -1401,7 +1403,7 @@ export function appShellMarkup(
       : "") +
     `${controlsMarkup(m, fields, [], {}, activeGarment, fieldObservations)}` +
     `<details id="guidance-details"><summary>Guidance & corrections</summary><div id="guidance-host"></div></details>` +
-    `${exportButtonsMarkup(sizes)}</aside>` +
+    `${exportButtonsMarkup(sizes, activeGarment)}</aside>` +
     `<div id="infini-workspace"><div id="canvas-tools">${viewToggleMarkup("pattern")}` +
     `<button id="assembled-preview-toggle" type="button" aria-pressed="false" aria-controls="canvas-host">Assembled</button></div>` +
     `${bodyCroquisToggleMarkup("front-back")}<div id="spatial-cue" role="status" hidden>` +

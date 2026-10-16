@@ -7,7 +7,7 @@ import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentR
 import { block, blockPieces } from "../drafting";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
-import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
+import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import {
@@ -574,6 +574,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   }));
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
+  const teeSelectedTechPackExport = root.querySelector<HTMLElement>('[data-export-format="export-tee-selected-techpack"]')!;
   let technicalFlatTextMeasurer: TechnicalFlatMeasureText | null = null;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
@@ -2852,6 +2853,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
 
   const draw = (): void => {
+    teeSelectedTechPackExport.hidden = recipe.name !== "tee";
     try {
       drawCurrentView();
     } catch (error) {
@@ -5390,6 +5392,22 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       exportPieces(), exportAllowances(), undefined, 1.0, recipe.tiledPdfLocalCoordinates === true
     ), "application/pdf");
   });
+  onExport("#export-tee-selected-techpack", () => {
+    const planSize = customOneSizeStyle() ? selectedGradePlanSize() : null;
+    const step = selectedOutputStep();
+    const blockAtSize = planSize?.block ?? semanticSizeBlock(step);
+    exportablePieces(blockAtSize, planSize?.ready ?? semanticSizeReady(step));
+    const size = {
+      label: exportSizeLabel(),
+      measurements: planSize?.measurements ?? gradeMeasurements(measurements, recipe.grade, step),
+      options: planSize?.options ?? recipeOptions(),
+      block: blockAtSize!,
+    };
+    const output = exportTechPackV2ForSelectedSize(
+      recipeForCurrentOutputs(), size, undefined, stretchFabric, surfacePlacementsNow(), targetStyle, planSize !== null,
+    );
+    download(`${recipe.name}-${size.label}-selected-techpack.pdf`, output, "application/pdf");
+  }, () => recipe.name === "tee" && canExport());
   // The draft tech pack is a whole-style document (paginated piece overview +
   // graded table), so it uses live measurements and ignores the size picker.
   // The overview is explicitly not to scale; cutting files remain separate.

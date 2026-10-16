@@ -256,10 +256,20 @@ describe("exportButtonsMarkup", () => {
     expect(html).toContain("CAD exchange file · selected size");
     expect(html).toContain("Tiled paper print · selected size");
     expect(html).toContain("Full-sheet print · selected size");
+    expect(html).toContain("One-size digital draft · physical fit not validated");
+    expect(html).toContain('id="export-tee-selected-techpack"');
     expect(html).toContain("Draft specs and construction reference · all sizes · overview not to scale");
     expect(html).toContain("Layered projection SVG · all sizes");
-    expect(html).toContain("Drives the four selected-size files and Single size nesting.");
+    expect(html).toContain("Drives selected-size files and Single size nesting.");
     expect(html).toContain('aria-describedby="export-svg-description"');
+  });
+  it("shows the selected-size Tee Tech Pack only for the Tee", () => {
+    const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const teeMarkup = exportButtonsMarkup(tee.sizes, "tee");
+    const tankMarkup = exportButtonsMarkup(tee.sizes, "tank");
+
+    expect(teeMarkup).toContain('data-export-format="export-tee-selected-techpack"');
+    expect(tankMarkup).toContain('data-export-format="export-tee-selected-techpack" hidden');
   });
 });
 
