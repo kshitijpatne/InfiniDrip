@@ -5,6 +5,7 @@
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
+import { teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
@@ -575,6 +576,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   const teeSelectedTechPackExport = root.querySelector<HTMLElement>('[data-export-format="export-tee-selected-techpack"]')!;
+  const teeNeckbandExportScope = root.querySelector<HTMLElement>('[data-export-scope="tee-neckband"]')!;
   let technicalFlatTextMeasurer: TechnicalFlatMeasureText | null = null;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
@@ -2894,6 +2896,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   const draw = (): void => {
     teeSelectedTechPackExport.hidden = recipe.name !== "tee";
+    teeNeckbandExportScope.hidden = recipe.name !== "tee";
     try {
       drawCurrentView();
     } catch (error) {
@@ -5443,6 +5446,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   onExport("#export-svg", () => {
     download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), exportAllowances(), recipe.notches), "image/svg+xml");
   });
+  onExport("#export-tee-neckband", () => {
+    try {
+      const settings = teeNeckbandSettings(selectedGradePlanSize(), recipeOptions());
+      const output = teeNeckbandTemplateSvg(
+        exportPieces(),
+        settings.lengthPercent,
+        settings.finishedWidthCm,
+      );
+      download(`${recipe.name}-${exportSizeLabel()}-neckband.svg`, output, "image/svg+xml");
+    } catch (error) {
+      flash(error instanceof Error ? error.message : "The neckband template could not be generated.", BLUEPRINT.lineActive);
+    }
+  }, () => recipe.name === "tee" && canExport());
   onExport("#export-dxf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
   });

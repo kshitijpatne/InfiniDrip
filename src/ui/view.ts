@@ -844,6 +844,15 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[], activeGarment = 
     `<label class="export-size-picker">` +
     `Selected size <select id="export-size" aria-label="Selected size for per-size exports" style="padding:4px 8px;font-size:12px;background:${T.background};` +
     `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select></label>`;
+  const teeNeckband =
+    `<div data-export-scope="tee-neckband" class="export-scope"${activeGarment === "tee" ? "" : " hidden"}>` +
+    `<div class="export-scope-heading"><strong>Tee neckband</strong><span>Separate cut template · selected size · provisional</span></div>` +
+    `<div class="export-format-grid"><div class="export-format" data-export-format="export-tee-neckband">` +
+    `<button id="export-tee-neckband" type="button" aria-describedby="export-tee-neckband-description" ` +
+    `title="True-scale provisional rib-knit neckband template for the selected Tee size" class="export-format-button">Neckband SVG</button>` +
+    `<span id="export-tee-neckband-description" class="export-format-description">` +
+    `Cuttable rectangle calculated from the selected Tee neckline. Adjust the provisional ratio and width; verify the 10 cm scale line.</span>` +
+    `</div></div></div>`;
   const scope = (name: string, title: string, consequence: string, formats: readonly ExportFormat[]): string =>
     `<div data-export-scope="${name}" class="export-scope">` +
     `<div class="export-scope-heading"><strong>${title}</strong><span>${consequence}</span></div>` +
@@ -852,6 +861,7 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[], activeGarment = 
     `<div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em">Export</div>` +
     `<div class="export-size-context">${sizePicker}<span>Drives selected-size files and Single size nesting.</span></div>` +
     scope("selected-size", "Selected size files", "One size for cutting, CAD, or a draft Tech Pack", PER_SIZE_EXPORTS) +
+    teeNeckband +
     scope("whole-run", "Whole graded run", "All graded sizes; ignores Selected size", WHOLE_RUN_EXPORTS) +
     scope("current-style", "Current style artwork", "One style's artwork; ignores Selected size", SURFACE_EXPORTS) +
     `<details id="production-pack-details" class="tech-pack-presentation">` +

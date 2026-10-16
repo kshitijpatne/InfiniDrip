@@ -35,6 +35,9 @@ import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-s
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, STRETCH_FABRICS, draftTshirt, gradeRun, rolePiece, type GarmentRecipe } from "../drafting";
+import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
+import { teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
+import * as teeDrafting from "../drafting/tshirt";
 import * as editEngine from "../edit";
 import * as semanticEditEngine from "../edit/semantic-edit";
 import { pieceHandles, editorViewBox } from "../edit";
@@ -3030,6 +3033,151 @@ describe("mountApp", () => {
     expect(garment).toContain("stroke-dasharray");
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
     expect(root.querySelector("#canvas-host svg")!.innerHTML).toContain("Sleeve");
+  });
+
+  it("creates a scale-marked Tee neckband template from the live half-necklines", () => {
+    const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const block = tee.draft(STANDARD_M);
+    const front = rolePiece(block, "front");
+    const back = rolePiece(block, "back");
+    const svg = teeNeckbandTemplateSvg([front, back], 75, 2);
+    const document = new DOMParser().parseFromString(svg, "image/svg+xml");
+    const root = document.documentElement;
+    const necklineCm = 2 * (
+      edgeLength(pieceEdge(front, "neckline")) + edgeLength(pieceEdge(back, "neckline"))
+    );
+    const cutLengthCm = necklineCm * 0.75 + 2;
+    const cutWidthCm = 2 * (2 + 0.6);
+    const formatted = (value: number): string => Number(value.toFixed(3)).toString();
+
+    expect(document.querySelector("parsererror")).toBeNull();
+    expect(root.getAttribute("width")).toBe(`${formatted(cutLengthCm + 2)}cm`);
+    expect(root.getAttribute("height")).toBe(`${formatted(2 + cutWidthCm + 2.4)}cm`);
+    expect(root.getAttribute("data-neckline-circumference-cm")).toBe(formatted(necklineCm));
+    expect(root.getAttribute("data-loop-seamline-cm")).toBe(formatted(necklineCm * 0.75));
+    expect(root.getAttribute("data-cut-length-cm")).toBe(formatted(cutLengthCm));
+    expect(root.getAttribute("data-cut-width-cm")).toBe(formatted(cutWidthCm));
+    expect(root.querySelectorAll("[data-neckline-seamline]")).toHaveLength(2);
+    expect(root.querySelectorAll("[data-end-seamline]")).toHaveLength(2);
+    expect(root.querySelectorAll("[data-quarter-notch]")).toHaveLength(3);
+    expect(root.querySelector("[data-fold-line]")).not.toBeNull();
+    expect(root.querySelector("[data-stretch-direction='lengthwise']")).not.toBeNull();
+    const cutInstruction = [...root.querySelectorAll("text")].find((node) => node.textContent?.includes("CUT 1 RIB"))!;
+    const cutOutline = root.querySelector("[data-cut-outline]")!;
+    expect(cutInstruction.textContent).toContain("FOLD ON DASH-DOT LINE");
+    expect(Number(cutInstruction.getAttribute("y"))).toBeLessThan(Number(cutOutline.getAttribute("y")));
+    expect([...root.querySelectorAll("text")].find((node) => node.textContent?.includes("seam allowance"))
+      ?.getAttribute("font-size")).toBe("0.22");
+    const calibration = root.querySelector("[data-calibration-length-cm='10']")!;
+    expect(calibration.getAttribute("x2")).toBe(String(Number(calibration.getAttribute("x1")) + 10));
+    expect(root.textContent).toContain("75.0%");
+    expect(root.textContent).toContain("fit/recovery not validated");
+  });
+
+  it("uses frozen custom-size neckband options and falls back to live Tee controls", () => {
+    const current = { teeNeckbandLengthPercent: 75, teeNeckbandFinishedWidthCm: 2 };
+    const planned = { options: { teeNeckbandLengthPercent: 86, teeNeckbandFinishedWidthCm: 2.4 } };
+    const legacy = { options: { chestEase: 10 } };
+    const partial = { options: { teeNeckbandLengthPercent: 86 } };
+
+    expect(teeNeckbandSettings(undefined, current)).toEqual({ lengthPercent: 75, finishedWidthCm: 2 });
+    expect(teeNeckbandSettings(planned, current)).toEqual({ lengthPercent: 86, finishedWidthCm: 2.4 });
+    expect(teeNeckbandSettings(legacy, current)).toEqual({ lengthPercent: 75, finishedWidthCm: 2 });
+    expect(teeNeckbandSettings(partial, current)).toEqual({ lengthPercent: 86, finishedWidthCm: 2 });
+  });
+
+  it("rejects invalid neckband settings and incomplete or unusable Tee geometry", () => {
+    const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const block = tee.draft(STANDARD_M);
+    const front = rolePiece(block, "front");
+    const back = rolePiece(block, "back");
+    const linePiece = (name: string, endX: number): Piece => ({
+      name,
+      onFold: true,
+      edges: [{ kind: "line", name: "neckline", start: { x: 0, y: 0 }, end: { x: endX, y: 0 } }],
+    });
+
+    expect(() => teeNeckbandTemplateSvg([back], 75, 2)).toThrow("front and back pieces");
+    expect(() => teeNeckbandTemplateSvg([front], 75, 2)).toThrow("front and back pieces");
+    expect(() => teeNeckbandTemplateSvg([
+      { ...front, edges: front.edges.filter((edge) => edge.name !== "neckline") }, back,
+    ], 75, 2)).toThrow('has no edge named "neckline"');
+    expect(() => teeNeckbandTemplateSvg([linePiece("front", Number.POSITIVE_INFINITY), linePiece("back", 3)], 75, 2))
+      .toThrow("geometry is not usable");
+    expect(() => teeNeckbandTemplateSvg([linePiece("front", 3), linePiece("back", 0)], 75, 2))
+      .toThrow("geometry is not usable");
+    expect(() => teeNeckbandTemplateSvg([front, back], 74, 2)).toThrow("Neckband length must be");
+    expect(() => teeNeckbandTemplateSvg([front, back], 91, 2)).toThrow("Neckband length must be");
+    expect(() => teeNeckbandTemplateSvg([front, back], Number.NaN, 2)).toThrow("Neckband length must be");
+    expect(() => teeNeckbandTemplateSvg([front, back], 75, 1.4)).toThrow("Finished neckband width must be");
+    expect(() => teeNeckbandTemplateSvg([front, back], 75, 3.1)).toThrow("Finished neckband width must be");
+    expect(() => teeNeckbandTemplateSvg([front, back], 75, Number.NaN)).toThrow("Finished neckband width must be");
+    expect(() => teeNeckbandTemplateSvg([front, back], 90, 3)).not.toThrow();
+  });
+
+  it("keeps the neckband control Tee-only and downloads the selected adjustable template separately", async () => {
+    const files = new Map<string, string>();
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename: string, content: string) => {
+        files.set(filename, content);
+        return { saved: true, filePath: filename };
+      }),
+    };
+    try {
+      const root = mount();
+      const ratio = root.querySelector<HTMLInputElement>('input[data-option="teeNeckbandLengthPercent"]')!;
+      const finishedWidth = root.querySelector<HTMLInputElement>('input[data-option="teeNeckbandFinishedWidthCm"]')!;
+      expect(ratio.value).toBe("75");
+      expect(finishedWidth.value).toBe("2");
+      ratio.value = "85";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      finishedWidth.value = "2.3";
+      finishedWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      reachExportStage(root);
+      clickId(root, "export-tee-neckband");
+      await vi.waitFor(() => expect(files.has("tee-M-neckband.svg")).toBe(true));
+
+      expect([...files.keys()]).toEqual(["tee-M-neckband.svg"]);
+      expect(files.get("tee-M-neckband.svg")).toContain("at 85.0%");
+      expect(files.get("tee-M-neckband.svg")).toContain('data-cut-width-cm="5.8"');
+      expect(files.get("tee-M-neckband.svg")).toContain('data-calibration-length-cm="10"');
+
+      const scope = root.querySelector<HTMLElement>('[data-export-scope="tee-neckband"]')!;
+      clickId(root, "garment-tank");
+      expect(scope.hidden).toBe(true);
+      root.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled = false;
+      clickId(root, "export-tee-neckband");
+      expect(files.size).toBe(1);
+      clickId(root, "garment-tee");
+      expect(scope.hidden).toBe(false);
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
+  it("reports neckband template generation errors without writing a partial file", () => {
+    const generate = vi.spyOn(teeDrafting, "teeNeckbandTemplateSvg")
+      .mockImplementationOnce(() => { throw new Error("neckline geometry unavailable"); })
+      .mockImplementationOnce(() => { throw "non-Error geometry failure"; });
+    const saveFile = vi.fn(async () => ({ saved: true }));
+    window.electronAPI = { saveFile };
+    try {
+      const root = mount();
+      reachExportStage(root);
+      clickId(root, "export-tee-neckband");
+      expect(saveFile).not.toHaveBeenCalled();
+      expect(root.querySelector("#persist-status")?.textContent).toContain("neckline geometry unavailable");
+
+      const fallbackRoot = mount();
+      reachExportStage(fallbackRoot);
+      clickId(fallbackRoot, "export-tee-neckband");
+      expect(saveFile).not.toHaveBeenCalled();
+      expect(fallbackRoot.querySelector("#persist-status")?.textContent)
+        .toContain("The neckband template could not be generated.");
+    } finally {
+      generate.mockRestore();
+      delete window.electronAPI;
+    }
   });
 
   it("downloads a file when an export button is clicked", () => {

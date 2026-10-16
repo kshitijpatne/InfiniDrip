@@ -281,6 +281,16 @@ describe("exportButtonsMarkup", () => {
     expect(teeMarkup).toContain('data-export-format="export-tee-selected-techpack"');
     expect(tankMarkup).toContain('data-export-format="export-tee-selected-techpack" hidden');
   });
+
+  it("shows the separate neckband template only for the Tee", () => {
+    const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const teeMarkup = exportButtonsMarkup(tee.sizes, "tee");
+    const tankMarkup = exportButtonsMarkup(tee.sizes, "tank");
+
+    expect(teeMarkup).toContain('data-export-scope="tee-neckband" class="export-scope">');
+    expect(teeMarkup).toContain('id="export-tee-neckband"');
+    expect(tankMarkup).toContain('data-export-scope="tee-neckband" class="export-scope" hidden>');
+  });
 });
 
 describe("viewToggleMarkup", () => {
