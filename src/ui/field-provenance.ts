@@ -115,8 +115,8 @@ const MEASUREMENT_SPECS: Readonly<Partial<Record<string, MeasurementSpec>>> = Ob
   },
   shoulderWidth: {
     id: "body.shoulder-breadth", kind: "BODY_MEASURE", frame: "body",
-    meaning: "Left-to-right shoulder-point breadth consumed as a straight horizontal pattern span.",
-    captureBoundary: "Endpoint localization and repeatability are not qualified. The current straight span is not a surface-following tape path.",
+    meaning: "Biacromial breadth between the lateral borders of the left and right acromial processes; consumed as a straight horizontal body span.",
+    captureBoundary: "Entered values do not record who took them and are not verified by the app. Self-measure reliability and garment fit are not established.",
   },
   bicep: {
     id: "body.upper-arm-girth", kind: "BODY_MEASURE", frame: "body",

@@ -5,7 +5,7 @@
 export interface Measurements {
   readonly neck: number;         // neck circumference, measured at the neck base
   readonly chest: number;        // full chest circumference
-  readonly shoulderWidth: number; // shoulder point to shoulder point
+  readonly shoulderWidth: number; // biacromial breadth between lateral acromion borders
   readonly bicep: number;        // upper-arm circumference
   readonly length: number;       // high-point-shoulder down to hem
   readonly armholeDepth: number; // high-point-shoulder down to the underarm line
