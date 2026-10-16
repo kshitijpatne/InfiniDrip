@@ -5404,7 +5404,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       block: blockAtSize!,
     };
     const output = exportTechPackV2ForSelectedSize(
-      recipeForCurrentOutputs(), size, undefined, stretchFabric, surfacePlacementsNow(), targetStyle,
+      recipeForCurrentOutputs(), size, undefined, stretchFabric, surfacePlacementsNow(), targetStyle, planSize !== null,
     );
     download(`${recipe.name}-${size.label}-selected-techpack.pdf`, output, "application/pdf");
   }, () => recipe.name === "tee" && canExport());

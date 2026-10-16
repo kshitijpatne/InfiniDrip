@@ -402,12 +402,23 @@ describe("exportTechPackV2ForSelectedSize", () => {
       .toEqual(["M"]);
     const fitStream = streams.find((stream) => stream.includes("Fit Record"))!;
     const fitText = shownText(fitStream);
+    const highPrecisionValues = TEE.poms.map((pom) => pom.measure(size.block))
+      .filter((value) => /\.\d{2,}$/.test(String(value)));
+    expect(highPrecisionValues).toHaveLength(3);
+    for (const value of highPrecisionValues) {
+      const exact = String(value);
+      const rounded = value.toFixed(1);
+      expect(specText).toContain(rounded);
+      expect(specText).not.toContain(exact);
+      expect(fitText).toContain(`${rounded} cm`);
+      expect(fitText).not.toContain(`${exact} cm`);
+    }
     expect(fitText).toContain("Digital draft only; physical fit has not been validated.");
     expect(fitText).toContain("Actual");
     expect(fitText).toContain("Pass?");
     const positioned = positionedText(fitStream);
-    const actualX = pt(1.5 + 7.5 + 2 + 4.2);
-    const passX = pt(1.5 + 7.5 + 2 + 4.2 + 2.4 + 0.4);
+    const actualX = pt(1.5 + 7.5 + 2 + 2.4);
+    const passX = pt(1.5 + 7.5 + 2 + 2.4 + 3.2 + 0.6);
     expect(positioned.filter((entry) => Math.abs(entry.x - actualX) < 0.001).map((entry) => entry.text))
       .toEqual(["Actual"]);
     expect(positioned.filter((entry) => Math.abs(entry.x - passX) < 0.001).map((entry) => entry.text))

@@ -301,8 +301,8 @@ interface GradePlanSpecRow {
 
 const NOT_APPLICABLE_NOTE = "N/A = approved not-applicable POM; its full reason is on the Point-of-measure exceptions page.";
 
-/** Exact, paginated plan spec; unlike the legacy one-decimal table it preserves authored cm values. */
-function gradePlanTableStreams(sizes: readonly string[], rows: readonly GradePlanSpecRow[], page: PageSize): string[] {
+/** Paginated plan spec; exact-value mode preserves authored cm values. */
+function gradePlanTableStreams(sizes: readonly string[], rows: readonly GradePlanSpecRow[], page: PageSize, exactValues = true): string[] {
   const labelW = 7.5;
   const tolW = 2;
   // Three size columns (~2.8 cm on A4) keep a full-precision raw value such as
@@ -334,7 +334,7 @@ function gradePlanTableStreams(sizes: readonly string[], rows: readonly GradePla
         lines.push(text(M + labelW, y, 8, row.tolerance === undefined ? "-" : row.tolerance.toFixed(1), page));
         labels.forEach((_, index) => {
           const value = row.values[sizeStart + index];
-          const rawValue = value === null ? "N/A" : String(value);
+          const rawValue = value === null ? "N/A" : exactValues ? String(value) : value.toFixed(1);
           // Keep exact raw values legible without letting a full-precision
           // number intrude into the adjacent size column. A conservative
           // 0.6-em-per-character bound covers digits, decimal points and an
@@ -656,6 +656,7 @@ export function exportTechPackV2ForGradePlan(
   baseSizeLabel = "",
   pomExceptions: readonly { readonly sizeLabel: string; readonly pomLabel: string; readonly reason: string }[] = [],
   statusNote?: string,
+  exactValues = true,
 ): string {
   if (run.length === 0) throw new Error("A Tech Pack requires a validated non-empty grade-plan run.");
   const baseIndex = run.findIndex((size) => size.label.toLocaleLowerCase("en-US") === baseSizeLabel.toLocaleLowerCase("en-US"));
@@ -697,7 +698,7 @@ export function exportTechPackV2ForGradePlan(
   return assemblePdf(
     [
       ...run.flatMap((size) => overviewSketchStreams(size.block, `${recipe.label} — ${size.label}`, page)),
-      ...gradePlanTableStreams(run.map((size) => size.label), rows, page),
+      ...gradePlanTableStreams(run.map((size) => size.label), rows, page, exactValues),
       ...run.flatMap((size) => {
         const techPack = fabric && recipe.techPackForFabric
           ? recipe.techPackForFabric(fabric)
@@ -706,7 +707,7 @@ export function exportTechPackV2ForGradePlan(
             : recipe.techPack;
         return bomStreamsV2(techPack, `${recipe.label} — ${size.label}`, page, size.label);
       }),
-      fitRecordStream(fitRecord, `${recipe.label} — ${base.label}`, page, true, statusNote),
+      fitRecordStream(fitRecord, `${recipe.label} — ${base.label}`, page, exactValues, statusNote),
       ...exceptionPages,
       ...surfaceSpecStreams(surface, styleLabel, page),
     ],
@@ -714,7 +715,7 @@ export function exportTechPackV2ForGradePlan(
   );
 }
 
-/** Build a one-size draft pack without implying a graded run or physical validation. */
+/** Build a one-size digital pack; preserve exact display values for an approved custom-plan size. */
 export function exportTechPackV2ForSelectedSize(
   recipe: GarmentRecipe,
   size: {
@@ -727,6 +728,7 @@ export function exportTechPackV2ForSelectedSize(
   fabric?: StretchFabric,
   surface: readonly ArtworkPlacement[] = [],
   styleLabel = "",
+  exactValues = false,
 ): string {
   return exportTechPackV2ForGradePlan(
     recipe,
@@ -738,5 +740,6 @@ export function exportTechPackV2ForSelectedSize(
     size.label,
     [],
     "Digital draft only; physical fit has not been validated.",
+    exactValues,
   );
 }

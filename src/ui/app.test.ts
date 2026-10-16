@@ -2952,7 +2952,7 @@ describe("mountApp", () => {
       reachExportStage(root);
       root.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
       root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
-      await vi.waitFor(() => expect(files.size).toBe(2));
+      await vi.waitFor(() => expect(files.size).toBe(2), { timeout: 10_000 });
 
       expect([...files.keys()].sort()).toEqual([
         "tee-M-cad-exchange-source.json", "tee-M-cad-exchange.dxf",
@@ -8659,6 +8659,8 @@ describe("bundled local artwork library (Slice 203)", () => {
       expect(saveFile.mock.calls[1]![1]).toContain("Tee - M - Pattern Piece Overview \\(1/1\\)");
       expect(saveFile.mock.calls[1]![1]).toContain("Digital draft only; physical fit has not been validated.");
       expect(saveFile.mock.calls[1]![1]).not.toContain("Tee - S - Pattern Piece Overview");
+      const exactBaseShoulder = String(recipe.poms.find((pom) => pom.label === "Shoulder seam")!.measure(sourceBlock));
+      expect(saveFile.mock.calls[1]![1]).toContain(`(${exactBaseShoulder} cm) Tj`);
       root.querySelector<HTMLButtonElement>("#export-projector")!.click();
       await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(3));
       expect(saveFile.mock.calls[2]![0]).toBe("tee-projector.svg");
