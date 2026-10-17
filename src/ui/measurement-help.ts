@@ -64,6 +64,11 @@ const SRC_S10: MeasurementHelpSource = Object.freeze({
   scope: "Teaching guide; plain wording only; not a qualified procedure; heuristics are not standards; does not validate fit.",
 });
 
+const SRC_SIZE_KOREA_8TH: MeasurementHelpSource = Object.freeze({
+  id: "SIZE-KOREA-8TH",
+  scope: "Official No. 041 and No. 036 examiner-survey method definitions only; does not validate home/self capture, repeatability, population transfer, or garment fit.",
+});
+
 const SRC_CDC_NHANES_III: MeasurementHelpSource = Object.freeze({
   id: "CDC-NHANES-III",
   scope: "Examiner-administered biacromial breadth method only; does not validate self-measurement, population transfer, or garment fit.",
@@ -181,6 +186,11 @@ const LIMITS_ADDITION: Readonly<Record<string, string>> = Object.freeze({
   neckWidthEase: "Design control, not a body value or sourced default. Per-side adjustment applied to front and back. Confidence stays NOT_ASSESSED.",
 });
 
+const TEE_METHOD_LIMITS: Readonly<Record<string, string>> = Object.freeze({
+  chest: "Size Korea 8th Survey No. 041 defines axilla-level Chest Circumference, distinct from nipple-level Bust. Source conditions: standing horizontal circumference, level back path, and midpoint of the natural breathing cycle. Examiner-survey definition only; not a qualified home/self procedure. Value remains unconfirmed; repeatability and garment fit are unvalidated. Results: https://sizekorea.kr/human-info/meas-report?measDegree=8; protocol: https://sizekorea.kr/support/pds/view?bbsCntntsSeq=725&currentPageNo=1",
+  bicep: "Size Korea 8th Survey No. 036 defines relaxed right upper-arm circumference at the axillary level. Source conditions: plane perpendicular to the arm axis, arm hanging at the side, and capture at the midpoint of the natural breathing cycle. Examiner-survey definition only; not a qualified home/self procedure. Value remains unconfirmed; repeatability and garment fit are unvalidated. Results: https://sizekorea.kr/human-info/meas-report?measDegree=8; protocol: https://sizekorea.kr/support/pds/view?bbsCntntsSeq=725&currentPageNo=1",
+});
+
 const LIMITS_FALLBACK =
   "Digital construction choice; range is a UI guardrail, not a production tolerance or standard. Invalid values stay visible; do not rely on silent defaults. Confidence stays NOT_ASSESSED.";
 
@@ -204,6 +214,11 @@ const EXTRA_SOURCES: Readonly<Record<string, readonly MeasurementHelpSource[]>> 
   ease: Object.freeze([SRC_S11]),
 });
 
+const TEE_METHOD_SOURCES: Readonly<Record<string, readonly MeasurementHelpSource[]>> = Object.freeze({
+  chest: Object.freeze([SRC_SIZE_KOREA_8TH]),
+  bicep: Object.freeze([SRC_SIZE_KOREA_8TH]),
+});
+
 function draftUseFor(recipeId: string, inputKey: string): string {
   const base = DRAFT_USE_BASE[inputKey] ?? DRAFT_USE_FALLBACK;
   const suffix = (DRAFT_USE_SUFFIX[recipeId] as Readonly<Record<string, string>>)[inputKey] as
@@ -213,15 +228,18 @@ function draftUseFor(recipeId: string, inputKey: string): string {
 }
 
 function limitsFor(recipeId: string, inputKey: string, captureBoundary: string): string {
+  const teeMethod = recipeId === "tee" ? TEE_METHOD_LIMITS[inputKey] : undefined;
+  if (teeMethod !== undefined) return teeMethod;
   const base = LIMITS_ADDITION[inputKey] ?? LIMITS_FALLBACK;
   const suffix = LIMITS_SUFFIX[recipeId]?.[inputKey];
   const extra = suffix ? ` ${suffix}` : "";
   return `${captureBoundary} ${base}${extra}`;
 }
 
-function sourcesFor(inputKey: string): readonly MeasurementHelpSource[] {
+function sourcesFor(recipeId: string, inputKey: string): readonly MeasurementHelpSource[] {
   const extra = EXTRA_SOURCES[inputKey] ?? [];
-  return Object.freeze([...BASE_SOURCES, ...extra]);
+  const teeMethod = recipeId === "tee" ? TEE_METHOD_SOURCES[inputKey] ?? [] : [];
+  return Object.freeze([...BASE_SOURCES, ...extra, ...teeMethod]);
 }
 
 function guardrailNoteFor(min: number, max: number, unit: string): string {
@@ -256,7 +274,7 @@ function buildEntry(
     qualificationNote: QUALIFICATION_NOTE,
     limits: limitsFor(recipeId, inputKey, captureBoundary),
     guardrailNote: guardrailNoteFor(min, max, unit),
-    sources: sourcesFor(inputKey),
+    sources: sourcesFor(recipeId, inputKey),
   });
 }
 
