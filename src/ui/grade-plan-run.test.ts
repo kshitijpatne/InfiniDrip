@@ -12,6 +12,7 @@ import {
 } from "./grade-plan";
 import { createGradePlanContext, type GradePlanContext } from "./grade-plan-context";
 import { evaluateGradePlanRun } from "./grade-plan-run";
+import { gradePlanRunMarkup } from "./grade-plan-run-panel";
 import { createEmptyTechPackRecord } from "./tech-pack-records";
 
 const PROJECT_ID = "0f8b8e2a-7c1d-4a5e-9b3f-2d6c8a1e4f70";
@@ -88,6 +89,17 @@ describe("approved grade-plan drafting and exact reconciliation", () => {
       expect(result.sizes.every((size) => size.block !== null)).toBe(true);
       expect(result.sizes.every((size) => size.poms.length === recipe.poms.length)).toBe(true);
       expect(result.wholeRunReady).toBe(true);
+      if (recipe.name === "tee") {
+        const chest = result.sizes[0]!.poms.find((pom) => pom.label === "Body chest (finished)")!;
+        expect(chest).toMatchObject({
+          targetId: `pom.tee.${encodeURIComponent("Body chest (finished)")}`,
+          label: "Body chest (finished)",
+          displayLabel: "Modeled chest circumference",
+        });
+        const html = gradePlanRunMarkup(result);
+        expect(html).toContain("Modeled chest circumference");
+        expect(html).not.toContain('<th scope="row">Body chest (finished)</th>');
+      }
     }
   });
 
@@ -281,6 +293,14 @@ describe("approved grade-plan drafting and exact reconciliation", () => {
     const pom = result.sizes[0]!.poms.find((entry) => entry.targetId === firstPom.targetId)!;
     expect(pom).toMatchObject({ expected: firstPom.baseValue + 0.01, difference: expect.any(Number), matches: false });
     expect(result.sizes[0]!.issues.join(" ")).toContain("target");
+    if (recipe.name === "tee" && firstPom.label === "Body chest (finished)") {
+      expect(pom.displayLabel).toBe("Modeled chest circumference");
+      expect(result.sizes[0]!.issues.join(" ")).toContain("Modeled chest circumference at S");
+      expect(result.sizes[0]!.issues.join(" ")).not.toContain("Body chest (finished) at S");
+      const rendered = gradePlanRunMarkup(result);
+      expect(rendered).toContain("Modeled chest circumference at S");
+      expect(rendered).not.toContain("Body chest (finished) at S");
+    }
   });
 
   it("blocks a declared size when shared measurement coherence warns", async () => {

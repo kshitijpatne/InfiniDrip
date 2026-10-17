@@ -1,5 +1,5 @@
 /** Plan-driven custom-style drafting. This module never consults legacy grade rules. */
-import { blockPieces, stitchChecks } from "../drafting";
+import { blockPieces, modeledPomLabel, stitchChecks } from "../drafting";
 import type { Block } from "../drafting/block";
 import type { Measurements } from "../drafting/measurements";
 import type { GarmentOptions } from "../drafting/options";
@@ -17,6 +17,7 @@ import type { GradePlanContext } from "./grade-plan-context";
 export interface GradePlanPomResult {
   readonly targetId: string;
   readonly label: string;
+  readonly displayLabel?: string;
   readonly unit: string;
   readonly expected: number | null;
   readonly actual: number | null;
@@ -187,20 +188,21 @@ export function evaluateGradePlanRun(
       }
     }
     const poms = plan.targets.filter((target) => target.kind === "pom").map((target): GradePlanPomResult => {
+      const pom = recipe.poms.find((candidate) => `pom.${recipe.name}.${encodeURIComponent(candidate.label)}` === target.targetId);
+      const displayLabel = pom ? modeledPomLabel(pom, recipe.name === "tee") : target.label;
       const exception = planException(plan, target.targetId, size.label);
       const delta = deltaFor(target, size.label);
       if (exception) return {
-        targetId: target.targetId, label: target.label, unit: target.unit,
+        targetId: target.targetId, label: target.label, displayLabel, unit: target.unit,
         expected: null, actual: null, difference: null, exceptionReason: exception.reason, matches: false,
       };
       // A current complete approved plan has a numeric delta for every
       // applicable POM; incomplete rows exit at gradePlanCompletionIssues.
       const expected = target.baseValue + delta!;
-      const pom = recipe.poms.find((candidate) => `pom.${recipe.name}.${encodeURIComponent(candidate.label)}` === target.targetId);
       if (!pom || !block || expected === null || !Number.isFinite(expected)) {
-        issues.push(`${target.label} at ${size.label} has no computable target and drafted POM.`);
+        issues.push(`${displayLabel} at ${size.label} has no computable target and drafted POM.`);
         return {
-          targetId: target.targetId, label: target.label, unit: target.unit,
+          targetId: target.targetId, label: target.label, displayLabel, unit: target.unit,
           expected, actual: null, difference: null, exceptionReason: null, matches: false,
         };
       }
@@ -208,15 +210,15 @@ export function evaluateGradePlanRun(
         const actual = pom.measure(block);
         const difference = actual - expected;
         const matches = Number.isFinite(actual) && difference === 0;
-        if (!matches) issues.push(`${target.label} at ${size.label}: target ${expected} ${target.unit}, generated ${actual} ${target.unit}, difference ${difference} ${target.unit}.`);
+        if (!matches) issues.push(`${displayLabel} at ${size.label}: target ${expected} ${target.unit}, generated ${actual} ${target.unit}, difference ${difference} ${target.unit}.`);
         return {
-          targetId: target.targetId, label: target.label, unit: target.unit,
+          targetId: target.targetId, label: target.label, displayLabel, unit: target.unit,
           expected, actual, difference, exceptionReason: null, matches,
         };
       } catch (error) {
-        issues.push(error instanceof Error ? `${target.label} at ${size.label}: ${error.message}` : `${target.label} at ${size.label}: POM could not be measured.`);
+        issues.push(error instanceof Error ? `${displayLabel} at ${size.label}: ${error.message}` : `${displayLabel} at ${size.label}: POM could not be measured.`);
         return {
-          targetId: target.targetId, label: target.label, unit: target.unit,
+          targetId: target.targetId, label: target.label, displayLabel, unit: target.unit,
           expected, actual: null, difference: null, exceptionReason: null, matches: false,
         };
       }

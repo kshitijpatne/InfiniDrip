@@ -26,7 +26,7 @@ import {
   withSemanticEditorPiece,
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
-import { inspectionMarkup } from "./view";
+import { customOneSizeSpecMarkup, inspectionMarkup } from "./view";
 import { isCustomOneSizeStyle } from "./project-records";
 import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import * as gradePlanContext from "./grade-plan-context";
@@ -4312,8 +4312,17 @@ describe("mountApp", () => {
     root.querySelector<HTMLButtonElement>("#view-spec")!.dispatchEvent(new Event("click"));
     const html = root.querySelector("#canvas-host")!.innerHTML;
     expect(html).toContain("<table");
-    expect(html).toContain("Body chest (finished)");
+    expect(html).toContain("Modeled chest circumference");
+    expect(html).not.toContain("Body chest (finished)");
     expect(html).toContain("Measurement (cm)");
+    const tee = GARMENTS.find((recipe) => recipe.name === "tee")!;
+    const customSpec = customOneSizeSpecMarkup(tee.draft(STANDARD_M), STANDARD_M, tee.poms, true, tee.name);
+    expect(customSpec).toContain("Modeled chest circumference");
+    expect(customSpec).not.toContain("Body chest (finished)");
+    const tank = GARMENTS.find((recipe) => recipe.name === "tank")!;
+    const tankSpec = customOneSizeSpecMarkup(tank.draft(STANDARD_M), STANDARD_M, tank.poms, true, tank.name);
+    expect(tankSpec).toContain("Body chest (finished)");
+    expect(tankSpec).not.toContain("Modeled chest circumference");
     // back to pattern clears the table
     root.querySelector<HTMLButtonElement>("#view-pattern")!.dispatchEvent(new Event("click"));
     expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("<table");

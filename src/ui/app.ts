@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY, withModeledPomLabels } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { TEE_NECKBAND_OPTIONS, teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
@@ -3130,7 +3130,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     } else if (view === "spec" && customOneSizeStyle()) {
       const outputRecipe = recipeForCurrentOutputs();
       canvasContent = customOneSizeSpecMarkup(
-        semanticSizeBlock(0), measurements, outputRecipe.poms, semanticSizeReady(0),
+        semanticSizeBlock(0), measurements, outputRecipe.poms, semanticSizeReady(0), outputRecipe.name,
       );
     } else if (view === "spec") {
       if (!semanticRunReady()) {
@@ -3140,7 +3140,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const graded = gradeRun(measurements, recipe.grade, recipe.sizes, outputRecipe.draft, recipeOptions());
         const baseIndex = graded.findIndex((g) => g.step === 0);
         canvasContent = specTableMarkup(
-          specSheet(graded, outputRecipe.poms), graded.map((g) => g.label), baseIndex);
+          specSheet(graded, withModeledPomLabels(outputRecipe.poms, outputRecipe.name === "tee")), graded.map((g) => g.label), baseIndex);
       }
     } else if (view === "flat") {
       const outputRecipe = recipeForCurrentOutputs();

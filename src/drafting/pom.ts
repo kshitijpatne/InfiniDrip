@@ -83,6 +83,21 @@ export interface Pom {
   readonly tolerance?: number;
 }
 
+/** The Tee chest's label when its value is calculated from a digital draft. */
+export function modeledPomLabel(pom: Pom, teeOutput = false): string {
+  return teeOutput && pom.label === "Body chest (finished)"
+    ? "Modeled chest circumference"
+    : pom.label;
+}
+
+/** Clone only POMs whose calculated-output label differs from the physical POM name. */
+export function withModeledPomLabels(poms: readonly Pom[], teeOutput = false): Pom[] {
+  return poms.map((pom) => {
+    const label = modeledPomLabel(pom, teeOutput);
+    return label === pom.label ? pom : { ...pom, label };
+  });
+}
+
 export interface SpecRow {
   readonly label: string;
   readonly values: readonly number[]; // one per graded size, cm, rounded to 0.1

@@ -3,7 +3,7 @@
 // Pure, so the markup can be checked in tests without a browser.
 import "./enhancements/tech-pack/tech-pack-presentation.css";
 
-import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions, GradedSize, Block, Pom, specSheet } from "../drafting";
+import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions, GradedSize, Block, Pom, specSheet, withModeledPomLabels } from "../drafting";
 import { TEE_NECKBAND_OPTIONS } from "../drafting/tshirt";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note, SEVERITY_ICON } from "../guidance";
@@ -1355,12 +1355,15 @@ export function customOneSizeSpecMarkup(
   measurements: Measurements,
   poms: readonly Pom[],
   ready: boolean,
+  recipeName = "",
 ): string {
   if (!ready || !block) {
     return `<p role="status" data-semantic-output-paused>Single-size specifications are paused until the saved edits are valid or explicitly rebased.</p>`;
   }
   const oneSize: GradedSize = { label: "One size", step: 0, measurements, block };
-  return specTableMarkup(specSheet([oneSize], poms), [oneSize.label], 0);
+  return specTableMarkup(
+    specSheet([oneSize], withModeledPomLabels(poms, recipeName === "tee")), [oneSize.label], 0,
+  );
 }
 
 /** The production-readiness report: a pass/fail verdict banner over the check list.

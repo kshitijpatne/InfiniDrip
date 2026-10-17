@@ -88,7 +88,7 @@ export function gradePlanRunMarkup(
     const issues = size.issues.length
       ? `<ul>${size.issues.map((issue) => `<li>${escapeHtml(issue)}</li>`).join("")}</ul>`
       : `<p>No drafting or POM blockers for this size.</p>`;
-    const rows = size.poms.map((pom) => `<tr><th scope="row">${escapeHtml(pom.label)}</th>` +
+    const rows = size.poms.map((pom) => `<tr><th scope="row">${escapeHtml(pom.displayLabel ?? pom.label)}</th>` +
       (pom.exceptionReason
         ? `<td>Not applicable</td><td>—</td><td>—</td><td>${escapeHtml(pom.exceptionReason)}</td>`
         : `<td>${escapeHtml(raw(pom.expected))} ${escapeHtml(pom.unit)}</td>` +
