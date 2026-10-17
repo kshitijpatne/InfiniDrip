@@ -2,8 +2,9 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { blockPieces, rolePiece } from "./block";
 import { pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
-import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, skirtPanel } from "./skirt";
+import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES, skirtPanel } from "./skirt";
 import { stitchChecks } from "./stitch";
+import { resolveNotch } from "../render/notch";
 import { SKIRT, gradeRun, specSheet } from "./index";
 
 /** The whole sewability surface for a skirt — stitches plus panel checks
@@ -50,6 +51,26 @@ describe("draftSkirt", () => {
     expect(allSkirtChecks(b).find((check) => check.name === zipper.label)?.ok).toBe(true);
   });
 
+  it("marks each side-zipper endpoint at the front and back hip transition", () => {
+    const measurements = [
+      STANDARD_M,
+      { ...STANDARD_M, waist: 92, hip: 112, hipDepth: 22, length: 88, ease: 8 },
+      { ...STANDARD_M, waist: 76, hip: 104, hipDepth: 18, length: 102, ease: 12 },
+    ];
+    for (const input of measurements) {
+      const b = draftSkirt(input);
+      for (const position of ["front", "back"] as const) {
+        const piece = rolePiece(b, position);
+        const table = SKIRT_NOTCHES.find((entry) => entry.pieceName === position)!;
+        const rule = table.notches.find((notch) => notch.edgeName === "sideUpper" && notch.t === 1);
+        expect(rule).toBeDefined();
+        const resolved = resolveNotch(piece, rule!);
+        const hipEndpoint = edgeEnd(pieceEdge(piece, "sideUpper"));
+        expect(resolved.point).toEqual(hipEndpoint);
+        expect(resolved.point).toEqual(edgeStart(pieceEdge(piece, "sideLower")));
+      }
+    }
+  });
   it("makes the hip wider than the waist (the side seam tapers out)", () => {
     const front = rolePiece(draftSkirt(STANDARD_M), "front");
     const waistX = edgeEnd(pieceEdge(front, "waist")).x;      // side point at the waist
