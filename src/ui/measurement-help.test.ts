@@ -14,6 +14,7 @@ const ALLOWED_SOURCE_IDS = new Set([
   "S11",
   "S13",
   "S14",
+  "SIZE-KOREA-8TH",
   "CDC-NHANES-III",
 ]);
 
@@ -133,6 +134,32 @@ describe("measurement help catalog", () => {
         expect(entry.draftUse.length).toBeGreaterThan(20);
       }
     }
+  });
+
+  it("describes the accepted Tee source methods without prescribing a home procedure", () => {
+    const chest = measurementHelpFor("tee", "body.chest-girth")!;
+    expect(chest.limits).toContain("No. 041");
+    expect(chest.limits).toContain("axilla-level Chest Circumference");
+    expect(chest.limits).toContain("nipple-level Bust");
+    expect(chest.limits).toContain("midpoint of the natural breathing cycle");
+    expect(chest.limits).toContain("not a qualified home/self procedure");
+    expect(chest.limits).toContain("https://sizekorea.kr/support/pds/view?bbsCntntsSeq=725&currentPageNo=1");
+    expect(chest.sources.map((source) => source.id)).toContain("SIZE-KOREA-8TH");
+    expect(chest.techniqueQualified).toBe(false);
+
+    const bicep = measurementHelpFor("tee", "body.upper-arm-girth")!;
+    expect(bicep.limits).toContain("No. 036");
+    expect(bicep.limits).toContain("relaxed right upper-arm circumference");
+    expect(bicep.limits).toContain("axillary level");
+    expect(bicep.limits).toContain("perpendicular to the arm axis");
+    expect(bicep.limits).toContain("arm hanging at the side");
+    expect(bicep.limits).toContain("not a qualified home/self procedure");
+    expect(bicep.sources.map((source) => source.id)).toContain("SIZE-KOREA-8TH");
+    expect(bicep.techniqueQualified).toBe(false);
+
+    const fittedChest = measurementHelpFor("fitted", "body.chest-girth")!;
+    expect(fittedChest.limits).toContain("Open gate G-chest-path");
+    expect(fittedChest.sources.map((source) => source.id)).not.toContain("SIZE-KOREA-8TH");
   });
 
   it("cites only directly supporting sources with a fit-disclaiming scope", () => {
