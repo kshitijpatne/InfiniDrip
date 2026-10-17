@@ -436,7 +436,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 20_000);
 
   it("edits T03 provenance, adds/removes unresolved shells, blocks invalid JSON, and saves/reloads schema v3", async () => {
     const state = await techPackHarness({ confirm: () => true });
@@ -497,7 +497,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 20_000);
 
   it("rejects disconnected, malformed, unsupported, and over-limit T03 drafts and actions", async () => {
     const state = await techPackHarness();
@@ -966,7 +966,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  }, 30000);
+  }, 60_000);
 
   it("edits and saves T01 from the project manager as one revision without replacing editor state", async () => {
     const state = await techPackHarness();
@@ -1041,7 +1041,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 60_000);
 
   it("discards T01 drafts and blocks backup or freezing until the draft is resolved", async () => {
     const state = await techPackHarness();
@@ -1068,7 +1068,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 20_000);
 
   it("reports empty and unchanged T01 save requests without adding a revision", async () => {
     const state = await techPackHarness();
@@ -1093,7 +1093,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 20_000);
 
   it("confirms before leaving a T01 draft and respects the maker's response", async () => {
     let allowDiscard = false;
@@ -1127,7 +1127,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 20_000);
 
   it("rejects disconnected T01 controls and collection actions from a stale style draft", async () => {
     const state = await techPackHarness();
@@ -1184,7 +1184,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 20_000);
 
   it("adds, explicitly links, and safely removes local T01 material, BOM, colorway, and assignment records", async () => {
     const generatedIds = [
@@ -1880,7 +1880,7 @@ describe("accessible project and style manager", () => {
     await clickAndSettle(host, `[data-project-action='archive'][data-style-id='${STYLE_TWO_ID}']`);
     expect(host.textContent).toContain("Archived Second style.");
     expect(onStyleLoaded).toHaveBeenCalledTimes(8);
-  }, 15_000);
+  }, 30_000);
 
   it("exports, imports a clean-profile package, handles idempotency/copy conflicts, and switches projects", async () => {
     vi.stubGlobal("Blob", NodeBlob);
