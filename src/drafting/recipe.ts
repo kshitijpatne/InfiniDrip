@@ -446,8 +446,8 @@ const WOVEN_SKIRT_ALLOWANCES: AllowanceSpec = {
 const WOVEN_SKIRT_BOM: readonly BomRow[] = [
   { material: "Cotton twill, main", placement: "Front & back panels", qty: "0.9 m" },
   { material: "Fusible interfacing", placement: "Waistband", qty: "0.2 m" },
-  { material: "Invisible zip", placement: "Centre-back seam", qty: "1" },
-  { material: "Hook & bar", placement: "Waistband", qty: "1" },
+  { material: "Invisible zip", placement: "One side seam (waist to hip)", qty: "1" },
+  { material: "Button", placement: "Waistband closure", qty: "1" },
   { material: "All-purpose thread", placement: "All seams", qty: "1 spool" },
 ];
 
@@ -471,9 +471,10 @@ export const SKIRT: GarmentRecipe = {
     bom: WOVEN_SKIRT_BOM,
     construction: [
       "Overlock the panel edges that will be exposed.",
-      "Sew the side seams, front to back, matching the balance notches.",
-      "Insert the invisible zip in the centre-back seam.",
+      "Insert the invisible zip in one side seam from the waist to the hip level; sew the remaining seam below the zip.",
+      "Sew the opposite side seam, front to back, matching the balance notches.",
       "Attach the interfaced waistband, easing the waist to fit.",
+      "Finish the waistband with its button closure.",
       "Turn up and hem the skirt.",
     ],
   },

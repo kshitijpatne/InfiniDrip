@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
-import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
+import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -62,6 +62,28 @@ describe("Tank fabric tech-pack selection", () => {
     const knit = TANK.techPackForFabric!({ name: "Cotton jersey", family: "knit", stretchPercent: 25 });
     expect(woven.construction).toContain("Bind the neckline and both armholes with self-fabric binding.");
     expect(knit).toEqual(TANK.techPack);
+  });
+});
+
+describe("Skirt Tech Pack construction consistency", () => {
+  it("places the zipper on an existing side seam and matches the waistband button closure", () => {
+    const bomText = SKIRT.techPack.bom.map((row) => `${row.material} — ${row.placement}`).join(" ");
+    const constructionText = SKIRT.techPack.construction.join(" ");
+
+    expect(SKIRT.techPack.bom).toContainEqual({
+      material: "Invisible zip",
+      placement: "One side seam (waist to hip)",
+      qty: "1",
+    });
+    expect(SKIRT.techPack.bom).toContainEqual({
+      material: "Button",
+      placement: "Waistband closure",
+      qty: "1",
+    });
+    expect(bomText).not.toMatch(/centre-back|hook\s*&\s*bar/i);
+    expect(constructionText).toContain("one side seam from the waist to the hip level");
+    expect(constructionText).toContain("Finish the waistband with its button closure.");
+    expect(constructionText).not.toMatch(/centre-back seam/i);
   });
 });
 
