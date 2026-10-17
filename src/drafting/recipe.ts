@@ -155,6 +155,11 @@ const KNIT_BOM: readonly BomRow[] = [
   { material: "Overlock thread", placement: "All seams", qty: "1 cone" },
 ];
 
+const TEE_BOM: readonly BomRow[] = [
+  ...KNIT_BOM,
+  { material: "Knit-compatible stabilizing tape", placement: "Shoulder seams", qty: "2 lengths" },
+];
+
 export const TEE: GarmentRecipe = {
   name: "tee",
   label: "Tee",
@@ -192,10 +197,11 @@ export const TEE: GarmentRecipe = {
   frontNeckline: () => NECKLINE_DEFAULT,
   backNeckline: () => NECKLINE_DEFAULT,
   techPack: {
-    bom: KNIT_BOM,
+    bom: TEE_BOM,
     construction: [
       "Staystitch the front and back necklines.",
       "Join the shoulder seams, front to back.",
+      "Stabilize both shoulder seams with a knit-compatible tape; test it on a fabric offcut and cut two lengths to match the drafted seams.",
       "Attach the neckband, matching centre-front and shoulder notches.",
       "Set in the sleeves flat, easing the cap to the armhole.",
       "Close the side and underarm seams in one pass.",

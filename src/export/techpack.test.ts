@@ -94,6 +94,25 @@ describe("exportTechPack", () => {
     expect(pdf).toContain(`(1. ${pdfString(TEE.techPack.construction[0])})`);
   });
 
+  it("prints the Tee-only shoulder stabilizer instruction and BOM role", () => {
+    const stabilizer = {
+      material: "Knit-compatible stabilizing tape",
+      placement: "Shoulder seams",
+      qty: "2 lengths",
+    };
+    const instruction = "Stabilize both shoulder seams with a knit-compatible tape; test it on a fabric offcut and cut two lengths to match the drafted seams.";
+    const teePdf = exportTechPack(TEE, STANDARD_M);
+
+    expect(TEE.techPack.bom).toContainEqual(stabilizer);
+    expect(teePdf).toContain("(3. " + pdfString(instruction) + ")");
+    expect(teePdf).toContain("(" + pdfString(stabilizer.material) + ")");
+    expect(teePdf).toContain("(" + pdfString(stabilizer.placement) + ")");
+    expect(teePdf).toContain("(" + pdfString(stabilizer.qty) + ")");
+
+    expect(FITTED.techPack.bom).not.toContainEqual(stabilizer);
+    expect(TANK.techPack.bom).not.toContainEqual(stabilizer);
+  });
+
   it("draws the sketch outlines as stroked paths", () => {
     expect(pdf).toContain(" m ");
     expect(pdf).toContain(" l ");
