@@ -39,24 +39,9 @@
 // (0, depth) to (width, 0), not an arbitrary curve shape; verified by
 // rendering it, mirroring it, and confirming the join at centre front is a
 // smooth round bottom with no seam.
-//
-// `scoopControlFactors` is GONE. Once the tangent rule is enforced, the
-// curve's shape is fully determined by its two endpoints — there is no
-// remaining degree of freedom for "rounder control points" to express a
-// different shape. This matches what every drafting source says a scoop
-// actually is: the SAME curve as crew, just deeper and wider — "for a scoop
-// neck, you simply lower the curve at centre front, and widen at the
-// shoulder if you want it wider" (Patternmaking: Easy Neckline Alterations).
-// So `necklineEdge` no longer branches on "crew" vs "scoop" for curve
-// shape — a scoop is just crew geometry plus `frontDrop`/`widthEase`, which
-// the params already carried. `tank.ts` now declares the tank's scoop as
-// `{ shape: "scoop", widthEase: 1.5, frontDrop: 5 }` — a genuinely deeper,
-// wider curve. These two numbers are explicitly a starting decision, not a
-// sourced exact: multiple references agree a scoop has no universal radius,
-// width, depth, shoulder endpoint, or drafting formula — it's defined by
-// depth/width relative to crew, not a fixed spec. Rendered and eyeballed
-// against real scoop-tee references before landing on 5/1.5.
-//
+// The scoop shares the crew curve path. frontDrop and widthEase adjust its endpoints.
+// tank.ts supplies 5 cm and 1.5 cm as current starting design values.
+
 // Deliberately NOT done: NecklineParams is still not part of every recipe's
 // public surface — only bodice.ts's BodiceParams (Slice 59) accepts it, and
 // only the tank passes a non-default value (via `recipe.ts`'s
