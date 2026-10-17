@@ -8946,7 +8946,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#export-svg")?.title).toContain("difference");
       clickId(root, "view-fabric");
-      expect(root.querySelector("#canvas-host [role='status']")?.textContent).toContain("Body chest");
+      expect(root.querySelector("#canvas-host [role='status']")?.textContent).toContain("Modeled chest circumference");
       const mismatchResetAt = new Date(Date.parse(mismatchPlan.updatedAt) + 1_000).toISOString();
       const resetDraft = gradePlan.setGradePlanDelta(mismatchPlan,
         mismatchedPom.dataset.targetId!, "S", 0, mismatchResetAt);
