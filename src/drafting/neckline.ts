@@ -40,7 +40,7 @@
 // rendering it, mirroring it, and confirming the join at centre front is a
 // smooth round bottom with no seam.
 // The scoop shares the crew curve path. frontDrop and widthEase adjust its endpoints.
-// tank.ts supplies 5 cm and 1.5 cm as current starting design values.
+// For the tank, these values read adjustable neckDrop/neckWidthEase measurements.
 
 // Deliberately NOT done: NecklineParams is still not part of every recipe's
 // public surface — only bodice.ts's BodiceParams (Slice 59) accepts it, and
