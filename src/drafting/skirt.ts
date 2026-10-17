@@ -240,6 +240,7 @@ export const SKIRT_NOTCHES: readonly PieceNotches[] = [
       matchedNotch(SIDE_SEAM, "a", 0.5, 1), // a balance notch at the side
       matchedNotch(WAISTBAND_SEAM, "a", 1.0, 0), // body side at the front waistband seam
       matchedNotch(SIDE_ZIPPER, "a", 0.0, 1), // zipper junction at the front waist
+      matchedNotch(SIDE_ZIPPER, "a", 1.0, 1), // zipper endpoint at the front hip
     ],
     grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
   },
@@ -250,6 +251,7 @@ export const SKIRT_NOTCHES: readonly PieceNotches[] = [
       matchedNotch(SIDE_SEAM, "b", 0.75, 1), // 2 = back
       matchedNotch(WAISTBAND_SEAM, "a", 1.0, 1), // body side at the back waistband seam
       matchedNotch(SIDE_ZIPPER, "b", 0.0, 1), // zipper junction at the back waist
+      matchedNotch(SIDE_ZIPPER, "b", 1.0, 1), // zipper endpoint at the back hip
     ],
     grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
   },
