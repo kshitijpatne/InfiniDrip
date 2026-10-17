@@ -65,7 +65,8 @@ export const PATTERN_MEASUREMENT_MAP: Readonly<Record<string, Readonly<Record<st
   skirt: {
     front: lowerPanel,
     back: lowerPanel,
-    waistband: linked("waist", "ease"),
+    waistbandfront: linked("waist", "ease"),
+    waistbandback: linked("waist", "ease"),
   },
   trouser: {
     "trouser front left": trouserLeg,

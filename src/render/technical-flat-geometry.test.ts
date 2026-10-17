@@ -278,13 +278,14 @@ describe("technical-flat source geometry", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const map = createG04TechnicalFlatProjectionMap("skirt", block, revisionId)!;
-    const face = map.faces[0];
-    const frontBand = face.roles.find((role) => role.roleId === "waistband")!;
     const endpoint = { kind: "edge-endpoint" as const, edgeId: "top", endpoint: "start" as const };
+    const sideBoundary = { kind: "stitch-interface-boundary" as const,
+      stitchLabel: "Waistband (front + back ↔ matching bands)", boundarySide: "a" as const,
+      afterEdgeIndex: 0, faceSegmentEdgeIndex: 0, receiverSide: "b" as const, receiverEdgeIndex: 0 };
     const alternate = { ...map, faces: map.faces.map((candidate, index) => index === 0 ? { ...candidate,
-      roles: candidate.roles.map((role) => role.roleId === "waistband" ? { ...role, viewBoundaries: [
-        { id: "stitch-on-to", from: endpoint, to: frontBand.runs[0]!.to },
-        { id: "stitch-on-from", from: frontBand.runs[0]!.to, to: endpoint },
+      roles: candidate.roles.map((role) => role.roleId === "waistbandFront" ? { ...role, viewBoundaries: [
+        { id: "stitch-on-to", from: endpoint, to: sideBoundary },
+        { id: "stitch-on-from", from: sideBoundary, to: endpoint },
         { id: "endpoint-pair", from: endpoint, to: { kind: "edge-endpoint" as const, edgeId: "top", endpoint: "end" as const } },
       ] } : role) } : candidate),
     } as unknown as TechnicalFlatProjectionMap;

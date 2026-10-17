@@ -1,67 +1,56 @@
-// Component architecture, Phase B5 (Slice 57). Design: COMPONENT-ARCHITECTURE.md §5.
-//
-// Different character from B1-B4: there is no existing waistband code
-// anywhere to extract or de-duplicate — the skirt's "waist" has only ever
-// been a raw edge on the panel. This is Phase B's first genuinely NEW
-// component, not a refactor, and §5's taxonomy only sketches two params
-// (`depth`, `closure`), unlike Neckline's fully-specified §6. Design
-// decided and flagged before building (Slice 57 scoping):
-//
-// GEOMETRY. A plain strip, cut on the fold exactly like the skirt's own
-// front/back panels — same convention, so it sews together the same way:
-// the fold (x=0) is one short end, the "seam" edge (length = half the
-// finished waist circumference) sews to the front+back waist edges
-// combined, the "end" edge is the other short end (where the closure
-// sits), and "top" is the outer fold-over edge. Cut on a fold, this doubles
-// to the FULL waist circumference — the same number the front panel's own
-// "Waist (finished)" POM already reports, by construction (proven in
-// waistband.test.ts, not asserted).
-//
-// CLOSURE — deliberately geometry-inert. A button vs. a hook-and-bar
-// waistband are cut IDENTICALLY in real patternmaking; the closure only
-// changes hardware/notions (already listed in recipe.ts's BOM), never the
-// pattern shape. Typed here because §5 lists it as the component's param,
-// but the geometry never reads it — unlike Neckline's `shape`, where an
-// unimplemented value WOULD have changed the curve, `closure` genuinely
-// has nothing to implement at the drafting layer.
+// Skirt waistband pieces. Each piece follows its matching on-fold body panel
+// from the center fold to a side seam, so the band and body openings can meet
+// at the same side zipper.
 
 import { point } from "../geometry";
-import { Edge } from "./piece";
 import { Component } from "./component";
+import { Edge, Piece } from "./piece";
+import { edgeRef, iface } from "./stitch";
 
 export interface WaistbandParams {
   readonly depth: number; // cm, the band's height
-  readonly closure: "button" | "hook"; // BOM/notions only — see file header
-  /** Optional measured target supplied by a preceding panel composition. */
-  readonly targetHalfCircumference?: number;
+  /** Length of the front panel waist edge, supplied by the skirt grammar. */
+  readonly frontSeamLength?: number;
+  /** Length of the back panel waist edge, supplied by the skirt grammar. */
+  readonly backSeamLength?: number;
 }
 
-export const WAISTBAND_DEFAULT: WaistbandParams = { depth: 3.5, closure: "button" };
+export const WAISTBAND_DEFAULT: WaistbandParams = { depth: 3.5 };
 
-/** The Waistband component: one call drafts the whole band (cut on fold,
- *  like every other skirt piece), sized to the SAME finished waist the
- *  front/back panels already draft to. No exposed interfaces — nothing
- *  downstream attaches onto a waistband; only the recipe wires its own
- *  stitch INTO the "seam" edge from outside. */
-export const waistband: Component<WaistbandParams> = (m, params) => {
-  const halfCirc = params.targetHalfCircumference ?? (m.waist + m.ease) / 2;
-  const depth = params.depth;
-
+function bandPiece(name: string, seamLength: number, depth: number): Piece {
   const foldTop = point(0, 0);
-  const endTop = point(halfCirc, 0);
-  const endBottom = point(halfCirc, depth);
+  const sideTop = point(seamLength, 0);
+  const sideBottom = point(seamLength, depth);
   const foldBottom = point(0, depth);
 
   const edges: Edge[] = [
-    { kind: "line", name: "top", start: foldTop, end: endTop },
-    { kind: "line", name: "end", start: endTop, end: endBottom },       // the closure end
-    { kind: "line", name: "seam", start: endBottom, end: foldBottom },  // sews to front.waist + back.waist
+    { kind: "line", name: "top", start: foldTop, end: sideTop },
+    { kind: "line", name: "side", start: sideTop, end: sideBottom },
+    { kind: "line", name: "seam", start: sideBottom, end: foldBottom },
     { kind: "line", name: "fold", start: foldBottom, end: foldTop },
   ];
 
+  return { name, onFold: true, edges };
+}
+
+/** Draft separate front/back bands. Each is cut on its matching center fold;
+ * its side edge aligns with the body side seam and carries the zipper path. */
+export const waistband: Component<WaistbandParams> = (m, params) => {
+  const defaultQuarterWaist = (m.waist + m.ease) / 4;
+  const frontLength = params.frontSeamLength ?? defaultQuarterWaist;
+  const backLength = params.backSeamLength ?? defaultQuarterWaist;
+
   return {
-    pieces: { waistband: { name: "waistband", onFold: true, edges } },
+    pieces: {
+      waistbandFront: bandPiece("waistbandFront", frontLength, params.depth),
+      waistbandBack: bandPiece("waistbandBack", backLength, params.depth),
+    },
     stitches: [],
-    interfaces: {},
+    interfaces: {
+      frontWaist: iface(edgeRef("waistbandFront", "seam", true)),
+      backWaist: iface(edgeRef("waistbandBack", "seam", true)),
+      frontSide: iface(edgeRef("waistbandFront", "side")),
+      backSide: iface(edgeRef("waistbandBack", "side")),
+    },
   };
 };

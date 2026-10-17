@@ -8,7 +8,6 @@ import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import {
   createG04TechnicalFlatProjectionMap,
   edgeParameterAtArclengthFraction,
-  G04_NON_MIRRORED_ON_FOLD_ROLES,
   G04_UNRESOLVED_PROJECTION_ROLES,
   resolveFlatProjectionLandmark,
   validateTechnicalFlatProjectionMap,
@@ -651,13 +650,37 @@ describe("validateTechnicalFlatProjectionMap", () => {
 
   it("fails closed when a source stitch boundary becomes stale or internally inconsistent", () => {
     const { block } = draft("skirt");
-    const map = createG04TechnicalFlatProjectionMap("skirt", block, REVISION)!;
-    const waistband = map.faces[0].roles.find((role) => role.roleId === "waistband")!;
-    const boundary = waistband.runs[0]!.to;
-    if (boundary.kind !== "stitch-interface-boundary") throw new Error("Expected an exact stitch-derived boundary.");
-    const resolve = (landmark: unknown, input = block, roleId = "waistband", face = "FRONT_FLAT" as const, edgeId = "seam") =>
+    const boundary = {
+      kind: "stitch-interface-boundary" as const,
+      stitchLabel: "Waistband (front + back ↔ matching bands)",
+      boundarySide: "a" as const,
+      afterEdgeIndex: 0,
+      faceSegmentEdgeIndex: 0,
+      receiverSide: "b" as const,
+      receiverEdgeIndex: 0,
+    };
+    const resolve = (landmark: unknown, input = block, roleId = "waistbandFront", face = "FRONT_FLAT" as const, edgeId = "seam") =>
       resolveFlatProjectionLandmark(input, roleId, face, landmark, edgeId);
     expect(resolve(boundary)).toBeDefined();
+    expect(resolveFlatProjectionLandmark(block, "waistbandFront", "FRONT_FLAT", boundary)).toBeDefined();
+    expect(resolveFlatProjectionLandmark(block, "waistbandFront", "FRONT_FLAT", { ...boundary, pairedEdgeId: "top" }))
+      .toEqual({ x: 23.5, y: 0 });
+    expect(resolveFlatProjectionLandmark(block, "waistbandBack", "BACK_FLAT", {
+      ...boundary, faceSegmentEdgeIndex: 1, receiverEdgeIndex: 1,
+    })).toBeDefined();
+    expect(resolve({ ...boundary, pairedEdgeId: "top" }, block, "waistbandFront", "FRONT_FLAT", "top"))
+      .toEqual({ x: 23.5, y: 0 });
+    const expandedBoundarySource = {
+      ...block,
+      roles: {
+        ...block.roles,
+        front: { ...block.roles.front!, edges: block.roles.front!.edges.map((edge) => edge.name === "waist" && edge.kind === "line"
+          ? { ...edge, end: { ...edge.end, x: 29.5 } } : edge) },
+        back: { ...block.roles.back!, edges: block.roles.back!.edges.map((edge) => edge.name === "waist" && edge.kind === "line"
+          ? { ...edge, start: { ...edge.start, x: 12 }, end: { ...edge.end, x: 29.5 } } : edge) },
+      },
+    } as unknown as typeof block;
+    expect(resolve(boundary, expandedBoundarySource)).toBeUndefined();
     expect(resolve(null)).toBeUndefined();
     expect(resolve({ kind: "edge-endpoint", edgeId: "absent", endpoint: "start" })).toBeUndefined();
     expect(resolve({ kind: "edge-endpoint", edgeId: "seam", endpoint: "middle" })).toBeUndefined();
@@ -668,7 +691,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const malformed = { ...boundary, boundarySide: "other" };
     expect(resolve(malformed)).toBeUndefined();
     expect(resolve({ ...boundary, stitchLabel: "missing" })).toBeUndefined();
-    expect(resolveFlatProjectionLandmark(block, "waistband", "FRONT_FLAT", { ...boundary, stitchLabel: "missing" })).toBeUndefined();
+    expect(resolveFlatProjectionLandmark(block, "waistbandFront", "FRONT_FLAT", { ...boundary, stitchLabel: "missing" })).toBeUndefined();
     const malformedRef = { ...block, stitches: block.stitches.map((stitch) => stitch.label === boundary.stitchLabel
       ? { ...stitch, a: { edges: [{ piece: "front" }, ...stitch.a.edges.slice(1)] } } : stitch) } as unknown as typeof block;
     expect(resolve(boundary, malformedRef)).toBeUndefined();
@@ -678,15 +701,15 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const duplicate = { ...block, stitches: [...block.stitches, block.stitches.find((stitch) => stitch.label === boundary.stitchLabel)!] };
     expect(resolve(boundary, duplicate)).toBeUndefined();
     expect(resolve({ ...boundary, afterEdgeIndex: 8 })).toBeUndefined();
-    expect(resolve({ ...boundary, pairedEdgeId: "seam" }, block, "waistband", "FRONT_FLAT", "seam")).toBeUndefined();
-    expect(resolve({ ...boundary, pairedEdgeId: "fold" }, block, "waistband", "FRONT_FLAT", "fold")).toBeUndefined();
+    expect(resolve({ ...boundary, pairedEdgeId: "seam" }, block, "waistbandFront", "FRONT_FLAT", "seam")).toBeUndefined();
+    expect(resolve({ ...boundary, pairedEdgeId: "fold" }, block, "waistbandFront", "FRONT_FLAT", "fold")).toBeUndefined();
     expect(resolve(boundary, block, "front", "FRONT_FLAT", "waist")).toBeUndefined();
     expect(resolve({ ...boundary, faceSegmentEdgeIndex: 1 })).toBeUndefined();
-    const seam = block.roles.waistband!.edges.find((edge) => edge.name === "seam")!;
+    const seam = block.roles.waistbandFront!.edges.find((edge) => edge.name === "seam")!;
     const start = seam.kind === "line" ? seam.start : seam.curve.start;
     const end = seam.kind === "line" ? seam.end : seam.curve.end;
-    const curvedTarget = { ...block, roles: { ...block.roles, waistband: { ...block.roles.waistband!, edges:
-      block.roles.waistband!.edges.map((edge) => edge.name === "seam" ? { kind: "curve" as const, name: "seam",
+    const curvedTarget = { ...block, roles: { ...block.roles, waistbandFront: { ...block.roles.waistbandFront!, edges:
+      block.roles.waistbandFront!.edges.map((edge) => edge.name === "seam" ? { kind: "curve" as const, name: "seam",
         curve: { start, control1: { x: start.x - 2, y: start.y }, control2: { x: end.x + 2, y: end.y }, end } } : edge) } } };
     expect(resolve(boundary, curvedTarget)).toBeUndefined();
     const eased = { ...block, stitches: block.stitches.map((stitch) => stitch.label === boundary.stitchLabel
@@ -695,26 +718,28 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const brokenJunction = { ...block, stitches: block.stitches.map((stitch) => stitch.label === boundary.stitchLabel
       ? { ...stitch, a: { edges: stitch.a.edges.map((ref, index) => index === 1 && "edge" in ref ? { ...ref, reversed: false } : ref) } } : stitch) };
     expect(resolve(boundary, brokenJunction)).toBeUndefined();
-    const unequal = { ...block, roles: { ...block.roles, waistband: { ...block.roles.waistband!, edges:
-      block.roles.waistband!.edges.map((edge) => edge.name === "seam" && edge.kind === "line"
+    const unequal = { ...block, roles: { ...block.roles, waistbandFront: { ...block.roles.waistbandFront!, edges:
+      block.roles.waistbandFront!.edges.map((edge) => edge.name === "seam" && edge.kind === "line"
         ? { ...edge, end: { ...edge.end, x: edge.end.x + 5 } } : edge) } } };
     expect(resolve(boundary, unequal)).toBeUndefined();
-    const sourceSeam = block.roles.waistband!.edges.find((edge) => edge.name === "seam")!;
+    const sourceSeam = block.roles.waistbandFront!.edges.find((edge) => edge.name === "seam")!;
     if (sourceSeam.kind !== "line") throw new Error("Expected the authored waistband seam to be straight.");
     const splitPoint = { x: sourceSeam.start.x - 5, y: sourceSeam.start.y };
-    const multiSegmentRoles = { ...block.roles, waistband: { ...block.roles.waistband!, edges:
-      block.roles.waistband!.edges.flatMap((edge) => edge.name === "seam" && edge.kind === "line"
+    const multiSegmentRoles = { ...block.roles, waistbandFront: { ...block.roles.waistbandFront!, edges:
+      block.roles.waistbandFront!.edges.flatMap((edge) => edge.name === "seam" && edge.kind === "line"
         ? [{ ...edge, end: splitPoint }, { kind: "line" as const, name: "seam2", start: splitPoint, end: edge.end }]
         : [edge]) } };
     const multiSegment = { ...block, roles: multiSegmentRoles, stitches: block.stitches.map((stitch) => stitch.label === boundary.stitchLabel
-      ? { ...stitch, b: { edges: [{ piece: "waistband", edge: "seam" }, { piece: "waistband", edge: "seam2" }] } } : stitch) } as unknown as typeof block;
-    expect(resolve(boundary, multiSegment, "waistband", "FRONT_FLAT", "seam")).toBeUndefined();
-    const noPiece = { ...block, roles: { ...block.roles, waistband: undefined } } as unknown as typeof block;
+      ? { ...stitch, b: { edges: [{ piece: "waistbandFront", edge: "seam", reversed: true },
+        { piece: "waistbandFront", edge: "seam2", reversed: true }] } } : stitch) } as unknown as typeof block;
+    expect(resolve(boundary, multiSegment, "waistbandFront", "FRONT_FLAT", "seam")).toBeUndefined();
+    const noPiece = { ...block, roles: { ...block.roles, waistbandFront: undefined } } as unknown as typeof block;
     expect(resolve(boundary, noPiece)).toBeUndefined();
     const front = block.roles.front!;
     const noCenterAxis = { ...block, roles: { ...block.roles, front: { ...front, onFold: false } } };
     const heldMap = createG04TechnicalFlatProjectionMap("skirt", noCenterAxis, REVISION)!;
-    expect(heldMap.faces[0].roles.find((role) => role.roleId === "waistband")?.heldEdges.length).toBe(block.roles.waistband!.edges.length);
+    expect(heldMap.faces[0].roles.find((role) => role.roleId === "waistbandFront")?.heldEdges.length)
+      .toBe(block.roles.waistbandFront!.edges.length);
   });
 
   it("validates explicit exclusions, fold axes and view-only boundary metadata", () => {
@@ -723,7 +748,8 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const updateWaistband = (faceIndex: number, update: (role: TechnicalFlatProjectionMap["faces"][number]["roles"][number]) => unknown) => ({
       ...map,
       faces: map.faces.map((face, index) => index === faceIndex ? { ...face,
-        roles: face.roles.map((role) => role.roleId === "waistband" ? update(role) : role) } : face),
+        roles: face.roles.map((role) => role.roleId === (faceIndex === 0 ? "waistbandFront" : "waistbandBack")
+          ? update(role) : role) } : face),
     }) as unknown as TechnicalFlatProjectionMap;
     expect(validateTechnicalFlatProjectionMap("skirt", block, REVISION,
       updateWaistband(0, (role) => ({ ...role, faceExcludedEdges: [null] }))).map((issue) => issue.code))
@@ -995,23 +1021,20 @@ describe("validateTechnicalFlatProjectionMap", () => {
         expect(validateTechnicalFlatProjectionMap(recipe.name, block, REVISION, map), recipe.name).toEqual([]);
         for (const face of map.faces) for (const role of face.roles) {
           const piece = block.roles[role.roleId]!;
-          if (recipe.name === "skirt" && role.roleId === "waistband") {
+          if (recipe.name === "skirt" && (role.roleId === "waistbandFront" || role.roleId === "waistbandBack")) {
+            const axisRoleId = role.roleId === "waistbandFront" ? "front" : "back";
             expect(role.foldAxisReflection).toMatchObject({
-              axis: "LOCAL_Y", source: "Piece.onFold", axisRoleId: face.kind === "FRONT_FLAT" ? "front" : "back",
-              viaStitchLabel: "Waistband (front + back ↔ waistband)",
+              axis: "LOCAL_Y", source: "Piece.onFold", axisRoleId,
+              viaStitchLabel: "Waistband (front + back ↔ matching bands)",
             });
-            expect(role.viewBoundaries).toHaveLength(1);
-            expect(role.faceExcludedEdges).toHaveLength(face.kind === "FRONT_FLAT" ? 1 : 2);
-            if (face.kind === "BACK_FLAT") {
-              expect(role.runs.some((run) => run.edgeId === "fold")).toBe(false);
-              expect(role.faceExcludedEdges).toContainEqual(expect.objectContaining({ edgeId: "fold" }));
-            }
+            expect(axisRoleId).toBe(face.kind === "FRONT_FLAT" ? "front" : "back");
+            expect(role.runs.some((run) => run.edgeId === "fold")).toBe(false);
+            expect(role.faceExcludedEdges).toContainEqual(expect.objectContaining({ edgeId: "fold" }));
             expect(role.heldEdges).toEqual([]);
             continue;
           }
           const expectedReflection = piece.onFold && role.treatment !== "INTERIOR_HIDDEN"
-            && !G04_UNRESOLVED_PROJECTION_ROLES[recipe.name]?.[role.roleId]
-            && !G04_NON_MIRRORED_ON_FOLD_ROLES[recipe.name]?.[role.roleId];
+            && !G04_UNRESOLVED_PROJECTION_ROLES[recipe.name]?.[role.roleId];
           expect(Boolean(role.foldAxisReflection)).toBe(expectedReflection);
           if (expectedReflection) {
             if (recipe.name === "woven-shirt" && ["outerStand", "upperCollar", "underCollar"].includes(role.roleId)) {
@@ -1037,10 +1060,6 @@ describe("validateTechnicalFlatProjectionMap", () => {
               expect(role.heldEdges.length + (role.faceExcludedEdges?.length ?? 0)).toBe(piece.edges.length);
               expect(role.foldAxisReflection).toBeUndefined();
               continue;
-            }
-            if (G04_NON_MIRRORED_ON_FOLD_ROLES[recipe.name]?.[role.roleId]) {
-              expect(role.heldEdges).toEqual([]);
-              expect(role.runs).toHaveLength(piece.edges.length);
             }
           }
         }

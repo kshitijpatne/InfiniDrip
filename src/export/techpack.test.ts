@@ -444,6 +444,14 @@ describe("readable draft tech pack", () => {
         expect(pdf).toContain(`(${pdfString("Body chest (finished)")})`);
         expect(pdf).not.toContain(`(${pdfString("Modeled chest circumference")})`);
       }
+      if (recipe.name === "skirt") {
+        expect(pdf).toContain("(03 - WAISTBANDFRONT)");
+        expect(pdf).toContain("(04 - WAISTBANDBACK)");
+        expect(pdf).toContain(`(${pdfString("Invisible zip")})`);
+        expect(pdf).toContain(`(${pdfString("One side seam, waistband top to hip")})`);
+        expect(pdf).toContain(`(3. ${pdfString("Install one invisible zipper")}`);
+        expect(pdf).toContain(`(4. ${pdfString("Sew the opposite side seam")}`);
+      }
       pieces.forEach((piece, index) => {
         expect(pdf).toContain(`(${String(index + 1).padStart(2, "0")} - ${pdfString(piece.name.toUpperCase())})`);
       });

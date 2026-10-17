@@ -240,15 +240,6 @@ export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<R
   "woven-shirt": {},
 };
 
-/** A cut-on-fold construction does not always describe garment centre
- * symmetry. The skirt waistband fold is the folded strip edge, so its source
- * segment is shown once rather than reflected into a full circumference. */
-export const G04_NON_MIRRORED_ON_FOLD_ROLES: Readonly<Record<string, Readonly<Record<string, string>>>> = {
-  skirt: {
-    waistband: "The waistband fold is the folded strip edge, not a garment center axis; preserve its authored half-circumference view segment.",
-  },
-};
-
 const FOLD_AXIS_EDGE_NAME = /^center(?:Front|Back)?$/i;
 
 function foldAxisEdge(piece: Piece): Edge | undefined {
@@ -916,51 +907,34 @@ export function createG04TechnicalFlatProjectionMap(
           || role.roleId === "upperCollar" || role.roleId === "underCollar")) {
           return wovenCollarRoleProjection(role.roleId, face.kind, block, piece, role.treatment);
         }
-        if (recipeId === "skirt" && role.roleId === "waistband") {
-          const stitchLabel = "Waistband (front + back ↔ waistband)";
-          const isFront = face.kind === "FRONT_FLAT";
-          const boundary: FlatProjectionLandmark = {
-            kind: "stitch-interface-boundary", stitchLabel, boundarySide: "a",
-            afterEdgeIndex: 0, faceSegmentEdgeIndex: isFront ? 0 : 1,
-            receiverSide: "b", receiverEdgeIndex: 0,
-          };
-          const topBoundary: FlatProjectionLandmark = { ...boundary, pairedEdgeId: "top" };
+        if (recipeId === "skirt" && (role.roleId === "waistbandFront" || role.roleId === "waistbandBack")) {
+          const isFront = role.roleId === "waistbandFront";
           const axisRoleId = isFront ? "front" : "back";
+          const stitchLabel = "Waistband (front + back ↔ matching bands)";
           const axisEdge = block.roles[axisRoleId] && foldAxisEdge(block.roles[axisRoleId]!);
           const heldRoleReason = axisEdge
             ? undefined
-            : `The sewn-to ${axisRoleId} panel has no exact on-fold center axis for this waistband segment.`;
-          const endpoint = (edgeId: string, point: "start" | "end"): FlatProjectionLandmark => ({
-            kind: "edge-endpoint", edgeId, endpoint: point,
+            : `The sewn-to ${axisRoleId} panel has no exact on-fold center axis for this waistband piece.`;
+          const endpoint = (edgeId: string, endpointName: "start" | "end"): FlatProjectionLandmark => ({
+            kind: "edge-endpoint", edgeId, endpoint: endpointName,
           });
-          const runs: FlatProjectionEdgeRun[] = isFront
-            ? [
-              { edgeId: "seam", from: endpoint("seam", "start"), to: boundary },
-              { edgeId: "top", from: topBoundary, to: endpoint("top", "end") },
-              { edgeId: "end", from: endpoint("end", "start"), to: endpoint("end", "end") },
-            ]
-            : [
-              { edgeId: "seam", from: boundary, to: endpoint("seam", "end") },
-              { edgeId: "top", from: endpoint("top", "start"), to: topBoundary },
-            ];
+          const runs: FlatProjectionEdgeRun[] = piece.edges
+            .filter((edge) => edge.name !== "fold")
+            .map((edge) => ({ edgeId: edge.name,
+              from: endpoint(edge.name, "start"), to: endpoint(edge.name, "end") }));
           return {
             roleId: role.roleId,
             instanceId: role.roleId,
             treatment: role.treatment,
             runs: heldRoleReason ? [] : runs,
             heldEdges: heldRoleReason ? piece.edges.map((edge) => ({ edgeId: edge.name, reason: heldRoleReason })) : [],
-            faceExcludedEdges: heldRoleReason ? [] : [
-              { edgeId: isFront ? "fold" : "end",
-                reason: `This waistband edge is the opposite face segment's center end and is excluded from the ${isFront ? "front" : "back"} face.` },
-              ...(!isFront ? [{ edgeId: "fold",
-                reason: "The source-declared cut-on-fold edge is the back center axis and is not a visible garment boundary." }] : []),
-            ],
+            faceExcludedEdges: heldRoleReason ? [] : [{ edgeId: "fold",
+              reason: `The ${isFront ? "front" : "back"} waistband fold is its center axis and is not a visible boundary.` }],
             ...(!heldRoleReason && axisEdge ? {
               foldAxisReflection: {
                 edgeId: axisEdge.name, axis: "LOCAL_Y" as const, source: "Piece.onFold" as const,
                 axisRoleId, viaStitchLabel: stitchLabel,
               },
-              viewBoundaries: [{ id: "side-seam-outline", from: topBoundary, to: boundary }],
             } : {}),
           };
         }
@@ -968,8 +942,7 @@ export function createG04TechnicalFlatProjectionMap(
           const decisionId = recipeId === "polo" ? "G04-S333-POLO-SLEEVE-VIEW-MAP" : "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
           return pairedSleeveProjection(face.kind, block, role.treatment, decisionId)!;
         }
-        const nonMirrorReason = G04_NON_MIRRORED_ON_FOLD_ROLES[recipeId]?.[role.roleId];
-        const axisEdge = role.treatment === "INTERIOR_HIDDEN" || nonMirrorReason ? undefined : foldAxisEdge(piece);
+        const axisEdge = role.treatment === "INTERIOR_HIDDEN" ? undefined : foldAxisEdge(piece);
         const pairAxisEdge = recipeId === "woven-shirt" && face.kind === "FRONT_FLAT" && role.roleId === "front"
           ? wovenFrontPairAxis(piece) : undefined;
         const heldRoleReason = role.treatment === "INTERIOR_HIDDEN"
@@ -978,7 +951,7 @@ export function createG04TechnicalFlatProjectionMap(
             ?? (recipeId === "woven-shirt" && (role.roleId === "front" || role.roleId === "back")
               ? wovenVentTopologyIssue(piece)
               : undefined)
-            ?? (piece.onFold && !axisEdge && !nonMirrorReason
+            ?? (piece.onFold && !axisEdge
               ? "This on-fold role does not expose one explicit straight center/fold edge on local x=0 with the rest of the piece on one side."
               : undefined);
         const runs: FlatProjectionEdgeRun[] = [];
@@ -1847,6 +1820,7 @@ function validateRole(
     const axisStitches = isRecord(reflection) && typeof reflection.viaStitchLabel === "string"
       ? block.stitches.filter((stitch) => stitch.label === reflection.viaStitchLabel) : [];
     const sourceRoleForFace = faceKind === "FRONT_FLAT" ? "front" : "back";
+    const skirtBandForFace = sourceRoleForFace === "front" ? "waistbandFront" : "waistbandBack";
     const attachedByNamedSeam = axisStitches.length === 1 && [axisStitches[0]!.a, axisStitches[0]!.b].some((side) =>
       side.edges.some((ref) => "edge" in ref && ref.piece === axisRoleId && ref.edge === "waist"))
       && [axisStitches[0]!.a, axisStitches[0]!.b].some((side) =>
@@ -1856,7 +1830,7 @@ function validateRole(
     if (!isRecord(reflection) || reflection.axis !== "LOCAL_Y"
       || (reflection.source !== "Piece.onFold" && !wovenCollarAxis)
       || !axisPiece || (!exactViewAxis && (!axisPiece.onFold || foldAxisEdge(axisPiece)?.name !== edge?.name)) || !edge
-      || (externalAxis && !wovenCollarAxis && (roleId !== "waistband" || axisRoleId !== sourceRoleForFace
+      || (externalAxis && !wovenCollarAxis && (roleId !== skirtBandForFace || axisRoleId !== sourceRoleForFace
         || typeof reflection.viaStitchLabel !== "string" || !attachedByNamedSeam))
       || (!externalAxis && reflection.viaStitchLabel !== undefined)) {
       issues.push({ code: "INVALID_FOLD_AXIS_REFLECTION", sourceId,

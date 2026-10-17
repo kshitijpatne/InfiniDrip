@@ -1035,42 +1035,37 @@ describe("compileTechnicalFlatLiveView", () => {
     }
   });
 
-  it("emits source-segmented skirt waistbands and reflects each face segment across its panel axis", () => {
+  it("emits the matching Skirt waistband piece on each face and reflects it across the panel axis", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
-    for (const [kind, segmentEdges] of [
-      ["FRONT_FLAT", ["seam", "top", "end"]],
-      ["BACK_FLAT", ["seam", "top"]],
+    for (const [kind, bandRole] of [
+      ["FRONT_FLAT", "waistbandFront"],
+      ["BACK_FLAT", "waistbandBack"],
     ] as const) {
       const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-skirt-${kind}`, kind,
         placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
       expect(result.issues, kind).toEqual([]);
       expect(result.view, kind).not.toBeNull();
       const paths = result.view!.primitives.filter((primitive) => primitive.kind === "path"
-        && primitive.source.sourceId.includes("role:waistband"));
-      const outline = paths.find((primitive) => primitive.id.endsWith("component:waistband:outline"));
-      const reflected = paths.find((primitive) => primitive.id.endsWith("component:waistband:outline:attached-fold-reflection"));
-      const sideBoundary = paths.find((primitive) => primitive.id.endsWith("view-boundary:side-seam-outline"));
-      const reflectedBoundary = paths.find((primitive) => primitive.id.endsWith("view-boundary:side-seam-outline:attached-fold-reflection"));
+        && primitive.source.sourceId === `pattern:skirt:role:${bandRole}`);
+      const outline = paths.find((primitive) => primitive.id.endsWith(`component:${bandRole}:outline`));
+      const reflected = paths.find((primitive) => primitive.id.endsWith(`component:${bandRole}:outline:attached-fold-reflection`));
       expect(outline?.kind).toBe("path");
       expect(reflected?.kind).toBe("path");
-      expect(sideBoundary).toMatchObject({ layer: "GARMENT_SILHOUETTE", feature: "silhouette" });
-      expect(reflectedBoundary).toMatchObject({ layer: "GARMENT_SILHOUETTE", feature: "silhouette" });
-      if (outline?.kind !== "path" || reflected?.kind !== "path") throw new Error("Expected waistband segment paths.");
-      expect(outline.sourceEdgeIds?.map((sourceId) => sourceId.split(":edge:").pop())).toEqual(segmentEdges);
-      expect(reflected.sourceEdgeIds).toEqual(outline.sourceEdgeIds?.filter((sourceId) =>
-        !sourceId.endsWith(kind === "FRONT_FLAT" ? ":edge:end" : ":edge:fold")));
+      if (outline?.kind !== "path" || reflected?.kind !== "path") throw new Error("Expected waistband piece paths.");
+      expect(outline.sourceEdgeIds?.map((sourceId) => sourceId.split(":edge:").pop())).toEqual(["top", "side", "seam"]);
+      expect(reflected.sourceEdgeIds).toEqual(outline.sourceEdgeIds);
       expect(outline.commands).not.toEqual(reflected.commands);
       expect(paths.some((primitive) => primitive.kind === "path" && primitive.feature === "seam"
         && primitive.source.sourceId.includes("view-boundary"))).toBe(false);
     }
   });
 
-  it("withholds artwork placed across the Skirt face-segment boundary", () => {
+  it.each(["waistband", "waistbandFront", "waistbandBack"])("withholds artwork targeting legacy or current Skirt band role %s", (pieceRole) => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-skirt-art", kind: "FRONT_FLAT",
-      placements: [{ id: "art-band", pieceRole: "waistband", assetId: "print", x: 1, y: 1,
+      placements: [{ id: "art-band", pieceRole, assetId: "print", x: 1, y: 1,
         width: 1, height: 1, rotation: 0 } as never], colorHex: "#456789", texture: "smooth", shine: 0 });
     expect(result.view).toBeNull();
     expect(result.issues).toContainEqual(expect.objectContaining({ stage: "overlay", sourceId: "style:artwork:waistband",
