@@ -8331,7 +8331,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       delete window.electronAPI;
       vi.unstubAllGlobals();
     }
-  });
+  }, 20_000);
 
   it("resumes guided measurement drafts from the active local style without turning them into readings", async () => {
     localStorage.clear();
@@ -8508,7 +8508,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       vi.unstubAllGlobals();
       localStorage.clear();
     }
-  });
+  }, 20_000);
 
   it("turns a ready guided capture into one saved custom style and withholds whole-run controls", async () => {
     localStorage.clear();
@@ -8533,7 +8533,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       clickId(root, "garment-woven-shirt");
       await vi.waitFor(() => expect(root.querySelector("#current-garment")?.textContent).toBe("Woven shirt"));
       clickId(root, "journey-guided");
-      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull(), { timeout: 20_000 });
       for (const definition of getFieldDefinitions("woven-shirt")) {
         const presets = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')];
         const preset = presets

@@ -387,6 +387,7 @@ describe("exportTechPackV2ForGradePlan", () => {
 });
 
 describe("exportTechPackV2ForSelectedSize", () => {
+
   it("writes one selected size and labels the Fit Record as digital and physically unvalidated", async () => {
     const size = {
       label: "M",
@@ -397,6 +398,13 @@ describe("exportTechPackV2ForSelectedSize", () => {
     const output = exportTechPackV2ForSelectedSize(TEE, size);
     const streams = pageStreams(output);
     expect(await parsedPageCount(output)).toBe(4);
+    const bomPage = streams.find((stream) => shownText(stream).some((line) => line.startsWith("Bill of Materials - M")))!;
+    const bomText = shownText(bomPage).join(" ");
+    expect(bomText).toContain("Draft estimates only; this is not a production BOM.");
+    expect(bomText).toContain("fabric specification/lot, usable width, layout/yield");
+    expect(bomText).toContain("shrinkage, and required notions");
+    expect(bomText).toContain("before purchase or production.");
+    for (const row of TEE.techPack.bom) expect(bomText).toContain(row.qty);
     expect(streams[0]).toContain("Tee - M - Pattern Piece Overview");
     const specText = shownText(streams[1]!).join("\n");
     expect(specText).toContain("M");
@@ -429,6 +437,17 @@ describe("exportTechPackV2ForSelectedSize", () => {
 });
 
 describe("readable draft tech pack", () => {
+  it("keeps the estimate disclosure with a fabric-specific V2 BOM", () => {
+    const woven = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton woven")!;
+    const output = exportTechPackV2(TANK, STANDARD_M, undefined, woven);
+    const bomPage = pageStreams(output).find((stream) =>
+      shownText(stream).some((line) => line.startsWith("Bill of Materials"))
+    )!;
+    const bomText = shownText(bomPage).join(" ");
+    expect(bomText).toContain("Draft estimates only; this is not a production BOM.");
+    expect(bomText).toContain("Cotton woven");
+  });
+
   const recipes = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER];
 
   it("paginates every recipe's named pattern pieces into readable, explicitly non-scale overview cells", () => {
@@ -478,6 +497,11 @@ describe("readable draft tech pack", () => {
       },
     };
     const pdf = exportTechPackV2(denseRecipe, STANDARD_M);
+    const bomPages = pageStreams(pdf).filter((stream) =>
+      shownText(stream).some((line) => line.startsWith("Bill of Materials"))
+    );
+    expect(bomPages.length).toBeGreaterThan(1);
+    for (const stream of bomPages) expect(shownText(stream).join(" ")).toContain("Draft estimates only");
     expect(pdf).toContain("Bill of Materials \\(continued\\)");
     expect(pdf).toContain("Tee - Construction \\(continued\\)");
     expect(pdf).toContain("end-step-34");

@@ -369,7 +369,13 @@ function bomStreamsV2(tp: GarmentRecipe["techPack"], label: string, page: PageSi
 
   const startMaterials = (continued: boolean): void => {
     lines = [text(M, M + 1, 13, `Bill of Materials${sizeLabel ? ` - ${sizeLabel}` : ""}${continued ? " (continued)" : ""}`, page)];
-    y = M + 2.4;
+    y = M + 1.55;
+    const disclosure = "Draft estimates only; this is not a production BOM. Confirm fabric specification/lot, usable width, layout/yield, shrinkage, and required notions against the selected design and supplier before purchase or production.";
+    for (const line of wrapPackText(disclosure, page.width - 2 * M, 8)) {
+      lines.push(text(M, y, 8, line, page));
+      y += 0.34;
+    }
+    y += 0.15;
     lines.push(
       text(c1, y, fontSize, "Material", page),
       text(c2, y, fontSize, "Placement", page),
@@ -379,8 +385,8 @@ function bomStreamsV2(tp: GarmentRecipe["techPack"], label: string, page: PageSi
     lines.push(rule(y, page));
     y += 0.6;
   };
-  const startConstruction = (continued: boolean): void => {
-    lines = [text(M, M + 1, 13, `${label} - Construction${continued ? " (continued)" : ""}`, page)];
+  const startConstruction = (): void => {
+    lines = [text(M, M + 1, 13, `${label} - Construction (continued)`, page)];
     y = M + 2.2;
   };
   const nextMaterialsPage = (): void => {
@@ -389,7 +395,7 @@ function bomStreamsV2(tp: GarmentRecipe["techPack"], label: string, page: PageSi
   };
   const nextConstructionPage = (): void => {
     pages.push(lines.join("\n"));
-    startConstruction(true);
+    startConstruction();
   };
 
   startMaterials(false);

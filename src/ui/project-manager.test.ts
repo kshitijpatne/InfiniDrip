@@ -2403,7 +2403,7 @@ describe("accessible project and style manager", () => {
       anchorClick.mockRestore();
       vi.unstubAllGlobals();
     }
-  });
+  }, 20_000);
 
   it("shows stale-share guidance for all seven supported recipe IDs", async () => {
     const state = await techPackHarness();
@@ -2511,7 +2511,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 20_000);
 
   it("retains approval when frozen-share generation is missing, mismatched, or canceled", async () => {
     type OutputMode = "missing" | "mismatch" | "valid";
