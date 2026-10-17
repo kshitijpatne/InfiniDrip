@@ -45,6 +45,8 @@ describe("plausibilityChecks", () => {
     expect(notes[0].level).toBe("warn");
     expect(notes[0].text).toContain("Chest (160 cm)");
     expect(notes[0].text).toContain("60–140");
+    expect(notes[0].text).toContain("Confirm the field and unit");
+    expect(notes[0].text).toContain("not a fit standard");
   });
 
   it("warns below the floor as well as above the ceiling", () => {
@@ -95,6 +97,10 @@ describe("coherenceChecks", () => {
     expect(notes.length).toBeGreaterThanOrEqual(1);
     expect(notes[0].level).toBe("warn");
     expect(notes[0].text).toContain("proportion");
+    expect(notes[0].text).toContain("Shoulder width and chest");
+    expect(notes[0].text).toContain("app check");
+    expect(notes[0].text).toContain("Check both values and units");
+    expect(notes[0].text).toContain("Verified unusual proportions can be valid");
   });
 
   it("warns when the bicep is implausibly large for the chest", () => {
