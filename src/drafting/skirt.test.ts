@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { blockPieces, rolePiece } from "./block";
-import { pieceEdge, edgeStart, edgeEnd } from "./piece";
+import { pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, skirtPanel } from "./skirt";
 import { stitchChecks } from "./stitch";
 import { SKIRT, gradeRun, specSheet } from "./index";
@@ -13,12 +13,41 @@ function allSkirtChecks(b: ReturnType<typeof draftSkirt>) {
 }
 
 describe("draftSkirt", () => {
-  it("drafts a front panel, back panel, and waistband — no sleeve", () => {
+  it("drafts front/back panels and separate on-fold waistband pieces — no sleeve", () => {
     const b = draftSkirt(STANDARD_M);
-    expect(blockPieces(b).map((p) => p.name).sort()).toEqual(["back", "front", "waistband"]);
+    expect(blockPieces(b).map((p) => p.name).sort()).toEqual([
+      "back", "front", "waistbandBack", "waistbandFront",
+    ]);
     const edges = rolePiece(b, "front").edges.map((e) => e.name);
     expect(edges).toEqual(["waist", "sideUpper", "sideLower", "hem", "center"]);
+    expect(rolePiece(b, "waistbandFront").onFold).toBe(true);
+    expect(rolePiece(b, "waistbandBack").onFold).toBe(true);
     expect(() => rolePiece(b, "sleeve")).toThrow(); // structurally not a top
+  });
+
+  it("derives each waistband seam from its matching body's waist interface", () => {
+    const b = draftSkirt(STANDARD_M);
+    for (const [bodyRole, bandRole] of [
+      ["front", "waistbandFront"],
+      ["back", "waistbandBack"],
+    ] as const) {
+      expect(edgeLength(pieceEdge(rolePiece(b, bandRole), "seam")))
+        .toBeCloseTo(edgeLength(pieceEdge(rolePiece(b, bodyRole), "waist")), 6);
+    }
+  });
+
+  it("declares one continuous side zipper path from each band through the upper body seam", () => {
+    const b = draftSkirt(STANDARD_M);
+    const zipper = b.stitches.find((stitch) => stitch.label === "Side zipper path (waistband → hip)")!;
+    expect(zipper.a.edges).toEqual([
+      { piece: "waistbandFront", edge: "side" },
+      { piece: "front", edge: "sideUpper" },
+    ]);
+    expect(zipper.b.edges).toEqual([
+      { piece: "waistbandBack", edge: "side" },
+      { piece: "back", edge: "sideUpper" },
+    ]);
+    expect(allSkirtChecks(b).find((check) => check.name === zipper.label)?.ok).toBe(true);
   });
 
   it("makes the hip wider than the waist (the side seam tapers out)", () => {

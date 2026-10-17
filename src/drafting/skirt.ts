@@ -83,12 +83,10 @@ export const skirtPanel: Component<SkirtPanelParams> = (m, params) => {
   };
 };
 
-/** The skirt's stitches: front/back side seams (each a two-edge interface —
- *  the taper to the hip, then straight to the hem), and the waistband seam
- *  (Phase B5, Slice 57) — front+back's combined waist edges to the
- *  waistband's own "seam" edge, a plain 1:1 match (cut-on-fold doubling
- *  makes both sides the same half-circumference). No parameters needed: one
- *  skirt variant, so this is a plain constant rather than a builder function. */
+/** The skirt's stitches preserve the original panel side-seam check, attach
+ *  separate front/back waistband pieces to their matching body panels, and
+ *  describe the single side zipper path from the band through the upper body
+ *  seam to the hip. */
 const SKIRT_STITCHES: readonly Stitch[] = [
   {
     label: "Side seam (front ↔ back)",
@@ -96,12 +94,24 @@ const SKIRT_STITCHES: readonly Stitch[] = [
     b: iface(edgeRef("back", "sideUpper"), edgeRef("back", "sideLower")),
   },
   {
-    label: "Waistband (front + back ↔ waistband)",
-    // Walk the half-garment waistline center-front → side seam → center-back.
-    // Both panel edges are authored center → side, so the back reference must
-    // reverse to make this ordered junction agree with the side-seam stitch.
+    label: "Waistband (front + back ↔ matching bands)",
+    // Walk center-front → side seam → center-back. Body edges are authored
+    // center-to-side; band seams follow the outline side-to-fold, so reverse
+    // the front band seam and retain the back seam for the same ordered path.
     a: iface(edgeRef("front", "waist"), edgeRef("back", "waist", true)),
-    b: iface(edgeRef("waistband", "seam")),
+    b: iface(edgeRef("waistbandFront", "seam", true), edgeRef("waistbandBack", "seam")),
+  },
+  {
+    label: "Waistband side seam (front ↔ back)",
+    a: iface(edgeRef("waistbandFront", "side")),
+    b: iface(edgeRef("waistbandBack", "side")),
+  },
+  {
+    label: "Side zipper path (waistband → hip)",
+    // The zipper replaces one side seam from the band top to the body hip.
+    // Its two tape sides have matching band + upper-body lengths.
+    a: iface(edgeRef("waistbandFront", "side"), edgeRef("front", "sideUpper")),
+    b: iface(edgeRef("waistbandBack", "side"), edgeRef("back", "sideUpper")),
   },
 ];
 
@@ -109,9 +119,8 @@ export function draftSkirt(m: Measurements): Block {
   return composeBlock(SKIRT_GRAMMAR, m);
 }
 
-/** The waistband receives the measured half-circumference exposed by the two
- * real panel instances. This keeps the dependency in the grammar instead of
- * letting the band quietly re-derive a second waist formula. */
+/** Each band receives the exact seam length exposed by its matching panel.
+ * This keeps the dependency in the grammar instead of re-deriving waist width. */
 export const SKIRT_GRAMMAR = garmentGrammar(
   "skirt",
   [
@@ -123,9 +132,8 @@ export const SKIRT_GRAMMAR = garmentGrammar(
       waistband,
       (context) => ({
         ...WAISTBAND_DEFAULT,
-        targetHalfCircumference:
-          context.interfaceLength("front", "waist") +
-          context.interfaceLength("back", "waist"),
+        frontSeamLength: context.interfaceLength("front", "waist"),
+        backSeamLength: context.interfaceLength("back", "waist"),
       }),
       ["front", "back"],
     ),
@@ -219,20 +227,19 @@ export const SKIRT_POMS: readonly Pom[] = [
 // Phase A3 (Slice 51): both balance notches read off SKIRT_STITCHES' own
 // side-seam interface (index 1 = sideLower, the edge nearest the hem) instead
 // of a second, separately-typed "sideLower" string.
-// Phase B5 (Slice 57): the waistband join point — where front.waist ends and
-// back.waist begins — is likewise read off SKIRT_STITCHES[1] (the waistband
-// stitch) rather than hand-typed. Front gets it at t=1 (end of its own waist
-// edge); back at t=0 (start of its own); the waistband at t=0.5 along its
-// single combined "seam" edge — the same physical point, three names for it.
+// Waistband/body and zipper/body junction notches are read from their stitch
+// interfaces so pattern marks stay aligned with the declared assembly paths.
 const SIDE_SEAM = SKIRT_STITCHES[0];
 const WAISTBAND_SEAM = SKIRT_STITCHES[1];
+const SIDE_ZIPPER = SKIRT_STITCHES[3];
 
 export const SKIRT_NOTCHES: readonly PieceNotches[] = [
   {
     pieceName: "front",
     notches: [
       matchedNotch(SIDE_SEAM, "a", 0.5, 1), // a balance notch at the side
-      matchedNotch(WAISTBAND_SEAM, "a", 1.0, 0), // where the waistband's front half ends
+      matchedNotch(WAISTBAND_SEAM, "a", 1.0, 0), // body side at the front waistband seam
+      matchedNotch(SIDE_ZIPPER, "a", 0.0, 1), // zipper junction at the front waist
     ],
     grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
   },
@@ -241,13 +248,25 @@ export const SKIRT_NOTCHES: readonly PieceNotches[] = [
     notches: [
       matchedNotch(SIDE_SEAM, "b", 0.5, 1),
       matchedNotch(SIDE_SEAM, "b", 0.75, 1), // 2 = back
-      matchedNotch(WAISTBAND_SEAM, "a", 0.0, 1), // where the waistband's back half starts
+      matchedNotch(WAISTBAND_SEAM, "a", 1.0, 1), // body side at the back waistband seam
+      matchedNotch(SIDE_ZIPPER, "b", 0.0, 1), // zipper junction at the back waist
     ],
     grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
   },
   {
-    pieceName: "waistband",
-    notches: [matchedNotch(WAISTBAND_SEAM, "b", 0.5, 0)], // the same front/back join point, on the band itself
-    grainline: { topEdge: "fold", topT: 0.5, bottomEdge: "end", bottomT: 0.5 },
+    pieceName: "waistbandFront",
+    notches: [
+      matchedNotch(WAISTBAND_SEAM, "b", 0.0, 0),
+      matchedNotch(SIDE_ZIPPER, "a", 1.0, 0),
+    ],
+    grainline: { topEdge: "top", topT: 0.5, bottomEdge: "seam", bottomT: 0.5 },
+  },
+  {
+    pieceName: "waistbandBack",
+    notches: [
+      matchedNotch(WAISTBAND_SEAM, "b", 0.0, 1),
+      matchedNotch(SIDE_ZIPPER, "b", 1.0, 0),
+    ],
+    grainline: { topEdge: "top", topT: 0.5, bottomEdge: "seam", bottomT: 0.5 },
   },
 ];

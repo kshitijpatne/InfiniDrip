@@ -123,14 +123,17 @@ describe("assembleTechnicalFlatRoles", () => {
     expect(assembleTechnicalFlatRoles("tee", tee, "FRONT_FLAT").transforms.sleeve).toBeDefined();
     expect(assembleTechnicalFlatRoles("tee", tee, "BACK_FLAT").transforms.sleeve).toBeDefined();
     const skirt = draft(GARMENTS.find((recipe) => recipe.name === "skirt")!);
-    for (const [kind, roleId, bodyT, bandT] of [["FRONT_FLAT", "front", 1, 0.5], ["BACK_FLAT", "back", 0, 1]] as const) {
+    for (const [kind, roleId, bandRoleId] of [
+      ["FRONT_FLAT", "front", "waistbandFront"],
+      ["BACK_FLAT", "back", "waistbandBack"],
+    ] as const) {
       const assembly = assembleTechnicalFlatRoles("skirt", skirt, kind);
       const bodyEdge = skirt.roles[roleId]!.edges.find((edge) => edge.name === "waist")!;
-      const bandEdge = skirt.roles.waistband!.edges.find((edge) => edge.name === "seam")!;
-      expect(assembly.transforms.waistband).toBeDefined();
-      const bodyPoint = edgePoint(bodyEdge, bodyT);
+      const bandEdge = skirt.roles[bandRoleId]!.edges.find((edge) => edge.name === "seam")!;
+      expect(assembly.transforms[bandRoleId]).toBeDefined();
+      const bodyPoint = edgePoint(bodyEdge, 1);
       const bodyViewPoint = transformFlatPoint(bodyPoint, { ...assembly.transforms[roleId]!, mirrorX: false });
-      const bandViewPoint = transformFlatPoint(edgePoint(bandEdge, bandT), { ...assembly.transforms.waistband!, mirrorX: false });
+      const bandViewPoint = transformFlatPoint(edgePoint(bandEdge, 0), { ...assembly.transforms[bandRoleId]!, mirrorX: false });
       expect(Math.hypot(bodyViewPoint.x - bandViewPoint.x, bodyViewPoint.y - bandViewPoint.y)).toBeLessThan(0.3);
     }
   });

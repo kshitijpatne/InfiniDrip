@@ -215,37 +215,54 @@ describe("FITTED_NOTCHES matches the pre-migration hand table exactly", () => {
   });
 });
 
-describe("SKIRT_NOTCHES matches the pre-migration hand table, plus Slice 57's waistband join notches", () => {
-  it("front: side balance notch, plus where the waistband's front half ends", () => {
+describe("SKIRT_NOTCHES aligns side, waistband, and zipper junctions", () => {
+  it("front: side balance notch plus matching waist and zipper junctions", () => {
     const front = SKIRT_NOTCHES.find((r) => r.pieceName === "front")!;
     expect(front.notches).toEqual([
       { edgeName: "sideLower", t: 0.5 },
       { edgeName: "waist", t: 1.0 },
+      { edgeName: "sideUpper", t: 0.0 },
     ]);
   });
 
-  it("back: two side notches at different t (2 = back reference), plus where the waistband's back half starts", () => {
+  it("back: two balance notches plus matching waist and zipper junctions", () => {
     const back = SKIRT_NOTCHES.find((r) => r.pieceName === "back")!;
     expect(back.notches).toEqual([
       { edgeName: "sideLower", t: 0.5 },
       { edgeName: "sideLower", t: 0.75 },
-      { edgeName: "waist", t: 0.0 },
+      { edgeName: "waist", t: 1.0 },
+      { edgeName: "sideUpper", t: 0.0 },
     ]);
   });
 
-  it("waistband: the same front/back join point, on the band's own seam edge", () => {
-    const band = SKIRT_NOTCHES.find((r) => r.pieceName === "waistband")!;
-    expect(band.notches).toEqual([{ edgeName: "seam", t: 0.5 }]);
+  it("front waistband: matching body-side and zipper-to-body junctions", () => {
+    const band = SKIRT_NOTCHES.find((r) => r.pieceName === "waistbandFront")!;
+    expect(band.notches).toEqual([
+      { edgeName: "seam", t: 0.0 },
+      { edgeName: "side", t: 1.0 },
+    ]);
+  });
+
+  it("back waistband: matching body-side and zipper-to-body junctions", () => {
+    const band = SKIRT_NOTCHES.find((r) => r.pieceName === "waistbandBack")!;
+    expect(band.notches).toEqual([
+      { edgeName: "seam", t: 0.0 },
+      { edgeName: "side", t: 1.0 },
+    ]);
   });
 });
 
-describe("SKIRT waistband interface traversal follows the exact side-seam junction", () => {
+describe("SKIRT waistband and zipper interfaces follow matching panel edges", () => {
   it.each([[70, 2], [84, 10], [112, 12]])("joins front/back side endpoints at waist=%i ease=%i", (waist, ease) => {
     const drafted = SKIRT.draft({ ...STANDARD_M, waist, ease });
-    const waistband = drafted.stitches.find((stitch) => stitch.label.startsWith("Waistband"))!;
-    expect(waistband.a.edges).toEqual([
+    const waistJoin = drafted.stitches.find((stitch) => stitch.label.startsWith("Waistband ("))!;
+    expect(waistJoin.a.edges).toEqual([
       { piece: "front", edge: "waist" },
       { piece: "back", edge: "waist", reversed: true },
+    ]);
+    expect(waistJoin.b.edges).toEqual([
+      { piece: "waistbandFront", edge: "seam", reversed: true },
+      { piece: "waistbandBack", edge: "seam" },
     ]);
     const edge = (role: string, name: string) => drafted.roles[role]!.edges.find((candidate) => candidate.name === name)!;
     const frontSide = edgeStart(edge("front", "sideUpper"));
@@ -255,6 +272,17 @@ describe("SKIRT waistband interface traversal follows the exact side-seam juncti
     expect(frontWaist).toEqual(frontSide);
     expect(backWaist).toEqual(backSide);
     expect(frontSide).toEqual(backSide);
+
+    const zipper = drafted.stitches.find((stitch) => stitch.label === "Side zipper path (waistband → hip)")!;
+    expect(zipper.a.edges).toEqual([
+      { piece: "waistbandFront", edge: "side" },
+      { piece: "front", edge: "sideUpper" },
+    ]);
+    expect(zipper.b.edges).toEqual([
+      { piece: "waistbandBack", edge: "side" },
+      { piece: "back", edge: "sideUpper" },
+    ]);
+    expect(interfaceLength(drafted, zipper.a)).toBeCloseTo(interfaceLength(drafted, zipper.b), 6);
   });
 });
 
@@ -312,12 +340,14 @@ describe("PRODUCTION skirt stitches reproduce the golden master exactly", () => 
       const actual = stitchChecks(b, b.stitches);
       const expected = SKIRT_GOLDEN_REPORTS[i].checks.slice(0, 1); // side seam only — golden master predates the waistband
       expectSameChecks(actual.slice(0, 1), expected);
-      // Phase B5 (Slice 57): a second stitch-derivable check now exists — the
-      // waistband seam — with no golden-master equivalent (the feature didn't
-      // exist when the golden master was captured). Proven for correctness
-      // directly, not against frozen history.
-      expect(actual[1].name).toBe("Waistband (front + back ↔ waistband)");
+      // The waistband and zipper checks were added after the golden master;
+      // verify their live results directly without moving the baseline.
+      expect(actual[1].name).toBe("Waistband (front + back ↔ matching bands)");
       expect(actual[1].ok).toBe(true);
+      expect(actual[2].name).toBe("Waistband side seam (front ↔ back)");
+      expect(actual[2].ok).toBe(true);
+      expect(actual[3].name).toBe("Side zipper path (waistband → hip)");
+      expect(actual[3].ok).toBe(true);
     });
   });
 });
@@ -335,6 +365,6 @@ describe("what's deliberately NOT a stitch (panel properties) — still correct 
     const b = SKIRT.draft(STANDARD_M);
     const panel = SKIRT.checks(b, STANDARD_M);
     expect(panel.map((r) => r.name)).toEqual(["Hem square to the fold", "Waist square to the fold"]);
-    expect(b.stitches).toHaveLength(2); // the side seam, plus the waistband seam (Slice 57)
+    expect(b.stitches).toHaveLength(4); // body side seam, waist join, waistband side seam, zipper path
   });
 });

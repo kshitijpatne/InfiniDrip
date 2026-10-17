@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
-import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
+import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -62,6 +62,25 @@ describe("Tank fabric tech-pack selection", () => {
     const knit = TANK.techPackForFabric!({ name: "Cotton jersey", family: "knit", stretchPercent: 25 });
     expect(woven.construction).toContain("Bind the neckline and both armholes with self-fabric binding.");
     expect(knit).toEqual(TANK.techPack);
+  });
+});
+
+describe("Skirt side-opening tech pack", () => {
+  it("specifies one continuous side zipper and removes the old hook closure", () => {
+    const zipper = SKIRT.techPack.bom.find((row) => row.material === "Invisible zip");
+    expect(zipper).toEqual({
+      material: "Invisible zip",
+      placement: "One side seam, waistband top to hip",
+      qty: "1",
+    });
+    expect(SKIRT.techPack.bom.some((row) => /button|hook|bar/i.test(row.material))).toBe(false);
+    expect(SKIRT.techPack.construction).toEqual([
+      "Overlock the exposed raw edges of the panels and waistband pieces.",
+      "Join each waistband to its matching front or back panel waist edge, matching the center fold and side endpoint.",
+      "Install one invisible zipper in a side opening, continuing from the waistband top through the upper skirt side seam to the hip notch.",
+      "Sew the opposite side seam from waistband to hem; close the zipper-side seam from the hip notch to the hem and secure the zipper end.",
+      "Turn up and hem the skirt.",
+    ]);
   });
 });
 

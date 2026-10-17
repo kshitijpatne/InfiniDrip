@@ -853,7 +853,8 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
       message: `${issue.message} Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.`,
     })));
   }
-  if (recipe.name === "skirt" && input.placements.some((placement) => placement.pieceRole === "waistband")) {
+  if (recipe.name === "skirt" && input.placements.some((placement) =>
+    ["waistband", "waistbandFront", "waistbandBack"].includes(placement.pieceRole))) {
     issues.push({ stage: "overlay", sourceId: "style:artwork:waistband",
       message: "Artwork targeting the Skirt waistband is withheld until its face-specific segment can be clipped without crossing the side-seam boundary. Reposition it on the front or back panel." });
   }

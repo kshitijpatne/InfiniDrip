@@ -77,7 +77,7 @@ export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatR
     [shell("front"), shell("sleeve"), overlay("pocket"), overlay("outerStand"), interior("innerStand"), overlay("underCollar"), overlay("upperCollar"), overlay("buttonholePlacket"), overlay("buttonPlacket"), overlay("sleeveBand")],
     [shell("back"), shell("yoke"), shell("sleeve"), overlay("outerStand"), interior("innerStand"), overlay("underCollar"), overlay("upperCollar"), overlay("sleeveBand")],
     "front"),
-  skirt: makeMapping("skirt", [shell("front"), overlay("waistband")], [shell("back"), overlay("waistband")], "front", "back"),
+  skirt: makeMapping("skirt", [shell("front"), overlay("waistbandFront")], [shell("back"), overlay("waistbandBack")], "front", "back"),
   trouser: makeMapping("trouser",
     [shell("frontLeft"), shell("frontRight"), overlay("waistband"), interiorBehind("flyUnderlap", "frontLeft"), interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
     [shell("backLeft"), shell("backRight"), overlay("waistband"), interior("flyUnderlap"), interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
