@@ -83,12 +83,5 @@ const TEE_BACK_ANCHORS: Readonly<Partial<Record<number, (block: Block) => Point>
  * vertices. `TSHIRT_POMS` remains front-only for shared Polo table methods. */
 export const TEE_POMS: readonly Pom[] = TSHIRT_POMS.map((pom, index) => {
   const backAnchor = TEE_BACK_ANCHORS[index];
-  if (index === 0) {
-    return {
-      ...pom,
-      modeledLabel: "Modeled chest circumference",
-      ...(backAnchor ? { backAnchor } : {}),
-    };
-  }
   return backAnchor ? { ...pom, backAnchor } : pom;
 });

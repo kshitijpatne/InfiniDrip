@@ -267,9 +267,10 @@ describe("exportTechPackV2ForGradePlan", () => {
 
     const spec = shownText(streams.find((stream) => stream.includes("size columns 1-3"))!);
     expect(spec).toContain(note);
-    const specRow = spec.indexOf(chestPom.modeledLabel!);
+    const modeledChestLabel = "Modeled chest circumference";
+    const specRow = spec.indexOf(modeledChestLabel);
     expect(spec.slice(specRow, specRow + 5)).toEqual([
-      chestPom.modeledLabel, "1.3", "N/A", String(chestPom.measure(run[1]!.block)), String(chestPom.measure(run[2]!.block)),
+      modeledChestLabel, "1.3", "N/A", String(chestPom.measure(run[1]!.block)), String(chestPom.measure(run[2]!.block)),
     ]);
 
     const fitStream = streams.find((stream) => stream.includes("(Tee - S - Fit Record)"))!;
@@ -296,7 +297,8 @@ describe("exportTechPackV2ForGradePlan", () => {
     for (const pom of TEE.poms) {
       const raw = String(pom.measure(editedBlock));
       expect(fit[fit.indexOf(shown(pom.label)) + 2]).toBe(`${raw} cm`);
-      expect(spec[spec.indexOf(shown(pom.modeledLabel ?? pom.label)) + 2]).toBe(raw);
+      const displayLabel = pom.label === "Body chest (finished)" ? "Modeled chest circumference" : pom.label;
+      expect(spec[spec.indexOf(shown(displayLabel)) + 2]).toBe(raw);
     }
     const printed = (label: string): number => Number(fit[fit.indexOf(label) + 2]!.replace(/ cm$/, ""));
     // Independent oracle from the authored edit inputs: derive() drafts the

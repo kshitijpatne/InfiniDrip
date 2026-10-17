@@ -189,7 +189,7 @@ export function evaluateGradePlanRun(
     }
     const poms = plan.targets.filter((target) => target.kind === "pom").map((target): GradePlanPomResult => {
       const pom = recipe.poms.find((candidate) => `pom.${recipe.name}.${encodeURIComponent(candidate.label)}` === target.targetId);
-      const displayLabel = recipe.name === "tee" && pom ? modeledPomLabel(pom) : target.label;
+      const displayLabel = pom ? modeledPomLabel(pom, recipe.name === "tee") : target.label;
       const exception = planException(plan, target.targetId, size.label);
       const delta = deltaFor(target, size.label);
       if (exception) return {
@@ -200,7 +200,7 @@ export function evaluateGradePlanRun(
       // applicable POM; incomplete rows exit at gradePlanCompletionIssues.
       const expected = target.baseValue + delta!;
       if (!pom || !block || expected === null || !Number.isFinite(expected)) {
-        issues.push(`${target.label} at ${size.label} has no computable target and drafted POM.`);
+        issues.push(`${displayLabel} at ${size.label} has no computable target and drafted POM.`);
         return {
           targetId: target.targetId, label: target.label, displayLabel, unit: target.unit,
           expected, actual: null, difference: null, exceptionReason: null, matches: false,
@@ -210,13 +210,13 @@ export function evaluateGradePlanRun(
         const actual = pom.measure(block);
         const difference = actual - expected;
         const matches = Number.isFinite(actual) && difference === 0;
-        if (!matches) issues.push(`${target.label} at ${size.label}: target ${expected} ${target.unit}, generated ${actual} ${target.unit}, difference ${difference} ${target.unit}.`);
+        if (!matches) issues.push(`${displayLabel} at ${size.label}: target ${expected} ${target.unit}, generated ${actual} ${target.unit}, difference ${difference} ${target.unit}.`);
         return {
           targetId: target.targetId, label: target.label, displayLabel, unit: target.unit,
           expected, actual, difference, exceptionReason: null, matches,
         };
       } catch (error) {
-        issues.push(error instanceof Error ? `${target.label} at ${size.label}: ${error.message}` : `${target.label} at ${size.label}: POM could not be measured.`);
+        issues.push(error instanceof Error ? `${displayLabel} at ${size.label}: ${error.message}` : `${displayLabel} at ${size.label}: POM could not be measured.`);
         return {
           targetId: target.targetId, label: target.label, displayLabel, unit: target.unit,
           expected, actual: null, difference: null, exceptionReason: null, matches: false,

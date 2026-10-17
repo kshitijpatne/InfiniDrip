@@ -675,7 +675,7 @@ export function exportTechPackV2ForGradePlan(
   // edited) block. An approved not-applicable cell is null and its measure
   // callback is never invoked: the POM may not exist on that size's geometry.
   const rows: GradePlanSpecRow[] = recipe.poms.map((pom) => ({
-    label: recipe.name === "tee" ? modeledPomLabel(pom) : pom.label,
+    label: modeledPomLabel(pom, recipe.name === "tee"),
     values: run.map((size) => notApplicable(size.label, pom.label) ? null : pom.measure(size.block)),
     tolerance: pom.tolerance,
   }));

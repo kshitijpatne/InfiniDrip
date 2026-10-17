@@ -293,6 +293,14 @@ describe("approved grade-plan drafting and exact reconciliation", () => {
     const pom = result.sizes[0]!.poms.find((entry) => entry.targetId === firstPom.targetId)!;
     expect(pom).toMatchObject({ expected: firstPom.baseValue + 0.01, difference: expect.any(Number), matches: false });
     expect(result.sizes[0]!.issues.join(" ")).toContain("target");
+    if (recipe.name === "tee" && firstPom.label === "Body chest (finished)") {
+      expect(pom.displayLabel).toBe("Modeled chest circumference");
+      expect(result.sizes[0]!.issues.join(" ")).toContain("Modeled chest circumference at S");
+      expect(result.sizes[0]!.issues.join(" ")).not.toContain("Body chest (finished) at S");
+      const rendered = gradePlanRunMarkup(result);
+      expect(rendered).toContain("Modeled chest circumference at S");
+      expect(rendered).not.toContain("Body chest (finished) at S");
+    }
   });
 
   it("blocks a declared size when shared measurement coherence warns", async () => {
