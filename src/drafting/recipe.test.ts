@@ -68,7 +68,19 @@ describe("Tank fabric tech-pack selection", () => {
 describe("Skirt Tech Pack construction consistency", () => {
   it("places the zipper on an existing side seam and matches the waistband button closure", () => {
     const bomText = SKIRT.techPack.bom.map((row) => `${row.material} — ${row.placement}`).join(" ");
-    const constructionText = SKIRT.techPack.construction.join(" ");
+    const constructionSteps = SKIRT.techPack.construction;
+    const constructionText = constructionSteps.join(" ");
+    const zipperStep = constructionSteps.findIndex((step) => step.includes("Insert the invisible zip"));
+    const oppositeSeamStep = constructionSteps.findIndex((step) => step.includes("Sew the opposite side seam"));
+    const waistbandStep = constructionSteps.findIndex((step) => step.includes("Attach the interfaced waistband"));
+    const buttonStep = constructionSteps.findIndex((step) => step.includes("Finish the waistband"));
+    const hemStep = constructionSteps.findIndex((step) => step.includes("Turn up and hem the skirt"));
+
+    expect([zipperStep, oppositeSeamStep, waistbandStep, buttonStep, hemStep].every((index) => index >= 0)).toBe(true);
+    expect(zipperStep).toBeLessThan(oppositeSeamStep);
+    expect(oppositeSeamStep).toBeLessThan(waistbandStep);
+    expect(waistbandStep).toBeLessThan(buttonStep);
+    expect(buttonStep).toBeLessThan(hemStep);
 
     expect(SKIRT.techPack.bom).toContainEqual({
       material: "Invisible zip",
