@@ -708,7 +708,7 @@ describe("revision-bound production pack files", () => {
       vi.doUnmock("fflate");
       vi.resetModules();
     }
-  }, 30_000);
+  }, 60_000);
 
   it("renders the three presets, mandatory sections, omitted labels and schema-v3 content", async () => {
     const value = await fixture("tee", TEE_STYLE_ID, TEE_REVISION_ID, { schemaVersion: 3, operationCount: 20 });

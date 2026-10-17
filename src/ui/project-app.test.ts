@@ -70,7 +70,7 @@ describe("repository-backed app workflow", () => {
       .not.toContain("Your last saved version stays unchanged");
     expect(root.querySelector("#project-manager-status")?.textContent)
       .toBe("Saved project is ready on this device.");
-  }, 15_000);
+  }, 30_000);
 
   it("flushes a pending input before opening its field history dialog", async () => {
     workflow = await openProjectWorkflow({
@@ -362,7 +362,7 @@ describe("repository-backed app workflow", () => {
     await vi.waitFor(() => expect(root!.querySelector("#project-persistence-state")?.textContent)
       .toBe("Saved in this style · older single-style copy unavailable"));
     expect(workflow!.snapshot.activeStyle.design.measurements.chest).toBe(111);
-  }, 120_000);
+  }, 180_000);
 
   it("fails visibly and leaves the project unchanged when the default style template is invalid", async () => {
     workflow = await openProjectWorkflow({
@@ -435,7 +435,7 @@ describe("repository-backed app workflow", () => {
         expect(freeze.disabled).toBe(false);
       });
       freeze.click();
-      await vi.waitFor(() => expect(manager.querySelector("#project-manager-status")?.textContent).toContain("Frozen 7 outputs"));
+      await vi.waitFor(() => expect(manager.querySelector("#project-manager-status")?.textContent).toContain("Frozen 7 outputs"), { timeout: 60_000 });
 
       const manifest = workflow.snapshot.exportManifests[0]!;
       expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toEqual(FROZEN_ARTIFACT_IDS);

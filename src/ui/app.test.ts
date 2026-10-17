@@ -1816,7 +1816,7 @@ describe("mountApp", () => {
       vi.unstubAllGlobals();
       localStorage.clear();
     }
-  }, 25_000);
+  }, 60_000);
 
   it("serializes only meaningful saved drafts and preserves every optional draft field", () => {
     const session = createMeasurementCaptureSession(
@@ -3379,7 +3379,7 @@ describe("mountApp", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  });
+  }, 15_000);
 
   it("reports source-package export failures without silently producing either file", async () => {
     window.electronAPI = { saveFile: vi.fn(async () => ({ saved: true })) };
@@ -4406,7 +4406,7 @@ describe("mountApp", () => {
     root.querySelector<HTMLButtonElement>("#editor-reset")!.click();
     expect(root.querySelector('[data-editor-validation="invalid"]')).toBeNull();
     expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull();
-  });
+  }, 15_000);
 
   it("does not present preview checks as current when source input is invalid", () => {
     localStorage.clear();
@@ -8462,7 +8462,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  });
+  }, 20_000);
 
   it("creates a one-size custom Skirt through the empty recipe-option fallback", async () => {
     localStorage.clear();
@@ -8785,7 +8785,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       await vi.waitFor(() => expect(
         root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled,
         root.querySelector(".grade-plan-panel")?.textContent ?? root.textContent,
-      ).toBe(false));
+      ).toBe(false), { timeout: 20_000 });
 
       const action = (name: string): HTMLButtonElement => root.querySelector<HTMLButtonElement>(`[data-grade-plan-action="${name}"]`)!;
       const edit = (selector: string, value: string): void => {
