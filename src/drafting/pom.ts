@@ -44,6 +44,8 @@ export function spanY(piece: Piece, a: PointRef, b: PointRef): number {
 /** A point of measure: a label and how to read it off a drafted block, in cm. */
 export interface Pom {
   readonly label: string;
+  /** Display label for geometry-derived output when `label` names a physical-garment check. */
+  readonly modeledLabel?: string;
   readonly measure: (block: Block) => number;
   /** Optional source point on the mapped front role for FRONT_FLAT callouts. */
   readonly anchor?: (block: Block) => Point;
@@ -81,6 +83,16 @@ export interface Pom {
    * number it wasn't given).
    */
   readonly tolerance?: number;
+}
+
+/** The label to use where a POM value is calculated from a digital draft. */
+export function modeledPomLabel(pom: Pom): string {
+  return pom.modeledLabel ?? pom.label;
+}
+
+/** Clone only POMs whose calculated-output label differs from the physical POM name. */
+export function withModeledPomLabels(poms: readonly Pom[], enabled = true): Pom[] {
+  return poms.map((pom) => !enabled || pom.modeledLabel === undefined ? pom : { ...pom, label: pom.modeledLabel });
 }
 
 export interface SpecRow {

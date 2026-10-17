@@ -3,7 +3,7 @@ import { STANDARD_M } from "./measurements";
 import { gradeRun } from "./grading";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { draftTshirt } from "./tshirt";
-import { seam, spanX, spanY, specSheet, Pom } from "./pom";
+import { modeledPomLabel, seam, spanX, spanY, specSheet, Pom, withModeledPomLabels } from "./pom";
 import { TEE_POMS, TSHIRT_POMS } from "./tshirt-pom";
 import { rolePiece } from "./block";
 
@@ -69,6 +69,26 @@ describe("TEE_POMS source-backed back anchors", () => {
       expect(TEE_POMS.find((pom) => pom.label === "Armhole (front + back)")?.backAnchor).toBeUndefined();
     }
     expect(TSHIRT_POMS.every((pom) => pom.backAnchor === undefined)).toBe(true);
+  });
+});
+
+describe("modeled POM labels", () => {
+  it("uses a Tee-only calculated label while preserving canonical POM names", () => {
+    const teeChest = TEE_POMS[0]!;
+    const sharedChest = TSHIRT_POMS[0]!;
+    const modeled = withModeledPomLabels(TEE_POMS);
+
+    expect(teeChest.label).toBe("Body chest (finished)");
+    expect(teeChest.modeledLabel).toBe("Modeled chest circumference");
+    expect(modeledPomLabel(teeChest)).toBe("Modeled chest circumference");
+    expect(modeled[0]!.label).toBe("Modeled chest circumference");
+    expect(modeled[0]!.modeledLabel).toBe("Modeled chest circumference");
+    expect(teeChest.label).toBe("Body chest (finished)");
+    expect(sharedChest.modeledLabel).toBeUndefined();
+    expect(modeledPomLabel(sharedChest)).toBe("Body chest (finished)");
+    expect(withModeledPomLabels(TSHIRT_POMS)[0]!.label).toBe("Body chest (finished)");
+    expect(withModeledPomLabels(TEE_POMS, false)[0]!.label).toBe("Body chest (finished)");
+    expect(modeled.slice(1)).toEqual(TEE_POMS.slice(1));
   });
 });
 

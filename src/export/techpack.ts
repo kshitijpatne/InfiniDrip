@@ -34,6 +34,8 @@ import {
   SpecRow,
   gradeRun,
   specSheet,
+  modeledPomLabel,
+  withModeledPomLabels,
   blockPieces,
   NO_ALLOWANCE,
   sampleSpec,
@@ -615,7 +617,7 @@ export function exportTechPackV2(
 ): string {
   const block = recipe.draft(m, options);
   const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
-  const rows = specSheet(graded, recipe.poms);
+  const rows = specSheet(graded, withModeledPomLabels(recipe.poms, recipe.name === "tee"));
   const sizes = graded.map((g) => g.label);
   return assemblePdf(
     [
@@ -673,14 +675,14 @@ export function exportTechPackV2ForGradePlan(
   // edited) block. An approved not-applicable cell is null and its measure
   // callback is never invoked: the POM may not exist on that size's geometry.
   const rows: GradePlanSpecRow[] = recipe.poms.map((pom) => ({
-    label: pom.label,
+    label: recipe.name === "tee" ? modeledPomLabel(pom) : pom.label,
     values: run.map((size) => notApplicable(size.label, pom.label) ? null : pom.measure(size.block)),
     tolerance: pom.tolerance,
   }));
   // The Fit Record reuses the base column rather than calling sampleSpec():
   // that would redraft an unedited recipe block and round to 0.1 cm.
-  const fitRecord: FitRecordRow[] = rows.map((row) => ({
-    label: row.label, value: row.values[baseIndex], tolerance: row.tolerance,
+  const fitRecord: FitRecordRow[] = recipe.poms.map((pom, index) => ({
+    label: pom.label, value: rows[index]!.values[baseIndex], tolerance: pom.tolerance,
   }));
   const exceptionLines = pomExceptions.flatMap((exception) => [
     ...wrapPackText(`${exception.sizeLabel} - ${exception.pomLabel} - NOT APPLICABLE`, page.width - 2 * M, 9)
