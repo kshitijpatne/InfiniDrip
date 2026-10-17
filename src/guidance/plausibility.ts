@@ -81,8 +81,9 @@ export function plausibilityChecks(
     return {
       level: "warn" as const,
       field: key,
-      text: `${b.label} (${m[key]} cm) is outside the usual range for an adult garment ` +
-            `(${b.min}–${b.max} cm). Double-check the measurement.`,
+      text: `${b.label} (${m[key]} cm) is outside the app's broad plausibility range ` +
+            `(${b.min}–${b.max} cm). Confirm the field and unit; correct only a confirmed entry error. ` +
+            `Unusual values can be valid—this is not a fit standard.`,
     };
   });
 }
@@ -121,8 +122,9 @@ export function coherenceChecks(
       return [{
         level: "warn" as const,
         field: r.of,
-        text: `${r.text} (ratio ${ratio.toFixed(2)}, usually ${r.min}–${r.max}). ` +
-              `One of them may be off.`,
+        text: `${r.text} (ratio ${ratio.toFixed(2)}, app check ${r.min}–${r.max}). ` +
+              `Check both values and units; ` +
+              `correct only confirmed entry errors. Verified unusual proportions can be valid.`,
       }];
     }
     return [];
