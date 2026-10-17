@@ -222,6 +222,7 @@ describe("SKIRT_NOTCHES aligns side, waistband, and zipper junctions", () => {
       { edgeName: "sideLower", t: 0.5 },
       { edgeName: "waist", t: 1.0 },
       { edgeName: "sideUpper", t: 0.0 },
+      { edgeName: "sideUpper", t: 1.0 },
     ]);
   });
 
@@ -232,6 +233,7 @@ describe("SKIRT_NOTCHES aligns side, waistband, and zipper junctions", () => {
       { edgeName: "sideLower", t: 0.75 },
       { edgeName: "waist", t: 1.0 },
       { edgeName: "sideUpper", t: 0.0 },
+      { edgeName: "sideUpper", t: 1.0 },
     ]);
   });
 
