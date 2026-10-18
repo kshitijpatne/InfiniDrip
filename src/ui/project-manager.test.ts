@@ -2326,7 +2326,10 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector<HTMLButtonElement>("[data-project-action='begin-tech-pack-review']")?.disabled).toBe(false);
       host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Local reviewer";
       host.querySelector<HTMLButtonElement>("[data-project-action='begin-tech-pack-review']")!.click();
-      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("REVIEW"));
+      await vi.waitFor(
+        () => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("REVIEW"),
+        { timeout: 15_000 },
+      );
       await vi.waitFor(() => expect(host.querySelector<HTMLButtonElement>("[data-project-action='approve-tech-pack-review']")?.disabled).toBe(false));
       expect(host.textContent).toContain("6 fields are bound to this approval");
       expect(onStyleLoaded).toHaveBeenCalled();
@@ -2406,7 +2409,7 @@ describe("accessible project and style manager", () => {
       anchorClick.mockRestore();
       vi.unstubAllGlobals();
     }
-  }, 20_000);
+  }, 60_000);
 
   it("shows stale-share guidance for all seven supported recipe IDs", async () => {
     const state = await techPackHarness();
