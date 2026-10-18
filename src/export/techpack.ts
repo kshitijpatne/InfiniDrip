@@ -414,10 +414,19 @@ function bomStreamsV2(tp: GarmentRecipe["techPack"], label: string, page: PageSi
     y += 0.14;
   }
 
-  if (y + 1.25 > bottom) nextConstructionPage();
+  const constructionWidth = page.width - 2 * M - 1.2;
+  const noticeLines = tp.constructionNotice
+    ? wrapPackText(tp.constructionNotice, constructionWidth, 8)
+    : [];
+  const noticeSpace = noticeLines.length ? noticeLines.length * lineHeight + 0.15 : 0;
+  if (y + 1.25 + noticeSpace > bottom) nextConstructionPage();
   lines.push(text(M, y + 0.35, 13, "Construction", page));
   y += 1.25;
-  const constructionWidth = page.width - 2 * M - 1.2;
+  for (const line of noticeLines) {
+    lines.push(text(M, y, 8, line, page));
+    y += lineHeight;
+  }
+  if (noticeLines.length) y += 0.15;
   tp.construction.forEach((step, index) => {
     const wrapped = wrapPackText(step, constructionWidth, fontSize);
     wrapped.forEach((line, lineIndex) => {
