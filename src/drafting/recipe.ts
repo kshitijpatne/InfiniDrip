@@ -202,8 +202,8 @@ export const TEE: GarmentRecipe = {
     bom: TEE_BOM,
     construction: [
       "Staystitch the front and back necklines.",
-      "Join the shoulder seams, front to back.",
-      "Stabilize both shoulder seams with a knit-compatible tape; test it on a fabric offcut and cut two lengths to match the drafted seams.",
+      "Test the knit-compatible stabilizing tape on a fabric offcut and cut two lengths to match the drafted shoulder seams.",
+      "Join the shoulder seams, front to back, stabilizing each seam with the tape during sewing.",
       "Attach the neckband, matching centre-front and shoulder notches.",
       "Set in the sleeves flat, easing the cap to the armhole.",
       "Close the side and underarm seams in one pass.",

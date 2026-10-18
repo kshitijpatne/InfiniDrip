@@ -100,11 +100,16 @@ describe("exportTechPack", () => {
       placement: "Shoulder seams",
       qty: "2 lengths",
     };
-    const instruction = "Stabilize both shoulder seams with a knit-compatible tape; test it on a fabric offcut and cut two lengths to match the drafted seams.";
+    const preparation = "Test the knit-compatible stabilizing tape on a fabric offcut and cut two lengths to match the drafted shoulder seams.";
+    const instruction = "Join the shoulder seams, front to back, stabilizing each seam with the tape during sewing.";
     const teePdf = exportTechPack(TEE, STANDARD_M);
 
     expect(TEE.techPack.bom).toContainEqual(stabilizer);
-    expect(teePdf).toContain("(3. " + pdfString(instruction) + ")");
+    const preparationLine = "(2. " + pdfString(preparation) + ")";
+    const instructionLine = "(3. " + pdfString(instruction) + ")";
+    expect(teePdf).toContain(preparationLine);
+    expect(teePdf).toContain(instructionLine);
+    expect(teePdf.indexOf(preparationLine)).toBeLessThan(teePdf.indexOf(instructionLine));
     expect(teePdf).toContain("(" + pdfString(stabilizer.material) + ")");
     expect(teePdf).toContain("(" + pdfString(stabilizer.placement) + ")");
     expect(teePdf).toContain("(" + pdfString(stabilizer.qty) + ")");
