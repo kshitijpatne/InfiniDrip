@@ -19,7 +19,7 @@ import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
 import { draftTshirt, TEE_GRAMMAR } from "./tshirt";
-import { draftFitted, FITTED_GRAMMAR } from "./fitted";
+import { draftFitted, FITTED_GRAMMAR, FITTED_DART_OPTIONS, fittedGuidance } from "./fitted";
 import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
@@ -213,12 +213,13 @@ export const FITTED: GarmentRecipe = {
   styles: TEE_STYLES,
   draft: draftFitted,
   grammar: FITTED_GRAMMAR,
+  options: FITTED_DART_OPTIONS,
   notches: FITTED_NOTCHES,
   poms: FITTED_POMS,
   grade: TSHIRT_GRADE, // the same body grade drives both garments
   sizes: TSHIRT_SIZES,
   checks: sleevedTopPanelChecks(false),
-  guidance: sleevedTopGuidance,
+  guidance: fittedGuidance,
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
   // draftFitted, like draftTshirt, defaults both panels to NECKLINE_DEFAULT.
