@@ -142,7 +142,12 @@ describe("measurement help catalog", () => {
     expect(chest.limits).toContain("axilla-level Chest Circumference");
     expect(chest.limits).toContain("nipple-level Bust");
     expect(chest.limits).toContain("midpoint of the natural breathing cycle");
-    expect(chest.limits).toContain("not a qualified home/self procedure");
+    expect(chest.limits).toContain("not a fit-qualified home/self path");
+    expect(chest.limits).toContain("A girth does not describe torso shape.");
+    expect(chest.limits).toContain("The derived neckline is a formula, not a measurement.");
+    expect(chest.limits).toContain("Value unconfirmed; repeatability and fit unvalidated.");
+    expect(chest.limits).toContain("Confidence NOT_ASSESSED.");
+    expect(chest.limits).toContain("https://sizekorea.kr/human-info/meas-report?measDegree=8");
     expect(chest.limits).toContain("https://sizekorea.kr/support/pds/view?bbsCntntsSeq=725&currentPageNo=1");
     expect(chest.sources.map((source) => source.id)).toContain("SIZE-KOREA-8TH");
     expect(chest.techniqueQualified).toBe(false);
@@ -153,7 +158,13 @@ describe("measurement help catalog", () => {
     expect(bicep.limits).toContain("axillary level");
     expect(bicep.limits).toContain("perpendicular to the arm axis");
     expect(bicep.limits).toContain("arm hanging at the side");
-    expect(bicep.limits).toContain("not a qualified home/self procedure");
+    expect(bicep.limits).toContain("not a fit-qualified home/self path");
+    expect(bicep.limits).toContain("The app does not record capture side or posture");
+    expect(bicep.limits).toContain("the sleeve is not fit-validated");
+    expect(bicep.limits).toContain("Value unconfirmed; repeatability and fit unvalidated.");
+    expect(bicep.limits).toContain("Confidence NOT_ASSESSED.");
+    expect(bicep.limits).toContain("https://sizekorea.kr/human-info/meas-report?measDegree=8");
+    expect(bicep.limits).toContain("https://sizekorea.kr/support/pds/view?bbsCntntsSeq=725&currentPageNo=1");
     expect(bicep.sources.map((source) => source.id)).toContain("SIZE-KOREA-8TH");
     expect(bicep.techniqueQualified).toBe(false);
 
