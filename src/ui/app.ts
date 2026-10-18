@@ -2323,6 +2323,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     && (customOneSizeStyle()
       ? gradePlanOutputBaseIsSaved() && gradePlanApproved() && currentGradePlanRun().wholeRunReady
       : semanticRunReady());
+  const markerSelectionBlocked = (): boolean => customOneSizeStyle()
+    ? !canExportRun()
+    : recipe.name === "fitted" && !fittedRunClearanceValid();
   const markerAvailabilityTitle = (): string => recipe.name === "fitted" && !customOneSizeStyle()
     && !fittedRunClearanceValid()
       ? fittedRunClearanceNotes()[0]?.text ?? "Every FITTED size must keep its dart opening inside the panel before graded marker estimation."
@@ -2961,7 +2964,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     syncRangeIndicators();
     const markerControl = root.querySelector<HTMLButtonElement>("#nest-marker");
     if (markerControl) {
-      markerControl.disabled = (customOneSizeStyle() || recipe.name === "fitted") && !canExportRun();
+      markerControl.disabled = markerSelectionBlocked();
       markerControl.title = markerAvailabilityTitle();
     }
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
@@ -4268,7 +4271,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const single = root.querySelector<HTMLButtonElement>("#nest-single")!;
   const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
   const setScope = (s: "single" | "marker"): void => {
-    if (s === "marker" && (customOneSizeStyle() || recipe.name === "fitted") && !canExportRun()) {
+    if (s === "marker" && markerSelectionBlocked()) {
       flash(markerAvailabilityTitle(), BLUEPRINT.lineActive);
       return;
     }
@@ -4280,13 +4283,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
     single.setAttribute("aria-pressed", String(s === "single"));
     marker.style.background = s === "marker" ? BLUEPRINT.lineActive : "transparent";
-    marker.disabled = (customOneSizeStyle() || recipe.name === "fitted") && !canExportRun();
+    marker.disabled = markerSelectionBlocked();
     marker.title = markerAvailabilityTitle();
     marker.style.color = s === "marker" ? BLUEPRINT.background : BLUEPRINT.label;
     marker.setAttribute("aria-pressed", String(s === "marker"));
     draw();
   };
-  marker.disabled = (customOneSizeStyle() || recipe.name === "fitted") && !canExportRun();
+  marker.disabled = markerSelectionBlocked();
   marker.title = markerAvailabilityTitle();
   single.addEventListener("click", () => setScope("single"));
   marker.addEventListener("click", () => setScope("marker"));

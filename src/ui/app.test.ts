@@ -4605,6 +4605,13 @@ describe("fitted graded dart clearance", () => {
     localStorage.clear();
     const root = mount();
     clickId(root, "garment-fitted");
+    clickId(root, "view-fabric");
+    const preReviewMarker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
+    expect(preReviewMarker.disabled).toBe(false);
+    preReviewMarker.click();
+    expect(preReviewMarker.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#canvas-host svg")?.innerHTML).toContain("XL FITTED FRONT");
+    expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
     reachExportStage(root);
     clickId(root, "view-fabric");
     const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
