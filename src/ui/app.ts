@@ -2327,7 +2327,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     : recipe.name === "fitted" && !fittedRunClearanceValid();
   const markerAvailabilityTitle = (): string => recipe.name === "fitted" && !customOneSizeStyle()
     && !fittedRunClearanceValid()
-      ? fittedRunClearanceNotes()[0]?.text ?? "Every FITTED size must keep its dart opening inside the panel before graded marker estimation."
+      ? fittedRunClearanceNotes()[0]!.text
     : !customOneSizeStyle()
       ? gradedMarkerAvailabilityTitle(false)
     : canExportRun()
