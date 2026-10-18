@@ -3067,7 +3067,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? renderNest(gradeRun(measurements, recipe.grade, recipe.sizes, recipeForCurrentOutputs().draft, recipeOptions()))
         : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
-      if (customOneSizeStyle() && nestScope === "marker" && !canExportRun()) {
+      if (recipe.name === "fitted" && nestScope === "marker" && !fittedRunClearanceValid()) {
+        canvasContent = `<p role="status">${escapeUiText(markerAvailabilityTitle())}</p>`;
+      } else if (customOneSizeStyle() && nestScope === "marker" && !canExportRun()) {
         canvasContent = `<p role="status">${escapeUiText(!gradePlanOutputBaseIsSaved() && gradePlanState?.plan
           ? gradePlanOutputSaveMessage : currentGradePlanRun().issues[0]!)}</p>`;
       } else if (customOneSizeStyle() && nestScope === "single" && gradePlanSelectedLabel !== null

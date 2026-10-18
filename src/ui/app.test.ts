@@ -44,6 +44,7 @@ import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney, tutorialMarkup } from "./journey";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
+import { DEFAULT_WORKSPACE, saveToStorage } from "./persist";
 import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
@@ -4604,6 +4605,14 @@ describe("fitted graded dart clearance", () => {
     localStorage.clear();
     const root = mount();
     clickId(root, "garment-fitted");
+    reachExportStage(root);
+    clickId(root, "view-fabric");
+    const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
+    expect(marker.disabled).toBe(false);
+    marker.click();
+    expect(marker.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#canvas-host svg")?.innerHTML).toContain("XL FITTED FRONT");
+
     for (const [field, value] of [["length", "53"], ["armholeDepth", "32"]] as const) {
       const input = root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!;
       input.value = value;
@@ -4615,6 +4624,9 @@ describe("fitted graded dart clearance", () => {
     const apex = root.querySelector<HTMLInputElement>('input[data-option="bustApexVertical"]')!;
     apex.value = "20";
     apex.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(marker.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#analysis-host [role='status']")?.textContent).toContain("XS:");
+    expect(root.querySelector("#analysis-host svg")).toBeNull();
     reachExportStage(root);
 
     const size = root.querySelector<HTMLSelectElement>("#export-size")!;
@@ -4625,11 +4637,10 @@ describe("fitted graded dart clearance", () => {
     expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
     expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
     expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
-    const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
     expect(marker.disabled).toBe(true);
     expect(marker.title).toContain("XS:");
     marker.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    expect(marker.getAttribute("aria-pressed")).toBe("false");
+    expect(marker.getAttribute("aria-pressed")).toBe("true");
 
     const base = [...size.options].find((option) => option.textContent === "M")!;
     size.value = base.value;
@@ -4642,6 +4653,30 @@ describe("fitted graded dart clearance", () => {
 
     clickId(root, "garment-tee");
     expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(false);
+    root.remove();
+    localStorage.clear();
+    const fitted = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    expect(saveToStorage(
+      { ...STANDARD_M, length: 53, armholeDepth: 32 },
+      "#4C5A6A",
+      { fitted: { dartIntake: 8, bustApexVertical: 20 } },
+      {
+        ...DEFAULT_WORKSPACE,
+        garment: "fitted",
+        targetStyle: fitted.styles[0]!.name,
+        stretchFabric: "Cotton jersey",
+        view: "fabric",
+        nestScope: "marker",
+      },
+    )).toBe(true);
+    const restored = mount();
+    const restoredMarker = restored.querySelector<HTMLButtonElement>("#nest-marker")!;
+    expect(restoredMarker.disabled).toBe(true);
+    expect(restored.querySelector("#analysis-host [role='status']")?.textContent).toContain("XS:");
+    expect(restored.querySelector("#analysis-host svg")).toBeNull();
+    reachExportStage(restored);
+    clickId(restored, "garment-tee");
+    expect(restored.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(false);
   });
 });
 
