@@ -2299,18 +2299,37 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const selectedOutputStep = (): number => customOneSizeStyle() ? 0 : exportStep;
   const garmentReportForCurrentStyle = (checkRecipe: GarmentRecipe) =>
     garmentReport(checkRecipe, measurements, recipeOptions(), { includeSizeRun: !customOneSizeStyle() });
+  const fittedDartClearanceNotesAt = (sizeMeasurements: Measurements): Note[] =>
+    guide(recipe, sizeMeasurements, recipeOptions()).filter((note) =>
+      note.level === "warn" && note.field === "option-bustApexVertical");
+  const fittedSelectedSizeClearanceValid = (): boolean => recipe.name !== "fitted" || customOneSizeStyle()
+    || fittedDartClearanceNotesAt(gradeMeasurements(measurements, recipe.grade, selectedOutputStep())).length === 0;
+  const fittedRunClearanceNotes = (): Note[] => recipe.name !== "fitted" || customOneSizeStyle()
+    ? []
+    : recipe.sizes.flatMap((size) => fittedDartClearanceNotesAt(
+      gradeMeasurements(measurements, recipe.grade, size.step),
+    ).map((note) => ({ ...note, text: `${size.label}: ${note.text}` })));
+  const fittedRunClearanceValid = (): boolean => fittedRunClearanceNotes().length === 0;
   const canExport = (): boolean => styleReviewed && checkReviewed && baseDesignValid()
+    && fittedSelectedSizeClearanceValid()
     && (customOneSizeStyle()
       ? gradePlanSelectedLabel === null ? semanticSizeReady(0) : gradePlanOutputBaseIsSaved() && gradePlanApproved()
         && selectedGradePlanSize()?.ready === true
         && selectedGradePlanSize()?.poms.every((pom) => pom.exceptionReason === null) === true
       : semanticSizeReady(selectedOutputStep()));
   const canExportRun = (): boolean => styleReviewed && checkReviewed && baseDesignValid()
+    && fittedRunClearanceValid()
     && (customOneSizeStyle()
       ? gradePlanOutputBaseIsSaved() && gradePlanApproved() && currentGradePlanRun().wholeRunReady
       : semanticRunReady());
-  const markerAvailabilityTitle = (): string => !customOneSizeStyle()
-    ? gradedMarkerAvailabilityTitle(false)
+  const markerSelectionBlocked = (): boolean => customOneSizeStyle()
+    ? !canExportRun()
+    : recipe.name === "fitted" && !fittedRunClearanceValid();
+  const markerAvailabilityTitle = (): string => recipe.name === "fitted" && !customOneSizeStyle()
+    && !fittedRunClearanceValid()
+      ? fittedRunClearanceNotes()[0]!.text
+    : !customOneSizeStyle()
+      ? gradedMarkerAvailabilityTitle(false)
     : canExportRun()
       ? "Estimate one garment in each approved declared size; this is a digital fabric-layout estimate."
       : !gradePlanOutputBaseIsSaved() && gradePlanState?.plan ? gradePlanOutputSaveMessage
@@ -2944,7 +2963,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     syncRangeIndicators();
     const markerControl = root.querySelector<HTMLButtonElement>("#nest-marker");
     if (markerControl) {
-      markerControl.disabled = customOneSizeStyle() && !canExportRun();
+      markerControl.disabled = markerSelectionBlocked();
       markerControl.title = markerAvailabilityTitle();
     }
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
@@ -3013,7 +3032,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : pieceFrames(surfaceBaseBlock, currentAllowances());
     const editIssues = semanticOutputIssues();
     const guidanceNotes: Note[] = [
-      ...(sourceCannotDraft ? [] : guide(recipe, measurements, recipeOptions())),
+      ...(sourceCannotDraft ? [] : [
+        ...guide(recipe, measurements, recipeOptions()).filter((note) =>
+          recipe.name !== "fitted" || customOneSizeStyle()
+            || note.field !== "option-bustApexVertical"),
+        ...fittedRunClearanceNotes(),
+      ]),
       ...failedChecks,
       ...(semanticEdits && semanticState?.source.status === "checking"
         ? [{ level: "info" as const, field: "semantic-edit", text: "Verifying the saved edit against the current source. Dependent outputs are paused." }]
@@ -3046,7 +3070,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? renderNest(gradeRun(measurements, recipe.grade, recipe.sizes, recipeForCurrentOutputs().draft, recipeOptions()))
         : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
-      if (customOneSizeStyle() && nestScope === "marker" && !canExportRun()) {
+      if (recipe.name === "fitted" && nestScope === "marker" && !fittedRunClearanceValid()) {
+        canvasContent = `<p role="status">${escapeUiText(markerAvailabilityTitle())}</p>`;
+      } else if (customOneSizeStyle() && nestScope === "marker" && !canExportRun()) {
         canvasContent = `<p role="status">${escapeUiText(!gradePlanOutputBaseIsSaved() && gradePlanState?.plan
           ? gradePlanOutputSaveMessage : currentGradePlanRun().issues[0]!)}</p>`;
       } else if (customOneSizeStyle() && nestScope === "single" && gradePlanSelectedLabel !== null
@@ -4245,7 +4271,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const single = root.querySelector<HTMLButtonElement>("#nest-single")!;
   const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
   const setScope = (s: "single" | "marker"): void => {
-    if (s === "marker" && customOneSizeStyle() && !canExportRun()) {
+    if (s === "marker" && markerSelectionBlocked()) {
       flash(markerAvailabilityTitle(), BLUEPRINT.lineActive);
       return;
     }
@@ -4257,13 +4283,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
     single.setAttribute("aria-pressed", String(s === "single"));
     marker.style.background = s === "marker" ? BLUEPRINT.lineActive : "transparent";
-    marker.disabled = customOneSizeStyle() && !canExportRun();
+    marker.disabled = markerSelectionBlocked();
     marker.title = markerAvailabilityTitle();
     marker.style.color = s === "marker" ? BLUEPRINT.background : BLUEPRINT.label;
     marker.setAttribute("aria-pressed", String(s === "marker"));
     draw();
   };
-  marker.disabled = customOneSizeStyle() && !canExportRun();
+  marker.disabled = markerSelectionBlocked();
   marker.title = markerAvailabilityTitle();
   single.addEventListener("click", () => setScope("single"));
   marker.addEventListener("click", () => setScope("marker"));

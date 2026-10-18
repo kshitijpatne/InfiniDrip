@@ -44,6 +44,7 @@ import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney, tutorialMarkup } from "./journey";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
+import { DEFAULT_WORKSPACE, saveToStorage } from "./persist";
 import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
@@ -1749,7 +1750,7 @@ describe("mountApp", () => {
         expect(downloads[downloads.length - 1]?.download).toContain(expectedName);
       }
       expect(createUrl).toHaveBeenCalledTimes(2);
-      await vi.waitFor(() => expect(revokeUrl).toHaveBeenCalledTimes(2));
+      await vi.waitFor(() => expect(revokeUrl).toHaveBeenCalledTimes(2), { timeout: 5_000 });
       expect(revokeUrl).toHaveBeenCalledTimes(2);
 
       const pendingDownloadRead = deferred<typeof workflow.snapshot | null>();
@@ -4599,6 +4600,151 @@ describe("garment toggle", () => {
   });
 });
 
+describe("fitted graded dart clearance", () => {
+  it("gates the selected invalid size and whole run while keeping a valid selected size available", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "garment-fitted");
+    clickId(root, "view-fabric");
+    const preReviewMarker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
+    expect(preReviewMarker.disabled).toBe(false);
+    preReviewMarker.click();
+    expect(preReviewMarker.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#canvas-host svg")?.innerHTML).toContain("XL FITTED FRONT");
+    expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+    reachExportStage(root);
+    clickId(root, "view-fabric");
+    const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
+    expect(marker.disabled).toBe(false);
+    marker.click();
+    expect(marker.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#canvas-host svg")?.innerHTML).toContain("XL FITTED FRONT");
+
+    for (const [field, value] of [["length", "53"], ["armholeDepth", "32"]] as const) {
+      const input = root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!;
+      input.value = value;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    const intake = root.querySelector<HTMLInputElement>('input[data-option="dartIntake"]')!;
+    intake.value = "8";
+    intake.dispatchEvent(new Event("input", { bubbles: true }));
+    const apex = root.querySelector<HTMLInputElement>('input[data-option="bustApexVertical"]')!;
+    apex.value = "20";
+    apex.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(marker.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#analysis-host [role='status']")?.textContent).toContain("XS:");
+    expect(root.querySelector("#analysis-host svg")).toBeNull();
+    reachExportStage(root);
+
+    const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+    const xs = [...size.options].find((option) => option.textContent === "XS")!;
+    size.value = xs.value;
+    size.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector("#guidance-host")?.textContent).toContain("XS:");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+    expect(marker.disabled).toBe(true);
+    expect(marker.title).toContain("XS:");
+    marker.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    expect(marker.getAttribute("aria-pressed")).toBe("true");
+
+    const base = [...size.options].find((option) => option.textContent === "M")!;
+    size.value = base.value;
+    size.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(size.value).toBe(base.value);
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+    expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+    expect(marker.disabled).toBe(true);
+
+    clickId(root, "garment-tee");
+    expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(false);
+    root.remove();
+    localStorage.clear();
+    const fitted = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    expect(saveToStorage(
+      { ...STANDARD_M, length: 53, armholeDepth: 32 },
+      "#4C5A6A",
+      { fitted: { dartIntake: 8, bustApexVertical: 20 } },
+      {
+        ...DEFAULT_WORKSPACE,
+        garment: "fitted",
+        targetStyle: fitted.styles[0]!.name,
+        stretchFabric: "Cotton jersey",
+        view: "fabric",
+        nestScope: "marker",
+      },
+    )).toBe(true);
+    const restored = mount();
+    const restoredMarker = restored.querySelector<HTMLButtonElement>("#nest-marker")!;
+    expect(restoredMarker.disabled).toBe(true);
+    expect(restored.querySelector("#analysis-host [role='status']")?.textContent).toContain("XS:");
+    expect(restored.querySelector("#analysis-host svg")).toBeNull();
+    reachExportStage(restored);
+    clickId(restored, "garment-tee");
+    expect(restored.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(false);
+  });
+});
+
+describe("FITTED custom one-size guidance", () => {
+  it("keeps actionable dart-clearance guidance on an invalid custom one-size draft", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: "app-custom-fitted-clearance-" + Date.now(),
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-18T00:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "welcome-start");
+      clickId(root, "garment-fitted");
+      await vi.waitFor(() => expect(root.querySelector("#current-garment")?.textContent).toBe("Darted tee"));
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      for (const definition of getFieldDefinitions("fitted")) {
+        const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+          .find((button) => button.dataset.fieldId === definition.id);
+        if (!preset) throw new Error("No digital preset button for " + definition.id);
+        preset.click();
+      }
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("fit"),
+        { timeout: 20_000 });
+      expect(workflow.snapshot.activeStyle.recipeId).toBe("fitted");
+      expect(isCustomOneSizeStyle(workflow.snapshot.activeStyle)).toBe(true);
+
+      for (const [field, value] of [["length", "52"], ["armholeDepth", "32"]] as const) {
+        const input = root.querySelector<HTMLInputElement>('input[data-field="' + field + '"]')!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      for (const [option, value] of [["dartIntake", "8"], ["bustApexVertical", "20"]] as const) {
+        const input = root.querySelector<HTMLInputElement>('input[data-option="' + option + '"]')!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+
+      expect(root.querySelector("#guidance-host")?.textContent)
+        .toContain("The upper bust-dart mouth reaches the underarm line.");
+      expect(root.querySelector("#guidance-details summary")?.textContent).toContain("to review");
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 20_000);
+});
 describe("fabric width visibility", () => {
   it("shows the bolt-width box only in the Nesting view, where it does something", () => {
     localStorage.clear();

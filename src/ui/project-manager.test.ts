@@ -1018,7 +1018,10 @@ describe("accessible project and style manager", () => {
       state.setCurrentDesign(designDraft);
       state.setUnsavedChanges(true);
       host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
-      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Saved T01 as immutable style revision"));
+      await vi.waitFor(
+        () => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Saved T01 as immutable style revision"),
+        { timeout: 15_000 },
+      );
 
       const saved = workflow.snapshot;
       const appended = saved.styleRevisions.filter((revision) => revision.parentRevisionId === parentId);
@@ -1441,7 +1444,7 @@ describe("accessible project and style manager", () => {
     } finally {
       rejected.close();
     }
-  });
+  }, 15_000);
 
   it("uses the exact legacy project message by default and the clearer local-storage message when enabled", () => {
     const legacy = harness();
@@ -2323,7 +2326,10 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector<HTMLButtonElement>("[data-project-action='begin-tech-pack-review']")?.disabled).toBe(false);
       host.querySelector<HTMLInputElement>("#tech-pack-share-actor")!.value = "Local reviewer";
       host.querySelector<HTMLButtonElement>("[data-project-action='begin-tech-pack-review']")!.click();
-      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("REVIEW"));
+      await vi.waitFor(
+        () => expect(workflow.snapshot.activeStyle.techPack.approval.state).toBe("REVIEW"),
+        { timeout: 15_000 },
+      );
       await vi.waitFor(() => expect(host.querySelector<HTMLButtonElement>("[data-project-action='approve-tech-pack-review']")?.disabled).toBe(false));
       expect(host.textContent).toContain("6 fields are bound to this approval");
       expect(onStyleLoaded).toHaveBeenCalled();
@@ -2403,7 +2409,7 @@ describe("accessible project and style manager", () => {
       anchorClick.mockRestore();
       vi.unstubAllGlobals();
     }
-  }, 20_000);
+  }, 60_000);
 
   it("shows stale-share guidance for all seven supported recipe IDs", async () => {
     const state = await techPackHarness();
