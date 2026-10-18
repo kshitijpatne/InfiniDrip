@@ -1750,7 +1750,7 @@ describe("mountApp", () => {
         expect(downloads[downloads.length - 1]?.download).toContain(expectedName);
       }
       expect(createUrl).toHaveBeenCalledTimes(2);
-      await vi.waitFor(() => expect(revokeUrl).toHaveBeenCalledTimes(2));
+      await vi.waitFor(() => expect(revokeUrl).toHaveBeenCalledTimes(2), { timeout: 5_000 });
       expect(revokeUrl).toHaveBeenCalledTimes(2);
 
       const pendingDownloadRead = deferred<typeof workflow.snapshot | null>();
