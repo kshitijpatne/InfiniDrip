@@ -471,6 +471,19 @@ describe("readable draft tech pack", () => {
         expect(pdf).toContain(`(3. ${pdfString("Install one invisible zipper")}`);
         expect(pdf).toContain(`(4. ${pdfString("Sew the opposite side seam")}`);
       }
+      if (recipe.name === "skirt") {
+        const noticeText = "Draft guidance only; verify waistband joins, zipper method, and hip-notch placement before sewing or production.";
+        const constructionPage = pageStreams(pdf).find((stream) =>
+          shownText(stream).some((line) => line.startsWith("1. Overlock the exposed raw edges"))
+        )!;
+        const constructionText = shownText(constructionPage).join(" ");
+        expect(constructionText).toContain(noticeText);
+        expect(constructionText.indexOf(noticeText)).toBeLessThan(
+          constructionText.indexOf("1. Overlock the exposed raw edges")
+        );
+      } else {
+        expect(pdf).not.toContain("Draft guidance only; verify waistband joins, zipper method, and hip-notch placement before sewing or production.");
+      }
       pieces.forEach((piece, index) => {
         expect(pdf).toContain(`(${String(index + 1).padStart(2, "0")} - ${pdfString(piece.name.toUpperCase())})`);
       });

@@ -78,6 +78,8 @@ export interface BomRow {
 export interface TechPack {
   readonly bom: readonly BomRow[];
   readonly construction: readonly string[]; // ordered sew steps
+  /** Optional limitation note rendered immediately before construction steps. */
+  readonly constructionNotice?: string;
 }
 
 export interface GarmentRecipe {
@@ -469,6 +471,7 @@ export const SKIRT: GarmentRecipe = {
   allowances: WOVEN_SKIRT_ALLOWANCES,
   techPack: {
     bom: WOVEN_SKIRT_BOM,
+    constructionNotice: "Draft guidance only; verify waistband joins, zipper method, and hip-notch placement before sewing or production.",
     construction: [
       "Overlock the exposed raw edges of the panels and waistband pieces.",
       "Join each waistband to its matching front or back panel waist edge, matching the center fold and side endpoint.",
