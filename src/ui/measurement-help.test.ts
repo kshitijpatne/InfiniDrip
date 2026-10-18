@@ -142,6 +142,9 @@ describe("measurement help catalog", () => {
     expect(chest.limits).toContain("axilla-level Chest Circumference");
     expect(chest.limits).toContain("nipple-level Bust");
     expect(chest.limits).toContain("midpoint of the natural breathing cycle");
+    expect(chest.limits).toContain("standing");
+    expect(chest.limits).toContain("horizontal path");
+    expect(chest.limits).toContain("level back line");
     expect(chest.limits).toContain("not a fit-qualified home/self path");
     expect(chest.limits).toContain("A girth does not describe torso shape.");
     expect(chest.limits).toContain("The derived neckline is a formula, not a measurement.");
@@ -158,6 +161,7 @@ describe("measurement help catalog", () => {
     expect(bicep.limits).toContain("axillary level");
     expect(bicep.limits).toContain("perpendicular to the arm axis");
     expect(bicep.limits).toContain("arm hanging at the side");
+    expect(bicep.limits).toContain("midpoint of the natural breathing cycle");
     expect(bicep.limits).toContain("not a fit-qualified home/self path");
     expect(bicep.limits).toContain("The app does not record capture side or posture");
     expect(bicep.limits).toContain("the sleeve is not fit-validated");
