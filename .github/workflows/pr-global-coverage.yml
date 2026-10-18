@@ -1,0 +1,47 @@
+name: PR global coverage
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'ops/**'
+      - 'electron/**'
+      - 'public/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vitest.config.ts'
+      - 'tsconfig*.json'
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-global-coverage-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    name: Full suite with 100% coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out PR merge candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Install Chromium for browser tests
+        run: npx playwright install --with-deps chromium
+
+      - name: Run full suite with global coverage
+        run: npm run coverage -- --maxWorkers=2 --minWorkers=2
