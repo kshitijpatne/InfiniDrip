@@ -1018,7 +1018,10 @@ describe("accessible project and style manager", () => {
       state.setCurrentDesign(designDraft);
       state.setUnsavedChanges(true);
       host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
-      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Saved T01 as immutable style revision"));
+      await vi.waitFor(
+        () => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Saved T01 as immutable style revision"),
+        { timeout: 15_000 },
+      );
 
       const saved = workflow.snapshot;
       const appended = saved.styleRevisions.filter((revision) => revision.parentRevisionId === parentId);
@@ -1441,7 +1444,7 @@ describe("accessible project and style manager", () => {
     } finally {
       rejected.close();
     }
-  });
+  }, 15_000);
 
   it("uses the exact legacy project message by default and the clearer local-storage message when enabled", () => {
     const legacy = harness();

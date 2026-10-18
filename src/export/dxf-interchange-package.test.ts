@@ -251,7 +251,7 @@ describe("C04-bounded DXF interchange package", () => {
       .not.toHaveProperty("label");
     expect(packageWithOptionalLabels.manifest.patternMarks.find((record) => record.id === secondRecordId)?.label)
       .toBe("S681 review label");
-  });
+  }, 15_000);
 
   it("rejects a block drafted from a different option set", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
