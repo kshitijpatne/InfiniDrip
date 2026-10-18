@@ -2299,10 +2299,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const selectedOutputStep = (): number => customOneSizeStyle() ? 0 : exportStep;
   const garmentReportForCurrentStyle = (checkRecipe: GarmentRecipe) =>
     garmentReport(checkRecipe, measurements, recipeOptions(), { includeSizeRun: !customOneSizeStyle() });
-  const fittedDartClearanceNotesAt = (sizeMeasurements: Measurements): Note[] => recipe.name === "fitted"
-    ? guide(recipe, sizeMeasurements, recipeOptions()).filter((note) =>
-      note.level === "warn" && note.field === "option-bustApexVertical")
-    : [];
+  const fittedDartClearanceNotesAt = (sizeMeasurements: Measurements): Note[] =>
+    guide(recipe, sizeMeasurements, recipeOptions()).filter((note) =>
+      note.level === "warn" && note.field === "option-bustApexVertical");
   const fittedSelectedSizeClearanceValid = (): boolean => recipe.name !== "fitted" || customOneSizeStyle()
     || fittedDartClearanceNotesAt(gradeMeasurements(measurements, recipe.grade, selectedOutputStep())).length === 0;
   const fittedRunClearanceNotes = (): Note[] => recipe.name !== "fitted" || customOneSizeStyle()
@@ -3035,7 +3034,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const guidanceNotes: Note[] = [
       ...(sourceCannotDraft ? [] : [
         ...guide(recipe, measurements, recipeOptions()).filter((note) =>
-          recipe.name !== "fitted" || note.field !== "option-bustApexVertical"),
+          recipe.name !== "fitted" || customOneSizeStyle()
+            || note.field !== "option-bustApexVertical"),
         ...fittedRunClearanceNotes(),
       ]),
       ...failedChecks,

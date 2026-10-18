@@ -4687,6 +4687,64 @@ describe("fitted graded dart clearance", () => {
   });
 });
 
+describe("FITTED custom one-size guidance", () => {
+  it("keeps actionable dart-clearance guidance on an invalid custom one-size draft", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: "app-custom-fitted-clearance-" + Date.now(),
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-18T00:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "welcome-start");
+      clickId(root, "garment-fitted");
+      await vi.waitFor(() => expect(root.querySelector("#current-garment")?.textContent).toBe("Darted tee"));
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      for (const definition of getFieldDefinitions("fitted")) {
+        const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+          .find((button) => button.dataset.fieldId === definition.id);
+        if (!preset) throw new Error("No digital preset button for " + definition.id);
+        preset.click();
+      }
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("fit"),
+        { timeout: 20_000 });
+      expect(workflow.snapshot.activeStyle.recipeId).toBe("fitted");
+      expect(isCustomOneSizeStyle(workflow.snapshot.activeStyle)).toBe(true);
+
+      for (const [field, value] of [["length", "52"], ["armholeDepth", "32"]] as const) {
+        const input = root.querySelector<HTMLInputElement>('input[data-field="' + field + '"]')!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      for (const [option, value] of [["dartIntake", "8"], ["bustApexVertical", "20"]] as const) {
+        const input = root.querySelector<HTMLInputElement>('input[data-option="' + option + '"]')!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+
+      expect(root.querySelector("#guidance-host")?.textContent)
+        .toContain("The upper bust-dart mouth reaches the underarm line.");
+      expect(root.querySelector("#guidance-details summary")?.textContent).toContain("to review");
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 20_000);
+});
 describe("fabric width visibility", () => {
   it("shows the bolt-width box only in the Nesting view, where it does something", () => {
     localStorage.clear();
