@@ -4599,6 +4599,52 @@ describe("garment toggle", () => {
   });
 });
 
+describe("fitted graded dart clearance", () => {
+  it("gates the selected invalid size and whole run while keeping a valid selected size available", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "garment-fitted");
+    for (const [field, value] of [["length", "53"], ["armholeDepth", "32"]] as const) {
+      const input = root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!;
+      input.value = value;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    const intake = root.querySelector<HTMLInputElement>('input[data-option="dartIntake"]')!;
+    intake.value = "8";
+    intake.dispatchEvent(new Event("input", { bubbles: true }));
+    const apex = root.querySelector<HTMLInputElement>('input[data-option="bustApexVertical"]')!;
+    apex.value = "20";
+    apex.dispatchEvent(new Event("input", { bubbles: true }));
+    reachExportStage(root);
+
+    const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+    const xs = [...size.options].find((option) => option.textContent === "XS")!;
+    size.value = xs.value;
+    size.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector("#guidance-host")?.textContent).toContain("XS:");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+    const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
+    expect(marker.disabled).toBe(true);
+    expect(marker.title).toContain("XS:");
+    marker.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    expect(marker.getAttribute("aria-pressed")).toBe("false");
+
+    const base = [...size.options].find((option) => option.textContent === "M")!;
+    size.value = base.value;
+    size.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(size.value).toBe(base.value);
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+    expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+    expect(marker.disabled).toBe(true);
+
+    clickId(root, "garment-tee");
+    expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(false);
+  });
+});
+
 describe("fabric width visibility", () => {
   it("shows the bolt-width box only in the Nesting view, where it does something", () => {
     localStorage.clear();

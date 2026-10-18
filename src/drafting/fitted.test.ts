@@ -130,9 +130,17 @@ describe("fittedGuidance", () => {
     }));
   });
 
-  it("warns when the lower dart mouth crosses the hem and gives a correction", () => {
-    const measurements = { ...STANDARD_M, length: 32, armholeDepth: 24 };
+  it("does not warn when the lower mouth is beyond nominal length but inside the extended side hem", () => {
+    const measurements = { ...STANDARD_M, length: 52, armholeDepth: 34 };
     const options = { dartIntake: 8, bustApexVertical: 80 };
+    const notes = fittedGuidance(draftFitted(measurements, options), measurements, options);
+
+    expect(notes.filter((note) => note.field === "option-bustApexVertical")).toEqual([]);
+  });
+
+  it("warns when the lower dart mouth reaches the actual side hem and gives a correction", () => {
+    const measurements = { ...STANDARD_M, length: 32, armholeDepth: 24 };
+    const options = { dartIntake: 8, bustApexVertical: 150 };
     const notes = fittedGuidance(draftFitted(measurements, options), measurements, options);
 
     expect(notes).toContainEqual(expect.objectContaining({

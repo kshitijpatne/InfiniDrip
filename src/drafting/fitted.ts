@@ -182,7 +182,7 @@ export function fittedGuidance(block: Block, m: Measurements, options: GarmentOp
       text: "The upper bust-dart mouth reaches the underarm line. Move the apex toward the hem or reduce dart intake; the app will not change either value automatically.",
     });
   }
-  if (apexY + intake / 2 >= m.length) {
+  if (apexY + intake / 2 >= m.length + intake) {
     notes.push({
       level: "warn",
       field: "option-bustApexVertical",
