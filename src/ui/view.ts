@@ -1073,8 +1073,12 @@ export function garmentToggleMarkup(active: string, activeStarterId: string | nu
   const starterCards = STARTER_REGISTRY.entries.map((entry) => {
     const selected = entry.entryId === activeStarterId;
     const limitsId = `starter-limits-${entry.entryId}`;
-    const controls = entry.supportedControls.map((control) =>
-      `<li>${escapeAttr(control.label)}: ${control.min}–${control.max} ${escapeAttr(control.unit)}</li>`).join("");
+    const controls = entry.supportedControls.map((control) => {
+      const classification = control.kind === "measurement" ? "body measurement"
+        : control.kind === "design" ? "design input" : "design option";
+      return "<li>" + escapeAttr(control.label) + " (" + classification + "): "
+        + control.min + "–" + control.max + " " + escapeAttr(control.unit) + "</li>";
+    }).join("");
     return `<article class="starter-entry-card" data-starter-entry="${escapeAttr(entry.entryId)}">` +
       `<button id="starter-${escapeAttr(entry.entryId)}" class="garment-card starter-entry-select" type="button" ` +
       `data-starter-entry-id="${escapeAttr(entry.entryId)}" aria-pressed="${selected}" aria-describedby="${limitsId}">` +

@@ -76,6 +76,11 @@ describe("v4 workspace validation", () => {
     });
     const unknownOrigin = { ...current, workspace: { ...current.workspace, starterOrigin: { ...origin, entryId: "removed-entry" } } };
     expect(deserialize(JSON.stringify(unknownOrigin))).toMatchObject({ ok: false, error: expect.stringContaining("saved starter entry is unavailable") });
+
+    const mismatchedRecipe = { ...current, workspace: { ...current.workspace, garment: "skirt", targetStyle: "Mini skirt" } };
+    expect(deserialize(JSON.stringify(mismatchedRecipe))).toEqual({
+      ok: false, error: "Saved starter origin does not match the selected recipe.",
+    });
   });
   it("round-trips appearance without changing the workspace contract", () => {
     const appearance = { texture: "rib" as const, shine: 35 };
@@ -195,6 +200,16 @@ describe("v4 workspace validation", () => {
       rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
     };
     const valid = JSON.parse(serializeRecovery(recovery));
+    const mismatchedStarterOrigin = {
+      ...valid,
+      workspace: {
+        ...valid.workspace,
+        garment: "skirt",
+        targetStyle: "Mini skirt",
+        starterOrigin: starterOriginForEntry(STARTER_REGISTRY.entries[0]!),
+      },
+    };
+    expect(deserializeRecovery(JSON.stringify(mismatchedStarterOrigin)).ok).toBe(false);
     const legacyRecovery = { ...valid, v: 1 };
     delete legacyRecovery.semanticEdits;
     const migrated = deserializeRecovery(JSON.stringify(legacyRecovery));

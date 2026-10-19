@@ -1,7 +1,7 @@
 export interface StarterControl {
   readonly fieldId: string;
   readonly label: string;
-  readonly kind: "measurement" | "option";
+  readonly kind: "measurement" | "option" | "design";
   readonly unit: "cm";
   readonly min: number;
   readonly max: number;
@@ -53,7 +53,7 @@ export interface StarterOrigin {
 
 const TEE_CLASSIC_ENTRY: StarterEntry = {
   entryId: "tee-classic-custom-v1",
-  entryRevision: "2026-10-19.1",
+  entryRevision: "2026-10-19.2",
   recipeId: "tee",
   recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
   label: "Tee Classic · custom measurements",
@@ -64,13 +64,13 @@ const TEE_CLASSIC_ENTRY: StarterEntry = {
   },
   supportedControls: [
     { fieldId: "chest", label: "Chest", kind: "measurement", unit: "cm", min: 60, max: 160, step: 1, defaultValue: null },
-    { fieldId: "shoulderWidth", label: "Shoulder width", kind: "measurement", unit: "cm", min: 30, max: 70, step: 0.1, defaultValue: null },
-    { fieldId: "bicep", label: "Upper arm", kind: "measurement", unit: "cm", min: 20, max: 60, step: 1, defaultValue: null },
-    { fieldId: "length", label: "Length", kind: "measurement", unit: "cm", min: 59, max: 74, step: 1, defaultValue: null },
+    { fieldId: "shoulderWidth", label: "Shoulder width (biacromial breadth)", kind: "measurement", unit: "cm", min: 30, max: 70, step: 0.1, defaultValue: null },
+    { fieldId: "bicep", label: "Bicep", kind: "measurement", unit: "cm", min: 20, max: 60, step: 1, defaultValue: null },
+    { fieldId: "length", label: "Length", kind: "design", unit: "cm", min: 59, max: 74, step: 1, defaultValue: null },
     { fieldId: "armholeDepth", label: "Armhole depth", kind: "measurement", unit: "cm", min: 12, max: 40, step: 1, defaultValue: null },
     { fieldId: "sleeveLength", label: "Sleeve length", kind: "measurement", unit: "cm", min: 8, max: 70, step: 1, defaultValue: null },
-    { fieldId: "ease", label: "Shared ease", kind: "measurement", unit: "cm", min: 7, max: 12, step: 1, defaultValue: 7 },
-    { fieldId: "chestEase", label: "Chest ease", kind: "option", unit: "cm", min: 7, max: 12, step: 0.5, defaultValue: 7 },
+    { fieldId: "ease", label: "Ease", kind: "design", unit: "cm", min: 7, max: 12, step: 1, defaultValue: 7 },
+    { fieldId: "chestEase", label: "Classic chest ease", kind: "option", unit: "cm", min: 7, max: 12, step: 0.5, defaultValue: 7 },
   ],
   intent: {
     audience: "Adult women aged 20–39 in South Korea; intended design audience, not a representativeness or fit claim.",
@@ -79,13 +79,16 @@ const TEE_CLASSIC_ENTRY: StarterEntry = {
     bodyMaterial: "95/5 cotton-spandex single jersey as design intent; no tested compatibility or numerical stretch/recovery requirement.",
     trimMaterial: "Matching 1×1 rib neckline as design intent; no tested compatibility claim.",
     construction: "Existing Tee draft guidance for home sewing; BOM quantities are estimates.",
-    sizeScope: "One user-entered custom size; no multi-size grade, sewn POM, or tolerance claim.",
+    sizeScope: "One custom-size route. Length is a modeled Tee input, not a body measure or sewn POM; no landmark, grade, or tolerance is claimed.",
   },
   gates: { b1: "pending", physical: "not-validated" },
   limits: [
     "Body measurements are user-entered; the app does not capture or qualify measurement technique.",
     "Displayed geometry and POMs are modeled digital values, not sewn measurements or fit evidence.",
     "No fit-probability, physical-fit, material-compatibility, grading, manufacturing, supplier, or production claim.",
+    "The generic material selector and stretch heuristic do not model the declared 95/5 cotton-spandex intent; 7 cm ease remains a product choice, not a fabric-derived recommendation.",
+    "Exports do not carry this registry entry ID or revision; BOM material names and quantities remain generic recipe estimates.",
+    "This starter selector is unavailable in the separate project custom-one-size workflow.",
     "No garment artwork or aggregate survey data are included; user-imported artwork requires separate rights clearance.",
     "Independent B1 technical review is pending; physical validation has not been performed.",
   ],
@@ -93,7 +96,7 @@ const TEE_CLASSIC_ENTRY: StarterEntry = {
 
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g06-catalog-v1",
+  catalogRevision: "g06-catalog-v2",
   entries: [TEE_CLASSIC_ENTRY],
 };
 
@@ -125,6 +128,10 @@ export function starterOriginForEntry(entry: StarterEntry): StarterOrigin {
   };
 }
 
+const COMPATIBLE_ORIGIN_REVISIONS = [
+  { entryId: "tee-classic-custom-v1", entryRevision: "2026-10-19.1" },
+] as const;
+
 export function starterOriginError(value: unknown): string | null {
   if (value === undefined || value === null) return null;
   if (!isRecord(value) || !hasExactKeys(value, ["entryId", "entryRevision", "recipeId", "recipeRevision", "configurationSnapshot"])) {
@@ -143,7 +150,10 @@ export function starterOriginError(value: unknown): string | null {
     && isRecord(snapshot.options)
     && hasExactKeys(snapshot.options, ["chestEase"])
     && snapshot.options.chestEase === entry.configuration.options.chestEase;
-  if (value.entryRevision !== entry.entryRevision || value.recipeId !== entry.recipeId || value.recipeRevision !== entry.recipeRevision
+  const revisionMatches = value.entryRevision === entry.entryRevision
+    || COMPATIBLE_ORIGIN_REVISIONS.some((compatible) =>
+      compatible.entryId === entry.entryId && compatible.entryRevision === value.entryRevision);
+  if (!revisionMatches || value.recipeId !== entry.recipeId || value.recipeRevision !== entry.recipeRevision
     || !validSnapshot) {
     return "The saved starter revision is unavailable or its configuration snapshot changed; migrate the design explicitly.";
   }
@@ -156,9 +166,13 @@ export function starterControlError(entryId: string | null, fieldId: string, val
   if (!entry) return "The selected starter is unavailable; choose a supported design candidate.";
   const control = entry.supportedControls.find((item) => item.fieldId === fieldId);
   if (!control) return null;
-  if (!Number.isFinite(value)) return `${control.label}: enter a finite number in cm.`;
+  if (!Number.isFinite(value)) return control.label + ": enter a finite number in cm.";
   if (value < control.min || value > control.max) {
-    return `${control.label}: this candidate supports ${control.min}–${control.max} cm.`;
+    return control.label + ": this candidate supports " + control.min + "–" + control.max + " cm.";
+  }
+  const stepsFromMinimum = (value - control.min) / control.step;
+  if (Math.abs(stepsFromMinimum - Math.round(stepsFromMinimum)) > 1e-8) {
+    return control.label + ": use " + control.step + " cm increments from " + control.min + " cm.";
   }
   return null;
 }

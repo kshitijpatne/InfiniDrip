@@ -10135,7 +10135,7 @@ describe("EPIC-19 L02 starter binding", () => {
     const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
     expect(stored.workspace.starterOrigin).toMatchObject({
       entryId: "tee-classic-custom-v1",
-      entryRevision: "2026-10-19.1",
+      entryRevision: "2026-10-19.2",
       recipeId: "tee",
       configurationSnapshot: { targetStyle: "Classic tee", measurements: { ease: 7 }, options: { chestEase: 7 } },
     });
@@ -10157,6 +10157,57 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(rendered);
   });
 
+  it("separates generic fabric guidance from active Tee starter material and ease intent", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-classic-custom-v1");
+    const guidance = root.querySelector("#guidance-host")!.textContent!;
+    expect(guidance).toContain("generic material selector");
+    expect(guidance).toContain("7 cm ease remains a product choice");
+    expect(guidance).not.toContain("Cotton jersey stretches");
+    const chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
+    chestEase.value = "7.25";
+    chestEase.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#error-option-chestEase")!.textContent).toContain("0.5 cm increments");
+    const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+    ease.value = "7.5";
+    ease.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#error-ease")!.textContent).toContain("1 cm increments");
+  });
+
+  it("keeps starter origin as provenance after Tee style change and preserves it on reopen", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-classic-custom-v1");
+    const style = root.querySelector<HTMLSelectElement>("#style-target")!;
+    style.value = "Fitted tee";
+    style.dispatchEvent(new Event("change", { bubbles: true }));
+    const status = root.querySelector<HTMLElement>("#starter-origin-status")!;
+    expect(status.textContent).toContain("Modified from");
+    expect(status.textContent).toContain("Fitted tee");
+    expect(root.querySelector<HTMLButtonElement>("#starter-tee-classic-custom-v1")!.getAttribute("aria-pressed")).toBe("false");
+    const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+    ease.value = "5";
+    ease.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#error-ease")!.textContent).not.toContain("candidate supports");
+    clickId(root, "save-pattern");
+    const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(stored.workspace.targetStyle).toBe("Fitted tee");
+    expect(stored.workspace.starterOrigin.entryRevision).toBe("2026-10-19.2");
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Fitted tee");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent).toContain("Modified from");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent).toContain("Fitted tee");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("5");
+    const reopenedStyle = reopened.querySelector<HTMLSelectElement>("#style-target")!;
+    reopenedStyle.value = "Classic tee";
+    reopenedStyle.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent).toContain("Starting design");
+    expect(reopened.querySelector<HTMLButtonElement>("#starter-tee-classic-custom-v1")!.getAttribute("aria-pressed")).toBe("true");
+    expect(reopened.querySelector<HTMLElement>("#error-ease")!.textContent).toContain("candidate supports");
+  });
   it("flushes pending Tee field history before selecting its same-recipe starter", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);

@@ -157,7 +157,10 @@ function validWorkspace(value: unknown): value is Workspace {
     || typeof value.bodyCroquisView !== "string" || typeof value.exportStep !== "number"
     || typeof value.fabricWidth !== "number" || typeof value.nestScope !== "string") return false;
   const recipe = GARMENTS.find((candidate) => candidate.name === value.garment);
+  const originMatchesGarment = value.starterOrigin === undefined || value.starterOrigin === null
+    || (object(value.starterOrigin) && value.starterOrigin.recipeId === value.garment);
   return (value.starterOrigin === undefined || starterOriginError(value.starterOrigin) === null)
+    && originMatchesGarment
     && recipe !== undefined
     && recipe.styles.some((style) => style.name === value.targetStyle)
     && STRETCH_FABRICS.some((fabric) => fabric.name === value.stretchFabric)
@@ -241,6 +244,9 @@ export function deserialize(json: string): LoadResult {
     }
     const originError = object(w) ? starterOriginError(w.starterOrigin) : null;
     if (originError) return { ok: false, error: originError };
+    if (object(w) && object(w.starterOrigin) && w.starterOrigin.recipeId !== w.garment) {
+      return { ok: false, error: "Saved starter origin does not match the selected recipe." };
+    }
     if (!validWorkspace(w)) {
       return { ok: false, error: "Invalid workspace choices. Check garment, style, material, view, size and fabric width." };
     }

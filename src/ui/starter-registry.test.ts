@@ -15,6 +15,7 @@ describe("Tee Classic starter registry", () => {
     expect(STARTER_REGISTRY.entries).toHaveLength(1);
     expect(entry).toMatchObject({
       entryId: "tee-classic-custom-v1",
+      entryRevision: "2026-10-19.2",
       recipeId: "tee",
       recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
       configuration: { targetStyle: "Classic tee", measurements: { ease: 7 }, options: { chestEase: 7 } },
@@ -26,6 +27,21 @@ describe("Tee Classic starter registry", () => {
     expect(entry.limits.join(" ")).toContain("physical-fit");
     expect(starterEntryById(entry.entryId)).toBe(entry);
     expect(starterEntryById("unknown-entry")).toBeNull();
+    expect(entry.supportedControls.find((control) => control.fieldId === "shoulderWidth"))
+      .toMatchObject({ kind: "measurement", label: "Shoulder width (biacromial breadth)" });
+    expect(entry.supportedControls.find((control) => control.fieldId === "bicep"))
+      .toMatchObject({ kind: "measurement", label: "Bicep" });
+    expect(entry.supportedControls.find((control) => control.fieldId === "ease")).toMatchObject({ kind: "design", label: "Ease" });
+    expect(entry.supportedControls.find((control) => control.fieldId === "length")).toMatchObject({ kind: "design" });
+    expect(entry.limits.join(" ")).toContain("Exports do not carry this registry entry ID or revision");
+    expect(entry.limits.join(" ")).toContain("generic material selector and stretch heuristic do not model");
+    expect(entry.limits.join(" ")).toContain("unavailable in the separate project custom-one-size workflow");
+    const ids = STARTER_REGISTRY.entries.map((candidate) => candidate.entryId);
+    expect(new Set(ids).size).toBe(ids.length);
+    for (const candidate of STARTER_REGISTRY.entries) for (const control of candidate.supportedControls) {
+      expect(control.min).toBeLessThanOrEqual(control.max);
+      expect(control.step).toBeGreaterThan(0);
+    }
   });
 
   it("creates and strictly validates an order-independent persisted origin snapshot", () => {
@@ -40,6 +56,7 @@ describe("Tee Classic starter registry", () => {
     expect(starterOriginError(undefined)).toBeNull();
     expect(starterOriginError(null)).toBeNull();
     expect(starterOriginError(validOrigin)).toBeNull();
+    expect(starterOriginError({ ...validOrigin, entryRevision: "2026-10-19.1" })).toBeNull();
     expect(starterOriginError({
       configurationSnapshot: { options: { chestEase: 7 }, measurements: { ease: 7 }, targetStyle: "Classic tee" },
       recipeRevision: entry.recipeRevision,
@@ -86,5 +103,7 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(entry.entryId, "length", 58)).toContain("59–74 cm");
     expect(starterControlError(entry.entryId, "length", 75)).toContain("59–74 cm");
     expect(starterControlError(entry.entryId, "length", 70)).toBeNull();
+    expect(starterControlError(entry.entryId, "chestEase", 7.25)).toContain("0.5 cm increments");
+    expect(starterControlError(entry.entryId, "ease", 7.5)).toContain("1 cm increments");
   });
 });

@@ -1816,17 +1816,24 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       });
     });
   };
+  const activeStarterEntry = () => {
+    if (!starterOrigin) return null;
+    const entry = starterEntryById(starterOrigin.entryId);
+    return entry && entry.recipeId === recipe.name && entry.configuration.targetStyle === targetStyle
+      ? entry : null;
+  };
   const inputErrors = (): Map<string, string> => {
     const errors = new Map<string, string>();
+    const activeStarterId = activeStarterEntry()?.entryId ?? null;
     for (const field of FIELDS.filter((f) => recipe.fields.includes(f.id))) {
-      const error = starterControlError(starterOrigin?.entryId ?? null, field.id, measurements[field.id])
+      const error = starterControlError(activeStarterId, field.id, measurements[field.id])
         ?? inputError(measurements[field.id], field);
       if (error) errors.set(field.id, error);
     }
     for (const option of activeOptionDefinitions()) {
       const value = recipeOptions()[option.id];
       if (option.optional && value === undefined) continue;
-      const error = starterControlError(starterOrigin?.entryId ?? null, option.id, value as number)
+      const error = starterControlError(activeStarterId, option.id, value as number)
         ?? inputError(value as number, option);
       if (error) errors.set(`option-${option.id}`, error);
     }
@@ -2891,7 +2898,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       if (control.dataset.baseRangeMin === undefined && baseMin !== undefined) control.dataset.baseRangeMin = baseMin;
       if (control.dataset.baseRangeMax === undefined && baseMax !== undefined) control.dataset.baseRangeMax = baseMax;
       const fieldId = input.dataset.field ?? input.dataset.option;
-      const entry = starterOrigin ? starterEntryById(starterOrigin.entryId) : null;
+      const entry = activeStarterEntry();
       const candidateControl = entry?.supportedControls.find((item) => item.fieldId === fieldId);
       const minValue = candidateControl?.min ?? (baseMin === undefined ? undefined : Number(baseMin));
       const maxValue = candidateControl?.max ?? (baseMax === undefined ? undefined : Number(baseMax));
@@ -2954,13 +2961,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   const draw = (): void => {
     const starter = starterOrigin ? starterEntryById(starterOrigin.entryId) : null;
+    const activeStarter = activeStarterEntry();
     const starterStatus = root.querySelector<HTMLElement>("#starter-origin-status")!;
     starterStatus.hidden = starter === null;
-    starterStatus.textContent = starter
-      ? `Starting design: ${starter.label}. B1 review pending; physical validation not performed.`
-      : "";
+    starterStatus.textContent = !starter ? "" : activeStarter
+      ? "Starting design: " + starter.label + ". B1 review pending; physical validation not performed."
+      : "Modified from " + starter.label + " for " + targetStyle
+        + ". Starter-specific limits are inactive; current style validation applies. The original starter remains B1 pending and physical validation has not been performed.";
     root.querySelectorAll<HTMLButtonElement>("[data-starter-entry-id]").forEach((button) => {
-      button.setAttribute("aria-pressed", String(button.dataset.starterEntryId === starterOrigin?.entryId));
+      button.setAttribute("aria-pressed", String(button.dataset.starterEntryId === activeStarter?.entryId));
       button.disabled = customOneSizeStyle();
     });
     teeSelectedTechPackExport.hidden = recipe.name !== "tee";
@@ -3059,7 +3068,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // the object) — without this check both figures would draw it with a
     // short sleeve regardless (Slice 60).
     const hasSleeve = recipe.fields.includes("sleeveLength");
-    const fabricNote: Note = { level: "info", field: "ease", text: fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip) };
+    const activeStarter = activeStarterEntry();
+    const fabricNote: Note = {
+      level: "info",
+      field: "ease",
+      text: activeStarter
+        ? "The generic material selector and stretch heuristic do not model this starter's declared 95/5 cotton-spandex intent; 7 cm ease remains a product choice, not a fabric-derived recommendation. Material compatibility and stretch/recovery have not been tested."
+        : fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip),
+    };
     const checkRecipe = semanticEdits && semanticState?.evaluation?.canExportSize(0)
       ? recipeForCurrentOutputs()
       : recipe;
