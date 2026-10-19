@@ -94,6 +94,45 @@ describe("exportTechPack", () => {
     expect(pdf).toContain(`(1. ${pdfString(TEE.techPack.construction[0])})`);
   });
 
+  it("prints the Tee-only shoulder stabilizer instruction and BOM role", () => {
+    const stabilizer = {
+      material: "Knit-compatible stabilizing tape",
+      placement: "Shoulder seams",
+      qty: "2 lengths",
+    };
+    const preparation = "Test the knit-compatible stabilizing tape on a fabric offcut and cut two lengths to match the drafted shoulder seams.";
+    const instruction = "Join the shoulder seams, front to back, stabilizing each seam with the tape during sewing.";
+    const teePdf = exportTechPack(TEE, STANDARD_M);
+    const selectedSizePdf = exportTechPackV2ForSelectedSize(TEE, {
+      label: "M",
+      measurements: STANDARD_M,
+      options: {},
+      block: TEE.draft(STANDARD_M, {}),
+    });
+
+    expect(TEE.techPack.bom).toContainEqual(stabilizer);
+    const preparationLine = "(2. " + pdfString(preparation) + ")";
+    const instructionLine = "(3. " + pdfString(instruction) + ")";
+    expect(teePdf).toContain(preparationLine);
+    expect(teePdf).toContain(instructionLine);
+    expect(teePdf.indexOf(preparationLine)).toBeLessThan(teePdf.indexOf(instructionLine));
+    expect(teePdf).toContain("(" + pdfString(stabilizer.material) + ")");
+    expect(teePdf).toContain("(" + pdfString(stabilizer.placement) + ")");
+    expect(teePdf).toContain("(" + pdfString(stabilizer.qty) + ")");
+
+    const selectedSizeText = pageStreams(selectedSizePdf).flatMap(shownText).join(" ").replace(/\s+/g, " ");
+    const preparationIndex = selectedSizeText.indexOf(`2. ${preparation}`);
+    const instructionIndex = selectedSizeText.indexOf(`3. ${instruction}`);
+    expect(preparationIndex).toBeGreaterThanOrEqual(0);
+    expect(instructionIndex).toBeGreaterThan(preparationIndex);
+    expect(selectedSizeText).toContain(stabilizer.material);
+    expect(selectedSizeText).toContain(stabilizer.placement);
+    expect(selectedSizeText).toContain(stabilizer.qty);
+
+    expect(FITTED.techPack.bom).not.toContainEqual(stabilizer);
+    expect(TANK.techPack.bom).not.toContainEqual(stabilizer);
+  });
+
   it("draws the sketch outlines as stroked paths", () => {
     expect(pdf).toContain(" m ");
     expect(pdf).toContain(" l ");

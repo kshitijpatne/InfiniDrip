@@ -30,7 +30,7 @@ const BASELINE: Record<string, string> = {
   "tee.svg": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d",
   "tee.dxf": "0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9",
   "tee.pdf": "1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523",
-  "tee.techpack": "6691a28a6cae0baccfe271887c6d4d00a968867fe0628a8e1d1eacd2b8b047d1", // slice 62: neckline curve fix
+  "tee.techpack": "cd8d8aad31c98b3141703d26e118ab52285b3d8cddf574a4d7243053d4a1ac6d", // slice 62 neckline fix; slices 1054-1055 Tee stabilizer BOM and construction sequence
   "fitted.svg": "cd16df87d100a40866e20738f858d3f11fdc3238ba0db88d99ca3a46f981a09c",
   "fitted.dxf": "e2dd0a36ea6d834a0aec470918f4ba2b823136c13998966a8f04ddeda085a8a6",
   "fitted.pdf": "184dcd975bb8067b452370c78748045384bb18fa8f89f7ca1d4a583b9d0190ff",
