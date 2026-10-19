@@ -80,14 +80,14 @@ function panelPair(
   const roles = rolesFor(position);
   const panels = roles.map((role) => {
     const piece = rolePiece(block, role);
-    return '<path data-role="' + role + '" d="' + pieceToPath(piece) + '" fill="' + fill +
+    return '<path data-role="' + role + '" data-edge="ease" d="' + pieceToPath(piece) + '" fill="' + fill +
       '" stroke="' + T.line + '" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>' +
       patternMarksSvg(piece.marks, {
         stroke: T.marker, width: 0.9, pointSize: 0.7, labelSize: 1.45, labelPlacement: "offset",
       });
   }).join("");
-  return '<g transform="translate(' + round(cx) + " " + round(top) + ')"><g data-edge="figure">' +
-    panels + "</g></g>" + txt(cx, top - 3, label);
+  return '<g transform="translate(' + round(cx) + " " + round(top) + ')">' +
+    panels + "</g>" + txt(cx, top - 3, label);
 }
 
 interface TrayLayout {

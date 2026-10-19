@@ -50,7 +50,7 @@ import {
   TROUSER_TECH_PACK,
 } from "./trouser-tables";
 import { trouserGuidance } from "./trouser-guidance";
-import { draftShortsWithComponents, shortsComponentGuidance } from "./shorts-components";
+import { draftShortsWithComponents, SHORTS_GRAMMAR, shortsComponentGuidance } from "./shorts-components";
 import type { ShortsOptions } from "./shorts-contract";
 import { SHORTS_FIELDS, SHORTS_OPTION_DEFINITIONS } from "./shorts-contract";
 import {
@@ -530,6 +530,7 @@ export const SHORTS: GarmentRecipe = {
   fields: SHORTS_FIELDS,
   styles: SHORTS_STYLES,
   draft: (m, options = {}) => draftShortsWithComponents(m, options as Partial<ShortsOptions>),
+  grammar: SHORTS_GRAMMAR,
   notches: SHORTS_NOTCHES,
   poms: SHORTS_POMS,
   grade: SHORTS_GRADE,

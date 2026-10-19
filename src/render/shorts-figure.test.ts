@@ -22,8 +22,12 @@ describe("shorts Body and assembled renderers", () => {
     expect(back.documentElement.getAttribute("data-croquis-view")).toBe("back");
     expect(front.querySelector('[data-role="frontLeft"]')).not.toBeNull();
     expect(front.querySelector('[data-role="frontRight"]')).not.toBeNull();
+    expect(front.querySelectorAll('[data-edge="ease"]')).toHaveLength(2);
+    expect([...front.querySelectorAll('[data-edge="ease"]')]
+      .every((target) => target.closest('[data-edge="figure"]') === null)).toBe(true);
     expect(back.querySelector('[data-role="backLeft"]')).not.toBeNull();
     expect(back.querySelector('[data-role="backRight"]')).not.toBeNull();
+    expect(back.querySelectorAll('[data-edge="ease"]')).toHaveLength(2);
     expect(front.querySelector('[data-dim="thigh"]')?.textContent).toContain("Finished thigh target");
     expect(front.querySelector('[data-edge="option-frontRiseEase"]')).not.toBeNull();
     expect(back.querySelector('[data-edge="option-backRiseEase"]')).not.toBeNull();
@@ -46,6 +50,9 @@ describe("shorts Body and assembled renderers", () => {
     expect(svg.getAttribute("data-garment")).toBe("shorts");
     expect(svg.querySelector("parsererror")).toBeNull();
     expect(svg.getAttribute("viewBox")?.trim().split(/\s+/)).toHaveLength(4);
+    expect(svg.querySelectorAll('[data-edge="ease"]')).toHaveLength(4);
+    expect([...svg.querySelectorAll('[data-edge="ease"]')]
+      .every((target) => target.closest('[data-edge="figure"]') === null)).toBe(true);
     for (const role of [
       "frontLeft", "frontRight", "backLeft", "backRight", "waistband",
       "flyShield", "flyUnderlap", "pocketBagLeft", "pocketBagRight",

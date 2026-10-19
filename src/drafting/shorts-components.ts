@@ -3,6 +3,7 @@ import type { Point } from "../geometry";
 import type { Note } from "../guidance/note";
 import { block } from "./block";
 import type { Block } from "./block";
+import type { Measurements } from "./measurements";
 import type { Edge, Piece } from "./piece";
 import { lineMark, pointMark } from "./pattern-mark";
 import type { PatternMark } from "./pattern-mark";
@@ -14,7 +15,7 @@ import {
 } from "./shorts-contract";
 import type { ShortsOptions } from "./shorts-contract";
 import { edgeRef, iface, markRef } from "./stitch";
-import type { Stitch } from "./stitch";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import { resolveShortsGeometryOptions } from "./shorts-geometry";
 
 const FLY_SHIELD_WIDTH = 3.5;
@@ -168,12 +169,13 @@ function addFrontComponentMarks(
   opening: ShortsPocketOpening,
   flyLength: number,
 ): Block {
+  // draftShortsLegs adds a crease-mark array to every panel before these marks are appended.
   const roles = Object.fromEntries(Object.entries(legs.roles).map(([role, piece]) => {
     if (role === "frontLeft") {
       return [role, {
         ...piece,
         marks: [
-          ...(piece.marks ?? []),
+          ...piece.marks!,
           lineMark("placementLine", "flyEdge", point(0, 0), point(0, flyLength), "front fly edge"),
           lineMark("placementLine", "pocketOpening", opening.start, opening.end, "pocket opening"),
           pointMark("placementPoint", "pocketOpeningStart", opening.start, "pocket start"),
@@ -185,7 +187,7 @@ function addFrontComponentMarks(
       return [role, {
         ...piece,
         marks: [
-          ...(piece.marks ?? []),
+          ...piece.marks!,
           lineMark("placementLine", "flyEdge", point(0, 0), point(0, flyLength), "front fly edge"),
           lineMark("placementLine", "pocketOpening", rightOpening.start, rightOpening.end, "pocket opening"),
           pointMark("placementPoint", "pocketOpeningStart", rightOpening.start, "pocket start"),
@@ -206,61 +208,130 @@ function shortsWaistInterface(): ReturnType<typeof iface> {
   );
 }
 
-function shortsComponentStitches(): Stitch[] {
-  return [
+/** The leg component owns the four panels and front marks used by later joins. */
+const shortsLegsNode = componentNode(
+  "legs",
+  "shorts-legs",
+  (measurements: Measurements, options: ShortsOptions) => {
+    const legs = draftShortsLegs(measurements, options);
+    const opening = shortsPocketOpening(measurements, options);
+    const markedLegs = addFrontComponentMarks(legs, opening, options.flyLength);
+    return {
+      pieces: markedLegs.roles,
+      stitches: markedLegs.stitches,
+      interfaces: {
+        waist: shortsWaistInterface(),
+        flyLeft: iface(markRef("frontLeft", "flyEdge", "left")),
+        flyRight: iface(markRef("frontRight", "flyEdge", "right")),
+        pocketLeft: iface(markRef("frontLeft", "pocketOpening", "left")),
+        pocketRight: iface(markRef("frontRight", "pocketOpening", "right")),
+      },
+    };
+  },
+  (context) => resolveShortsOptions(context.options as Partial<ShortsOptions>),
+);
+
+const shortsWaistbandNode = componentNode(
+  "waistband",
+  "waistband",
+  (_measurements: Measurements, params: ShortsOptions & { readonly targetWaist: number }) => ({
+    pieces: { waistband: draftShortsWaistband(params.targetWaist, params) },
+    stitches: [],
+    interfaces: { bottom: iface(edgeRef("waistband", "bottom")) },
+  }),
+  (context) => ({
+    ...resolveShortsOptions(context.options as Partial<ShortsOptions>),
+    targetWaist: context.interfaceLength("legs", "waist"),
+  }),
+  ["legs"],
+);
+
+const shortsFlyNode = componentNode(
+  "fly",
+  "fly",
+  (_measurements: Measurements, options: ShortsOptions) => {
+    const pieces = draftShortsFly(options);
+    return {
+      pieces: { flyShield: pieces.flyShield, flyUnderlap: pieces.flyUnderlap },
+      stitches: [],
+      interfaces: {
+        underlapShield: iface(edgeRef("flyUnderlap", "shieldEdge")),
+        shieldRight: iface(edgeRef("flyShield", "right")),
+        shieldLeft: iface(edgeRef("flyShield", "left")),
+        underlapFront: iface(edgeRef("flyUnderlap", "frontEdge")),
+      },
+    };
+  },
+  (context) => resolveShortsOptions(context.options as Partial<ShortsOptions>),
+  ["legs"],
+);
+
+const shortsPocketsNode = componentNode(
+  "pockets",
+  "pockets",
+  (measurements: Measurements, options: ShortsOptions) => {
+    const opening = shortsPocketOpening(measurements, options);
+    const left = pocketBagPiece(opening, options.pocketBagDepth, "shorts pocket bag left");
+    return {
+      pieces: {
+        pocketBagLeft: left,
+        pocketBagRight: mirrorPiece(left, "shorts pocket bag right"),
+      },
+      stitches: [],
+      interfaces: {
+        leftOpening: iface(edgeRef("pocketBagLeft", "opening")),
+        rightOpening: iface(edgeRef("pocketBagRight", "opening")),
+      },
+    };
+  },
+  (context) => resolveShortsOptions(context.options as Partial<ShortsOptions>),
+  ["legs"],
+);
+
+/** Named, dependency-ordered composition for the existing nine-piece P0 block. */
+export const SHORTS_GRAMMAR = garmentGrammar(
+  "shorts",
+  [shortsLegsNode, shortsWaistbandNode, shortsFlyNode, shortsPocketsNode],
+  (context) => [
     {
       label: "Waistband (four leg panels ↔ separate waistband)",
-      a: shortsWaistInterface(),
-      b: iface(edgeRef("waistband", "bottom")),
+      a: context.interfaceOf("legs", "waist"),
+      b: context.interfaceOf("waistband", "bottom"),
     },
     {
       label: "Fly underlap ↔ shield",
-      a: iface(edgeRef("flyUnderlap", "shieldEdge")),
-      b: iface(edgeRef("flyShield", "right")),
+      a: context.interfaceOf("fly", "underlapShield"),
+      b: context.interfaceOf("fly", "shieldRight"),
     },
     {
       label: "Left front fly ↔ shield",
-      a: iface(markRef("frontLeft", "flyEdge", "left")),
-      b: iface(edgeRef("flyShield", "left")),
+      a: context.interfaceOf("legs", "flyLeft"),
+      b: context.interfaceOf("fly", "shieldLeft"),
     },
     {
       label: "Right front fly ↔ underlap",
-      a: iface(markRef("frontRight", "flyEdge", "right")),
-      b: iface(edgeRef("flyUnderlap", "frontEdge")),
+      a: context.interfaceOf("legs", "flyRight"),
+      b: context.interfaceOf("fly", "underlapFront"),
     },
     {
       label: "Left pocket opening ↔ bag",
-      a: iface(markRef("frontLeft", "pocketOpening", "left")),
-      b: iface(edgeRef("pocketBagLeft", "opening")),
+      a: context.interfaceOf("legs", "pocketLeft"),
+      b: context.interfaceOf("pockets", "leftOpening"),
     },
     {
       label: "Right pocket opening ↔ bag",
-      a: iface(markRef("frontRight", "pocketOpening", "right")),
-      b: iface(edgeRef("pocketBagRight", "opening")),
+      a: context.interfaceOf("legs", "pocketRight"),
+      b: context.interfaceOf("pockets", "rightOpening"),
     },
-  ];
-}
+  ],
+);
 
-/** Assemble the nine P0 parts. Allowance, notch, grade and export data remain later boundaries. */
+/** Compose the existing nine P0 parts through the registered garment grammar. */
 export function draftShortsWithComponents(
-  measurements: ShortsMeasurements,
+  measurements: Measurements,
   rawOptions: Partial<ShortsOptions> = {},
 ): Block {
-  const options = resolveShortsOptions(rawOptions);
-  const legs = draftShortsLegs(measurements, options);
-  const opening = shortsPocketOpening(measurements, options);
-  const markedLegs = addFrontComponentMarks(legs, opening, options.flyLength);
-  const metrics = shortsMetrics(measurements, options);
-  const fly = draftShortsFly(options);
-  const leftPocket = pocketBagPiece(opening, options.pocketBagDepth, "shorts pocket bag left");
-  const roles = {
-    ...markedLegs.roles,
-    waistband: draftShortsWaistband(metrics.finishedWaist, options),
-    ...fly,
-    pocketBagLeft: leftPocket,
-    pocketBagRight: mirrorPiece(leftPocket, "shorts pocket bag right"),
-  };
-  return block(roles, [...markedLegs.stitches, ...shortsComponentStitches()]);
+  return composeBlock(SHORTS_GRAMMAR, measurements, rawOptions);
 }
 
 function edgeXAtY(edge: Edge, y: number): number[] {
