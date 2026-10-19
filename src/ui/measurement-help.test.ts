@@ -78,8 +78,8 @@ function bodyTextOf(recipeId: string, fieldId: string): string {
 }
 
 describe("measurement help catalog", () => {
-  it("covers every field definition of all seven recipes exactly once", () => {
-    expect(GARMENTS).toHaveLength(7);
+  it("covers every field definition of all eight recipes exactly once", () => {
+    expect(GARMENTS).toHaveLength(8);
     expect(Object.keys(MEASUREMENT_HELP).sort()).toEqual(GARMENTS.map((recipe) => recipe.name).sort());
     for (const recipe of GARMENTS) {
       const definitions = getFieldDefinitions(recipe.name);
@@ -134,6 +134,23 @@ describe("measurement help catalog", () => {
         expect(entry.draftUse.length).toBeGreaterThan(20);
       }
     }
+  });
+
+  it("keeps shorts thigh and length help in finished-target and recipe-control terms", () => {
+    const thigh = measurementHelpFor("shorts", "target.shorts-finished-thigh-girth")!;
+    expect(thigh.semanticKind).toBe("GARMENT_MEASURE");
+    expect(thigh.referenceFrame).toBe("finished-garment");
+    expect(thigh.meaning).toContain("finished shorts thigh-girth target");
+    expect(thigh.draftUse).toContain("finished target directly");
+    expect(thigh.limits).toContain("not a wearer thigh value");
+    expect(thigh.limits).toContain("NOT_ASSESSED");
+
+    const length = measurementHelpFor("shorts", "style.shorts.shorts-inseam")!;
+    expect(length.inputKind).toBe("option");
+    expect(length.draftUse).toContain("vertical distance from the back-crotch station");
+    expect(length.draftUse).toContain("no knee station");
+    expect(length.limits).toContain("45 cm product cap permits lengths that cross the knee");
+    expect(length.limits).toContain("no anatomical knee station, mark, or POM");
   });
 
   it("describes the accepted Tee source methods without prescribing a home procedure", () => {

@@ -3012,6 +3012,101 @@ describe("mountApp", () => {
     expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
   });
 
+  it("integrates shorts controls, woven material, real-role Body views, and assembled output", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "garment-shorts");
+
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton woven");
+    expect(root.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!.value).toBe("20");
+    expect(root.querySelector<HTMLInputElement>('[data-option="hemOpening"]')!.value).toBe("60");
+    expect(root.querySelector<HTMLInputElement>('[data-option="pocketBagDepth"]')!.value).toBe("13");
+    expect(root.querySelector('input[data-field="knee"]')).toBeNull();
+    expect(root.querySelector("#controls-panel")!.textContent).toContain("Target finished thigh girth");
+    const thighTarget = root.querySelector<HTMLElement>('[data-dim-row="thigh"]')!;
+    expect(thighTarget.textContent).toContain("finished · circ");
+    expect(thighTarget.closest("[data-control-page]")?.getAttribute("data-control-label")).toBe("Finished targets");
+
+    const length = root.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!;
+    length.value = "46";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(length.value).toBe("46");
+    expect(length.getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector<HTMLElement>("#error-option-shortsInseam")!.textContent).toContain("45");
+    length.value = "20";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("stable woven material");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton woven"]')!.click();
+
+    clickId(root, "view-body");
+    let svgs = root.querySelectorAll<SVGSVGElement>("#analysis-host svg");
+    expect(svgs).toHaveLength(2);
+    expect(svgs[0].getAttribute("data-croquis-view")).toBe("front");
+    expect(svgs[0].querySelector('[data-role="frontLeft"]')).not.toBeNull();
+    expect(svgs[0].querySelector('[data-role="waistband"]')).not.toBeNull();
+    expect(svgs[0].querySelector('[data-role="pocketBagLeft"]')).not.toBeNull();
+    expect(svgs[0].querySelector('[data-dim="thigh"]')?.textContent).toContain("Finished thigh target");
+    expect(`${svgs[0].textContent}${svgs[0].innerHTML}`).not.toMatch(/knee/i);
+
+    clickId(root, "body-front");
+    svgs = root.querySelectorAll<SVGSVGElement>("#analysis-host svg");
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0].getAttribute("data-croquis-view")).toBe("front");
+    expect(svgs[0].querySelector('[data-role="frontLeft"]')).not.toBeNull();
+
+    clickId(root, "body-back");
+    svgs = root.querySelectorAll<SVGSVGElement>("#analysis-host svg");
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0].getAttribute("data-croquis-view")).toBe("back");
+    expect(svgs[0].querySelector('[data-role="backLeft"]')).not.toBeNull();
+
+    clickId(root, "body-side");
+    const side = root.querySelector<SVGSVGElement>("#analysis-host svg")!;
+    expect(side.getAttribute("data-croquis-view")).toBe("side");
+    expect(side.querySelector('[data-part="side-silhouette"]')).not.toBeNull();
+    expect(side.textContent).toContain("SHORTS DRAFT");
+    expect(side.textContent).not.toMatch(/knee/i);
+
+    clickId(root, "assembled-preview-toggle");
+    const assembled = root.querySelector<SVGSVGElement>("#garment-host svg")!;
+    expect(assembled.getAttribute("data-garment")).toBe("shorts");
+    expect(assembled.querySelector('[data-role="frontLeft"]')).not.toBeNull();
+    expect(assembled.querySelector('[data-role="backLeft"]')).not.toBeNull();
+    expect(assembled.querySelector('[data-role="waistband"]')).not.toBeNull();
+    expect(assembled.querySelector('[data-role="flyShield"]')).not.toBeNull();
+    expect(assembled.querySelector('[data-role="pocketBagRight"]')).not.toBeNull();
+    expect(assembled.querySelector("parsererror")).toBeNull();
+    expect(assembled.textContent).not.toMatch(/knee/i);
+  });
+
+  it("preserves shorts option raw state through recovery and bounded undo/redo", () => {
+    localStorage.clear();
+    const first = mount();
+    clickId(first, "garment-shorts");
+    const length = first.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!;
+    const waist = first.querySelector<HTMLInputElement>('[data-field="waist"]')!.value;
+    length.value = "24";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(first, "undo-pattern");
+    expect(first.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!.value).toBe("20");
+    expect(first.querySelector<HTMLInputElement>('[data-field="waist"]')!.value).toBe(waist);
+    clickId(first, "redo-pattern");
+    expect(first.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!.value).toBe("24");
+
+    const pocketDrop = first.querySelector<HTMLInputElement>('[data-option="pocketDrop"]')!;
+    pocketDrop.value = "";
+    pocketDrop.dispatchEvent(new Event("input", { bubbles: true }));
+    const recovered = mount();
+    recovered.querySelector<HTMLButtonElement>("#recovery-accept")!.click();
+    expect(recovered.querySelector<HTMLButtonElement>("#garment-shorts")!.getAttribute("aria-pressed")).toBe("true");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!.value).toBe("24");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="pocketDrop"]')!.value).toBe("");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="pocketDrop"]')!.getAttribute("aria-invalid")).toBe("true");
+  });
+
   it("draws the tank without a sleeve, in both the body view and the assembled view (Slice 60)", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-tank")!.dispatchEvent(new Event("click"));

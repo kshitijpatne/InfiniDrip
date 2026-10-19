@@ -77,6 +77,11 @@ export const TROUSER_STYLES: readonly StyleDef[] = [
   { name: "Long straight trouser", ranges: { ease: [8, 18], inseam: [85, 105] } },
 ];
 
+/** One relaxed woven short style; recipe-owned length remains an option. */
+export const SHORTS_STYLES: readonly StyleDef[] = [
+  { name: "Relaxed woven shorts", ranges: { ease: [8, 16] } },
+];
+
 /** One measurement change needed to move toward a style (signed, in cm). */
 export interface Delta {
   readonly id: keyof Measurements;

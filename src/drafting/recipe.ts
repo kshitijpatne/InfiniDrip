@@ -13,7 +13,7 @@ import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
-import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES } from "../style";
+import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
@@ -50,6 +50,17 @@ import {
   TROUSER_TECH_PACK,
 } from "./trouser-tables";
 import { trouserGuidance } from "./trouser-guidance";
+import { draftShortsWithComponents, shortsComponentGuidance } from "./shorts-components";
+import type { ShortsOptions } from "./shorts-contract";
+import { SHORTS_FIELDS, SHORTS_OPTION_DEFINITIONS } from "./shorts-contract";
+import {
+  SHORTS_ALLOWANCES,
+  SHORTS_GRADE,
+  SHORTS_NOTCHES,
+  SHORTS_POMS,
+  SHORTS_SIZES,
+  SHORTS_TECH_PACK,
+} from "./shorts-tables";
 import type { GarmentGrammar } from "./grammar";
 
 /**
@@ -511,7 +522,28 @@ export const TROUSER: GarmentRecipe = {
   allowances: TROUSER_ALLOWANCES,
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER];
+export const SHORTS: GarmentRecipe = {
+  name: "shorts",
+  label: "Shorts",
+  region: "lower",
+  editRole: "frontLeft",
+  fields: SHORTS_FIELDS,
+  styles: SHORTS_STYLES,
+  draft: (m, options = {}) => draftShortsWithComponents(m, options as Partial<ShortsOptions>),
+  notches: SHORTS_NOTCHES,
+  poms: SHORTS_POMS,
+  grade: SHORTS_GRADE,
+  sizes: SHORTS_SIZES,
+  checks: () => [],
+  guidance: (block, m, options = {}) =>
+    shortsComponentGuidance(block, m, options as Partial<ShortsOptions>),
+  sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "frontLeft"), "waist")),
+  techPack: SHORTS_TECH_PACK,
+  options: SHORTS_OPTION_DEFINITIONS,
+  allowances: SHORTS_ALLOWANCES,
+};
+
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {

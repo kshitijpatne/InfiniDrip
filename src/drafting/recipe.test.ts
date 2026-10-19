@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
-import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
+import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -13,8 +13,8 @@ import { wovenShirtAllowances } from "./shirt";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
-    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"]);
-    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser"]);
+    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts"]);
+    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser", "Shorts"]);
   });
 
   it("looks a recipe up by name and falls back to the tee for an unknown one", () => {
@@ -23,6 +23,7 @@ describe("the garment registry", () => {
     expect(garmentByName("polo")).toBe(POLO);
     expect(garmentByName("woven-shirt")).toBe(WOVEN_SHIRT);
     expect(garmentByName("trouser")).toBe(TROUSER);
+    expect(garmentByName("shorts")).toBe(SHORTS);
     expect(garmentByName("kimono")).toBe(TEE);
   });
 });
@@ -226,6 +227,27 @@ describe("Trouser recipe integration (Slice 100)", () => {
     expect(garmentReport(TROUSER, STANDARD_M).ok).toBe(true);
     expect(TROUSER.sizeMetric(block)).toBeGreaterThan(0);
     for (const pom of TROUSER.poms) expect(pom.measure(block)).toBeTypeOf("number");
+  });
+});
+
+describe("shorts recipe integration (Slice 1100)", () => {
+  it("registers the shorts-owned fields, options, and actual nine-role draft", () => {
+    expect(SHORTS.region).toBe("lower");
+    expect(SHORTS.editRole).toBe("frontLeft");
+    expect(SHORTS.fields).toEqual(["waist", "hip", "hipDepth", "crotchDepth", "thigh", "ease"]);
+    expect(SHORTS.fields).not.toContain("knee");
+    expect(SHORTS.options?.map((option) => option.id)).toEqual([
+      "shortsInseam", "hemOpening", "frontRiseEase", "backRiseEase", "waistbandDepth",
+      "flyLength", "pocketOpening", "pocketAngle", "pocketBagDepth", "pocketDrop",
+    ]);
+    expect(SHORTS.styles.map((style) => style.name)).toEqual(["Relaxed woven shorts"]);
+    expect(Object.keys(SHORTS.draft(STANDARD_M).roles)).toEqual([
+      "frontLeft", "frontRight", "backLeft", "backRight", "waistband", "flyShield",
+      "flyUnderlap", "pocketBagLeft", "pocketBagRight",
+    ]);
+    expect(SHORTS.sizeMetric(SHORTS.draft(STANDARD_M))).toBeGreaterThan(0);
+    expect(garmentReport(SHORTS, STANDARD_M).ok).toBe(true);
+    for (const pom of SHORTS.poms) expect(pom.measure(SHORTS.draft(STANDARD_M))).toBeTypeOf("number");
   });
 });
 

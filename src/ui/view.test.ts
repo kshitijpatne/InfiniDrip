@@ -139,6 +139,20 @@ describe("controlsMarkup", () => {
     expect(pages[3]).toContain('data-control-label="Construction"');
   });
 
+  it("shows the shorts thigh girth as a finished target instead of a body measure", () => {
+    const html = controlsMarkup(
+      STANDARD_M, ["waist", "hip", "hipDepth", "crotchDepth", "thigh", "ease"], [], {}, "shorts",
+    );
+    const bodyPage = html.match(/<fieldset[^>]*data-control-label="Body measurements"[^>]*>[\s\S]*?<\/fieldset>/)?.[0] ?? "";
+    const finishedPage = html.match(/<fieldset[^>]*data-control-label="Finished targets"[^>]*>[\s\S]*?<\/fieldset>/)?.[0] ?? "";
+
+    expect(bodyPage).toContain('data-dim-row="waist"');
+    expect(bodyPage).not.toContain('data-dim-row="thigh"');
+    expect(finishedPage).toContain('data-dim-row="thigh"');
+    expect(finishedPage).toContain("finished · circ");
+    expect(finishedPage).not.toContain("body · circ");
+  });
+
   it("renders only the fields it is given, in order, and skips the rest", () => {
     // A lower-body field set: waist + hip + length + ease, no chest/sleeve.
     const html = controlsMarkup(STANDARD_M, ["waist", "hip", "length", "ease"]);
@@ -780,7 +794,10 @@ describe("garmentToggleMarkup", () => {
       expect(html).toContain(`>${g.label}</span>`);
     }
     expect(html).toContain("Choose a starting garment");
+    expect(html).toContain("8 drafting blocks");
     expect(html).toContain("Straight-leg trouser");
+    expect(html).toContain("Stable woven shorts");
+    expect(html).toContain("Rise, leg opening, fly and pocket controls");
     expect(html).toContain('data-garment-region="Lower body"');
     expect(html).toContain('id="starter-blank-library" aria-labelledby="starter-blank-library-heading"');
     expect(html).toContain('id="custom-measurement-candidates" aria-labelledby="custom-measurement-candidates-heading"');

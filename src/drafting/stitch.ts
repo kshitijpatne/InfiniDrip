@@ -8,7 +8,7 @@
 //
 // This module is the shared data vocabulary: an Interface names a seam's
 // edges, a Stitch says two interfaces join, and `Block` carries the resulting
-// declarations to check/render/export consumers. All seven registered recipes
+// declarations to check/render/export consumers. All registered recipes
 // now declare stitches as composition data; `stitchChecks` remains the single
 // measurement implementation used to verify those real drafted blocks.
 

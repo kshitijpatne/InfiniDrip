@@ -200,6 +200,20 @@ const MEASUREMENT_SPECS: Readonly<Partial<Record<string, MeasurementSpec>>> = Ob
   },
 });
 
+const SHORTS_MEASUREMENT_SPECS: Readonly<Partial<Record<string, MeasurementSpec>>> = Object.freeze({
+  crotchDepth: {
+    id: "body.seated-waist-to-seat-depth", kind: "BODY_MEASURE", frame: "body",
+    meaning: "Seated waist-to-seat depth input used to seed the shorts front and back crotch stations through the inherited digital lower-body method.",
+    captureBoundary: "The seated posture and waistband reference are not qualified. The inherited coordinate seed is not a shorts fit method; one scalar does not establish front/back balance or fit.",
+  },
+  thigh: {
+    id: "target.shorts-finished-thigh-girth", kind: "GARMENT_MEASURE", frame: "finished-garment",
+    meaning: "User-selected finished shorts thigh-girth target at the block's upper-thigh station.",
+    captureBoundary: "This is a finished target, not a wearer thigh capture. The station is inherited from a fixed digital offset and has no reviewed anatomical mapping.",
+    label: "Target finished thigh girth",
+  },
+});
+
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const PROVENANCE = new Set<FieldProvenance>([
   "USER_CAPTURED", "USER_SELECTED", "PRESET", "INHERITED", "CALCULATED", "SUPPLIER",
@@ -315,7 +329,9 @@ export function getFieldDefinitions(recipeId: string): readonly FieldDefinition[
   const definitions: FieldDefinition[] = [];
   for (const inputKey of recipe.fields) {
     const control = FIELDS.find((field) => field.id === inputKey);
-    const spec = MEASUREMENT_SPECS[inputKey];
+    const spec = recipe.name === "shorts"
+      ? SHORTS_MEASUREMENT_SPECS[inputKey] ?? MEASUREMENT_SPECS[inputKey]
+      : MEASUREMENT_SPECS[inputKey];
     if (!control || !spec) continue;
     const semanticId = inputKey === "length" && recipe.name === "skirt"
       ? "target.skirt-waistline-to-hem"

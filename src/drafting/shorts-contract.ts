@@ -1,5 +1,10 @@
 import type { LowerBodyUpperOptions } from "./lower-body-upper";
 import type { GarmentOption } from "./options";
+import type { Measurements } from "./measurements";
+
+export const SHORTS_FIELDS: readonly (keyof Measurements)[] = [
+  "waist", "hip", "hipDepth", "crotchDepth", "thigh", "ease",
+];
 
 export interface ShortsGeometryOptions extends LowerBodyUpperOptions {
   readonly shortsInseam: number;

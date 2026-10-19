@@ -159,11 +159,20 @@ export function fieldObservationSummary(
     : "No value history recorded for this recipe field yet.";
 }
 
+function measurementRoleTag(recipeId: string, inputKey: string): string | null {
+  const tag = roleTag(inputKey);
+  const definition = getFieldDefinition(recipeId, inputKey, "measurement");
+  if (definition?.semanticKind === "GARMENT_MEASURE" && tag?.startsWith("body")) {
+    return tag.replace(/^body/, "finished");
+  }
+  return tag;
+}
+
 function field(id: string, label: string,
                value: number, min: number, max: number, step: number,
                details: Pick<GarmentOption, "unit" | "help"> = {},
-               provenance = ""): string {
-  const tag = roleTag(id); // "body · circ" / "finished", or null for ease
+               provenance = "", tag = roleTag(id)): string {
+  // Recipe-specific definitions can classify a shared numeric field differently.
   const tagSpan = tag === null ? "" :
     `<span style="display:block;color:${T.label};font-size:11px;margin-top:3px">${tag}</span>`;
   const helpId = `help-${id}`;
@@ -288,8 +297,11 @@ export function controlsMarkup(
   });
   const measurementGroups = new Map<string, Field[]>();
   measurementFields.forEach((f) => {
+    const definition = getFieldDefinition(recipeId, f.id, "measurement");
+    const finishedTarget = definition?.semanticKind === "GARMENT_MEASURE" && roleTag(f.id)?.startsWith("body");
     const group = f.id === "ease" ? "Fit allowance"
-      : roleTag(f.id)?.startsWith("body") ? "Body measurements" : "Lengths & shape";
+      : finishedTarget ? "Finished targets"
+      : measurementRoleTag(recipeId, f.id)?.startsWith("body") ? "Body measurements" : "Lengths & shape";
     measurementGroups.set(group, [...(measurementGroups.get(group) ?? []), f]);
   });
   const pages = [
@@ -298,7 +310,7 @@ export function controlsMarkup(
       body: groupFields.map((f) => {
         const definition = getFieldDefinition(recipeId, f.id, "measurement");
         return field(f.id, definition?.label ?? f.label, m[f.id], f.min, f.max, f.step, {},
-          fieldSourceMarkup(recipeId, "measurement", f.id, fieldObservations));
+          fieldSourceMarkup(recipeId, "measurement", f.id, fieldObservations), measurementRoleTag(recipeId, f.id));
       }).join("") +
         (label === "Fit allowance" ? finished : ""),
     })),
@@ -421,6 +433,7 @@ const GARMENT_UI: Readonly<Record<string, { region: string; summary: string; det
   "woven-shirt": { region: "Upper body", summary: "Stable woven shirt", detail: "Yoke, placket and pocket" },
   skirt: { region: "Lower body", summary: "Simple woven skirt", detail: "Waist and hem controls" },
   trouser: { region: "Lower body", summary: "Straight-leg trouser", detail: "Rise, leg and pocket controls" },
+  shorts: { region: "Lower body", summary: "Stable woven shorts", detail: "Rise, leg opening, fly and pocket controls" },
 };
 
 function styleDescription(name: string): string {
@@ -1093,7 +1106,7 @@ export function garmentToggleMarkup(active: string, activeStarterId: string | nu
   const blankEntries = STARTER_REGISTRY.entries.filter((entry) => entry.catalogKind === "blank");
   const customEntries = STARTER_REGISTRY.entries.filter((entry) => entry.catalogKind === "custom-measurement");
   return `<div id="garment-toggle-host" role="group" aria-label="Garment and digital design candidates" class="garment-library">` +
-    `<div class="garment-library-heading"><span>Choose a starting garment</span><span>7 drafting blocks</span></div>` +
+    `<div class="garment-library-heading"><span>Choose a starting garment</span><span>${GARMENTS.length} drafting blocks</span></div>` +
     `<div class="garment-card-grid">${cards}</div>` +
     `<section id="starter-registry" aria-label="Digital design candidates">` +
     `<section id="starter-blank-library" aria-labelledby="starter-blank-library-heading">` +

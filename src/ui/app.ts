@@ -9,7 +9,7 @@ import { TEE_NECKBAND_OPTIONS, teeNeckbandSettings, teeNeckbandTemplateSvg } fro
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
-import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderShortsGarment, renderShortsBody, renderShortsBodyPair, renderShortsSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import {
   appendSemanticEditOperations,
@@ -1860,7 +1860,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
   };
   const materialCompatibilityNote = (): Note | null =>
-    (recipe.name === "woven-shirt" || recipe.name === "trouser") && stretchFabric.family === "knit"
+    (recipe.name === "woven-shirt" || recipe.name === "trouser" || recipe.name === "shorts") && stretchFabric.family === "knit"
       ? { level: "warn", field: "stretchFabric", text: `${recipe.label} is drafted for stable woven material; choose Cotton woven or Linen, or review the construction before using a knit.` }
       : null;
   // The parametric report stays separate; semantic edits have their own
@@ -3064,6 +3064,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // recipes without it retain the historical field-based fallback.
     const isTop = (recipe.region ?? (recipe.fields.includes("chest") ? "upper" : "lower")) === "upper";
     const isTrouser = recipe.name === "trouser";
+    const isShorts = recipe.name === "shorts";
     // A sleeveless top (the tank) still carries a `sleeveLength` value on
     // `measurements` (fields not shown in a garment's UI don't disappear from
     // the object) — without this check both figures would draw it with a
@@ -3260,7 +3261,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       if (bodyCroquisView === "side") {
         canvasContent = isTrouser
           ? renderTrouserSide(measurements, recipeOptions())
-          : renderSideCroquis(measurements, isTop ? "upper" : "lower");
+          : isShorts
+            ? renderShortsSide(measurements, recipeOptions())
+            : renderSideCroquis(measurements, isTop ? "upper" : "lower");
       } else if (!isTop) {
         canvasContent = isTrouser
           ? bodyCroquisView === "front"
@@ -3268,7 +3271,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             : bodyCroquisView === "back"
               ? renderTrouserBody(measurements, recipeOptions(), "back")
               : renderTrouserBodyPair(measurements, recipeOptions())
-          : renderSkirtBody(measurements);
+          : isShorts
+            ? bodyCroquisView === "front"
+              ? renderShortsBody(measurements, recipeOptions(), "front")
+              : bodyCroquisView === "back"
+                ? renderShortsBody(measurements, recipeOptions(), "back")
+                : renderShortsBodyPair(measurements, recipeOptions())
+            : renderSkirtBody(measurements);
       } else if (bodyCroquisView === "front") {
         canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       } else if (bodyCroquisView === "back") {
@@ -3299,7 +3308,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
       : isTrouser
         ? renderTrouserGarment(measurements, fabric, recipeOptions())
-        : renderSkirtGarment(measurements, fabric);
+        : isShorts
+          ? renderShortsGarment(measurements, fabric, recipeOptions())
+          : renderSkirtGarment(measurements, fabric);
     const assembledPreview = applyAppearanceToSvg(assembled, fabric, appearance);
     const assembledEditNotice = semanticEdits
       ? '<p class="semantic-edit-preview-notice" role="status">Saved pattern edits are not reflected in this schematic assembled illustration. Pattern-linked 3D simulation is not available.</p>'

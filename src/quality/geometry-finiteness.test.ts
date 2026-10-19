@@ -1,6 +1,6 @@
 // EPIC 10 — bounded, seeded fast-check properties covering geometry finiteness
-// and deterministic repeated drafting/grading across all seven registered
-// recipes (tee, fitted, tank, polo, woven-shirt, skirt, trouser).
+// and deterministic repeated drafting/grading across all eight registered
+// recipes (tee, fitted, tank, polo, woven-shirt, skirt, trouser, shorts).
 //
 // Test/developer-only: fast-check is a dev dependency and is never imported by
 // production code. Every property below uses a fixed seed and an explicit
@@ -118,9 +118,9 @@ describe("EPIC 10 — geometry finiteness (Slice 142)", () => {
     });
   }
 
-  it("all seven recipe identifiers are exercised (registry drift guard)", () => {
+  it("all eight recipe identifiers are exercised (registry drift guard)", () => {
     expect(GARMENTS.map((r) => r.name).sort()).toEqual(
-      ["fitted", "polo", "skirt", "tank", "tee", "trouser", "woven-shirt"],
+      ["fitted", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
     );
   });
 

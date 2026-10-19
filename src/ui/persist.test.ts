@@ -266,6 +266,7 @@ describe("fresh workspace material defaults", () => {
     expect(defaultStretchFabricForGarment("woven-shirt")).toBe("Cotton woven");
     expect(defaultStretchFabricForGarment("skirt")).toBe("Cotton woven");
     expect(defaultStretchFabricForGarment("trouser")).toBe("Cotton woven");
+    expect(defaultStretchFabricForGarment("shorts")).toBe("Cotton woven");
     expect(defaultStretchFabricForGarment("future")).toBe("Cotton woven");
   });
 });
@@ -296,6 +297,24 @@ describe("serialize", () => {
     const result = deserialize(serialize(STANDARD_M, FABRIC, { polo: { standHeight: 2, leafDepth: 5 } }));
     expect(result.ok).toBe(true);
     if (result.ok) expect(result.garmentOptions).toEqual({ polo: { standHeight: 2, leafDepth: 5 } });
+  });
+
+  it("saves and reopens shorts controls without changing the workspace schema version", () => {
+    const garmentOptions = { shorts: { shortsInseam: 45, hemOpening: 67, pocketDrop: 4 } };
+    const workspace = {
+      ...DEFAULT_WORKSPACE,
+      garment: "shorts",
+      targetStyle: "Relaxed woven shorts",
+      stretchFabric: "Cotton woven",
+    };
+    const json = serialize(STANDARD_M, FABRIC, garmentOptions, workspace);
+    expect(JSON.parse(json).v).toBe(SAVE_VERSION);
+    const reopened = deserialize(json);
+    expect(reopened.ok).toBe(true);
+    if (reopened.ok) {
+      expect(reopened.workspace).toMatchObject({ garment: "shorts", targetStyle: "Relaxed woven shorts" });
+      expect(reopened.garmentOptions).toEqual(garmentOptions);
+    }
   });
 
   it("loads pre-Epic-11 Polo options and fills V2 defaults without a save-version bump", () => {

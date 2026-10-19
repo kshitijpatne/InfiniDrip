@@ -68,8 +68,8 @@ function recoveryFor(style: StyleRecord, changes: {
 }
 
 describe("C03 field definitions and append-only observations", () => {
-  it("covers every editable input exactly once across all seven current recipes", () => {
-    expect(GARMENTS).toHaveLength(7);
+  it("covers every editable input exactly once across all eight current recipes", () => {
+    expect(GARMENTS).toHaveLength(8);
     expect(() => assertRecipeFieldCoverage()).not.toThrow();
     expect(getAllFieldDefinitions().length).toBe(
       GARMENTS.reduce((sum, recipe) => sum + recipe.fields.length + (recipe.options?.length ?? 0), 0),
@@ -94,6 +94,15 @@ describe("C03 field definitions and append-only observations", () => {
       label: "Target finished thigh girth",
     });
     expect(getFieldDefinition("trouser", "knee")?.semanticId).toBe("target.finished-knee-girth");
+    expect(getFieldDefinition("shorts", "thigh")).toMatchObject({
+      semanticId: "target.shorts-finished-thigh-girth",
+      semanticKind: "GARMENT_MEASURE",
+      referenceFrame: "finished-garment",
+      label: "Target finished thigh girth",
+      meaning: expect.stringContaining("finished shorts thigh-girth target"),
+      captureBoundary: expect.stringContaining("not a wearer thigh capture"),
+    });
+    expect(getFieldDefinition("shorts", "knee")).toBeUndefined();
     expect(getFieldDefinition("tee", "ease")?.semanticKind).toBe("STYLE_CONTROL");
     expect(getFieldDefinition("tank", "strapWidth")?.semanticKind).toBe("STYLE_CONTROL");
     expect(getFieldDefinition("tee", "chest")?.limitBasis).toBe("existing-ui-guardrail-not-industry-standard");

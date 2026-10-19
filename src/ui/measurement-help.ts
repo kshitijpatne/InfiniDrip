@@ -122,6 +122,27 @@ const DRAFT_USE_BASE: Readonly<Record<string, string>> = Object.freeze({
   neckWidthEase: "The current tank draft widens each side of the front and back neckline by this value.",
 });
 
+const DRAFT_USE_OVERRIDE: Readonly<Record<string, Readonly<Record<string, string>>>> = Object.freeze({
+  shorts: Object.freeze({
+    waist: "The shorts draft sets each quarter waist edge from (waist plus shared ease) divided by four.",
+    hip: "The shorts draft sets each quarter seat edge from (hip plus shared ease) divided by four.",
+    hipDepth: "The shorts draft places its seat station this vertical distance below the waist reference.",
+    crotchDepth: "The shorts draft combines this input with front and back rise controls, then offsets the crotch station by the waistband depth. This inherited digital coordinate seed is not a physical-fit method.",
+    thigh: "The shorts draft uses this finished target directly: each leg panel is one quarter of the target at the upper-thigh station. The POM reports four times one panel span; the station is 2.5 cm below the back-crotch station and has no reviewed anatomical mapping.",
+    ease: "The shorts draft adds the shared value at waist and seat only. The finished thigh target already includes its intended room and receives no extra ease.",
+    shortsInseam: "Sets the vertical distance from the back-crotch station to the finished hem. It is not a sewn inseam or wearer body inseam. The shorts draft has no knee station.",
+    hemOpening: "Sets the finished circumference at one leg opening, represented across the four panel hem edges.",
+    frontRiseEase: "Adds to the crotch-depth input to place the finished front-rise station before waistband depth is applied.",
+    backRiseEase: "Adds to the crotch-depth input to place the finished back-rise station before waistband depth is applied.",
+    waistbandDepth: "Sets the separate waistband pattern depth; guidance warns when it reaches either finished rise.",
+    flyLength: "Sets the front fly component length; guidance checks its space against the front rise and hem turn.",
+    pocketOpening: "Sets each angled front pocket opening length; guidance checks panel clearance and rise clearance.",
+    pocketAngle: "Sets the angle of each front pocket opening; guidance checks the resulting line against the front panel.",
+    pocketBagDepth: "Sets pocket-bag depth; guidance checks that the bag stays inside the front panel and above the hem turn.",
+    pocketDrop: "Moves the pocket opening below the waist seam; guidance checks its clearance from the front rise.",
+  }),
+});
+
 const DRAFT_USE_FALLBACK =
   "Digital construction choice for this recipe. The entered value is kept verbatim in the draft; an out-of-range value stays visible and blocks dependent actions without automatic changes.";
 
@@ -201,6 +222,10 @@ const LIMITS_SUFFIX: Readonly<Record<string, Readonly<Record<string, string>>>> 
   "woven-shirt": Object.freeze({
     length: "D-07: guidance checks the current woven-shirt geometry and blocks continuation when the hip station falls below the hem; increase top length or reduce underarm drop or hip depth. Values are not changed automatically.",
   }),
+  shorts: Object.freeze({
+    thigh: "This is a finished target at the shorts block's fixed upper-thigh station, not a wearer thigh value; its anatomical mapping is not reviewed.",
+    shortsInseam: "The accepted 45 cm product cap permits lengths that cross the knee. The draft contains no anatomical knee station, mark, or POM. This vertical target is not a sewn inseam or fit-qualified measurement.",
+  }),
 });
 
 const EXTRA_SOURCES: Readonly<Record<string, readonly MeasurementHelpSource[]>> = Object.freeze({
@@ -220,6 +245,8 @@ const TEE_METHOD_SOURCES: Readonly<Record<string, readonly MeasurementHelpSource
 });
 
 function draftUseFor(recipeId: string, inputKey: string): string {
+  const override = DRAFT_USE_OVERRIDE[recipeId]?.[inputKey];
+  if (override !== undefined) return override;
   const base = DRAFT_USE_BASE[inputKey] ?? DRAFT_USE_FALLBACK;
   const suffix = (DRAFT_USE_SUFFIX[recipeId] as Readonly<Record<string, string>>)[inputKey] as
     | string
