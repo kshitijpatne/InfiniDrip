@@ -103,6 +103,12 @@ describe("exportTechPack", () => {
     const preparation = "Test the knit-compatible stabilizing tape on a fabric offcut and cut two lengths to match the drafted shoulder seams.";
     const instruction = "Join the shoulder seams, front to back, stabilizing each seam with the tape during sewing.";
     const teePdf = exportTechPack(TEE, STANDARD_M);
+    const selectedSizePdf = exportTechPackV2ForSelectedSize(TEE, {
+      label: "M",
+      measurements: STANDARD_M,
+      options: {},
+      block: TEE.draft(STANDARD_M, {}),
+    });
 
     expect(TEE.techPack.bom).toContainEqual(stabilizer);
     const preparationLine = "(2. " + pdfString(preparation) + ")";
@@ -113,6 +119,15 @@ describe("exportTechPack", () => {
     expect(teePdf).toContain("(" + pdfString(stabilizer.material) + ")");
     expect(teePdf).toContain("(" + pdfString(stabilizer.placement) + ")");
     expect(teePdf).toContain("(" + pdfString(stabilizer.qty) + ")");
+
+    const selectedSizeText = pageStreams(selectedSizePdf).flatMap(shownText).join(" ").replace(/\s+/g, " ");
+    const preparationIndex = selectedSizeText.indexOf(`2. ${preparation}`);
+    const instructionIndex = selectedSizeText.indexOf(`3. ${instruction}`);
+    expect(preparationIndex).toBeGreaterThanOrEqual(0);
+    expect(instructionIndex).toBeGreaterThan(preparationIndex);
+    expect(selectedSizeText).toContain(stabilizer.material);
+    expect(selectedSizeText).toContain(stabilizer.placement);
+    expect(selectedSizeText).toContain(stabilizer.qty);
 
     expect(FITTED.techPack.bom).not.toContainEqual(stabilizer);
     expect(TANK.techPack.bom).not.toContainEqual(stabilizer);
