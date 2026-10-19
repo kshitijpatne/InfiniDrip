@@ -78,6 +78,8 @@ describe("trouser leg block", () => {
     const metrics = trouserMetrics(STANDARD_M, DEFAULT_TROUSER_OPTIONS);
     expect(metrics.finishedWaist).toBe(94);
     expect(metrics.finishedSeat).toBe(110);
+    expect(metrics.finishedThigh).toBe(66);
+    expect(metrics.finishedKnee).toBe(45);
     expect(metrics.frontRise).toBe(28);
     expect(metrics.backRise).toBe(36);
     expect(metrics.hemY).toBe(110);
