@@ -10107,7 +10107,7 @@ describe("EPIC-19 L02 starter binding", () => {
 
     expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
     expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
-      .toContain("B1 review pending; physical validation not performed");
+      .toContain("B1 technical review approved for digital scope; physical validation not performed");
     const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
     const chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
     const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
@@ -10135,7 +10135,7 @@ describe("EPIC-19 L02 starter binding", () => {
     const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
     expect(stored.workspace.starterOrigin).toMatchObject({
       entryId: "tee-classic-custom-v1",
-      entryRevision: "2026-10-19.2",
+      entryRevision: "2026-10-19.3",
       recipeId: "tee",
       configurationSnapshot: { targetStyle: "Classic tee", measurements: { ease: 7 }, options: { chestEase: 7 } },
     });
@@ -10187,6 +10187,7 @@ describe("EPIC-19 L02 starter binding", () => {
     const status = root.querySelector<HTMLElement>("#starter-origin-status")!;
     expect(status.textContent).toContain("Modified from");
     expect(status.textContent).toContain("Fitted tee");
+    expect(status.textContent).toContain("Original B1 status: approved for digital scope");
     expect(root.querySelector<HTMLButtonElement>("#starter-tee-classic-custom-v1")!.getAttribute("aria-pressed")).toBe("false");
     const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
     ease.value = "5";
@@ -10195,16 +10196,17 @@ describe("EPIC-19 L02 starter binding", () => {
     clickId(root, "save-pattern");
     const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
     expect(stored.workspace.targetStyle).toBe("Fitted tee");
-    expect(stored.workspace.starterOrigin.entryRevision).toBe("2026-10-19.2");
+    expect(stored.workspace.starterOrigin.entryRevision).toBe("2026-10-19.3");
     const reopened = mount();
     expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Fitted tee");
     expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent).toContain("Modified from");
     expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent).toContain("Fitted tee");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent).toContain("Original B1 status: approved for digital scope");
     expect(reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("5");
     const reopenedStyle = reopened.querySelector<HTMLSelectElement>("#style-target")!;
     reopenedStyle.value = "Classic tee";
     reopenedStyle.dispatchEvent(new Event("change", { bubbles: true }));
-    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent).toContain("Starting design");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent).toContain("B1 technical review approved for digital scope");
     expect(reopened.querySelector<HTMLButtonElement>("#starter-tee-classic-custom-v1")!.getAttribute("aria-pressed")).toBe("true");
     expect(reopened.querySelector<HTMLElement>("#error-ease")!.textContent).toContain("candidate supports");
   });

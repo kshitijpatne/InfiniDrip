@@ -31,7 +31,7 @@ export interface StarterEntry {
     readonly sizeScope: string;
   };
   readonly gates: {
-    readonly b1: "pending";
+    readonly b1: "pending" | "approved for digital scope";
     readonly physical: "not-validated";
   };
   readonly limits: readonly string[];
@@ -53,7 +53,7 @@ export interface StarterOrigin {
 
 const TEE_CLASSIC_ENTRY: StarterEntry = {
   entryId: "tee-classic-custom-v1",
-  entryRevision: "2026-10-19.2",
+  entryRevision: "2026-10-19.3",
   recipeId: "tee",
   recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
   label: "Tee Classic · custom measurements",
@@ -79,18 +79,19 @@ const TEE_CLASSIC_ENTRY: StarterEntry = {
     bodyMaterial: "95/5 cotton-spandex single jersey as design intent; no tested compatibility or numerical stretch/recovery requirement.",
     trimMaterial: "Matching 1×1 rib neckline as design intent; no tested compatibility claim.",
     construction: "Existing Tee draft guidance for home sewing; BOM quantities are estimates.",
-    sizeScope: "One custom-size route. Length is a modeled Tee input, not a body measure or sewn POM; no landmark, grade, or tolerance is claimed.",
+    sizeScope: "One custom-measurement draft only. The Tech Pack maps modeled length to HPS-to-hem; its Tol columns are generic recipe references, not validated tolerances for this starter.",
   },
-  gates: { b1: "pending", physical: "not-validated" },
+  gates: { b1: "approved for digital scope", physical: "not-validated" },
   limits: [
     "Body measurements are user-entered; the app does not capture or qualify measurement technique.",
     "Displayed geometry and POMs are modeled digital values, not sewn measurements or fit evidence.",
-    "No fit-probability, physical-fit, material-compatibility, grading, manufacturing, supplier, or production claim.",
+    "No fit-probability, physical-fit, material-compatibility, starter-specific grading, manufacturing, supplier, or production claim.",
     "The generic material selector and stretch heuristic do not model the declared 95/5 cotton-spandex intent; 7 cm ease remains a product choice, not a fabric-derived recommendation.",
     "Exports do not carry this registry entry ID or revision; BOM material names and quantities remain generic recipe estimates.",
+    "Tech Pack size labels (such as M) and XS–XL graded outputs use the generic Tee recipe size run; they are not starter-specific size or grade guidance. Only the one custom-measurement draft is in scope.",
     "This starter selector is unavailable in the separate project custom-one-size workflow.",
     "No garment artwork or aggregate survey data are included; user-imported artwork requires separate rights clearance.",
-    "Independent B1 technical review is pending; physical validation has not been performed.",
+    "Independent B1 review approves this limited digital scope; physical validation has not been performed.",
   ],
 };
 
@@ -129,6 +130,7 @@ export function starterOriginForEntry(entry: StarterEntry): StarterOrigin {
 }
 
 const COMPATIBLE_ORIGIN_REVISIONS = [
+  { entryId: "tee-classic-custom-v1", entryRevision: "2026-10-19.2" },
   { entryId: "tee-classic-custom-v1", entryRevision: "2026-10-19.1" },
 ] as const;
 

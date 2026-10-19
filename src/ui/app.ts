@@ -2965,9 +2965,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const starterStatus = root.querySelector<HTMLElement>("#starter-origin-status")!;
     starterStatus.hidden = starter === null;
     starterStatus.textContent = !starter ? "" : activeStarter
-      ? "Starting design: " + starter.label + ". B1 review pending; physical validation not performed."
+      ? "Starting design: " + starter.label + ". B1 technical review " + starter.gates.b1 + "; physical validation not performed."
       : "Modified from " + starter.label + " for " + targetStyle
-        + ". Starter-specific limits are inactive; current style validation applies. The original starter remains B1 pending and physical validation has not been performed.";
+        + ". Starter-specific limits are inactive; current style validation applies. Original B1 status: " + starter.gates.b1
+        + "; physical validation has not been performed.";
     root.querySelectorAll<HTMLButtonElement>("[data-starter-entry-id]").forEach((button) => {
       button.setAttribute("aria-pressed", String(button.dataset.starterEntryId === activeStarter?.entryId));
       button.disabled = customOneSizeStyle();
