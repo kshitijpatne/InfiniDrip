@@ -41,7 +41,7 @@ function outlinePoints(piece: ReturnType<typeof rolePiece>) {
     const start = edge.kind === "line" ? edge.start : edge.curve.start;
     const end = edge.kind === "line" ? edge.end : edge.curve.end;
     if (points.length === 0) points.push(start);
-    else expect(points.at(-1)).toEqual(start);
+    else expect(points[points.length - 1]).toEqual(start);
     if (edge.kind === "line") points.push(end);
     else {
       for (let index = 1; index <= 64; index += 1) {
@@ -49,7 +49,7 @@ function outlinePoints(piece: ReturnType<typeof rolePiece>) {
       }
     }
   }
-  expect(points.at(-1)).toEqual(points[0]);
+  expect(points[points.length - 1]).toEqual(points[0]);
   return points;
 }
 
