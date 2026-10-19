@@ -44,7 +44,8 @@ import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney, tutorialMarkup } from "./journey";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
-import { DEFAULT_WORKSPACE, saveToStorage } from "./persist";
+import { DEFAULT_WORKSPACE, saveRecoveryToStorage, saveToStorage } from "./persist";
+import { STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
 import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
@@ -10087,5 +10088,134 @@ describe("bundled local artwork library (Slice 203)", () => {
       if (originalTextLength) Object.defineProperty(SVGElement.prototype, "getComputedTextLength", originalTextLength);
       else delete (SVGElement.prototype as unknown as { getComputedTextLength?: unknown }).getComputedTextLength;
     }
+  });
+});
+
+describe("EPIC-19 L02 starter binding", () => {
+  it("opens editable Tee measurements and preserves starter identity and rendered output through save and reopen", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "garment-skirt");
+    const candidate = root.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-classic-custom-v1"]')!;
+    expect(candidate.disabled).toBe(false);
+    delete candidate.dataset.starterEntryId;
+    candidate.click();
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("start");
+    candidate.dataset.starterEntryId = "tee-classic-custom-v1";
+    candidate.click();
+
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("B1 review pending; physical validation not performed");
+    const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+    const chestEase = root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!;
+    const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+    expect(ease.value).toBe("7");
+    expect(chestEase.value).toBe("7");
+    expect(length.min).toBe("59");
+    expect(length.max).toBe("74");
+
+    chestEase.value = "6.5";
+    chestEase.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#error-option-chestEase")!.textContent).toContain("7");
+    chestEase.value = "7";
+    chestEase.dispatchEvent(new Event("input", { bubbles: true }));
+    length.value = "75";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#error-length")!.textContent).toContain("supports 59–74 cm");
+    length.value = "70";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "100";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+
+    const rendered = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    clickId(root, "save-pattern");
+    const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(stored.workspace.starterOrigin).toMatchObject({
+      entryId: "tee-classic-custom-v1",
+      entryRevision: "2026-10-19.1",
+      recipeId: "tee",
+      configurationSnapshot: { targetStyle: "Classic tee", measurements: { ease: 7 }, options: { chestEase: 7 } },
+    });
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("100");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("7");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!.value).toBe("7");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-classic-custom-v1"]')!.getAttribute("aria-pressed")).toBe("true");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(rendered);
+    clickId(reopened, "garment-skirt");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+    clickId(reopened, "load-pattern");
+    clickId(reopened, "workspace-confirm-accept");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Tee Classic · custom measurements");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-classic-custom-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(rendered);
+  });
+
+  it("flushes pending Tee field history before selecting its same-recipe starter", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-starter-field-history-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      now: () => "2026-10-19T05:00:00.000Z",
+    });
+    const recordFieldHistory = vi.spyOn(workflow, "recordFieldHistory").mockResolvedValue();
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickIfPresent(root, "welcome-start");
+      const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      chest.value = "101";
+      chest.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "starter-tee-classic-custom-v1");
+      await vi.waitFor(() => expect(recordFieldHistory).toHaveBeenCalledTimes(1));
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure"));
+      expect(recordFieldHistory.mock.calls[0]![2]).toMatchObject({
+        recipeId: "tee",
+        inputKind: "measurement",
+        inputKey: "chest",
+      });
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Tee Classic · custom measurements");
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("restores the exact candidate origin from an unfinished recovery draft", () => {
+    localStorage.clear();
+    const recovery = {
+      savedAt: 123,
+      measurements: { ...STANDARD_M },
+      rawMeasurements: { chest: "100" },
+      fabric: "#3A4150",
+      appearance: DEFAULT_APPEARANCE,
+      garmentOptions: { tee: { chestEase: 7 } },
+      rawOptions: { tee: { chestEase: "7" } },
+      workspace: { ...DEFAULT_WORKSPACE, starterOrigin: starterOriginForEntry(STARTER_REGISTRY.entries[0]!) },
+      materialSelectionExplicit: false,
+      surface: {},
+      rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
+      semanticEdits: null,
+    } as const;
+    expect(saveRecoveryToStorage(recovery)).toBe(true);
+    const root = mount();
+    clickId(root, "recovery-accept");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Tee Classic · custom measurements");
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("100");
   });
 });

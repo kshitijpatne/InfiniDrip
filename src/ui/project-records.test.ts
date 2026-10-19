@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { STANDARD_M } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
+import { STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
 import {
   CUSTOM_ONE_SIZE_MODE,
   CUSTOM_STYLE_RECORD_VERSION,
@@ -224,6 +225,19 @@ describe("strict project and style records", () => {
     expect(parseStyleRecord({ ...style, archivedAt: TIME }).ok).toBe(true);
     expect(parseSavedDesignRecord(style.design).ok).toBe(true);
     expect(parseSavedDesignRecord({ ...style.design, workspace: { ...style.design.workspace, unexpected: true } }).ok).toBe(false);
+    const legacyWorkspace = { ...style.design.workspace } as Record<string, unknown>;
+    delete legacyWorkspace.starterOrigin;
+    const legacySavedDesign = parseSavedDesignRecord({ ...style.design, workspace: legacyWorkspace });
+    expect(legacySavedDesign.ok).toBe(true);
+    if (legacySavedDesign.ok) expect(legacySavedDesign.value.workspace).not.toHaveProperty("starterOrigin");
+    const candidateWorkspace = {
+      ...DEFAULT_WORKSPACE,
+      starterOrigin: starterOriginForEntry(STARTER_REGISTRY.entries[0]!),
+    };
+    const { v: _saveVersion, ...candidateDesign } = JSON.parse(serialize(STANDARD_M, FABRIC, {}, candidateWorkspace));
+    const parsedCandidate = parseSavedDesignRecord(candidateDesign);
+    expect(parsedCandidate.ok).toBe(true);
+    if (parsedCandidate.ok) expect(parsedCandidate.value.workspace.starterOrigin).toEqual(candidateWorkspace.starterOrigin);
     expect(parseStyleRecord({ ...style, revisionHeadId: "not-a-revision-id" }).ok).toBe(false);
     const legacyDesign = { ...style.design } as Record<string, unknown>;
     delete legacyDesign.semanticEdits;
@@ -383,7 +397,7 @@ describe("strict project and style records", () => {
     expect(parseMigrationRecord({ ...marker, extra: true }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, schemaVersion: 2 }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, sourceKeys: ["wrong", "wrong"] }).ok).toBe(false);
-    expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 7 }).ok).toBe(false);
+    expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 8 }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 1.5 }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, sourceSaveVersion: null }).ok).toBe(true);
     expect(parseMigrationRecord({ ...marker, sourceSha256: "bad" }).ok).toBe(false);

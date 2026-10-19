@@ -160,7 +160,8 @@ const RECOVERY_KEYS = ["schemaVersion", "styleId", "payload"];
 const MIGRATION_KEYS = ["schemaVersion", "sourceKeys", "sourceSaveVersion", "sourceSha256", "migratedAt", "projectId", "styleId"];
 const DESIGN_V5_KEYS = ["measurements", "fabric", "appearance", "garmentOptions", "workspace", "surface", "nestingIntelligence"];
 const DESIGN_KEYS = [...DESIGN_V5_KEYS, "semanticEdits"];
-const WORKSPACE_KEYS = ["garment", "targetStyle", "stretchFabric", "view", "bodyCroquisView", "exportStep", "fabricWidth", "nestScope"];
+const WORKSPACE_V6_KEYS = ["garment", "targetStyle", "stretchFabric", "view", "bodyCroquisView", "exportStep", "fabricWidth", "nestScope"];
+const WORKSPACE_KEYS = [...WORKSPACE_V6_KEYS, "starterOrigin"];
 const APPEARANCE_KEYS = ["texture", "shine"];
 const NESTING_KEYS = ["bufferPct", "availableLengthCm", "napAware"];
 const RECOVERY_PAYLOAD_KEYS = [
@@ -210,12 +211,16 @@ function parseSavedDesign(value: unknown, legacy = false): RecordResult<SavedDes
   if (!hasExactKeys(value, legacy ? DESIGN_V5_KEYS : DESIGN_KEYS)) return fail("Style design fields are incomplete or unknown.");
   const measurementKeys = FIELDS.map((field) => field.id);
   if (!hasExactKeys(value.measurements, measurementKeys)) return fail("Style measurements do not match this record schema.");
-  if (!hasExactKeys(value.workspace, WORKSPACE_KEYS)) return fail("Style workspace fields are incomplete or unknown.");
+  const hasCurrentWorkspace = hasExactKeys(value.workspace, WORKSPACE_KEYS);
+  const hasLegacyWorkspace = hasExactKeys(value.workspace, WORKSPACE_V6_KEYS);
+  if (!hasCurrentWorkspace && !hasLegacyWorkspace) return fail("Style workspace fields are incomplete or unknown.");
   if (!hasExactKeys(value.appearance, APPEARANCE_KEYS)) return fail("Style appearance fields are incomplete or unknown.");
   if (!hasExactKeys(value.nestingIntelligence, NESTING_KEYS)) return fail("Style nesting fields are incomplete or unknown.");
   let parsed: ReturnType<typeof deserialize>;
   try {
-    parsed = deserialize(JSON.stringify({ v: SAVE_VERSION, ...value, semanticEdits: legacy ? null : value.semanticEdits }));
+    const saveVersion = legacy ? 5 : hasCurrentWorkspace ? SAVE_VERSION : 6;
+    const payload = legacy ? { v: saveVersion, ...value } : { v: saveVersion, ...value, semanticEdits: value.semanticEdits };
+    parsed = deserialize(JSON.stringify(payload));
   } catch {
     return fail("Style design cannot be serialized.");
   }

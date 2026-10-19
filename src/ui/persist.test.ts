@@ -22,6 +22,7 @@ import { DEFAULT_APPEARANCE } from "./appearance";
 import { FIELDS } from "./controls";
 import { POLO } from "../drafting/recipe";
 import { defaultGarmentOptions } from "../drafting/options";
+import { STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
 
 const FABRIC = "#3A4150";
 
@@ -51,6 +52,30 @@ describe("v4 workspace validation", () => {
       expect(result.workspace).toEqual(workspace);
       expect(result.garmentOptions["woven-shirt"].buttonCount).toBe(6);
     }
+  });
+  it("persists the exact starter origin and loads old v6 workspaces without inferring one", () => {
+    const origin = starterOriginForEntry(STARTER_REGISTRY.entries[0]!);
+    const workspace = { ...DEFAULT_WORKSPACE, starterOrigin: origin };
+    const current = JSON.parse(serialize(STANDARD_M, FABRIC, {}, workspace));
+    expect(current.v).toBe(SAVE_VERSION);
+    const loaded = deserialize(JSON.stringify(current));
+    expect(loaded.ok).toBe(true);
+    if (loaded.ok) expect(loaded.workspace.starterOrigin).toEqual(origin);
+
+    const previous = { ...current, v: 6, workspace: { ...workspace } };
+    delete previous.workspace.starterOrigin;
+    const migrated = deserialize(JSON.stringify(previous));
+    expect(migrated.ok).toBe(true);
+    if (migrated.ok) expect(migrated.workspace).not.toHaveProperty("starterOrigin");
+    expect(deserialize(JSON.stringify({ ...previous, workspace: null })).ok).toBe(false);
+
+    const missingCurrentOrigin = { ...current, workspace: { ...current.workspace } };
+    delete missingCurrentOrigin.workspace.starterOrigin;
+    expect(deserialize(JSON.stringify(missingCurrentOrigin))).toEqual({
+      ok: false, error: "Current SaveFile is missing starter origin state.",
+    });
+    const unknownOrigin = { ...current, workspace: { ...current.workspace, starterOrigin: { ...origin, entryId: "removed-entry" } } };
+    expect(deserialize(JSON.stringify(unknownOrigin))).toMatchObject({ ok: false, error: expect.stringContaining("saved starter entry is unavailable") });
   });
   it("round-trips appearance without changing the workspace contract", () => {
     const appearance = { texture: "rib" as const, shine: 35 };
@@ -142,7 +167,7 @@ describe("v4 workspace validation", () => {
       appearance: DEFAULT_APPEARANCE,
       garmentOptions: { tee: {} },
       rawOptions: { tee: {} },
-      workspace: DEFAULT_WORKSPACE,
+      workspace: { ...DEFAULT_WORKSPACE, starterOrigin: starterOriginForEntry(STARTER_REGISTRY.entries[0]!) },
       materialSelectionExplicit: false,
       surface: {},
       rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
@@ -152,6 +177,7 @@ describe("v4 workspace validation", () => {
     if (result.ok) {
       expect(result.measurements.chest).toBeNull();
       expect(result.rawMeasurements.chest).toBe("");
+      expect(result.workspace.starterOrigin).toEqual(recovery.workspace.starterOrigin);
     }
     expect(saveRecoveryToStorage(recovery)).toBe(true);
     expect(readRecoveryFromStorage().ok).toBe(true);

@@ -12,8 +12,9 @@ import {
 } from "../export/nesting-intelligence";
 import type { ViewName } from "./journey";
 import { parseSemanticEditDocument, type SemanticEditDocument } from "../edit/semantic-edit";
+import { starterOriginError, type StarterOrigin } from "./starter-registry";
 
-export const SAVE_VERSION = 6;
+export const SAVE_VERSION = 7;
 export interface Workspace {
   readonly garment: string;
   readonly targetStyle: string;
@@ -23,6 +24,8 @@ export interface Workspace {
   readonly exportStep: number;
   readonly fabricWidth: number;
   readonly nestScope: "single" | "marker";
+  /** Absent only in pre-v7 saves; null means the design did not originate from a registry entry. */
+  readonly starterOrigin?: StarterOrigin | null;
 }
 
 const DEFAULT_STRETCH_BY_GARMENT: Readonly<Record<string, string>> = {
@@ -43,7 +46,7 @@ export function defaultStretchFabricForGarment(garment: string): string {
 export const DEFAULT_WORKSPACE: Workspace = {
   garment: "tee", targetStyle: "Classic tee", stretchFabric: defaultStretchFabricForGarment("tee"),
   view: "pattern", bodyCroquisView: "front-back", exportStep: 0,
-  fabricWidth: 150, nestScope: "single",
+  fabricWidth: 150, nestScope: "single", starterOrigin: null,
 };
 export interface SaveFile {
   readonly v: number;
@@ -154,7 +157,8 @@ function validWorkspace(value: unknown): value is Workspace {
     || typeof value.bodyCroquisView !== "string" || typeof value.exportStep !== "number"
     || typeof value.fabricWidth !== "number" || typeof value.nestScope !== "string") return false;
   const recipe = GARMENTS.find((candidate) => candidate.name === value.garment);
-  return recipe !== undefined
+  return (value.starterOrigin === undefined || starterOriginError(value.starterOrigin) === null)
+    && recipe !== undefined
     && recipe.styles.some((style) => style.name === value.targetStyle)
     && STRETCH_FABRICS.some((fabric) => fabric.name === value.stretchFabric)
     && VIEWS.includes(value.view)
@@ -165,7 +169,8 @@ function validWorkspace(value: unknown): value is Workspace {
 }
 
 export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}, nestingIntelligence: NestingIntelligence = { ...DEFAULT_NESTING_INTELLIGENCE }, semanticEdits: SemanticEditDocument | null = null): string {
-  return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, appearance, garmentOptions, workspace, surface, nestingIntelligence, semanticEdits }, null, 2);
+  const currentWorkspace = { ...workspace, starterOrigin: workspace.starterOrigin ?? null };
+  return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, appearance, garmentOptions, workspace: currentWorkspace, surface, nestingIntelligence, semanticEdits }, null, 2);
 }
 
 const LEGACY_REQUIRED = ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"];
@@ -175,7 +180,7 @@ export function deserialize(json: string): LoadResult {
   let p: unknown;
   try { p = JSON.parse(json); } catch { return { ok: false, error: "Not valid JSON." }; }
   if (!object(p)) return { ok: false, error: "Save file is not an object." };
-  if (![1, 2, 3, 4, 5, SAVE_VERSION].includes(p.v as number)) return { ok: false, error: `Unrecognised save version: ${String(p.v)}.` };
+  if (![1, 2, 3, 4, 5, 6, SAVE_VERSION].includes(p.v as number)) return { ok: false, error: `Unrecognised save version: ${String(p.v)}.` };
   if (!object(p.measurements)) return { ok: false, error: "Missing measurements." };
   const legacy = typeof p.v === "number" && p.v < 5;
   const measurements = { ...STANDARD_M };
@@ -231,21 +236,27 @@ export function deserialize(json: string): LoadResult {
   let workspace = DEFAULT_WORKSPACE;
   if (!legacy) {
     const w = p.workspace;
+    if (p.v === SAVE_VERSION && (!object(w) || !Object.prototype.hasOwnProperty.call(w, "starterOrigin"))) {
+      return { ok: false, error: "Current SaveFile is missing starter origin state." };
+    }
+    const originError = object(w) ? starterOriginError(w.starterOrigin) : null;
+    if (originError) return { ok: false, error: originError };
     if (!validWorkspace(w)) {
       return { ok: false, error: "Invalid workspace choices. Check garment, style, material, view, size and fabric width." };
     }
     workspace = w;
   }
-  if (p.v !== SAVE_VERSION && Object.prototype.hasOwnProperty.call(p, "semanticEdits")) {
+  const supportsSemanticEdits = p.v === 6 || p.v === SAVE_VERSION;
+  if (!supportsSemanticEdits && Object.prototype.hasOwnProperty.call(p, "semanticEdits")) {
     return { ok: false, error: "Older SaveFile contains unsupported semantic edit state." };
   }
-  if (p.v === SAVE_VERSION && !Object.prototype.hasOwnProperty.call(p, "semanticEdits")) {
+  if (supportsSemanticEdits && !Object.prototype.hasOwnProperty.call(p, "semanticEdits")) {
     return { ok: false, error: "Current SaveFile is missing semantic edit state." };
   }
-  const semanticEdits = p.v === SAVE_VERSION
+  const semanticEdits = supportsSemanticEdits
     ? p.semanticEdits === null ? null : parseSemanticEditDocument(p.semanticEdits)
     : null;
-  if (p.v === SAVE_VERSION && semanticEdits === null && p.semanticEdits !== null) {
+  if (supportsSemanticEdits && semanticEdits === null && p.semanticEdits !== null) {
     return { ok: false, error: "Saved semantic edits are malformed or use an unsupported schema." };
   }
   if (semanticEdits && semanticEdits.recipeId !== workspace.garment) {
@@ -274,7 +285,8 @@ export function readFromStorage(): LoadResult {
 }
 
 export function serializeRecovery(file: Omit<RecoveryFile, "v">): string {
-  return JSON.stringify({ v: RECOVERY_VERSION, ...file, semanticEdits: file.semanticEdits ?? null }, null, 2);
+  const workspace = { ...file.workspace, starterOrigin: file.workspace.starterOrigin ?? null };
+  return JSON.stringify({ v: RECOVERY_VERSION, ...file, workspace, semanticEdits: file.semanticEdits ?? null }, null, 2);
 }
 
 export function deserializeRecovery(json: string): RecoveryResult {

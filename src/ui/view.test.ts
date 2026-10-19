@@ -782,6 +782,12 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain("Choose a starting garment");
     expect(html).toContain("Straight-leg trouser");
     expect(html).toContain('data-garment-region="Lower body"');
+    expect(html).toContain('data-starter-entry-id="tee-classic-custom-v1" aria-pressed="false"');
+    expect(html).toContain("B1 technical review pending · physical validation not-validated");
+    expect(html).toContain("Length: 59–74 cm");
+    expect(html).toContain("No fit-probability, physical-fit");
+    expect(garmentToggleMarkup("tee", "tee-classic-custom-v1"))
+      .toContain('data-starter-entry-id="tee-classic-custom-v1" aria-pressed="true"');
   });
 });
 
