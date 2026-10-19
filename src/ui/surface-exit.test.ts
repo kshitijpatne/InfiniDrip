@@ -5,9 +5,9 @@
 import { describe, it, expect, vi } from "vitest";
 import { mountApp } from "./app";
 
-const GARMENTS = ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"];
+const GARMENTS = ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts"];
 /** A role every garment family actually drafts (the trouser splits fronts). */
-const ROLE_FOR: Record<string, string> = { trouser: "frontLeft" };
+const ROLE_FOR: Record<string, string> = { trouser: "frontLeft", shorts: "frontLeft" };
 
 const clickId = (root: HTMLElement, id: string): void => {
   root.querySelector<HTMLElement>(`#${id}`)!.click();

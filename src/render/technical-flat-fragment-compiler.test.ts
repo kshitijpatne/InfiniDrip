@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, TROUSER_OPTION_DEFINITIONS, defaultGarmentOptions, type Block } from "../drafting";
 import { assembleTechnicalFlatRoles, type FlatRoleTransform, type TechnicalFlatSourceFragment } from "./technical-flat-assembly";
-import { compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
+import { compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
 
 const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
 const defaultOptions = defaultGarmentOptions(TROUSER_OPTION_DEFINITIONS);
@@ -224,5 +224,18 @@ describe("compileTrouserWaistbandFragments", () => {
       .toContainEqual(expect.objectContaining({ code: "UNRESOLVED_FRAGMENT_MARK", message: expect.stringContaining("duplicated") }));
     const missingMarks = { ...band, marks: undefined };
     expect(compile({ ...source, roles: { ...source.roles, waistband: missingMarks } }, "BACK_FLAT").issues).toEqual([]);
+  });
+});
+
+describe("compileShortsWaistbandFragments", () => {
+  it("reports the Shorts-specific source error for an incomplete waistband outline", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "shorts")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const invalidWaistband = { ...block.roles.waistband!, edges: [] };
+    const invalidBlock = { ...block, roles: { ...block.roles, waistband: invalidWaistband } };
+    const result = compileShortsWaistbandFragments(invalidBlock, "shorts-invalid-band", "BACK_FLAT", [], {});
+    expect(result.primitives).toEqual([]);
+    expect(result.issues[0]?.code).toBe("INVALID_FRAGMENT_SOURCE");
+    expect(result.issues[0]?.message).toContain("Shorts waistband fragments require");
   });
 });

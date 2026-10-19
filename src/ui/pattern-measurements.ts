@@ -16,6 +16,7 @@ const teeFrontBack = linked("chest", "shoulderWidth", "length", "armholeDepth", 
 const teeSleeve = linked("chest", "shoulderWidth", "bicep", "armholeDepth", "sleeveLength", "ease");
 const lowerPanel = linked("waist", "hip", "hipDepth", "length", "ease");
 const trouserLeg = linked("waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease");
+const shortsLeg = linked("waist", "hip", "hipDepth", "crotchDepth", "thigh", "ease");
 
 /**
  * Reviewed Slice 197 candidate links, keyed by stable recipe id and drafted
@@ -78,6 +79,17 @@ export const PATTERN_MEASUREMENT_MAP: Readonly<Record<string, Readonly<Record<st
     "trouser fly underlap": optionOnly("This block is controlled by Front closure options, not body measurements."),
     "trouser pocket bag left": linked("waist", "ease"),
     "trouser pocket bag right": linked("waist", "ease"),
+  },
+  shorts: {
+    "shorts front left": shortsLeg,
+    "shorts front right": shortsLeg,
+    "shorts back left": shortsLeg,
+    "shorts back right": shortsLeg,
+    "shorts waistband": linked("waist", "ease"),
+    "shorts fly shield": optionOnly("This block is controlled by Front closure options, not body measurements."),
+    "shorts fly underlap": optionOnly("This block is controlled by Front closure options, not body measurements."),
+    "shorts pocket bag left": linked("waist", "ease"),
+    "shorts pocket bag right": linked("waist", "ease"),
   },
 };
 

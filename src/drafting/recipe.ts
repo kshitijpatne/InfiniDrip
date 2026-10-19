@@ -541,6 +541,7 @@ export const SHORTS: GarmentRecipe = {
   techPack: SHORTS_TECH_PACK,
   options: SHORTS_OPTION_DEFINITIONS,
   allowances: SHORTS_ALLOWANCES,
+  tiledPdfLocalCoordinates: true,
 };
 
 export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS];

@@ -18,7 +18,8 @@ export interface TechnicalFlatFragmentCompilation {
   readonly issues: readonly TechnicalFlatFragmentIssue[];
 }
 
-const WAIST_STITCH = "Waistband (four legs ↔ separate waistband)";
+const TROUSER_WAIST_STITCH = "Waistband (four legs ↔ separate waistband)";
+const SHORTS_WAIST_STITCH = "Waistband (four leg panels ↔ separate waistband)";
 const TOLERANCE = 1e-8;
 type LineEdge = Extract<Edge, { readonly kind: "line" }>;
 
@@ -46,17 +47,17 @@ function transform(point: FlatPoint, placement: FlatRoleTransform): FlatPoint | 
   }
 }
 
-function edgeSource(edgeId: string): string {
-  return `pattern:trouser:role:waistband:edge:${edgeId}`;
+function edgeSource(recipeId: string, edgeId: string): string {
+  return `pattern:${recipeId}:role:waistband:edge:${edgeId}`;
 }
 
-function pathPrimitive(revisionId: string, kind: TechnicalFlatViewKind, suffix: string,
+function pathPrimitive(recipeId: string, revisionId: string, kind: TechnicalFlatViewKind, suffix: string,
   edgeId: string, layer: FlatPathPrimitive["layer"], feature: FlatPathPrimitive["feature"],
   start: FlatPoint, end: FlatPoint): FlatPathPrimitive {
   return {
-    kind: "path", id: `live-flat:trouser:${kind}:waistband:${suffix}`, layer, feature,
-    source: { sourceClass: "PATTERN_DERIVED", sourceId: edgeSource(edgeId), revisionId },
-    sourceEdgeIds: [edgeSource(edgeId)],
+    kind: "path", id: `live-flat:${recipeId}:${kind}:waistband:${suffix}`, layer, feature,
+    source: { sourceClass: "PATTERN_DERIVED", sourceId: edgeSource(recipeId, edgeId), revisionId },
+    sourceEdgeIds: [edgeSource(recipeId, edgeId)],
     commands: [{ op: "move", point: start }, { op: "line", point: end }],
   };
 }
@@ -65,8 +66,8 @@ function markLayer(mark: PatternMark): FlatPointMarkPrimitive["layer"] {
   return mark.kind === "button" || mark.kind === "buttonhole" ? "CLOSURE" : "ANNOTATION";
 }
 
-function expectedIntervals(block: Block, bottom: LineEdge): Map<string, readonly [number, number]> | undefined {
-  const matches = block.stitches.filter((stitch) => stitch.label === WAIST_STITCH);
+function expectedIntervals(block: Block, bottom: LineEdge, stitchLabel: string): Map<string, readonly [number, number]> | undefined {
+  const matches = block.stitches.filter((stitch) => stitch.label === stitchLabel);
   const stitch = matches[0];
   if (matches.length !== 1 || !stitch || stitch.ease !== undefined || stitch.a.edges.length !== 4
     || stitch.b.edges.length !== 1 || !stitch.b.edges[0] || !("edge" in stitch.b.edges[0])
@@ -101,15 +102,17 @@ function addIssue(issues: TechnicalFlatFragmentIssue[], code: TechnicalFlatFragm
   issues.push({ code, sourceId, message });
 }
 
-/** Compile view-only pieces of the one drafted Trouser waistband role. The
+/** Compile view-only pieces of a drafted four-panel waistband role. The
  * bottom joining edge is validated against the exact panel interface and is
  * represented by that panel edge in the output, so it is not stroked twice. */
-export function compileTrouserWaistbandFragments(
+function compileWaistbandFragments(
   block: Block,
   revisionId: string,
   kind: TechnicalFlatViewKind,
   fragments: readonly TechnicalFlatSourceFragment[],
   placements: Readonly<Record<string, FlatRoleTransform>>,
+  recipeId: string,
+  stitchLabel: string,
 ): TechnicalFlatFragmentCompilation {
   const issues: TechnicalFlatFragmentIssue[] = [];
   const piece = block.roles.waistband;
@@ -123,13 +126,13 @@ export function compileTrouserWaistbandFragments(
     || Math.abs(Math.hypot(top.end.x - top.start.x, top.end.y - top.start.y)
       - Math.hypot(bottom.end.x - bottom.start.x, bottom.end.y - bottom.start.y)) > TOLERANCE
     || Math.abs(top.end.y - top.start.y) > TOLERANCE || Math.abs(bottom.end.y - bottom.start.y) > TOLERANCE) {
-    addIssue(issues, "INVALID_FRAGMENT_SOURCE", "pattern:trouser:role:waistband",
-      "Trouser waistband fragments require one finite closed four-line source outline named top, endRight, bottom, and endLeft.");
+    addIssue(issues, "INVALID_FRAGMENT_SOURCE", `pattern:${recipeId}:role:waistband`,
+      `${recipeId === "shorts" ? "Shorts" : "Trouser"} waistband fragments require one finite closed four-line source outline named top, endRight, bottom, and endLeft.`);
     return { primitives: [], issues };
   }
-  const intervals = expectedIntervals(block, bottom);
+  const intervals = expectedIntervals(block, bottom, stitchLabel);
   if (!intervals || fragments.length !== 2) {
-    addIssue(issues, "INVALID_FRAGMENT_SOURCE", edgeSource("bottom"),
+    addIssue(issues, "INVALID_FRAGMENT_SOURCE", edgeSource(recipeId, "bottom"),
       "The exact zero-ease waistband-to-four-waists source interface and two face fragments are required.");
     return { primitives: [], issues };
   }
@@ -137,7 +140,7 @@ export function compileTrouserWaistbandFragments(
   const selected = roleIds.map((roleId) => fragments.find((fragment) => fragment.attachedRoleId === roleId));
   if (selected.some((fragment) => !fragment) || new Set(fragments.map((fragment) => fragment.id)).size !== 2
     || new Set(fragments.map((fragment) => fragment.attachedRoleId)).size !== 2) {
-    addIssue(issues, "INVALID_FRAGMENT_SOURCE", edgeSource("bottom"),
+    addIssue(issues, "INVALID_FRAGMENT_SOURCE", edgeSource(recipeId, "bottom"),
       `This ${kind === "BACK_FLAT" ? "back" : "front"} view requires one distinct source fragment for ${roleIds.join(" and ")}.`);
     return { primitives: [], issues };
   }
@@ -151,15 +154,15 @@ export function compileTrouserWaistbandFragments(
     const panel = placements[fragment.attachedRoleId];
     const panelPiece = block.roles[fragment.attachedRoleId];
     const panelEdge = line(panelPiece, "waist");
-    const stitch = block.stitches.find((candidate) => candidate.label === WAIST_STITCH);
+    const stitch = block.stitches.find((candidate) => candidate.label === stitchLabel);
     const ref = stitch?.a.edges.find((candidate) => "edge" in candidate
       && candidate.piece === fragment.attachedRoleId && candidate.edge === "waist") as EdgeRef | undefined;
     if (fragment.roleId !== "waistband" || fragment.edgeId !== "bottom" || fragment.attachedEdgeId !== "waist"
-      || fragment.stitchLabel !== WAIST_STITCH || !expected || !Array.isArray(fragment.sourceInterval)
+      || fragment.stitchLabel !== stitchLabel || !expected || !Array.isArray(fragment.sourceInterval)
       || !Number.isFinite(bandStart) || !Number.isFinite(bandEnd) || bandStart! < 0 || bandEnd! > 1
       || !(bandEnd! > bandStart!) || Math.abs(bandStart! - expected[0]) > TOLERANCE
       || Math.abs(bandEnd! - expected[1]) > TOLERANCE || !panel || !panelPiece || !panelEdge || !ref) {
-      addIssue(issues, "INVALID_FRAGMENT_SOURCE", edgeSource("bottom"),
+      addIssue(issues, "INVALID_FRAGMENT_SOURCE", edgeSource(recipeId, "bottom"),
         `Fragment for “${fragment.attachedRoleId}” does not preserve its exact source interval, sewn role, or panel transform.`);
       continue;
     }
@@ -173,7 +176,7 @@ export function compileTrouserWaistbandFragments(
     const viewEnd = transform(targetEnd, panel);
     if (!attachedStart || !attachedEnd || !closePoint(attachedStart, targetStart) || !closePoint(attachedEnd, targetEnd)
       || !viewStart || !viewEnd) {
-      addIssue(issues, "UNRESOLVED_FRAGMENT_ATTACHMENT", `stitch:${WAIST_STITCH}:${fragment.attachedRoleId}`,
+      addIssue(issues, "UNRESOLVED_FRAGMENT_ATTACHMENT", `stitch:${stitchLabel}:${fragment.attachedRoleId}`,
         `Waistband fragment “${fragment.id}” does not land on its exact same-revision ${fragment.attachedRoleId}.waist endpoints.`);
       continue;
     }
@@ -195,7 +198,7 @@ export function compileTrouserWaistbandFragments(
   });
   const bottomSegments = faceFragments.map((fragment) => attachments.get(fragment.attachedRoleId)!.bottomPoints);
   if (topSegments.some((segment) => !segment)) {
-    addIssue(issues, "UNRESOLVED_FRAGMENT_ATTACHMENT", edgeSource("top"),
+      addIssue(issues, "UNRESOLVED_FRAGMENT_ATTACHMENT", edgeSource(recipeId, "top"),
       "A clipped waistband top or sewn edge could not be placed by a finite rigid transform.");
     return { primitives: [], issues };
   }
@@ -217,7 +220,7 @@ export function compileTrouserWaistbandFragments(
     const rightTopPlaced = rightTop && transform(rightTop, rightPanel);
     if (!leftBottomPlaced || !rightBottomPlaced || !leftTopPlaced || !rightTopPlaced
       || !closePoint(leftBottomPlaced, rightBottomPlaced) || !closePoint(leftTopPlaced, rightTopPlaced)) {
-      addIssue(issues, "UNRESOLVED_FRAGMENT_JOIN", "view:trouser:waistband:center-front",
+      addIssue(issues, "UNRESOLVED_FRAGMENT_JOIN", `view:${recipeId}:waistband:center-front`,
         "The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held.");
       return { primitives: [], issues };
     }
@@ -228,7 +231,7 @@ export function compileTrouserWaistbandFragments(
     const rightTop = topSegments[1]!;
     if (!leftBottom || !rightBottom || !leftTop || !rightTop
       || !closePoint(leftBottom[1], rightBottom[0]) || !closePoint(leftTop[0], rightTop[1])) {
-      addIssue(issues, "UNRESOLVED_FRAGMENT_CLOSURE", "view:trouser:waistband:center-back",
+      addIssue(issues, "UNRESOLVED_FRAGMENT_CLOSURE", `view:${recipeId}:waistband:center-back`,
         "The back waistband fragments do not meet at a single center-back join at both sewn and top edges; the complete face remains held.");
       return { primitives: [], issues };
     }
@@ -241,7 +244,7 @@ export function compileTrouserWaistbandFragments(
   const sharedFrontFraction = kind === "FRONT_FLAT" ? attachments.get("frontLeft")!.fragment.sourceInterval[0] : undefined;
   for (const [index, fragment] of faceFragments.entries()) {
     const segment = topSegments[index]!;
-    const topPrimitive = pathPrimitive(revisionId, kind, `${fragment.id}:top`, "top", "GARMENT_SILHOUETTE", "silhouette",
+    const topPrimitive = pathPrimitive(recipeId, revisionId, kind, `${fragment.id}:top`, "top", "GARMENT_SILHOUETTE", "silhouette",
       segment[0], segment[1]);
     output.push(topPrimitive);
     // The waist stitch order is backLeft → frontLeft → frontRight → backRight,
@@ -257,9 +260,9 @@ export function compileTrouserWaistbandFragments(
       const localIndex = boundaryIndex;
       const bottomView = bottomSegments[index]![localIndex]!;
       const topView = topSegments[index]![1 - localIndex]!;
-      output.push({ kind: "path", id: `live-flat:trouser:${kind}:waistband:${fragment.id}:side-boundary`,
+      output.push({ kind: "path", id: `live-flat:${recipeId}:${kind}:waistband:${fragment.id}:side-boundary`,
         layer: "GARMENT_SILHOUETTE", feature: "silhouette",
-        source: { sourceClass: "PATTERN_DERIVED", sourceId: `view:trouser:stitch:${WAIST_STITCH}:boundary:${fragment.attachedRoleId}`, revisionId },
+        source: { sourceClass: "PATTERN_DERIVED", sourceId: `view:${recipeId}:stitch:${stitchLabel}:boundary:${fragment.attachedRoleId}`, revisionId },
         commands: [{ op: "move", point: topView }, { op: "line", point: bottomView }],
       });
     }
@@ -268,7 +271,7 @@ export function compileTrouserWaistbandFragments(
   if (kind === "BACK_FLAT") {
     const leftBottom = bottomSegments[0]!;
     const leftTop = topSegments[0]!;
-    output.push(pathPrimitive(revisionId, kind, "center-back-closure", "endLeft", "CLOSURE", "closure",
+    output.push(pathPrimitive(recipeId, revisionId, kind, "center-back-closure", "endLeft", "CLOSURE", "closure",
       leftBottom[1], leftTop[0]));
   }
 
@@ -276,7 +279,7 @@ export function compileTrouserWaistbandFragments(
   const markSourceIds = new Set<string>();
   for (const mark of marks) {
     if (!("at" in mark)) {
-      addIssue(issues, "UNRESOLVED_FRAGMENT_MARK", `pattern:trouser:mark:waistband:${mark.name}`,
+      addIssue(issues, "UNRESOLVED_FRAGMENT_MARK", `pattern:${recipeId}:mark:waistband:${mark.name}`,
         `Waistband mark “${mark.name}” is not a source point and cannot be safely assigned to a view fragment.`);
       continue;
     }
@@ -285,7 +288,7 @@ export function compileTrouserWaistbandFragments(
       || mark.at.x > Math.max(bottom.start.x, bottom.end.x) + TOLERANCE
       || mark.at.y < Math.min(top.start.y, bottom.start.y) - TOLERANCE
       || mark.at.y > Math.max(top.start.y, bottom.start.y) + TOLERANCE) {
-      addIssue(issues, "UNRESOLVED_FRAGMENT_MARK", `pattern:trouser:mark:waistband:${mark.name}`,
+      addIssue(issues, "UNRESOLVED_FRAGMENT_MARK", `pattern:${recipeId}:mark:waistband:${mark.name}`,
         `Waistband mark “${mark.name}” is outside the exact top/bottom source strip.`);
       continue;
     }
@@ -301,18 +304,38 @@ export function compileTrouserWaistbandFragments(
       return local && transform(local, attachment.panel);
     });
     if (markSourceIds.has(mark.name)) {
-      addIssue(issues, "UNRESOLVED_FRAGMENT_MARK", `pattern:trouser:mark:waistband:${mark.name}`,
+      addIssue(issues, "UNRESOLVED_FRAGMENT_MARK", `pattern:${recipeId}:mark:waistband:${mark.name}`,
         `Waistband mark “${mark.name}” is duplicated in the source record.`);
       continue;
     }
     markSourceIds.add(mark.name);
-    output.push({ kind: "mark", id: `live-flat:trouser:${kind}:waistband:mark:${mark.name}`,
+    output.push({ kind: "mark", id: `live-flat:${recipeId}:${kind}:waistband:mark:${mark.name}`,
       layer: markLayer(mark), feature: mark.kind === "button" || mark.kind === "buttonhole" ? "closure" : "annotation",
-      source: { sourceClass: "PATTERN_DERIVED", sourceId: `pattern:trouser:mark:waistband:${mark.name}`, revisionId },
+      source: { sourceClass: "PATTERN_DERIVED", sourceId: `pattern:${recipeId}:mark:waistband:${mark.name}`, revisionId },
       markKind: mark.kind, markName: mark.name, at: placed[0]!, label: mark.label,
       labelRole: mark.labelRole,
     });
   }
   if (issues.length > 0) return { primitives: [], issues };
   return { primitives: output, issues };
+}
+
+export function compileTrouserWaistbandFragments(
+  block: Block,
+  revisionId: string,
+  kind: TechnicalFlatViewKind,
+  fragments: readonly TechnicalFlatSourceFragment[],
+  placements: Readonly<Record<string, FlatRoleTransform>>,
+): TechnicalFlatFragmentCompilation {
+  return compileWaistbandFragments(block, revisionId, kind, fragments, placements, "trouser", TROUSER_WAIST_STITCH);
+}
+
+export function compileShortsWaistbandFragments(
+  block: Block,
+  revisionId: string,
+  kind: TechnicalFlatViewKind,
+  fragments: readonly TechnicalFlatSourceFragment[],
+  placements: Readonly<Record<string, FlatRoleTransform>>,
+): TechnicalFlatFragmentCompilation {
+  return compileWaistbandFragments(block, revisionId, kind, fragments, placements, "shorts", SHORTS_WAIST_STITCH);
 }

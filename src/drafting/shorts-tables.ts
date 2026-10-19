@@ -112,26 +112,43 @@ export const SHORTS_POMS: readonly Pom[] = [
   {
     label: "Waist (finished)",
     measure: (b) => 4 * seam(front(b), "waist"),
+    anchor: (b) => edgeEnd(pieceEdge(front(b), "waist")),
+    anchorRoleId: "frontLeft",
+    anchorEdgeId: "waist",
   },
   {
     label: "Waistband depth (finished)",
     measure: (b) => seam(band(b), "endRight"),
+    frontMarkAnchor: { roleId: "waistband", markName: "centerFront", point: "at" },
+    backMarkAnchor: { roleId: "waistband", markName: "centerBack" },
   },
   {
     label: "Seat / hip (finished)",
     measure: (b) => 4 * edgeEnd(pieceEdge(front(b), "sideUpper")).x,
+    anchor: (b) => edgeEnd(pieceEdge(front(b), "sideUpper")),
+    anchorRoleId: "frontLeft",
+    anchorEdgeId: "sideUpper",
   },
   {
     label: "Hip depth (body reference)",
     measure: (b) => spanY(front(b), { edge: "waist", at: "start" }, { edge: "sideUpper", at: "end" }),
+    anchor: (b) => edgeEnd(pieceEdge(front(b), "sideUpper")),
+    anchorRoleId: "frontLeft",
+    anchorEdgeId: "sideUpper",
   },
   {
     label: "Front rise (finished incl. waistband)",
     measure: (b) => spanY(front(b), { edge: "centerFront", at: "start" }, { edge: "centerFront", at: "end" }) + seam(band(b), "endRight"),
+    anchor: (b) => edgeEnd(pieceEdge(front(b), "centerFront")),
+    anchorRoleId: "frontLeft",
+    anchorEdgeId: "centerFront",
   },
   {
     label: "Back rise (finished incl. waistband)",
     measure: (b) => spanY(back(b), { edge: "centerBack", at: "start" }, { edge: "centerBack", at: "end" }) + seam(band(b), "endRight"),
+    backAnchor: (b) => edgeEnd(pieceEdge(back(b), "centerBack")),
+    backAnchorRoleId: "backLeft",
+    backAnchorEdgeId: "centerBack",
   },
   {
     label: "Thigh (finished)",
@@ -139,34 +156,55 @@ export const SHORTS_POMS: readonly Pom[] = [
       edgeEnd(pieceEdge(front(b), "sideHipToThigh")),
       edgeEnd(pieceEdge(front(b), "inseamThighToHem")),
     ),
+    anchor: (b) => edgeEnd(pieceEdge(front(b), "sideHipToThigh")),
+    anchorRoleId: "frontLeft",
+    anchorEdgeId: "sideHipToThigh",
   },
   {
     label: "Shorts length (modeled vertical crotch-to-hem station)",
     measure: (b) => spanY(front(b), { edge: "innerThighToCrotch", at: "end" }, { edge: "hem", at: "start" }),
+    anchor: (b) => edgeEnd(pieceEdge(front(b), "innerThighToCrotch")),
+    anchorRoleId: "frontLeft",
+    anchorEdgeId: "innerThighToCrotch",
   },
   {
     label: "Inseam (finished seam length)",
     measure: (b) => seam(front(b), "innerThighToCrotch") + seam(front(b), "inseamThighToHem"),
+    anchor: (b) => edgeEnd(pieceEdge(front(b), "innerThighToCrotch")),
+    anchorRoleId: "frontLeft",
+    anchorEdgeId: "innerThighToCrotch",
   },
   {
     label: "Outseam (finished incl. waistband)",
     measure: (b) => seam(front(b), "sideUpper") + seam(front(b), "sideHipToThigh") + seam(front(b), "sideThighToHem") + seam(band(b), "endRight"),
+    anchor: (b) => edgeEnd(pieceEdge(front(b), "sideThighToHem")),
+    anchorRoleId: "frontLeft",
+    anchorEdgeId: "sideThighToHem",
   },
   {
     label: "Leg opening (finished)",
     measure: (b) => 4 * seam(front(b), "hem"),
+    anchor: (b) => edgeEnd(pieceEdge(front(b), "hem")),
+    anchorRoleId: "frontLeft",
+    anchorEdgeId: "hem",
   },
   {
     label: "Front fly length (finished)",
     measure: (b) => seam(shield(b), "left"),
+    anchorRoleId: "frontLeft",
+    frontMarkAnchor: { roleId: "frontLeft", markName: "flyEdge", point: "end" },
   },
   {
     label: "Left pocket opening (finished)",
     measure: (b) => lineMarkLength(b, "frontLeft", "pocketOpening"),
+    anchorRoleId: "frontLeft",
+    frontMarkAnchor: { roleId: "frontLeft", markName: "pocketOpening", point: "start" },
   },
   {
     label: "Right pocket opening (finished)",
     measure: (b) => lineMarkLength(b, "frontRight", "pocketOpening"),
+    anchorRoleId: "frontRight",
+    frontMarkAnchor: { roleId: "frontRight", markName: "pocketOpening", point: "start" },
   },
   {
     label: "Pocket bag depth (finished)",
@@ -179,6 +217,8 @@ export const SHORTS_POMS: readonly Pom[] = [
   {
     label: "Pocket drop (finished placement)",
     measure: (b) => pointMarkY(b, "frontLeft", "pocketOpeningStart"),
+    anchorRoleId: "frontLeft",
+    frontMarkAnchor: { roleId: "frontLeft", markName: "pocketOpeningStart", point: "at" },
   },
 ];
 

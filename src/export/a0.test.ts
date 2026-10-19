@@ -186,6 +186,22 @@ describe("exportA0Pdf — opt-in whole-piece overflow", () => {
       .toHaveLength(3);
   });
 
+  it("keeps narrow shorts labels inside the piece on the whole-piece overflow path", async () => {
+    const flyShield = rectanglePiece("shorts fly shield", false, 10, 10);
+    const page = { width: 20, height: 13 };
+    const doc = await load(exportA0Pdf([flyShield], { default: 1 }, [], page, true));
+    expect(doc.getPageCount()).toBe(1);
+    expect(streamsText(doc)).toContain("(SHORTS FLY SHIELD) Tj");
+  });
+
+  it("keeps the shorts waistband label clear on the whole-piece overflow path", async () => {
+    const waistband = rectanglePiece("shorts waistband", false, 60, 10);
+    const page = { width: 70, height: 13 };
+    const doc = await load(exportA0Pdf([waistband], { default: 1 }, [], page, true));
+    expect(doc.getPageCount()).toBe(1);
+    expect(streamsText(doc)).toContain("(SHORTS WAISTBAND) Tj");
+  });
+
   it("rejects a piece that cannot fit any A0 orientation at true scale", () => {
     const oversized: Piece = {
       name: "oversized",

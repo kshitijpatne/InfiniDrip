@@ -82,6 +82,11 @@ export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatR
     [shell("frontLeft"), shell("frontRight"), overlay("waistband"), interiorBehind("flyUnderlap", "frontLeft"), interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
     [shell("backLeft"), shell("backRight"), overlay("waistband"), interior("flyUnderlap"), interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
     "frontLeft", "backLeft"),
+  shorts: makeMapping("shorts",
+    [shell("frontLeft"), shell("frontRight"), overlay("waistband"), interiorBehind("flyUnderlap", "frontLeft"),
+      interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
+    [shell("backLeft"), shell("backRight"), overlay("waistband")],
+    "frontLeft", "backLeft"),
 };
 
 export type FlatSourceKind = "component" | "stitch" | "mark" | "dart" | "pom" | "artwork";

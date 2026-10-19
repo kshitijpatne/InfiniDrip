@@ -329,6 +329,32 @@ describe("assembleTechnicalFlatRoles", () => {
     }
   });
 
+  it("maps the shorts waistband from its exact four-panel stitch on both faces", () => {
+    const shorts = GARMENTS.find((recipe) => recipe.name === "shorts")!;
+    const source = draft(shorts);
+    const waistStitch = source.stitches.find((stitch) =>
+      stitch.label === "Waistband (four leg panels ↔ separate waistband)")!;
+    expect(waistStitch.a.edges).toEqual([
+      { piece: "backLeft", edge: "waist" },
+      { piece: "frontLeft", edge: "waist", reversed: true },
+      { piece: "frontRight", edge: "waist" },
+      { piece: "backRight", edge: "waist", reversed: true },
+    ]);
+    for (const [kind, roleIds] of [["BACK_FLAT", ["backLeft", "backRight"]], ["FRONT_FLAT", ["frontLeft", "frontRight"]]] as const) {
+      const result = assembleTechnicalFlatRoles("shorts", source, kind);
+      expect(result.sourceFragments).toHaveLength(2);
+      expect(result.sourceFragments.map((fragment) => fragment.attachedRoleId)).toEqual(roleIds);
+      expect(result.sourceFragments.every((fragment) => fragment.roleId === "waistband"
+        && fragment.edgeId === "bottom"
+        && fragment.stitchLabel === "Waistband (four leg panels ↔ separate waistband)" )).toBe(true);
+      expect(result.sourceFragments.every((fragment) => fragment.sourceInterval[0] < fragment.sourceInterval[1])).toBe(true);
+      expect(result.transforms.waistband).toBeUndefined();
+      expect(result.issues.some((issue) => issue.code === "INCONSISTENT_STITCH_TRANSFORM"
+        && issue.sourceId === "stitch:Waistband (four leg panels ↔ separate waistband)")).toBe(false);
+      for (const roleId of roleIds) expect(result.transforms[roleId]).toBeDefined();
+    }
+  });
+
   it("fails closed when the exact zero-ease waistband source relation is missing or malformed", () => {
     const source = draft(TROUSER);
     const waist = source.stitches.find((stitch) => stitch.label === "Waistband (four legs ↔ separate waistband)")!;

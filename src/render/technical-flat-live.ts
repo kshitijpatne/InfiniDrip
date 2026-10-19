@@ -20,7 +20,7 @@ import { assembleTechnicalFlatRoles, type FlatRoleTransform } from "./technical-
 import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
 import { compileTechnicalFlatPomCallouts, type TechnicalFlatPomResolvedAnchor } from "./technical-flat-poms";
 import { transformFlatPoint, transformFlatPrimitive } from "./technical-flat-transform";
-import { compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
+import { compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
 import { composeWovenDetachedBandDetails } from "./woven-detached-band-detail";
 import { createWovenCollarProjector, projectWovenCollarPrimitive, type WovenCollarRoleId } from "./woven-collar-view-projection";
 import type { Pom } from "../drafting/pom";
@@ -735,27 +735,48 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     : new Map<WovenCollarRoleId, ReturnType<typeof createWovenCollarProjector> extends infer T ? Exclude<T, undefined> : never>();
   const waistbandFragments = recipe.name === "trouser"
     ? compileTrouserWaistbandFragments(block, revisionId, kind, assembly.sourceFragments, assembly.transforms)
-    : { primitives: [], issues: [] };
+    : recipe.name === "shorts"
+      ? compileShortsWaistbandFragments(block, revisionId, kind, assembly.sourceFragments, assembly.transforms)
+      : { primitives: [], issues: [] };
   const overlays = compileTechnicalFlatOverlays(recipe, block, revisionId, input.placements,
     input.colorHex, input.texture, input.shine);
   let resolvePomAnchor: ((pom: GarmentRecipe["poms"][number], point: FlatPoint) =>
     TechnicalFlatPomResolvedAnchor | undefined) | undefined;
-  if (recipe.name === "trouser") {
+  if (recipe.name === "trouser" || recipe.name === "shorts") {
     resolvePomAnchor = (pom, point) => {
-      const markAnchor = kind === "BACK_FLAT" ? pom.backMarkAnchor : undefined;
+      const markAnchor = recipe.name === "shorts"
+        ? kind === "FRONT_FLAT" ? pom.frontMarkAnchor
+          : pom.backMarkAnchor ? { ...pom.backMarkAnchor, point: "at" as const } : undefined
+        : kind === "BACK_FLAT" && pom.backMarkAnchor ? { ...pom.backMarkAnchor, point: "at" as const } : undefined;
       if (markAnchor) {
-        const target = waistbandFragments.primitives.find((primitive) => primitive.kind === "mark"
-          && primitive.source.sourceId === `pattern:${recipe.name}:mark:${markAnchor.roleId}:${markAnchor.markName}`
-          && primitive.source.revisionId === revisionId);
-        return target?.kind === "mark" ? { targetGeometryId: target.id, point: target.at } : undefined;
+        const sourceEntityId = `pattern:${recipe.name}:mark:${markAnchor.roleId}:${markAnchor.markName}`;
+        if (markAnchor.roleId === "waistband") {
+          const target = waistbandFragments.primitives.find((primitive) => primitive.kind === "mark"
+            && primitive.source.sourceId === sourceEntityId && primitive.source.revisionId === revisionId);
+          return target?.kind === "mark" ? { targetGeometryId: target.id, point: target.at } : undefined;
+        }
+        const placement = assembly.transforms[markAnchor.roleId];
+        if (!placement) return undefined;
+        return {
+          targetGeometryId: `flat:${recipe.name}:${kind}:mark:${markAnchor.roleId}:${markAnchor.markName}`,
+          point: placedPoint(point, placement), sourcePoint: point, sourceEntityId,
+        };
       }
-      const anchorRoleId = kind === "FRONT_FLAT" ? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
-        : G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.backPomAnchorRole;
+      const anchorRoleId = recipe.name === "shorts"
+        ? kind === "FRONT_FLAT"
+          ? pom.anchorRoleId ?? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
+          : pom.backAnchorRoleId ?? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.backPomAnchorRole
+        : kind === "FRONT_FLAT" ? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
+          : G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.backPomAnchorRole;
       const placement = anchorRoleId ? assembly.transforms[anchorRoleId] : undefined;
-      return anchorRoleId && placement ? {
+      if (!anchorRoleId || !placement) return undefined;
+      const anchorEdgeId = kind === "FRONT_FLAT" ? pom.anchorEdgeId : pom.backAnchorEdgeId;
+      return {
         targetGeometryId: `flat:${recipe.name}:${kind}:component:${anchorRoleId}:outline`,
         point: placedPoint(point, placement), sourcePoint: point,
-      } : undefined;
+        ...(recipe.name === "shorts" && anchorEdgeId
+          ? { sourceEntityId: `pattern:${recipe.name}:role:${anchorRoleId}:edge:${anchorEdgeId}` } : {}),
+      };
     };
   } else if (recipe.name === "polo") {
     resolvePomAnchor = (pom, point) => {
@@ -861,15 +882,19 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipe.name];
   const face = mapping?.faces.find((candidate) => candidate.kind === kind);
   const overlayFace = overlays.faces?.find((candidate) => candidate.kind === kind);
-  const bandArtwork = recipe.name === "trouser" ? (overlayFace?.artwork ?? []).filter((primitive) => primitive.targetRoleId === "waistband") : [];
+  const hasFourPanelWaistbandFragments = recipe.name === "trouser" || recipe.name === "shorts";
+  const bandArtwork = hasFourPanelWaistbandFragments
+    ? (overlayFace?.artwork ?? []).filter((primitive) => primitive.targetRoleId === "waistband") : [];
   for (const artwork of bandArtwork) issues.push({ stage: "overlay", sourceId: artwork.source.sourceId,
-    message: "Artwork on the Trouser waistband is withheld until its exact source placement can be clipped to one sewn front/back fragment." });
+    message: recipe.name === "shorts"
+      ? "Artwork on the Shorts waistband is withheld until its exact source placement can be clipped to one sewn front/back fragment."
+      : "Artwork on the Trouser waistband is withheld until its exact source placement can be clipped to one sewn front/back fragment." });
   const faceRoleIds = face?.roles.map((role) => role.roleId) ?? [];
   const fragmentPrimitiveIds = new Set(waistbandFragments.primitives.map((primitive) => primitive.id));
   const outputSpaceCalloutIds = new Set((mappedPomCallouts ?? []).map((primitive) => primitive.id));
-  const geometryPrimitives = recipe.name === "trouser" ? geometry.primitives.filter((primitive) =>
-    primitive.source.sourceId !== "pattern:trouser:role:waistband"
-      && !primitive.source.sourceId.startsWith("pattern:trouser:mark:waistband:")) : geometry.primitives;
+  const geometryPrimitives = hasFourPanelWaistbandFragments ? geometry.primitives.filter((primitive) =>
+    primitive.source.sourceId !== `pattern:${recipe.name}:role:waistband`
+      && !primitive.source.sourceId.startsWith(`pattern:${recipe.name}:mark:waistband:`)) : geometry.primitives;
   const combined = [...geometryPrimitives, ...waistbandFragments.primitives,
     ...(overlayFace?.artwork ?? []).filter((primitive) => !bandArtwork.includes(primitive)), ...(mappedPomCallouts ?? [])];
   const transformed: TechnicalFlatPrimitive[] = [];

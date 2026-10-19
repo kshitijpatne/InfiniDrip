@@ -37,7 +37,7 @@ describe("mapTechnicalFlatSources", () => {
       }
       const backAnchors = mapping.sources.filter((source) => source.kind === "pom"
         && source.treatment === "ANCHORED" && source.viewKinds.includes("BACK_FLAT"));
-      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" ? 2
+      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" || recipe.name === "shorts" ? 2
         : recipe.name === "tank" || recipe.name === "tee" ? 4 : recipe.name === "polo" ? 11 : recipe.name === "woven-shirt" ? 1 : 0);
       if (recipe.name === "tank" || recipe.name === "tee") {
         expect(G04_TECHNICAL_FLAT_MAPPINGS[recipe.name].pomAnchorRole).toBe("front");
@@ -122,6 +122,29 @@ describe("mapTechnicalFlatSources", () => {
           targetGeometryId: "flat:trouser:BACK_FLAT:mark:waistband:centerBack",
           anchorPoint: { x: 0, y: expect.any(Number) },
         });
+      }
+      if (recipe.name === "shorts") {
+        expect(G04_TECHNICAL_FLAT_MAPPINGS.shorts.faces[0].roles).toContainEqual({
+          roleId: "flyUnderlap", treatment: "INTERIOR_HIDDEN", behindRoleId: "frontLeft",
+        });
+        expect(G04_TECHNICAL_FLAT_MAPPINGS.shorts.faces[0].roles.map((role) => role.roleId)).toEqual([
+          "frontLeft", "frontRight", "waistband", "flyUnderlap", "flyShield", "pocketBagLeft", "pocketBagRight",
+        ]);
+        expect(G04_TECHNICAL_FLAT_MAPPINGS.shorts.faces[1].roles.map((role) => role.roleId)).toEqual([
+          "backLeft", "backRight", "waistband",
+        ]);
+        expect(backAnchors.map((source) => source.sourceId).sort()).toEqual([
+          "pom:shorts:back-rise-finished-incl-waistband", "pom:shorts:waistband-depth-finished",
+        ]);
+        expect(mapping.sources.find((source) => source.sourceId === "pom:shorts:left-pocket-opening-finished"))
+          .toMatchObject({ targetGeometryId: "flat:shorts:FRONT_FLAT:mark:frontLeft:pocketOpening",
+            relatedIds: ["mark:frontLeft:pocketOpening"], treatment: "ANCHORED" });
+        for (const sourceId of ["pom:shorts:pocket-bag-depth-finished", "pom:shorts:pocket-bag-width-finished"]) {
+          expect(mapping.notices).toContainEqual(expect.objectContaining({
+            sourceId, reason: "SOURCE_REFERENCE_MISSING",
+            message: expect.stringContaining("table-only on the front view"),
+          }));
+        }
       }
     }
   });

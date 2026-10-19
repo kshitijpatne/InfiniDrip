@@ -23,6 +23,7 @@ import { calibrationSvg, CALIBRATION_CM } from "./calibration";
 import { patternMarksSvg } from "../render/pattern-mark";
 import { unfoldPatternMarks } from "./pattern-mark";
 import type { AllowanceSpec } from "../drafting/allowance";
+import { patternLabelPose } from "./pattern-label-layout";
 
 export interface ProjectorDraft {
   readonly label: string;
@@ -143,11 +144,19 @@ function pieceMarkup(
     );
   }
 
-  // Labels stagger by grade step so overlapping size rings stay readable.
-  const labelY = b.minY + dy + b.height / 2 + step * (LABEL_SIZE * 1.4);
-  const label = `<text x="${round(slotCenterX)}" y="${round(labelY)}" fill="${CUT}" ` +
-    `font-size="${LABEL_SIZE}" font-weight="bold" font-family="sans-serif" ` +
-    `text-anchor="middle">${escapeXml(sizeLabel)} ${escapeXml(flat.name.toUpperCase())}</text>`;
+  // Shorts labels are compact and keep the small fly/bag names off their marks.
+  // Other recipe labels retain the established size, center, and grade stagger.
+  const labelText = `${sizeLabel} ${flat.name.toUpperCase()}`;
+  const labelPose = patternLabelPose(piece.name, labelText, b,
+    piece.name.toLowerCase().startsWith("shorts ") ? 0.7 : LABEL_SIZE);
+  const labelX = labelPose.x + dx;
+  const labelY = labelPose.y + dy + step * (labelPose.rotation === 90
+    ? labelPose.fontSize * 0.28 : labelPose.rotation === 0 && piece.name.toLowerCase().startsWith("shorts ")
+      ? labelPose.fontSize * 0.28 : LABEL_SIZE * 1.4);
+  const rotation = labelPose.rotation === 0 ? "" : ` transform="rotate(${labelPose.rotation} ${round(labelX)} ${round(labelY)})"`;
+  const label = `<text x="${round(labelX)}" y="${round(labelY)}"${rotation} fill="${CUT}" ` +
+    `font-size="${round(labelPose.fontSize)}" font-weight="bold" font-family="sans-serif" ` +
+    `text-anchor="middle">${escapeXml(labelText)}</text>`;
 
   return cut + sew + marks + constructionMarks + label;
 }

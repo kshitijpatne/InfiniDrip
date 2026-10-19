@@ -272,11 +272,13 @@ function finitePoint(value: FlatPoint): boolean {
   return Number.isFinite(value.x) && Number.isFinite(value.y);
 }
 
-/** Map exact zero-ease trouser waist-interface intervals from the one lower
+/** Map exact zero-ease four-panel waist-interface intervals from the one lower
  * waistband edge to each sewn leg panel. These are placements of source
  * subintervals, not additional pattern pieces. */
-function trouserWaistbandFragments(block: Block, kind: TechnicalFlatViewKind): TechnicalFlatSourceFragment[] {
-  const label = "Waistband (four legs ↔ separate waistband)";
+function waistbandFragments(block: Block, kind: TechnicalFlatViewKind, recipeId: string): TechnicalFlatSourceFragment[] {
+  const label = recipeId === "shorts"
+    ? "Waistband (four leg panels ↔ separate waistband)"
+    : "Waistband (four legs ↔ separate waistband)";
   const matches = block.stitches.filter((stitch) => stitch.label === label);
   const stitch = matches[0];
   if (matches.length !== 1 || !stitch || stitch.ease !== undefined || stitch.a.edges.length !== 4 || stitch.b.edges.length !== 1) return [];
@@ -358,7 +360,8 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
       .find((role) => role.roleId === "sleeve")?.poloSleeveCapRepresentation
     : undefined;
   const visible = new Set(face.roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN").map((role) => role.roleId));
-  const sourceFragments = recipeId === "trouser" ? trouserWaistbandFragments(block, kind) : [];
+  const sourceFragments = recipeId === "trouser" || recipeId === "shorts"
+    ? waistbandFragments(block, kind, recipeId) : [];
   const fragmentPlacedRoles = sourceFragments.length === 2 ? new Set(["waistband"]) : new Set<string>();
   // Interior pattern pieces may establish where a visible exterior piece is
   // sewn. Include them in the placement graph, then omit their transforms from
@@ -378,8 +381,11 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
   if (issues.length) return { recipeId, kind, transforms: {}, sourceFragments: [], joinedStitchLabels: [], issues };
 
   const relations: Relation[] = [];
+  const waistbandStitchLabel = recipeId === "shorts"
+    ? "Waistband (four leg panels ↔ separate waistband)"
+    : "Waistband (four legs ↔ separate waistband)";
   for (const stitch of block.stitches) {
-    if (fragmentPlacedRoles.has("waistband") && stitch.label === "Waistband (four legs ↔ separate waistband)") continue;
+    if (fragmentPlacedRoles.has("waistband") && stitch.label === waistbandStitchLabel) continue;
     const touchesFace = [...stitch.a.edges, ...stitch.b.edges].some((ref) => constructionRoles.has(ref.piece));
     if (!touchesFace) continue;
     if (stitch.a.edges.length === 0 || stitch.b.edges.length === 0) {

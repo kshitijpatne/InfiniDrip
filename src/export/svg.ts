@@ -7,6 +7,7 @@ import { flattenPiece, layoutPieces, polylineBounds, Polyline, PlacedPiece } fro
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "../render/notch";
 import { PieceNotches } from "../drafting/tshirt-notches";
 import { patternMarksSvg } from "../render/pattern-mark";
+import { patternLabelPose } from "./pattern-label-layout";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -31,9 +32,12 @@ function pieceSvg(
   const sew = `<polygon points="${pointList(p.sew)}" fill="none" stroke="${SEW}" ` +
     `stroke-width="${STROKE}" stroke-dasharray="0.3 0.2"/>`;
   const b = polylineBounds(p.cut);
-  const label = `<text x="${round(b.minX + b.width / 2)}" y="${round(b.minY + b.height / 2)}" ` +
-    `fill="${CUT}" font-size="1" font-family="sans-serif" text-anchor="middle">` +
-    `${p.name.toUpperCase()}</text>`;
+  const labelText = p.name.toUpperCase();
+  const labelPose = patternLabelPose(p.name, labelText, b, 1);
+  const rotation = labelPose.rotation === 0 ? "" : ` transform="rotate(${labelPose.rotation} ${round(labelPose.x)} ${round(labelPose.y)})"`;
+  const label = `<text x="${round(labelPose.x)}" y="${round(labelPose.y)}"${rotation} ` +
+    `fill="${CUT}" font-size="${round(labelPose.fontSize)}" font-family="sans-serif" text-anchor="middle">` +
+    `${labelText}</text>`;
 
   const recipe = notchTable.find((r) => r.pieceName === originalPiece.name);
   const notches = recipe
