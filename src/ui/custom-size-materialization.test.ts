@@ -5,6 +5,7 @@ import { DEFAULT_APPEARANCE } from "./appearance";
 import { getCaptureFieldDefinitions } from "./field-provenance";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
 import { DEFAULT_WORKSPACE, deserialize, serialize, defaultStretchFabricForGarment } from "./persist";
+import { STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
 import {
   customStyleCreationErrorMessage,
   gradedMarkerAvailabilityTitle,
@@ -131,6 +132,19 @@ describe("custom one-size design materialization", () => {
     expect(result.measurements.hip).toBe(STANDARD_M.hip);
     expect(result.measurements.inseam).toBe(STANDARD_M.inseam);
     expect(result.garmentOptions).toEqual({ "woven-shirt": seed.garmentOptions["woven-shirt"] });
+  });
+
+  it("clears starter provenance when materializing a custom one-size design from a live seed", () => {
+    const seed = seedFor("tee");
+    const starterOrigin = starterOriginForEntry(STARTER_REGISTRY.entries[0]!);
+    const liveSeed: SavedDesign = {
+      ...seed,
+      workspace: { ...seed.workspace, starterOrigin },
+    };
+
+    const result = materializeCustomSizeDesign(liveSeed, readySession("tee", true));
+
+    expect(result.workspace).toMatchObject({ nestScope: "single", starterOrigin: null });
   });
 
   it("rejects unresolved, mismatched, malformed, or wrong-recipe captures", () => {

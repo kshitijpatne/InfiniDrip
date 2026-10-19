@@ -815,6 +815,7 @@ label.pattern-measurement-match {
 }
 .garment-library-heading span:last-child { color: #6f96ad; }
 .garment-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.starter-entry-card { grid-column: 1 / -1; }
 .garment-card,
 .fit-intent-card,
 .material-card {

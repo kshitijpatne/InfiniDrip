@@ -42,6 +42,7 @@ import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObserva
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
+import { starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
 import { EMPTY_TRANSFORM, placementError, type ArtworkPlacement } from "../surface/placement";
@@ -201,6 +202,7 @@ interface DraftSnapshot {
   readonly exportStep: number;
   readonly fabricWidth: number;
   readonly nestScope: "single" | "marker";
+  readonly starterOrigin: StarterOrigin | null;
 }
 
 interface PatternMeasurementDestination {
@@ -556,6 +558,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     ...DEFAULT_WORKSPACE,
     stretchFabric: defaultStretchFabricForGarment(DEFAULT_WORKSPACE.garment),
   };
+  let starterOrigin: StarterOrigin | null = initialWorkspace.starterOrigin ?? null;
   let recipe: GarmentRecipe = garmentByName(initialWorkspace.garment);
   const initialTeeNeckbandOptions: GarmentOptions = Object.fromEntries(
     TEE_NECKBAND_OPTIONS.map((option) => [
@@ -574,7 +577,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let appearanceOpen = false;
   root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields,
     initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations(), uiqMaterialEnabled,
-    uiqOperationalClarityEnabled, initialTeeNeckbandOptions);
+    uiqOperationalClarityEnabled, initialTeeNeckbandOptions, starterOrigin?.entryId ?? null);
   root.querySelector<HTMLElement>("#export-host")!.append(createDxfInterchangePanel({
     audit: (sourcePackage, returnedDxf) => auditDxfInterchangeRoundTrip(sourcePackage as never, returnedDxf),
     readFile: (file) => file.text(),
@@ -1350,7 +1353,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let inactiveInspection = { zoom: 1, left: 0, top: 0 };
 
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
-    view, bodyCroquisView, exportStep, fabricWidth, nestScope });
+    view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin });
   const currentSavedDesign = (): SavedDesign | null => {
     const result = deserialize(serialize(measurements, fabric, garmentOptions, currentWorkspace(), appearance, surfaceBook, {
       bufferPct: nestBufferRaw.trim() === "" ? NaN : Number(nestBufferRaw),
@@ -1413,6 +1416,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     exportStep,
     fabricWidth,
     nestScope,
+    starterOrigin,
   });
   const captureRecoveryFile = (): Omit<RecoveryFile, "v"> => ({
     savedAt: Date.now(),
@@ -1812,16 +1816,25 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       });
     });
   };
+  const activeStarterEntry = () => {
+    if (!starterOrigin) return null;
+    const entry = starterEntryById(starterOrigin.entryId);
+    return entry && entry.recipeId === recipe.name && entry.configuration.targetStyle === targetStyle
+      ? entry : null;
+  };
   const inputErrors = (): Map<string, string> => {
     const errors = new Map<string, string>();
+    const activeStarterId = activeStarterEntry()?.entryId ?? null;
     for (const field of FIELDS.filter((f) => recipe.fields.includes(f.id))) {
-      const error = inputError(measurements[field.id], field);
+      const error = starterControlError(activeStarterId, field.id, measurements[field.id])
+        ?? inputError(measurements[field.id], field);
       if (error) errors.set(field.id, error);
     }
     for (const option of activeOptionDefinitions()) {
       const value = recipeOptions()[option.id];
       if (option.optional && value === undefined) continue;
-      const error = inputError(value as number, option);
+      const error = starterControlError(activeStarterId, option.id, value as number)
+        ?? inputError(value as number, option);
       if (error) errors.set(`option-${option.id}`, error);
     }
     return errors;
@@ -2880,8 +2893,35 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const input = control.querySelector<HTMLInputElement>("input");
       const rail = control.querySelector<HTMLElement>("[data-range-rail]");
       if (!input || !rail) return;
-      const min = control.dataset.rangeMin === undefined ? undefined : Number(control.dataset.rangeMin);
-      const max = control.dataset.rangeMax === undefined ? undefined : Number(control.dataset.rangeMax);
+      const baseMin = control.dataset.baseRangeMin ?? control.dataset.rangeMin;
+      const baseMax = control.dataset.baseRangeMax ?? control.dataset.rangeMax;
+      if (control.dataset.baseRangeMin === undefined && baseMin !== undefined) control.dataset.baseRangeMin = baseMin;
+      if (control.dataset.baseRangeMax === undefined && baseMax !== undefined) control.dataset.baseRangeMax = baseMax;
+      const fieldId = input.dataset.field ?? input.dataset.option;
+      const entry = activeStarterEntry();
+      const candidateControl = entry?.supportedControls.find((item) => item.fieldId === fieldId);
+      const minValue = candidateControl?.min ?? (baseMin === undefined ? undefined : Number(baseMin));
+      const maxValue = candidateControl?.max ?? (baseMax === undefined ? undefined : Number(baseMax));
+      const min = minValue;
+      const max = maxValue;
+      input.dataset.baseMin ??= input.min;
+      input.dataset.baseMax ??= input.max;
+      input.dataset.baseStep ??= input.step;
+      if (candidateControl) {
+        control.dataset.rangeMin = String(candidateControl.min);
+        control.dataset.rangeMax = String(candidateControl.max);
+        input.min = String(candidateControl.min);
+        input.max = String(candidateControl.max);
+        input.step = String(candidateControl.step);
+      } else {
+        if (baseMin === undefined) delete control.dataset.rangeMin;
+        else control.dataset.rangeMin = baseMin;
+        if (baseMax === undefined) delete control.dataset.rangeMax;
+        else control.dataset.rangeMax = baseMax;
+        input.min = input.dataset.baseMin!;
+        input.max = input.dataset.baseMax!;
+        input.step = input.dataset.baseStep!;
+      }
       const state = numericRangeState(input.value, min, max);
       const position = numericRangePosition(input.value, min, max);
       const raw = input.value.trim();
@@ -2920,6 +2960,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
 
   const draw = (): void => {
+    const starter = starterOrigin ? starterEntryById(starterOrigin.entryId) : null;
+    const activeStarter = activeStarterEntry();
+    const starterStatus = root.querySelector<HTMLElement>("#starter-origin-status")!;
+    starterStatus.hidden = starter === null;
+    starterStatus.textContent = !starter ? "" : activeStarter
+      ? "Starting design: " + starter.label + ". B1 technical review " + starter.gates.b1 + "; physical validation not performed."
+      : "Modified from " + starter.label + " for " + targetStyle
+        + ". Starter-specific limits are inactive; current style validation applies. Original B1 status: " + starter.gates.b1
+        + "; physical validation has not been performed.";
+    root.querySelectorAll<HTMLButtonElement>("[data-starter-entry-id]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.starterEntryId === activeStarter?.entryId));
+      button.disabled = customOneSizeStyle();
+    });
     teeSelectedTechPackExport.hidden = recipe.name !== "tee";
     teeNeckbandExportScope.hidden = recipe.name !== "tee";
     try {
@@ -3016,7 +3069,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // the object) — without this check both figures would draw it with a
     // short sleeve regardless (Slice 60).
     const hasSleeve = recipe.fields.includes("sleeveLength");
-    const fabricNote: Note = { level: "info", field: "ease", text: fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip) };
+    const activeStarter = activeStarterEntry();
+    const fabricNote: Note = {
+      level: "info",
+      field: "ease",
+      text: activeStarter
+        ? "The generic material selector and stretch heuristic do not model this starter's declared 95/5 cotton-spandex intent; 7 cm ease remains a product choice, not a fabric-derived recommendation. Material compatibility and stretch/recovery have not been tested."
+        : fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip),
+    };
     const checkRecipe = semanticEdits && semanticState?.evaluation?.canExportSize(0)
       ? recipeForCurrentOutputs()
       : recipe;
@@ -4172,14 +4232,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
   });
 
-  const setGarment = (name: string): void => {
+  const setGarment = (name: string, afterSelection?: () => void): void => {
     if (customOneSizeStyle() && name !== recipe.name) {
       flash("This custom one-size style keeps its garment. Create another style to design a different garment.", BLUEPRINT.lineActive);
       return;
     }
-    if (projectWorkflow && name !== recipe.name && (captureSaveError !== null
+    if (projectWorkflow && (captureSaveError !== null
       || captureSaveTimer !== null || captureWritesPending > 0)) {
-      void flushCaptureSave().then(() => setGarment(name)).catch((error: Error) => {
+      void flushCaptureSave().then(() => setGarment(name, afterSelection)).catch((error: Error) => {
         const message = error.message;
         projectPersistenceState.textContent = message;
         projectPersistenceState.dataset.state = "failed";
@@ -4187,9 +4247,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       });
       return;
     }
-    if (projectWorkflow && name !== recipe.name
-      && (pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0)) {
-      void flushPendingFieldObservations!().then(() => setGarment(name)).catch((error: unknown) => {
+    if (projectWorkflow && (pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0)) {
+      void flushPendingFieldObservations!().then(() => setGarment(name, afterSelection)).catch((error: unknown) => {
         const message = error instanceof Error ? error.message : "Pending field history could not be saved.";
         projectPersistenceState.textContent = message;
         projectPersistenceState.dataset.state = "failed";
@@ -4203,7 +4262,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     captureDrafts.clear();
     captureAnnouncement = null;
     measurementRoute = "editor";
+    const previousRecipe = recipe.name;
     recipe = garmentByName(name);
+    if (previousRecipe !== recipe.name) starterOrigin = null;
     if (!materialSelectionExplicit) {
       const defaultMaterial = defaultStretchFabricForGarment(recipe.name);
       stretchFabric = STRETCH_FABRICS.find((f) => f.name === defaultMaterial)!;
@@ -4219,6 +4280,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     syncBodyCroquisButton(bodyCroquisBtns.back, bodyCroquisView === "back");
     syncBodyCroquisButton(bodyCroquisBtns.side, bodyCroquisView === "side");
     targetStyle = recipe.styles[0].name; // the old target may not exist for this garment
+    afterSelection?.();
     GARMENTS.forEach((g) => {
       const btn = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
       const on = g.name === recipe.name;
@@ -4241,6 +4303,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
     wireMeasurementInputs();
     syncExportSizes();
+    if (afterSelection) setStep("measure");
     applyDisclosure();
     markOutputDirty();
     draw();
@@ -4248,6 +4311,22 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   GARMENTS.forEach((g) => {
     root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!
       .addEventListener("click", () => setGarment(g.name));
+  });
+  root.querySelectorAll<HTMLButtonElement>("[data-starter-entry-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const entry = starterEntryById(button.dataset.starterEntryId ?? "");
+      if (!entry) return;
+      setGarment(entry.recipeId, () => {
+        targetStyle = entry.configuration.targetStyle;
+        measurements = { ...measurements, ...entry.configuration.measurements };
+        garmentOptions = {
+          ...garmentOptions,
+          [entry.recipeId]: { ...(garmentOptions[entry.recipeId] ?? {}), ...entry.configuration.options },
+        };
+        starterOrigin = starterOriginForEntry(entry);
+        measurementRoute = "editor";
+      });
+    });
   });
   const syncGarmentChoices = (): void => {
     GARMENTS.forEach((g) => {
@@ -5336,6 +5415,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     semanticSourceCache = null;
     semanticEvaluationCache = null;
     recipe = garmentByName(loaded.workspace.garment);
+    starterOrigin = loaded.workspace.starterOrigin ?? null;
     targetStyle = loaded.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((f) => f.name === loaded.workspace.stretchFabric)!;
     appearance = loaded.appearance;
@@ -5829,6 +5909,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     semanticSourceCache = null;
     semanticEvaluationCache = null;
     recipe = garmentByName(file.workspace.garment);
+    starterOrigin = file.workspace.starterOrigin ?? null;
     targetStyle = file.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((candidate) => candidate.name === file.workspace.stretchFabric)!;
     materialSelectionExplicit = file.materialSelectionExplicit;
@@ -5862,6 +5943,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     fabric = snapshot.fabric;
     appearance = { ...snapshot.appearance };
     recipe = garmentByName(snapshot.garment);
+    starterOrigin = snapshot.starterOrigin;
     targetStyle = snapshot.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((candidate) => candidate.name === snapshot.stretchFabric)!;
     materialSelectionExplicit = snapshot.materialSelectionExplicit;

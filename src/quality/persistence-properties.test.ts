@@ -100,7 +100,9 @@ describe("EPIC 10 — persistence properties (Slice 141)", () => {
           if (!loaded.ok) return;
           expect(loaded.measurements).toEqual(measurements);
           expect(loaded.fabric).toBe(fabric);
-          expect(loaded.workspace).toEqual(workspace);
+          // Current serialization makes the v7 provenance field explicit even
+          // when callers provide a pre-v7 workspace object.
+          expect(loaded.workspace).toEqual({ ...workspace, starterOrigin: null });
           expect(loaded.appearance).toEqual(appearance);
 
           // Re-serializing the round-tripped state must reproduce the same bytes.

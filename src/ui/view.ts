@@ -10,6 +10,7 @@ import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
 import { StyleMatch, Delta } from "../style";
 import { FIELDS, Field, numericRangeState } from "./controls";
+import { STARTER_REGISTRY } from "./starter-registry";
 import type { ArtworkPlacement } from "../surface/placement";
 import {
   ARTWORK_CATEGORIES,
@@ -1060,7 +1061,7 @@ export function inspectionMarkup(content: string, view: string): string {
     `<div id="spatial-guidance-host" aria-live="polite"></div></section>`;
 }
 
-export function garmentToggleMarkup(active: string): string {
+export function garmentToggleMarkup(active: string, activeStarterId: string | null = null): string {
   const cards = GARMENTS.map((g) => {
     const ui = GARMENT_UI[g.name];
     return `<button id="garment-${g.name}" class="garment-card" type="button" ` +
@@ -1069,9 +1070,32 @@ export function garmentToggleMarkup(active: string): string {
       `<span class="garment-card-summary">${ui.summary}</span>` +
       `<span class="garment-card-detail">${ui.detail}</span></button>`;
   }).join("");
-  return `<div id="garment-toggle-host" role="group" aria-label="Garment" class="garment-library">` +
+  const starterCards = STARTER_REGISTRY.entries.map((entry) => {
+    const selected = entry.entryId === activeStarterId;
+    const limitsId = `starter-limits-${entry.entryId}`;
+    const controls = entry.supportedControls.map((control) => {
+      const classification = control.kind === "measurement" ? "body measurement"
+        : control.kind === "design" ? "design input" : "design option";
+      return "<li>" + escapeAttr(control.label) + " (" + classification + "): "
+        + control.min + "–" + control.max + " " + escapeAttr(control.unit) + "</li>";
+    }).join("");
+    return `<article class="starter-entry-card" data-starter-entry="${escapeAttr(entry.entryId)}">` +
+      `<button id="starter-${escapeAttr(entry.entryId)}" class="garment-card starter-entry-select" type="button" ` +
+      `data-starter-entry-id="${escapeAttr(entry.entryId)}" aria-pressed="${selected}" aria-describedby="${limitsId}">` +
+      `<span class="garment-card-title">${escapeAttr(entry.label)}</span>` +
+      `<span class="garment-card-summary">${escapeAttr(entry.intent.audience)} · ${escapeAttr(entry.intent.use)}</span>` +
+      `<span class="garment-card-detail">${escapeAttr(entry.intent.fit)} ${escapeAttr(entry.intent.bodyMaterial)} ${escapeAttr(entry.intent.trimMaterial)}</span>` +
+      `<span class="starter-entry-status">B1 technical review ${escapeAttr(entry.gates.b1)} · physical validation ${escapeAttr(entry.gates.physical)}</span></button>` +
+      `<details id="${limitsId}" class="starter-entry-limits"><summary>Scope and limits</summary>` +
+      `<p>${escapeAttr(entry.intent.construction)} ${escapeAttr(entry.intent.sizeScope)}</p>` +
+      `<ul>${controls}${entry.limits.map((limit) => `<li>${escapeAttr(limit)}</li>`).join("")}</ul></details></article>`;
+  }).join("");
+  return `<div id="garment-toggle-host" role="group" aria-label="Garment and digital design candidates" class="garment-library">` +
     `<div class="garment-library-heading"><span>Choose a starting garment</span><span>7 drafting blocks</span></div>` +
-    `<div class="garment-card-grid">${cards}</div></div>`;
+    `<div class="garment-card-grid">${cards}</div>` +
+    `<section id="starter-registry" aria-labelledby="starter-registry-heading">` +
+    `<div class="garment-library-heading"><span id="starter-registry-heading">Digital design candidates</span><span>${STARTER_REGISTRY.entries.length}</span></div>` +
+    `<div class="garment-card-grid">${starterCards}</div></section></div>`;
 }
 
 /** Dart tools, shown only when the piece being edited actually has a dart.
@@ -1430,6 +1454,7 @@ export function appShellMarkup(
   uiqMaterialEnabled = false,
   uiqOperationalClarityEnabled = false,
   teeNeckbandOptions: GarmentOptions = {},
+  activeStarterId: string | null = null,
 ): string {
   const activeGarmentLabel = GARMENTS.find((g) => g.name === activeGarment)?.label ?? activeGarment;
   return `<main id="infini-shell" aria-labelledby="product-title">` +
@@ -1451,7 +1476,9 @@ export function appShellMarkup(
     `<button id="workspace-confirm-accept" type="button">Load saved workspace</button></div></div></div>` +
     `<div id="journey-area"><div id="journey-host"></div><div id="tutorial-host"></div></div><div id="studio-body">` +
     `<aside id="studio-inspector" aria-label="Design controls">` +
-    `<div id="project-manager-host"></div>${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
+    `<div id="project-manager-host"></div>${garmentToggleMarkup(activeGarment, activeStarterId)}` +
+    `<p id="starter-origin-status" role="status" aria-live="polite" hidden style="font-size:11px;line-height:1.4"></p>` +
+    `<div id="review-context"></div>` +
     `<details id="readiness-details"><summary>Design readiness</summary><div id="readiness-host"></div></details>` +
     `<div id="style-host"></div>${fabricStretchMarkup(stretchFabric)}${fabricSwatchesMarkup(fabric, appearance)}` +
     (uiqMaterialEnabled

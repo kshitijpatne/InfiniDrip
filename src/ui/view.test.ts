@@ -782,6 +782,16 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain("Choose a starting garment");
     expect(html).toContain("Straight-leg trouser");
     expect(html).toContain('data-garment-region="Lower body"');
+    expect(html).toContain('data-starter-entry-id="tee-classic-custom-v1" aria-pressed="false"');
+    expect(html).toContain("B1 technical review approved for digital scope · physical validation not-validated");
+    expect(html).toContain("HPS-to-hem");
+    expect(html).toContain("Tol columns are generic recipe references");
+    expect(html).toContain("Tech Pack size labels (such as M) and XS–XL graded outputs");
+    expect(html).toContain("not starter-specific size or grade guidance");
+    expect(html).toContain("Length (design input): 59–74 cm");
+    expect(html).toContain("No fit-probability, physical-fit");
+    expect(garmentToggleMarkup("tee", "tee-classic-custom-v1"))
+      .toContain('data-starter-entry-id="tee-classic-custom-v1" aria-pressed="true"');
   });
 });
 

@@ -2557,8 +2557,14 @@ describe("transactional project repository", () => {
     const factory = newFactory();
     const name = databaseName();
     const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const legacySave = JSON.parse(serialize(STANDARD_M, FABRIC)) as {
+      v: number;
+      workspace: Record<string, unknown>;
+    };
+    legacySave.v = 6;
+    delete legacySave.workspace.starterOrigin;
     const input = {
-      saveJson: serialize(STANDARD_M, FABRIC), recoveryJson: serializeRecovery(recovery().payload),
+      saveJson: JSON.stringify(legacySave, null, 2), recoveryJson: serializeRecovery(recovery().payload),
       projectId: PROJECT_ID, styleId: STYLE_ID, migratedAt: TIME,
     };
     const originalPut = IDBObjectStore.prototype.put;
