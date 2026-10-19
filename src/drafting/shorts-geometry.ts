@@ -2,7 +2,9 @@ import { point } from "../geometry";
 import type { CubicBezier, Point } from "../geometry";
 import { block } from "./block";
 import type { Block } from "./block";
+import { edgeEnd, edgeStart, pieceEdge } from "./piece";
 import type { Edge, Piece } from "./piece";
+import { lineMark } from "./pattern-mark";
 import { edgeRef, iface } from "./stitch";
 import type { Stitch } from "./stitch";
 import { lowerBodyUpperMetrics } from "./lower-body-upper";
@@ -54,6 +56,29 @@ export function shortsMetrics(
 }
 
 const mirrorPoint = (value: Point): Point => point(-value.x, value.y);
+
+function midpoint(a: Point, b: Point): Point {
+  return point((a.x + b.x) / 2, (a.y + b.y) / 2);
+}
+
+function withPressCrease(piece: Piece, label: string): Piece {
+  const sideThigh = edgeStart(pieceEdge(piece, "sideThighToHem"));
+  const innerThigh = edgeEnd(pieceEdge(piece, "inseamThighToHem"));
+  const sideHem = edgeEnd(pieceEdge(piece, "sideThighToHem"));
+  const innerHem = edgeStart(pieceEdge(piece, "inseamThighToHem"));
+  return {
+    ...piece,
+    marks: [
+      lineMark(
+        "placementLine",
+        "pressCrease",
+        midpoint(sideThigh, innerThigh),
+        midpoint(sideHem, innerHem),
+        label,
+      ),
+    ],
+  };
+}
 
 function mirrorPiece(piece: Piece, name: string): Piece {
   return {
@@ -143,7 +168,16 @@ export function draftShortsLegs(
   const back = legPiece(measurements, metrics, "back", "shorts back left");
   const frontRight = mirrorPiece(front, "shorts front right");
   const backRight = mirrorPiece(back, "shorts back right");
-  const roles = { frontLeft: front, frontRight, backLeft: back, backRight };
+  const frontLeftWithCrease = withPressCrease(front, "front press crease");
+  const frontRightWithCrease = withPressCrease(frontRight, "front press crease");
+  const backLeftWithCrease = withPressCrease(back, "back press crease");
+  const backRightWithCrease = withPressCrease(backRight, "back press crease");
+  const roles = {
+    frontLeft: frontLeftWithCrease,
+    frontRight: frontRightWithCrease,
+    backLeft: backLeftWithCrease,
+    backRight: backRightWithCrease,
+  };
   const stitches: readonly Stitch[] = [
     { label: "Left side seam (front ↔ back)", a: sideInterface("frontLeft"), b: sideInterface("backLeft") },
     { label: "Right side seam (front ↔ back)", a: sideInterface("frontRight"), b: sideInterface("backRight") },
