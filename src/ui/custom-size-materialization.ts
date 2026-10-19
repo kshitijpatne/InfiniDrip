@@ -59,6 +59,7 @@ export function materializeCustomSizeDesign(
       garment: recipe.name,
       exportStep: 0,
       nestScope: "single",
+      starterOrigin: null,
     },
     semanticEdits: null,
   };
