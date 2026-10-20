@@ -1070,7 +1070,7 @@ export function garmentToggleMarkup(active: string, activeStarterId: string | nu
       `<span class="garment-card-summary">${ui.summary}</span>` +
       `<span class="garment-card-detail">${ui.detail}</span></button>`;
   }).join("");
-  const starterCards = STARTER_REGISTRY.entries.map((entry) => {
+  const starterCards = (entries: typeof STARTER_REGISTRY.entries): string => entries.map((entry) => {
     const selected = entry.entryId === activeStarterId;
     const limitsId = `starter-limits-${entry.entryId}`;
     const controls = entry.supportedControls.map((control) => {
@@ -1090,12 +1090,18 @@ export function garmentToggleMarkup(active: string, activeStarterId: string | nu
       `<p>${escapeAttr(entry.intent.construction)} ${escapeAttr(entry.intent.sizeScope)}</p>` +
       `<ul>${controls}${entry.limits.map((limit) => `<li>${escapeAttr(limit)}</li>`).join("")}</ul></details></article>`;
   }).join("");
+  const blankEntries = STARTER_REGISTRY.entries.filter((entry) => entry.catalogKind === "blank");
+  const customEntries = STARTER_REGISTRY.entries.filter((entry) => entry.catalogKind === "custom-measurement");
   return `<div id="garment-toggle-host" role="group" aria-label="Garment and digital design candidates" class="garment-library">` +
     `<div class="garment-library-heading"><span>Choose a starting garment</span><span>7 drafting blocks</span></div>` +
     `<div class="garment-card-grid">${cards}</div>` +
-    `<section id="starter-registry" aria-labelledby="starter-registry-heading">` +
-    `<div class="garment-library-heading"><span id="starter-registry-heading">Digital design candidates</span><span>${STARTER_REGISTRY.entries.length}</span></div>` +
-    `<div class="garment-card-grid">${starterCards}</div></section></div>`;
+    `<section id="starter-registry" aria-label="Digital design candidates">` +
+    `<section id="starter-blank-library" aria-labelledby="starter-blank-library-heading">` +
+    `<div class="garment-library-heading"><span id="starter-blank-library-heading">Starter Blank Library</span><span>${blankEntries.length}</span></div>` +
+    `<div class="garment-card-grid">${starterCards(blankEntries)}</div></section>` +
+    `<section id="custom-measurement-candidates" aria-labelledby="custom-measurement-candidates-heading">` +
+    `<div class="garment-library-heading"><span id="custom-measurement-candidates-heading">Custom measurement candidates</span><span>${customEntries.length}</span></div>` +
+    `<div class="garment-card-grid">${starterCards(customEntries)}</div></section></section></div>`;
 }
 
 /** Dart tools, shown only when the piece being edited actually has a dart.

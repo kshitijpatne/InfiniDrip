@@ -10157,6 +10157,61 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(rendered);
   });
 
+  it("opens the preconfigured T01 Tee, edits it, and preserves its origin and rendered output through save and reopen", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-classic-digital-v1");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("B1 technical review pending; physical validation not performed");
+    const defaults: Record<string, string> = {
+      chest: "100", shoulderWidth: "45", bicep: "38", length: "70",
+      armholeDepth: "24", sleeveLength: "22", ease: "7",
+    };
+    for (const [field, value] of Object.entries(defaults)) {
+      expect(root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!.value).toBe(value);
+    }
+    expect(root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!.value).toBe("7");
+    clickId(root, "view-spec");
+    const spec = root.querySelector<HTMLElement>("#canvas-host")!.innerHTML;
+    expect(spec).toContain("<table");
+    expect(spec).toContain("Modeled chest circumference");
+    clickId(root, "view-pattern");
+    const originalSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "102";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(editedSvg).not.toBe(originalSvg);
+
+    clickId(root, "save-pattern");
+    const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(stored.workspace.starterOrigin).toMatchObject({
+      entryId: "tee-classic-digital-v1",
+      entryRevision: "2026-10-20.1",
+      recipeId: "tee",
+      recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+      configurationSnapshot: {
+        targetStyle: "Classic tee",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+        options: { chestEase: 7 },
+      },
+    });
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("102");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="shoulderWidth"]')!.value).toBe("45");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="chestEase"]')!.value).toBe("7");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-classic-digital-v1"]')!.getAttribute("aria-pressed")).toBe("true");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee Classic · software defaults");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+    root.remove();
+    reopened.remove();
+    localStorage.clear();
+  });
+
   it("separates generic fabric guidance from active Tee starter material and ease intent", () => {
     localStorage.clear();
     const root = mount();

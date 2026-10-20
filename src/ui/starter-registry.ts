@@ -14,11 +14,12 @@ export interface StarterEntry {
   readonly entryRevision: string;
   readonly recipeId: string;
   readonly recipeRevision: string;
+  readonly catalogKind: "blank" | "custom-measurement";
   readonly label: string;
   readonly configuration: {
     readonly targetStyle: string;
-    readonly measurements: { readonly ease: number };
-    readonly options: { readonly chestEase: number };
+    readonly measurements: Readonly<Record<string, number>>;
+    readonly options: Readonly<Record<string, number>>;
   };
   readonly supportedControls: readonly StarterControl[];
   readonly intent: {
@@ -56,6 +57,7 @@ const TEE_CLASSIC_ENTRY: StarterEntry = {
   entryRevision: "2026-10-19.3",
   recipeId: "tee",
   recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+  catalogKind: "custom-measurement",
   label: "Tee Classic · custom measurements",
   configuration: {
     targetStyle: "Classic tee",
@@ -95,10 +97,60 @@ const TEE_CLASSIC_ENTRY: StarterEntry = {
   ],
 };
 
+const TEE_CLASSIC_BLANK_ENTRY: StarterEntry = {
+  entryId: "tee-classic-digital-v1",
+  entryRevision: "2026-10-20.1",
+  recipeId: "tee",
+  recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+  catalogKind: "blank",
+  label: "Tee Classic · software defaults",
+  configuration: {
+    targetStyle: "Classic tee",
+    measurements: {
+      chest: 100,
+      shoulderWidth: 45,
+      bicep: 38,
+      length: 70,
+      armholeDepth: 24,
+      sleeveLength: 22,
+      ease: 7,
+    },
+    options: { chestEase: 7 },
+  },
+  supportedControls: [
+    { fieldId: "chest", label: "Chest", kind: "measurement", unit: "cm", min: 60, max: 160, step: 1, defaultValue: 100 },
+    { fieldId: "shoulderWidth", label: "Shoulder width (biacromial breadth)", kind: "measurement", unit: "cm", min: 30, max: 70, step: 0.1, defaultValue: 45 },
+    { fieldId: "bicep", label: "Bicep", kind: "measurement", unit: "cm", min: 20, max: 60, step: 1, defaultValue: 38 },
+    { fieldId: "length", label: "Length", kind: "design", unit: "cm", min: 59, max: 74, step: 1, defaultValue: 70 },
+    { fieldId: "armholeDepth", label: "Armhole depth", kind: "measurement", unit: "cm", min: 12, max: 40, step: 1, defaultValue: 24 },
+    { fieldId: "sleeveLength", label: "Sleeve length", kind: "measurement", unit: "cm", min: 8, max: 70, step: 1, defaultValue: 22 },
+    { fieldId: "ease", label: "Ease", kind: "design", unit: "cm", min: 7, max: 12, step: 1, defaultValue: 7 },
+    { fieldId: "chestEase", label: "Classic chest ease", kind: "option", unit: "cm", min: 7, max: 12, step: 0.5, defaultValue: 7 },
+  ],
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured home-sewing Tee draft; editable before saving.",
+    fit: "Classic crew-neck, short-sleeve Tee; software defaults and 7 cm ease are product choices, not validated fit targets.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Uses the existing Tee draft logic as a digital starting point; sewn construction has not been validated.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; not a population chart or validated size-M profile.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "STANDARD_M contributes software starting values only; it is not a population-derived or validated size-M profile.",
+    "The modeled geometry and POM values are digital outputs, not sewn measurements or physical-fit evidence.",
+    "The 7 cm ease values are product choices, not fit, fabric, or wearer recommendations.",
+    "No physical-fit, comfort, wear, material-performance, validated-grading, supplier, manufacturing, or production claim.",
+    "Existing generic Tee size-run and export behavior is not a validated size profile or starter-specific grading contract.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g06-catalog-v2",
-  entries: [TEE_CLASSIC_ENTRY],
+  catalogRevision: "g18-catalog-v1",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;
@@ -110,6 +162,13 @@ const hasExactKeys = (value: RecordValue, keys: readonly string[]): boolean => {
   const actual = Object.keys(value);
   return actual.length === keys.length && keys.every((key) => Object.prototype.hasOwnProperty.call(value, key));
 };
+
+function matchesNumericRecord(value: unknown, expected: Readonly<Record<string, number>>): boolean {
+  if (!isRecord(value)) return false;
+  const keys = Object.keys(expected);
+  return hasExactKeys(value, keys)
+    && keys.every((key) => value[key] === expected[key]);
+}
 
 export function starterEntryById(entryId: string): StarterEntry | null {
   return STARTER_REGISTRY.entries.find((entry) => entry.entryId === entryId) ?? null;
@@ -146,12 +205,8 @@ export function starterOriginError(value: unknown): string | null {
   const validSnapshot = isRecord(snapshot)
     && hasExactKeys(snapshot, ["targetStyle", "measurements", "options"])
     && snapshot.targetStyle === entry.configuration.targetStyle
-    && isRecord(snapshot.measurements)
-    && hasExactKeys(snapshot.measurements, ["ease"])
-    && snapshot.measurements.ease === entry.configuration.measurements.ease
-    && isRecord(snapshot.options)
-    && hasExactKeys(snapshot.options, ["chestEase"])
-    && snapshot.options.chestEase === entry.configuration.options.chestEase;
+    && matchesNumericRecord(snapshot.measurements, entry.configuration.measurements)
+    && matchesNumericRecord(snapshot.options, entry.configuration.options);
   const revisionMatches = value.entryRevision === entry.entryRevision
     || COMPATIBLE_ORIGIN_REVISIONS.some((compatible) =>
       compatible.entryId === entry.entryId && compatible.entryRevision === value.entryRevision);
