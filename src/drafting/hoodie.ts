@@ -7,7 +7,7 @@ import { block, type Block } from "./block";
 import { derive, type Measurements } from "./measurements";
 import { necklineEdge, type NecklineParams } from "./neckline";
 import { crewneckBandPiece } from "./crewneck-components";
-import { edgeEnd, edgeStart, pieceEdge, type Edge, type Piece } from "./piece";
+import { edgeEnd, edgeLength, edgeStart, pieceEdge, type Edge, type Piece } from "./piece";
 import { edgeRef, iface, interfaceLength, markRef, type Interface, type Stitch } from "./stitch";
 import { sleeve } from "./sleeve";
 
@@ -83,6 +83,99 @@ function reverseCurve(edge: Extract<Edge, { readonly kind: "curve" }>, name: str
   };
 }
 
+const HOOD_NECK_EASE_MIN = 0;
+const HOOD_NECK_EASE_MAX = 6;
+const HOOD_NECK_EASE_TOLERANCE_CM = 0.01;
+const HOOD_NECK_EASE_MEASUREMENT_ROUNDOFF_CM = 1e-12;
+const HOOD_NECK_EASE_UPPER_ROUNDOFF_MARGIN_CM = 0.005;
+
+interface HoodieNeckSeams {
+  readonly front: Extract<Edge, { readonly kind: "curve" }>;
+  readonly back: Extract<Edge, { readonly kind: "curve" }>;
+}
+
+type HoodieNeckSeamIssue = "range" | "unrepresentable";
+
+interface HoodieNeckSeamResult {
+  readonly seams: HoodieNeckSeams;
+  readonly issue?: HoodieNeckSeamIssue;
+}
+
+function curveWithDeviationScale(curve: CubicBezier, scale: number): CubicBezier {
+  const straightControl1 = point(
+    curve.start.x + (curve.end.x - curve.start.x) / 3,
+    curve.start.y + (curve.end.y - curve.start.y) / 3,
+  );
+  const straightControl2 = point(
+    curve.start.x + 2 * (curve.end.x - curve.start.x) / 3,
+    curve.start.y + 2 * (curve.end.y - curve.start.y) / 3,
+  );
+  return {
+    ...curve,
+    control1: point(
+      curve.control1.x,
+      straightControl1.y + (curve.control1.y - straightControl1.y) * scale,
+    ),
+    control2: point(
+      curve.control2.x,
+      straightControl2.y + (curve.control2.y - straightControl2.y) * scale,
+    ),
+  };
+}
+
+function seamsAtDeviationScale(seams: HoodieNeckSeams, scale: number): HoodieNeckSeams {
+  return {
+    front: { ...seams.front, curve: curveWithDeviationScale(seams.front.curve, scale) },
+    back: { ...seams.back, curve: curveWithDeviationScale(seams.back.curve, scale) },
+  };
+}
+
+function hoodieNeckSeamLength(seams: HoodieNeckSeams): number {
+  return edgeLength(seams.front) + edgeLength(seams.back);
+}
+
+function adjustHoodieNeckSeams(
+  frontNeckline: Extract<Edge, { readonly kind: "curve" }>,
+  backNeckline: Extract<Edge, { readonly kind: "curve" }>,
+  ease: number,
+): HoodieNeckSeamResult {
+  const seams: HoodieNeckSeams = {
+    front: { kind: "curve", name: "necklineFront", curve: frontNeckline.curve },
+    back: reverseCurve(backNeckline, "necklineBack") as Extract<Edge, { readonly kind: "curve" }>,
+  };
+  if (!Number.isFinite(ease) || ease < HOOD_NECK_EASE_MIN || ease > HOOD_NECK_EASE_MAX) {
+    return { seams, issue: "range" };
+  }
+  if (ease === 0) return { seams };
+
+  const baseLength = hoodieNeckSeamLength(seams);
+  const targetLength = baseLength + ease - (ease === HOOD_NECK_EASE_MAX
+    ? HOOD_NECK_EASE_UPPER_ROUNDOFF_MARGIN_CM
+    : 0);
+  if (!Number.isFinite(baseLength) || !Number.isFinite(targetLength)) {
+    return { seams, issue: "unrepresentable" };
+  }
+
+  let lowerScale = 1;
+  let upperScale = 64;
+
+  for (let iteration = 0; iteration < 52; iteration += 1) {
+    const middleScale = (lowerScale + upperScale) / 2;
+    const middleLength = hoodieNeckSeamLength(seamsAtDeviationScale(seams, middleScale));
+    if (Number.isFinite(middleLength) && middleLength < targetLength) {
+      lowerScale = middleScale;
+    } else {
+      upperScale = middleScale;
+    }
+  }
+  const adjusted = seamsAtDeviationScale(seams, (lowerScale + upperScale) / 2);
+  const adjustedLength = hoodieNeckSeamLength(adjusted);
+  if (!Number.isFinite(adjustedLength) || Math.abs(adjustedLength - targetLength) > HOOD_NECK_EASE_TOLERANCE_CM) {
+    return { seams, issue: "unrepresentable" };
+  }
+  return { seams: adjusted };
+}
+
 function mirrorCurveAcrossCenterFront(curve: CubicBezier): CubicBezier {
   return {
     start: point(-curve.start.x, curve.start.y),
@@ -95,18 +188,11 @@ function mirrorCurveAcrossCenterFront(curve: CubicBezier): CubicBezier {
 function hoodSidePiece(
   side: "left" | "right",
   layer: "outer" | "lining",
-  front: Piece,
-  back: Piece,
+  neckSeams: HoodieNeckSeams,
   options: HoodieDraftOptions,
 ): Piece {
-  const frontNeckline = pieceEdge(front, "neckline") as Extract<Edge, { readonly kind: "curve" }>;
-  const backNeckline = pieceEdge(back, "neckline") as Extract<Edge, { readonly kind: "curve" }>;
-  const frontSeam = {
-    kind: "curve" as const,
-    name: "necklineFront",
-    curve: frontNeckline.curve,
-  };
-  const backSeam = reverseCurve(backNeckline, "necklineBack") as Extract<Edge, { readonly kind: "curve" }>;
+  const frontSeam = neckSeams.front;
+  const backSeam = neckSeams.back;
   const centerFront = edgeStart(frontSeam);
   const centerBack = edgeEnd(backSeam);
   const crown = point(-options.hoodDepth, -options.hoodHeight);
@@ -243,6 +329,9 @@ function hoodNecklineStitch(role: "hoodOuterLeft" | "hoodOuterRight"): Stitch {
     label: `Hoodie hood-to-neckline attachment: ${role}`,
     a: iface(edgeRef(role, "necklineFront"), edgeRef(role, "necklineBack")),
     b: GARMENT_HALF_NECKLINE,
+    // Cubic length is sampled in opposite traversal directions on the mirrored
+    // interface; this sub-nanometer slack covers only floating-point roundoff.
+    ease: { lo: HOOD_NECK_EASE_MIN - HOOD_NECK_EASE_MEASUREMENT_ROUNDOFF_CM, hi: HOOD_NECK_EASE_MAX },
   };
 }
 
@@ -271,6 +360,11 @@ export function draftHoodie(
   };
   const back = hoodiePiece(bodice(measurements, { position: "back", necklineParams }), "back");
   const body = block({ front, back }, []);
+  const neckSeams = adjustHoodieNeckSeams(
+    pieceEdge(front, "neckline") as Extract<Edge, { readonly kind: "curve" }>,
+    pieceEdge(back, "neckline") as Extract<Edge, { readonly kind: "curve" }>,
+    options.hoodNeckEase,
+  ).seams;
   const targetArmhole = interfaceLength(
     body,
     iface(edgeRef("front", "armhole"), edgeRef("back", "armhole")),
@@ -279,10 +373,10 @@ export function draftHoodie(
   const sleeveLeft = { ...sleeveTemplate, name: "left hoodie set-in sleeve" };
   const sleeveRight = { ...sleeveTemplate, name: "right hoodie set-in sleeve" };
 
-  const hoodOuterLeft = hoodSidePiece("left", "outer", front, back, options);
-  const hoodOuterRight = hoodSidePiece("right", "outer", front, back, options);
-  const hoodLiningLeft = hoodSidePiece("left", "lining", front, back, options);
-  const hoodLiningRight = hoodSidePiece("right", "lining", front, back, options);
+  const hoodOuterLeft = hoodSidePiece("left", "outer", neckSeams, options);
+  const hoodOuterRight = hoodSidePiece("right", "outer", neckSeams, options);
+  const hoodLiningLeft = hoodSidePiece("left", "lining", neckSeams, options);
+  const hoodLiningRight = hoodSidePiece("right", "lining", neckSeams, options);
   const cuffLeft = {
     ...crewneckBandPiece("cuffLeft", options.cuffLength, options.cuffDepth),
     name: "left hoodie rib cuff",
@@ -356,7 +450,7 @@ export function hoodieNecklineMeasurements(drafted: Block): HoodieNecklineMeasur
 /** Preserve the existing warn-never-clamp neckline checks under Hoodie keys. */
 export function hoodieNecklineNotes(
   measurements: Measurements,
-  options: Pick<HoodieDraftOptions, "hoodNecklineWidthEase" | "hoodNecklineFrontDrop">,
+  options: Pick<HoodieDraftOptions, "hoodNecklineWidthEase" | "hoodNecklineFrontDrop" | "hoodNeckEase">,
 ): readonly Note[] {
   const derived = derive(measurements);
   const params: NecklineParams = {
@@ -380,8 +474,28 @@ export function hoodieNecklineNotes(
     measurements.armholeDepth,
     params,
   );
-  return [...front.notes, ...back.notes].map((note) => ({
+  const notes: Note[] = [...front.notes, ...back.notes].map((note) => ({
     ...note,
     field: note.field === "neckWidthEase" ? "hoodNecklineWidthEase" : "hoodNecklineFrontDrop",
   }));
+  const seamResult = adjustHoodieNeckSeams(
+    front.edge as Extract<Edge, { readonly kind: "curve" }>,
+    back.edge as Extract<Edge, { readonly kind: "curve" }>,
+    options.hoodNeckEase,
+  );
+  if (seamResult.issue === "range") {
+    const value = Number.isFinite(options.hoodNeckEase) ? `${options.hoodNeckEase} cm` : String(options.hoodNeckEase);
+    notes.push({
+      field: "hoodNeckEase",
+      level: "warn",
+      text: `Hood-to-neckline ease (${value}) is outside the supported ${HOOD_NECK_EASE_MIN}–${HOOD_NECK_EASE_MAX} cm range — adjust it into that range.`,
+    });
+  } else if (seamResult.issue === "unrepresentable") {
+    notes.push({
+      field: "hoodNeckEase",
+      level: "warn",
+      text: `Hood-to-neckline ease of ${options.hoodNeckEase} cm cannot be represented by a finite neck seam — reduce it within ${HOOD_NECK_EASE_MIN}–${HOOD_NECK_EASE_MAX} cm.`,
+    });
+  }
+  return notes;
 }

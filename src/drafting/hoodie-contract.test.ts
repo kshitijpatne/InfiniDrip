@@ -15,6 +15,7 @@ describe("Hoodie shape option contract", () => {
     }))).toEqual([
       { id: "hoodNecklineWidthEase", label: "Neckline width ease per side", defaultValue: 4, min: 0, max: 12, step: 0.5 },
       { id: "hoodNecklineFrontDrop", label: "Front neckline drop", defaultValue: 8, min: 0, max: 22, step: 0.5 },
+      { id: "hoodNeckEase", label: "Hood-to-neckline ease", defaultValue: 0, min: 0, max: 6, step: 0.5 },
       { id: "hoodHeight", label: "Hood height", defaultValue: 32, min: 20, max: 50, step: 1 },
       { id: "hoodDepth", label: "Hood depth", defaultValue: 28, min: 18, max: 42, step: 1 },
     ]);
@@ -22,11 +23,14 @@ describe("Hoodie shape option contract", () => {
       definition.unit === "cm" && definition.group === "Hood" && definition.help?.length)).toBe(true);
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[0]?.help).toContain("same width ease to the front and back");
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[1]?.help).toContain("front neckline only");
-    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[2]?.help).toContain("same authored value is used from XS–XL");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[2]?.help).toContain("each left or right hood half's front and back neck edges");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[2]?.help).toContain("outer and lining share the same seam");
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[3]?.help).toContain("same authored value is used from XS–XL");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[4]?.help).toContain("same authored value is used from XS–XL");
     expect(HOODIE_SHAPE_DEFAULT_OPTIONS).toEqual({
       hoodNecklineWidthEase: 4,
       hoodNecklineFrontDrop: 8,
+      hoodNeckEase: 0,
       hoodHeight: 32,
       hoodDepth: 28,
     });
@@ -37,17 +41,20 @@ describe("Hoodie shape option contract", () => {
     expect(resolveHoodieShapeOptions({ hoodHeight: 40 })).toEqual({
       hoodNecklineWidthEase: 4,
       hoodNecklineFrontDrop: 8,
+      hoodNeckEase: 0,
       hoodHeight: 40,
       hoodDepth: 28,
     });
     expect(resolveHoodieShapeOptions({
       hoodNecklineWidthEase: 0,
       hoodNecklineFrontDrop: 0,
+      hoodNeckEase: 0,
       hoodHeight: 0,
       hoodDepth: 0,
     })).toEqual({
       hoodNecklineWidthEase: 0,
       hoodNecklineFrontDrop: 0,
+      hoodNeckEase: 0,
       hoodHeight: 0,
       hoodDepth: 0,
     });
@@ -57,11 +64,13 @@ describe("Hoodie shape option contract", () => {
     const options = resolveHoodieShapeOptions({
       hoodNecklineWidthEase: -1,
       hoodNecklineFrontDrop: 30,
+      hoodNeckEase: Number.NaN,
       hoodHeight: Number.NaN,
       hoodDepth: Number.POSITIVE_INFINITY,
     });
     expect(options.hoodNecklineWidthEase).toBe(-1);
     expect(options.hoodNecklineFrontDrop).toBe(30);
+    expect(options.hoodNeckEase).toBeNaN();
     expect(options.hoodHeight).toBeNaN();
     expect(options.hoodDepth).toBe(Number.POSITIVE_INFINITY);
   });

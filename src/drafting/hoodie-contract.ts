@@ -3,6 +3,7 @@ import { defaultGarmentOptions, type GarmentOption, type GarmentOptions } from "
 export interface HoodieShapeOptions extends GarmentOptions {
   readonly hoodNecklineWidthEase: number;
   readonly hoodNecklineFrontDrop: number;
+  readonly hoodNeckEase: number;
   readonly hoodHeight: number;
   readonly hoodDepth: number;
 }
@@ -37,6 +38,17 @@ export const HOODIE_SHAPE_OPTION_DEFINITIONS: readonly GarmentOption[] = [
     defaultValue: 8,
     min: 0,
     max: 22,
+    step: 0.5,
+  },
+  {
+    id: "hoodNeckEase",
+    label: "Hood-to-neckline ease",
+    unit: "cm",
+    group: "Hood",
+    help: "Adds this length across each left or right hood half's front and back neck edges; outer and lining share the same seam. Keep it within 0–6 cm so the neckline can be represented.",
+    defaultValue: 0,
+    min: 0,
+    max: 6,
     step: 0.5,
   },
   {
@@ -76,6 +88,8 @@ export function resolveHoodieShapeOptions(
       HOODIE_SHAPE_DEFAULT_OPTIONS.hoodNecklineWidthEase,
     hoodNecklineFrontDrop: raw.hoodNecklineFrontDrop ??
       HOODIE_SHAPE_DEFAULT_OPTIONS.hoodNecklineFrontDrop,
+    hoodNeckEase: raw.hoodNeckEase ??
+      HOODIE_SHAPE_DEFAULT_OPTIONS.hoodNeckEase,
     hoodHeight: raw.hoodHeight ??
       HOODIE_SHAPE_DEFAULT_OPTIONS.hoodHeight,
     hoodDepth: raw.hoodDepth ??

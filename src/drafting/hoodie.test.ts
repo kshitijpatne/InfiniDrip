@@ -149,6 +149,7 @@ describe("hoodie draft core", () => {
     const notes = hoodieNecklineNotes(STANDARD_M, {
       hoodNecklineWidthEase: 40,
       hoodNecklineFrontDrop: 40,
+      hoodNeckEase: 0,
     });
     expect(notes.map((note) => note.field)).toContain("hoodNecklineWidthEase");
     expect(notes.map((note) => note.field)).toContain("hoodNecklineFrontDrop");
@@ -168,10 +169,70 @@ describe("hoodie draft core", () => {
       .toBeCloseTo(measurements.hoodPieces[1]?.hoodNecklineCm ?? Number.NaN, 10);
   });
 
+  it("adds the requested total ease across each hood half while keeping garment attachment endpoints fixed", () => {
+    for (const step of [-2, -1, 0, 1, 2]) {
+      const size = gradeMeasurements(STANDARD_M, TSHIRT_GRADE, step);
+      for (const hoodNeckEase of [0, 3, 6]) {
+        const drafted = draftHoodie(size, { ...OPTIONS, hoodNeckEase });
+        const measurements = hoodieNecklineMeasurements(drafted);
+        const frontNeckline = pieceEdge(drafted.roles.front!, "neckline");
+        const backNeckline = pieceEdge(drafted.roles.back!, "neckline");
+        const leftOuter = drafted.roles.hoodOuterLeft!;
+
+        for (const item of measurements.hoodPieces) {
+          expect(Math.abs(item.differenceFromGarmentCm - hoodNeckEase)).toBeLessThan(0.02);
+          const piece = drafted.roles[item.role]!;
+          const frontSeam = pieceEdge(piece, "necklineFront");
+          const backSeam = pieceEdge(piece, "necklineBack");
+          const expected = (value: Point): Point => item.role.endsWith("Right")
+            ? point(-value.x, value.y)
+            : value;
+          expect(distance(edgeStart(frontSeam), expected(edgeStart(frontNeckline)))).toBeLessThan(1e-12);
+          expect(distance(edgeEnd(frontSeam), expected(edgeEnd(frontNeckline)))).toBeLessThan(1e-12);
+          expect(distance(edgeStart(backSeam), expected(edgeEnd(backNeckline)))).toBeLessThan(1e-12);
+          expect(distance(edgeEnd(backSeam), expected(edgeStart(backNeckline)))).toBeLessThan(1e-12);
+        }
+        expect(drafted.roles.hoodLiningLeft?.edges).toEqual(leftOuter.edges);
+        expect(stitchChecks(drafted, drafted.stitches).filter((check) => !check.ok)).toEqual([]);
+      }
+    }
+  });
+
+  it("warns on invalid or unrepresentable hood-neck ease without clamping the raw value", () => {
+    for (const hoodNeckEase of [-0.5, 6.5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      const notes = hoodieNecklineNotes(STANDARD_M, {
+        hoodNecklineWidthEase: OPTIONS.hoodNecklineWidthEase,
+        hoodNecklineFrontDrop: OPTIONS.hoodNecklineFrontDrop,
+        hoodNeckEase,
+      });
+      const note = notes.find((item) => item.field === "hoodNeckEase");
+      expect(note?.level).toBe("warn");
+      expect(note?.text).toContain("supported 0–6 cm range");
+      expect(draftHoodie(STANDARD_M, { ...OPTIONS, hoodNeckEase }).roles.hoodOuterLeft?.edges)
+        .toEqual(draftHoodie(STANDARD_M, OPTIONS).roles.hoodOuterLeft?.edges);
+    }
+
+    const unrepresentable = hoodieNecklineNotes(STANDARD_M, {
+      hoodNecklineWidthEase: Number.POSITIVE_INFINITY,
+      hoodNecklineFrontDrop: OPTIONS.hoodNecklineFrontDrop,
+      hoodNeckEase: 3,
+    }).find((item) => item.field === "hoodNeckEase");
+    expect(unrepresentable?.level).toBe("warn");
+    expect(unrepresentable?.text).toContain("cannot be represented by a finite neck seam");
+
+    const precisionLimit = hoodieNecklineNotes(STANDARD_M, {
+      hoodNecklineWidthEase: OPTIONS.hoodNecklineWidthEase,
+      hoodNecklineFrontDrop: 1e16,
+      hoodNeckEase: 6,
+    }).find((item) => item.field === "hoodNeckEase");
+    expect(precisionLimit?.level).toBe("warn");
+    expect(precisionLimit?.text).toContain("cannot be represented by a finite neck seam");
+  });
+
   it("mirrors the outer and lining sides exactly and keeps each outline finite, closed, and simple across XS-XL", () => {
     const bounds = [
-      { ...OPTIONS, hoodHeight: 20, hoodDepth: 18, hoodNecklineWidthEase: 0, hoodNecklineFrontDrop: 0 },
-      { ...OPTIONS, hoodHeight: 50, hoodDepth: 42, hoodNecklineWidthEase: 12, hoodNecklineFrontDrop: 22 },
+      { ...OPTIONS, hoodHeight: 20, hoodDepth: 18, hoodNeckEase: 6, hoodNecklineWidthEase: 0, hoodNecklineFrontDrop: 0 },
+      { ...OPTIONS, hoodHeight: 50, hoodDepth: 42, hoodNeckEase: 6, hoodNecklineWidthEase: 12, hoodNecklineFrontDrop: 22 },
     ];
     for (const step of [-2, -1, 0, 1, 2]) {
       const size = gradeMeasurements(STANDARD_M, TSHIRT_GRADE, step);
@@ -263,7 +324,7 @@ describe("hoodie draft core", () => {
         "kangarooPouchSide",
         "kangarooPouchBottom",
       ]));
-      expect(stitchChecks(drafted, drafted.stitches).every((check) => check.ok)).toBe(true);
+      expect(stitchChecks(drafted, drafted.stitches).filter((check) => !check.ok)).toEqual([]);
       expect(Object.keys(drafted.roles).filter((role) => role.toLowerCase().includes("pocket"))).toEqual(["pocket"]);
       expect(Object.keys(drafted.roles)).not.toContain("pocketFacing");
     }
