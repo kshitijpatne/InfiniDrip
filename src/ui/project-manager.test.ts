@@ -226,6 +226,36 @@ async function clickAndSettle(host: HTMLElement, selector: string): Promise<void
 }
 
 describe("accessible project and style manager", () => {
+  it("keeps keyboard focus on the replacement disclosure summary after it opens", () => {
+    const { host } = harness();
+    const details = host.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+    const originalSummary = details.querySelector("summary")!;
+
+    originalSummary.focus();
+    details.open = true;
+    details.dispatchEvent(new Event("toggle", { bubbles: true }));
+
+    const replacementDetails = host.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+    const replacementSummary = replacementDetails.querySelector("summary")!;
+    expect(replacementDetails.open).toBe(true);
+    expect(replacementSummary).not.toBe(originalSummary);
+    expect(document.activeElement).toBe(replacementSummary);
+  });
+
+  it("does not move focus to the disclosure when another control had focus", () => {
+    const { host } = harness();
+    const details = host.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+    const externalControl = document.createElement("button");
+    document.body.append(externalControl);
+    externalControl.focus();
+
+    details.open = true;
+    details.dispatchEvent(new Event("toggle", { bubbles: true }));
+
+    expect(host.querySelector<HTMLDetailsElement>(".project-manager-details")!.open).toBe(true);
+    expect(document.activeElement).toBe(externalControl);
+  });
+
   it("keeps a saved Classic-only option out of non-Classic Tee T02 and T03 evaluation", async () => {
     const t02 = vi.spyOn(techPackT02Validation, "evaluateTechPackT02");
     const t03 = vi.spyOn(techPackOperationReconciliation, "buildTechPackReferenceReconciliation");
