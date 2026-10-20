@@ -836,6 +836,8 @@ label.pattern-measurement-match {
 .garment-card[aria-pressed="true"] .garment-card-detail,
 .fit-intent-card[aria-pressed="true"] .fit-intent-card-description,
 .material-card[aria-pressed="true"] .material-card-detail { color: #b8e6d0; }
+#garment-tee[aria-pressed="true"] .garment-card-summary,
+#garment-tee[aria-pressed="true"] .garment-card-detail { color: inherit; }
 .fit-intent-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px; }
 .fit-intent-card { display: flex; flex-direction: column; gap: 3px; padding: 8px; }
 .material-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
