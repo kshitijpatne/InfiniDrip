@@ -10,7 +10,7 @@ function markedPoint(mark: NonNullable<Block["roles"][string]["marks"]>[number],
   return (mark as unknown as Readonly<Record<"at" | "start" | "end", { x: number; y: number }>>)[pointName];
 }
 
-export type FlatRoleTreatment = "SHELL" | "VISIBLE_OVERLAY" | "INTERIOR_HIDDEN";
+export type FlatRoleTreatment = "SHELL" | "VISIBLE_OVERLAY" | "INTERIOR_HIDDEN" | "DETACHED_DETAIL";
 
 export interface FlatRoleMapping {
   readonly roleId: string;
@@ -45,6 +45,7 @@ const face = (kind: TechnicalFlatViewKind, roles: readonly FaceRoleInput[]): Fla
 const shell = (role: string): readonly [string, FlatRoleTreatment] => [role, "SHELL"];
 const overlay = (role: string): readonly [string, FlatRoleTreatment] => [role, "VISIBLE_OVERLAY"];
 const interior = (role: string): readonly [string, FlatRoleTreatment] => [role, "INTERIOR_HIDDEN"];
+const detached = (role: string): readonly [string, FlatRoleTreatment] => [role, "DETACHED_DETAIL"];
 const interiorBehind = (role: string, behindRoleId: string): FlatRoleMapping => ({
   roleId: role, treatment: "INTERIOR_HIDDEN", behindRoleId,
 });
@@ -87,6 +88,10 @@ export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatR
       interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
     [shell("backLeft"), shell("backRight"), overlay("waistband")],
     "frontLeft", "backLeft"),
+  crewneck: makeMapping("crewneck",
+    [shell("front"), shell("sleeveLeft"), detached("neckband"), detached("cuffLeft"), detached("cuffRight"), detached("hemBand")],
+    [shell("back"), shell("sleeveRight"), detached("neckband"), detached("cuffLeft"), detached("cuffRight"), detached("hemBand")],
+    "front", "back"),
 };
 
 export type FlatSourceKind = "component" | "stitch" | "mark" | "dart" | "pom" | "artwork";

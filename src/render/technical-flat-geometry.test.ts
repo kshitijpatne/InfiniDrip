@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { GARMENTS } from "../drafting/recipe";
+import { CREWNECK, GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { lineMark, pointMark } from "../drafting/pattern-mark";
@@ -71,6 +71,41 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
 }
 
 describe("technical-flat source geometry", () => {
+  it("projects crewneck sleeve caps to the source armhole and retains all four detached rib details on both faces", () => {
+    const block = CREWNECK.draft(STANDARD_M, defaultGarmentOptions(CREWNECK.options ?? []));
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const map = createG04TechnicalFlatProjectionMap("crewneck", block, revisionId)!;
+      const output = compileTechnicalFlatSourceGeometry("crewneck", block, revisionId, kind, map);
+      expect(output.issues, kind).toEqual([]);
+      const sleeveRoleId = kind === "FRONT_FLAT" ? "sleeveLeft" : "sleeveRight";
+      const bodyRoleId = kind === "FRONT_FLAT" ? "front" : "back";
+      const capEdgeId = kind === "FRONT_FLAT" ? "capLeft" : "capRight";
+      const sleeveOutline = output.primitives.find((primitive) => primitive.id ===
+        `flat:crewneck:${kind}:component:${sleeveRoleId}:outline`);
+      const bodyOutline = output.primitives.find((primitive) => primitive.id ===
+        `flat:crewneck:${kind}:component:${bodyRoleId}:outline`);
+      expect(sleeveOutline?.kind).toBe("path");
+      expect(sleeveOutline?.kind === "path" ? sleeveOutline.sourceEdgeIds : []).not.toContain(
+        `pattern:crewneck:role:${sleeveRoleId}:edge:${capEdgeId}`);
+      expect(bodyOutline?.kind === "path" ? bodyOutline.sourceEdgeIds : []).not.toContain(
+        `pattern:crewneck:role:${bodyRoleId}:edge:armhole`);
+      expect(output.primitives.some((primitive) => primitive.kind === "path" && primitive.layer === "SEAM"
+        && primitive.source.sourceId === `pattern:crewneck:role:${bodyRoleId}:edge:armhole`
+        && primitive.source.revisionId === revisionId)).toBe(true);
+      for (const roleId of ["neckband", "cuffLeft", "cuffRight", "hemBand"] as const) {
+        expect(output.primitives.some((primitive) => primitive.kind === "path"
+          && primitive.id === `flat:crewneck:${kind}:component:${roleId}:outline`
+          && primitive.source.sourceId === `pattern:crewneck:role:${roleId}`
+          && primitive.source.revisionId === revisionId
+          && JSON.stringify(primitive.sourceEdgeIds) === JSON.stringify(["join", "sideRight", "joinLayer", "sideLeft"]
+            .map((edgeId) => `pattern:crewneck:role:${roleId}:edge:${edgeId}`)))).toBe(true);
+      }
+      expect(validateTechnicalFlat({ schemaVersion: TECHNICAL_FLAT_SCHEMA_VERSION,
+        viewId: `crewneck:${kind}`, revisionId, recipeId: "crewneck", kind, units: "cm",
+        primitives: output.primitives, notices: output.notices })).toEqual([]);
+    }
+  });
+
   it("replaces Polo cap strokes with the exact receiving armhole seam across all supported option endpoints", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max]

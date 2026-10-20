@@ -4,7 +4,8 @@ import type { EdgeRef, InterfaceRef, Stitch } from "../drafting/stitch";
 import { cubicLength, cubicPoint } from "../geometry";
 import type { FlatPoint, TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
-import { validateTechnicalFlatProjectionMap, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import { validateTechnicalFlatProjectionMap, type FlatProjectionCrewneckSleeveCapRepresentation,
+  type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 
 export interface FlatRoleTransform {
   readonly offset: FlatPoint;
@@ -162,7 +163,8 @@ function fitRigid(source: readonly FlatPoint[], target: readonly FlatPoint[]): {
 
 function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<string>,
   reversedStitchEdges: readonly { readonly stitchLabel: string; readonly pieceId: string; readonly edgeId: string }[],
-  locallyReflectedRoles: ReadonlySet<string>): Relation[] | null {
+  locallyReflectedRoles: ReadonlySet<string>,
+  crewneckSleeveCap?: FlatProjectionCrewneckSleeveCapRepresentation): Relation[] | null {
   const viewRefs = (refs: readonly InterfaceRef[], side: "a" | "b"): InterfaceRef[] => refs.map((ref) => {
     if (!("edge" in ref) || !reversedStitchEdges.some((rule) => rule.stitchLabel === stitch.label
       && rule.pieceId === ref.piece && rule.edgeId === ref.edge && side === "b")) return ref;
@@ -215,6 +217,8 @@ function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<stri
     const fitted = fitRigid(group.source, group.target);
     let best = fitted;
     const wovenSleeveCap = stitch.label === "Woven sleeve-cap ease";
+    const crewneckCapAnchor = !!crewneckSleeveCap && stitch.label === crewneckSleeveCap.stitchLabel
+      && group.from === crewneckSleeveCap.sleeveRoleId && group.to === crewneckSleeveCap.visibleBodyRole;
     const frontEndpointAnchor = (stitch.label === "Sleeve-cap ease" || wovenSleeveCap)
       && group.from === "sleeve" && group.to === "front"
       && reversedStitchEdges.some((rule) => rule.stitchLabel === stitch.label && rule.pieceId === "front" && rule.edgeId === "armhole");
@@ -222,19 +226,23 @@ function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<stri
       && locallyReflectedRoles.has("sleeve");
     const wovenBackEndpointAnchor = wovenSleeveCap && group.from === "sleeve"
       && (group.to === "yoke" || group.to === "back");
-    if (frontEndpointAnchor || backEndpointAnchor || wovenBackEndpointAnchor) {
-      const sleeveEdgeName = frontEndpointAnchor ? "capLeft" : "capRight";
-      const sleeveEdge = block.roles.sleeve?.edges.find((edge) => edge.name === sleeveEdgeName);
-      const bodyEdgeName = wovenBackEndpointAnchor
-        ? group.to === "yoke" ? "armholeUpper" : "armholeLower"
-        : "armhole";
+    if (frontEndpointAnchor || backEndpointAnchor || wovenBackEndpointAnchor || crewneckCapAnchor) {
+      const sleeveRoleId = crewneckCapAnchor ? crewneckSleeveCap!.sleeveRoleId : "sleeve";
+      const sleeveEdgeName = crewneckCapAnchor ? crewneckSleeveCap!.capEdgeId
+        : frontEndpointAnchor ? "capLeft" : "capRight";
+      const sleeveEdge = block.roles[sleeveRoleId]?.edges.find((edge) => edge.name === sleeveEdgeName);
+      const bodyEdgeName = crewneckCapAnchor ? crewneckSleeveCap!.visibleBodyEdge
+        : wovenBackEndpointAnchor ? group.to === "yoke" ? "armholeUpper" : "armholeLower" : "armhole";
       const bodyArmhole = block.roles[group.to]?.edges.find((edge) => edge.name === bodyEdgeName);
       if (!sleeveEdge || sleeveEdge.kind !== "curve" || !bodyArmhole || bodyArmhole.kind !== "curve") return null;
-      const sleeveEndpoint = frontEndpointAnchor || (wovenBackEndpointAnchor && group.to === "yoke")
-        ? sleeveEdge.curve.start : sleeveEdge.curve.end;
-      const bodyEndpoint = frontEndpointAnchor || backEndpointAnchor || (wovenBackEndpointAnchor && group.to === "back")
-        ? bodyArmhole.curve.end : bodyArmhole.curve.start;
-      const target = locallyReflectedRoles.has("sleeve") ? point(-sleeveEndpoint.x, sleeveEndpoint.y) : sleeveEndpoint;
+      const sleeveEndpoint = crewneckCapAnchor
+        ? crewneckSleeveCap!.capEdgeId === "capLeft" ? sleeveEdge.curve.start : sleeveEdge.curve.end
+        : frontEndpointAnchor || (wovenBackEndpointAnchor && group.to === "yoke")
+          ? sleeveEdge.curve.start : sleeveEdge.curve.end;
+      const bodyEndpoint = crewneckCapAnchor ? bodyArmhole.curve.end
+        : frontEndpointAnchor || backEndpointAnchor || (wovenBackEndpointAnchor && group.to === "back")
+          ? bodyArmhole.curve.end : bodyArmhole.curve.start;
+      const target = locallyReflectedRoles.has(group.from) ? point(-sleeveEndpoint.x, sleeveEndpoint.y) : sleeveEndpoint;
       const placed = transformPoint(bodyEndpoint, fitted.transform);
       const transform = { ...fitted.transform, offset: point(
         fitted.transform.offset.x + target.x - placed.x,
@@ -359,14 +367,21 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
     ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
       .find((role) => role.roleId === "sleeve")?.poloSleeveCapRepresentation
     : undefined;
-  const visible = new Set(face.roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN").map((role) => role.roleId));
+  const approvedCrewneckSleeveCap = projectionIsValid && recipeId === "crewneck"
+    ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+      .find((role) => role.roleId === (kind === "FRONT_FLAT" ? "sleeveLeft" : "sleeveRight"))
+      ?.crewneckSleeveCapRepresentation
+    : undefined;
+  const visible = new Set(face.roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN"
+    && role.treatment !== "DETACHED_DETAIL").map((role) => role.roleId));
   const sourceFragments = recipeId === "trouser" || recipeId === "shorts"
     ? waistbandFragments(block, kind, recipeId) : [];
   const fragmentPlacedRoles = sourceFragments.length === 2 ? new Set(["waistband"]) : new Set<string>();
   // Interior pattern pieces may establish where a visible exterior piece is
   // sewn. Include them in the placement graph, then omit their transforms from
   // the face result so the renderer cannot mistake them for exterior geometry.
-  const constructionRoles = new Set(face.roles.map((role) => role.roleId));
+  const constructionRoles = new Set(face.roles.filter((role) => role.treatment !== "DETACHED_DETAIL")
+    .map((role) => role.roleId));
   const reversedStitchEdges = projectionMap?.recipeId === recipeId && projectionMap.revisionId.trim().length > 0
     ? projectionMap.faces.find((candidate) => candidate.kind === kind)?.roles
       .flatMap((role) => role.reversedStitchEdges ?? []) ?? []
@@ -396,7 +411,10 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
     const hasMappedSideA = stitch.a.edges.some((ref) => constructionRoles.has(ref.piece));
     const hasMappedSideB = stitch.b.edges.some((ref) => constructionRoles.has(ref.piece));
     if (!hasMappedSideA || !hasMappedSideB) continue;
-    const stitchResults = stitchRelations(block, stitch, constructionRoles, reversedStitchEdges, locallyReflectedRoles);
+    const crewneckCap = recipeId === "crewneck" && approvedCrewneckSleeveCap?.stitchLabel === stitch.label
+      ? approvedCrewneckSleeveCap : undefined;
+    const stitchResults = stitchRelations(block, stitch, constructionRoles, reversedStitchEdges,
+      locallyReflectedRoles, crewneckCap);
     if (stitchResults === null) {
       issues.push({ code: "UNRESOLVED_STITCH_REFERENCE", sourceId: `stitch:${stitch.label}`,
         message: `Stitch “${stitch.label}” does not provide a length-compatible rigid placement for this view.` });
@@ -408,6 +426,8 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
       const residual = projectedResults.find((candidate) => candidate.endpointResidualCm > 0.25
         && !isApprovedWovenBaseSeamDisplay(candidate.label, approvedWovenBaseSeam?.decisionId)
         && !(candidate.label === "Woven sleeve-cap ease" && approvedWovenSleeveCap?.decisionId === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION")
+        && !(candidate.label === approvedCrewneckSleeveCap?.stitchLabel
+          && approvedCrewneckSleeveCap.decisionId === "G07-S1113-CREWNECK-SLEEVE-CAP-VIEW")
         && !isApprovedPoloEaseResidualDisplay(candidate.label, approvedPoloSleeveCap?.decisionId));
       if (residual && !issues.some((issue) => issue.sourceId === `stitch:${residual.label}`)) issues.push({
         code: "STITCH_ENDPOINT_RESIDUAL", sourceId: `stitch:${residual.label}`,

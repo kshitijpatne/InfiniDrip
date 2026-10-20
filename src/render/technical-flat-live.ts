@@ -21,6 +21,7 @@ import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
 import { compileTechnicalFlatPomCallouts, type TechnicalFlatPomResolvedAnchor } from "./technical-flat-poms";
 import { transformFlatPoint, transformFlatPrimitive } from "./technical-flat-transform";
 import { compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
+import { composeCrewneckDetachedBandDetails, type CrewneckDetachedBandRole } from "./crewneck-detached-band-detail";
 import { composeWovenDetachedBandDetails } from "./woven-detached-band-detail";
 import { createWovenCollarProjector, projectWovenCollarPrimitive, type WovenCollarRoleId } from "./woven-collar-view-projection";
 import type { Pom } from "../drafting/pom";
@@ -46,6 +47,12 @@ export interface TechnicalFlatLiveResult {
   readonly view: TechnicalFlatView | null;
   readonly colorway: TechnicalFlatColorwayOverlay | null;
   readonly issues: readonly TechnicalFlatLiveIssue[];
+}
+
+export function crewneckDetachedBandRoles<T extends { readonly treatment: string }>(
+  face: { readonly roles: readonly T[] } | undefined,
+): T[] {
+  return face?.roles.filter((role) => role.treatment === "DETACHED_DETAIL") ?? [];
 }
 
 export function technicalFlatAssemblyNotices(
@@ -908,6 +915,8 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
       continue;
     }
     const roleId = technicalFlatPrimitiveRole(primitive, combined, faceRoleIds);
+    const mappedRole = face?.roles.find((candidate) => candidate.roleId === roleId);
+    if (mappedRole?.treatment === "DETACHED_DETAIL") continue;
     for (const { placed, placement } of placeTechnicalFlatPrimitive(primitive, roleId, assembly.transforms[roleId], issues)) {
       const collarProjector = recipe.name === "woven-shirt"
         ? wovenCollarProjectors.get(roleId as WovenCollarRoleId) : undefined;
@@ -952,6 +961,42 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
         const physicalPair = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
           .find((candidate) => candidate.roleId === roleId)?.physicalPairReflection;
         if (!viewPair) appendPhysicalPairReflection(transformed, primitive, physicalPair, placement);
+      }
+    }
+  }
+  if (recipe.name === "crewneck") {
+    const detailRoles = crewneckDetachedBandRoles(face);
+    const detailMetadataValid = detailRoles.length === 4 && detailRoles.every((role) => {
+      const metadata = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+        .find((candidate) => candidate.roleId === role.roleId)?.crewneckDetachedBandDetailRepresentation;
+      return metadata?.decisionId === "G07-S1113-CREWNECK-DETACHED-BAND-DETAILS"
+        && metadata.sourceRoleId === role.roleId && metadata.placement === "SOURCE_SCALE_BELOW_VIEW"
+        && metadata.minimumClearanceCm === 3;
+    });
+    const bodyRoleId = kind === "FRONT_FLAT" ? "front" : "back";
+    const bodyPlacement = assembly.transforms[bodyRoleId];
+    const bodyAxis = block.roles[bodyRoleId]?.edges.find((edge) => edge.name === (kind === "FRONT_FLAT" ? "centerFront" : "centerBack"));
+    const axisStart = bodyAxis && bodyPlacement ? placedPoint(edgeStart(bodyAxis), bodyPlacement) : undefined;
+    const axisEnd = bodyAxis && bodyPlacement ? placedPoint(edgeEnd(bodyAxis), bodyPlacement) : undefined;
+    const axisX = axisStart && axisEnd && Math.abs(axisStart.x - axisEnd.x) <= 1e-8
+      ? (axisStart.x + axisEnd.x) / 2 : Number.NaN;
+    const sourceForRole = (roleId: CrewneckDetachedBandRole) => geometry.primitives.filter((primitive) =>
+      primitive.source.sourceId === `pattern:crewneck:role:${roleId}`
+      || primitive.source.sourceId.startsWith(`pattern:crewneck:mark:${roleId}:`));
+    const bandPrimitives: Record<CrewneckDetachedBandRole, readonly TechnicalFlatPrimitive[]> = {
+      neckband: sourceForRole("neckband"), cuffLeft: sourceForRole("cuffLeft"),
+      cuffRight: sourceForRole("cuffRight"), hemBand: sourceForRole("hemBand"),
+    };
+    if (!detailMetadataValid || !axisStart || !axisEnd || Math.abs(axisStart.x - axisEnd.x) > 1e-8) {
+      issues.push({ stage: "transform", sourceId: "pattern:crewneck:role:neckband",
+        message: "Crewneck detached details require all four admitted detail records and the exact assembled body center axis." });
+    } else {
+      const details = composeCrewneckDetachedBandDetails({ occupiedPrimitives: transformed, bandPrimitives,
+        axisX, revisionId });
+      if (details.issue) {
+        issues.push({ stage: "transform", sourceId: "pattern:crewneck:role:neckband", message: details.issue });
+      } else {
+        transformed.push(...details.primitives);
       }
     }
   }

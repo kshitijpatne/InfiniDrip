@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { GARMENTS, TEE, TROUSER } from "../drafting/recipe";
+import { CREWNECK, GARMENTS, TEE, TROUSER } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { block } from "../drafting/block";
 import { defaultGarmentOptions } from "../drafting/options";
@@ -16,6 +16,24 @@ import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection
 const draft = (recipe: typeof GARMENTS[number]) => recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
 
 describe("assembleTechnicalFlatRoles", () => {
+  it("assembles each crewneck body and one source sleeve per view while keeping detached bands outside the solver", () => {
+    const source = CREWNECK.draft(STANDARD_M, defaultGarmentOptions(CREWNECK.options ?? []));
+    const projection = createG04TechnicalFlatProjectionMap("crewneck", source, "assembly-crewneck-s1113-r1")!;
+    for (const [kind, bodyRoleId, sleeveRoleId] of [
+      ["FRONT_FLAT", "front", "sleeveLeft"], ["BACK_FLAT", "back", "sleeveRight"],
+    ] as const) {
+      const result = assembleTechnicalFlatRoles("crewneck", source, kind, projection);
+      expect(result.issues, kind).toEqual([]);
+      expect(Object.keys(result.transforms).sort()).toEqual([bodyRoleId, sleeveRoleId].sort());
+      expect(result.joinedStitchLabels).toContain(`Crewneck set-in sleeve cap: ${sleeveRoleId}`);
+      expect(result.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL")).toBe(false);
+      expect(Object.keys(result.transforms)).not.toContain("neckband");
+      expect(Object.keys(result.transforms)).not.toContain("cuffLeft");
+      expect(Object.keys(result.transforms)).not.toContain("cuffRight");
+      expect(Object.keys(result.transforms)).not.toContain("hemBand");
+    }
+  });
+
   it("suppresses a residual only for the exact approved Woven collar display decision", () => {
     expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline", "G04-S342-WOVEN-COLLAR-BASE-SEAM")).toBe(true);
     expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline", "unapproved")).toBe(false);

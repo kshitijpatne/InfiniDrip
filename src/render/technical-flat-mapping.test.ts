@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { GARMENTS } from "../drafting/recipe";
+import { CREWNECK, GARMENTS } from "../drafting/recipe";
 import type { Block } from "../drafting/block";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
@@ -17,6 +17,23 @@ const draft = (name: string) => {
 };
 
 describe("mapTechnicalFlatSources", () => {
+  it("maps all crewneck roles while keeping bands explicitly detached from assembly", () => {
+    const block = CREWNECK.draft(STANDARD_M, defaultGarmentOptions(CREWNECK.options ?? []));
+    const mapping = mapTechnicalFlatSources(CREWNECK.name, block, CREWNECK.poms);
+    expect(mapping.issues).toEqual([]);
+    expect(mapping.faces[0]?.roles.map((role) => [role.roleId, role.treatment])).toEqual([
+      ["front", "SHELL"], ["sleeveLeft", "SHELL"], ["neckband", "DETACHED_DETAIL"],
+      ["cuffLeft", "DETACHED_DETAIL"], ["cuffRight", "DETACHED_DETAIL"], ["hemBand", "DETACHED_DETAIL"],
+    ]);
+    expect(mapping.faces[1]?.roles.map((role) => [role.roleId, role.treatment])).toEqual([
+      ["back", "SHELL"], ["sleeveRight", "SHELL"], ["neckband", "DETACHED_DETAIL"],
+      ["cuffLeft", "DETACHED_DETAIL"], ["cuffRight", "DETACHED_DETAIL"], ["hemBand", "DETACHED_DETAIL"],
+    ]);
+    expect(mapping.sources.filter((source) => source.kind === "component")).toHaveLength(12);
+    expect(new Set(mapping.sources.filter((source) => source.kind === "component").map((source) => source.sourceId)))
+      .toEqual(new Set(Object.keys(block.roles).map((roleId) => `pattern:crewneck:role:${roleId}`)));
+  });
+
   it("maps every supported recipe's drafted roles, construction sources and POMs", () => {
     for (const recipe of GARMENTS) {
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));

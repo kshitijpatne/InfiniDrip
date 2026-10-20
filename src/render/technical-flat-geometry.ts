@@ -304,6 +304,11 @@ export function compileTechnicalFlatSourceGeometry(
     .find((candidate) => candidate.roleId === "sleeve")?.wovenSleeveCapRepresentation;
   const poloSleeveCapRepresentation = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
     .find((candidate) => candidate.roleId === "sleeve")?.poloSleeveCapRepresentation;
+  const crewneckCapRoleId = kind === "FRONT_FLAT" ? "sleeveLeft" : "sleeveRight";
+  const crewneckSleeveCapRepresentation = recipeId === "crewneck"
+    ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+      .find((candidate) => candidate.roleId === crewneckCapRoleId)?.crewneckSleeveCapRepresentation
+    : undefined;
 
   for (const role of face.roles) {
     const piece = block.roles[role.roleId];
@@ -329,10 +334,14 @@ export function compileTechnicalFlatSourceGeometry(
       if (viewSeamRepresentation?.visibleRoleId === role.roleId && run.edgeId === viewSeamRepresentation.visibleEdgeId) return false;
       if (role.roleId === "sleeve" && wovenSleeveCapRepresentation?.capEdgeIds.includes(run.edgeId as "capLeft" | "capRight")) return false;
       if (role.roleId === "sleeve" && poloSleeveCapRepresentation?.capEdgeId === run.edgeId) return false;
+      if (role.roleId === crewneckSleeveCapRepresentation?.sleeveRoleId
+        && crewneckSleeveCapRepresentation.capEdgeId === run.edgeId) return false;
       if (wovenSleeveCapRepresentation?.visibleBodyEdges.some((segment) => segment.roleId === role.roleId
         && segment.edgeId === run.edgeId)) return false;
       if (poloSleeveCapRepresentation?.visibleBodyRole === role.roleId
         && poloSleeveCapRepresentation.visibleBodyEdge === run.edgeId) return false;
+      if (crewneckSleeveCapRepresentation?.visibleBodyRole === role.roleId
+        && crewneckSleeveCapRepresentation.visibleBodyEdge === run.edgeId) return false;
       return true;
     }) } : projectionRole;
     const projected = silhouetteRole ? projectedCommands(recipeId, block, kind, piece, silhouetteRole) : undefined;
@@ -345,6 +354,17 @@ export function compileTechnicalFlatSourceGeometry(
       continue;
     }
     primitives.push(outline);
+    if (crewneckSleeveCapRepresentation?.visibleBodyRole === role.roleId) {
+      const edge = piece.edges.find((candidate) => candidate.name === crewneckSleeveCapRepresentation.visibleBodyEdge)!;
+      const commands = edgeCommand(edge)!;
+      const sourceEdgeId = `pattern:crewneck:role:${role.roleId}:edge:${edge.name}`;
+      const sourceRef = source(revisionId, sourceEdgeId);
+      primitives.push({ kind: "path", id: `flat:crewneck:${kind}:view-seam:crewneck-sleeve-cap:${role.roleId}:${edge.name}`,
+        layer: "SEAM", feature: "seam", source: sourceRef, sourceEdgeIds: [sourceEdgeId], commands });
+      primitives.push({ kind: "path", id: `flat:crewneck:${kind}:view-seam-boundary:crewneck-sleeve-cap:${role.roleId}:${edge.name}`,
+        layer: "GARMENT_SILHOUETTE", feature: "silhouette", source: sourceRef, sourceEdgeIds: [sourceEdgeId],
+        colorwayBoundaryOnly: true, commands });
+    }
     for (const segment of wovenSleeveCapRepresentation?.visibleBodyEdges.filter((candidate) => candidate.roleId === role.roleId) ?? []) {
       // Projection-map validation above proves the same-revision role edge exists.
       const edge = piece.edges.find((candidate) => candidate.name === segment.edgeId)!;

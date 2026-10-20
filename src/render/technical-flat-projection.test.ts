@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { GARMENTS } from "../drafting/recipe";
+import { CREWNECK, draftRecipeAtSize, GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { edgeEnd, edgeLength, edgeStart } from "../drafting/piece";
@@ -811,6 +811,90 @@ describe("validateTechnicalFlatProjectionMap", () => {
         }
       }
     }
+  });
+
+  it("maps every crewneck role on XS, M and XL without adding a knee, band join or geometry correction", () => {
+    const options = defaultGarmentOptions(CREWNECK.options ?? []);
+    for (const size of [CREWNECK.sizes[0]!, CREWNECK.sizes[2]!, CREWNECK.sizes[4]!]) {
+      const block = draftRecipeAtSize(CREWNECK, STANDARD_M, size.step, options);
+      const map = createG04TechnicalFlatProjectionMap("crewneck", block, REVISION)!;
+      expect(validateTechnicalFlatProjectionMap("crewneck", block, REVISION, map), size.label).toEqual([]);
+      expect(map.faces.map((face) => face.roles.map((role) => role.roleId))).toEqual([
+        ["front", "sleeveLeft", "neckband", "cuffLeft", "cuffRight", "hemBand"],
+        ["back", "sleeveRight", "neckband", "cuffLeft", "cuffRight", "hemBand"],
+      ]);
+      for (const face of map.faces) {
+        const sleeve = face.roles.find((role) => role.roleId === (face.kind === "FRONT_FLAT" ? "sleeveLeft" : "sleeveRight"))!;
+        expect(sleeve.crewneckSleeveCapRepresentation?.sourceEaseCm).toBeCloseTo(1.5, 6);
+        expect(sleeve.viewPairReflection?.decisionId).toBe("G07-S1113-CREWNECK-SLEEVE-VIEW-PAIR");
+        for (const role of face.roles.filter((candidate) => candidate.treatment === "DETACHED_DETAIL")) {
+          expect(role.crewneckDetachedBandDetailRepresentation).toMatchObject({
+            source: "CODEX_VIEW_CONVENTION", placement: "SOURCE_SCALE_BELOW_VIEW", minimumClearanceCm: 3,
+          });
+        }
+      }
+    }
+  });
+
+  it("rejects incomplete crewneck cap-view and paired-instance evidence", () => {
+    const options = defaultGarmentOptions(CREWNECK.options ?? []);
+    const block = CREWNECK.draft(STANDARD_M, options);
+    const map = createG04TechnicalFlatProjectionMap("crewneck", block, REVISION)!;
+    const invalidCap = structuredClone(map) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; crewneckSleeveCapRepresentation?: { sourceEaseCm: number };
+    }> }> };
+    const frontSleeveCap = invalidCap.faces.find((face) => face.kind === "FRONT_FLAT")!
+      .roles.find((role) => role.roleId === "sleeveLeft")!;
+    frontSleeveCap.crewneckSleeveCapRepresentation!.sourceEaseCm += 0.1;
+    expect(validateTechnicalFlatProjectionMap("crewneck", block, REVISION, invalidCap as unknown as TechnicalFlatProjectionMap)
+      .map((issue) => issue.code)).toContain("INVALID_VIEW_SEAM_REPRESENTATION");
+
+    const invalidPair = structuredClone(map) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; viewPairReflection?: unknown;
+    }> }> };
+    const frontSleevePair = invalidPair.faces.find((face) => face.kind === "FRONT_FLAT")!
+      .roles.find((role) => role.roleId === "sleeveLeft")!;
+    frontSleevePair.viewPairReflection = undefined;
+    expect(validateTechnicalFlatProjectionMap("crewneck", block, REVISION, invalidPair as unknown as TechnicalFlatProjectionMap)
+      .map((issue) => issue.code)).toContain("INVALID_VIEW_PAIR_REFLECTION");
+
+    const invalidEndpoint = structuredClone(map) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; reversedStitchEdges?: unknown;
+    }> }> };
+    const frontEndpoint = invalidEndpoint.faces.find((face) => face.kind === "FRONT_FLAT")!
+      .roles.find((role) => role.roleId === "sleeveLeft")!;
+    frontEndpoint.reversedStitchEdges = [];
+    expect(validateTechnicalFlatProjectionMap("crewneck", block, REVISION, invalidEndpoint as unknown as TechnicalFlatProjectionMap)
+      .map((issue) => issue.code)).toContain("INVALID_STITCH_ENDPOINT_ORIENTATION");
+
+    const back = block.roles.back!;
+    const missingBackArmhole = { ...block, roles: { ...block.roles, back: { ...back,
+      edges: back.edges.filter((edge) => edge.name !== "armhole") } } };
+    const noSharedReceiver = createG04TechnicalFlatProjectionMap("crewneck", missingBackArmhole, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("crewneck", missingBackArmhole, REVISION, noSharedReceiver)
+      .map((issue) => issue.code)).toContain("INVALID_VIEW_SEAM_REPRESENTATION");
+
+    const missingSleeveBlock = { ...block, roles: { ...block.roles, sleeveLeft: undefined } } as unknown as typeof block;
+    const missingSleeveMap = createG04TechnicalFlatProjectionMap("crewneck", missingSleeveBlock, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("crewneck", missingSleeveBlock, REVISION, missingSleeveMap)
+      .map((issue) => issue.code)).toContain("UNEXPECTED_ROLE");
+
+    const neckband = block.roles.neckband!;
+    const missingBandMarks = { ...block, roles: { ...block.roles, neckband: { ...neckband, marks: undefined } } } as typeof block;
+    const missingBandMarkMap = createG04TechnicalFlatProjectionMap("crewneck", missingBandMarks, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("crewneck", missingBandMarks, REVISION, missingBandMarkMap)
+      .map((issue) => issue.code)).toContain("INVALID_DETACHED_BAND_DETAIL");
+
+    const capLabel = "Crewneck set-in sleeve cap: sleeveLeft";
+    const withoutLowerEaseLimit = { ...block, stitches: block.stitches.map((stitch) => stitch.label === capLabel
+      ? { ...stitch, ease: undefined } : stitch) } as typeof block;
+    expect(validateTechnicalFlatProjectionMap("crewneck", withoutLowerEaseLimit, REVISION, map)
+      .map((issue) => issue.code)).toContain("INVALID_VIEW_SEAM_REPRESENTATION");
+
+    const withoutUpperEaseLimit = { ...block, stitches: block.stitches.map((stitch) => stitch.label === capLabel
+      ? { ...stitch, ease: { lo: -1 } } : stitch) } as unknown as typeof block;
+    expect(validateTechnicalFlatProjectionMap("crewneck", withoutUpperEaseLimit, REVISION, map)
+      .map((issue) => issue.code)).toContain("INVALID_VIEW_SEAM_REPRESENTATION");
   });
 
   it("maps approved Tee and Fitted sleeve halves without drawing the view partition", () => {

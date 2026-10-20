@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { GARMENTS, STANDARD_M, defaultGarmentOptions, pointMark } from "../drafting";
+import { CREWNECK, GARMENTS, STANDARD_M, defaultGarmentOptions, pointMark } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
-import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, crewneckDetachedBandRoles, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
@@ -261,6 +261,76 @@ describe("projectPoloSleeveFillClosures", () => {
 });
 
 describe("compileTechnicalFlatLiveView", () => {
+  it("renders both crewneck technical-flat faces with all four exact source-scale rib details", () => {
+    const recipe = CREWNECK;
+    const defaults = defaultGarmentOptions(recipe.options ?? []);
+    const custom = { ...defaults, neckbandDepth: 3, cuffDepth: 7, hemBandDepth: 7.5,
+      neckbandLength: 42, cuffLength: 33, hemBandLength: 96 };
+    for (const [optionSet, revisionTag] of [[defaults, "default"], [custom, "custom"]] as const) {
+      const block = recipe.draft(STANDARD_M, optionSet);
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `crewneck-s1113-${revisionTag}-${kind}`,
+          kind, placements: [], colorHex: "#456789", texture: "rib", shine: 0 });
+        expect(result.issues, `${revisionTag}/${kind}`).toEqual([]);
+        expect(result.view, `${revisionTag}/${kind}`).not.toBeNull();
+        for (const roleId of ["neckband", "cuffLeft", "cuffRight", "hemBand"] as const) {
+          const outline = result.view!.primitives.find((primitive) => primitive.kind === "path"
+            && primitive.source.sourceId === `pattern:crewneck:role:${roleId}`
+            && primitive.id.endsWith(":detached-detail"));
+          expect(outline, `${revisionTag}/${kind}/${roleId}`).toBeDefined();
+          expect(outline?.source.revisionId).toBe(result.view!.revisionId);
+          expect(result.view!.primitives.some((primitive) => primitive.kind === "text"
+            && primitive.text.includes("DETAIL ONLY—not at assembly location")
+            && primitive.source.sourceId.endsWith(`:${roleId}`))).toBe(true);
+          expect(result.view!.primitives.filter((primitive) => primitive.source.sourceId
+            .startsWith(`pattern:crewneck:mark:${roleId}:`))).toHaveLength(2);
+        }
+        expect(result.view!.primitives.filter((primitive) => primitive.kind === "text"
+          && primitive.id.startsWith("view:crewneck:detached-detail:")).length).toBe(4);
+      }
+    }
+  });
+
+  it("withholds crewneck flats when a detached rib source detail is incomplete", () => {
+    const recipe = CREWNECK;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const malformed = { ...block, roles: { ...block.roles, neckband: { ...block.roles.neckband!, marks: [] } } };
+    const result = compileTechnicalFlatLiveView({ recipe, block: malformed, revisionId: "crewneck-s1113-missing-mark",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "rib", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues.some((issue) => issue.stage === "transform"
+      && issue.message.includes("all four admitted detail records"))).toBe(true);
+  });
+
+  it("surfaces a detached-detail composer rejection for an invalid revision", () => {
+    const recipe = CREWNECK;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: " ",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "rib", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "transform",
+      sourceId: "pattern:crewneck:role:neckband", message: expect.stringContaining("finite assembled center axis") }));
+  });
+
+  it("fails closed when the crewneck source map has no requested face", () => {
+    const recipe = CREWNECK;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const front = block.roles.front!;
+    const noCenterAxis = { ...block, roles: { ...block.roles, front: { ...front,
+      edges: front.edges.filter((edge) => edge.name !== "centerFront") } } };
+    const result = compileTechnicalFlatLiveView({ recipe, block: noCenterAxis, revisionId: "crewneck-s1113-axis-missing",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "rib", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues.some((issue) => issue.stage === "transform"
+      && issue.message.includes("exact assembled body center axis"))).toBe(true);
+  });
+
+  it("selects detached crewneck roles only from an available projection face", () => {
+    expect(crewneckDetachedBandRoles(undefined)).toEqual([]);
+    expect(crewneckDetachedBandRoles({ roles: [{ treatment: "SHELL" }, { treatment: "DETACHED_DETAIL" }] }))
+      .toEqual([{ treatment: "DETACHED_DETAIL" }]);
+  });
+
   it("fails closed when the approved detached-detail center axis is absent", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
     const authored = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
