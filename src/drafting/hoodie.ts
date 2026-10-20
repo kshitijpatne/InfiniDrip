@@ -1,4 +1,6 @@
 import { point, type CubicBezier } from "../geometry";
+import { lineMark } from "./pattern-mark";
+import type { HoodiePouchOptions } from "./hoodie-contract";
 import type { Note } from "../guidance/note";
 import { bodice } from "./bodice";
 import { block, type Block } from "./block";
@@ -6,7 +8,7 @@ import { derive, type Measurements } from "./measurements";
 import { necklineEdge, type NecklineParams } from "./neckline";
 import { crewneckBandPiece } from "./crewneck-components";
 import { edgeEnd, edgeStart, pieceEdge, type Edge, type Piece } from "./piece";
-import { edgeRef, iface, interfaceLength, type Interface, type Stitch } from "./stitch";
+import { edgeRef, iface, interfaceLength, markRef, type Interface, type Stitch } from "./stitch";
 import { sleeve } from "./sleeve";
 
 export const HOODIE_ROLE_ORDER = [
@@ -18,6 +20,7 @@ export const HOODIE_ROLE_ORDER = [
   "hoodOuterRight",
   "hoodLiningLeft",
   "hoodLiningRight",
+  "pocket",
   "cuffLeft",
   "cuffRight",
   "hemBand",
@@ -29,7 +32,7 @@ export type HoodieHoodRole =
   | "hoodLiningLeft"
   | "hoodLiningRight";
 
-export interface HoodieDraftOptions {
+export interface HoodieDraftOptions extends HoodiePouchOptions {
   readonly hoodNecklineWidthEase: number;
   readonly hoodNecklineFrontDrop: number;
   readonly hoodHeight: number;
@@ -146,6 +149,74 @@ function hoodSidePiece(
   };
 }
 
+interface HoodiePouchGeometry {
+  readonly piece: Piece;
+  readonly front: Piece;
+}
+
+/** Derive the on-fold half pouch from the live front hem attachment seam. */
+function hoodiePouchGeometry(
+  front: Piece,
+  options: HoodiePouchOptions,
+): HoodiePouchGeometry | undefined {
+  if (options.pocketWidth === 0 || options.pocketHeight === 0) return undefined;
+
+  const hem = pieceEdge(front, "hem");
+  const hemY = (edgeStart(hem).y + edgeEnd(hem).y) / 2;
+  const bottomY = hemY - options.pocketHemClearance;
+  const topY = bottomY - options.pocketHeight;
+  const halfWidth = options.pocketWidth / 2;
+  const foldTop = point(0, topY);
+  const foldBottom = point(0, bottomY);
+  const outerTop = point(halfWidth, topY);
+  const openingAngleRadians = options.pocketOpeningAngle * Math.PI / 180;
+  const openingBottom = point(
+    halfWidth - options.pocketOpeningLength * Math.cos(openingAngleRadians),
+    topY + options.pocketOpeningLength * Math.sin(openingAngleRadians),
+  );
+  const outerBottom = point(halfWidth, bottomY);
+  const piece: Piece = {
+    name: "Hoodie kangaroo pouch",
+    onFold: true,
+    edges: [
+      { kind: "line", name: "top", start: foldTop, end: outerTop },
+      { kind: "line", name: "opening", start: outerTop, end: openingBottom },
+      { kind: "line", name: "side", start: openingBottom, end: outerBottom },
+      { kind: "line", name: "bottom", start: outerBottom, end: foldBottom },
+      { kind: "line", name: "fold", start: foldBottom, end: foldTop },
+    ],
+    marks: [
+      lineMark("placementLine", "sideOpening", outerTop, openingBottom, "LEAVE OPEN", "instruction"),
+    ],
+  };
+  const placementMarks = [
+    ...front.marks!,
+    lineMark("placementLine", "kangarooPouchTop", foldTop, outerTop, "POUCH TOP"),
+    lineMark("placementLine", "kangarooPouchOpening", outerTop, openingBottom, "SIDE OPENING", "instruction"),
+    lineMark("placementLine", "kangarooPouchSide", openingBottom, outerBottom, "POUCH SIDE"),
+    lineMark("placementLine", "kangarooPouchBottom", outerBottom, foldBottom, "POUCH BOTTOM"),
+  ];
+  return { piece, front: { ...front, marks: placementMarks } };
+}
+
+const HOODIE_POUCH_STITCHES: readonly Stitch[] = [
+  {
+    label: "Hoodie kangaroo pouch top ↔ front placement",
+    a: iface(edgeRef("pocket", "top")),
+    b: iface(markRef("front", "kangarooPouchTop", "left")),
+  },
+  {
+    label: "Hoodie kangaroo pouch side ↔ front placement",
+    a: iface(edgeRef("pocket", "side")),
+    b: iface(markRef("front", "kangarooPouchSide", "left")),
+  },
+  {
+    label: "Hoodie kangaroo pouch bottom ↔ front placement",
+    a: iface(edgeRef("pocket", "bottom")),
+    b: iface(markRef("front", "kangarooPouchBottom", "left")),
+  },
+];
+
 function bandClosureStitch(role: "cuffLeft" | "cuffRight" | "hemBand"): Stitch {
   return {
     label: `Hoodie band end closure: ${role}`,
@@ -198,7 +269,10 @@ export function draftHoodie(
   options: HoodieDraftOptions,
 ): Block {
   const necklineParams = hoodieNecklineParams(options);
-  const front = hoodiePiece(bodice(measurements, { position: "front", necklineParams }), "front");
+  const front: Piece = {
+    ...hoodiePiece(bodice(measurements, { position: "front", necklineParams }), "front"),
+    marks: [],
+  };
   const back = hoodiePiece(bodice(measurements, { position: "back", necklineParams }), "back");
   const body = block({ front, back }, []);
   const targetArmhole = interfaceLength(
@@ -226,8 +300,11 @@ export function draftHoodie(
     name: "hoodie rib hem band",
   };
 
+  const pouch = hoodiePouchGeometry(front, options);
+  const frontWithPouchMarks = pouch?.front ?? front;
+
   const roles = {
-    front,
+    front: frontWithPouchMarks,
     back,
     sleeveLeft,
     sleeveRight,
@@ -235,6 +312,7 @@ export function draftHoodie(
     hoodOuterRight,
     hoodLiningLeft,
     hoodLiningRight,
+    ...(pouch === undefined ? {} : { pocket: pouch.piece }),
     cuffLeft,
     cuffRight,
     hemBand,
@@ -259,6 +337,7 @@ export function draftHoodie(
     bandClosureStitch("cuffLeft"),
     bandClosureStitch("cuffRight"),
     bandClosureStitch("hemBand"),
+    ...(pouch === undefined ? [] : HOODIE_POUCH_STITCHES),
   ];
   return block(roles, stitches);
 }

@@ -6,6 +6,7 @@ import { pieceEdge, edgeEnd, edgeStart, type Edge, type Piece } from "./piece";
 import { stitchChecks } from "./stitch";
 import { TSHIRT_GRADE } from "./tshirt-grade";
 import { draftCrewneck } from "./crewneck";
+import { HOODIE_POUCH_DEFAULT_OPTIONS } from "./hoodie-contract";
 import {
   draftHoodie,
   hoodieNecklineMeasurements,
@@ -16,6 +17,7 @@ import {
 } from "./hoodie";
 
 const OPTIONS: HoodieDraftOptions = {
+  ...HOODIE_POUCH_DEFAULT_OPTIONS,
   hoodNecklineWidthEase: 4,
   hoodNecklineFrontDrop: 8,
   hoodHeight: 32,
@@ -212,6 +214,97 @@ describe("hoodie draft core", () => {
         expect(edgeEnd(pieceEdge(drafted.roles.back!, "neckline")).x)
           .toBeCloseTo(d.neckWidthHalf + options.hoodNecklineWidthEase, 10);
       }
+    }
+  });
+
+  it("derives one centered on-fold pouch and matched placement from the live front hem across XS-XL", () => {
+    for (const step of [-2, -1, 0, 1, 2]) {
+      const size = gradeMeasurements(STANDARD_M, TSHIRT_GRADE, step);
+      const drafted = draftHoodie(size, OPTIONS);
+      const pouch = drafted.roles.pocket!;
+      const front = drafted.roles.front!;
+      const hemY = edgeEnd(pieceEdge(front, "hem")).y;
+      const opening = pieceEdge(pouch, "opening");
+      const sideSeam = pieceEdge(front, "side");
+
+      expect(Object.keys(drafted.roles)).toEqual(HOODIE_ROLE_ORDER);
+      expect(pouch.onFold).toBe(true);
+      expect(pouch.edges.filter((edge) => edge.name === "fold")).toHaveLength(1);
+      expect(edgeStart(pieceEdge(pouch, "fold")).x).toBe(0);
+      expect(edgeEnd(pieceEdge(pouch, "fold")).x).toBe(0);
+      expect(edgeStart(pieceEdge(pouch, "top")).x).toBe(0);
+      expect(edgeEnd(pieceEdge(pouch, "top")).x).toBeCloseTo(OPTIONS.pocketWidth / 2, 10);
+      expect(edgeStart(opening).y).toBeCloseTo(hemY - OPTIONS.pocketHemClearance - OPTIONS.pocketHeight, 10);
+      const angleRadians = OPTIONS.pocketOpeningAngle * Math.PI / 180;
+      expect(edgeStart(opening).x - edgeEnd(opening).x)
+        .toBeCloseTo(OPTIONS.pocketOpeningLength * Math.cos(angleRadians), 10);
+      expect(edgeEnd(opening).y - edgeStart(opening).y)
+        .toBeCloseTo(OPTIONS.pocketOpeningLength * Math.sin(angleRadians), 10);
+      expect(distance(edgeStart(opening), edgeEnd(opening))).toBeCloseTo(OPTIONS.pocketOpeningLength, 10);
+      expect(edgeEnd(opening).x).toBeGreaterThan(0);
+      expect(-edgeEnd(opening).x).toBeLessThan(0);
+      expect(edgeEnd(pieceEdge(pouch, "bottom")).y).toBeCloseTo(hemY - OPTIONS.pocketHemClearance, 10);
+      expect(edgeEnd(pieceEdge(pouch, "bottom")).x).toBe(0);
+      expect(edgeEnd(pieceEdge(pouch, "top")).x).toBeLessThan(edgeStart(sideSeam).x);
+      expect(edgeStart(opening).y).toBeGreaterThan(edgeStart(sideSeam).y);
+      expect(edgeStart(pieceEdge(pouch, "bottom")).y).toBeLessThan(edgeEnd(sideSeam).y);
+      expect(-edgeStart(opening).x).toBeCloseTo(-OPTIONS.pocketWidth / 2, 10);
+      expect(-edgeEnd(opening).x).toBeCloseTo(-OPTIONS.pocketWidth / 2 + OPTIONS.pocketOpeningLength * Math.cos(angleRadians), 10);
+      expect(edgeStart(opening).y).toBe(edgeStart(pieceEdge(pouch, "top")).y);
+      expect(outlineSelfCrosses(pouch)).toBe(false);
+      for (let index = 0; index < pouch.edges.length; index += 1) {
+        expect(distance(edgeEnd(pouch.edges[index]!), edgeStart(pouch.edges[(index + 1) % pouch.edges.length]!)))
+          .toBeLessThan(1e-9);
+      }
+      for (const value of outlinePoints(pouch)) {
+        expect(Number.isFinite(value.x)).toBe(true);
+        expect(Number.isFinite(value.y)).toBe(true);
+      }
+      expect(front.marks?.map((mark) => mark.name)).toEqual(expect.arrayContaining([
+        "kangarooPouchTop",
+        "kangarooPouchOpening",
+        "kangarooPouchSide",
+        "kangarooPouchBottom",
+      ]));
+      expect(stitchChecks(drafted, drafted.stitches).every((check) => check.ok)).toBe(true);
+      expect(Object.keys(drafted.roles).filter((role) => role.toLowerCase().includes("pocket"))).toEqual(["pocket"]);
+      expect(Object.keys(drafted.roles)).not.toContain("pocketFacing");
+    }
+  });
+
+  it("omits pouch topology and placement when either zero dimension disables the pouch", () => {
+    for (const options of [
+      { ...OPTIONS, pocketWidth: 0 },
+      { ...OPTIONS, pocketHeight: 0 },
+    ]) {
+      const drafted = draftHoodie(STANDARD_M, options);
+      expect(drafted.roles.pocket).toBeUndefined();
+      expect(Object.keys(drafted.roles)).not.toContain("pocket");
+      expect(drafted.roles.front?.marks).toEqual([]);
+      expect(drafted.stitches.map((stitch) => stitch.label)).not.toContain("Hoodie kangaroo pouch top ↔ front placement");
+      expect(stitchChecks(drafted, drafted.stitches).every((check) => check.ok)).toBe(true);
+    }
+  });
+
+  it("uses exact accepted maximum pouch inputs without clamping their outline geometry", () => {
+    const boundaryOptions = [
+      { ...OPTIONS, pocketWidth: 54 },
+      { ...OPTIONS, pocketHeight: 38 },
+      { ...OPTIONS, pocketOpeningLength: 18 },
+      { ...OPTIONS, pocketOpeningAngle: 30 },
+      { ...OPTIONS, pocketOpeningAngle: 60 },
+      { ...OPTIONS, pocketHemClearance: 25 },
+    ];
+    for (const options of boundaryOptions) {
+      const drafted = draftHoodie(STANDARD_M, options);
+      const pouch = drafted.roles.pocket!;
+      expect(edgeEnd(pieceEdge(pouch, "top")).x).toBe(options.pocketWidth / 2);
+      expect(edgeEnd(pieceEdge(pouch, "bottom")).y)
+        .toBeCloseTo(STANDARD_M.length - options.pocketHemClearance, 10);
+      expect(edgeStart(pieceEdge(pouch, "opening")).y)
+        .toBeCloseTo(STANDARD_M.length - options.pocketHemClearance - options.pocketHeight, 10);
+      expect(distance(edgeStart(pieceEdge(pouch, "opening")), edgeEnd(pieceEdge(pouch, "opening"))))
+        .toBeCloseTo(options.pocketOpeningLength, 10);
     }
   });
 });
