@@ -1,5 +1,6 @@
 import type { Measurements } from "./measurements";
-import type { GarmentOption } from "./options";
+import type { GarmentOption, GarmentOptions } from "./options";
+import type { StyleDef } from "../style";
 
 /** Jogger uses the existing trouser measurement fields without changing the
  * global Measurements shape or the save format. */
@@ -7,7 +8,12 @@ export const JOGGER_FIELDS = [
   "waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease",
 ] as const satisfies readonly (keyof Measurements)[];
 
-export interface JoggerOptions {
+/** One named P0 recipe. Empty numeric ranges avoid inventing a fit envelope. */
+export const JOGGER_STYLES: readonly StyleDef[] = [
+  { name: "Adult knit jogger P0", ranges: {} },
+];
+
+export interface JoggerOptions extends GarmentOptions {
   readonly frontRiseEase: number;
   readonly backRiseEase: number;
   readonly waistbandDepth: number;

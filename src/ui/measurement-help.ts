@@ -146,6 +146,16 @@ const DRAFT_USE_OVERRIDE: Readonly<Record<string, Readonly<Record<string, string
     neckWidthEase: "The crewneck draft adds this value per side to the derived width of both front and back necklines.",
     ease: "The crewneck draft uses this shared ease in the body panels and solves the sleeves from the resulting armholes; band circumferences stay separate user controls.",
   }),
+  jogger: Object.freeze({
+    waist: "The Jogger draft adds shared ease to waist before dividing the four-panel waist; its separate casing is attached to that drafted opening. Elastic cut length is never calculated.",
+    hip: "The Jogger draft adds shared ease to hip before deriving the four-panel seat width.",
+    hipDepth: "The Jogger draft places its seat station this vertical distance below the waist reference; its capture endpoints and physical fit remain unreviewed.",
+    crotchDepth: "The Jogger draft combines this existing lower-body input with separate front and back rise controls and casing depth; this is inherited digital geometry, not a physical-fit method.",
+    thigh: "The Jogger draft adds its separate thigh-ease option to this input at an inherited digital station 2.5 cm below the back-crotch reference. That station has no reviewed anatomical mapping; do not treat the finished POM as a body-thigh capture.",
+    knee: "The Jogger draft adds its separate knee-ease option at an inherited digital station 52% of inseam below the back-crotch reference. The station has no reviewed anatomical mapping; do not treat it as a physical knee landmark or fit result.",
+    inseam: "The Jogger draft uses this value for its digital vertical crotch-to-hem target. The finished inseam POM follows the sloped sewn seam and may differ; this does not qualify a body-capture method.",
+    ease: "Jogger shared ease affects waist and seat; thigh and knee have separate recipe-owned ease controls. Material stretch does not change this geometry.",
+  }),
 });
 
 const DRAFT_USE_FALLBACK =

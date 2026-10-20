@@ -9,7 +9,7 @@ import { TEE_NECKBAND_OPTIONS, teeNeckbandSettings, teeNeckbandTemplateSvg } fro
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
-import { renderBlueprint, renderGarment, renderCrewneckFigure, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderShortsGarment, renderShortsBody, renderShortsBodyPair, renderShortsSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderCrewneckFigure, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderShortsGarment, renderShortsBody, renderShortsBodyPair, renderShortsSide, renderJoggerGarment, renderJoggerBody, renderJoggerBodyPair, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import {
   appendSemanticEditOperations,
@@ -1864,10 +1864,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       resetButton.hidden = !explicit;
     }
   };
-  const materialCompatibilityNote = (): Note | null =>
-    (recipe.name === "woven-shirt" || recipe.name === "trouser" || recipe.name === "shorts") && stretchFabric.family === "knit"
-      ? { level: "warn", field: "stretchFabric", text: `${recipe.label} is drafted for stable woven material; choose Cotton woven or Linen, or review the construction before using a knit.` }
-      : null;
+  const materialCompatibilityNote = (): Note | null => {
+    if (recipe.name === "jogger" && stretchFabric.family === "woven") {
+      return { level: "warn", field: "stretchFabric", text: "Jogger P0 is drafted for knit material; choose Cotton jersey or Stable sweatshirt knit, or review the construction before using a woven fabric." };
+    }
+    if ((recipe.name === "woven-shirt" || recipe.name === "trouser" || recipe.name === "shorts")
+      && stretchFabric.family === "knit") {
+      return { level: "warn", field: "stretchFabric", text: `${recipe.label} is drafted for stable woven material; choose Cotton woven or Linen, or review the construction before using a knit.` };
+    }
+    return null;
+  };
   // The parametric report stays separate; semantic edits have their own
   // all-size validator and never inherit a green result from the source draft.
   const baseDesignValid = (): boolean => {
@@ -3070,6 +3076,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const isTop = (recipe.region ?? (recipe.fields.includes("chest") ? "upper" : "lower")) === "upper";
     const isTrouser = recipe.name === "trouser";
     const isShorts = recipe.name === "shorts";
+    const isJogger = recipe.name === "jogger";
     // A sleeveless top (the tank) still carries a `sleeveLength` value on
     // `measurements` (fields not shown in a garment's UI don't disappear from
     // the object) — without this check both figures would draw it with a
@@ -3091,7 +3098,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? `${starterMaterialNote} ${starterEase} cm ease remains a product choice, not a fabric-derived recommendation.`
         : recipe.name === "crewneck"
           ? "The stable-knit selector is a 10% width seed, not a measured material. It does not set sweatshirt ease or band length; stretch/recovery and physical fit have not been validated."
-          : fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip),
+          : isJogger
+            ? "Jogger is a knit-only P0. Cotton jersey is a digital product default; the material selector does not model stretch/recovery or change the draft. Physical fit and material performance have not been validated."
+            : fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip),
     };
     const checkRecipe = semanticEdits && semanticState?.evaluation?.canExportSize(0)
       ? recipeForCurrentOutputs()
@@ -3284,7 +3293,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
               : bodyCroquisView === "back"
                 ? renderShortsBody(measurements, recipeOptions(), "back")
                 : renderShortsBodyPair(measurements, recipeOptions())
-            : renderSkirtBody(measurements);
+            : isJogger
+              ? bodyCroquisView === "front"
+                ? renderJoggerBody(measurements, recipeOptions(), "front")
+                : bodyCroquisView === "back"
+                  ? renderJoggerBody(measurements, recipeOptions(), "back")
+                  : renderJoggerBodyPair(measurements, recipeOptions())
+              : renderSkirtBody(measurements);
       } else if (bodyCroquisView === "front") {
         canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       } else if (bodyCroquisView === "back") {
@@ -3319,7 +3334,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           ? renderTrouserGarment(measurements, fabric, recipeOptions())
           : isShorts
             ? renderShortsGarment(measurements, fabric, recipeOptions())
-            : renderSkirtGarment(measurements, fabric);
+            : isJogger
+              ? renderJoggerGarment(measurements, fabric, recipeOptions())
+              : renderSkirtGarment(measurements, fabric);
     const assembledPreview = applyAppearanceToSvg(assembled, fabric, appearance);
     const assembledEditNotice = semanticEdits
       ? '<p class="semantic-edit-preview-notice" role="status">Saved pattern edits are not reflected in this schematic assembled illustration. Pattern-linked 3D simulation is not available.</p>'

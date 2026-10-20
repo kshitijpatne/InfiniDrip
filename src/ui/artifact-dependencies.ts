@@ -38,6 +38,14 @@ const BUTTON_COUNT_UNAFFECTED = Object.freeze([
   ...MARK_ONLY_UNAFFECTED,
   FIELD_DEPENDENT_ARTIFACTS[1]!,
 ]);
+const JOGGER_DRAWCORD_LENGTH_AFFECTED = Object.freeze([
+  Object.freeze({ id: "tech-pack-pdf", label: "Jogger Tech Pack PDF" }),
+]);
+const JOGGER_DRAWCORD_LENGTH_UNAFFECTED = Object.freeze([
+  ...FIELD_DEPENDENT_ARTIFACTS.filter((artifact) => artifact.id !== "garment-exports"),
+  Object.freeze({ id: "jogger-pattern-exports", label: "Jogger SVG, DXF, tiled PDF, projector SVG and A0 PDF" }),
+  ...FIELD_INDEPENDENT_ARTIFACTS,
+]);
 
 /** The hem turn affects body cut edges; graded POM values remain sewing-line dimensions. */
 const WOVEN_HEM_TURN_AFFECTED = Object.freeze(FIELD_DEPENDENT_ARTIFACTS.filter((artifact) =>
@@ -89,6 +97,7 @@ export function getFieldArtifactDependency(
   const isTankShoulderWidth = recipeId === "tank" && inputKind === "measurement" && inputKey === "shoulderWidth";
   const isWovenButtonCount = isWovenShirt && inputKind === "option" && inputKey === "buttonCount";
   const isWovenButtonSpacing = isWovenShirt && inputKind === "option" && inputKey === "buttonSpacing";
+  const isJoggerDrawcordLength = recipeId === "jogger" && inputKind === "option" && inputKey === "drawcordLength";
   const isPreviewOnlyInput = isTankShoulderWidth;
   const affected = isWovenHemTurn
     ? WOVEN_HEM_TURN_AFFECTED
@@ -98,6 +107,8 @@ export function getFieldArtifactDependency(
         ? BUTTON_COUNT_AFFECTED
         : isWovenButtonSpacing
           ? BUTTON_SPACING_AFFECTED
+          : isJoggerDrawcordLength
+            ? JOGGER_DRAWCORD_LENGTH_AFFECTED
         : FIELD_DEPENDENT_ARTIFACTS;
   const unaffected = isWovenHemTurn
     ? WOVEN_HEM_TURN_UNAFFECTED
@@ -107,6 +118,8 @@ export function getFieldArtifactDependency(
       ? BUTTON_COUNT_UNAFFECTED
       : isWovenButtonSpacing
         ? MARK_ONLY_UNAFFECTED
+        : isJoggerDrawcordLength
+          ? JOGGER_DRAWCORD_LENGTH_UNAFFECTED
       : FIELD_INDEPENDENT_ARTIFACTS;
   return {
     recipeId,

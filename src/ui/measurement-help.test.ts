@@ -78,8 +78,8 @@ function bodyTextOf(recipeId: string, fieldId: string): string {
 }
 
 describe("measurement help catalog", () => {
-  it("covers every field definition of all nine recipes exactly once", () => {
-    expect(GARMENTS).toHaveLength(9);
+  it("covers every field definition of all ten recipes exactly once", () => {
+    expect(GARMENTS).toHaveLength(10);
     expect(Object.keys(MEASUREMENT_HELP).sort()).toEqual(GARMENTS.map((recipe) => recipe.name).sort());
     for (const recipe of GARMENTS) {
       const definitions = getFieldDefinitions(recipe.name);
@@ -163,6 +163,28 @@ describe("measurement help catalog", () => {
     expect(width.draftUse).toContain("both front and back necklines");
     expect(width.draftUse).not.toContain("tank");
     expect(measurementHelpFor("crewneck", "style.tank-neck-drop")).toBeNull();
+  });
+
+  it("describes Jogger inputs and recipe options without assigning anatomy to the inherited knee station", () => {
+    const definitions = getFieldDefinitions("jogger");
+    expect(definitions.map(({ inputKey }) => inputKey)).toEqual([
+      "waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease",
+      "frontRiseEase", "backRiseEase", "waistbandDepth", "thighEase", "kneeEase", "legOpening",
+      "elasticWidth", "pocketOpening", "pocketAngle", "pocketBagDepth", "pocketDrop",
+      "drawcordLength", "drawcordCutWidth", "drawcordExitSpacing", "drawcordExit",
+    ]);
+    const kneeDefinition = definitions.find(({ inputKey }) => inputKey === "knee")!;
+    const knee = measurementHelpFor("jogger", kneeDefinition.id)!;
+    expect(knee.recipeId).toBe("jogger");
+    expect(knee.draftUse).toContain("52% of inseam");
+    expect(knee.draftUse).toContain("no reviewed anatomical mapping");
+    expect(knee.limits).toContain("52-percent-of-inseam");
+    expect(knee.techniqueQualified).toBe(false);
+
+    const casingDefinition = definitions.find(({ inputKey }) => inputKey === "waistbandDepth")!;
+    const casing = measurementHelpFor("jogger", casingDefinition.id)!;
+    expect(casing.inputKind).toBe("option");
+    expect(casing.meaning).toContain("elastic and drawcord channel");
   });
 
   it("describes the accepted Tee source methods without prescribing a home procedure", () => {

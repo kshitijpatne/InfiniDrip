@@ -38,6 +38,7 @@ const DEFAULT_STRETCH_BY_GARMENT: Readonly<Record<string, string>> = {
   trouser: "Cotton woven",
   shorts: "Cotton woven",
   crewneck: "Stable sweatshirt knit (10% width seed)",
+  jogger: "Cotton jersey",
 };
 
 /** Fresh-workspace material defaults follow the garment's construction family. */

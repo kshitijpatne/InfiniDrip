@@ -110,7 +110,7 @@ function deriveSample(stitches: readonly unknown[] = [SIDE_STITCH], roles: Recor
 }
 
 describe("T03 pattern reference inventory and reconciliation", () => {
-  it("derives deterministic IDs for all nine current recipe drafts", () => {
+  it("derives deterministic IDs for all ten registered recipe drafts", () => {
     for (const recipe of GARMENTS) {
       const actual = recipe.draft(STANDARD_M, {});
       const inventory = deriveTechPackPatternInventory(recipe, STANDARD_M, {});

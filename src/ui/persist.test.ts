@@ -322,7 +322,9 @@ describe("fresh workspace material defaults", () => {
     expect(defaultStretchFabricForGarment("trouser")).toBe("Cotton woven");
     expect(defaultStretchFabricForGarment("shorts")).toBe("Cotton woven");
     expect(defaultStretchFabricForGarment("crewneck")).toBe("Stable sweatshirt knit (10% width seed)");
+    expect(defaultStretchFabricForGarment("jogger")).toBe("Cotton jersey");
     expect(defaultStretchFabricForGarment("future")).toBe("Cotton woven");
+    expect(DEFAULT_WORKSPACE.garment).toBe("tee");
   });
 });
 
@@ -832,5 +834,63 @@ describe("deserialize (nesting-intelligence section)", () => {
     expect(migrated.ok).toBe(true);
     if (!migrated.ok) return;
     expect(migrated.rawNestingIntelligence).toEqual({ buffer: "10", available: "", napAware: true });
+  });
+});
+
+describe("Jogger v7 persistence (S1119)", () => {
+  it("serializes and loads Jogger options without a version bump or a new-workspace default change", () => {
+    const workspace = {
+      ...DEFAULT_WORKSPACE,
+      garment: "jogger",
+      targetStyle: "Adult knit jogger P0",
+      stretchFabric: "Cotton jersey",
+    };
+    const options = { jogger: { drawcordLength: 132, elasticWidth: 4.1 } };
+    const json = serialize(STANDARD_M, FABRIC, options, workspace);
+    expect(JSON.parse(json).v).toBe(7);
+    expect(JSON.parse(json).workspace.garment).toBe("jogger");
+    const loaded = deserialize(json);
+    expect(loaded.ok).toBe(true);
+    if (loaded.ok) {
+      expect(loaded.workspace).toMatchObject(workspace);
+      expect(loaded.garmentOptions.jogger).toEqual(options.jogger);
+    }
+    expect(SAVE_VERSION).toBe(7);
+    expect(DEFAULT_WORKSPACE.garment).toBe("tee");
+  });
+
+  it("preserves Jogger material and raw/parsed options in startup recovery", () => {
+    localStorage.clear();
+    const options = { waistbandDepth: 5.5, drawcordLength: 132 };
+    const recovery = {
+      savedAt: 789,
+      measurements: Object.fromEntries(FIELDS.map((field) => [field.id, STANDARD_M[field.id]])),
+      rawMeasurements: Object.fromEntries(FIELDS.map((field) => [field.id, String(STANDARD_M[field.id])])),
+      fabric: FABRIC,
+      appearance: DEFAULT_APPEARANCE,
+      garmentOptions: { jogger: options },
+      rawOptions: { jogger: { waistbandDepth: "5.5", drawcordLength: "132" } },
+      workspace: {
+        ...DEFAULT_WORKSPACE,
+        garment: "jogger",
+        targetStyle: "Adult knit jogger P0",
+        stretchFabric: "Cotton jersey",
+      },
+      materialSelectionExplicit: true,
+      surface: {},
+      rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
+      semanticEdits: null,
+    } as const;
+
+    expect(saveRecoveryToStorage(recovery)).toBe(true);
+    const result = readRecoveryFromStorage();
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.workspace).toMatchObject({ garment: "jogger", targetStyle: "Adult knit jogger P0", stretchFabric: "Cotton jersey" });
+      expect(result.garmentOptions.jogger).toMatchObject(options);
+      expect(result.rawOptions.jogger).toMatchObject({ waistbandDepth: "5.5", drawcordLength: "132" });
+      expect(result.materialSelectionExplicit).toBe(true);
+    }
+    expect(clearRecoveryFromStorage()).toBe(true);
   });
 });

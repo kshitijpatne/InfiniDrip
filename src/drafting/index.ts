@@ -42,3 +42,7 @@ export * from "./trouser-contract";
 export * from "./trouser";
 export * from "./trouser-guidance";
 export * from "./trouser-tables";
+export * from "./jogger";
+export * from "./jogger-contract";
+export * from "./jogger-guidance";
+export * from "./jogger-tables";

@@ -68,8 +68,8 @@ function recoveryFor(style: StyleRecord, changes: {
 }
 
 describe("C03 field definitions and append-only observations", () => {
-  it("covers every editable input exactly once across all nine current recipes", () => {
-    expect(GARMENTS).toHaveLength(9);
+  it("covers every editable input exactly once across all ten current recipes", () => {
+    expect(GARMENTS).toHaveLength(10);
     expect(() => assertRecipeFieldCoverage()).not.toThrow();
     expect(getAllFieldDefinitions().length).toBe(
       GARMENTS.reduce((sum, recipe) => sum + recipe.fields.length + (recipe.options?.length ?? 0), 0),

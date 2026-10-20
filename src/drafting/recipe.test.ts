@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
-import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, GARMENTS, garmentByName } from "./recipe";
+import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK, JOGGER, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -10,7 +10,6 @@ import { derive } from "./measurements";
 import { necklineEdge } from "./neckline";
 import { garmentReport } from "../guidance/garment-check";
 import { wovenShirtAllowances } from "./shirt";
-import { CREWNECK } from "./recipe";
 import {
   CREWNECK_DEFAULT_OPTIONS,
   CREWNECK_FIELDS,
@@ -31,11 +30,13 @@ import { crewneckBandMeasurements } from "./crewneck-components";
 import { gradeRecipeRun } from "./recipe";
 import { STRETCH_FABRICS } from "./ease";
 import { CREWNECK as BARREL_CREWNECK, CREWNECK_STABLE_KNIT_DEFAULT as BARREL_STABLE_KNIT } from "./index";
+import { JOGGER as BARREL_JOGGER } from "./index";
+import { JOGGER_DEFAULT_OPTIONS, JOGGER_FIELDS, JOGGER_OPTION_DEFINITIONS, JOGGER_STYLES } from "./jogger-contract";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
-    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts", "crewneck"]);
-    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser", "Shorts", "Crewneck sweatshirt"]);
+    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts", "crewneck", "jogger"]);
+    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser", "Shorts", "Crewneck sweatshirt", "Jogger"]);
   });
 
   it("looks a recipe up by name and falls back to the tee for an unknown one", () => {
@@ -46,6 +47,7 @@ describe("the garment registry", () => {
     expect(garmentByName("trouser")).toBe(TROUSER);
     expect(garmentByName("shorts")).toBe(SHORTS);
     expect(garmentByName("crewneck")).toBe(CREWNECK);
+    expect(garmentByName("jogger")).toBe(JOGGER);
     expect(garmentByName("kimono")).toBe(TEE);
   });
 });
@@ -467,5 +469,60 @@ describe("internal crewneck recipe contract (S1110)", () => {
     const tinyOptions = { ...CREWNECK_DEFAULT_OPTIONS, neckbandLength: Number.MIN_VALUE };
     const tiny = CREWNECK.guidance(CREWNECK.draft(STANDARD_M, tinyOptions), STANDARD_M, tinyOptions);
     expect(tiny.some((note) => note.level === "warn" && note.text.includes("cannot be represented"))).toBe(true);
+  });
+});
+
+describe("Jogger recipe activation (S1119)", () => {
+  it("registers the existing P0 contract without adding a numeric style fit range", () => {
+    expect(BARREL_JOGGER).toBe(JOGGER);
+    expect(GARMENTS[GARMENTS.length - 1]).toBe(JOGGER);
+    expect(JOGGER).toMatchObject({
+      name: "jogger",
+      label: "Jogger",
+      region: "lower",
+      editRole: "frontLeft",
+      fields: JOGGER_FIELDS,
+      styles: JOGGER_STYLES,
+      options: JOGGER_OPTION_DEFINITIONS,
+      a0Overflow: true,
+      tiledPdfLocalCoordinates: true,
+    });
+    expect(JOGGER_STYLES).toEqual([{ name: "Adult knit jogger P0", ranges: {} }]);
+    expect(JOGGER.grammar).toBeDefined();
+    expect(JOGGER.allowances).toBeDefined();
+    expect(JOGGER.notches.length).toBeGreaterThan(0);
+    expect(JOGGER.poms.length).toBeGreaterThan(0);
+    expect(JOGGER.sizes.map(({ label }) => label)).toEqual(["XS", "S", "M", "L", "XL"]);
+    expect(JOGGER.techPack.construction.join(" ")).toContain("Do not use a fixed waist-reduction rule");
+  });
+
+  it("projects the drawcord seed into Tech Pack guidance without calling it a cut length", () => {
+    const defaultPack = JOGGER.techPackForOptions!({});
+    const editedPack = JOGGER.techPackForOptions!({ drawcordLength: 132 });
+    const invalidPack = JOGGER.techPackForOptions!({ drawcordLength: 181 });
+    const nonFinitePack = JOGGER.techPackForOptions!({ drawcordLength: Number.NaN });
+
+    expect(defaultPack).toEqual(JOGGER.techPackForOptions!({ drawcordLength: JOGGER_DEFAULT_OPTIONS.drawcordLength }));
+    expect(defaultPack.construction[0]).toContain("Digital drawcord seed: 120 cm");
+    expect(editedPack.construction[0]).toContain("Digital drawcord seed: 132 cm");
+    expect(editedPack.construction[0]).toContain("not a cut length");
+    expect(editedPack.construction[0]).toContain("measure/test-fit cord before cutting");
+    expect(invalidPack.construction[0]).toContain("181 cm is outside the 80–180 cm control range");
+    expect(nonFinitePack.construction[0]).toContain("NaN cm is outside the 80–180 cm control range");
+    expect(defaultPack.bom).toEqual(JOGGER.techPack.bom);
+    expect(editedPack.bom).toEqual(JOGGER.techPack.bom);
+  });
+
+  it("routes the registered recipe through its Jogger draft and actionable guidance", () => {
+    const drafted = JOGGER.draft(STANDARD_M, JOGGER_DEFAULT_OPTIONS);
+    expect(Object.keys(drafted.roles)).toEqual([
+      "frontLeft", "frontRight", "backLeft", "backRight", "waistband", "pocketBagLeft", "pocketBagRight",
+    ]);
+    expect(JOGGER.guidance(drafted, STANDARD_M, JOGGER_DEFAULT_OPTIONS).filter(({ level }) => level === "warn")).toEqual([]);
+    expect(Number.isFinite(JOGGER.sizeMetric(drafted))).toBe(true);
+
+    const invalidOptions = { ...JOGGER_DEFAULT_OPTIONS, waistbandDepth: 2 };
+    const invalid = JOGGER.guidance(JOGGER.draft(STANDARD_M, invalidOptions), STANDARD_M, invalidOptions);
+    expect(invalid.some((note) => note.field === "option-waistbandDepth" && note.text.includes("increase casing depth"))).toBe(true);
   });
 });

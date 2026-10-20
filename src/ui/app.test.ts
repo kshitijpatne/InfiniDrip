@@ -6757,6 +6757,107 @@ describe("CREWNECK activation (Slice 1114)", () => {
   });
 });
 
+describe("JOGGER activation (Slice 1119)", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("uses the knit default, Jogger-specific views, and version-7 save/load", () => {
+    const root = mount();
+    try {
+      clickId(root, "garment-trouser");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton woven");
+      clickId(root, "garment-jogger");
+
+      expect(root.querySelector<HTMLButtonElement>("#garment-jogger")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="knee"]')).not.toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')).toBeNull();
+      expect(root.querySelectorAll('input[data-option]')).toHaveLength(15);
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
+      expect(root.querySelector("#guidance-host")!.textContent).toContain("Jogger is a knit-only P0");
+      expect(root.querySelector("#guidance-host")!.textContent).toContain("does not model stretch/recovery");
+
+      clickId(root, "view-body");
+      expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
+      expect(root.querySelector("#analysis-host svg")!.getAttribute("aria-label")).toContain("Jogger front body figure");
+      clickId(root, "body-front");
+      expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(1);
+      expect(root.querySelector("#analysis-host svg")!.getAttribute("aria-label")).toBe("Jogger front body figure");
+      clickId(root, "body-back");
+      expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(1);
+      expect(root.querySelector("#analysis-host svg")!.getAttribute("aria-label")).toBe("Jogger back body figure");
+      clickId(root, "body-front-back");
+      expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
+      clickId(root, "assembled-preview-toggle");
+      expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(false);
+      expect(root.querySelector("#garment-host [data-garment=\"jogger\"]")).not.toBeNull();
+
+      const drawcord = root.querySelector<HTMLInputElement>('input[data-option="drawcordLength"]')!;
+      drawcord.value = "132";
+      drawcord.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.v).toBe(7);
+      expect(saved.workspace).toMatchObject({ garment: "jogger", targetStyle: "Adult knit jogger P0", stretchFabric: "Cotton jersey" });
+      expect(saved.garmentOptions.jogger.drawcordLength).toBe(132);
+      expect(DEFAULT_WORKSPACE.garment).toBe("tee");
+
+      clickId(root, "garment-tee");
+      clickId(root, "load-pattern");
+      clickId(root, "workspace-confirm-accept");
+      expect(root.querySelector<HTMLButtonElement>("#garment-jogger")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="drawcordLength"]')!.value).toBe("132");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("retains explicit woven material and invalid option input with actionable Jogger guidance", () => {
+    const root = mount();
+    try {
+      const material = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+      material.value = "Cotton woven";
+      material.dispatchEvent(new Event("change", { bubbles: true }));
+      clickId(root, "garment-jogger");
+      expect(material.value).toBe("Cotton woven");
+      expect(root.querySelector("#guidance-host")!.textContent).toContain("Jogger P0 is drafted for knit material");
+
+      const casing = root.querySelector<HTMLInputElement>('input[data-option="waistbandDepth"]')!;
+      casing.value = "2";
+      casing.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(casing.value).toBe("2");
+      expect(root.querySelector("#guidance-host")!.textContent).toContain("below the declared elastic/drawcord channel need");
+      expect(root.querySelector("#guidance-host")!.textContent).toContain("increase casing depth or reduce elastic width/drawcord cut width");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("keeps woven compatibility guidance and the Skirt route after Jogger registration", () => {
+    const root = mount();
+    try {
+      const material = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+      for (const garment of ["woven-shirt", "trouser", "shorts"]) {
+        clickId(root, `garment-${garment}`);
+        material.value = "Cotton jersey";
+        material.dispatchEvent(new Event("change", { bubbles: true }));
+        expect(root.querySelector("#guidance-host")!.textContent).toContain("stable woven material");
+      }
+
+      clickId(root, "garment-skirt");
+      clickId(root, "view-body");
+      expect(root.querySelector("#analysis-host svg")).not.toBeNull();
+      clickId(root, "assembled-preview-toggle");
+      expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(false);
+      expect(root.querySelector("#garment-host svg")).not.toBeNull();
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+});
+
 describe("surface artwork panel (Slice 126)", () => {
   const toFitStep = (root: HTMLElement): void => {
     clickIfPresent(root, "welcome-skip");

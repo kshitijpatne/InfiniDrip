@@ -66,6 +66,11 @@ import { draftCrewneck } from "./crewneck";
 import { resolveCrewneckOptionsForSize } from "./crewneck-components";
 import { CREWNECK_FIELDS, CREWNECK_OPTION_DEFINITIONS, CREWNECK_DEFAULT_OPTIONS, CREWNECK_STYLES } from "./crewneck-contract";
 import { CREWNECK_ALLOWANCES, CREWNECK_GRADE, CREWNECK_NOTCHES, CREWNECK_POMS, CREWNECK_SIZES, CREWNECK_TECH_PACK, crewneckGuidance } from "./crewneck-tables";
+import { draftJogger, JOGGER_GRAMMAR } from "./jogger";
+import type { JoggerOptions } from "./jogger-contract";
+import { JOGGER_FIELDS, JOGGER_OPTION_DEFINITIONS, JOGGER_DEFAULT_OPTIONS, JOGGER_STYLES } from "./jogger-contract";
+import { JOGGER_ALLOWANCES, JOGGER_GRADE, JOGGER_NOTCHES, JOGGER_POMS, JOGGER_SIZES, JOGGER_TECH_PACK, joggerTechPackForOptions } from "./jogger-tables";
+import { joggerGuidance } from "./jogger-guidance";
 
 /**
  * How a garment declares its production-readiness checks, so the checker never
@@ -594,7 +599,32 @@ export const CREWNECK: GarmentRecipe = {
   backNeckline: (m) => ({ shape: "crew", widthEase: m.neckWidthEase, frontDrop: m.neckDrop }),
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK];
+export const JOGGER: GarmentRecipe = {
+  name: "jogger",
+  label: "Jogger",
+  region: "lower",
+  editRole: "frontLeft",
+  a0Overflow: true,
+  tiledPdfLocalCoordinates: true,
+  fields: JOGGER_FIELDS,
+  styles: JOGGER_STYLES,
+  draft: (m, options = JOGGER_DEFAULT_OPTIONS) => draftJogger(m, options as Partial<JoggerOptions>),
+  grammar: JOGGER_GRAMMAR,
+  notches: JOGGER_NOTCHES,
+  poms: JOGGER_POMS,
+  grade: JOGGER_GRADE,
+  sizes: JOGGER_SIZES,
+  checks: () => [],
+  guidance: (block, m, options = JOGGER_DEFAULT_OPTIONS) =>
+    joggerGuidance(block, m, options as Partial<JoggerOptions>),
+  sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "frontLeft"), "waist")),
+  techPack: JOGGER_TECH_PACK,
+  techPackForOptions: joggerTechPackForOptions,
+  options: JOGGER_OPTION_DEFINITIONS,
+  allowances: JOGGER_ALLOWANCES,
+};
+
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK, JOGGER];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {

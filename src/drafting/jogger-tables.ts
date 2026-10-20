@@ -12,6 +12,8 @@ import { Pom, seam, spanY } from "./pom";
 import type { TechPack } from "./recipe";
 import type { AllowanceSpec } from "./allowance";
 import type { PieceNotches } from "./tshirt-notches";
+import type { GarmentOptions } from "./options";
+import { JOGGER_DEFAULT_OPTIONS, JOGGER_OPTION_DEFINITIONS } from "./jogger-contract";
 
 /** Digital XS–XL redraft steps; these are not absolute size promises. */
 export const JOGGER_GRADE: GradeRule = {
@@ -195,3 +197,20 @@ export const JOGGER_TECH_PACK: TechPack = {
     "Press seams and turn up the plain leg hems using the deeper hem allowance.",
   ],
 };
+
+/**
+ * Keep the non-geometric drawcord-length seed visible in the Tech Pack while
+ * stating plainly that it is not a finished or cut length instruction.
+ */
+export function joggerTechPackForOptions(options: GarmentOptions): TechPack {
+  const definition = JOGGER_OPTION_DEFINITIONS.find((item) => item.id === "drawcordLength")!;
+  const seed = options.drawcordLength ?? JOGGER_DEFAULT_OPTIONS.drawcordLength;
+  const valid = Number.isFinite(seed) && seed >= definition.min && seed <= definition.max;
+  const disclosure = valid
+    ? `Digital drawcord seed: ${seed} cm (not a cut length); measure/test-fit cord before cutting.`
+    : `Digital drawcord-length seed: ${String(seed)} cm is outside the ${definition.min}–${definition.max} cm control range. Correct the seed, then measure and test-fit the finished cord; this value is not a cut length.`;
+  return {
+    ...JOGGER_TECH_PACK,
+    construction: [disclosure, ...JOGGER_TECH_PACK.construction],
+  };
+}
