@@ -20,7 +20,7 @@ import { assembleTechnicalFlatRoles, type FlatRoleTransform } from "./technical-
 import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
 import { compileTechnicalFlatPomCallouts, type TechnicalFlatPomResolvedAnchor } from "./technical-flat-poms";
 import { transformFlatPoint, transformFlatPrimitive } from "./technical-flat-transform";
-import { compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
+import { compileJoggerWaistbandFragments, compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
 import { composeCrewneckDetachedBandDetails, type CrewneckDetachedBandRole } from "./crewneck-detached-band-detail";
 import { composeWovenDetachedBandDetails } from "./woven-detached-band-detail";
 import { createWovenCollarProjector, projectWovenCollarPrimitive, type WovenCollarRoleId } from "./woven-collar-view-projection";
@@ -744,6 +744,8 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     ? compileTrouserWaistbandFragments(block, revisionId, kind, assembly.sourceFragments, assembly.transforms)
     : recipe.name === "shorts"
       ? compileShortsWaistbandFragments(block, revisionId, kind, assembly.sourceFragments, assembly.transforms)
+      : recipe.name === "jogger"
+        ? compileJoggerWaistbandFragments(block, revisionId, kind, assembly.sourceFragments, assembly.transforms)
       : { primitives: [], issues: [] };
   const overlays = compileTechnicalFlatOverlays(recipe, block, revisionId, input.placements,
     input.colorHex, input.texture, input.shine);
@@ -889,13 +891,15 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipe.name];
   const face = mapping?.faces.find((candidate) => candidate.kind === kind);
   const overlayFace = overlays.faces?.find((candidate) => candidate.kind === kind);
-  const hasFourPanelWaistbandFragments = recipe.name === "trouser" || recipe.name === "shorts";
+  const hasFourPanelWaistbandFragments = recipe.name === "trouser" || recipe.name === "shorts" || recipe.name === "jogger";
   const bandArtwork = hasFourPanelWaistbandFragments
     ? (overlayFace?.artwork ?? []).filter((primitive) => primitive.targetRoleId === "waistband") : [];
   for (const artwork of bandArtwork) issues.push({ stage: "overlay", sourceId: artwork.source.sourceId,
     message: recipe.name === "shorts"
       ? "Artwork on the Shorts waistband is withheld until its exact source placement can be clipped to one sewn front/back fragment."
-      : "Artwork on the Trouser waistband is withheld until its exact source placement can be clipped to one sewn front/back fragment." });
+      : recipe.name === "jogger"
+        ? "Artwork on the Jogger casing is withheld until its exact source placement can be clipped to one sewn front/back fragment."
+        : "Artwork on the Trouser waistband is withheld until its exact source placement can be clipped to one sewn front/back fragment." });
   const faceRoleIds = face?.roles.map((role) => role.roleId) ?? [];
   const fragmentPrimitiveIds = new Set(waistbandFragments.primitives.map((primitive) => primitive.id));
   const outputSpaceCalloutIds = new Set((mappedPomCallouts ?? []).map((primitive) => primitive.id));

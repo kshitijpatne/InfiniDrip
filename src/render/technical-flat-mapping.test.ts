@@ -3,6 +3,7 @@ import { CREWNECK, GARMENTS } from "../drafting/recipe";
 import type { Block } from "../drafting/block";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
+import { draftJogger } from "../drafting/jogger";
 import {
   G04_TECHNICAL_FLAT_MAPPINGS,
   type TechnicalFlatRecipeMapping,
@@ -17,6 +18,25 @@ const draft = (name: string) => {
 };
 
 describe("mapTechnicalFlatSources", () => {
+  it("maps all seven hidden Jogger roles to source-aware front and back faces", () => {
+    const block = draftJogger(STANDARD_M);
+    const mapping = mapTechnicalFlatSources("jogger", block);
+    expect(mapping.issues).toEqual([]);
+    expect(mapping.faces.map((candidate) => candidate.kind)).toEqual(["FRONT_FLAT", "BACK_FLAT"]);
+    expect(mapping.faces[0]?.roles.map((role) => role.roleId)).toEqual([
+      "frontLeft", "frontRight", "waistband", "pocketBagLeft", "pocketBagRight",
+    ]);
+    expect(mapping.faces[1]?.roles.map((role) => role.roleId)).toEqual([
+      "backLeft", "backRight", "waistband",
+    ]);
+    expect(mapping.faces[0]?.roles.find((role) => role.roleId === "pocketBagLeft"))
+      .toEqual({ roleId: "pocketBagLeft", treatment: "INTERIOR_HIDDEN", behindRoleId: "frontLeft" });
+    expect(mapping.sources.filter((source) => source.kind === "component").map((source) => source.sourceId))
+      .toEqual(expect.arrayContaining(Object.keys(block.roles).map((roleId) => `pattern:jogger:role:${roleId}`)));
+    expect(mapping.sources.filter((source) => source.kind === "stitch").every((source) =>
+      source.layer === "SEAM" && source.treatment === "VISIBILITY_UNRESOLVED")).toBe(true);
+  });
+
   it("maps all crewneck roles while keeping bands explicitly detached from assembly", () => {
     const block = CREWNECK.draft(STANDARD_M, defaultGarmentOptions(CREWNECK.options ?? []));
     const mapping = mapTechnicalFlatSources(CREWNECK.name, block, CREWNECK.poms);

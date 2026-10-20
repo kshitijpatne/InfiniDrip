@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, TROUSER_OPTION_DEFINITIONS, defaultGarmentOptions, type Block } from "../drafting";
+import { draftJogger } from "../drafting/jogger";
 import { assembleTechnicalFlatRoles, type FlatRoleTransform, type TechnicalFlatSourceFragment } from "./technical-flat-assembly";
-import { compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
+import { compileJoggerWaistbandFragments, compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
 
 const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
 const defaultOptions = defaultGarmentOptions(TROUSER_OPTION_DEFINITIONS);
@@ -237,5 +238,95 @@ describe("compileShortsWaistbandFragments", () => {
     expect(result.primitives).toEqual([]);
     expect(result.issues[0]?.code).toBe("INVALID_FRAGMENT_SOURCE");
     expect(result.issues[0]?.message).toContain("Shorts waistband fragments require");
+  });
+});
+
+describe("compileJoggerWaistbandFragments", () => {
+  const source = draftJogger(STANDARD_M, {});
+  const compileJogger = (candidate: Block, kind: "FRONT_FLAT" | "BACK_FLAT",
+    placements?: Readonly<Record<string, FlatRoleTransform>>, fragments?: readonly TechnicalFlatSourceFragment[]) => {
+    const assembly = assembleTechnicalFlatRoles("jogger", candidate, kind);
+    return compileJoggerWaistbandFragments(candidate, `jogger-${kind}`, kind,
+      fragments ?? assembly.sourceFragments, placements ?? assembly.transforms);
+  };
+
+  it("projects source channel lines and exit marks into both exact sewn faces", () => {
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const result = compileJogger(source, kind);
+      expect(result.issues).toEqual([]);
+      expect(result.primitives.every((primitive) => primitive.source.revisionId === `jogger-${kind}`)).toBe(true);
+      for (const name of ["elasticChannelTop", "elasticChannelBottom", "drawcordChannelTop", "drawcordChannelBottom"]) {
+        const segments = result.primitives.filter((primitive) => primitive.kind === "path" && primitive.patternMark?.name === name);
+        expect(segments).toHaveLength(2);
+        expect(segments.filter((primitive) => primitive.kind === "path" && primitive.patternMark?.label)).toHaveLength(1);
+      }
+      expect(result.primitives.filter((primitive) => primitive.kind === "mark").map((primitive) => primitive.kind === "mark" ? primitive.markName : ""))
+        .toEqual(kind === "FRONT_FLAT" ? ["drawcordExitLeft", "drawcordExitRight"] : ["drawcordRetention"]);
+    }
+
+    const band = source.roles.waistband!;
+    const reversedLines = { ...band, marks: band.marks!.map((mark) => "at" in mark
+      ? mark : { ...mark, start: mark.end, end: mark.start }) };
+    const reversed = compileJogger({ ...source, roles: { ...source.roles, waistband: reversedLines } }, "FRONT_FLAT");
+    expect(reversed.issues).toEqual([]);
+    const labeledLines = { ...band, marks: band.marks!.map((mark) => mark.name === "elasticChannelTop"
+      ? { ...mark, labelRole: "instruction" as const } : mark) };
+    expect(compileJogger({ ...source, roles: { ...source.roles, waistband: labeledLines } }, "FRONT_FLAT").primitives)
+      .toContainEqual(expect.objectContaining({ kind: "path", patternMark: expect.objectContaining({ labelRole: "instruction" }) }));
+  });
+
+  it("holds mismatched fragments, joins, casing lines, and repeated source marks", () => {
+    const front = assembleTechnicalFlatRoles("jogger", source, "FRONT_FLAT");
+    const changedFragment = front.sourceFragments.map((fragment) => fragment.attachedRoleId === "frontRight"
+      ? { ...fragment, sourceInterval: [fragment.sourceInterval[0] + 0.01, fragment.sourceInterval[1]] as const } : fragment);
+    expect(compileJogger(source, "FRONT_FLAT", front.transforms, changedFragment).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_FRAGMENT_SOURCE" }));
+    expect(compileJogger(source, "FRONT_FLAT", { ...front.transforms,
+      frontRight: { offset: { x: front.transforms.frontRight!.offset.x + 1, y: front.transforms.frontRight!.offset.y }, rotationDegrees: 0 },
+    }).issues).toContainEqual(expect.objectContaining({ code: "UNRESOLVED_FRAGMENT_JOIN" }));
+
+    const band = source.roles.waistband!;
+    const firstLine = band.marks!.find((mark) => mark.name === "elasticChannelTop")!;
+    const nonHorizontal = { ...band, marks: band.marks!.map((mark) => mark.name === firstLine.name && "start" in mark
+      ? { ...mark, end: { ...mark.end, y: mark.end.y + 1 } } : mark) };
+    expect(compileJogger({ ...source, roles: { ...source.roles, waistband: nonHorizontal } }, "FRONT_FLAT").issues)
+      .toContainEqual(expect.objectContaining({ code: "UNRESOLVED_FRAGMENT_MARK", sourceId: "pattern:jogger:mark:waistband:elasticChannelTop" }));
+
+    const duplicate = { ...band, marks: [...band.marks!, firstLine] };
+    expect(compileJogger({ ...source, roles: { ...source.roles, waistband: duplicate } }, "BACK_FLAT").issues)
+      .toContainEqual(expect.objectContaining({ code: "UNRESOLVED_FRAGMENT_MARK", message: expect.stringContaining("duplicated") }));
+
+    const tiny = 1e-9;
+    const waistLength = (roleId: string) => {
+      const waist = source.roles[roleId]!.edges.find((edge) => edge.name === "waist")!;
+      return waist.kind === "line" ? Math.hypot(waist.end.x - waist.start.x, waist.end.y - waist.start.y) : 0;
+    };
+    const totalLength = ["backLeft", "frontLeft", "frontRight", "backRight"].reduce((sum, roleId) => sum + waistLength(roleId), 0);
+    const tinyRoles = { ...source.roles,
+      frontRight: { ...source.roles.frontRight!, edges: source.roles.frontRight!.edges.map((edge) => edge.name === "waist" && edge.kind === "line"
+        ? { ...edge, end: { x: -tiny, y: edge.end.y } } : edge) },
+    };
+    const tinyTotal = totalLength - waistLength("frontRight") + tiny;
+    const scale = tinyTotal / totalLength;
+    const tinyBand = { ...source.roles.waistband!,
+      edges: source.roles.waistband!.edges.map((edge) => edge.kind === "line"
+        ? { ...edge, start: { ...edge.start, x: edge.start.x * scale }, end: { ...edge.end, x: edge.end.x * scale } } : edge),
+      marks: source.roles.waistband!.marks!.map((mark) => "at" in mark
+        ? { ...mark, at: { ...mark.at, x: mark.at.x * scale } }
+        : { ...mark, start: { ...mark.start, x: mark.start.x * scale }, end: { ...mark.end, x: mark.end.x * scale } }),
+    };
+    const tinyBlock = { ...source, roles: { ...tinyRoles, waistband: tinyBand } };
+    const tinyAssembly = assembleTechnicalFlatRoles("jogger", tinyBlock, "FRONT_FLAT");
+    const tinyResult = compileJoggerWaistbandFragments(tinyBlock, "jogger-tiny", "FRONT_FLAT", tinyAssembly.sourceFragments, {
+      frontLeft: { offset: { x: 0, y: 0 }, rotationDegrees: 0 }, frontRight: { offset: { x: 0, y: 0 }, rotationDegrees: 0 },
+    });
+    expect(tinyResult.issues).toContainEqual(expect.objectContaining({
+      code: "UNRESOLVED_FRAGMENT_MARK", sourceId: "pattern:jogger:mark:waistband:elasticChannelTop",
+      message: expect.stringContaining("two finite same-revision face segments"),
+    }));
+
+    const invalidBand = { ...band, edges: [] };
+    expect(compileJogger({ ...source, roles: { ...source.roles, waistband: invalidBand } }, "BACK_FLAT").issues[0]?.message)
+      .toContain("Jogger waistband fragments require");
   });
 });

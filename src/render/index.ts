@@ -7,6 +7,7 @@ export * from "./garment";
 export * from "./crewneck-figure";
 export * from "./skirt-figure";
 export * from "./trouser-figure";
+export * from "./jogger-figure";
 export * from "./shorts-figure";
 export * from "./notch";
 export * from "./nest";

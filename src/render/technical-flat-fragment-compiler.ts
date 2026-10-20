@@ -20,6 +20,7 @@ export interface TechnicalFlatFragmentCompilation {
 
 const TROUSER_WAIST_STITCH = "Waistband (four legs ↔ separate waistband)";
 const SHORTS_WAIST_STITCH = "Waistband (four leg panels ↔ separate waistband)";
+const JOGGER_WAIST_STITCH = "Jogger waist to separate casing";
 const TOLERANCE = 1e-8;
 type LineEdge = Extract<Edge, { readonly kind: "line" }>;
 
@@ -66,13 +67,13 @@ function markLayer(mark: PatternMark): FlatPointMarkPrimitive["layer"] {
   return mark.kind === "button" || mark.kind === "buttonhole" ? "CLOSURE" : "ANNOTATION";
 }
 
-function expectedIntervals(block: Block, bottom: LineEdge, stitchLabel: string): Map<string, readonly [number, number]> | undefined {
+function expectedIntervals(block: Block, bottom: LineEdge, stitchLabel: string, bandReversed: boolean): Map<string, readonly [number, number]> | undefined {
   const matches = block.stitches.filter((stitch) => stitch.label === stitchLabel);
   const stitch = matches[0];
   if (matches.length !== 1 || !stitch || stitch.ease !== undefined || stitch.a.edges.length !== 4
     || stitch.b.edges.length !== 1 || !stitch.b.edges[0] || !("edge" in stitch.b.edges[0])
     || stitch.b.edges[0].piece !== "waistband" || stitch.b.edges[0].edge !== "bottom"
-    || stitch.b.edges[0].reversed) return undefined;
+    || Boolean(stitch.b.edges[0].reversed) !== bandReversed) return undefined;
   const expected = ["backLeft", "frontLeft", "frontRight", "backRight"];
   const lengths: number[] = [];
   for (const [index, ref] of stitch.a.edges.entries()) {
@@ -127,10 +128,10 @@ function compileWaistbandFragments(
       - Math.hypot(bottom.end.x - bottom.start.x, bottom.end.y - bottom.start.y)) > TOLERANCE
     || Math.abs(top.end.y - top.start.y) > TOLERANCE || Math.abs(bottom.end.y - bottom.start.y) > TOLERANCE) {
     addIssue(issues, "INVALID_FRAGMENT_SOURCE", `pattern:${recipeId}:role:waistband`,
-      `${recipeId === "shorts" ? "Shorts" : "Trouser"} waistband fragments require one finite closed four-line source outline named top, endRight, bottom, and endLeft.`);
+      `${recipeId === "shorts" ? "Shorts" : recipeId === "jogger" ? "Jogger" : "Trouser"} waistband fragments require one finite closed four-line source outline named top, endRight, bottom, and endLeft.`);
     return { primitives: [], issues };
   }
-  const intervals = expectedIntervals(block, bottom, stitchLabel);
+  const intervals = expectedIntervals(block, bottom, stitchLabel, recipeId === "jogger");
   if (!intervals || fragments.length !== 2) {
     addIssue(issues, "INVALID_FRAGMENT_SOURCE", edgeSource(recipeId, "bottom"),
       "The exact zero-ease waistband-to-four-waists source interface and two face fragments are required.");
@@ -279,8 +280,73 @@ function compileWaistbandFragments(
   const markSourceIds = new Set<string>();
   for (const mark of marks) {
     if (!("at" in mark)) {
-      addIssue(issues, "UNRESOLVED_FRAGMENT_MARK", `pattern:${recipeId}:mark:waistband:${mark.name}`,
-        `Waistband mark “${mark.name}” is not a source point and cannot be safely assigned to a view fragment.`);
+      const sourceId = `pattern:${recipeId}:mark:waistband:${mark.name}`;
+      const stripMinX = Math.min(bottom.start.x, bottom.end.x);
+      const stripMaxX = Math.max(bottom.start.x, bottom.end.x);
+      const markMinX = Math.min(mark.start.x, mark.end.x);
+      const markMaxX = Math.max(mark.start.x, mark.end.x);
+      if (recipeId !== "jogger" || mark.kind !== "placementLine"
+        || !closePoint(mark.start, mark.start) || !closePoint(mark.end, mark.end)
+        || Math.abs(mark.start.y - mark.end.y) > TOLERANCE
+        || Math.abs(markMinX - stripMinX) > TOLERANCE || Math.abs(markMaxX - stripMaxX) > TOLERANCE
+        || mark.start.y < Math.min(top.start.y, bottom.start.y) - TOLERANCE
+        || mark.start.y > Math.max(top.start.y, bottom.start.y) + TOLERANCE) {
+        addIssue(issues, "UNRESOLVED_FRAGMENT_MARK", sourceId,
+          `Waistband line mark “${mark.name}” is not one finite Jogger placement line spanning the exact source casing.`);
+        continue;
+      }
+      if (markSourceIds.has(mark.name)) {
+        addIssue(issues, "UNRESOLVED_FRAGMENT_MARK", sourceId,
+          `Waistband mark “${mark.name}” is duplicated in the source record.`);
+        continue;
+      }
+      markSourceIds.add(mark.name);
+      const sourceFraction = (x: number) => (x - bottom.start.x) / (bottom.end.x - bottom.start.x);
+      const startFraction = sourceFraction(mark.start.x);
+      const endFraction = sourceFraction(mark.end.x);
+      const intersections = faceFragments.flatMap((fragment) => {
+        const from = Math.max(Math.min(startFraction, endFraction), fragment.sourceInterval[0]);
+        const to = Math.min(Math.max(startFraction, endFraction), fragment.sourceInterval[1]);
+        if (to - from <= TOLERANCE) return [];
+        const first = startFraction <= endFraction ? from : to;
+        const last = startFraction <= endFraction ? to : from;
+        const pointAt = (fraction: number): FlatPoint => ({
+          x: bottom.start.x + (bottom.end.x - bottom.start.x) * fraction,
+          y: mark.start.y,
+        });
+        const sourceStart = pointAt(first);
+        const sourceEnd = pointAt(last);
+        const attachment = attachments.get(fragment.attachedRoleId)!;
+        const localStart = transform(sourceStart, fragment.transform);
+        const localEnd = transform(sourceEnd, fragment.transform);
+        const placedStart = localStart && transform(localStart, attachment.panel);
+        const placedEnd = localEnd && transform(localEnd, attachment.panel);
+        // The exact same validated rigid transforms place both endpoints above;
+        // every intervening point on this source line therefore has a finite
+        // placement as well.
+        return [{ fragment, start: placedStart!, end: placedEnd! }];
+      });
+      if (intersections.length !== 2) {
+        addIssue(issues, "UNRESOLVED_FRAGMENT_MARK", sourceId,
+          `Jogger casing line mark “${mark.name}” does not resolve to two finite same-revision face segments.`);
+        continue;
+      }
+      for (const [index, segment] of intersections.entries()) {
+        output.push({
+          kind: "path",
+          id: `live-flat:${recipeId}:${kind}:waistband:mark:${mark.name}:${segment.fragment.attachedRoleId}`,
+          layer: "ANNOTATION",
+          feature: "annotation",
+          source: { sourceClass: "PATTERN_DERIVED", sourceId, revisionId },
+          commands: [{ op: "move", point: segment.start }, { op: "line", point: segment.end }],
+          patternMark: {
+            kind: mark.kind,
+            name: mark.name,
+            ...(index === 0 && mark.label ? { label: mark.label } : {}),
+            ...(mark.labelRole ? { labelRole: mark.labelRole } : {}),
+          },
+        });
+      }
       continue;
     }
     const sourceFraction = (mark.at.x - bottom.start.x) / (bottom.end.x - bottom.start.x);
@@ -338,4 +404,14 @@ export function compileShortsWaistbandFragments(
   placements: Readonly<Record<string, FlatRoleTransform>>,
 ): TechnicalFlatFragmentCompilation {
   return compileWaistbandFragments(block, revisionId, kind, fragments, placements, "shorts", SHORTS_WAIST_STITCH);
+}
+
+export function compileJoggerWaistbandFragments(
+  block: Block,
+  revisionId: string,
+  kind: TechnicalFlatViewKind,
+  fragments: readonly TechnicalFlatSourceFragment[],
+  placements: Readonly<Record<string, FlatRoleTransform>>,
+): TechnicalFlatFragmentCompilation {
+  return compileWaistbandFragments(block, revisionId, kind, fragments, placements, "jogger", JOGGER_WAIST_STITCH);
 }

@@ -4,14 +4,15 @@ import { STANDARD_M } from "../drafting/measurements";
 import { block } from "../drafting/block";
 import { defaultGarmentOptions } from "../drafting/options";
 import { edgeRef, iface, markRef, type Stitch } from "../drafting/stitch";
-import type { Edge } from "../drafting/piece";
-import { assembleTechnicalFlatRoles, isApprovedPoloEaseResidualDisplay, isApprovedWovenBaseSeamDisplay } from "./technical-flat-assembly";
+import type { Edge, Piece } from "../drafting/piece";
+import { assembleTechnicalFlatRoles, hasExactMirroredPanelPair, isApprovedPoloEaseResidualDisplay, isApprovedWovenBaseSeamDisplay } from "./technical-flat-assembly";
 import type { TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { cubicPoint } from "../geometry";
 import { transformFlatPoint } from "./technical-flat-transform";
 import { TROUSER_OPTION_DEFINITIONS } from "../drafting/trouser-contract";
 import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import { draftJogger } from "../drafting/jogger";
 
 const draft = (recipe: typeof GARMENTS[number]) => recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
 
@@ -371,6 +372,78 @@ describe("assembleTechnicalFlatRoles", () => {
         && issue.sourceId === "stitch:Waistband (four leg panels ↔ separate waistband)")).toBe(false);
       for (const roleId of roleIds) expect(result.transforms[roleId]).toBeDefined();
     }
+  });
+
+  it("places the Jogger's exact mirrored panel pairs without inventing a front-rise seam", () => {
+    const source = draftJogger(STANDARD_M, {});
+    for (const [kind, leftRoleId, rightRoleId] of [
+      ["FRONT_FLAT", "frontLeft", "frontRight"], ["BACK_FLAT", "backLeft", "backRight"],
+    ] as const) {
+      const result = assembleTechnicalFlatRoles("jogger", source, kind,
+        createG04TechnicalFlatProjectionMap("jogger", source, `assembly-jogger-${kind}`)!);
+      expect(result.issues).toEqual([]);
+      expect(result.transforms[rightRoleId]).toEqual(result.transforms[leftRoleId]);
+      expect(result.joinedStitchLabels.includes("Jogger centre-back rise")).toBe(kind === "BACK_FLAT");
+      expect(result.joinedStitchLabels).not.toContain("Jogger centre-front rise");
+    }
+
+    const frontRight = source.roles.frontRight!;
+    const firstEdge = frontRight.edges[0]!;
+    const changedEdge = firstEdge.kind === "line"
+      ? { ...firstEdge, start: { ...firstEdge.start, x: firstEdge.start.x + 1 } }
+      : { ...firstEdge, curve: { ...firstEdge.curve, start: { ...firstEdge.curve.start, x: firstEdge.curve.start.x + 1 } } };
+    const malformed = block({ ...source.roles,
+      frontRight: { ...frontRight, edges: frontRight.edges.map((edge, index) => index === 0 ? changedEdge : edge) },
+    }, source.stitches);
+    const rejected = assembleTechnicalFlatRoles("jogger", malformed, "FRONT_FLAT");
+    expect(rejected.transforms.frontRight).toBeUndefined();
+    expect(rejected.issues).toContainEqual(expect.objectContaining({ code: "UNPLACED_COMPONENT_ROLE", sourceId: "frontRight" }));
+
+    const malformedRise = source.stitches.map((stitch) => stitch.label === "Jogger centre-back rise"
+      ? { ...stitch, b: { ...stitch.b, edges: stitch.b.edges.map((ref) => "edge" in ref
+        ? { ...ref, reversed: false } : ref) } } : stitch);
+    const rejectedRise = assembleTechnicalFlatRoles("jogger", block(source.roles, malformedRise), "BACK_FLAT");
+    expect(rejectedRise.issues).toContainEqual(expect.objectContaining({
+      code: "UNRESOLVED_STITCH_REFERENCE", sourceId: "stitch:Jogger centre-back rise",
+    }));
+  });
+
+  it("requires complete, finite, mirrored outlines, axes, and marks before pairing source pieces", () => {
+    const source = draftJogger(STANDARD_M, {});
+    const left = source.roles.frontLeft!;
+    const right = source.roles.frontRight!;
+    const valid = (first: Piece | undefined, second: Piece | undefined) =>
+      hasExactMirroredPanelPair(first, second, "centerFront");
+    expect(valid(left, right)).toBe(true);
+    expect(valid(undefined, right)).toBe(false);
+    expect(valid(left, undefined)).toBe(false);
+    expect(valid({ ...left, onFold: !left.onFold }, right)).toBe(false);
+    expect(valid({ ...left, edges: [] }, right)).toBe(false);
+    expect(valid({ ...left, edges: left.edges.slice(1) }, right)).toBe(false);
+    expect(valid(left, { ...right, edges: right.edges.map((edge, index) => index === 0 ? undefined : edge) as unknown as Edge[] })).toBe(false);
+    expect(valid(left, { ...right, edges: right.edges.map((edge, index) => index === 0 ? { ...edge, name: "changed" } : edge) })).toBe(false);
+    expect(valid(left, { ...right, edges: right.edges.map((edge, index) => index === 0
+      ? { ...edge, kind: edge.kind === "line" ? "curve" : "line" } as unknown as Edge : edge) })).toBe(false);
+
+    const shiftedAxis = (piece: Piece, dx: number): Piece => ({ ...piece, edges: piece.edges.map((edge) =>
+      edge.name === "centerFront" && edge.kind === "line"
+        ? { ...edge, start: { ...edge.start, x: edge.start.x + dx }, end: { ...edge.end, x: edge.end.x + dx } } : edge) });
+    expect(valid(shiftedAxis(left, 1), shiftedAxis(right, -1))).toBe(false);
+    const withoutAxis = (piece: Piece): Piece => ({ ...piece, edges: piece.edges.filter((edge) => edge.name !== "centerFront") });
+    expect(valid(withoutAxis(left), withoutAxis(right))).toBe(false);
+    const withoutMarks = (piece: Piece): Piece => ({ ...piece, marks: undefined });
+    expect(valid(withoutMarks(left), withoutMarks(right))).toBe(true);
+    expect(valid(withoutMarks(left), right)).toBe(false);
+
+    const rightMarks = right.marks!;
+    expect(valid(left, { ...right, marks: rightMarks.map((mark, index) => index === 0 ? { ...mark, name: "changed" } : mark) })).toBe(false);
+    expect(valid(left, { ...right, marks: rightMarks.map((mark, index) => index === 0
+      ? { ...mark, kind: mark.kind === "placementLine" ? "cutLine" : "placementLine" } as typeof mark : mark) })).toBe(false);
+    const firstMark = rightMarks[0]!;
+    const movedMark = "at" in firstMark
+      ? { ...firstMark, at: { ...firstMark.at, x: firstMark.at.x + 1 } }
+      : { ...firstMark, end: { ...firstMark.end, x: firstMark.end.x + 1 } };
+    expect(valid(left, { ...right, marks: rightMarks.map((mark, index) => index === 0 ? movedMark : mark) })).toBe(false);
   });
 
   it("fails closed when the exact zero-ease waistband source relation is missing or malformed", () => {

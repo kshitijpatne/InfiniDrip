@@ -208,8 +208,8 @@ function joggerWaistband(options: JoggerOptions, finishedWaist: number): Piece {
   ];
   if (options.drawcordExit === 1) {
     marks.push(
-      pointMark("buttonhole", "drawcordExitLeft", point(leftExitX, cordCenter), "left centre-front drawcord exit"),
-      pointMark("buttonhole", "drawcordExitRight", point(rightExitX, cordCenter), "right centre-front drawcord exit"),
+      pointMark("buttonhole", "drawcordExitLeft", point(leftExitX, cordCenter), "drawcord exit left"),
+      pointMark("buttonhole", "drawcordExitRight", point(rightExitX, cordCenter), "drawcord exit right"),
       pointMark("placementPoint", "drawcordRetention", point(0, cordCenter), "centre-back drawcord retention"),
     );
   }

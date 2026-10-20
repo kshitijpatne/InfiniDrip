@@ -6,7 +6,7 @@ import { Piece, AllowanceSpec } from "../drafting";
 import { flattenPiece, layoutPieces, polylineBounds, Polyline, PlacedPiece } from "./layout";
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "../render/notch";
 import { PieceNotches } from "../drafting/tshirt-notches";
-import { patternMarksSvg } from "../render/pattern-mark";
+import { JOGGER_CASING_MARK_LABEL_OFFSETS, patternMarksSvg } from "../render/pattern-mark";
 import { patternLabelPose } from "./pattern-label-layout";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
@@ -57,7 +57,11 @@ function pieceSvg(
         return grainlineSvg(translated, SEW, STROKE, 0.3);
       })()
     : "";
-  const marks = patternMarksSvg(originalPiece.marks, { stroke: SEW, width: STROKE, pointSize: 0.18, labelSize: 0.8 }, dx, dy);
+  const marks = patternMarksSvg(originalPiece.marks, {
+    stroke: SEW, width: STROKE, pointSize: 0.18, labelSize: 0.8,
+    ...(originalPiece.name.toLowerCase() === "jogger waistband casing"
+      ? { labelOffsets: JOGGER_CASING_MARK_LABEL_OFFSETS } : {}),
+  }, dx, dy);
 
   return cut + sew + notches + grain + marks + label;
 }
