@@ -784,11 +784,14 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain('data-garment-region="Lower body"');
     expect(html).toContain('id="starter-blank-library" aria-labelledby="starter-blank-library-heading"');
     expect(html).toContain('id="custom-measurement-candidates" aria-labelledby="custom-measurement-candidates-heading"');
-    expect(html).toContain("Starter Blank Library</span><span>1</span>");
+    expect(html).toContain("Starter Blank Library</span><span>2</span>");
     expect(html).toContain("Custom measurement candidates</span><span>1</span>");
     expect(html).toContain('data-starter-entry-id="tee-classic-digital-v1" aria-pressed="false"');
+    expect(html).toContain('data-starter-entry-id="tee-relaxed-digital-v1" aria-pressed="false"');
     expect(html).toContain('data-starter-entry-id="tee-classic-custom-v1" aria-pressed="false"');
     expect(html).toContain("Tee Classic · software defaults");
+    expect(html).toContain("Tee Relaxed · software defaults");
+    expect(html).toContain("13 cm ease is a software choice");
     expect(html).toContain("B1 technical review pending · physical validation not-validated");
     expect(html).toContain("not a population chart or validated size-M profile");
     const blankHeading = html.indexOf('<section id="starter-blank-library"');
@@ -796,6 +799,9 @@ describe("garmentToggleMarkup", () => {
     expect(blankHeading).toBeGreaterThan(-1);
     expect(customHeading).toBeGreaterThan(blankHeading);
     expect(html.indexOf('data-starter-entry-id="tee-classic-digital-v1"', blankHeading)).toBeLessThan(customHeading);
+    expect(html.indexOf('data-starter-entry-id="tee-relaxed-digital-v1"', blankHeading)).toBeLessThan(customHeading);
+    expect(html.indexOf('data-starter-entry-id="tee-relaxed-digital-v1"', blankHeading))
+      .toBeGreaterThan(html.indexOf('data-starter-entry-id="tee-classic-digital-v1"', blankHeading));
     expect(html.indexOf('data-starter-entry-id="tee-classic-custom-v1"', customHeading)).toBeGreaterThan(customHeading);
     expect(html).toContain("B1 technical review approved for digital scope · physical validation not-validated");
     expect(html).toContain("HPS-to-hem");
@@ -808,6 +814,8 @@ describe("garmentToggleMarkup", () => {
       .toContain('data-starter-entry-id="tee-classic-custom-v1" aria-pressed="true"');
     expect(garmentToggleMarkup("tee", "tee-classic-digital-v1"))
       .toContain('data-starter-entry-id="tee-classic-digital-v1" aria-pressed="true"');
+    expect(garmentToggleMarkup("tee", "tee-relaxed-digital-v1"))
+      .toContain('data-starter-entry-id="tee-relaxed-digital-v1" aria-pressed="true"');
   });
 });
 

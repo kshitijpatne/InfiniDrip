@@ -10212,6 +10212,76 @@ describe("EPIC-19 L02 starter binding", () => {
     localStorage.clear();
   });
 
+  it("selects T02 after T01 and preserves the Relaxed profile, modeled output, and origin through save and reopen", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-classic-digital-v1");
+    clickId(root, "view-pattern");
+    const classicSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+
+    clickId(root, "starter-tee-relaxed-digital-v1");
+    expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Relaxed tee");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee Relaxed · software defaults");
+    const starterGuidance = root.querySelector("#guidance-host")!.textContent!;
+    expect(starterGuidance).toContain("No body-material compatibility claim.");
+    expect(starterGuidance).toContain("13 cm ease remains a product choice, not a fabric-derived recommendation.");
+    expect(starterGuidance).not.toContain("7 cm ease");
+    const defaults: Record<string, string> = {
+      chest: "100", shoulderWidth: "45", bicep: "38", length: "70",
+      armholeDepth: "24", sleeveLength: "22", ease: "13",
+    };
+    for (const [field, value] of Object.entries(defaults)) {
+      expect(root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!.value).toBe(value);
+    }
+    expect(root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    expect(root.querySelector<HTMLElement>('[data-finished="chest"]')!.textContent).toBe("113 cm");
+    expect(root.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-relaxed-digital-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    const relaxedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(relaxedSvg).not.toBe(classicSvg);
+
+    const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+    ease.value = "14";
+    ease.dispatchEvent(new Event("input", { bubbles: true }));
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "102";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(editedSvg).not.toBe(relaxedSvg);
+    expect(root.querySelector<HTMLElement>('[data-finished="chest"]')!.textContent).toBe("116 cm");
+
+    clickId(root, "save-pattern");
+    const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(stored.workspace.starterOrigin).toMatchObject({
+      entryId: "tee-relaxed-digital-v1",
+      entryRevision: "2026-10-20.1",
+      recipeId: "tee",
+      recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+      configurationSnapshot: {
+        targetStyle: "Relaxed tee",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 13 },
+        options: {},
+      },
+    });
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Relaxed tee");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("102");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("14");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    expect(reopened.querySelector<HTMLElement>('[data-finished="chest"]')!.textContent).toBe("116 cm");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-relaxed-digital-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee Relaxed · software defaults");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+    root.remove();
+    reopened.remove();
+    localStorage.clear();
+  });
+
   it("separates generic fabric guidance from active Tee starter material and ease intent", () => {
     localStorage.clear();
     const root = mount();
