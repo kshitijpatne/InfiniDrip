@@ -347,8 +347,12 @@ export class ProjectManager {
       const target = event.target;
       if (!(target instanceof HTMLDetailsElement) || !target.classList.contains("project-manager-details")) return;
       if (target.open === this.projectManagerOpen) return;
+      const summaryHadFocus = target.querySelector("summary") === document.activeElement;
       this.projectManagerOpen = target.open;
       this.render();
+      if (summaryHadFocus) {
+        this.options.host.querySelector<HTMLElement>(".project-manager-details > summary")?.focus();
+      }
     }, true);
     options.host.addEventListener("input", (event) => {
       const target = event.target;
