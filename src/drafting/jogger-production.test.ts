@@ -19,7 +19,7 @@ import { joggerGuidance } from "./jogger-guidance";
 import { JOGGER_DEFAULT_OPTIONS } from "./jogger-contract";
 import type { JoggerOptions } from "./jogger-contract";
 import type { GarmentOptions } from "./options";
-import { GARMENTS } from "./recipe";
+import { GARMENTS, JOGGER } from "./recipe";
 import { pointMark } from "./pattern-mark";
 import { pointOnEdge } from "../render/notch";
 import type { Piece } from "./piece";
@@ -51,7 +51,9 @@ function hasProperSelfIntersection(points: readonly { x: number; y: number }[]):
 
 describe("Jogger production contract", () => {
   it("composes the packeted pieces and exposes its real joins", () => {
-    expect(GARMENTS.some(({ name }) => name === "jogger")).toBe(false);
+    const registered = GARMENTS.find(({ name }) => name === "jogger");
+    expect(registered).toBe(JOGGER);
+    expect(registered?.grammar).toBe(JOGGER_GRAMMAR);
     expect(JOGGER_GRAMMAR.id).toBe("jogger");
     expect(JOGGER_GRAMMAR.nodes.map(({ id, kind, dependsOn }) => ({ id, kind, dependsOn }))).toEqual([
       { id: "legs", kind: "jogger-legs", dependsOn: [] },

@@ -14,4 +14,19 @@ describe("pattern marks", () => {
       kind: "button", name: "button-2", at: point(4, 5), label: "BUTTON", labelRole: "instruction",
     });
   });
+
+  it("omits an undefined optional line label and keeps explicit label roles", () => {
+    const unlabeled = lineMark("foldLine", "bandFold", point(0, 1), point(8, 1));
+    expect(unlabeled).toEqual({
+      kind: "foldLine", name: "bandFold", start: point(0, 1), end: point(8, 1),
+    });
+    expect(Object.prototype.hasOwnProperty.call(unlabeled, "label")).toBe(false);
+    expect(JSON.stringify(unlabeled)).toBe('{"kind":"foldLine","name":"bandFold","start":{"x":0,"y":1},"end":{"x":8,"y":1}}');
+
+    const labeled = lineMark("placementLine", "greatestStretchDirection", point(0, 2), point(8, 2), "GREATEST STRETCH", "instruction");
+    expect(labeled).toEqual({
+      kind: "placementLine", name: "greatestStretchDirection", start: point(0, 2), end: point(8, 2),
+      label: "GREATEST STRETCH", labelRole: "instruction",
+    });
+  });
 });
