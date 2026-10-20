@@ -3070,11 +3070,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // short sleeve regardless (Slice 60).
     const hasSleeve = recipe.fields.includes("sleeveLength");
     const activeStarter = activeStarterEntry();
+    const starterEase = activeStarter
+      ? activeStarter.configuration.options.chestEase ?? activeStarter.configuration.measurements.ease
+      : null;
+    const starterMaterialNote = activeStarter
+      ? activeStarter.intent.bodyMaterial.startsWith("No body-material compatibility claim.")
+        ? activeStarter.intent.bodyMaterial
+        : `The generic material selector and stretch heuristic do not validate this starter's declared material intent: ${activeStarter.intent.bodyMaterial}`
+      : null;
     const fabricNote: Note = {
       level: "info",
       field: "ease",
-      text: activeStarter
-        ? "The generic material selector and stretch heuristic do not model this starter's declared 95/5 cotton-spandex intent; 7 cm ease remains a product choice, not a fabric-derived recommendation. Material compatibility and stretch/recovery have not been tested."
+      text: activeStarter && starterMaterialNote && starterEase !== null
+        ? `${starterMaterialNote} ${starterEase} cm ease remains a product choice, not a fabric-derived recommendation.`
         : fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip),
     };
     const checkRecipe = semanticEdits && semanticState?.evaluation?.canExportSize(0)

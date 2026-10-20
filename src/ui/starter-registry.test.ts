@@ -9,11 +9,12 @@ import {
 
 const entry = STARTER_REGISTRY.entries[0]!;
 const blankEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.catalogKind === "blank")!;
+const relaxedEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-relaxed-digital-v1")!;
 const validOrigin = starterOriginForEntry(entry);
 
 describe("Tee Classic starter registry", () => {
   it("preserves the bounded existing custom-measurement candidate and its claim limits", () => {
-    expect(STARTER_REGISTRY.entries).toHaveLength(2);
+    expect(STARTER_REGISTRY.entries).toHaveLength(3);
     expect(entry).toMatchObject({
       entryId: "tee-classic-custom-v1",
       entryRevision: "2026-10-19.3",
@@ -80,7 +81,37 @@ describe("Tee Classic starter registry", () => {
     }
     expect(blankEntry.supportedControls.find((control) => control.fieldId === "shoulderWidth"))
       .toMatchObject({ kind: "measurement", min: 30, max: 70, step: 0.1, defaultValue: 45 });
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(1);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(2);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
+  });
+
+  it("defines T02 as a complete editable Relaxed Tee blank with a code-aligned software default", () => {
+    expect(relaxedEntry).toMatchObject({
+      entryId: "tee-relaxed-digital-v1",
+      entryRevision: "2026-10-20.1",
+      recipeId: "tee",
+      recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+      catalogKind: "blank",
+      configuration: {
+        targetStyle: "Relaxed tee",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 13 },
+        options: {},
+      },
+      gates: { b1: "pending", physical: "not-validated" },
+    });
+    expect(relaxedEntry.label).toBe("Tee Relaxed · software defaults");
+    expect(relaxedEntry.intent.fit).toContain("13 cm ease is a software choice");
+    expect(relaxedEntry.intent.sizeScope).toContain("not a population chart or validated size-M profile");
+    expect(relaxedEntry.limits.join(" ")).toContain("13 cm ease is a product choice");
+    expect(relaxedEntry.limits.join(" ")).toContain("not a fit, fabric, or wearer recommendation");
+    expect(relaxedEntry.supportedControls).toHaveLength(7);
+    for (const [fieldId, defaultValue] of Object.entries(relaxedEntry.configuration.measurements)) {
+      expect(relaxedEntry.supportedControls.find((control) => control.fieldId === fieldId)?.defaultValue).toBe(defaultValue);
+    }
+    expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "ease"))
+      .toMatchObject({ kind: "design", min: 13, max: 18, step: 1, defaultValue: 13 });
+    expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "chestEase")).toBeUndefined();
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(2);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -137,6 +168,26 @@ describe("Tee Classic starter registry", () => {
     } })).toContain("revision is unavailable");
   });
 
+  it("creates and strictly validates the T02 origin snapshot without a Classic chest-ease option", () => {
+    const origin = starterOriginForEntry(relaxedEntry);
+    expect(origin.configurationSnapshot).toEqual({
+      targetStyle: "Relaxed tee",
+      measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 13 },
+      options: {},
+    });
+    expect(starterOriginError(origin)).toBeNull();
+    expect(starterOriginError({ ...origin, configurationSnapshot: {
+      targetStyle: "Relaxed tee",
+      measurements: { ...origin.configurationSnapshot.measurements, ease: 12 },
+      options: {},
+    } })).toContain("revision is unavailable");
+    expect(starterOriginError({ ...origin, configurationSnapshot: {
+      targetStyle: "Relaxed tee",
+      measurements: { ...origin.configurationSnapshot.measurements },
+      options: { chestEase: 7 },
+    } })).toContain("revision is unavailable");
+  });
+
   it("rejects malformed, unknown, stale, and changed snapshots with specific outcomes", () => {
     for (const malformed of [42, [], { ...validOrigin, unexpected: true }]) {
       expect(starterOriginError(malformed)).toBe("Saved starter origin is malformed.");
@@ -180,5 +231,9 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(blankEntry.entryId, "chest", 102)).toBeNull();
     expect(starterControlError(blankEntry.entryId, "shoulderWidth", 45.05)).toContain("0.1 cm increments");
     expect(starterControlError(blankEntry.entryId, "chestEase", 6.5)).toContain("supports 7–12 cm");
+    expect(starterControlError(relaxedEntry.entryId, "ease", 12)).toContain("supports 13–18 cm");
+    expect(starterControlError(relaxedEntry.entryId, "ease", 13)).toBeNull();
+    expect(starterControlError(relaxedEntry.entryId, "ease", 18)).toBeNull();
+    expect(starterControlError(relaxedEntry.entryId, "ease", 19)).toContain("supports 13–18 cm");
   });
 });
