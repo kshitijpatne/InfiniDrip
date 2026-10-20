@@ -10282,6 +10282,83 @@ describe("EPIC-19 L02 starter binding", () => {
     localStorage.clear();
   });
 
+  it("selects T03 as Boxy Crop, keeps standard Tee construction, and preserves its origin through save and reopen", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-classic-digital-v1");
+    clickId(root, "view-pattern");
+    const classicSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+
+    clickId(root, "starter-tee-boxy-crop-digital-v1");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Boxy crop");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("B1 technical review pending; physical validation not performed");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee Boxy Crop · software defaults");
+    const defaults: Record<string, string> = {
+      chest: "100", shoulderWidth: "45", bicep: "38", length: "54",
+      armholeDepth: "24", sleeveLength: "22", ease: "17",
+    };
+    for (const [field, value] of Object.entries(defaults)) {
+      expect(root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!.value).toBe(value);
+    }
+    expect(root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    expect(root.querySelector<HTMLElement>('[data-finished="chest"]')!.textContent).toBe("117 cm");
+    expect(root.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-boxy-crop-digital-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    const boxySvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(boxySvg).not.toBe(classicSvg);
+
+    const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+    ease.value = "31";
+    ease.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(ease.value).toBe("31");
+    expect(root.querySelector<HTMLElement>("#error-ease")!.textContent).toContain("13–30 cm");
+    ease.value = "18";
+    ease.dispatchEvent(new Event("input", { bubbles: true }));
+    const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+    length.value = "55";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "102";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(editedSvg).not.toBe(boxySvg);
+    expect(root.querySelector<HTMLElement>('[data-finished="chest"]')!.textContent).toBe("120 cm");
+
+    clickId(root, "save-pattern");
+    const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(stored.workspace.starterOrigin).toMatchObject({
+      entryId: "tee-boxy-crop-digital-v1",
+      entryRevision: "2026-10-20.1",
+      recipeId: "tee",
+      recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+      configurationSnapshot: {
+        targetStyle: "Boxy crop",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 54, armholeDepth: 24, sleeveLength: 22, ease: 17 },
+        options: {},
+      },
+    });
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Boxy crop");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("102");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("55");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("18");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    expect(reopened.querySelector<HTMLElement>('[data-finished="chest"]')!.textContent).toBe("120 cm");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-boxy-crop-digital-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee Boxy Crop · software defaults");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+    root.remove();
+    reopened.remove();
+    localStorage.clear();
+  });
+
   it("separates generic fabric guidance from active Tee starter material and ease intent", () => {
     localStorage.clear();
     const root = mount();
