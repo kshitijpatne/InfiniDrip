@@ -15,7 +15,7 @@
 // share one slot, anchored at the slot's top-centre, so they nest like the
 // size-run view's tree rings and a toggled size lands exactly where the last was.
 
-import { Measurements, GarmentRecipe, GarmentOptions, gradeRun, rolePiece, Piece } from "../drafting";
+import { Measurements, GarmentRecipe, GarmentOptions, gradeRecipeRun, rolePiece, Piece } from "../drafting";
 import { flattenPiece, polylineBounds, Polyline } from "./layout";
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "../render/notch";
 import { unfoldFlat, FOLD_EPS } from "./unfold";
@@ -172,7 +172,7 @@ export function exportProjectorSvg(
   plannedRun?: readonly ProjectorDraft[],
   pomExceptions: readonly { readonly sizeLabel: string; readonly pomLabel: string; readonly reason: string }[] = [],
 ): string {
-  const run: readonly ProjectorDraft[] = plannedRun ?? gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
+  const run: readonly ProjectorDraft[] = plannedRun ?? gradeRecipeRun(recipe, m, recipe.sizes, options);
   const roles = [...new Set(run.flatMap((size) => Object.keys(size.block.roles)))];
 
   // Slot per role: wide and tall enough for the largest size's unfolded cut line.

@@ -15,7 +15,7 @@
 import {
   Measurements,
   GarmentRecipe,
-  gradeRun,
+  gradeRecipeRun,
   PieceNotches,
   blockPieces,
   stitchChecks,
@@ -77,7 +77,7 @@ export function garmentReport(
   ];
 
   if (reportOptions.includeSizeRun !== false) {
-    const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
+    const graded = gradeRecipeRun(recipe, m, recipe.sizes, options);
     checks.push(strictlyIncreasing("Size run grows in order", graded.map((g) => recipe.sizeMetric(g.block))));
   }
 

@@ -16,7 +16,7 @@ import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE
 import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
-import { GradeRule, SizeStep } from "./grading";
+import { draftAtSize, gradeRun, type GradeOptionResolver, type GradeRule, type SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
 import { draftTshirt, TEE_GRAMMAR } from "./tshirt";
 import { draftFitted, FITTED_GRAMMAR, FITTED_DART_OPTIONS, fittedGuidance } from "./fitted";
@@ -117,6 +117,8 @@ export interface GarmentRecipe {
   readonly techPack: TechPack;
   /** Recipe-owned design controls; absent means this garment has no such options. */
   readonly options?: readonly GarmentOption[];
+  /** Derive non-base-size numeric options from the explicit base inputs. */
+  readonly resolveOptionsForSize?: GradeOptionResolver;
   /** Option-aware production notes/BOM; absent keeps the static tech pack. */
   readonly techPackForOptions?: (options: GarmentOptions) => TechPack;
   /** Optional material variant selected from the live fabric family. */
@@ -141,6 +143,26 @@ export interface GarmentRecipe {
   readonly strapWidth?: (m: Measurements) => number;
   /** The declarative component graph behind this recipe, when migrated. */
   readonly grammar?: GarmentGrammar;
+}
+
+/** Draft one registered recipe size through its optional recipe-owned resolver. */
+export function draftRecipeAtSize(
+  recipe: GarmentRecipe,
+  base: Measurements,
+  step: number,
+  options: GarmentOptions = {},
+): Block {
+  return draftAtSize(base, recipe.grade, step, recipe.draft, options, recipe.resolveOptionsForSize);
+}
+
+/** Draft a registered recipe's whole size run through one shared resolver. */
+export function gradeRecipeRun(
+  recipe: GarmentRecipe,
+  base: Measurements,
+  sizes: readonly SizeStep[] = recipe.sizes,
+  options: GarmentOptions = {},
+): ReturnType<typeof gradeRun> {
+  return gradeRun(base, recipe.grade, sizes, recipe.draft, options, recipe.resolveOptionsForSize);
 }
 
 /**

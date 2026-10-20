@@ -3,7 +3,7 @@
 // logic lives in the pure modules.
 
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY, withModeledPomLabels } from "../drafting";
-import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
+import { gradeRecipeRun, gradeMeasurements, draftRecipeAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { TEE_NECKBAND_OPTIONS, teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
 import { wovenShirtAllowances } from "../drafting/shirt";
@@ -1595,7 +1595,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (!semanticEdits) {
       const source = view === "edit" ? currentSemanticState()?.source : null;
       if (source?.status === "failed" && source.baseBlock === null) return null;
-      return draftAtSize(measurements, recipe.grade, step, recipe.draft, recipeOptions());
+      return draftRecipeAtSize(recipe, measurements, step, recipeOptions());
     }
     return currentSemanticState()?.evaluation?.sizes.find((size) => size.step === step)?.block ?? null;
   };
@@ -3136,7 +3136,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : `<p role="status">${escapeUiText(run.issues[0]!)}</p>`;
     } else if (view === "nest") {
       canvasContent = semanticRunReady()
-        ? renderNest(gradeRun(measurements, recipe.grade, recipe.sizes, recipeForCurrentOutputs().draft, recipeOptions()))
+        ? renderNest(gradeRecipeRun(recipeForCurrentOutputs(), measurements, recipe.sizes, recipeOptions()))
         : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
       if (recipe.name === "fitted" && nestScope === "marker" && !fittedRunClearanceValid()) {
@@ -3182,7 +3182,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
       const draft = semanticSizeBlock(selectedOutputStep())
-        ?? (sourceCannotDraft ? null : draftAtSize(measurements, recipe.grade, selectedOutputStep(), recipe.draft, recipeOptions()));
+        ?? (sourceCannotDraft ? null : draftRecipeAtSize(recipe, measurements, selectedOutputStep(), recipeOptions()));
       if (!draft) {
         canvasContent = '<p role="alert" data-semantic-source-unavailable>The current recipe pattern could not be generated. Resolve the source issue before editing.</p>' +
           semanticEditorHintMarkup(semanticOutputIssues(), editRoleId, {
@@ -3232,7 +3232,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         canvasContent = `<p role="status" data-semantic-output-paused>Graded specifications are paused. Review or rebase the saved edits in Edit.</p>`;
       } else {
         const outputRecipe = recipeForCurrentOutputs();
-        const graded = gradeRun(measurements, recipe.grade, recipe.sizes, outputRecipe.draft, recipeOptions());
+        const graded = gradeRecipeRun(outputRecipe, measurements, recipe.sizes, recipeOptions());
         const baseIndex = graded.findIndex((g) => g.step === 0);
         canvasContent = specTableMarkup(
           specSheet(graded, withModeledPomLabels(outputRecipe.poms, outputRecipe.name === "tee")), graded.map((g) => g.label), baseIndex);
@@ -5376,7 +5376,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const step = selectedOutputStep();
     const customPlanSize = customOneSizeStyle() ? selectedGradePlanSize() : null;
     const drafted = customPlanSize?.block ?? (semanticEdits === null
-      ? draftAtSize(measurements, recipe.grade, step, recipe.draft, recipeOptions())
+      ? draftRecipeAtSize(recipe, measurements, step, recipeOptions())
       : semanticSizeBlock(step));
     return exportablePieces(drafted, customPlanSize ? customPlanSize.ready : semanticSizeReady(step));
   };

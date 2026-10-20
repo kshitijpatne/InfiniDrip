@@ -32,7 +32,7 @@ import {
   Block,
   Pom,
   SpecRow,
-  gradeRun,
+  gradeRecipeRun,
   specSheet,
   modeledPomLabel,
   withModeledPomLabels,
@@ -593,7 +593,7 @@ export function exportTechPack(
   surface: readonly ArtworkPlacement[] = [],
   styleLabel = ""
 ): string {
-  const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
+  const graded = gradeRecipeRun(recipe, m, recipe.sizes, options);
   const rows = specSheet(graded, recipe.poms);
   const sizes = graded.map((g) => g.label);
   return assemblePdf(
@@ -631,7 +631,7 @@ export function exportTechPackV2(
   styleLabel = ""
 ): string {
   const block = recipe.draft(m, options);
-  const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
+  const graded = gradeRecipeRun(recipe, m, recipe.sizes, options);
   const rows = specSheet(graded, withModeledPomLabels(recipe.poms, recipe.name === "tee"));
   const sizes = graded.map((g) => g.label);
   return assemblePdf(

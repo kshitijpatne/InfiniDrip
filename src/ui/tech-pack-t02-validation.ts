@@ -1,4 +1,4 @@
-import { gradeRun, type GarmentOptions, type GarmentRecipe, type Measurements, type SizeStep } from "../drafting";
+import { gradeRecipeRun, type GarmentOptions, type GarmentRecipe, type Measurements, type SizeStep } from "../drafting";
 import type { TechPackPomDefinition } from "./tech-pack-pom-records";
 import type { TechPackPomRecordSet } from "./tech-pack-sample-qa-records";
 import type { TechPackRecord } from "./tech-pack-records";
@@ -113,9 +113,9 @@ export function evaluateTechPackT02(input: EvaluateTechPackT02Input): TechPackT0
   }
 
   const predictions: TechPackT02Prediction[] = [];
-  let graded: ReturnType<typeof gradeRun> | null = null;
+  let graded: ReturnType<typeof gradeRecipeRun> | null = null;
   try {
-    graded = gradeRun(measurements, recipe.grade, sizeSteps, recipe.draft, options);
+    graded = gradeRecipeRun(recipe, measurements, sizeSteps, options);
   } catch (error) {
     addFinding(findings, null, "Size run", "INVALID",
       `Pattern predictions could not be calculated: ${messageOf(error)}`,

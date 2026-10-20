@@ -9,7 +9,7 @@ import type { GarmentRecipe } from "../drafting/recipe";
 import type { SizeStep } from "../drafting/grading";
 import { stitchChecks } from "../drafting/stitch";
 import { outlinePoints } from "../render/allowance";
-import { gradeRun } from "../drafting/grading";
+import { gradeRecipeRun } from "../drafting/recipe";
 
 export const SEMANTIC_EDIT_SCHEMA_VERSION = 2 as const;
 export const SEMANTIC_EDIT_HISTORY_LIMIT = 30;
@@ -690,7 +690,7 @@ export function evaluateSemanticEditDocument(
     const issue: SemanticEditIssue = { code: "rebase-required", recipeId: recipe.name, message: `The source pattern or its reviewed inputs changed.${detail} Review the values and rebase or remove the edits before using dependent outputs.` };
     return { status: "rebase-required", sourceFingerprint: currentSourceFingerprint, sizes: [], issues: [issue], canExportSize: () => false, canExportRun: false };
   }
-  const graded = gradeRun(measurements, recipe.grade, sizeSteps, recipe.draft, options);
+  const graded = gradeRecipeRun(recipe, measurements, sizeSteps, options);
   const sizes = graded.map((size) => {
     const replay = applyOperationsToBlock(recipe, size.measurements, size.block, document.operations, size.label, document.sourceFingerprint);
     const issues = [...replay.issues];
