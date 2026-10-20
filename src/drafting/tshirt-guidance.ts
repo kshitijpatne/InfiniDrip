@@ -45,17 +45,28 @@ export function armholeMatch(block: Block): Note {
   };
 }
 
-/** Ease, always surfaced: too tight to wear, roomy/oversized, or comfortable.
- *  Never silent — a positive "you're in range" is guidance too, and stops the reader
- *  wondering whether the check even ran. */
+/** Ease guidance reports only the configured value and this software check.
+ *  It is not a wear, comfort, fit, silhouette, or fabric assessment. */
 export function easeRange(m: Measurements, garmentLabel = "tee"): Note {
   if (m.ease < 5) {
-    return { level: "warn", field: "ease", text: `Ease is ${m.ease} cm — tight to pull on. Most ${garmentLabel}s use 8–12 cm.` };
+    return {
+      level: "warn",
+      field: "ease",
+      text: `Ease is ${m.ease} cm — below the ${garmentLabel} check's 5 cm lower boundary. If you want to move out of this software warning, raise ease to 5 cm or more; this check does not assess wear or fit.`,
+    };
   }
   if (m.ease > 16) {
-    return { level: "info", field: "ease", text: `Ease is ${m.ease} cm — roomy; expect an oversized fit.` };
+    return {
+      level: "info",
+      field: "ease",
+      text: `Ease is ${m.ease} cm — above the ${garmentLabel} check's 16 cm upper boundary. If you want to move out of this informational band, reduce ease to 16 cm or less; this check does not assess fit or silhouette.`,
+    };
   }
-  return { level: "ok", field: "ease", text: `Ease is ${m.ease} cm — a comfortable amount for a ${garmentLabel}.` };
+  return {
+    level: "ok",
+    field: "ease",
+    text: `Ease is ${m.ease} cm — within the ${garmentLabel} check's 5–16 cm interval. This software check does not assess fit, comfort, or fabric compatibility.`,
+  };
 }
 
 /** An armhole too shallow for the chest binds the arm. */
