@@ -4,6 +4,7 @@ export * from "./shape";
 export * from "./canvas";
 export * from "./allowance";
 export * from "./garment";
+export * from "./crewneck-figure";
 export * from "./skirt-figure";
 export * from "./trouser-figure";
 export * from "./shorts-figure";
