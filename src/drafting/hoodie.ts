@@ -1,5 +1,5 @@
-import { point, type CubicBezier } from "../geometry";
-import { lineMark } from "./pattern-mark";
+import { cubicPoint, point, type CubicBezier, type Point } from "../geometry";
+import { lineMark, pointMark, type PatternMark } from "./pattern-mark";
 import type { HoodiePouchOptions, HoodieShapeOptions } from "./hoodie-contract";
 import type { Note } from "../guidance/note";
 import { bodice } from "./bodice";
@@ -90,6 +90,174 @@ const HOOD_NECK_EASE_MEASUREMENT_ROUNDOFF_CM = 1e-12;
 const HOOD_NECK_EASE_UPPER_ROUNDOFF_MARGIN_CM = 0.005;
 const HOOD_FRONT_OVERLAP_MIN = 0;
 const HOOD_FRONT_OVERLAP_MAX = 8;
+const HOOD_CASING_WIDTH_MIN = 0;
+const HOOD_CASING_WIDTH_MAX = 5.5;
+const HOOD_DRAWCORD_LENGTH_MIN = 60;
+const HOOD_DRAWCORD_LENGTH_MAX = 180;
+const HOOD_EXIT_SPACING_MIN = 4;
+const HOOD_EXIT_SPACING_MAX = 16;
+const HOOD_CASING_GUIDE_SEGMENTS = 32;
+const HOOD_CASING_MIN_FACE_COVERAGE = 0.5;
+
+function cubicTangent(curve: CubicBezier, t: number): Point {
+  const u = 1 - t;
+  return point(
+    3 * u * u * (curve.control1.x - curve.start.x) +
+      6 * u * t * (curve.control2.x - curve.control1.x) +
+      3 * t * t * (curve.end.x - curve.control2.x),
+    3 * u * u * (curve.control1.y - curve.start.y) +
+      6 * u * t * (curve.control2.y - curve.control1.y) +
+      3 * t * t * (curve.end.y - curve.control2.y),
+  );
+}
+
+function outlinePoints(edges: readonly Edge[], segmentsPerCurve = 64): readonly Point[] {
+  const points: Point[] = [];
+  for (const edge of edges) {
+    const edgePoints = edge.kind === "line"
+      ? [edge.start, edge.end]
+      : Array.from({ length: segmentsPerCurve + 1 }, (_, index) =>
+          cubicPoint(edge.curve, index / segmentsPerCurve));
+    points.push(...edgePoints.slice(points.length === 0 ? 0 : 1));
+  }
+  return points;
+}
+
+function pointInsidePolygon(value: Point, polygon: readonly Point[]): boolean {
+  let inside = false;
+  for (let index = 0, previous = polygon.length - 1; index < polygon.length; previous = index, index += 1) {
+    const currentPoint = polygon[index]!;
+    const previousPoint = polygon[previous]!;
+    const crosses = (currentPoint.y > value.y) !== (previousPoint.y > value.y) &&
+      value.x < (previousPoint.x - currentPoint.x) * (value.y - currentPoint.y) /
+        (previousPoint.y - currentPoint.y) + currentPoint.x;
+    if (crosses) inside = !inside;
+  }
+  return inside;
+}
+
+function inwardNormal(
+  curve: CubicBezier,
+  t: number,
+  polygon: readonly Point[],
+): Point | undefined {
+  const tangent = cubicTangent(curve, t);
+  const magnitude = Math.hypot(tangent.x, tangent.y);
+  if (!Number.isFinite(magnitude) || magnitude <= 1e-9) return undefined;
+  const forward = point(-tangent.y / magnitude, tangent.x / magnitude);
+  const reverse = point(-forward.x, -forward.y);
+  const onEdge = cubicPoint(curve, t);
+  const probeDistance = 0.005;
+  const forwardProbe = point(
+    onEdge.x + forward.x * probeDistance,
+    onEdge.y + forward.y * probeDistance,
+  );
+  if (pointInsidePolygon(forwardProbe, polygon)) return forward;
+  const reverseProbe = point(
+    onEdge.x + reverse.x * probeDistance,
+    onEdge.y + reverse.y * probeDistance,
+  );
+  return pointInsidePolygon(reverseProbe, polygon) ? reverse : undefined;
+}
+
+function offsetFacePoint(
+  curve: CubicBezier,
+  t: number,
+  offset: number,
+  polygon: readonly Point[],
+): Point | undefined {
+  const onEdge = cubicPoint(curve, t);
+  const normal = inwardNormal(curve, t, polygon);
+  if (normal === undefined) return undefined;
+  const result = point(onEdge.x + normal.x * offset, onEdge.y + normal.y * offset);
+  return Number.isFinite(result.x) && Number.isFinite(result.y) && pointInsidePolygon(result, polygon)
+    ? result
+    : undefined;
+}
+
+function casingOffsetPath(
+  curve: CubicBezier,
+  offset: number,
+  polygon: readonly Point[],
+): readonly Point[] {
+  const sampled: (Point | undefined)[] = [];
+  for (let index = 0; index <= HOOD_CASING_GUIDE_SEGMENTS; index += 1) {
+    sampled.push(offsetFacePoint(
+      curve,
+      index / HOOD_CASING_GUIDE_SEGMENTS,
+      offset,
+      polygon,
+    ));
+  }
+  const startIndex = sampled.findIndex((value) => value !== undefined);
+  if (startIndex < 0) return [];
+  const points: Point[] = [];
+  for (let index = startIndex; index < sampled.length; index += 1) {
+    const currentPoint = sampled[index];
+    if (currentPoint === undefined) break;
+    points.push(currentPoint);
+  }
+  return points;
+}
+
+function casingFoldMarks(points: readonly Point[]): readonly PatternMark[] {
+  return points.slice(0, -1).map((start, index) => lineMark(
+    "foldLine",
+    `hoodCasingFold-${index + 1}`,
+    start,
+    points[index + 1]!,
+    index === 0 ? "CASING FOLD" : undefined,
+    index === 0 ? "instruction" : undefined,
+  ));
+}
+
+function exitPointAtSpacing(points: readonly Point[], spacing: number, polygon: readonly Point[]): Point | undefined {
+  const targetX = -spacing / 2;
+  for (let index = 0; index < points.length - 1; index += 1) {
+    const start = points[index]!;
+    const end = points[index + 1]!;
+    const minimumX = Math.min(start.x, end.x);
+    const maximumX = Math.max(start.x, end.x);
+    if (targetX < minimumX || targetX > maximumX || Math.abs(end.x - start.x) <= 1e-9) continue;
+    const amount = (targetX - start.x) / (end.x - start.x);
+    const result = point(targetX, start.y + (end.y - start.y) * amount);
+    if (pointInsidePolygon(result, polygon)) return result;
+  }
+  return undefined;
+}
+
+function hoodieCasingMarks(
+  faceOpening: CubicBezier,
+  edges: readonly Edge[],
+  options: HoodieDraftOptions,
+): readonly PatternMark[] {
+  const width = options.hoodCasingWidth;
+  if (!Number.isFinite(width) || width <= HOOD_CASING_WIDTH_MIN || width > HOOD_CASING_WIDTH_MAX) return [];
+  const polygon = outlinePoints(edges);
+  const foldPath = casingOffsetPath(faceOpening, width, polygon);
+  const minimumGuidePoints = Math.ceil(
+    (HOOD_CASING_GUIDE_SEGMENTS + 1) * HOOD_CASING_MIN_FACE_COVERAGE,
+  );
+  if (foldPath.length < minimumGuidePoints) return [];
+  const marks = [...casingFoldMarks(foldPath)];
+  const spacing = options.hoodExitSpacing;
+  if (!Number.isFinite(spacing) || spacing < HOOD_EXIT_SPACING_MIN || spacing > HOOD_EXIT_SPACING_MAX) return marks;
+  const casingMidline = casingOffsetPath(faceOpening, width / 2, polygon);
+  const exit = exitPointAtSpacing(casingMidline, spacing, polygon);
+  if (exit === undefined) return marks;
+  marks.push(pointMark("buttonhole", "hoodDrawcordExit", exit, "DRAWCORD EXIT", "instruction"));
+  return marks;
+}
+
+function mirrorMarkAcrossCenterFront(mark: PatternMark): PatternMark {
+  return "at" in mark
+    ? { ...mark, at: point(-mark.at.x, mark.at.y) }
+    : {
+        ...mark,
+        start: point(-mark.start.x, mark.start.y),
+        end: point(-mark.end.x, mark.end.y),
+      };
+}
 
 interface HoodieNeckSeams {
   readonly front: Extract<Edge, { readonly kind: "curve" }>;
@@ -245,14 +413,21 @@ function hoodSidePiece(
     : undefined;
   const draftedEdges = [frontSeam, backSeam, centerBackSeam, faceOpening,
     ...(overlapConnector === undefined ? [] : [overlapConnector])];
+  const leftMarks = layer === "outer"
+    ? hoodieCasingMarks(faceOpening.curve, draftedEdges, options)
+    : [];
   const edges = side === "left"
     ? draftedEdges
     : draftedEdges.map(mirrorEdgeAcrossCenterFront);
+  const marks = side === "left"
+    ? leftMarks
+    : leftMarks.map(mirrorMarkAcrossCenterFront);
   const sideName = side === "left" ? "left" : "right";
   return {
     name: `hoodie ${sideName} ${layer} hood side`,
     onFold: false,
     edges,
+    ...(marks.length === 0 ? {} : { marks }),
   };
 }
 
@@ -533,6 +708,87 @@ export function hoodieNecklineNotes(
       level: "warn",
       text: `Hood front overlap (${value}) is outside the supported ${HOOD_FRONT_OVERLAP_MIN}–${HOOD_FRONT_OVERLAP_MAX} cm range — adjust it into that range.`,
     });
+  }
+  return notes;
+}
+
+/** Report casing/exit option problems without replacing the user's raw values. */
+export function hoodieCasingNotes(
+  measurements: Measurements,
+  options: HoodieDraftOptions,
+): readonly Note[] {
+  const notes: Note[] = [];
+  const casingValid = Number.isFinite(options.hoodCasingWidth) &&
+    options.hoodCasingWidth >= HOOD_CASING_WIDTH_MIN &&
+    options.hoodCasingWidth <= HOOD_CASING_WIDTH_MAX;
+  const spacingValid = Number.isFinite(options.hoodExitSpacing) &&
+    options.hoodExitSpacing >= HOOD_EXIT_SPACING_MIN &&
+    options.hoodExitSpacing <= HOOD_EXIT_SPACING_MAX;
+  const drawcordValid = Number.isFinite(options.hoodDrawcordLength) &&
+    options.hoodDrawcordLength >= HOOD_DRAWCORD_LENGTH_MIN &&
+    options.hoodDrawcordLength <= HOOD_DRAWCORD_LENGTH_MAX;
+
+  if (!casingValid) {
+    const value = Number.isFinite(options.hoodCasingWidth)
+      ? `${options.hoodCasingWidth} cm`
+      : String(options.hoodCasingWidth);
+    notes.push({
+      field: "hoodCasingWidth",
+      level: "warn",
+      text: `Hood casing width (${value}) is outside the supported ${HOOD_CASING_WIDTH_MIN}–${HOOD_CASING_WIDTH_MAX} cm range — adjust it into that range.`,
+    });
+  }
+  if (!drawcordValid) {
+    const value = Number.isFinite(options.hoodDrawcordLength)
+      ? `${options.hoodDrawcordLength} cm`
+      : String(options.hoodDrawcordLength);
+    notes.push({
+      field: "hoodDrawcordLength",
+      level: "warn",
+      text: `Drawcord length (${value}) is outside the supported ${HOOD_DRAWCORD_LENGTH_MIN}–${HOOD_DRAWCORD_LENGTH_MAX} cm digital range — adjust it into that range; this is not a cut length.`,
+    });
+  }
+  if (!spacingValid) {
+    const value = Number.isFinite(options.hoodExitSpacing)
+      ? `${options.hoodExitSpacing} cm`
+      : String(options.hoodExitSpacing);
+    notes.push({
+      field: "hoodExitSpacing",
+      level: "warn",
+      text: `Hood drawcord exit spacing (${value}) is outside the supported ${HOOD_EXIT_SPACING_MIN}–${HOOD_EXIT_SPACING_MAX} cm range — adjust it into that range.`,
+    });
+  }
+
+  if (casingValid && options.hoodCasingWidth === HOOD_CASING_WIDTH_MIN) {
+    if (drawcordValid) {
+      notes.push({
+        field: "hoodDrawcordLength",
+        level: "warn",
+        text: `Drawcord length (${options.hoodDrawcordLength} cm) is unused while hood casing width is zero — increase casing width to add the casing and exits.`,
+      });
+    }
+    return notes;
+  }
+
+  if (casingValid) {
+    const drafted = draftHoodie(measurements, options);
+    const leftMarks = drafted.roles.hoodOuterLeft?.marks ?? [];
+    const hasCasingGuide = leftMarks.some((mark) =>
+      mark.kind === "foldLine" && mark.name.startsWith("hoodCasingFold-"));
+    const hasExit = leftMarks.some((mark) => mark.kind === "buttonhole" && mark.name === "hoodDrawcordExit");
+    if (!hasCasingGuide) {
+      notes.push({
+        field: "hoodCasingWidth",
+        level: "warn",
+        text: `Hood casing width of ${options.hoodCasingWidth} cm cannot be represented inside this hood face — reduce the width or adjust the hood shape.`,
+      });
+    } else if (spacingValid && !hasExit) {
+      notes.push({
+        field: "hoodExitSpacing",
+        level: "warn",
+        text: `Hood drawcord exits ${options.hoodExitSpacing} cm apart do not fit on this casing — reduce exit spacing or adjust casing width and hood shape.`,
+      });
+    }
   }
   return notes;
 }

@@ -19,6 +19,9 @@ describe("Hoodie shape option contract", () => {
       { id: "hoodFrontOverlap", label: "Hood front overlap", defaultValue: 3, min: 0, max: 8, step: 0.5 },
       { id: "hoodHeight", label: "Hood height", defaultValue: 32, min: 20, max: 50, step: 1 },
       { id: "hoodDepth", label: "Hood depth", defaultValue: 28, min: 18, max: 42, step: 1 },
+      { id: "hoodCasingWidth", label: "Hood casing width", defaultValue: 2.5, min: 0, max: 5.5, step: 0.5 },
+      { id: "hoodDrawcordLength", label: "Drawcord length", defaultValue: 120, min: 60, max: 180, step: 1 },
+      { id: "hoodExitSpacing", label: "Drawcord exit spacing", defaultValue: 8, min: 4, max: 16, step: 0.5 },
     ]);
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS.every((definition) =>
       definition.unit === "cm" && definition.group === "Hood" && definition.help?.length)).toBe(true);
@@ -30,6 +33,11 @@ describe("Hoodie shape option contract", () => {
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[3]?.help).toContain("split evenly across the mirrored hood halves");
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[4]?.help).toContain("same authored value is used from XS–XL");
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[5]?.help).toContain("same authored value is used from XS–XL");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[6]?.help).toContain("perpendicular depth");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[6]?.help).toContain("zero to remove the casing and both exits");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[7]?.help).toContain("not a cut length");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[7]?.help).toContain("unused while the casing width is zero");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[8]?.help).toContain("center-to-center distance");
     expect(HOODIE_SHAPE_DEFAULT_OPTIONS).toEqual({
       hoodNecklineWidthEase: 4,
       hoodNecklineFrontDrop: 8,
@@ -37,6 +45,9 @@ describe("Hoodie shape option contract", () => {
       hoodFrontOverlap: 3,
       hoodHeight: 32,
       hoodDepth: 28,
+      hoodCasingWidth: 2.5,
+      hoodDrawcordLength: 120,
+      hoodExitSpacing: 8,
     });
     expect(resolveHoodieShapeOptions()).toEqual(HOODIE_SHAPE_DEFAULT_OPTIONS);
   });
@@ -49,6 +60,9 @@ describe("Hoodie shape option contract", () => {
       hoodFrontOverlap: 3,
       hoodHeight: 40,
       hoodDepth: 28,
+      hoodCasingWidth: 2.5,
+      hoodDrawcordLength: 120,
+      hoodExitSpacing: 8,
     });
     expect(resolveHoodieShapeOptions({
       hoodNecklineWidthEase: 0,
@@ -57,6 +71,9 @@ describe("Hoodie shape option contract", () => {
       hoodFrontOverlap: 0,
       hoodHeight: 0,
       hoodDepth: 0,
+      hoodCasingWidth: 0,
+      hoodDrawcordLength: 0,
+      hoodExitSpacing: 0,
     })).toEqual({
       hoodNecklineWidthEase: 0,
       hoodNecklineFrontDrop: 0,
@@ -64,6 +81,9 @@ describe("Hoodie shape option contract", () => {
       hoodFrontOverlap: 0,
       hoodHeight: 0,
       hoodDepth: 0,
+      hoodCasingWidth: 0,
+      hoodDrawcordLength: 0,
+      hoodExitSpacing: 0,
     });
   });
 
@@ -75,6 +95,9 @@ describe("Hoodie shape option contract", () => {
       hoodFrontOverlap: Number.NEGATIVE_INFINITY,
       hoodHeight: Number.NaN,
       hoodDepth: Number.POSITIVE_INFINITY,
+      hoodCasingWidth: 8,
+      hoodDrawcordLength: Number.NaN,
+      hoodExitSpacing: Number.NEGATIVE_INFINITY,
     });
     expect(options.hoodNecklineWidthEase).toBe(-1);
     expect(options.hoodNecklineFrontDrop).toBe(30);
@@ -82,6 +105,9 @@ describe("Hoodie shape option contract", () => {
     expect(options.hoodFrontOverlap).toBe(Number.NEGATIVE_INFINITY);
     expect(options.hoodHeight).toBeNaN();
     expect(options.hoodDepth).toBe(Number.POSITIVE_INFINITY);
+    expect(options.hoodCasingWidth).toBe(8);
+    expect(options.hoodDrawcordLength).toBeNaN();
+    expect(options.hoodExitSpacing).toBe(Number.NEGATIVE_INFINITY);
   });
 });
 

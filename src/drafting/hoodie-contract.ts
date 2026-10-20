@@ -7,6 +7,9 @@ export interface HoodieShapeOptions extends GarmentOptions {
   readonly hoodFrontOverlap: number;
   readonly hoodHeight: number;
   readonly hoodDepth: number;
+  readonly hoodCasingWidth: number;
+  readonly hoodDrawcordLength: number;
+  readonly hoodExitSpacing: number;
 }
 
 export interface HoodiePouchOptions extends GarmentOptions {
@@ -85,6 +88,39 @@ export const HOODIE_SHAPE_OPTION_DEFINITIONS: readonly GarmentOption[] = [
     max: 42,
     step: 1,
   },
+  {
+    id: "hoodCasingWidth",
+    label: "Hood casing width",
+    unit: "cm",
+    group: "Hood",
+    help: "Sets the perpendicular depth from the face opening to the casing fold guide. Reduce it if the guide leaves the hood piece; set it to zero to remove the casing and both exits.",
+    defaultValue: 2.5,
+    min: 0,
+    max: 5.5,
+    step: 0.5,
+  },
+  {
+    id: "hoodDrawcordLength",
+    label: "Drawcord length",
+    unit: "cm",
+    group: "Hood",
+    help: "Sets a qualified digital cord amount, not a cut length. This value is unused while the casing width is zero.",
+    defaultValue: 120,
+    min: 60,
+    max: 180,
+    step: 1,
+  },
+  {
+    id: "hoodExitSpacing",
+    label: "Drawcord exit spacing",
+    unit: "cm",
+    group: "Hood",
+    help: "Sets the center-to-center distance between the mirrored exits. Reduce it if both marks do not fit on the current casing.",
+    defaultValue: 8,
+    min: 4,
+    max: 16,
+    step: 0.5,
+  },
 ];
 
 export const HOODIE_SHAPE_DEFAULT_OPTIONS = defaultGarmentOptions(
@@ -108,6 +144,12 @@ export function resolveHoodieShapeOptions(
       HOODIE_SHAPE_DEFAULT_OPTIONS.hoodHeight,
     hoodDepth: raw.hoodDepth ??
       HOODIE_SHAPE_DEFAULT_OPTIONS.hoodDepth,
+    hoodCasingWidth: raw.hoodCasingWidth ??
+      HOODIE_SHAPE_DEFAULT_OPTIONS.hoodCasingWidth,
+    hoodDrawcordLength: raw.hoodDrawcordLength ??
+      HOODIE_SHAPE_DEFAULT_OPTIONS.hoodDrawcordLength,
+    hoodExitSpacing: raw.hoodExitSpacing ??
+      HOODIE_SHAPE_DEFAULT_OPTIONS.hoodExitSpacing,
   };
 }
 

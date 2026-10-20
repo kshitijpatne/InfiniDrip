@@ -3,12 +3,14 @@ import { describe, expect, it } from "vitest";
 import { gradeMeasurements } from "./grading";
 import { derive, STANDARD_M } from "./measurements";
 import { pieceEdge, edgeEnd, edgeLength, edgeStart, type Edge, type Piece } from "./piece";
+import type { PatternMark } from "./pattern-mark";
 import { stitchChecks } from "./stitch";
 import { TSHIRT_GRADE } from "./tshirt-grade";
 import { draftCrewneck } from "./crewneck";
 import { HOODIE_POUCH_DEFAULT_OPTIONS, HOODIE_SHAPE_DEFAULT_OPTIONS } from "./hoodie-contract";
 import {
   draftHoodie,
+  hoodieCasingNotes,
   hoodieNecklineMeasurements,
   hoodieNecklineNotes,
   HOODIE_ROLE_ORDER,
@@ -87,6 +89,31 @@ function reflectedCurve(edge: Edge): Edge {
       end: point(-edge.curve.end.x, edge.curve.end.y),
     },
   };
+}
+
+function reflectedMark(mark: PatternMark): PatternMark {
+  return "at" in mark
+    ? { ...mark, at: point(-mark.at.x, mark.at.y) }
+    : {
+        ...mark,
+        start: point(-mark.start.x, mark.start.y),
+        end: point(-mark.end.x, mark.end.y),
+      };
+}
+
+function pointInPiece(value: Point, piece: Piece): boolean {
+  const polygon = outlinePoints(piece);
+  let inside = false;
+  for (let index = 0, previous = polygon.length - 1; index < polygon.length; previous = index, index += 1) {
+    const currentPoint = polygon[index]!;
+    const previousPoint = polygon[previous]!;
+    if ((currentPoint.y > value.y) !== (previousPoint.y > value.y) &&
+        value.x < (previousPoint.x - currentPoint.x) * (value.y - currentPoint.y) /
+          (previousPoint.y - currentPoint.y) + currentPoint.x) {
+      inside = !inside;
+    }
+  }
+  return inside;
 }
 
 describe("hoodie draft core", () => {
@@ -340,6 +367,189 @@ describe("hoodie draft core", () => {
           .toBeCloseTo(d.neckWidthHalf + options.hoodNecklineWidthEase, 10);
         expect(edgeEnd(pieceEdge(drafted.roles.back!, "neckline")).x)
           .toBeCloseTo(d.neckWidthHalf + options.hoodNecklineWidthEase, 10);
+      }
+    }
+  });
+
+  it("adds an inset curved casing guide and exactly spaced mirrored outer buttonholes", () => {
+    const cased = draftHoodie(STANDARD_M, OPTIONS);
+    const left = cased.roles.hoodOuterLeft!;
+    const right = cased.roles.hoodOuterRight!;
+    const leftMarks = left.marks ?? [];
+    const rightMarks = right.marks ?? [];
+    const leftGuides = leftMarks.filter((mark) => mark.kind === "foldLine" && mark.name.startsWith("hoodCasingFold-"));
+    const rightGuides = rightMarks.filter((mark) => mark.kind === "foldLine" && mark.name.startsWith("hoodCasingFold-"));
+    const leftExit = leftMarks.find((mark) => mark.kind === "buttonhole" && mark.name === "hoodDrawcordExit");
+    const rightExit = rightMarks.find((mark) => mark.kind === "buttonhole" && mark.name === "hoodDrawcordExit");
+    const face = pieceEdge(left, "faceOpening");
+
+    expect(face.kind).toBe("curve");
+    if (face.kind !== "curve") throw new Error("Hood face opening must remain curved");
+    expect(leftGuides.length).toBeGreaterThanOrEqual(16);
+    expect(leftGuides.length).toBeLessThanOrEqual(32);
+    expect(rightGuides).toEqual(leftGuides.map(reflectedMark));
+    expect(rightMarks).toEqual(leftMarks.map(reflectedMark));
+    expect(cased.roles.hoodLiningLeft?.marks).toBeUndefined();
+    expect(cased.roles.hoodLiningRight?.marks).toBeUndefined();
+    expect(leftExit && "at" in leftExit ? leftExit.at.x : Number.NaN).toBeCloseTo(-OPTIONS.hoodExitSpacing / 2, 10);
+    expect(rightExit && "at" in rightExit ? rightExit.at.x : Number.NaN).toBeCloseTo(OPTIONS.hoodExitSpacing / 2, 10);
+    expect(leftExit && "at" in leftExit && rightExit && "at" in rightExit
+      ? distance(leftExit.at, rightExit.at)
+      : Number.NaN).toBeCloseTo(OPTIONS.hoodExitSpacing, 10);
+    const faceSamples = Array.from({ length: 257 }, (_, index) => cubicPoint(face.curve, index / 256));
+    const exitOffset = leftExit && "at" in leftExit
+      ? Math.min(...faceSamples.map((curvePoint) => distance(leftExit.at, curvePoint)))
+      : Number.NaN;
+    expect(exitOffset).toBeCloseTo(OPTIONS.hoodCasingWidth / 2, 1);
+
+    leftGuides.forEach((mark) => {
+      if (mark.kind !== "foldLine") throw new Error("Casing guide must be a fold-line mark");
+      const closestDistance = (value: Point) => Math.min(...faceSamples.map((curvePoint) => distance(value, curvePoint)));
+      expect(closestDistance(mark.start)).toBeCloseTo(OPTIONS.hoodCasingWidth, 2);
+      expect(closestDistance(mark.end)).toBeCloseTo(OPTIONS.hoodCasingWidth, 2);
+      expect(pointInPiece(mark.start, left)).toBe(true);
+      expect(pointInPiece(mark.end, left)).toBe(true);
+      expect(pointInPiece(point((mark.start.x + mark.end.x) / 2, (mark.start.y + mark.end.y) / 2), left)).toBe(true);
+    });
+
+    const noCasing = draftHoodie(STANDARD_M, { ...OPTIONS, hoodCasingWidth: 0 });
+    expect(left.edges).toEqual(noCasing.roles.hoodOuterLeft?.edges);
+    expect(hoodieNecklineMeasurements(cased)).toEqual(hoodieNecklineMeasurements(noCasing));
+  });
+
+  it("removes the casing and both exits at zero width and explains the unused cord amount", () => {
+    const noCasing = draftHoodie(STANDARD_M, { ...OPTIONS, hoodCasingWidth: 0 });
+    for (const role of ["hoodOuterLeft", "hoodOuterRight", "hoodLiningLeft", "hoodLiningRight"] as const) {
+      expect((noCasing.roles[role]?.marks ?? []).filter((mark) =>
+        mark.name.startsWith("hoodCasingFold-") || mark.name === "hoodDrawcordExit")).toEqual([]);
+    }
+    const unused = hoodieCasingNotes(STANDARD_M, { ...OPTIONS, hoodCasingWidth: 0 })
+      .find((note) => note.field === "hoodDrawcordLength");
+    expect(unused?.level).toBe("warn");
+    expect(unused?.text).toContain("is unused while hood casing width is zero");
+    expect(unused?.text).toContain("increase casing width");
+  });
+
+  it("omits a casing that fits only a short section and explains how to correct it", () => {
+    const options = { ...OPTIONS, hoodCasingWidth: 5.5 };
+    const draft = draftHoodie(STANDARD_M, options);
+    expect(draft.roles.hoodOuterLeft?.marks).toBeUndefined();
+    expect(draft.roles.hoodOuterRight?.marks).toBeUndefined();
+    const note = hoodieCasingNotes(STANDARD_M, options).find((item) => item.field === "hoodCasingWidth");
+    expect(note?.level).toBe("warn");
+    expect(note?.text).toContain("cannot be represented inside this hood face");
+    expect(note?.text).toContain("reduce the width or adjust the hood shape");
+  });
+
+  it("warns and keeps the fold guide if an unusable hood shape cannot host the requested exits", () => {
+    const options = {
+      ...OPTIONS,
+      hoodHeight: -42,
+      hoodDepth: 18,
+      hoodCasingWidth: 0.5,
+      hoodExitSpacing: 4,
+    };
+    const draft = draftHoodie(STANDARD_M, options);
+    const leftMarks = draft.roles.hoodOuterLeft?.marks ?? [];
+    expect(leftMarks.some((mark) => mark.kind === "foldLine" && mark.name.startsWith("hoodCasingFold-"))).toBe(true);
+    expect(leftMarks.some((mark) => mark.kind === "buttonhole" && mark.name === "hoodDrawcordExit")).toBe(false);
+    const note = hoodieCasingNotes(STANDARD_M, options).find((item) => item.field === "hoodExitSpacing");
+    expect(note?.level).toBe("warn");
+    expect(note?.text).toContain("do not fit on this casing");
+    expect(note?.text).toContain("adjust casing width and hood shape");
+  });
+
+  it("warns and omits only casing-dependent geometry for invalid raw options", () => {
+    for (const hoodCasingWidth of [-0.5, 6, Number.NaN, Number.POSITIVE_INFINITY]) {
+      const options = { ...OPTIONS, hoodCasingWidth };
+      const notes = hoodieCasingNotes(STANDARD_M, options);
+      const note = notes.find((item) => item.field === "hoodCasingWidth");
+      expect(note?.level).toBe("warn");
+      expect(note?.text).toContain("supported 0–5.5 cm range");
+      expect(draftHoodie(STANDARD_M, options).roles.hoodOuterLeft?.marks).toBeUndefined();
+    }
+    for (const hoodExitSpacing of [-0.5, 16.5, Number.NaN, Number.NEGATIVE_INFINITY]) {
+      const options = { ...OPTIONS, hoodExitSpacing };
+      const draft = draftHoodie(STANDARD_M, options);
+      const note = hoodieCasingNotes(STANDARD_M, options).find((item) => item.field === "hoodExitSpacing");
+      expect(note?.level).toBe("warn");
+      expect(note?.text).toContain("supported 4–16 cm range");
+      expect(draft.roles.hoodOuterLeft?.marks?.some((mark) => mark.name.startsWith("hoodCasingFold-"))).toBe(true);
+      expect(draft.roles.hoodOuterLeft?.marks?.some((mark) => mark.name === "hoodDrawcordExit")).toBe(false);
+    }
+    for (const hoodDrawcordLength of [59, 181, Number.NaN, Number.POSITIVE_INFINITY]) {
+      const options = { ...OPTIONS, hoodDrawcordLength };
+      const draft = draftHoodie(STANDARD_M, options);
+      const note = hoodieCasingNotes(STANDARD_M, options).find((item) => item.field === "hoodDrawcordLength");
+      expect(note?.level).toBe("warn");
+      expect(note?.text).toContain("supported 60–180 cm digital range");
+      expect(draft.roles.hoodOuterLeft?.marks).toEqual(draftHoodie(STANDARD_M, OPTIONS).roles.hoodOuterLeft?.marks);
+    }
+    const collapsedHoodOptions = { ...OPTIONS, hoodHeight: Number.NaN };
+    const unrepresentableCasing = hoodieCasingNotes(STANDARD_M, collapsedHoodOptions)
+      .find((note) => note.field === "hoodCasingWidth");
+    expect(unrepresentableCasing?.level).toBe("warn");
+    expect(unrepresentableCasing?.text).toContain("cannot be represented inside this hood face");
+    expect(draftHoodie(STANDARD_M, collapsedHoodOptions).roles.hoodOuterLeft?.marks).toBeUndefined();
+
+    const tightCasingOptions = {
+      ...OPTIONS,
+      hoodHeight: 20,
+      hoodDepth: 18,
+      hoodNeckEase: 0,
+      hoodFrontOverlap: 0,
+      hoodNecklineWidthEase: 0,
+      hoodNecklineFrontDrop: 0,
+      hoodCasingWidth: 5.5,
+      hoodExitSpacing: 16,
+    };
+    expect(hoodieCasingNotes(STANDARD_M, tightCasingOptions).some((note) =>
+      note.field === "hoodCasingWidth" && note.text.includes("cannot be represented"))).toBe(true);
+    expect(draftHoodie(STANDARD_M, tightCasingOptions).roles.hoodOuterLeft?.marks).toBeUndefined();
+  });
+
+  it("keeps casing marks finite, mirrored, inside each hood, and outline-neutral across option extremes", () => {
+    for (const step of [-2, -1, 0, 1, 2]) {
+      const size = gradeMeasurements(STANDARD_M, TSHIRT_GRADE, step);
+      for (const hoodCasingWidth of [0, 2.5, 5.5]) {
+        for (const hoodExitSpacing of [4, 8, 16]) {
+          const options = { ...OPTIONS, hoodCasingWidth, hoodExitSpacing };
+          const drafted = draftHoodie(size, options);
+          const baseline = draftHoodie(size, { ...options, hoodCasingWidth: 0 });
+          const left = drafted.roles.hoodOuterLeft!;
+          const right = drafted.roles.hoodOuterRight!;
+          expect(left.edges).toEqual(baseline.roles.hoodOuterLeft?.edges);
+          expect(right.edges).toEqual(baseline.roles.hoodOuterRight?.edges);
+          expect(right.marks ?? []).toEqual((left.marks ?? []).map(reflectedMark));
+          for (const role of ["hoodOuterLeft", "hoodOuterRight"] as const) {
+            const piece = drafted.roles[role]!;
+            for (const mark of piece.marks ?? []) {
+              if ("at" in mark) {
+                expect(Number.isFinite(mark.at.x) && Number.isFinite(mark.at.y)).toBe(true);
+                expect(pointInPiece(mark.at, piece)).toBe(true);
+              } else {
+                expect([mark.start.x, mark.start.y, mark.end.x, mark.end.y].every(Number.isFinite)).toBe(true);
+                expect(pointInPiece(mark.start, piece)).toBe(true);
+                expect(pointInPiece(mark.end, piece)).toBe(true);
+                expect(pointInPiece(point((mark.start.x + mark.end.x) / 2, (mark.start.y + mark.end.y) / 2), piece)).toBe(true);
+              }
+            }
+          }
+          const hasCasingGuide = left.marks?.some((mark) => mark.kind === "foldLine" && mark.name.startsWith("hoodCasingFold-")) ?? false;
+          const leftExit = left.marks?.find((mark) => mark.kind === "buttonhole" && mark.name === "hoodDrawcordExit");
+          const rightExit = right.marks?.find((mark) => mark.kind === "buttonhole" && mark.name === "hoodDrawcordExit");
+          if (leftExit && "at" in leftExit && rightExit && "at" in rightExit) {
+            expect(distance(leftExit.at, rightExit.at)).toBeCloseTo(hoodExitSpacing, 10);
+          } else if (hoodCasingWidth > 0 && !hasCasingGuide) {
+            expect(hoodieCasingNotes(size, options).some((note) =>
+              note.field === "hoodCasingWidth" && note.text.includes("cannot be represented"))).toBe(true);
+          } else if (hoodCasingWidth > 0) {
+            expect(hoodieCasingNotes(size, options).some((note) =>
+              note.field === "hoodExitSpacing" && note.text.includes("do not fit"))).toBe(true);
+          } else {
+            expect(leftExit).toBeUndefined();
+          }
+        }
       }
     }
   });
