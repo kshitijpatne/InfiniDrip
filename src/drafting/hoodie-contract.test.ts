@@ -2,8 +2,12 @@ import { describe, expect, it } from "vitest";
 import {
   HOODIE_POUCH_DEFAULT_OPTIONS,
   HOODIE_POUCH_OPTION_DEFINITIONS,
+  HOODIE_BAND_OPTION_DEFINITIONS,
+  HOODIE_DEFAULT_OPTIONS,
+  HOODIE_OPTION_DEFINITIONS,
   HOODIE_SHAPE_DEFAULT_OPTIONS,
   HOODIE_SHAPE_OPTION_DEFINITIONS,
+  resolveHoodieOptions,
   resolveHoodiePouchOptions,
   resolveHoodieShapeOptions,
 } from "./hoodie-contract";
@@ -172,5 +176,58 @@ describe("Hoodie pouch option contract", () => {
     expect(resolved.pocketOpeningLength).toBeNaN();
     expect(resolved.pocketOpeningAngle).toBe(99);
     expect(resolved.pocketHemClearance).toBe(Number.POSITIVE_INFINITY);
+  });
+});
+
+describe("complete internal Hoodie option contract", () => {
+  it("composes accepted hood, pouch, and shared cuff/hem options without neckband controls", () => {
+    expect(HOODIE_BAND_OPTION_DEFINITIONS.map(({ id }) => id)).toEqual([
+      "cuffDepth",
+      "hemBandDepth",
+      "cuffLength",
+      "hemBandLength",
+    ]);
+    expect(HOODIE_OPTION_DEFINITIONS.map(({ id }) => id)).toEqual([
+      ...HOODIE_SHAPE_OPTION_DEFINITIONS.map(({ id }) => id),
+      ...HOODIE_POUCH_OPTION_DEFINITIONS.map(({ id }) => id),
+      "cuffDepth",
+      "hemBandDepth",
+      "cuffLength",
+      "hemBandLength",
+    ]);
+    expect(HOODIE_OPTION_DEFINITIONS.map(({ id }) => id)).not.toContain("neckbandDepth");
+    expect(HOODIE_OPTION_DEFINITIONS.map(({ id }) => id)).not.toContain("neckbandLength");
+    expect(HOODIE_DEFAULT_OPTIONS).toEqual({
+      ...HOODIE_SHAPE_DEFAULT_OPTIONS,
+      ...HOODIE_POUCH_DEFAULT_OPTIONS,
+      cuffDepth: 6,
+      hemBandDepth: 6,
+      cuffLength: 31.5,
+      hemBandLength: 93.5,
+    });
+    expect(resolveHoodieOptions()).toEqual(HOODIE_DEFAULT_OPTIONS);
+  });
+
+  it("fills missing fields and preserves explicit zero and invalid raw values", () => {
+    expect(resolveHoodieOptions({
+      pocketWidth: 0,
+      hoodCasingWidth: 0,
+      cuffLength: 0,
+    })).toEqual({
+      ...HOODIE_DEFAULT_OPTIONS,
+      pocketWidth: 0,
+      hoodCasingWidth: 0,
+      cuffLength: 0,
+    });
+    const invalid = resolveHoodieOptions({
+      hoodHeight: Number.POSITIVE_INFINITY,
+      pocketWidth: -3,
+      cuffDepth: -1,
+      hemBandLength: Number.NaN,
+    });
+    expect(invalid.hoodHeight).toBe(Number.POSITIVE_INFINITY);
+    expect(invalid.pocketWidth).toBe(-3);
+    expect(invalid.cuffDepth).toBe(-1);
+    expect(invalid.hemBandLength).toBeNaN();
   });
 });

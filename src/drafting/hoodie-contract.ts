@@ -1,4 +1,5 @@
 import { defaultGarmentOptions, type GarmentOption, type GarmentOptions } from "./options";
+import { CREWNECK_OPTION_DEFINITIONS } from "./crewneck-contract";
 
 export interface HoodieShapeOptions extends GarmentOptions {
   readonly hoodNecklineWidthEase: number;
@@ -226,5 +227,54 @@ export function resolveHoodiePouchOptions(
     pocketOpeningLength: raw.pocketOpeningLength ?? HOODIE_POUCH_DEFAULT_OPTIONS.pocketOpeningLength,
     pocketOpeningAngle: raw.pocketOpeningAngle ?? HOODIE_POUCH_DEFAULT_OPTIONS.pocketOpeningAngle,
     pocketHemClearance: raw.pocketHemClearance ?? HOODIE_POUCH_DEFAULT_OPTIONS.pocketHemClearance,
+  };
+}
+
+/** Existing shared cuff/hem controls; the Hoodie has no neckband options. */
+export interface HoodieBandOptions extends GarmentOptions {
+  readonly cuffDepth: number;
+  readonly hemBandDepth: number;
+  readonly cuffLength: number;
+  readonly hemBandLength: number;
+}
+
+/** Complete internal control set consumed by the unregistered Hoodie draft. */
+export interface HoodieOptions extends HoodieShapeOptions, HoodiePouchOptions, HoodieBandOptions {}
+
+const HOODIE_BAND_OPTION_IDS = [
+  "cuffDepth",
+  "hemBandDepth",
+  "cuffLength",
+  "hemBandLength",
+] as const;
+
+export const HOODIE_BAND_OPTION_DEFINITIONS: readonly GarmentOption[] =
+  CREWNECK_OPTION_DEFINITIONS.filter(({ id }) =>
+    (HOODIE_BAND_OPTION_IDS as readonly string[]).includes(id));
+
+const HOODIE_BAND_DEFAULT_OPTIONS = defaultGarmentOptions(HOODIE_BAND_OPTION_DEFINITIONS);
+
+/** Full control table for later recipe activation; neckband controls are excluded. */
+export const HOODIE_OPTION_DEFINITIONS: readonly GarmentOption[] = [
+  ...HOODIE_SHAPE_OPTION_DEFINITIONS,
+  ...HOODIE_POUCH_OPTION_DEFINITIONS,
+  ...HOODIE_BAND_OPTION_DEFINITIONS,
+];
+
+export const HOODIE_DEFAULT_OPTIONS = {
+  ...HOODIE_SHAPE_DEFAULT_OPTIONS,
+  ...HOODIE_POUCH_DEFAULT_OPTIONS,
+  ...HOODIE_BAND_DEFAULT_OPTIONS,
+} as HoodieOptions;
+
+/** Fill missing values while preserving explicit zero and invalid raw values. */
+export function resolveHoodieOptions(raw: Partial<HoodieOptions> = {}): HoodieOptions {
+  return {
+    ...resolveHoodieShapeOptions(raw),
+    ...resolveHoodiePouchOptions(raw),
+    cuffDepth: raw.cuffDepth ?? HOODIE_DEFAULT_OPTIONS.cuffDepth,
+    hemBandDepth: raw.hemBandDepth ?? HOODIE_DEFAULT_OPTIONS.hemBandDepth,
+    cuffLength: raw.cuffLength ?? HOODIE_DEFAULT_OPTIONS.cuffLength,
+    hemBandLength: raw.hemBandLength ?? HOODIE_DEFAULT_OPTIONS.hemBandLength,
   };
 }
