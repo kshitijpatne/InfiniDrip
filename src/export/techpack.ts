@@ -355,12 +355,25 @@ function gradePlanTableStreams(sizes: readonly string[], rows: readonly GradePla
 
 /** Readable, wrapping BOM/construction pages for the additive current export. */
 function bomStreamsV2(tp: GarmentRecipe["techPack"], label: string, page: PageSize, sizeLabel = ""): string[] {
+  const fontSize = 9;
+  const defaultQtyColumnWidth = 2.5;
+  const defaultQtyTextWidth = defaultQtyColumnWidth - 0.35;
+  const defaultQtyMaxChars = Math.max(1, Math.floor((defaultQtyTextWidth * pt(1)) / (fontSize * 0.55)));
+  const longestQtyWordLength = tp.bom.reduce((longest, row) =>
+    row.qty.trim().split(/\s+/).filter(Boolean).reduce((rowLongest, word) => Math.max(rowLongest, word.length), longest), 0);
+  let qtyTextWidth = defaultQtyTextWidth;
+  if (longestQtyWordLength > defaultQtyMaxChars) {
+    // The default right-hand column fits 12 characters at 9 pt. Expand only
+    // when authored Qty content has a longer unbroken word, preserving the
+    // existing table layout for recipes that already fit their wording.
+    qtyTextWidth = (longestQtyWordLength * fontSize * 0.55) / pt(1) + 0.1;
+  }
+  const qtyColumnWidth = qtyTextWidth + 0.35;
   const c1 = M;
   const c2 = M + 6.5;
-  const c3 = page.width - M - 2.5;
+  const c3 = page.width - M - qtyColumnWidth;
   const colX = [c1, c2, c3];
-  const colW = [c2 - c1 - 0.35, c3 - c2 - 0.35, page.width - M - c3 - 0.35];
-  const fontSize = 9;
+  const colW = [c2 - c1 - 0.35, c3 - c2 - 0.35, qtyTextWidth];
   const lineHeight = 0.48;
   const bottom = page.height - M;
   const pages: string[] = [];

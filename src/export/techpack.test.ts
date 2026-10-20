@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { PDFDocument } from "pdf-lib";
-import { FITTED, SKIRT, STANDARD_M, TANK, TEE, POLO, TROUSER, WOVEN_SHIRT, STRETCH_FABRICS, blockPieces, rolePiece, sampleSpec, type Block } from "../drafting";
+import { FITTED, JOGGER, SKIRT, STANDARD_M, TANK, TEE, POLO, TROUSER, WOVEN_SHIRT, STRETCH_FABRICS, blockPieces, rolePiece, sampleSpec, type Block } from "../drafting";
 import { PAGE_A4, PAGE_LETTER, pt } from "./pdf";
 import { exportTechPack, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, pdfString } from "./techpack";
+import type { ArtworkPlacement } from "../surface/placement";
 
 // ── pdfString ─────────────────────────────────────────────────────────────────
 
@@ -487,7 +488,7 @@ describe("readable draft tech pack", () => {
     expect(bomText).toContain("Cotton woven");
   });
 
-  const recipes = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER];
+  const recipes = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, JOGGER];
 
   it("paginates every recipe's named pattern pieces into readable, explicitly non-scale overview cells", () => {
     for (const recipe of recipes) {
@@ -534,6 +535,13 @@ describe("readable draft tech pack", () => {
     expect(exportTechPackV2(TEE, STANDARD_M)).toContain("/Count 4");
   });
 
+  it("keeps the legacy trouser sketch's compact component labels", () => {
+    const output = exportTechPack(TROUSER, STANDARD_M);
+    expect(output).toContain("(BAG L)");
+    expect(output).toContain("(BAG R)");
+    expect(output).not.toContain("(TROUSER POCKET BAG LEFT)");
+  });
+
   it("wraps and paginates dense BOM and construction content without dropping its tail", () => {
     const denseRecipe = {
       ...TEE,
@@ -560,6 +568,48 @@ describe("readable draft tech pack", () => {
     expect(Number(pdf.match(/\/Count (\d+)/)?.[1])).toBeGreaterThan(6);
   });
 
+  it("keeps Jogger Qty words intact and all 11 construction entries together", async () => {
+    for (const seed of [120, 132]) {
+      const output = exportTechPackV2(JOGGER, STANDARD_M, undefined, undefined, { drawcordLength: seed });
+      const streams = pageStreams(output);
+      expect(await parsedPageCount(output)).toBe(streams.length);
+
+      const bomPages = streams.filter((stream) =>
+        shownText(stream).some((line) => line.startsWith("Bill of Materials"))
+      );
+      expect(bomPages).toHaveLength(1);
+      const bomPage = bomPages[0]!;
+      const lines = shownText(bomPage);
+      const bomText = lines.join(" ");
+      expect(bomText).toContain("Draft estimates only; this is not a production BOM.");
+      expect(bomText).toContain("User-measured and test-fit; do not calculate cut length");
+      expect(bomText).toContain(`Digital drawcord seed: ${seed} cm (not a cut length); measure/test-fit cord before cutting.`);
+      for (const word of ["User-entered", "User-measured", "User-selected"]) expect(lines).toContain(word);
+
+      const constructionTitle = lines.indexOf("Construction");
+      expect(constructionTitle).toBeGreaterThan(-1);
+      const constructionLines = lines.slice(constructionTitle + 1);
+      const stepNumbers = constructionLines
+        .filter((line) => /^\d{1,2}\.\s/.test(line))
+        .map((line) => Number(line.match(/^(\d{1,2})\./)?.[1]));
+      expect(stepNumbers).toEqual(Array.from({ length: 11 }, (_, index) => index + 1));
+      expect(constructionLines.join(" ")).toContain("11. Press seams and turn up the plain leg hems using the deeper hem allowance.");
+      expect(streams.some((stream) => shownText(stream).some((line) => line.startsWith("Jogger - Construction (continued)")))).toBe(false);
+
+      const positioned = positionedText(bomPage);
+      const qtyWords = positioned.filter((entry) => ["User-entered", "User-measured", "User-selected"].includes(entry.text));
+      expect(qtyWords.length).toBeGreaterThanOrEqual(4);
+      const qtyX = Math.min(...qtyWords.map((entry) => entry.x));
+      const placementRight = Math.max(...positioned
+        .filter((entry) => entry.x === pt(8))
+        .map((entry) => entry.x + entry.text.length * entry.fontSize * 0.55));
+      expect(placementRight).toBeLessThan(qtyX);
+      for (const entry of qtyWords) {
+        expect(entry.x + entry.text.length * entry.fontSize * 0.55).toBeLessThanOrEqual(pt(PAGE_A4.width - 1.5));
+      }
+    }
+  });
+
   it("keeps blank BOM cells safe and starts construction on a continuation page when the BOM fills the page", () => {
     const boundaryRecipe = {
       ...TEE,
@@ -571,6 +621,40 @@ describe("readable draft tech pack", () => {
     const pdf = exportTechPackV2(boundaryRecipe, STANDARD_M);
     expect(pdf).toContain("Tee - Construction \\(continued\\)");
     expect(Number(pdf.match(/\/Count (\d+)/)?.[1])).toBeGreaterThan(4);
+  });
+
+  it("renders valid, invalid, named, and multipage artwork placement rows", async () => {
+    const validPlacements: ArtworkPlacement[] = Array.from({ length: 38 }, (_, index) => ({
+      id: `surface-${index + 1}`,
+      kind: "print",
+      pieceRole: "front",
+      widthCm: 10,
+      heightCm: 12.5,
+      transform: { dx: 1, dy: 2, scale: 1, rotationDeg: 0 },
+      zOrder: index,
+      sourceName: index === 0 ? "logo.png" : "",
+    }));
+    const surface: ArtworkPlacement[] = [
+      ...validPlacements,
+      { ...validPlacements[0]!, id: "bad-dimensions", widthCm: 0 },
+      { ...validPlacements[0]!, id: "null-transform", transform: null as unknown as ArtworkPlacement["transform"] },
+      { ...validPlacements[0]!, id: "array-transform", transform: [] as unknown as ArtworkPlacement["transform"], sourceName: "" },
+    ];
+    const output = exportTechPackV2(TEE, STANDARD_M, undefined, undefined, {}, surface, "S1123 surface fixture");
+    const streams = pageStreams(output);
+    expect(await parsedPageCount(output)).toBe(streams.length);
+
+    const placementPages = streams.filter((stream) =>
+      shownText(stream).some((line) => line.startsWith("Artwork placement - S1123 surface fixture"))
+    );
+    expect(placementPages).toHaveLength(2);
+    const pagesText = placementPages.map((stream) => shownText(stream));
+    expect(pagesText[0]).toContain("True scale artwork space. Shared across graded sizes.");
+    const allPlacementText = pagesText.flat().join(" ");
+    expect(allPlacementText).toContain("#1 surface-1 (print) - piece front - 10.0 x 12.5 cm at (1, 2) scale 1 rot 0 deg stack 0 - logo.png");
+    expect(allPlacementText).toContain("#39 bad-dimensions (print) - piece front - 0 x 12.5 cm at (1, 2) scale 1 rot 0 deg stack 0 - logo.png INVALID: Placement widthCm: enter a number above 0.");
+    expect(allPlacementText).toContain("#40 null-transform (print) - piece front - 10 x 12.5 cm unmeasurable pose stack 0 - logo.png INVALID: Placement transform: Transform must be an object.");
+    expect(allPlacementText).toContain("#41 array-transform (print) - piece front - 10 x 12.5 cm unmeasurable pose stack 0 INVALID: Placement transform: Transform must be an object.");
   });
 });
 
