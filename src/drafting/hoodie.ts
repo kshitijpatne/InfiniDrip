@@ -88,6 +88,8 @@ const HOOD_NECK_EASE_MAX = 6;
 const HOOD_NECK_EASE_TOLERANCE_CM = 0.01;
 const HOOD_NECK_EASE_MEASUREMENT_ROUNDOFF_CM = 1e-12;
 const HOOD_NECK_EASE_UPPER_ROUNDOFF_MARGIN_CM = 0.005;
+const HOOD_FRONT_OVERLAP_MIN = 0;
+const HOOD_FRONT_OVERLAP_MAX = 8;
 
 interface HoodieNeckSeams {
   readonly front: Extract<Edge, { readonly kind: "curve" }>;
@@ -185,6 +187,17 @@ function mirrorCurveAcrossCenterFront(curve: CubicBezier): CubicBezier {
   };
 }
 
+function mirrorEdgeAcrossCenterFront(edge: Edge): Edge {
+  if (edge.kind === "line") {
+    return {
+      ...edge,
+      start: point(-edge.start.x, edge.start.y),
+      end: point(-edge.end.x, edge.end.y),
+    };
+  }
+  return { ...edge, curve: mirrorCurveAcrossCenterFront(edge.curve) };
+}
+
 function hoodSidePiece(
   side: "left" | "right",
   layer: "outer" | "lining",
@@ -194,6 +207,12 @@ function hoodSidePiece(
   const frontSeam = neckSeams.front;
   const backSeam = neckSeams.back;
   const centerFront = edgeStart(frontSeam);
+  const overlap = Number.isFinite(options.hoodFrontOverlap) &&
+    options.hoodFrontOverlap >= HOOD_FRONT_OVERLAP_MIN &&
+    options.hoodFrontOverlap <= HOOD_FRONT_OVERLAP_MAX
+    ? options.hoodFrontOverlap
+    : HOOD_FRONT_OVERLAP_MIN;
+  const frontOverlapEndpoint = point(centerFront.x + overlap / 2, centerFront.y);
   const centerBack = edgeEnd(backSeam);
   const crown = point(-options.hoodDepth, -options.hoodHeight);
   const centerBackSeam: Edge = {
@@ -213,16 +232,22 @@ function hoodSidePiece(
       start: crown,
       control1: point(-options.hoodDepth * 0.78, -options.hoodHeight * 0.72),
       control2: point(-options.hoodDepth * 0.22, centerFront.y - options.hoodHeight * 0.18),
-      end: centerFront,
+      end: frontOverlapEndpoint,
     },
   };
-  const draftedEdges = [frontSeam, backSeam, centerBackSeam, faceOpening];
+  const overlapConnector: Edge | undefined = overlap > HOOD_FRONT_OVERLAP_MIN
+    ? {
+        kind: "line",
+        name: "frontOverlap",
+        start: frontOverlapEndpoint,
+        end: centerFront,
+      }
+    : undefined;
+  const draftedEdges = [frontSeam, backSeam, centerBackSeam, faceOpening,
+    ...(overlapConnector === undefined ? [] : [overlapConnector])];
   const edges = side === "left"
     ? draftedEdges
-    : draftedEdges.map((edge) => ({
-        ...edge,
-        curve: mirrorCurveAcrossCenterFront(edge.curve),
-      }));
+    : draftedEdges.map(mirrorEdgeAcrossCenterFront);
   const sideName = side === "left" ? "left" : "right";
   return {
     name: `hoodie ${sideName} ${layer} hood side`,
@@ -450,7 +475,7 @@ export function hoodieNecklineMeasurements(drafted: Block): HoodieNecklineMeasur
 /** Preserve the existing warn-never-clamp neckline checks under Hoodie keys. */
 export function hoodieNecklineNotes(
   measurements: Measurements,
-  options: Pick<HoodieDraftOptions, "hoodNecklineWidthEase" | "hoodNecklineFrontDrop" | "hoodNeckEase">,
+  options: Pick<HoodieDraftOptions, "hoodNecklineWidthEase" | "hoodNecklineFrontDrop" | "hoodNeckEase" | "hoodFrontOverlap">,
 ): readonly Note[] {
   const derived = derive(measurements);
   const params: NecklineParams = {
@@ -495,6 +520,18 @@ export function hoodieNecklineNotes(
       field: "hoodNeckEase",
       level: "warn",
       text: `Hood-to-neckline ease of ${options.hoodNeckEase} cm cannot be represented by a finite neck seam — reduce it within ${HOOD_NECK_EASE_MIN}–${HOOD_NECK_EASE_MAX} cm.`,
+    });
+  }
+  if (!Number.isFinite(options.hoodFrontOverlap) ||
+      options.hoodFrontOverlap < HOOD_FRONT_OVERLAP_MIN ||
+      options.hoodFrontOverlap > HOOD_FRONT_OVERLAP_MAX) {
+    const value = Number.isFinite(options.hoodFrontOverlap)
+      ? `${options.hoodFrontOverlap} cm`
+      : String(options.hoodFrontOverlap);
+    notes.push({
+      field: "hoodFrontOverlap",
+      level: "warn",
+      text: `Hood front overlap (${value}) is outside the supported ${HOOD_FRONT_OVERLAP_MIN}–${HOOD_FRONT_OVERLAP_MAX} cm range — adjust it into that range.`,
     });
   }
   return notes;

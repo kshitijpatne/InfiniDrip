@@ -4,6 +4,7 @@ export interface HoodieShapeOptions extends GarmentOptions {
   readonly hoodNecklineWidthEase: number;
   readonly hoodNecklineFrontDrop: number;
   readonly hoodNeckEase: number;
+  readonly hoodFrontOverlap: number;
   readonly hoodHeight: number;
   readonly hoodDepth: number;
 }
@@ -52,6 +53,17 @@ export const HOODIE_SHAPE_OPTION_DEFINITIONS: readonly GarmentOption[] = [
     step: 0.5,
   },
   {
+    id: "hoodFrontOverlap",
+    label: "Hood front overlap",
+    unit: "cm",
+    group: "Hood",
+    help: "Sets the total paired overlap at center front, split evenly across the mirrored hood halves. Set it to zero for front edges to meet without an extra edge; reduce it if the hood outline crosses itself.",
+    defaultValue: 3,
+    min: 0,
+    max: 8,
+    step: 0.5,
+  },
+  {
     id: "hoodHeight",
     label: "Hood height",
     unit: "cm",
@@ -90,6 +102,8 @@ export function resolveHoodieShapeOptions(
       HOODIE_SHAPE_DEFAULT_OPTIONS.hoodNecklineFrontDrop,
     hoodNeckEase: raw.hoodNeckEase ??
       HOODIE_SHAPE_DEFAULT_OPTIONS.hoodNeckEase,
+    hoodFrontOverlap: raw.hoodFrontOverlap ??
+      HOODIE_SHAPE_DEFAULT_OPTIONS.hoodFrontOverlap,
     hoodHeight: raw.hoodHeight ??
       HOODIE_SHAPE_DEFAULT_OPTIONS.hoodHeight,
     hoodDepth: raw.hoodDepth ??

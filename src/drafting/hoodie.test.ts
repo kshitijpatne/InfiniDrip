@@ -2,7 +2,7 @@ import { cubicPoint, distance, point, type Point } from "../geometry";
 import { describe, expect, it } from "vitest";
 import { gradeMeasurements } from "./grading";
 import { derive, STANDARD_M } from "./measurements";
-import { pieceEdge, edgeEnd, edgeStart, type Edge, type Piece } from "./piece";
+import { pieceEdge, edgeEnd, edgeLength, edgeStart, type Edge, type Piece } from "./piece";
 import { stitchChecks } from "./stitch";
 import { TSHIRT_GRADE } from "./tshirt-grade";
 import { draftCrewneck } from "./crewneck";
@@ -150,6 +150,7 @@ describe("hoodie draft core", () => {
       hoodNecklineWidthEase: 40,
       hoodNecklineFrontDrop: 40,
       hoodNeckEase: 0,
+      hoodFrontOverlap: 0,
     });
     expect(notes.map((note) => note.field)).toContain("hoodNecklineWidthEase");
     expect(notes.map((note) => note.field)).toContain("hoodNecklineFrontDrop");
@@ -198,12 +199,59 @@ describe("hoodie draft core", () => {
     }
   });
 
+  it("splits hood front overlap evenly across mirrored halves and omits the connector at zero", () => {
+    for (let step = -2; step <= 2; step += 1) {
+      const size = gradeMeasurements(STANDARD_M, TSHIRT_GRADE, step);
+      for (const hoodFrontOverlap of [0, 3, 8]) {
+        const drafted = draftHoodie(size, { ...OPTIONS, hoodFrontOverlap });
+        const frontNeckline = pieceEdge(drafted.roles.front!, "neckline");
+        const measurements = hoodieNecklineMeasurements(drafted);
+        let pairedConnectorLength = 0;
+        for (const [leftRole, rightRole] of [
+          ["hoodOuterLeft", "hoodOuterRight"],
+          ["hoodLiningLeft", "hoodLiningRight"],
+        ] as const) {
+          const left = drafted.roles[leftRole]!;
+          const right = drafted.roles[rightRole]!;
+          const leftFace = pieceEdge(left, "faceOpening");
+          const rightFace = pieceEdge(right, "faceOpening");
+          expect(edgeEnd(leftFace).x).toBeCloseTo(hoodFrontOverlap / 2, 10);
+          expect(edgeEnd(rightFace).x).toBeCloseTo(-hoodFrontOverlap / 2, 10);
+          expect(edgeEnd(leftFace).y).toBeCloseTo(edgeStart(frontNeckline).y, 10);
+          expect(edgeEnd(rightFace).y).toBeCloseTo(edgeStart(frontNeckline).y, 10);
+          expect(right.edges).toEqual(left.edges.map(reflectedCurve));
+
+          const leftConnector = left.edges.find((edge) => edge.name === "frontOverlap");
+          const rightConnector = right.edges.find((edge) => edge.name === "frontOverlap");
+          if (hoodFrontOverlap === 0) {
+            expect(left.edges).toHaveLength(4);
+            expect(right.edges).toHaveLength(4);
+            expect(leftConnector).toBeUndefined();
+            expect(rightConnector).toBeUndefined();
+            expect(edgeEnd(leftFace)).toEqual(edgeStart(pieceEdge(left, "necklineFront")));
+          } else {
+            expect(leftConnector?.kind).toBe("line");
+            expect(rightConnector?.kind).toBe("line");
+            expect(edgeStart(leftConnector!)).toEqual(edgeEnd(leftFace));
+            expect(edgeEnd(leftConnector!)).toEqual(edgeStart(pieceEdge(left, "necklineFront")));
+            expect(edgeLength(leftConnector!)).toBeCloseTo(hoodFrontOverlap / 2, 10);
+            pairedConnectorLength += edgeLength(leftConnector!) + edgeLength(rightConnector!);
+          }
+        }
+        expect(pairedConnectorLength).toBeCloseTo(hoodFrontOverlap * 2, 10);
+        expect(measurements.hoodPieces.every((piece) =>
+          Math.abs(piece.differenceFromGarmentCm - OPTIONS.hoodNeckEase) < 0.02)).toBe(true);
+      }
+    }
+  });
+
   it("warns on invalid or unrepresentable hood-neck ease without clamping the raw value", () => {
     for (const hoodNeckEase of [-0.5, 6.5, Number.NaN, Number.POSITIVE_INFINITY]) {
       const notes = hoodieNecklineNotes(STANDARD_M, {
         hoodNecklineWidthEase: OPTIONS.hoodNecklineWidthEase,
         hoodNecklineFrontDrop: OPTIONS.hoodNecklineFrontDrop,
         hoodNeckEase,
+        hoodFrontOverlap: OPTIONS.hoodFrontOverlap,
       });
       const note = notes.find((item) => item.field === "hoodNeckEase");
       expect(note?.level).toBe("warn");
@@ -216,6 +264,7 @@ describe("hoodie draft core", () => {
       hoodNecklineWidthEase: Number.POSITIVE_INFINITY,
       hoodNecklineFrontDrop: OPTIONS.hoodNecklineFrontDrop,
       hoodNeckEase: 3,
+      hoodFrontOverlap: OPTIONS.hoodFrontOverlap,
     }).find((item) => item.field === "hoodNeckEase");
     expect(unrepresentable?.level).toBe("warn");
     expect(unrepresentable?.text).toContain("cannot be represented by a finite neck seam");
@@ -224,15 +273,35 @@ describe("hoodie draft core", () => {
       hoodNecklineWidthEase: OPTIONS.hoodNecklineWidthEase,
       hoodNecklineFrontDrop: 1e16,
       hoodNeckEase: 6,
+      hoodFrontOverlap: OPTIONS.hoodFrontOverlap,
     }).find((item) => item.field === "hoodNeckEase");
     expect(precisionLimit?.level).toBe("warn");
     expect(precisionLimit?.text).toContain("cannot be represented by a finite neck seam");
+
+    for (const hoodFrontOverlap of [-0.5, 8.5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      const notes = hoodieNecklineNotes(STANDARD_M, {
+        hoodNecklineWidthEase: OPTIONS.hoodNecklineWidthEase,
+        hoodNecklineFrontDrop: OPTIONS.hoodNecklineFrontDrop,
+        hoodNeckEase: OPTIONS.hoodNeckEase,
+        hoodFrontOverlap,
+      });
+      const note = notes.find((item) => item.field === "hoodFrontOverlap");
+      expect(note?.level).toBe("warn");
+      expect(note?.text).toContain("supported 0–8 cm range");
+      expect(note?.text).toContain("adjust it into that range");
+      expect(draftHoodie(STANDARD_M, { ...OPTIONS, hoodFrontOverlap }).roles.hoodOuterLeft?.edges)
+        .toEqual(draftHoodie(STANDARD_M, { ...OPTIONS, hoodFrontOverlap: 0 }).roles.hoodOuterLeft?.edges);
+    }
   });
 
   it("mirrors the outer and lining sides exactly and keeps each outline finite, closed, and simple across XS-XL", () => {
     const bounds = [
-      { ...OPTIONS, hoodHeight: 20, hoodDepth: 18, hoodNeckEase: 6, hoodNecklineWidthEase: 0, hoodNecklineFrontDrop: 0 },
-      { ...OPTIONS, hoodHeight: 50, hoodDepth: 42, hoodNeckEase: 6, hoodNecklineWidthEase: 12, hoodNecklineFrontDrop: 22 },
+      { ...OPTIONS, hoodHeight: 20, hoodDepth: 18, hoodNeckEase: 6, hoodFrontOverlap: 0, hoodNecklineWidthEase: 0, hoodNecklineFrontDrop: 0 },
+      { ...OPTIONS, hoodHeight: 20, hoodDepth: 18, hoodNeckEase: 6, hoodFrontOverlap: 3, hoodNecklineWidthEase: 0, hoodNecklineFrontDrop: 0 },
+      { ...OPTIONS, hoodHeight: 20, hoodDepth: 18, hoodNeckEase: 6, hoodFrontOverlap: 8, hoodNecklineWidthEase: 0, hoodNecklineFrontDrop: 0 },
+      { ...OPTIONS, hoodHeight: 50, hoodDepth: 42, hoodNeckEase: 6, hoodFrontOverlap: 0, hoodNecklineWidthEase: 12, hoodNecklineFrontDrop: 22 },
+      { ...OPTIONS, hoodHeight: 50, hoodDepth: 42, hoodNeckEase: 6, hoodFrontOverlap: 3, hoodNecklineWidthEase: 12, hoodNecklineFrontDrop: 22 },
+      { ...OPTIONS, hoodHeight: 50, hoodDepth: 42, hoodNeckEase: 6, hoodFrontOverlap: 8, hoodNecklineWidthEase: 12, hoodNecklineFrontDrop: 22 },
     ];
     for (const step of [-2, -1, 0, 1, 2]) {
       const size = gradeMeasurements(STANDARD_M, TSHIRT_GRADE, step);
