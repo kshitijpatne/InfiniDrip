@@ -41,18 +41,46 @@ describe("armholeMatch", () => {
 });
 
 describe("easeRange", () => {
-  it("warns on tight ease", () => {
-    const note = easeRange({ ...STANDARD_M, ease: 2 });
+  it("warns below the software check interval and gives a neutral adjustment", () => {
+    const note = easeRange({ ...STANDARD_M, ease: 4 });
     expect(note.level).toBe("warn");
-    expect(note.text).toContain("2 cm"); // stateful: names the value
+    expect(note.field).toBe("ease");
+    expect(note.text).toContain("4 cm");
+    expect(note.text).toContain("below the tee check's 5 cm lower boundary");
+    expect(note.text).toContain("raise ease to 5 cm or more");
+    expect(note.text).toContain("does not assess wear or fit");
+    expect(note.text).not.toMatch(/tight to pull on|most .* use|roomy|oversized fit|comfortable amount/i);
   });
-  it("informs on high ease", () => {
-    expect(easeRange({ ...STANDARD_M, ease: 20 })?.level).toBe("info");
+
+  it("reports an above-band value without labeling a fit or silhouette", () => {
+    const note = easeRange({ ...STANDARD_M, ease: 17 }, "tank");
+    expect(note.level).toBe("info");
+    expect(note.field).toBe("ease");
+    expect(note.text).toContain("17 cm");
+    expect(note.text).toContain("above the tank check's 16 cm upper boundary");
+    expect(note.text).toContain("reduce ease to 16 cm or less");
+    expect(note.text).toContain("does not assess fit or silhouette");
+    expect(note.text).not.toMatch(/roomy|oversized fit|comfortable amount/i);
   });
-  it("gives a positive, stateful note for normal ease", () => {
-    const note = easeRange(STANDARD_M);
+
+  it("treats both existing software-check boundaries as in-band", () => {
+    for (const ease of [5, 16]) {
+      const note = easeRange({ ...STANDARD_M, ease });
+      expect(note.level).toBe("ok");
+      expect(note.field).toBe("ease");
+      expect(note.text.startsWith("Ease is " + ease + " cm")).toBe(true);
+      expect(note.text).toContain("within the tee check's 5–16 cm interval");
+      expect(note.text).toContain("does not assess fit, comfort, or fabric compatibility");
+      expect(note.text).not.toMatch(/tight to pull on|roomy|oversized fit|comfortable amount/i);
+    }
+  });
+
+  it("describes T02's 13 cm value as a software interval only", () => {
+    const note = easeRange({ ...STANDARD_M, ease: 13 });
     expect(note.level).toBe("ok");
-    expect(note.text).toContain("10 cm"); // references the current value
+    expect(note.text).toContain("13 cm");
+    expect(note.text).toContain("within the tee check's 5–16 cm interval");
+    expect(note.text).toContain("does not assess fit, comfort, or fabric compatibility");
   });
 });
 
