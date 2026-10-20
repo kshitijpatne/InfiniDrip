@@ -1,11 +1,14 @@
 import { point, type Point } from "../geometry";
 import { lowerBodyUpperMetrics } from "./lower-body-upper";
-import { block, type Block } from "./block";
+import { rolePiece, type Block } from "./block";
 import type { Measurements } from "./measurements";
 import { lineMark, pointMark, type PatternMark } from "./pattern-mark";
 import type { Edge, Piece } from "./piece";
 import { edgeRef, iface, markRef, type Interface, type Stitch } from "./stitch";
 import { resolveJoggerOptions, type JoggerOptions } from "./jogger-contract";
+import type { Component, ComponentResult } from "./component";
+import { componentNode, composeBlock, garmentGrammar, type CompositionContext } from "./grammar";
+import type { GarmentOptions } from "./options";
 
 interface JoggerMetrics {
   readonly finishedWaist: number;
@@ -258,53 +261,115 @@ function pocketBagPiece(opening: { readonly start: Point; readonly end: Point },
   };
 }
 
-function joggerStitches(): Stitch[] {
-  return [
+export const JOGGER_LEG_STITCHES: readonly Stitch[] = [
     { label: "Left jogger side seam", a: joggerSideInterface("frontLeft", false), b: joggerSideInterface("backLeft", true) },
     { label: "Right jogger side seam", a: joggerSideInterface("frontRight", false), b: joggerSideInterface("backRight", true) },
     { label: "Left jogger inseam", a: joggerInseamInterface("frontLeft", false), b: joggerInseamInterface("backLeft", true) },
     { label: "Right jogger inseam", a: joggerInseamInterface("frontRight", false), b: joggerInseamInterface("backRight", true) },
     { label: "Jogger centre-back rise", a: iface(edgeRef("backLeft", "centerBack")), b: iface(edgeRef("backRight", "centerBack", true)) },
-    { label: "Jogger waist to separate casing", a: waistInterface(), b: iface(edgeRef("waistband", "bottom", true)) },
-    { label: "Left slant pocket opening to bag", a: iface(markRef("frontLeft", "pocketOpening", "left")), b: iface(edgeRef("pocketBagLeft", "opening")) },
-    { label: "Right slant pocket opening to bag", a: iface(markRef("frontRight", "pocketOpening", "left")), b: iface(edgeRef("pocketBagRight", "opening")) },
-  ];
+];
+
+type PocketOpening = { readonly start: Point; readonly end: Point };
+
+export function joggerOpeningFromBlock(drafted: Block, role: string): PocketOpening {
+  const mark = rolePiece(drafted, role).marks?.find((candidate) => candidate.name === "pocketOpening");
+  if (!mark || !("start" in mark)) throw new Error(`Jogger role "${role}" has no line pocketOpening mark`);
+  return { start: mark.start, end: mark.end };
 }
 
-/** Hidden P0 Jogger draft core. The lower-body points are the shipped digital
- * trouser construction stations; this recipe owns its pocket and casing paths. */
-export function draftJogger(m: Measurements, rawOptions: Partial<JoggerOptions> = {}): Block {
-  const options = resolveJoggerOptions(rawOptions);
+const joggerLegsComponent: Component<JoggerOptions> = (m, options): ComponentResult => {
   const metrics = joggerMetrics(m, options);
   const frontLeftBase = joggerLegPiece(m, metrics, options, "front");
   const backLeft = joggerLegPiece(m, metrics, options, "back");
   const frontRightBase = mirrorPiece(frontLeftBase, "jogger front right");
   const backRight = mirrorPiece(backLeft, "jogger back right");
   const opening = joggerPocketOpening(metrics, options);
-  const leftOpening = lineMark("placementLine", "pocketOpening", opening.start, opening.end, "left slant pocket opening");
-  const rightOpening = lineMark(
-    "placementLine", "pocketOpening", mirrorPoint(opening.start), mirrorPoint(opening.end), "right slant pocket opening",
-  );
-  const leftPocketBag = pocketBagPiece(opening, options.pocketBagDepth, "jogger pocket bag left");
-  const rightPocketBag = mirrorPiece(leftPocketBag, "jogger pocket bag right");
-  const waistband = joggerWaistband(options, metrics.finishedWaist);
   const frontLeft: Piece = {
     ...frontLeftBase,
-    marks: [...frontLeftBase.marks!, leftOpening,
+    marks: [...frontLeftBase.marks!,
+      lineMark("placementLine", "pocketOpening", opening.start, opening.end, "left slant pocket opening"),
       pointMark("placementPoint", "pocketOpeningStart", opening.start, "left pocket start")],
   };
   const frontRight: Piece = {
     ...frontRightBase,
-    marks: [...frontRightBase.marks!, rightOpening,
+    marks: [...frontRightBase.marks!,
+      lineMark("placementLine", "pocketOpening", mirrorPoint(opening.start), mirrorPoint(opening.end), "right slant pocket opening"),
       pointMark("placementPoint", "pocketOpeningStart", mirrorPoint(opening.start), "right pocket start")],
   };
-  return block({
-    frontLeft,
-    frontRight,
-    backLeft,
-    backRight,
-    waistband,
-    pocketBagLeft: leftPocketBag,
-    pocketBagRight: rightPocketBag,
-  }, joggerStitches());
+  return {
+    pieces: { frontLeft, frontRight, backLeft, backRight },
+    stitches: JOGGER_LEG_STITCHES,
+    interfaces: {
+      waist: waistInterface(),
+      leftPocketOpening: iface(markRef("frontLeft", "pocketOpening", "left")),
+      rightPocketOpening: iface(markRef("frontRight", "pocketOpening", "left")),
+    },
+  };
+};
+
+const joggerCasingComponent: Component<{ readonly options: JoggerOptions; readonly waistLength: number }> =
+  (_m, { options, waistLength }) => ({
+    pieces: { waistband: joggerWaistband(options, waistLength) },
+    stitches: [],
+    interfaces: { bottom: iface(edgeRef("waistband", "bottom", true)) },
+  });
+
+const joggerPocketBagsComponent: Component<{
+  readonly options: JoggerOptions;
+  readonly leftOpening: PocketOpening;
+  readonly rightOpening: PocketOpening;
+}> = (_m, { options, leftOpening, rightOpening }) => ({
+  pieces: {
+    pocketBagLeft: pocketBagPiece(leftOpening, options.pocketBagDepth, "jogger pocket bag left"),
+    pocketBagRight: pocketBagPiece(rightOpening, options.pocketBagDepth, "jogger pocket bag right"),
+  },
+  stitches: [],
+  interfaces: {
+    leftOpening: iface(edgeRef("pocketBagLeft", "opening")),
+    rightOpening: iface(edgeRef("pocketBagRight", "opening")),
+  },
+});
+
+const joggerOptionsFrom = (context: CompositionContext): JoggerOptions =>
+  resolveJoggerOptions(context.options as Partial<JoggerOptions>);
+
+/** P0 construction graph. Component joins consume the actual interfaces from
+ * the preceding pieces so sizing and seam declarations cannot drift apart. */
+export const JOGGER_GRAMMAR = garmentGrammar(
+  "jogger",
+  [
+    componentNode("legs", "jogger-legs", joggerLegsComponent, joggerOptionsFrom),
+    componentNode("casing", "self-fabric-casing", joggerCasingComponent, (context) => ({
+      options: joggerOptionsFrom(context),
+      waistLength: context.interfaceLength("legs", "waist"),
+    }), ["legs"]),
+    componentNode("pockets", "slant-pocket-bags", joggerPocketBagsComponent, (context) => ({
+      options: joggerOptionsFrom(context),
+      leftOpening: joggerOpeningFromBlock(context.block, "frontLeft"),
+      rightOpening: joggerOpeningFromBlock(context.block, "frontRight"),
+    }), ["legs", "casing"]),
+  ],
+  (context) => [
+    {
+      label: "Jogger waist to separate casing",
+      a: context.interfaceOf("legs", "waist"),
+      b: context.interfaceOf("casing", "bottom"),
+    },
+    {
+      label: "Left slant pocket opening to bag",
+      a: context.interfaceOf("legs", "leftPocketOpening"),
+      b: context.interfaceOf("pockets", "leftOpening"),
+    },
+    {
+      label: "Right slant pocket opening to bag",
+      a: context.interfaceOf("legs", "rightPocketOpening"),
+      b: context.interfaceOf("pockets", "rightOpening"),
+    },
+  ],
+);
+
+/** Hidden P0 Jogger draft core. The lower-body points are the shipped digital
+ * trouser construction stations; this recipe owns its pocket and casing paths. */
+export function draftJogger(m: Measurements, rawOptions: Partial<JoggerOptions> = {}): Block {
+  return composeBlock(JOGGER_GRAMMAR, m, rawOptions as GarmentOptions);
 }
