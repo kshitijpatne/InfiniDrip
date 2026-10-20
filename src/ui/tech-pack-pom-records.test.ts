@@ -70,7 +70,7 @@ function setDefinitionField(field: string, value: unknown): Record<string, unkno
 }
 
 describe("tech-pack POM definition records", () => {
-  it("matches the eight supported recipe IDs and parses an asymmetric sourced definition", () => {
+  it("matches the current supported recipe IDs and parses an asymmetric sourced definition", () => {
     expect([...TECH_PACK_POM_RECIPE_IDS]).toEqual(GARMENTS.map((recipe) => recipe.name));
     expect(TECH_PACK_POM_METHOD_KINDS).toContain("OTHER");
     const result = parseTechPackPomDefinitionSet(definitionSet());

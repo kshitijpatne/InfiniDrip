@@ -78,8 +78,8 @@ function bodyTextOf(recipeId: string, fieldId: string): string {
 }
 
 describe("measurement help catalog", () => {
-  it("covers every field definition of all eight recipes exactly once", () => {
-    expect(GARMENTS).toHaveLength(8);
+  it("covers every field definition of all nine recipes exactly once", () => {
+    expect(GARMENTS).toHaveLength(9);
     expect(Object.keys(MEASUREMENT_HELP).sort()).toEqual(GARMENTS.map((recipe) => recipe.name).sort());
     for (const recipe of GARMENTS) {
       const definitions = getFieldDefinitions(recipe.name);
@@ -151,6 +151,18 @@ describe("measurement help catalog", () => {
     expect(length.draftUse).toContain("no knee station");
     expect(length.limits).toContain("45 cm product cap permits lengths that cross the knee");
     expect(length.limits).toContain("no anatomical knee station, mark, or POM");
+  });
+
+  it("describes crewneck neckline controls against the crewneck draft", () => {
+    const depth = measurementHelpFor("crewneck", "style.crewneck-front-neck-depth")!;
+    const width = measurementHelpFor("crewneck", "style.crewneck-neckline-width-per-side")!;
+    expect(depth.meaning).toContain("front crew neckline");
+    expect(depth.draftUse).toContain("front neckline depth");
+    expect(depth.draftUse).not.toContain("tank");
+    expect(width.meaning).toContain("both the front and back crew neckline");
+    expect(width.draftUse).toContain("both front and back necklines");
+    expect(width.draftUse).not.toContain("tank");
+    expect(measurementHelpFor("crewneck", "style.tank-neck-drop")).toBeNull();
   });
 
   it("describes the accepted Tee source methods without prescribing a home procedure", () => {

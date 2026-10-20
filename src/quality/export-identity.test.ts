@@ -8,7 +8,7 @@
 // file adds is new, bounded coverage: `techpack-surface.test.ts` already
 // proves byte-identity with empty artwork for ONE recipe (TEE) at ONE
 // measurement set (STANDARD_M). This generalizes that same claim, with a
-// seeded property, to all eight recipes and many valid measurement sets —
+// seeded property, to all nine recipes and many valid measurement sets —
 // directly exercising every recipe identifier, as Slice 144 asks.
 import { describe, it, expect } from "vitest";
 import fc from "fast-check";
@@ -38,9 +38,9 @@ describe("EPIC 10 — empty-placement export identity (Slice 144)", () => {
     });
   }
 
-  it("all eight recipe identifiers are exercised (registry drift guard)", () => {
+  it("all nine recipe identifiers are exercised (registry drift guard)", () => {
     expect(GARMENTS.map((r) => r.name).sort()).toEqual(
-      ["fitted", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
+      ["crewneck", "fitted", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
     );
   });
 

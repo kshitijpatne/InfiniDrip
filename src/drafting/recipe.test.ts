@@ -34,8 +34,8 @@ import { CREWNECK as BARREL_CREWNECK, CREWNECK_STABLE_KNIT_DEFAULT as BARREL_STA
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
-    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts"]);
-    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser", "Shorts"]);
+    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts", "crewneck"]);
+    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser", "Shorts", "Crewneck sweatshirt"]);
   });
 
   it("looks a recipe up by name and falls back to the tee for an unknown one", () => {
@@ -45,6 +45,7 @@ describe("the garment registry", () => {
     expect(garmentByName("woven-shirt")).toBe(WOVEN_SHIRT);
     expect(garmentByName("trouser")).toBe(TROUSER);
     expect(garmentByName("shorts")).toBe(SHORTS);
+    expect(garmentByName("crewneck")).toBe(CREWNECK);
     expect(garmentByName("kimono")).toBe(TEE);
   });
 });
@@ -360,16 +361,16 @@ describe("internal crewneck recipe contract (S1110)", () => {
       family: "knit",
       stretchPercent: 10,
     });
-    expect(STRETCH_FABRICS).not.toContain(CREWNECK_STABLE_KNIT_DEFAULT);
+    expect(STRETCH_FABRICS).toContain(CREWNECK_STABLE_KNIT_DEFAULT);
   });
 
-  it("exports a fully-tabled internal recipe but withholds picker and material activation", () => {
+  it("activates the fully-tabled recipe in the picker and shared material selector", () => {
     expect(CREWNECK.name).toBe("crewneck");
     expect(CREWNECK.label).toBe("Crewneck sweatshirt");
     expect(CREWNECK.region).toBe("upper");
     expect(CREWNECK.editRole).toBe("front");
-    expect(GARMENTS).not.toContain(CREWNECK);
-    expect(garmentByName("crewneck")).toBe(TEE);
+    expect(GARMENTS).toContain(CREWNECK);
+    expect(garmentByName("crewneck")).toBe(CREWNECK);
     expect(CREWNECK.grade).toBe(CREWNECK_GRADE);
     expect(CREWNECK_GRADE).toBe(TEE.grade);
     expect(CREWNECK.sizes).toBe(CREWNECK_SIZES);

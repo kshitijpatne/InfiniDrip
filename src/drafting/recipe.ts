@@ -594,7 +594,7 @@ export const CREWNECK: GarmentRecipe = {
   backNeckline: (m) => ({ shape: "crew", widthEase: m.neckWidthEase, frontDrop: m.neckDrop }),
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS];
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {

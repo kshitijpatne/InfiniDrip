@@ -53,6 +53,25 @@ describe("v4 workspace validation", () => {
       expect(result.garmentOptions["woven-shirt"].buttonCount).toBe(6);
     }
   });
+  it("keeps CREWNECK on the current save version with its selected material and options", () => {
+    const workspace = {
+      ...DEFAULT_WORKSPACE,
+      garment: "crewneck",
+      targetStyle: "Classic crewneck sweatshirt",
+      stretchFabric: "Linen",
+    };
+    const options = { crewneck: { neckbandDepth: 3, cuffDepth: 7, hemBandDepth: 5 } };
+    const json = serialize(STANDARD_M, FABRIC, options, workspace);
+    expect(JSON.parse(json).v).toBe(SAVE_VERSION);
+    const loaded = deserialize(json);
+    expect(loaded.ok).toBe(true);
+    if (loaded.ok) {
+      expect(loaded.workspace).toMatchObject(workspace);
+      expect(loaded.garmentOptions.crewneck).toEqual(options.crewneck);
+    }
+    expect(DEFAULT_WORKSPACE.garment).toBe("tee");
+    expect(defaultStretchFabricForGarment("crewneck")).toBe("Stable sweatshirt knit (10% width seed)");
+  });
   it("persists the exact starter origin and loads old v6 workspaces without inferring one", () => {
     const origin = starterOriginForEntry(STARTER_REGISTRY.entries[0]!);
     const workspace = { ...DEFAULT_WORKSPACE, starterOrigin: origin };
@@ -190,6 +209,41 @@ describe("v4 workspace validation", () => {
     expect(readRecoveryFromStorage()).toEqual({ ok: false, error: "Nothing to recover" });
   });
 
+  it("round-trips CREWNECK recovery options and its selected material", () => {
+    localStorage.clear();
+    const options = { neckbandDepth: 3, cuffDepth: 7.5, hemBandDepth: 7 };
+    const recovery = {
+      savedAt: 456,
+      measurements: Object.fromEntries(FIELDS.map((field) => [field.id, STANDARD_M[field.id]])),
+      rawMeasurements: Object.fromEntries(FIELDS.map((field) => [field.id, String(STANDARD_M[field.id])])),
+      fabric: FABRIC,
+      appearance: DEFAULT_APPEARANCE,
+      garmentOptions: { crewneck: options },
+      rawOptions: { crewneck: { neckbandDepth: "3", cuffDepth: "7.5", hemBandDepth: "7" } },
+      workspace: {
+        ...DEFAULT_WORKSPACE,
+        garment: "crewneck",
+        targetStyle: "Classic crewneck sweatshirt",
+        stretchFabric: "Linen",
+      },
+      materialSelectionExplicit: true,
+      surface: {},
+      rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
+      semanticEdits: null,
+    } as const;
+
+    expect(saveRecoveryToStorage(recovery)).toBe(true);
+    const result = readRecoveryFromStorage();
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.workspace).toMatchObject({ garment: "crewneck", stretchFabric: "Linen" });
+      expect(result.garmentOptions.crewneck).toMatchObject(options);
+      expect(result.rawOptions.crewneck).toMatchObject({ cuffDepth: "7.5" });
+      expect(result.materialSelectionExplicit).toBe(true);
+    }
+    expect(clearRecoveryFromStorage()).toBe(true);
+  });
+
   it("rejects malformed recovery data without weakening current-save validation", () => {
     const recovery = {
       savedAt: 123,
@@ -267,6 +321,7 @@ describe("fresh workspace material defaults", () => {
     expect(defaultStretchFabricForGarment("skirt")).toBe("Cotton woven");
     expect(defaultStretchFabricForGarment("trouser")).toBe("Cotton woven");
     expect(defaultStretchFabricForGarment("shorts")).toBe("Cotton woven");
+    expect(defaultStretchFabricForGarment("crewneck")).toBe("Stable sweatshirt knit (10% width seed)");
     expect(defaultStretchFabricForGarment("future")).toBe("Cotton woven");
   });
 });

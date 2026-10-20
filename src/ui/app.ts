@@ -9,7 +9,7 @@ import { TEE_NECKBAND_OPTIONS, teeNeckbandSettings, teeNeckbandTemplateSvg } fro
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
-import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderShortsGarment, renderShortsBody, renderShortsBodyPair, renderShortsSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderCrewneckFigure, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderShortsGarment, renderShortsBody, renderShortsBodyPair, renderShortsSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import {
   appendSemanticEditOperations,
@@ -1278,7 +1278,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let artworkLibraryActionMessage = "Choose a reference to stage a new placement or attach it to a selected placement.";
   let artworkLibraryOpen = false;
   let stretchFabric = STRETCH_FABRICS.find((f) => f.name === initialWorkspace.stretchFabric)!;
-  let materialSelectionExplicit = saved !== null;
+  // A persisted workspace may still be carrying the original per-garment
+  // material default. Treat that as a default so selecting another garment
+  // can adopt its own construction-family material. A non-default saved
+  // material remains an explicit user choice.
+  let materialSelectionExplicit = saved !== null
+    && saved.workspace.stretchFabric !== defaultStretchFabricForGarment(initialWorkspace.garment);
   let view: ViewName = saved ? initialWorkspace.view : stepView(journey.step);
   let technicalFlatFace: TechnicalFlatViewKind = "FRONT_FLAT";
   let bodyCroquisView: BodyCroquisView = initialWorkspace.bodyCroquisView;
@@ -3084,7 +3089,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       field: "ease",
       text: activeStarter && starterMaterialNote && starterEase !== null
         ? `${starterMaterialNote} ${starterEase} cm ease remains a product choice, not a fabric-derived recommendation.`
-        : fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip),
+        : recipe.name === "crewneck"
+          ? "The stable-knit selector is a 10% width seed, not a measured material. It does not set sweatshirt ease or band length; stretch/recovery and physical fit have not been validated."
+          : fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip),
     };
     const checkRecipe = semanticEdits && semanticState?.evaluation?.canExportSize(0)
       ? recipeForCurrentOutputs()
@@ -3303,14 +3310,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         );
       }
     }
-    const assembled = isTop
-      ? renderGarment(measurements, fabric, hasSleeve,
+    const assembled = recipe.name === "crewneck"
+      ? renderCrewneckFigure(measurements, fabric, recipeOptions())
+      : isTop
+        ? renderGarment(measurements, fabric, hasSleeve,
           recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
-      : isTrouser
-        ? renderTrouserGarment(measurements, fabric, recipeOptions())
-        : isShorts
-          ? renderShortsGarment(measurements, fabric, recipeOptions())
-          : renderSkirtGarment(measurements, fabric);
+        : isTrouser
+          ? renderTrouserGarment(measurements, fabric, recipeOptions())
+          : isShorts
+            ? renderShortsGarment(measurements, fabric, recipeOptions())
+            : renderSkirtGarment(measurements, fabric);
     const assembledPreview = applyAppearanceToSvg(assembled, fabric, appearance);
     const assembledEditNotice = semanticEdits
       ? '<p class="semantic-edit-preview-notice" role="status">Saved pattern edits are not reflected in this schematic assembled illustration. Pattern-linked 3D simulation is not available.</p>'

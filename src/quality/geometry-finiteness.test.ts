@@ -1,6 +1,7 @@
 // EPIC 10 — bounded, seeded fast-check properties covering geometry finiteness
-// and deterministic repeated drafting/grading across all eight registered
-// recipes (tee, fitted, tank, polo, woven-shirt, skirt, trouser, shorts).
+// and deterministic repeated drafting/grading across all nine registered
+// recipes (tee, fitted, tank, polo, woven-shirt, skirt, trouser, shorts,
+// crewneck).
 //
 // Test/developer-only: fast-check is a dev dependency and is never imported by
 // production code. Every property below uses a fixed seed and an explicit
@@ -16,6 +17,7 @@ import {
   STANDARD_M,
   draftAtSize,
   blockPieces,
+  defaultGarmentOptions,
   stitchChecks,
   type Measurements,
   type GarmentRecipe,
@@ -118,9 +120,9 @@ describe("EPIC 10 — geometry finiteness (Slice 142)", () => {
     });
   }
 
-  it("all eight recipe identifiers are exercised (registry drift guard)", () => {
+  it("all nine recipe identifiers are exercised (registry drift guard)", () => {
     expect(GARMENTS.map((r) => r.name).sort()).toEqual(
-      ["fitted", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
+      ["crewneck", "fitted", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
     );
   });
 
@@ -130,7 +132,7 @@ describe("EPIC 10 — geometry finiteness (Slice 142)", () => {
   // a future change that breaks it fails fast without needing fast-check.
   it("regression fixture: STANDARD_M at step 0 drafts finite geometry for every recipe", () => {
     for (const recipe of GARMENTS) {
-      const block = draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft, {});
+      const block = draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft, defaultGarmentOptions(recipe.options ?? []));
       for (const piece of blockPieces(block)) {
         for (const edge of piece.edges) expect(edgeFinite(edge)).toBe(true);
       }

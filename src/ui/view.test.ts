@@ -794,7 +794,7 @@ describe("garmentToggleMarkup", () => {
       expect(html).toContain(`>${g.label}</span>`);
     }
     expect(html).toContain("Choose a starting garment");
-    expect(html).toContain("8 drafting blocks");
+    expect(html).toContain("9 drafting blocks");
     expect(html).toContain("Straight-leg trouser");
     expect(html).toContain("Stable woven shorts");
     expect(html).toContain("Rise, leg opening, fly and pocket controls");

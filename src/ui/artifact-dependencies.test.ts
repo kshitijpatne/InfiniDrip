@@ -45,7 +45,7 @@ function derivedOutputs(recipeName: string, options: GarmentOptions, measurement
 }
 
 describe("field-to-artifact invalidation graph", () => {
-  it("covers every measurement and construction option across all eight recipes exactly once", () => {
+  it("covers every measurement and construction option across all nine recipes exactly once", () => {
     assertFieldArtifactCoverage();
     const total = GARMENTS.reduce((sum, recipe) => sum + recipe.fields.length + (recipe.options?.length ?? 0), 0);
     expect(getAllFieldDefinitions()).toHaveLength(total);

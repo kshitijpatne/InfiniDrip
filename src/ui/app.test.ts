@@ -6667,6 +6667,96 @@ describe("switching to the trouser recipe (Slice 100)", () => {
   });
 });
 
+describe("CREWNECK activation (Slice 1114)", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("uses the crewneck material default when the project still has its garment default", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-crewneck-default-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-20T14:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      expect(workflow.snapshot.activeStyle.design.workspace.stretchFabric).toBe("Cotton jersey");
+      clickId(root, "garment-crewneck");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value)
+        .toBe("Stable sweatshirt knit (10% width seed)");
+    } finally {
+      workflow.close();
+      root.remove();
+      localStorage.clear();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("preserves a non-default saved material choice when switching to crewneck", () => {
+    expect(saveToStorage(STANDARD_M, "#123456", {}, {
+      ...DEFAULT_WORKSPACE,
+      stretchFabric: "Linen",
+    })).toBe(true);
+    const root = mount();
+    try {
+      clickId(root, "garment-crewneck");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Linen");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("routes the selectable crewneck through its material, controls, save/load, and distinct views", () => {
+    const root = mount();
+    clickId(root, "garment-crewneck");
+
+    expect(root.querySelector<HTMLButtonElement>("#garment-crewneck")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')).not.toBeNull();
+    expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')).not.toBeNull();
+    expect(root.querySelector<HTMLInputElement>('input[data-field="knee"]')).toBeNull();
+    expect(root.querySelectorAll("input[data-option]")).toHaveLength(6);
+
+    const material = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+    expect(material.value).toBe("Stable sweatshirt knit (10% width seed)");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("10% width seed");
+    expect(root.querySelector("#guidance-host")!.textContent).not.toContain("negative ease");
+
+    const cuffDepth = root.querySelector<HTMLInputElement>('input[data-option="cuffDepth"]')!;
+    cuffDepth.value = "7.5";
+    cuffDepth.dispatchEvent(new Event("input", { bubbles: true }));
+    material.value = "Linen";
+    material.dispatchEvent(new Event("change", { bubbles: true }));
+    clickId(root, "save-pattern");
+
+    const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(saved.v).toBe(7);
+    expect(saved.workspace).toMatchObject({
+      garment: "crewneck",
+      targetStyle: "Classic crewneck sweatshirt",
+      stretchFabric: "Linen",
+    });
+    expect(saved.garmentOptions.crewneck.cuffDepth).toBe(7.5);
+
+    clickId(root, "garment-tee");
+    clickId(root, "load-pattern");
+    clickId(root, "workspace-confirm-accept");
+    expect(root.querySelector<HTMLButtonElement>("#garment-crewneck")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Linen");
+    expect(root.querySelector<HTMLInputElement>('input[data-option="cuffDepth"]')!.value).toBe("7.5");
+
+    clickId(root, "view-body");
+    expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
+    expect(root.querySelector("#analysis-host [data-crewneck-legend-background]")).toBeNull();
+    clickId(root, "assembled-preview-toggle");
+    expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(false);
+    expect(root.querySelector("#garment-host [data-crewneck-legend-background]")).not.toBeNull();
+    expect(root.querySelector("#garment-host")!.textContent).toContain("SCHEMATIC ONLY");
+  });
+});
+
 describe("surface artwork panel (Slice 126)", () => {
   const toFitStep = (root: HTMLElement): void => {
     clickIfPresent(root, "welcome-skip");

@@ -229,7 +229,9 @@ export function renderBody(
     (hasSleeve ? edge("bicep", bothArms((sx) => seg(sx * a2.x, a2.y, sx * a3.x, a3.y, 1.2))) : "") +
     poloDropEdges;
 
-  const minX = leftDimX - 22;
+  // The longest left-side dimension is currently "Armhole depth 24"; leave
+  // enough SVG viewBox room for that text instead of clipping its first letters.
+  const minX = leftDimX - 36;
   const maxX = rightDimX + 26;
   const minY = headTop - 8;
   const maxY = len + 8;

@@ -2,6 +2,7 @@ import type { Measurements } from "./measurements";
 import type { GarmentOption, GarmentOptions } from "./options";
 import { defaultGarmentOptions } from "./options";
 import type { StyleDef } from "../style";
+import { CREWNECK_STABLE_KNIT_PRESET } from "./ease";
 import type { StretchFabric } from "./ease";
 
 /** Existing shared fields used by the adult crewneck; no save-schema extension. */
@@ -104,9 +105,5 @@ export const CREWNECK_OPTION_DEFINITIONS: readonly GarmentOption[] = [
 export const CREWNECK_DEFAULT_OPTIONS: GarmentOptions =
   defaultGarmentOptions(CREWNECK_OPTION_DEFINITIONS);
 
-/** Internal context seed; public selector exposure is deferred with the UI. */
-export const CREWNECK_STABLE_KNIT_DEFAULT: StretchFabric = {
-  name: "Stable sweatshirt knit (10% width seed)",
-  family: "knit",
-  stretchPercent: 10,
-};
+/** Shared selector default; the 10% width seed is not measured performance. */
+export const CREWNECK_STABLE_KNIT_DEFAULT: StretchFabric = CREWNECK_STABLE_KNIT_PRESET;

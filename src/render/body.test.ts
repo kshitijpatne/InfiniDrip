@@ -36,6 +36,12 @@ describe("renderBody", () => {
     expect(svg).toContain("Bicep 38");
   });
 
+  it("keeps the longest left-side dimension label inside the viewBox", () => {
+    const viewBoxMinX = viewBoxOf(svg)[0];
+    const labelX = Number(svg.match(/<text x="(-?[\d.]+)"[^>]*text-anchor="end">Armhole depth 24<\/text>/)![1]);
+    expect(labelX - viewBoxMinX).toBeGreaterThanOrEqual(34);
+  });
+
   it("marks only the girth inputs (chest, bicep) as '(circ)', not the linear ones", () => {
     expect(svg).toContain("Chest 100 (circ)");
     expect(svg).toContain("Bicep 38 (circ)");

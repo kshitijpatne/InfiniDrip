@@ -214,6 +214,25 @@ const SHORTS_MEASUREMENT_SPECS: Readonly<Partial<Record<string, MeasurementSpec>
   },
 });
 
+const CREWNECK_MEASUREMENT_SPECS: Readonly<Partial<Record<string, MeasurementSpec>>> = Object.freeze({
+  neckDrop: {
+    id: "style.crewneck-front-neck-depth",
+    kind: "STYLE_CONTROL",
+    frame: "design-control",
+    meaning: "Digital depth adjustment applied to the front crew neckline beyond its chest-derived baseline; the back neckline retains its derived depth.",
+    captureBoundary: "This is a user-editable pattern control, not an anatomical measurement or validated fit target.",
+    label: "Front neckline depth adjustment",
+  },
+  neckWidthEase: {
+    id: "style.crewneck-neckline-width-per-side",
+    kind: "STYLE_CONTROL",
+    frame: "design-control",
+    meaning: "Per-side digital width adjustment applied to both the front and back crew neckline shapes.",
+    captureBoundary: "This is a user-editable pattern control, not a neck-girth measurement or validated fit target.",
+    label: "Per-side neckline width adjustment",
+  },
+});
+
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const PROVENANCE = new Set<FieldProvenance>([
   "USER_CAPTURED", "USER_SELECTED", "PRESET", "INHERITED", "CALCULATED", "SUPPLIER",
@@ -331,7 +350,9 @@ export function getFieldDefinitions(recipeId: string): readonly FieldDefinition[
     const control = FIELDS.find((field) => field.id === inputKey);
     const spec = recipe.name === "shorts"
       ? SHORTS_MEASUREMENT_SPECS[inputKey] ?? MEASUREMENT_SPECS[inputKey]
-      : MEASUREMENT_SPECS[inputKey];
+      : recipe.name === "crewneck"
+        ? CREWNECK_MEASUREMENT_SPECS[inputKey] ?? MEASUREMENT_SPECS[inputKey]
+        : MEASUREMENT_SPECS[inputKey];
     if (!control || !spec) continue;
     const semanticId = inputKey === "length" && recipe.name === "skirt"
       ? "target.skirt-waistline-to-hem"

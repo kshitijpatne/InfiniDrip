@@ -141,6 +141,11 @@ const DRAFT_USE_OVERRIDE: Readonly<Record<string, Readonly<Record<string, string
     pocketBagDepth: "Sets pocket-bag depth; guidance checks that the bag stays inside the front panel and above the hem turn.",
     pocketDrop: "Moves the pocket opening below the waist seam; guidance checks its clearance from the front rise.",
   }),
+  crewneck: Object.freeze({
+    neckDrop: "The crewneck draft adds this value to the derived front neckline depth; the back neckline keeps its derived depth.",
+    neckWidthEase: "The crewneck draft adds this value per side to the derived width of both front and back necklines.",
+    ease: "The crewneck draft uses this shared ease in the body panels and solves the sleeves from the resulting armholes; band circumferences stay separate user controls.",
+  }),
 });
 
 const DRAFT_USE_FALLBACK =
@@ -248,9 +253,7 @@ function draftUseFor(recipeId: string, inputKey: string): string {
   const override = DRAFT_USE_OVERRIDE[recipeId]?.[inputKey];
   if (override !== undefined) return override;
   const base = DRAFT_USE_BASE[inputKey] ?? DRAFT_USE_FALLBACK;
-  const suffix = (DRAFT_USE_SUFFIX[recipeId] as Readonly<Record<string, string>>)[inputKey] as
-    | string
-    | undefined;
+  const suffix = DRAFT_USE_SUFFIX[recipeId]?.[inputKey];
   return suffix === undefined ? base : `${base} ${suffix}`;
 }
 

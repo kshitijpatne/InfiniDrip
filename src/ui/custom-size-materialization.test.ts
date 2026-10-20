@@ -62,8 +62,8 @@ function readySession(recipeId: string, varyValues = false) {
 }
 
 describe("custom one-size design materialization", () => {
-  it("maps every selected measurement and option into a fresh seed for all eight recipes", () => {
-    expect(GARMENTS).toHaveLength(8);
+  it("maps every selected measurement and option into a fresh seed for all nine recipes", () => {
+    expect(GARMENTS).toHaveLength(9);
     for (const recipe of GARMENTS) {
       const seed = seedFor(recipe.name);
       const session = readySession(recipe.name);

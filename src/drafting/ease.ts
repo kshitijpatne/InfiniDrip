@@ -21,6 +21,13 @@ export interface StretchFabric {
   readonly stretchPercent: number; // 0 for woven; e.g. 50 means stretches 50%
 }
 
+/** Selectable G02S preset; 10% is a width seed, not measured material performance. */
+export const CREWNECK_STABLE_KNIT_PRESET: StretchFabric = {
+  name: "Stable sweatshirt knit (10% width seed)",
+  family: "knit",
+  stretchPercent: 10,
+};
+
 /** Fabrics the user can pick to inform the ease advice. */
 export const STRETCH_FABRICS: readonly StretchFabric[] = [
   { name: "Cotton woven", family: "woven", stretchPercent: 0 },
@@ -28,6 +35,7 @@ export const STRETCH_FABRICS: readonly StretchFabric[] = [
   { name: "Cotton jersey", family: "knit", stretchPercent: 25 },
   { name: "Rib knit",      family: "knit", stretchPercent: 50 },
   { name: "Spandex blend", family: "knit", stretchPercent: 80 },
+  CREWNECK_STABLE_KNIT_PRESET,
 ];
 
 // For a knit, suggested negative ease scales with the fabric's stretch and the
