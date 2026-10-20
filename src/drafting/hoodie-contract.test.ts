@@ -2,8 +2,70 @@ import { describe, expect, it } from "vitest";
 import {
   HOODIE_POUCH_DEFAULT_OPTIONS,
   HOODIE_POUCH_OPTION_DEFINITIONS,
+  HOODIE_SHAPE_DEFAULT_OPTIONS,
+  HOODIE_SHAPE_OPTION_DEFINITIONS,
   resolveHoodiePouchOptions,
+  resolveHoodieShapeOptions,
 } from "./hoodie-contract";
+
+describe("Hoodie shape option contract", () => {
+  it("matches the G04 digital seeds, ranges, steps, units, and corrective help", () => {
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS.map(({ id, label, defaultValue, min, max, step }) => ({
+      id, label, defaultValue, min, max, step,
+    }))).toEqual([
+      { id: "hoodNecklineWidthEase", label: "Neckline width ease per side", defaultValue: 4, min: 0, max: 12, step: 0.5 },
+      { id: "hoodNecklineFrontDrop", label: "Front neckline drop", defaultValue: 8, min: 0, max: 22, step: 0.5 },
+      { id: "hoodHeight", label: "Hood height", defaultValue: 32, min: 20, max: 50, step: 1 },
+      { id: "hoodDepth", label: "Hood depth", defaultValue: 28, min: 18, max: 42, step: 1 },
+    ]);
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS.every((definition) =>
+      definition.unit === "cm" && definition.group === "Hood" && definition.help?.length)).toBe(true);
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[0]?.help).toContain("same width ease to the front and back");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[1]?.help).toContain("front neckline only");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[2]?.help).toContain("same authored value is used from XS–XL");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[3]?.help).toContain("same authored value is used from XS–XL");
+    expect(HOODIE_SHAPE_DEFAULT_OPTIONS).toEqual({
+      hoodNecklineWidthEase: 4,
+      hoodNecklineFrontDrop: 8,
+      hoodHeight: 32,
+      hoodDepth: 28,
+    });
+    expect(resolveHoodieShapeOptions()).toEqual(HOODIE_SHAPE_DEFAULT_OPTIONS);
+  });
+
+  it("fills missing values and preserves explicit zero without clamping", () => {
+    expect(resolveHoodieShapeOptions({ hoodHeight: 40 })).toEqual({
+      hoodNecklineWidthEase: 4,
+      hoodNecklineFrontDrop: 8,
+      hoodHeight: 40,
+      hoodDepth: 28,
+    });
+    expect(resolveHoodieShapeOptions({
+      hoodNecklineWidthEase: 0,
+      hoodNecklineFrontDrop: 0,
+      hoodHeight: 0,
+      hoodDepth: 0,
+    })).toEqual({
+      hoodNecklineWidthEase: 0,
+      hoodNecklineFrontDrop: 0,
+      hoodHeight: 0,
+      hoodDepth: 0,
+    });
+  });
+
+  it("preserves invalid raw values for later actionable guidance", () => {
+    const options = resolveHoodieShapeOptions({
+      hoodNecklineWidthEase: -1,
+      hoodNecklineFrontDrop: 30,
+      hoodHeight: Number.NaN,
+      hoodDepth: Number.POSITIVE_INFINITY,
+    });
+    expect(options.hoodNecklineWidthEase).toBe(-1);
+    expect(options.hoodNecklineFrontDrop).toBe(30);
+    expect(options.hoodHeight).toBeNaN();
+    expect(options.hoodDepth).toBe(Number.POSITIVE_INFINITY);
+  });
+});
 
 describe("Hoodie pouch option contract", () => {
   it("matches the accepted digital seeds, ranges, steps, and correction guidance", () => {

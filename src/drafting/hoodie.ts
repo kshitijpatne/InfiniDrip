@@ -1,6 +1,6 @@
 import { point, type CubicBezier } from "../geometry";
 import { lineMark } from "./pattern-mark";
-import type { HoodiePouchOptions } from "./hoodie-contract";
+import type { HoodiePouchOptions, HoodieShapeOptions } from "./hoodie-contract";
 import type { Note } from "../guidance/note";
 import { bodice } from "./bodice";
 import { block, type Block } from "./block";
@@ -32,11 +32,7 @@ export type HoodieHoodRole =
   | "hoodLiningLeft"
   | "hoodLiningRight";
 
-export interface HoodieDraftOptions extends HoodiePouchOptions {
-  readonly hoodNecklineWidthEase: number;
-  readonly hoodNecklineFrontDrop: number;
-  readonly hoodHeight: number;
-  readonly hoodDepth: number;
+export interface HoodieDraftOptions extends HoodieShapeOptions, HoodiePouchOptions {
   readonly cuffLength: number;
   readonly cuffDepth: number;
   readonly hemBandLength: number;

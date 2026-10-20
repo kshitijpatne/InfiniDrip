@@ -6,7 +6,7 @@ import { pieceEdge, edgeEnd, edgeStart, type Edge, type Piece } from "./piece";
 import { stitchChecks } from "./stitch";
 import { TSHIRT_GRADE } from "./tshirt-grade";
 import { draftCrewneck } from "./crewneck";
-import { HOODIE_POUCH_DEFAULT_OPTIONS } from "./hoodie-contract";
+import { HOODIE_POUCH_DEFAULT_OPTIONS, HOODIE_SHAPE_DEFAULT_OPTIONS } from "./hoodie-contract";
 import {
   draftHoodie,
   hoodieNecklineMeasurements,
@@ -17,11 +17,8 @@ import {
 } from "./hoodie";
 
 const OPTIONS: HoodieDraftOptions = {
+  ...HOODIE_SHAPE_DEFAULT_OPTIONS,
   ...HOODIE_POUCH_DEFAULT_OPTIONS,
-  hoodNecklineWidthEase: 4,
-  hoodNecklineFrontDrop: 8,
-  hoodHeight: 32,
-  hoodDepth: 28,
   cuffLength: 31.5,
   cuffDepth: 6,
   hemBandLength: 93.5,

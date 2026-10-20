@@ -1,11 +1,86 @@
 import { defaultGarmentOptions, type GarmentOption, type GarmentOptions } from "./options";
 
+export interface HoodieShapeOptions extends GarmentOptions {
+  readonly hoodNecklineWidthEase: number;
+  readonly hoodNecklineFrontDrop: number;
+  readonly hoodHeight: number;
+  readonly hoodDepth: number;
+}
+
 export interface HoodiePouchOptions extends GarmentOptions {
   readonly pocketWidth: number;
   readonly pocketHeight: number;
   readonly pocketOpeningLength: number;
   readonly pocketOpeningAngle: number;
   readonly pocketHemClearance: number;
+}
+
+/** Digital G04S shape seeds and bounds; none is a sourced measurement standard. */
+export const HOODIE_SHAPE_OPTION_DEFINITIONS: readonly GarmentOption[] = [
+  {
+    id: "hoodNecklineWidthEase",
+    label: "Neckline width ease per side",
+    unit: "cm",
+    group: "Hood",
+    help: "Adds the same width ease to the front and back necklines; reduce it if either neckline reaches the shoulder seam.",
+    defaultValue: 4,
+    min: 0,
+    max: 12,
+    step: 0.5,
+  },
+  {
+    id: "hoodNecklineFrontDrop",
+    label: "Front neckline drop",
+    unit: "cm",
+    group: "Hood",
+    help: "Deepens the Hoodie front neckline only; reduce it if the curve reaches the shoulder seam or falls below the underarm.",
+    defaultValue: 8,
+    min: 0,
+    max: 22,
+    step: 0.5,
+  },
+  {
+    id: "hoodHeight",
+    label: "Hood height",
+    unit: "cm",
+    group: "Hood",
+    help: "Sets the vertical rise from the neck seam at the shoulder notch to the crown. The same authored value is used from XS–XL; no head measurement is used.",
+    defaultValue: 32,
+    min: 20,
+    max: 50,
+    step: 1,
+  },
+  {
+    id: "hoodDepth",
+    label: "Hood depth",
+    unit: "cm",
+    group: "Hood",
+    help: "Sets the horizontal extent from the center-back seam to the face opening. The same authored value is used from XS–XL; no head measurement is used.",
+    defaultValue: 28,
+    min: 18,
+    max: 42,
+    step: 1,
+  },
+];
+
+export const HOODIE_SHAPE_DEFAULT_OPTIONS = defaultGarmentOptions(
+  HOODIE_SHAPE_OPTION_DEFINITIONS,
+) as HoodieShapeOptions;
+
+/** Fill missing values without clamping explicit zero or invalid raw inputs. */
+export function resolveHoodieShapeOptions(
+  raw: Partial<HoodieShapeOptions> = {},
+): HoodieShapeOptions {
+  return {
+    hoodNecklineWidthEase: raw.hoodNecklineWidthEase ??
+      HOODIE_SHAPE_DEFAULT_OPTIONS.hoodNecklineWidthEase,
+    hoodNecklineFrontDrop: raw.hoodNecklineFrontDrop ??
+      HOODIE_SHAPE_DEFAULT_OPTIONS.hoodNecklineFrontDrop,
+    hoodHeight: raw.hoodHeight ??
+      HOODIE_SHAPE_DEFAULT_OPTIONS.hoodHeight,
+    hoodDepth: raw.hoodDepth ??
+      HOODIE_SHAPE_DEFAULT_OPTIONS.hoodDepth,
+  };
 }
 
 /** Digital G04S seeds and control bounds; these are not sourced pattern standards. */
