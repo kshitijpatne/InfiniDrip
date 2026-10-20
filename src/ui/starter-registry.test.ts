@@ -6,15 +6,18 @@ import {
   starterOriginError,
   starterOriginForEntry,
 } from "./starter-registry";
+import { currentStyles, TEE_STYLES } from "../style/style";
+import { STANDARD_M } from "../drafting";
 
 const entry = STARTER_REGISTRY.entries[0]!;
 const blankEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.catalogKind === "blank")!;
 const relaxedEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-relaxed-digital-v1")!;
+const boxyCropEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-boxy-crop-digital-v1")!;
 const validOrigin = starterOriginForEntry(entry);
 
 describe("Tee Classic starter registry", () => {
   it("preserves the bounded existing custom-measurement candidate and its claim limits", () => {
-    expect(STARTER_REGISTRY.entries).toHaveLength(3);
+    expect(STARTER_REGISTRY.entries).toHaveLength(4);
     expect(entry).toMatchObject({
       entryId: "tee-classic-custom-v1",
       entryRevision: "2026-10-19.3",
@@ -81,7 +84,7 @@ describe("Tee Classic starter registry", () => {
     }
     expect(blankEntry.supportedControls.find((control) => control.fieldId === "shoulderWidth"))
       .toMatchObject({ kind: "measurement", min: 30, max: 70, step: 0.1, defaultValue: 45 });
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(2);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(3);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -111,8 +114,46 @@ describe("Tee Classic starter registry", () => {
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "ease"))
       .toMatchObject({ kind: "design", min: 13, max: 18, step: 1, defaultValue: 13 });
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "chestEase")).toBeUndefined();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(2);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(3);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
+  });
+
+  it("defines T03 as a complete editable Boxy Crop Tee profile without adding drop-shoulder construction", () => {
+    expect(boxyCropEntry).toMatchObject({
+      entryId: "tee-boxy-crop-digital-v1",
+      entryRevision: "2026-10-20.1",
+      recipeId: "tee",
+      recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+      catalogKind: "blank",
+      label: "Tee Boxy Crop · software defaults",
+      configuration: {
+        targetStyle: "Boxy crop",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 54, armholeDepth: 24, sleeveLength: 22, ease: 17 },
+        options: {},
+      },
+      gates: { b1: "pending", physical: "not-validated" },
+    });
+    expect(currentStyles({ ...STANDARD_M, ...boxyCropEntry.configuration.measurements }, TEE_STYLES)).toEqual(["Boxy crop"]);
+    expect(boxyCropEntry.supportedControls).toHaveLength(7);
+    for (const [fieldId, defaultValue] of Object.entries(boxyCropEntry.configuration.measurements)) {
+      expect(boxyCropEntry.supportedControls.find((control) => control.fieldId === fieldId)?.defaultValue).toBe(defaultValue);
+    }
+    expect(boxyCropEntry.supportedControls.find((control) => control.fieldId === "ease"))
+      .toMatchObject({ kind: "design", min: 13, max: 30, step: 1, defaultValue: 17 });
+    expect(boxyCropEntry.supportedControls.find((control) => control.fieldId === "length"))
+      .toMatchObject({ kind: "design", min: 40, max: 57, step: 1, defaultValue: 54 });
+    expect(boxyCropEntry.supportedControls.find((control) => control.fieldId === "chestEase")).toBeUndefined();
+    expect(boxyCropEntry.intent.construction).toContain("standard shoulder/sleeve attachment");
+    expect(boxyCropEntry.intent.construction).toContain("drop-shoulder geometry is not implemented");
+    expect(boxyCropEntry.intent.fit).toContain("not validated fit targets");
+    expect(boxyCropEntry.limits.join(" ")).toContain("17 cm ease and 54 cm length are product choices");
+    expect(boxyCropEntry.limits.join(" ")).toContain("No physical-fit, comfort, wear, material-performance");
+    expect(starterControlError(boxyCropEntry.entryId, "ease", 12)).toContain("13–30 cm");
+    expect(starterControlError(boxyCropEntry.entryId, "ease", 31)).toContain("13–30 cm");
+    expect(starterControlError(boxyCropEntry.entryId, "length", 39)).toContain("40–57 cm");
+    expect(starterControlError(boxyCropEntry.entryId, "length", 58)).toContain("40–57 cm");
+    expect(starterControlError(boxyCropEntry.entryId, "ease", 18)).toBeNull();
+    expect(starterControlError(boxyCropEntry.entryId, "length", 55)).toBeNull();
   });
 
   it("creates and strictly validates an order-independent persisted origin snapshot", () => {
@@ -185,6 +226,20 @@ describe("Tee Classic starter registry", () => {
       targetStyle: "Relaxed tee",
       measurements: { ...origin.configurationSnapshot.measurements },
       options: { chestEase: 7 },
+    } })).toContain("revision is unavailable");
+  });
+
+  it("creates and strictly validates the T03 origin snapshot separately from edited values", () => {
+    const origin = starterOriginForEntry(boxyCropEntry);
+    expect(origin.configurationSnapshot).toEqual({
+      targetStyle: "Boxy crop",
+      measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 54, armholeDepth: 24, sleeveLength: 22, ease: 17 },
+      options: {},
+    });
+    expect(starterOriginError(origin)).toBeNull();
+    expect(starterOriginError({ ...origin, configurationSnapshot: {
+      ...origin.configurationSnapshot,
+      measurements: { ...origin.configurationSnapshot.measurements, length: 55 },
     } })).toContain("revision is unavailable");
   });
 
