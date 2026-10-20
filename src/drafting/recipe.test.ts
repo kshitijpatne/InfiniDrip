@@ -10,6 +10,27 @@ import { derive } from "./measurements";
 import { necklineEdge } from "./neckline";
 import { garmentReport } from "../guidance/garment-check";
 import { wovenShirtAllowances } from "./shirt";
+import { CREWNECK } from "./recipe";
+import {
+  CREWNECK_DEFAULT_OPTIONS,
+  CREWNECK_FIELDS,
+  CREWNECK_OPTION_DEFINITIONS,
+  CREWNECK_STABLE_KNIT_DEFAULT,
+  CREWNECK_STYLES,
+} from "./crewneck-contract";
+import {
+  CREWNECK_ALLOWANCES,
+  CREWNECK_GRADE,
+  CREWNECK_NOTCHES,
+  CREWNECK_POMS,
+  CREWNECK_SIZES,
+  CREWNECK_TECH_PACK,
+} from "./crewneck-tables";
+import { CREWNECK_ROLE_ORDER } from "./crewneck";
+import { crewneckBandMeasurements } from "./crewneck-components";
+import { gradeRecipeRun } from "./recipe";
+import { STRETCH_FABRICS } from "./ease";
+import { CREWNECK as BARREL_CREWNECK, CREWNECK_STABLE_KNIT_DEFAULT as BARREL_STABLE_KNIT } from "./index";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
@@ -301,4 +322,149 @@ describe("recipe.frontNeckline/backNeckline actually match what draft() produces
       }
     });
   }
+});
+
+describe("internal crewneck recipe contract (S1110)", () => {
+  it("defines only the accepted existing fields, digital style, and stable option contract", () => {
+    expect(CREWNECK_FIELDS).toEqual([
+      "chest", "shoulderWidth", "bicep", "length", "armholeDepth",
+      "sleeveLength", "ease", "neckDrop", "neckWidthEase",
+    ]);
+    expect(CREWNECK.styles).toEqual(CREWNECK_STYLES);
+    expect(CREWNECK_STYLES).toEqual([{
+      name: "Classic crewneck sweatshirt",
+      ranges: { ease: [7, 12], length: [59, 74] },
+    }]);
+    expect(CREWNECK.options).toBe(CREWNECK_OPTION_DEFINITIONS);
+    expect(CREWNECK_OPTION_DEFINITIONS.map(({ id, defaultValue, min, max, step }) =>
+      [id, defaultValue, min, max, step])).toEqual([
+      ["neckbandDepth", 2.5, 1, 8, 0.5],
+      ["cuffDepth", 6, 2, 15, 0.5],
+      ["hemBandDepth", 6, 2, 15, 0.5],
+      ["neckbandLength", 40.5, 1, 120, 0.5],
+      ["cuffLength", 31.5, 1, 100, 0.5],
+      ["hemBandLength", 93.5, 1, 200, 0.5],
+    ]);
+    expect(CREWNECK_DEFAULT_OPTIONS).toEqual({
+      neckbandDepth: 2.5,
+      cuffDepth: 6,
+      hemBandDepth: 6,
+      neckbandLength: 40.5,
+      cuffLength: 31.5,
+      hemBandLength: 93.5,
+    });
+    expect(BARREL_CREWNECK).toBe(CREWNECK);
+    expect(BARREL_STABLE_KNIT).toBe(CREWNECK_STABLE_KNIT_DEFAULT);
+    expect(CREWNECK_STABLE_KNIT_DEFAULT).toEqual({
+      name: "Stable sweatshirt knit (10% width seed)",
+      family: "knit",
+      stretchPercent: 10,
+    });
+    expect(STRETCH_FABRICS).not.toContain(CREWNECK_STABLE_KNIT_DEFAULT);
+  });
+
+  it("exports a fully-tabled internal recipe but withholds picker and material activation", () => {
+    expect(CREWNECK.name).toBe("crewneck");
+    expect(CREWNECK.label).toBe("Crewneck sweatshirt");
+    expect(CREWNECK.region).toBe("upper");
+    expect(CREWNECK.editRole).toBe("front");
+    expect(GARMENTS).not.toContain(CREWNECK);
+    expect(garmentByName("crewneck")).toBe(TEE);
+    expect(CREWNECK.grade).toBe(CREWNECK_GRADE);
+    expect(CREWNECK_GRADE).toBe(TEE.grade);
+    expect(CREWNECK.sizes).toBe(CREWNECK_SIZES);
+    expect(CREWNECK_SIZES.map(({ label, step }) => [label, step])).toEqual([
+      ["XS", -2], ["S", -1], ["M", 0], ["L", 1], ["XL", 2],
+    ]);
+    expect(CREWNECK.resolveOptionsForSize).toBeTypeOf("function");
+    expect(CREWNECK.frontNeckline?.(STANDARD_M)).toEqual({
+      shape: "crew", widthEase: STANDARD_M.neckWidthEase, frontDrop: STANDARD_M.neckDrop,
+    });
+    expect(CREWNECK.backNeckline?.(STANDARD_M)).toEqual(CREWNECK.frontNeckline?.(STANDARD_M));
+
+    const drafted = CREWNECK.draft(STANDARD_M);
+    expect(Object.keys(drafted.roles)).toEqual(CREWNECK_ROLE_ORDER);
+    expect(CREWNECK.checks(drafted, STANDARD_M).map((check) => check.name)).toContain("Hem square to the fold");
+    expect(CREWNECK.sizeMetric(drafted)).toBeGreaterThan(0);
+    expect(CREWNECK.draft(STANDARD_M, {}).roles.neckband?.edges[0]?.kind).toBe("line");
+    expect(crewneckBandMeasurements(drafted, CREWNECK_DEFAULT_OPTIONS).every((item) => item.analysis.calculable)).toBe(true);
+  });
+
+  it("declares matching marks, seam allowances, live digital POMs, and an explicit BOM limitation", () => {
+    const drafted = CREWNECK.draft(STANDARD_M, CREWNECK_DEFAULT_OPTIONS);
+    const draftedPieces = blockPieces(drafted);
+    expect(CREWNECK_NOTCHES.map(({ pieceName }) => pieceName)).toEqual(draftedPieces.map(({ name }) => name));
+    expect(CREWNECK.allowances).toEqual(CREWNECK_ALLOWANCES);
+    expect(CREWNECK_ALLOWANCES).toEqual({ default: 1, byEdge: { centerFront: 0, centerBack: 0 } });
+    expect(CREWNECK.poms).toBe(CREWNECK_POMS);
+    expect(CREWNECK_POMS.every((pom) => pom.tolerance === undefined)).toBe(true);
+    expect(CREWNECK_POMS.every((pom) => Number.isFinite(pom.measure(drafted)))).toBe(true);
+    for (const pom of CREWNECK_POMS) {
+      if (pom.anchor) {
+        const point = pom.anchor(drafted);
+        expect(Number.isFinite(point.x) && Number.isFinite(point.y)).toBe(true);
+      }
+    }
+    expect(CREWNECK_POMS.find((pom) => pom.label === "Neckband join length (digital)")?.measure(drafted)).toBeCloseTo(40.5);
+    expect(CREWNECK_POMS.find((pom) => pom.label === "Left cuff join length (digital)")?.measure(drafted)).toBeCloseTo(31.5);
+    expect(CREWNECK_POMS.find((pom) => pom.label === "Hem-band join length (digital)")?.measure(drafted)).toBeCloseTo(93.5);
+
+    expect(CREWNECK.techPack).toBe(CREWNECK_TECH_PACK);
+    const rib = CREWNECK_TECH_PACK.bom.find((row) => row.material === "Rib knit (secondary)");
+    expect(rib?.qty).toContain("yardage unknown");
+    expect(CREWNECK_TECH_PACK.constructionNotice).toContain("no physical sample");
+    expect(CREWNECK_TECH_PACK.construction.join(" ")).toContain("greatest-stretch direction mark");
+  });
+
+  it("grades the live band joins proportionally across XS–XL without changing the selected ratio", () => {
+    const graded = gradeRecipeRun(CREWNECK, STANDARD_M, CREWNECK.sizes, CREWNECK_DEFAULT_OPTIONS);
+    expect(graded.map(({ label }) => label)).toEqual(["XS", "S", "M", "L", "XL"]);
+    const bySize = graded.map(({ block }) => crewneckBandMeasurements(block, CREWNECK_DEFAULT_OPTIONS));
+    const base = bySize[2]!;
+    for (const role of ["neckband", "cuffLeft", "cuffRight", "hemBand"] as const) {
+      const baseBand = base.find((item) => item.role === role)!;
+      const baseRatio = baseBand.bandEdgeLengthCm / baseBand.openingLengthCm;
+      for (const size of bySize) {
+        const current = size.find((item) => item.role === role)!;
+        expect(current.bandEdgeLengthCm / current.openingLengthCm).toBeCloseTo(baseRatio, 9);
+      }
+    }
+  });
+
+  it("reports ratios as math and gives actionable corrections for invalid options and geometry", () => {
+    const goodBlock = CREWNECK.draft(STANDARD_M, CREWNECK_DEFAULT_OPTIONS);
+    const good = CREWNECK.guidance(goodBlock, STANDARD_M, CREWNECK_DEFAULT_OPTIONS);
+    const ratioNote = good.find((note) => note.field === "neckbandLength");
+    expect(ratioNote?.level).toBe("info");
+    expect(ratioNote?.text).toContain("opening/band");
+    expect(ratioNote?.text).toContain("implied required stretch");
+    expect(ratioNote?.text).toContain("not a material");
+    expect(good.some((note) => note.text.includes("Stable sweatshirt knit (10% width seed)"))).toBe(true);
+
+    const invalidOptions = { ...CREWNECK_DEFAULT_OPTIONS, neckbandLength: 0, cuffDepth: Number.NaN };
+    const invalidBlock = CREWNECK.draft(STANDARD_M, invalidOptions);
+    const invalid = CREWNECK.guidance(invalidBlock, STANDARD_M, invalidOptions);
+    expect(invalid.some((note) => note.level === "warn" && note.field === "neckbandLength" && note.text.includes("greater than zero"))).toBe(true);
+    expect(invalid.some((note) => note.level === "warn" && note.field === "cuffDepth" && note.text.includes("finite"))).toBe(true);
+    expect(invalidOptions.neckbandLength).toBe(0);
+    expect(Number.isNaN(invalidOptions.cuffDepth)).toBe(true);
+
+    const outOfRangeOptions = { ...CREWNECK_DEFAULT_OPTIONS, hemBandLength: 201 };
+    const outOfRangeBlock = CREWNECK.draft(STANDARD_M, outOfRangeOptions);
+    const outOfRange = CREWNECK.guidance(outOfRangeBlock, STANDARD_M, outOfRangeOptions);
+    expect(outOfRange.some((note) => note.level === "warn" && note.field === "hemBandLength" && note.text.includes("1–200"))).toBe(true);
+    expect(outOfRangeOptions.hemBandLength).toBe(201);
+
+    const invalidMeasurements = { ...STANDARD_M, chest: Number.NaN };
+    const invalidGeometry = CREWNECK.guidance(
+      CREWNECK.draft(invalidMeasurements, CREWNECK_DEFAULT_OPTIONS),
+      invalidMeasurements,
+      CREWNECK_DEFAULT_OPTIONS,
+    );
+    expect(invalidGeometry.some((note) => note.level === "warn" && note.text.includes("actual walked opening"))).toBe(true);
+
+    const tinyOptions = { ...CREWNECK_DEFAULT_OPTIONS, neckbandLength: Number.MIN_VALUE };
+    const tiny = CREWNECK.guidance(CREWNECK.draft(STANDARD_M, tinyOptions), STANDARD_M, tinyOptions);
+    expect(tiny.some((note) => note.level === "warn" && note.text.includes("cannot be represented"))).toBe(true);
+  });
 });

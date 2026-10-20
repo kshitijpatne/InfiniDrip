@@ -62,6 +62,10 @@ import {
   SHORTS_TECH_PACK,
 } from "./shorts-tables";
 import type { GarmentGrammar } from "./grammar";
+import { draftCrewneck } from "./crewneck";
+import { resolveCrewneckOptionsForSize } from "./crewneck-components";
+import { CREWNECK_FIELDS, CREWNECK_OPTION_DEFINITIONS, CREWNECK_DEFAULT_OPTIONS, CREWNECK_STYLES } from "./crewneck-contract";
+import { CREWNECK_ALLOWANCES, CREWNECK_GRADE, CREWNECK_NOTCHES, CREWNECK_POMS, CREWNECK_SIZES, CREWNECK_TECH_PACK, crewneckGuidance } from "./crewneck-tables";
 
 /**
  * How a garment declares its production-readiness checks, so the checker never
@@ -565,6 +569,29 @@ export const SHORTS: GarmentRecipe = {
   options: SHORTS_OPTION_DEFINITIONS,
   allowances: SHORTS_ALLOWANCES,
   tiledPdfLocalCoordinates: true,
+};
+
+export const CREWNECK: GarmentRecipe = {
+  name: "crewneck",
+  label: "Crewneck sweatshirt",
+  region: "upper",
+  editRole: "front",
+  fields: CREWNECK_FIELDS,
+  styles: CREWNECK_STYLES,
+  draft: (m, options = CREWNECK_DEFAULT_OPTIONS) => draftCrewneck(m, options),
+  notches: CREWNECK_NOTCHES,
+  poms: CREWNECK_POMS,
+  grade: CREWNECK_GRADE,
+  sizes: CREWNECK_SIZES,
+  checks: sleevedTopPanelChecks(true),
+  guidance: (block, m, options = CREWNECK_DEFAULT_OPTIONS) => crewneckGuidance(block, m, options),
+  sizeMetric: frontHemWidth,
+  techPack: CREWNECK_TECH_PACK,
+  options: CREWNECK_OPTION_DEFINITIONS,
+  resolveOptionsForSize: resolveCrewneckOptionsForSize,
+  allowances: CREWNECK_ALLOWANCES,
+  frontNeckline: (m) => ({ shape: "crew", widthEase: m.neckWidthEase, frontDrop: m.neckDrop }),
+  backNeckline: (m) => ({ shape: "crew", widthEase: m.neckWidthEase, frontDrop: m.neckDrop }),
 };
 
 export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS];
