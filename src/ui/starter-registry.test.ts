@@ -16,11 +16,12 @@ const boxyCropEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.ent
 const cropEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-cropped-digital-v1")!;
 const longlineEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-longline-digital-v1")!;
 const vNeckEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-vneck-digital-v1")!;
+const scoopEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-scoop-digital-v1")!;
 const validOrigin = starterOriginForEntry(entry);
 
 describe("Tee Classic starter registry", () => {
   it("preserves the bounded existing custom-measurement candidate and its claim limits", () => {
-    expect(STARTER_REGISTRY.entries).toHaveLength(7);
+    expect(STARTER_REGISTRY.entries).toHaveLength(8);
     expect(entry).toMatchObject({
       entryId: "tee-classic-custom-v1",
       entryRevision: "2026-10-19.3",
@@ -87,7 +88,7 @@ describe("Tee Classic starter registry", () => {
     }
     expect(blankEntry.supportedControls.find((control) => control.fieldId === "shoulderWidth"))
       .toMatchObject({ kind: "measurement", min: 30, max: 70, step: 0.1, defaultValue: 45 });
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(6);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(7);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -117,7 +118,7 @@ describe("Tee Classic starter registry", () => {
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "ease"))
       .toMatchObject({ kind: "design", min: 13, max: 18, step: 1, defaultValue: 13 });
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "chestEase")).toBeUndefined();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(6);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(7);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -265,6 +266,36 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(vNeckEntry.entryId, "teeVNeckDropCm", 15.5)).toContain("0–15 cm");
     expect(starterControlError(vNeckEntry.entryId, "teeVNeckDropCm", 5.25)).toContain("0.5 cm increments");
     expect(starterControlError(vNeckEntry.entryId, "teeVNeckDropCm", 7.5)).toBeNull();
+  });
+
+  it("defines T07 as an editable Scoop Tee with a bounded software default and separate claim gates", () => {
+    expect(scoopEntry).toMatchObject({
+      entryId: "tee-scoop-digital-v1",
+      entryRevision: "2026-10-21.1",
+      recipeId: "tee",
+      recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+      catalogKind: "blank",
+      label: "Tee Scoop-neck · software defaults",
+      configuration: {
+        targetStyle: "Classic tee",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+        options: { chestEase: 7, teeScoopNeckDropCm: 5 },
+      },
+      gates: { b1: "pending", physical: "not-validated" },
+    });
+    expect(scoopEntry.supportedControls).toHaveLength(9);
+    expect(scoopEntry.supportedControls.find((control) => control.fieldId === "teeScoopNeckDropCm"))
+      .toMatchObject({ kind: "option", min: 0, max: 15, step: 0.5, defaultValue: 5 });
+    expect(scoopEntry.intent.fit).toContain("5 cm added front depth");
+    expect(scoopEntry.intent.fit).toContain("not validated fit targets");
+    expect(scoopEntry.intent.construction).toContain("provisional rectangle derived from the active neckline seamline");
+    expect(scoopEntry.limits.join(" ")).toContain("fabric stretch/recovery and physical construction have not been validated");
+    expect(scoopEntry.limits.join(" ")).toContain("No physical-fit, comfort, wear, material-performance");
+    expect(starterControlError(scoopEntry.entryId, "teeScoopNeckDropCm", -0.5)).toContain("0–15 cm");
+    expect(starterControlError(scoopEntry.entryId, "teeScoopNeckDropCm", 15.5)).toContain("0–15 cm");
+    expect(starterControlError(scoopEntry.entryId, "teeScoopNeckDropCm", 5.25)).toContain("0.5 cm increments");
+    expect(starterControlError(scoopEntry.entryId, "teeScoopNeckDropCm", 7.5)).toBeNull();
+    expect(starterEntryById(scoopEntry.entryId)).toBe(scoopEntry);
   });
 
   it("creates and strictly validates an order-independent persisted origin snapshot", () => {

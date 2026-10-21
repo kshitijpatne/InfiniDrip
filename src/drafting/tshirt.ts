@@ -24,36 +24,91 @@ import type { Component } from "./component";
 import type { GarmentOption, GarmentOptions } from "./options";
 
 export const TEE_V_NECK_DROP_OPTION_ID = "teeVNeckDropCm";
+export const TEE_SCOOP_NECK_DROP_OPTION_ID = "teeScoopNeckDropCm";
 
 export function isTeeVNeckActive(options: GarmentOptions = {}): boolean {
   return Object.prototype.hasOwnProperty.call(options, TEE_V_NECK_DROP_OPTION_ID);
 }
 
-export function teeFrontNecklineParams(options: GarmentOptions = {}): NecklineParams {
-  if (!isTeeVNeckActive(options)) return NECKLINE_DEFAULT;
-  return {
-    shape: "v",
-    widthEase: 0,
-    frontDrop: options[TEE_V_NECK_DROP_OPTION_ID]!,
-  };
+export function isTeeScoopNeckActive(options: GarmentOptions = {}): boolean {
+  return Object.prototype.hasOwnProperty.call(options, TEE_SCOOP_NECK_DROP_OPTION_ID);
 }
 
-export function teeVNeckNotes(m: Measurements, options: GarmentOptions = {}): Note[] {
-  if (!isTeeVNeckActive(options)) return [];
+export function hasConflictingTeeNecklineOptions(options: GarmentOptions = {}): boolean {
+  return isTeeVNeckActive(options) && isTeeScoopNeckActive(options);
+}
+
+export function hasTeeNecklineOverride(options: GarmentOptions = {}): boolean {
+  return isTeeVNeckActive(options) || isTeeScoopNeckActive(options);
+}
+
+export function teeFrontNecklineParams(options: GarmentOptions = {}): NecklineParams {
+  if (hasConflictingTeeNecklineOptions(options)) return NECKLINE_DEFAULT;
+  if (isTeeVNeckActive(options)) {
+    return {
+      shape: "v",
+      widthEase: 0,
+      frontDrop: options[TEE_V_NECK_DROP_OPTION_ID]!,
+    };
+  }
+  if (isTeeScoopNeckActive(options)) {
+    return {
+      shape: "scoop",
+      widthEase: 0,
+      frontDrop: options[TEE_SCOOP_NECK_DROP_OPTION_ID]!,
+    };
+  }
+  return NECKLINE_DEFAULT;
+}
+
+function teeNecklineGuardrailNotes(
+  m: Measurements,
+  options: GarmentOptions,
+  optionId: string,
+  shapeLabel: "V" | "Scoop",
+): Note[] {
   const derived = derive(m);
   const notes = necklineEdge("front", derived.neckWidthHalf, derived.frontNeckDepth,
     derived.shoulderHalf, m.armholeDepth, teeFrontNecklineParams(options)).notes;
   return [
     ...notes.filter((note) => note.field === "neckDrop").map((note) => ({
       ...note,
-      field: "option-" + TEE_V_NECK_DROP_OPTION_ID,
-      text: "The front V drops below the underarm; reduce the V drop or increase armhole depth.",
+      field: "option-" + optionId,
+      text: shapeLabel === "V"
+        ? "The front V drops below the underarm; reduce the V drop or increase armhole depth."
+        : "The front Scoop drops below the underarm; reduce its extra depth or increase armhole depth.",
     })),
     ...notes.filter((note) => note.field === "neckWidthEase").map((note) => ({
       ...note,
       field: "shoulderWidth",
-      text: "The front V reaches the shoulder seam; review the shoulder width or neckline placement.",
+      text: shapeLabel === "V"
+        ? "The front V reaches the shoulder seam; review the shoulder width or neckline placement."
+        : "The front Scoop reaches the shoulder seam; review shoulder width or neckline placement.",
     })),
+  ];
+}
+
+export function teeVNeckNotes(m: Measurements, options: GarmentOptions = {}): Note[] {
+  if (!isTeeVNeckActive(options) || hasConflictingTeeNecklineOptions(options)) return [];
+  return teeNecklineGuardrailNotes(m, options, TEE_V_NECK_DROP_OPTION_ID, "V");
+}
+
+export function teeScoopNeckNotes(m: Measurements, options: GarmentOptions = {}): Note[] {
+  if (!isTeeScoopNeckActive(options) || hasConflictingTeeNecklineOptions(options)) return [];
+  return teeNecklineGuardrailNotes(m, options, TEE_SCOOP_NECK_DROP_OPTION_ID, "Scoop");
+}
+
+export function teeNecklineNotes(m: Measurements, options: GarmentOptions = {}): Note[] {
+  if (hasConflictingTeeNecklineOptions(options)) {
+    const message = "Both V and Scoop neckline options are active. Reset one option; while they conflict, the preview uses crew. Both entered values are preserved.";
+    return [
+      { field: "option-" + TEE_V_NECK_DROP_OPTION_ID, level: "warn", text: message },
+      { field: "option-" + TEE_SCOOP_NECK_DROP_OPTION_ID, level: "warn", text: message },
+    ];
+  }
+  return [
+    ...teeVNeckNotes(m, options),
+    ...teeScoopNeckNotes(m, options),
   ];
 }
 type TeeBodiceParams = {
@@ -106,7 +161,7 @@ export const TEE_GRAMMAR = garmentGrammar(
     componentNode("front", "bodice", teeBodice, (context) => ({
       position: "front" as const,
       ...(context.options.chestEase === undefined ? {} : { chestEase: context.options.chestEase }),
-      ...(isTeeVNeckActive(context.options)
+      ...(hasTeeNecklineOverride(context.options)
         ? { necklineParams: teeFrontNecklineParams(context.options) }
         : {}),
     })),

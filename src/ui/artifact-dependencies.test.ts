@@ -15,7 +15,11 @@ import { getAllFieldDefinitions, getFieldDefinitions } from "./field-provenance"
 
 function defaultOptions(recipeName: string): GarmentOptions {
   const recipe = GARMENTS.find((item) => item.name === recipeName)!;
-  return Object.fromEntries((recipe.options ?? []).map((option) => [option.id, option.defaultValue]));
+  // Optional choices are inactive until explicitly selected; loading all their
+  // software defaults together can create impossible conflicting states.
+  return Object.fromEntries((recipe.options ?? [])
+    .filter((option) => !option.optional)
+    .map((option) => [option.id, option.defaultValue]));
 }
 
 function adjacentAllowedValue(value: number, min: number, max: number, step: number): number {

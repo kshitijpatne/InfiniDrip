@@ -18,7 +18,16 @@ import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
-import { draftTshirt, TEE_GRAMMAR, isTeeVNeckActive, teeFrontNecklineParams, teeVNeckNotes, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
+import {
+  draftTshirt,
+  TEE_GRAMMAR,
+  hasConflictingTeeNecklineOptions,
+  isTeeVNeckActive,
+  teeFrontNecklineParams,
+  teeNecklineNotes,
+  TEE_SCOOP_NECK_DROP_OPTION_ID,
+  TEE_V_NECK_DROP_OPTION_ID,
+} from "./tshirt";
 import { draftFitted, FITTED_GRAMMAR, FITTED_DART_OPTIONS, fittedGuidance } from "./fitted";
 import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
@@ -202,15 +211,31 @@ export const TEE: GarmentRecipe = {
       optional: true,
       optionalSetLabel: "Use V neckline",
       optionalResetLabel: "Use crew neckline",
-      optionalSetStatus: "V neckline active. Additional front drop: {value} {unit}.",
-      optionalUnsetStatus: "Crew neckline active. Set a value to switch to the V neckline.",
+      optionalSetStatus: "V neckline active only while Scoop is inactive. Additional front drop: {value} {unit}.",
+      optionalUnsetStatus: "V option inactive; crew remains unless another Tee neckline is active.",
+    },
+    {
+      id: TEE_SCOOP_NECK_DROP_OPTION_ID,
+      label: "Front Scoop extra depth",
+      unit: "cm",
+      group: "Neckline",
+      help: "Adds depth to the existing rounded front neckline. The 0–15 cm range and 5 cm default are software choices, not fit guidance; reduce the extra depth or review armhole depth when guidance appears.",
+      defaultValue: 5,
+      min: 0,
+      max: 15,
+      step: 0.5,
+      optional: true,
+      optionalSetLabel: "Use Scoop neckline",
+      optionalResetLabel: "Use crew neckline",
+      optionalSetStatus: "Rounded Scoop active only while V is inactive. Additional front drop: {value} {unit}.",
+      optionalUnsetStatus: "Scoop option inactive; crew remains unless another Tee neckline is active.",
     },
   ],
-  guidance: (block, m, options = {}) => [...sleevedTopGuidance(block, m), ...teeVNeckNotes(m, options)],
+  guidance: (block, m, options = {}) => [...sleevedTopGuidance(block, m), ...teeNecklineNotes(m, options)],
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
-  // The optional Tee V-depth selects a straight front V; when absent, the front
-  // and back remain crew. The back never consumes the V-depth option.
+  // The optional Tee neckline option selects one front shape; absent options
+  // keep crew. The back never consumes a front neckline option.
   frontNeckline: (_m, options = {}) => teeFrontNecklineParams(options),
   backNeckline: () => NECKLINE_DEFAULT,
   techPack: {
@@ -226,6 +251,13 @@ export const TEE: GarmentRecipe = {
     ],
   },
   techPackForOptions: function (this: GarmentRecipe, options) {
+    if (hasConflictingTeeNecklineOptions(options)) {
+      return {
+        bom: this.techPack.bom.filter((row) => row.placement !== "Neckband"),
+        constructionNotice: "Both V and Scoop neckline options are active. Reset one before generating neckline finishing output; no neckband geometry, cut template, or sewing steps are provided while they conflict.",
+        construction: this.techPack.construction.filter((step) => !step.startsWith("Attach the neckband")),
+      };
+    }
     if (!isTeeVNeckActive(options)) return this.techPack;
     return {
       bom: this.techPack.bom.filter((row) => row.placement !== "Neckband"),

@@ -175,7 +175,8 @@ describe("immutable revision and frozen output records", () => {
     delete historicalDesign.workspace.starterOrigin;
     const historicalObservations = v2Payload.fieldObservations.observations
       .filter((observation) => observation.semanticId !== "style.tee.chest-ease"
-        && observation.semanticId !== "style.tee.tee-vneck-drop-cm");
+        && observation.semanticId !== "style.tee.tee-vneck-drop-cm"
+        && observation.semanticId !== "style.tee.tee-scoop-neck-drop-cm");
     const legacyPayload: LegacyStyleRevisionPayload = {
       ...v1Fields,
       design: historicalDesign,

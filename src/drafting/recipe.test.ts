@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
 import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
-import { TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
+import { TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -180,6 +180,22 @@ describe("recipe callbacks", () => {
     expect(declaredBack).toEqual({ shape: "crew", widthEase: 0, frontDrop: 0 });
   });
 
+  it("drafts an option-driven rounded Scoop front with a crew back and matching output seamline", () => {
+    const options = { [TEE_SCOOP_NECK_DROP_OPTION_ID]: 5 };
+    const block = TEE.draft(STANDARD_M, options);
+    const crewBlock = TEE.draft(STANDARD_M, {});
+    const front = pieceEdge(rolePiece(block, "front"), "neckline");
+    const back = pieceEdge(rolePiece(block, "back"), "neckline");
+    const crewFront = pieceEdge(rolePiece(crewBlock, "front"), "neckline");
+
+    expect(front.kind).toBe("curve");
+    expect(back.kind).toBe("curve");
+    expect(crewFront.kind).toBe("curve");
+    expect(edgeLength(front)).toBeGreaterThan(edgeLength(crewFront));
+    expect(TEE.frontNeckline!(STANDARD_M, options)).toEqual({ shape: "scoop", widthEase: 0, frontDrop: 5 });
+    expect(TEE.backNeckline!(STANDARD_M)).toEqual({ shape: "crew", widthEase: 0, frontDrop: 0 });
+  });
+
   it("withholds generic neckband steps and BOM only while V-neck geometry is active", () => {
     const crew = TEE.techPackForOptions!({});
     const vNeck = TEE.techPackForOptions!({ [TEE_V_NECK_DROP_OPTION_ID]: 5 });
@@ -190,6 +206,23 @@ describe("recipe callbacks", () => {
     expect(vNeck.constructionNotice).toContain("V-neck finishing is not defined");
     expect(vNeck.bom.some((row) => row.placement === "Neckband")).toBe(false);
     expect(vNeck.construction.some((step) => step.startsWith("Attach the neckband"))).toBe(false);
+  });
+
+  it("keeps the provisional rounded-loop output for Scoop and explicitly withholds it on an option conflict", () => {
+    const scoop = TEE.techPackForOptions!({ [TEE_SCOOP_NECK_DROP_OPTION_ID]: 5 });
+    const conflictOptions = {
+      [TEE_SCOOP_NECK_DROP_OPTION_ID]: 5,
+      [TEE_V_NECK_DROP_OPTION_ID]: 6,
+    };
+    const conflict = TEE.techPackForOptions!(conflictOptions);
+
+    expect(scoop).toBe(TEE.techPack);
+    expect(scoop.bom.some((row) => row.placement === "Neckband")).toBe(true);
+    expect(scoop.construction.some((step) => step.startsWith("Attach the neckband"))).toBe(true);
+    expect(TEE.frontNeckline!(STANDARD_M, conflictOptions)).toEqual({ shape: "crew", widthEase: 0, frontDrop: 0 });
+    expect(conflict.constructionNotice).toContain("Both V and Scoop neckline options are active");
+    expect(conflict.bom.some((row) => row.placement === "Neckband")).toBe(false);
+    expect(conflict.construction.some((step) => step.startsWith("Attach the neckband"))).toBe(false);
   });
 });
 

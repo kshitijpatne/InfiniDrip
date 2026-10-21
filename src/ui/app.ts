@@ -5,7 +5,13 @@
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY, withModeledPomLabels, optionalOptionStatusMessage, optionalOptionActionLabel } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
-import { TEE_NECKBAND_OPTIONS, isTeeVNeckActive, teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
+import {
+  TEE_NECKBAND_OPTIONS,
+  hasConflictingTeeNecklineOptions,
+  isTeeVNeckActive,
+  teeNeckbandSettings,
+  teeNeckbandTemplateSvg,
+} from "../drafting/tshirt";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
@@ -2977,9 +2983,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     });
     teeSelectedTechPackExport.hidden = recipe.name !== "tee";
     teeNeckbandExportScope.hidden = recipe.name !== "tee";
-    const teeVNeckActive = recipe.name === "tee" && isTeeVNeckActive(recipeOptions());
+    const currentTeeOptions = recipeOptions();
+    const teeVNeckActive = recipe.name === "tee" && isTeeVNeckActive(currentTeeOptions);
+    const teeNecklineConflict = recipe.name === "tee" && hasConflictingTeeNecklineOptions(currentTeeOptions);
     teeNeckbandControls.disabled = teeVNeckActive;
     teeNeckbandVLimitation.hidden = !teeVNeckActive;
+    if (teeVNeckActive) {
+      teeNeckbandVLimitation.textContent = teeNecklineConflict
+        ? "Both V and Scoop options are active. Reset one before generating neckband output; the preview uses crew while the conflict remains."
+        : "The V-neck finish has no accepted band geometry. The current rectangular-loop template does not model the V-point join and is unavailable for this candidate.";
+    }
     try {
       drawCurrentView();
     } catch (error) {
@@ -3049,7 +3062,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           : "Review Style and the current digital checks before exporting."
         : needsArtwork ? "Add artwork on the Style panel first." : "";
       if (button.id === "export-tee-neckband" && recipe.name === "tee" && isTeeVNeckActive(recipeOptions())) {
-        button.title = "Unavailable for this V-neck candidate because the rectangular-loop template does not model the V-point join.";
+        button.title = hasConflictingTeeNecklineOptions(recipeOptions())
+          ? "Unavailable while V and Scoop options conflict. Reset one option; the preview uses crew while the conflict remains."
+          : "Unavailable for this V-neck candidate because the rectangular-loop template does not model the V-point join.";
       }
     });
     if (errors.size > 0) {
