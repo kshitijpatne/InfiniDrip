@@ -9,8 +9,13 @@ import {
   draftTshirt,
   armholeLength,
   isTeeVNeckActive,
+  isTeeScoopNeckActive,
+  hasConflictingTeeNecklineOptions,
   teeFrontNecklineParams,
+  teeNecklineNotes,
+  teeScoopNeckNotes,
   teeVNeckNotes,
+  TEE_SCOOP_NECK_DROP_OPTION_ID,
   TEE_V_NECK_DROP_OPTION_ID,
 } from "./tshirt";
 import { rolePiece } from "./block";
@@ -103,5 +108,57 @@ describe("Tee V-neck option", () => {
       text: "The front V reaches the shoulder seam; review the shoulder width or neckline placement.",
     });
     expect(active[TEE_V_NECK_DROP_OPTION_ID]).toBe(15);
+  });
+});
+
+describe("Tee Scoop-neck option", () => {
+  it("selects the rounded front scoop by option presence and preserves the crew default", () => {
+    expect(isTeeScoopNeckActive({})).toBe(false);
+    expect(isTeeScoopNeckActive({ [TEE_SCOOP_NECK_DROP_OPTION_ID]: 0 })).toBe(true);
+    expect(teeFrontNecklineParams()).toEqual({ shape: "crew", widthEase: 0, frontDrop: 0 });
+    expect(teeFrontNecklineParams({ [TEE_SCOOP_NECK_DROP_OPTION_ID]: 5 }))
+      .toEqual({ shape: "scoop", widthEase: 0, frontDrop: 5 });
+  });
+
+  it("maps Scoop underarm and shoulder warnings to the active depth control without changing its value", () => {
+    const active = { [TEE_SCOOP_NECK_DROP_OPTION_ID]: 15 };
+    expect(teeScoopNeckNotes(STANDARD_M, {})).toEqual([]);
+    expect(teeScoopNeckNotes(STANDARD_M, { [TEE_SCOOP_NECK_DROP_OPTION_ID]: 5 })).toEqual([]);
+    const notes = teeScoopNeckNotes({ ...STANDARD_M, armholeDepth: 12, shoulderWidth: 14 }, active);
+    expect(notes).toHaveLength(2);
+    expect(notes[0]).toMatchObject({
+      field: "option-teeScoopNeckDropCm",
+      level: "warn",
+      text: "The front Scoop drops below the underarm; reduce its extra depth or increase armhole depth.",
+    });
+    expect(notes[1]).toMatchObject({
+      field: "shoulderWidth",
+      level: "warn",
+      text: "The front Scoop reaches the shoulder seam; review shoulder width or neckline placement.",
+    });
+    expect(active[TEE_SCOOP_NECK_DROP_OPTION_ID]).toBe(15);
+  });
+
+  it("marks simultaneous V and Scoop options as a conflict and explicitly uses crew until one is reset", () => {
+    const conflicting = {
+      [TEE_V_NECK_DROP_OPTION_ID]: 7,
+      [TEE_SCOOP_NECK_DROP_OPTION_ID]: 5,
+    };
+    expect(hasConflictingTeeNecklineOptions(conflicting)).toBe(true);
+    expect(teeFrontNecklineParams(conflicting)).toEqual({ shape: "crew", widthEase: 0, frontDrop: 0 });
+    expect(teeNecklineNotes(STANDARD_M, conflicting)).toEqual([
+      {
+        field: "option-teeVNeckDropCm",
+        level: "warn",
+        text: "Both V and Scoop neckline options are active. Reset one option; while they conflict, the preview uses crew. Both entered values are preserved.",
+      },
+      {
+        field: "option-teeScoopNeckDropCm",
+        level: "warn",
+        text: "Both V and Scoop neckline options are active. Reset one option; while they conflict, the preview uses crew. Both entered values are preserved.",
+      },
+    ]);
+    expect(conflicting).toEqual({ teeVNeckDropCm: 7, teeScoopNeckDropCm: 5 });
+    expect(teeNecklineNotes(STANDARD_M, { [TEE_SCOOP_NECK_DROP_OPTION_ID]: 5 })).toHaveLength(0);
   });
 });

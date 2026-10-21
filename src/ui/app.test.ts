@@ -3164,6 +3164,45 @@ describe("mountApp", () => {
     }
   });
 
+  it("derives the selected-size Scoop neckband output from the active rounded neckline", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename: string, content: string) => {
+        files.set(filename, content);
+        return { saved: true, filePath: filename };
+      }),
+    };
+    try {
+      const root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-tee-scoop-digital-v1");
+      reachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled).toBe(false);
+      clickId(root, "export-tee-neckband");
+      await vi.waitFor(() => expect(files.has("tee-M-neckband.svg")).toBe(true));
+
+      const output = files.get("tee-M-neckband.svg")!;
+      const circumference = Number(output.match(/data-neckline-circumference-cm="([^"]+)"/)?.[1]);
+      const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-scoop-digital-v1")!;
+      const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      const selectedBlock = tee.draft(
+        { ...STANDARD_M, ...entry.configuration.measurements },
+        entry.configuration.options,
+      );
+      const expectedCircumference = 2 * (
+        edgeLength(pieceEdge(rolePiece(selectedBlock, "front"), "neckline")) +
+        edgeLength(pieceEdge(rolePiece(selectedBlock, "back"), "neckline"))
+      );
+      expect(circumference).toBeCloseTo(expectedCircumference, 3);
+      expect(output).toContain("selected Tee front and back neckline curves");
+      root.remove();
+    } finally {
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
   it("round-trips neckband settings across a Tee body-option edit, Save/Load, and export", async () => {
     localStorage.clear();
     const root = mount();
@@ -10552,7 +10591,7 @@ describe("EPIC-19 L02 starter binding", () => {
     root.querySelector<HTMLButtonElement>('[data-reset-option="teeVNeckDropCm"]')!.click();
     expect(root.querySelector<HTMLInputElement>('input[data-option="teeVNeckDropCm"]')!.disabled).toBe(true);
     expect(root.querySelector<HTMLElement>('[data-option-mode="teeVNeckDropCm"]')!.textContent)
-      .toContain("Crew neckline active");
+      .toContain("V option inactive; crew remains unless another Tee neckline is active.");
     expect(root.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!.disabled).toBe(false);
     const crewBody = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
     const crewAssembled = root.querySelector<SVGSVGElement>("#garment-host svg")!.innerHTML;
@@ -10637,6 +10676,113 @@ describe("EPIC-19 L02 starter binding", () => {
       reopened.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandLengthPercent"]')!.value,
       reopened.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandFinishedWidthCm"]')!.value,
     ]).toEqual(neckbandValuesBeforeSave);
+    root.remove();
+    reopened.remove();
+    localStorage.clear();
+  });
+
+  it("selects T07 Scoop Tee, preserves its editable depth and origin, and makes conflicting necklines explicit", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-scoop-digital-v1");
+
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee Scoop-neck · software defaults");
+    expect(root.querySelector<HTMLElement>("#starter-blank-library")!.textContent)
+      .toContain("B1 technical review pending · physical validation not-validated");
+    const drop = root.querySelector<HTMLInputElement>('input[data-option="teeScoopNeckDropCm"]')!;
+    expect(drop.value).toBe("5");
+    const scoopPattern = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+
+    clickId(root, "view-body");
+    clickId(root, "body-front");
+    const scoopBody = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    clickId(root, "assembled-preview-toggle");
+    const scoopAssembled = root.querySelector<SVGSVGElement>("#garment-host svg")!.innerHTML;
+    expect(scoopAssembled).not.toBe("");
+
+    clickId(root, "assembled-preview-toggle");
+    clickId(root, "view-pattern");
+    root.querySelector<HTMLButtonElement>('[data-reset-option="teeScoopNeckDropCm"]')!.click();
+    expect(root.querySelector<HTMLElement>('[data-option-mode="teeScoopNeckDropCm"]')!.textContent)
+      .toContain("Scoop option inactive; crew remains unless another Tee neckline is active.");
+    const crewPattern = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(crewPattern).not.toBe(scoopPattern);
+    clickId(root, "view-body");
+    clickId(root, "body-front");
+    const crewBody = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(crewBody).not.toBe(scoopBody);
+    clickId(root, "assembled-preview-toggle");
+    const crewAssembled = root.querySelector<SVGSVGElement>("#garment-host svg")!.innerHTML;
+    expect(crewAssembled).not.toBe(scoopAssembled);
+
+    clickId(root, "assembled-preview-toggle");
+    clickId(root, "view-pattern");
+    root.querySelector<HTMLButtonElement>('[data-set-option="teeScoopNeckDropCm"]')!.click();
+    drop.value = "16";
+    drop.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(drop.value).toBe("16");
+    expect(root.querySelector<HTMLElement>("#error-option-teeScoopNeckDropCm")!.textContent)
+      .toContain("0–15 cm");
+    expect(root.querySelector<HTMLElement>('[data-option-mode="teeScoopNeckDropCm"]')!.textContent)
+      .toContain("Additional front drop: 16 cm");
+
+    drop.value = "15";
+    drop.dispatchEvent(new Event("input", { bubbles: true }));
+    const armholeDepth = root.querySelector<HTMLInputElement>('input[data-field="armholeDepth"]')!;
+    armholeDepth.value = "22";
+    armholeDepth.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+      .toContain("The front Scoop drops below the underarm");
+    expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+      .toContain("reduce its extra depth or increase armhole depth");
+    armholeDepth.value = "24";
+    armholeDepth.dispatchEvent(new Event("input", { bubbles: true }));
+    drop.value = "7.5";
+    drop.dispatchEvent(new Event("input", { bubbles: true }));
+    const editedScoop = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(editedScoop).not.toBe(scoopPattern);
+
+    reachExportStage(root);
+    root.querySelector<HTMLButtonElement>('[data-set-option="teeVNeckDropCm"]')!.click();
+    expect(root.querySelector<HTMLInputElement>('input[data-option="teeVNeckDropCm"]')!.value).toBe("5");
+    expect(drop.value).toBe("7.5");
+    expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+      .toContain("Both V and Scoop neckline options are active");
+    expect(root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(crewPattern);
+    expect(root.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!.disabled).toBe(true);
+    expect(root.querySelector<HTMLElement>("#tee-neckband-v-limitation")!.textContent)
+      .toContain("Reset one before generating neckband output");
+    expect(root.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled).toBe(true);
+
+    root.querySelector<HTMLButtonElement>('[data-reset-option="teeVNeckDropCm"]')!.click();
+    expect(root.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!.disabled).toBe(false);
+    expect(root.querySelector<HTMLElement>("#tee-neckband-v-limitation")!.hidden).toBe(true);
+    const finalScoop = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    clickId(root, "save-pattern");
+    const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(stored.garmentOptions.tee.teeScoopNeckDropCm).toBe(7.5);
+    expect(stored.garmentOptions.tee.teeVNeckDropCm).toBeUndefined();
+    expect(stored.workspace.starterOrigin).toMatchObject({
+      entryId: "tee-scoop-digital-v1",
+      entryRevision: "2026-10-21.1",
+      recipeId: "tee",
+      recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+      configurationSnapshot: {
+        targetStyle: "Classic tee",
+        options: { chestEase: 7, teeScoopNeckDropCm: 5 },
+      },
+    });
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="teeScoopNeckDropCm"]')!.value).toBe("7.5");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-scoop-digital-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee Scoop-neck · software defaults");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(finalScoop);
+    expect(reopened.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!.disabled).toBe(false);
     root.remove();
     reopened.remove();
     localStorage.clear();

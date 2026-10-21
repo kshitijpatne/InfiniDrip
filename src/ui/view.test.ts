@@ -787,7 +787,7 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain('data-garment-region="Lower body"');
     expect(html).toContain('id="starter-blank-library" aria-labelledby="starter-blank-library-heading"');
     expect(html).toContain('id="custom-measurement-candidates" aria-labelledby="custom-measurement-candidates-heading"');
-    expect(html).toContain("Starter Blank Library</span><span>6</span>");
+    expect(html).toContain("Starter Blank Library</span><span>7</span>");
     expect(html).toContain("Custom measurement candidates</span><span>1</span>");
     expect(html).toContain('data-starter-entry-id="tee-classic-digital-v1" aria-pressed="false"');
     expect(html).toContain('data-starter-entry-id="tee-relaxed-digital-v1" aria-pressed="false"');
@@ -800,6 +800,9 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain('data-starter-entry-id="tee-vneck-digital-v1" aria-pressed="false"');
     expect(html).toContain("Tee V-neck · software defaults");
     expect(html).toContain("outside the 56 digitally complete count");
+    expect(html).toContain('data-starter-entry-id="tee-scoop-digital-v1" aria-pressed="false"');
+    expect(html).toContain("Tee Scoop-neck · software defaults");
+    expect(html).toContain("5 cm added front depth are product choices");
     expect(html).toContain("Length (design input): 78–100 cm");
     expect(html).toContain("Ease (design input): 7–18 cm");
     expect(html).toContain("The Tech Pack maps modeled length to HPS-to-hem; Tol ± values are generic Tee recipe references, not validated tolerances for this starter.");
@@ -842,6 +845,8 @@ describe("garmentToggleMarkup", () => {
       .toContain('data-starter-entry-id="tee-longline-digital-v1" aria-pressed="true"');
     expect(garmentToggleMarkup("tee", "tee-vneck-digital-v1"))
       .toContain('data-starter-entry-id="tee-vneck-digital-v1" aria-pressed="true"');
+    expect(garmentToggleMarkup("tee", "tee-scoop-digital-v1"))
+      .toContain('data-starter-entry-id="tee-scoop-digital-v1" aria-pressed="true"');
   });
 });
 

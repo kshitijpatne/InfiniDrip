@@ -487,6 +487,22 @@ describe("readable draft tech pack", () => {
     expect(constructionText).not.toContain("Attach the neckband to the neckline");
   });
 
+  it("keeps the provisional rounded-loop construction in the Scoop candidate Tech Pack", () => {
+    const output = exportTechPackV2(TEE, STANDARD_M, undefined, undefined, { teeScoopNeckDropCm: 5 });
+    const constructionPage = pageStreams(output).find((stream) =>
+      shownText(stream).some((line) => line.startsWith("1. Staystitch the front and back necklines."))
+    );
+    expect(constructionPage).toBeDefined();
+    const constructionText = shownText(constructionPage!).join(" ");
+    expect(constructionText).toContain("Attach the neckband, matching centre-front and shoulder notches.");
+    expect(constructionText).not.toContain("V-neck finishing is not defined");
+
+    const bomPage = pageStreams(output).find((stream) =>
+      shownText(stream).some((line) => line.startsWith("Bill of Materials"))
+    )!;
+    expect(shownText(bomPage).join(" ")).toContain("Neckband");
+  });
+
   it("keeps the estimate disclosure with a fabric-specific V2 BOM", () => {
     const woven = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton woven")!;
     const output = exportTechPackV2(TANK, STANDARD_M, undefined, woven);
