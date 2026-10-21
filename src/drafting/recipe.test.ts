@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
 import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
+import { TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -160,6 +161,35 @@ describe("recipe callbacks", () => {
     expect(independentFrontSide.start.x).toBeCloseTo(27);
     expect(edgeLength(pieceEdge(rolePiece(independent, "sleeve"), "hem")))
       .toBeCloseTo(edgeLength(pieceEdge(rolePiece(inherited, "sleeve"), "hem")));
+  });
+
+  it("drafts an option-driven V front with a crew back and matching preview parameters", () => {
+    const options = { [TEE_V_NECK_DROP_OPTION_ID]: 6.5 };
+    const block = TEE.draft(STANDARD_M, options);
+    const crewBlock = TEE.draft(STANDARD_M, {});
+    const front = pieceEdge(rolePiece(block, "front"), "neckline");
+    const back = pieceEdge(rolePiece(block, "back"), "neckline");
+    const crewFront = pieceEdge(rolePiece(crewBlock, "front"), "neckline");
+    const declaredFront = TEE.frontNeckline!(STANDARD_M, options);
+    const declaredBack = TEE.backNeckline!(STANDARD_M);
+
+    expect(front.kind).toBe("line");
+    expect(back.kind).toBe("curve");
+    expect(crewFront.kind).toBe("curve");
+    expect(declaredFront).toEqual({ shape: "v", widthEase: 0, frontDrop: 6.5 });
+    expect(declaredBack).toEqual({ shape: "crew", widthEase: 0, frontDrop: 0 });
+  });
+
+  it("withholds generic neckband steps and BOM only while V-neck geometry is active", () => {
+    const crew = TEE.techPackForOptions!({});
+    const vNeck = TEE.techPackForOptions!({ [TEE_V_NECK_DROP_OPTION_ID]: 5 });
+
+    expect(crew).toBe(TEE.techPack);
+    expect(crew.bom.some((row) => row.placement === "Neckband")).toBe(true);
+    expect(crew.construction.some((step) => step.startsWith("Attach the neckband"))).toBe(true);
+    expect(vNeck.constructionNotice).toContain("V-neck finishing is not defined");
+    expect(vNeck.bom.some((row) => row.placement === "Neckband")).toBe(false);
+    expect(vNeck.construction.some((step) => step.startsWith("Attach the neckband"))).toBe(false);
   });
 });
 

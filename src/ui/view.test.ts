@@ -302,6 +302,9 @@ describe("exportButtonsMarkup", () => {
     expect(teeMarkup).toContain('id="export-tee-neckband"');
     expect(teeMarkup).toContain('data-tee-neckband-option="teeNeckbandLengthPercent"');
     expect(teeMarkup).toContain('data-tee-neckband-option="teeNeckbandFinishedWidthCm"');
+    expect(teeMarkup).toContain('aria-describedby="export-tee-neckband-description tee-neckband-v-limitation"');
+    expect(teeMarkup).toContain('id="tee-neckband-v-limitation" role="status" hidden');
+    expect(teeMarkup).toContain("does not model the V-point join");
     expect(teeMarkup).not.toContain('data-option="teeNeckbandLengthPercent"');
     expect(tankMarkup).toContain('data-export-scope="tee-neckband" class="export-scope" hidden>');
   });
@@ -784,7 +787,7 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain('data-garment-region="Lower body"');
     expect(html).toContain('id="starter-blank-library" aria-labelledby="starter-blank-library-heading"');
     expect(html).toContain('id="custom-measurement-candidates" aria-labelledby="custom-measurement-candidates-heading"');
-    expect(html).toContain("Starter Blank Library</span><span>5</span>");
+    expect(html).toContain("Starter Blank Library</span><span>6</span>");
     expect(html).toContain("Custom measurement candidates</span><span>1</span>");
     expect(html).toContain('data-starter-entry-id="tee-classic-digital-v1" aria-pressed="false"');
     expect(html).toContain('data-starter-entry-id="tee-relaxed-digital-v1" aria-pressed="false"');
@@ -794,6 +797,9 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain("Tee Crop · software defaults");
     expect(html).toContain('data-starter-entry-id="tee-longline-digital-v1" aria-pressed="false"');
     expect(html).toContain("Tee Longline · software defaults");
+    expect(html).toContain('data-starter-entry-id="tee-vneck-digital-v1" aria-pressed="false"');
+    expect(html).toContain("Tee V-neck · software defaults");
+    expect(html).toContain("outside the 56 digitally complete count");
     expect(html).toContain("Length (design input): 78–100 cm");
     expect(html).toContain("Ease (design input): 7–18 cm");
     expect(html).toContain("The Tech Pack maps modeled length to HPS-to-hem; Tol ± values are generic Tee recipe references, not validated tolerances for this starter.");
@@ -834,6 +840,8 @@ describe("garmentToggleMarkup", () => {
       .toContain('data-starter-entry-id="tee-boxy-crop-digital-v1" aria-pressed="true"');
     expect(garmentToggleMarkup("tee", "tee-longline-digital-v1"))
       .toContain('data-starter-entry-id="tee-longline-digital-v1" aria-pressed="true"');
+    expect(garmentToggleMarkup("tee", "tee-vneck-digital-v1"))
+      .toContain('data-starter-entry-id="tee-vneck-digital-v1" aria-pressed="true"');
   });
 });
 

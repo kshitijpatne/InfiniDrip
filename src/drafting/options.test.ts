@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { defaultGarmentOptions, garmentOptionsForStyle, restoreGarmentOptions, GarmentOption } from "./options";
+import {
+  defaultGarmentOptions,
+  garmentOptionsForStyle,
+  optionalOptionActionLabel,
+  optionalOptionStatusMessage,
+  restoreGarmentOptions,
+  GarmentOption,
+} from "./options";
 
 const DEFINITIONS: readonly GarmentOption[] = [
   { id: "standHeight", label: "Stand height", defaultValue: 2, min: 1, max: 3, step: 0.5 },
@@ -44,5 +51,37 @@ describe("garment options", () => {
       .toEqual({ shared: 3, classic: 8 });
     expect(garmentOptionsForStyle(definitions, { shared: 3, classic: 14 }, "Classic tee").classic).toBe(14);
     expect(garmentOptionsForStyle(definitions, {}, "Classic tee", false)).toEqual({});
+  });
+
+  it("renders optional control status and actions for inherited and independent values", () => {
+    const inherited: GarmentOption = {
+      id: "chestEase", label: "Chest allowance", defaultValue: 10, min: 7, max: 12, step: 0.5,
+      optional: true, fallbackMeasurement: "ease",
+    };
+    const vNeck: GarmentOption = {
+      id: "teeVNeckDropCm", label: "Front V-neck drop", defaultValue: 5, min: 0, max: 15, step: 0.5,
+      optional: true, optionalSetLabel: "Use V neckline", optionalResetLabel: "Use crew neckline",
+      optionalSetStatus: "V neckline active. Additional front drop: {value} {unit}.",
+      optionalUnsetStatus: "Crew neckline active. Set a value to switch to the V neckline.",
+    };
+
+    expect(optionalOptionStatusMessage(inherited, false, 10))
+      .toBe("Inherited from shared fit allowance: 10 cm.");
+    expect(optionalOptionStatusMessage(inherited, true, 8))
+      .toBe("Independent value: 8 cm.");
+    expect(optionalOptionStatusMessage(inherited, true, "enter a number"))
+      .toBe("Independent value: enter a number cm.");
+    expect(optionalOptionStatusMessage(vNeck, false, 5))
+      .toBe("Crew neckline active. Set a value to switch to the V neckline.");
+    expect(optionalOptionStatusMessage(vNeck, true, 7.5))
+      .toBe("V neckline active. Additional front drop: 7.5 cm.");
+    expect(optionalOptionActionLabel(vNeck, false)).toBe("Use V neckline");
+    expect(optionalOptionActionLabel(vNeck, true)).toBe("Use crew neckline");
+    expect(optionalOptionActionLabel(inherited, false)).toBe("Set independent value");
+    expect(optionalOptionActionLabel(inherited, true)).toBe("Use shared fit allowance");
+    expect(optionalOptionStatusMessage({ ...vNeck, optionalSetStatus: undefined, optionalUnsetStatus: undefined }, true, 6))
+      .toBe("Independent value: 6 cm.");
+    expect(optionalOptionStatusMessage({ ...vNeck, optionalSetStatus: undefined, optionalUnsetStatus: undefined }, false, 5))
+      .toBe("Front V-neck drop is inactive. Set a value to enable it.");
   });
 });

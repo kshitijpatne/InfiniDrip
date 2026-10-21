@@ -313,10 +313,46 @@ const TEE_LONGLINE_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const TEE_VNECK_BLANK_ENTRY: StarterEntry = {
+  entryId: "tee-vneck-digital-v1",
+  entryRevision: "2026-10-21.1",
+  recipeId: "tee",
+  recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+  catalogKind: "blank",
+  label: "Tee V-neck · software defaults",
+  configuration: {
+    targetStyle: "Classic tee",
+    measurements: { ...TEE_CLASSIC_BLANK_ENTRY.configuration.measurements },
+    options: { ...TEE_CLASSIC_BLANK_ENTRY.configuration.options, teeVNeckDropCm: 5 },
+  },
+  supportedControls: [
+    ...TEE_CLASSIC_BLANK_ENTRY.supportedControls,
+    { fieldId: "teeVNeckDropCm", label: "Front V-neck drop", kind: "option", unit: "cm", min: 0, max: 15, step: 0.5, defaultValue: 5 },
+  ],
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured V-neck, short-sleeve Tee draft; editable before saving.",
+    fit: "Starts from 7 cm ease and a 5 cm added front drop; both are editable software defaults, not validated fit targets.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Uses existing Tee body and sleeve topology with digital V-front geometry. The V-neck finish and band construction are unresolved; sewing is not validated.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; not a population chart or validated size-M profile.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "STANDARD_M contributes software starting values only; it is not a population-derived or validated size-M profile.",
+    "The modeled geometry and POM values are digital outputs, not sewn measurements or physical-fit evidence.",
+    "The 7 cm ease and 5 cm added front drop are product choices, not fit, fabric, or wearer recommendations.",
+    "The V-neck band geometry, output, and construction are unresolved; this candidate remains outside the 56 digitally complete count until digital acceptance.",
+    "No physical-fit, comfort, wear, material-performance, validated-grading, supplier, manufacturing, or production claim.",
+    "Existing generic Tee size-run and export behavior is not a validated size profile or starter-specific grading contract.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
   catalogRevision: "g18-catalog-v1",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY],
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

@@ -2,10 +2,10 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY, withModeledPomLabels } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY, withModeledPomLabels, optionalOptionStatusMessage, optionalOptionActionLabel } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
-import { TEE_NECKBAND_OPTIONS, teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
+import { TEE_NECKBAND_OPTIONS, isTeeVNeckActive, teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
@@ -586,6 +586,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   const teeSelectedTechPackExport = root.querySelector<HTMLElement>('[data-export-format="export-tee-selected-techpack"]')!;
   const teeNeckbandExportScope = root.querySelector<HTMLElement>('[data-export-scope="tee-neckband"]')!;
+  const teeNeckbandControls = root.querySelector<HTMLFieldSetElement>('[data-tee-neckband-controls]')!;
+  const teeNeckbandVLimitation = root.querySelector<HTMLElement>("#tee-neckband-v-limitation")!;
   let technicalFlatTextMeasurer: TechnicalFlatMeasureText | null = null;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
@@ -1848,13 +1850,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const resetButton = root.querySelector<HTMLButtonElement>(`[data-reset-option="${option.id}"]`)!;
       const values = garmentOptions[recipe.name] ?? {};
       const explicit = Object.prototype.hasOwnProperty.call(values, option.id);
-      if (!explicit && option.fallbackMeasurement) {
-        input.value = String(measurements[option.fallbackMeasurement]);
+      if (!explicit) {
+        input.value = String(option.fallbackMeasurement ? measurements[option.fallbackMeasurement] : option.defaultValue);
       }
       input.disabled = !explicit;
-      status.textContent = explicit
-        ? `Independent value: ${input.value || "enter a number"} cm.`
-        : `Inherited from shared fit allowance: ${input.value} cm.`;
+      status.textContent = optionalOptionStatusMessage(option, explicit, input.value || "enter a number");
+      setButton.textContent = optionalOptionActionLabel(option, false);
+      resetButton.textContent = optionalOptionActionLabel(option, true);
       setButton.hidden = explicit;
       resetButton.hidden = !explicit;
     }
@@ -2975,6 +2977,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     });
     teeSelectedTechPackExport.hidden = recipe.name !== "tee";
     teeNeckbandExportScope.hidden = recipe.name !== "tee";
+    const teeVNeckActive = recipe.name === "tee" && isTeeVNeckActive(recipeOptions());
+    teeNeckbandControls.disabled = teeVNeckActive;
+    teeNeckbandVLimitation.hidden = !teeVNeckActive;
     try {
       drawCurrentView();
     } catch (error) {
@@ -3028,7 +3033,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : button.id === "export-surface-sheet"
           ? styleReviewed && checkReviewed && baseDesignValid()
           : canExport());
-      button.disabled = !allowed || needsArtwork;
+      button.disabled = !allowed || needsArtwork || (button.id === "export-tee-neckband" && recipe.name === "tee" && isTeeVNeckActive(recipeOptions()));
       button.title = !allowed
         ? packageSizeUnsupported
           ? "CAD exchange packages currently support registered recipe sizes, not custom one-size styles."
@@ -3043,6 +3048,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             ? selectedGradePlanSize()?.issues[0] ?? "The selected grade-plan size is no longer available. Refresh the plan or choose another size."
           : "Review Style and the current digital checks before exporting."
         : needsArtwork ? "Add artwork on the Style panel first." : "";
+      if (button.id === "export-tee-neckband" && recipe.name === "tee" && isTeeVNeckActive(recipeOptions())) {
+        button.title = "Unavailable for this V-neck candidate because the rectangular-loop template does not model the V-point join.";
+      }
     });
     if (errors.size > 0) {
       const pausedMessage = view === "edit"
@@ -3270,11 +3278,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
               : renderTrouserBodyPair(measurements, recipeOptions())
           : renderSkirtBody(measurements);
       } else if (bodyCroquisView === "front") {
-        canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
+        canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements, recipeOptions()), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       } else if (bodyCroquisView === "back") {
         canvasContent = renderBody(measurements, hasSleeve, recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), "back", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       } else {
-        canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
+        canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements, recipeOptions()), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       }
     } else {
       const block = semanticSizeBlock(selectedOutputStep());
@@ -3296,7 +3304,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     const assembled = isTop
       ? renderGarment(measurements, fabric, hasSleeve,
-          recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
+          recipe.frontNeckline?.(measurements, recipeOptions()), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
       : isTrouser
         ? renderTrouserGarment(measurements, fabric, recipeOptions())
         : renderSkirtGarment(measurements, fabric);
@@ -4240,14 +4248,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
   });
 
-  const setGarment = (name: string, afterSelection?: () => void): void => {
+  const setGarment = (name: string, afterSelection?: () => void, starterOptionKeys: readonly string[] = []): void => {
     if (customOneSizeStyle() && name !== recipe.name) {
       flash("This custom one-size style keeps its garment. Create another style to design a different garment.", BLUEPRINT.lineActive);
       return;
     }
     if (projectWorkflow && (captureSaveError !== null
       || captureSaveTimer !== null || captureWritesPending > 0)) {
-      void flushCaptureSave().then(() => setGarment(name, afterSelection)).catch((error: Error) => {
+      void flushCaptureSave().then(() => setGarment(name, afterSelection, starterOptionKeys)).catch((error: Error) => {
         const message = error.message;
         projectPersistenceState.textContent = message;
         projectPersistenceState.dataset.state = "failed";
@@ -4256,7 +4264,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       return;
     }
     if (projectWorkflow && (pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0)) {
-      void flushPendingFieldObservations!().then(() => setGarment(name, afterSelection)).catch((error: unknown) => {
+      void flushPendingFieldObservations!().then(() => setGarment(name, afterSelection, starterOptionKeys)).catch((error: unknown) => {
         const message = error instanceof Error ? error.message : "Pending field history could not be saved.";
         projectPersistenceState.textContent = message;
         projectPersistenceState.dataset.state = "failed";
@@ -4310,6 +4318,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
       measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
     wireMeasurementInputs();
+    if (projectWorkflow) {
+      for (const inputKey of starterOptionKeys) {
+        const input = [...root.querySelectorAll<HTMLInputElement>("input[data-option]")]
+          .find((candidate) => candidate.dataset.option === inputKey);
+        input?.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
     syncExportSizes();
     if (afterSelection) setStep("measure");
     applyDisclosure();
@@ -4333,7 +4348,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         };
         starterOrigin = starterOriginForEntry(entry);
         measurementRoute = "editor";
-      });
+      }, Object.keys(entry.configuration.options));
     });
   });
   const syncGarmentChoices = (): void => {
@@ -4555,7 +4570,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const input = root.querySelector<HTMLInputElement>(`input[data-option="${id}"]`);
         if (!input) return;
         input.disabled = false;
-        input.value = String(measurements[definition.fallbackMeasurement!]);
+        input.value = String(definition.fallbackMeasurement ? measurements[definition.fallbackMeasurement] : definition.defaultValue);
         input.dispatchEvent(new Event("input", { bubbles: true }));
         input.focus();
       });
@@ -5640,7 +5655,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     } catch (error) {
       flash(error instanceof Error ? error.message : "The neckband template could not be generated.", BLUEPRINT.lineActive);
     }
-  }, () => recipe.name === "tee" && canExport());
+  }, () => recipe.name === "tee" && !isTeeVNeckActive(recipeOptions()) && canExport());
   onExport("#export-dxf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
   });

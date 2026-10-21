@@ -15,11 +15,12 @@ const relaxedEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entr
 const boxyCropEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-boxy-crop-digital-v1")!;
 const cropEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-cropped-digital-v1")!;
 const longlineEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-longline-digital-v1")!;
+const vNeckEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-vneck-digital-v1")!;
 const validOrigin = starterOriginForEntry(entry);
 
 describe("Tee Classic starter registry", () => {
   it("preserves the bounded existing custom-measurement candidate and its claim limits", () => {
-    expect(STARTER_REGISTRY.entries).toHaveLength(6);
+    expect(STARTER_REGISTRY.entries).toHaveLength(7);
     expect(entry).toMatchObject({
       entryId: "tee-classic-custom-v1",
       entryRevision: "2026-10-19.3",
@@ -86,7 +87,7 @@ describe("Tee Classic starter registry", () => {
     }
     expect(blankEntry.supportedControls.find((control) => control.fieldId === "shoulderWidth"))
       .toMatchObject({ kind: "measurement", min: 30, max: 70, step: 0.1, defaultValue: 45 });
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(5);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(6);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -116,7 +117,7 @@ describe("Tee Classic starter registry", () => {
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "ease"))
       .toMatchObject({ kind: "design", min: 13, max: 18, step: 1, defaultValue: 13 });
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "chestEase")).toBeUndefined();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(5);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(6);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -238,6 +239,32 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(longlineEntry.entryId, "length", 101)).toContain("78–100 cm");
     expect(starterControlError(longlineEntry.entryId, "ease", 18)).toBeNull();
     expect(starterControlError(longlineEntry.entryId, "length", 100)).toBeNull();
+  });
+
+  it("defines T06 as an explicitly incomplete digital V-neck candidate", () => {
+    expect(vNeckEntry).toMatchObject({
+      entryId: "tee-vneck-digital-v1",
+      entryRevision: "2026-10-21.1",
+      recipeId: "tee",
+      recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+      catalogKind: "blank",
+      label: "Tee V-neck · software defaults",
+      configuration: {
+        targetStyle: "Classic tee",
+        measurements: { chest: 100, shoulderWidth: 45, length: 70, ease: 7 },
+        options: { chestEase: 7, teeVNeckDropCm: 5 },
+      },
+      gates: { b1: "pending", physical: "not-validated" },
+    });
+    expect(vNeckEntry.supportedControls.find((control) => control.fieldId === "teeVNeckDropCm"))
+      .toMatchObject({ kind: "option", min: 0, max: 15, step: 0.5, defaultValue: 5 });
+    expect(vNeckEntry.intent.construction).toContain("V-neck finish and band construction are unresolved");
+    expect(vNeckEntry.limits.join(" ")).toContain("outside the 56 digitally complete count");
+    expect(starterEntryById(vNeckEntry.entryId)).toBe(vNeckEntry);
+    expect(starterControlError(vNeckEntry.entryId, "teeVNeckDropCm", -0.5)).toContain("0–15 cm");
+    expect(starterControlError(vNeckEntry.entryId, "teeVNeckDropCm", 15.5)).toContain("0–15 cm");
+    expect(starterControlError(vNeckEntry.entryId, "teeVNeckDropCm", 5.25)).toContain("0.5 cm increments");
+    expect(starterControlError(vNeckEntry.entryId, "teeVNeckDropCm", 7.5)).toBeNull();
   });
 
   it("creates and strictly validates an order-independent persisted origin snapshot", () => {
