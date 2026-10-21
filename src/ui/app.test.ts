@@ -10359,6 +10359,90 @@ describe("EPIC-19 L02 starter binding", () => {
     localStorage.clear();
   });
 
+  it("selects T04 Crop Tee, edits its existing Tee pattern, and preserves its origin through save and reopen", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-classic-digital-v1");
+    clickId(root, "view-pattern");
+    const classicSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+
+    clickId(root, "starter-tee-cropped-digital-v1");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Crop tee");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("B1 technical review pending; physical validation not performed");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee Crop · software defaults");
+    const defaults: Record<string, string> = {
+      chest: "100", shoulderWidth: "45", bicep: "38", length: "53",
+      armholeDepth: "24", sleeveLength: "22", ease: "7",
+    };
+    for (const [field, value] of Object.entries(defaults)) {
+      expect(root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!.value).toBe(value);
+    }
+    expect(root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    expect(root.querySelector<HTMLElement>('[data-finished="chest"]')!.textContent).toBe("107 cm");
+    expect(root.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-cropped-digital-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    clickId(root, "journey-next");
+    expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Crop tee");
+    expect(root.querySelector<HTMLElement>("#style-host")!.textContent).toContain("You're making a Crop tee.");
+    expect(root.querySelector<HTMLElement>("#style-host")!.textContent).not.toContain("flagged inputs or digital checks need review");
+    const cropSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(cropSvg).not.toBe(classicSvg);
+
+    const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+    ease.value = "13";
+    ease.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(ease.value).toBe("13");
+    expect(root.querySelector<HTMLElement>("#error-ease")!.textContent).toContain("0–12 cm");
+    ease.value = "8";
+    ease.dispatchEvent(new Event("input", { bubbles: true }));
+    const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+    length.value = "58";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#error-length")!.textContent).toContain("40–57 cm");
+    length.value = "54";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "102";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(editedSvg).not.toBe(cropSvg);
+    expect(root.querySelector<HTMLElement>('[data-finished="chest"]')!.textContent).toBe("110 cm");
+
+    clickId(root, "save-pattern");
+    const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(stored.workspace.starterOrigin).toMatchObject({
+      entryId: "tee-cropped-digital-v1",
+      entryRevision: "2026-10-20.1",
+      recipeId: "tee",
+      recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+      configurationSnapshot: {
+        targetStyle: "Crop tee",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 53, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+        options: {},
+      },
+    });
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Crop tee");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("102");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("54");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("8");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    expect(reopened.querySelector<HTMLElement>('[data-finished="chest"]')!.textContent).toBe("110 cm");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-cropped-digital-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee Crop · software defaults");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+    root.remove();
+    reopened.remove();
+    localStorage.clear();
+  });
+
   it("separates generic fabric guidance from active Tee starter material and ease intent", () => {
     localStorage.clear();
     const root = mount();

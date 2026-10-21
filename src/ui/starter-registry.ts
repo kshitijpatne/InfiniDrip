@@ -227,10 +227,53 @@ const TEE_BOXY_CROP_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const TEE_CROP_BLANK_ENTRY: StarterEntry = {
+  entryId: "tee-cropped-digital-v1",
+  entryRevision: "2026-10-20.1",
+  recipeId: "tee",
+  recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+  catalogKind: "blank",
+  label: "Tee Crop · software defaults",
+  configuration: {
+    targetStyle: "Crop tee",
+    measurements: {
+      ...TEE_CLASSIC_BLANK_ENTRY.configuration.measurements,
+      length: 53,
+      ease: 7,
+    },
+    options: {},
+  },
+  supportedControls: TEE_CLASSIC_BLANK_ENTRY.supportedControls
+    .filter((control) => control.fieldId !== "chestEase")
+    .map((control) => {
+      if (control.fieldId === "ease") return { ...control, min: 0, max: 12, defaultValue: 7 };
+      if (control.fieldId === "length") return { ...control, min: 40, max: 57, defaultValue: 53 };
+      return control;
+    }),
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured Crop tee draft; editable before saving.",
+    fit: "Cropped crew-neck, short-sleeve Tee configuration; 7 cm ease and 53 cm length are software choices, not validated fit targets.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Uses the existing Tee draft logic and pattern topology as a digital starting point; sewn construction has not been validated.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; not a population chart or validated size-M profile.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "STANDARD_M contributes software starting values only; it is not a population-derived or validated size-M profile.",
+    "The modeled geometry and POM values are digital outputs, not sewn measurements or physical-fit evidence.",
+    "The 7 cm ease and 53 cm length are product choices, not fit, fabric, or wearer recommendations.",
+    "No physical-fit, comfort, wear, material-performance, validated-grading, supplier, manufacturing, or production claim.",
+    "Existing generic Tee size-run and export behavior is not a validated size profile or starter-specific grading contract.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
   catalogRevision: "g18-catalog-v1",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY],
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;
