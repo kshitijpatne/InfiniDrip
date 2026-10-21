@@ -63,6 +63,8 @@ describe("the garment registry", () => {
     expect(JEANS.options?.map(({ id }) => id)).toContain("backPocketDrop");
     expect(JEANS.poms.length).toBeGreaterThan(0);
     expect(JEANS.sizes.map(({ label }) => label)).toEqual(["XS", "S", "M", "L", "XL"]);
+    expect(JEANS.a0Overflow).toBe(true);
+    expect(JEANS.tiledPdfLocalCoordinates).toBe(true);
     expect(garmentByName("jeans")).toBe(JEANS);
 
     const jeansBlock = JEANS.draft(STANDARD_M);

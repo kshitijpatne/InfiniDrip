@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { cubicPoint, point } from "../geometry";
+import { inspectSemanticEditCandidate } from "../edit/semantic-edit";
+import { outlinePoints, seamAllowance } from "../render/allowance";
+import { cubicPoint, point, type Point } from "../geometry";
 import { blockPieces, rolePiece } from "./block";
 import { DEFAULT_JEANS_OPTIONS, type JeansOptions } from "./jeans-contract";
 import { buildJeansCoinBackPockets, JEANS_POCKET_KEEP_OUT_CM } from "./jeans-coin-back-pockets";
@@ -11,6 +13,7 @@ import { edgeEnd, edgeLength, edgeStart, pieceEdge, type Edge, type Piece } from
 import { stitchChecks } from "./stitch";
 import { TROUSER_GRADE } from "./trouser-tables";
 import { JEANS_ALLOWANCES } from "./jeans-tables";
+import { JEANS } from "./recipe";
 
 const base = draftJeansCore(STANDARD_M);
 
@@ -128,6 +131,50 @@ function normalizeEndpoints(start: { x: number; y: number }, end: { x: number; y
   return [start, end].sort((a, b) => a.x - b.x || a.y - b.y);
 }
 
+function pointOnSegment(value: Point, start: Point, end: Point): boolean {
+  const cross = (value.x - start.x) * (end.y - start.y) - (value.y - start.y) * (end.x - start.x);
+  return Math.abs(cross) <= 1e-8 && value.x >= Math.min(start.x, end.x) - 1e-8 &&
+    value.x <= Math.max(start.x, end.x) + 1e-8 && value.y >= Math.min(start.y, end.y) - 1e-8 &&
+    value.y <= Math.max(start.y, end.y) + 1e-8;
+}
+
+function segmentsIntersect(a: Point, b: Point, c: Point, d: Point): boolean {
+  const cross = (start: Point, end: Point, value: Point) =>
+    (end.x - start.x) * (value.y - start.y) - (end.y - start.y) * (value.x - start.x);
+  const abC = cross(a, b, c);
+  const abD = cross(a, b, d);
+  const cdA = cross(c, d, a);
+  const cdB = cross(c, d, b);
+  if (((abC > 1e-8 && abD < -1e-8) || (abC < -1e-8 && abD > 1e-8)) &&
+      ((cdA > 1e-8 && cdB < -1e-8) || (cdA < -1e-8 && cdB > 1e-8))) return true;
+  return pointOnSegment(c, a, b) || pointOnSegment(d, a, b) ||
+    pointOnSegment(a, c, d) || pointOnSegment(b, c, d);
+}
+
+function hasNonAdjacentCrossing(points: readonly Point[]): boolean {
+  for (let first = 0; first < points.length; first += 1) {
+    const firstNext = (first + 1) % points.length;
+    for (let second = first + 1; second < points.length; second += 1) {
+      const secondNext = (second + 1) % points.length;
+      if (firstNext === second || secondNext === first) continue;
+      if (segmentsIntersect(points[first]!, points[firstNext]!, points[second]!, points[secondNext]!)) return true;
+    }
+  }
+  return false;
+}
+
+function pointInPolygon(value: Point, points: readonly Point[]): boolean {
+  let inside = false;
+  for (let index = 0, previous = points.length - 1; index < points.length; previous = index, index += 1) {
+    const a = points[previous]!;
+    const b = points[index]!;
+    if (pointOnSegment(value, a, b)) return true;
+    if ((a.y > value.y) !== (b.y > value.y) &&
+        value.x < (b.x - a.x) * (value.y - a.y) / (b.y - a.y) + a.x) inside = !inside;
+  }
+  return inside;
+}
+
 describe("Jeans coin and back-pocket geometry", () => {
   it("adds one wearer-right coin pocket on a seam-matched facing extension", () => {
     const draft = base;
@@ -176,6 +223,52 @@ describe("Jeans coin and back-pocket geometry", () => {
       { start: requireLine(pieceEdge(coin, "pocketInner")).start, end: requireLine(pieceEdge(coin, "pocketInner")).end },
     ]);
     expect(stitchChecks(draft, draft.stitches).filter(({ ok }) => !ok)).toEqual([]);
+  });
+
+  it("keeps the wearer-right coin-facing extension simple and contains its final-map pocket allowance across the grade and supported front-pocket-drop bounds", () => {
+    for (const step of [-2, -1, 0, 1, 2]) {
+      for (const { frontPocketDrop, coinPocketWidth, coinPocketHeight } of [
+        { frontPocketDrop: 2, coinPocketWidth: 5, coinPocketHeight: 5 },
+        { frontPocketDrop: 4, coinPocketWidth: 8, coinPocketHeight: 7 },
+        { frontPocketDrop: 12, coinPocketWidth: 10, coinPocketHeight: 10 },
+      ]) {
+        const measurements = gradeMeasurements(STANDARD_M, TROUSER_GRADE, step);
+        const draft = draftJeansCore(measurements, withOptionPatch({ frontPocketDrop, coinPocketWidth, coinPocketHeight }));
+        const facing = rolePiece(draft, "pocketFacingRight");
+        const facingSide = requireLine(pieceEdge(facing, "sideFacing"));
+        const extension = rolePiece(draft, "pocketFacingExtensionRight");
+        const join = requireLine(pieceEdge(extension, "facingJoin"));
+        const relief = requireLine(pieceEdge(extension, "extensionWaistRelief"));
+        const outer = requireLine(pieceEdge(extension, "extensionOuter"));
+        const extensionSew = outlinePoints(extension);
+        const extensionCut = seamAllowance(extension, JEANS_ALLOWANCES);
+        const coin = rolePiece(draft, "coinPocket");
+        const coinTop = requireLine(pieceEdge(coin, "pocketTop"));
+        const coinOuter = requireLine(pieceEdge(coin, "pocketOuter"));
+        const coinCut = seamAllowance(coin, JEANS_ALLOWANCES);
+        const extensionSewSamples = extensionSew.flatMap((start, index) => {
+          const end = extensionSew[(index + 1) % extensionSew.length]!;
+          return [start, point((start.x + end.x) / 2, (start.y + end.y) / 2)];
+        });
+        const issues = inspectSemanticEditCandidate(JEANS, measurements, draft, `step ${step}`)
+          .filter((issue) => issue.roleId === "pocketFacingExtensionRight");
+
+        expect(join.start).toEqual(edgeEnd(facingSide));
+        expect(join.end).toEqual(edgeStart(facingSide));
+        expect(edgeLength(join)).toBeCloseTo(edgeLength(facingSide), 9);
+        expect(relief.start).toEqual(join.end);
+        expect(relief.end.x).toBeCloseTo(Math.min(facingSide.start.x, facingSide.end.x) - allowanceFor(JEANS_ALLOWANCES, "pocketInner", extension.name), 9);
+        expect(outer.start).toEqual(relief.end);
+        expect(outer.end.x).toBe(relief.end.x);
+        expect(edgeLength(coinTop)).toBeCloseTo(coinPocketWidth, 9);
+        expect(edgeLength(coinOuter)).toBeCloseTo(coinPocketHeight, 9);
+        expect(hasNonAdjacentCrossing(extensionSew)).toBe(false);
+        expect(hasNonAdjacentCrossing(extensionCut)).toBe(false);
+        expect(extensionSewSamples.every((sample) => pointInPolygon(sample, extensionCut))).toBe(true);
+        expect(coinCut.every((sample) => pointInPolygon(sample, extensionCut))).toBe(true);
+        expect(issues).toEqual([]);
+      }
+    }
   });
 
   it("keeps paired back pockets below the live yoke and inside each panel from XS through XL", () => {

@@ -582,6 +582,8 @@ export const JEANS: GarmentRecipe = {
   label: "Jeans",
   region: "lower",
   editRole: "frontLeft",
+  a0Overflow: true,
+  tiledPdfLocalCoordinates: true,
   fields: JEANS_FIELDS,
   styles: JEANS_STYLES,
   draft: (m, options = {}) => draftJeansCore(m, options as Partial<JeansOptions>),

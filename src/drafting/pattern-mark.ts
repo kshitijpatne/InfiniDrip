@@ -35,4 +35,8 @@ export const lineMark = (
 export const pointMark = (
   kind: "button" | "buttonhole" | "placementPoint", name: string,
   at: Point, label?: string, labelRole?: PatternAnnotationRole
-): PatternMark => ({ kind, name, at, label, ...(labelRole ? { labelRole } : {}) });
+): PatternMark => ({
+  kind, name, at,
+  ...(label === undefined ? {} : { label }),
+  ...(labelRole ? { labelRole } : {}),
+});

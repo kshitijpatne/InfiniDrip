@@ -9,10 +9,12 @@ describe("Jeans T02 POM source definitions", () => {
     const result = parseJeansT02PomDefinitions();
     expect(result.ok).toBe(true);
     expect(TECH_PACK_POM_RECIPE_IDS[TECH_PACK_POM_RECIPE_IDS.length - 1]).toBe("jeans");
-    expect(GARMENTS.some(({ name }) => name === "jeans")).toBe(false);
+    const registeredJeans = GARMENTS.find(({ name }) => name === "jeans");
+    expect(registeredJeans).toBeDefined();
     expect(JEANS_SIZES.map(({ label }) => label)).toEqual(["XS", "S", "M", "L", "XL"]);
     if (!result.ok) return;
 
+    expect(result.value.recipeId).toBe(registeredJeans!.name);
     const { definitions } = result.value;
     expect(definitions).toHaveLength(JEANS_POM_DEFINITIONS.length);
     expect(definitions.map(({ id }) => id)).toEqual(JEANS_POM_DEFINITIONS.map(({ id }) => id));

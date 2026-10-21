@@ -233,7 +233,11 @@ function buildCoinFacingExtension(
   };
   const joinStart = sideDrop;
   const joinEnd = sideWaist;
-  const outerBottom = point(sideWaist.x, panelBottom);
+  // Step the descending outer edge one pocket allowance beyond the widest
+  // endpoint of the joined facing seam. This keeps the seam and top edge apart
+  // while preserving the coin pocket's existing host rectangle.
+  const waistRelief = point(Math.min(sideWaist.x, sideDrop.x) - sideAllowance, sideWaist.y);
+  const outerBottom = point(waistRelief.x, panelBottom);
   const innerBottom = point(innerX, panelBottom);
   const innerTop = point(innerX, sideDrop.y);
   const extension: Piece = {
@@ -241,7 +245,8 @@ function buildCoinFacingExtension(
     onFold: false,
     edges: [
       { kind: "line", name: "facingJoin", start: joinStart, end: joinEnd },
-      { kind: "line", name: "extensionOuter", start: joinEnd, end: outerBottom },
+      { kind: "line", name: "extensionWaistRelief", start: joinEnd, end: waistRelief },
+      { kind: "line", name: "extensionOuter", start: waistRelief, end: outerBottom },
       { kind: "line", name: "extensionBottom", start: outerBottom, end: innerBottom },
       { kind: "line", name: "extensionInner", start: innerBottom, end: innerTop },
       { kind: "line", name: "extensionTop", start: innerTop, end: joinStart },
