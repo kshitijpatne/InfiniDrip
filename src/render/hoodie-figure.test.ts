@@ -25,6 +25,9 @@ describe("hidden Hoodie schematic views", () => {
     expectSourcePiece(front, "front", pieceToPath(rolePiece(block, "front")));
     expect(front).toContain('data-pattern-mark-name="kangarooPouchOpening"');
     expect(front).toContain('data-disclosure="schematic-not-pattern-linked"');
+    for (const field of ["chest", "shoulderWidth", "armholeDepth", "length", "ease"]) {
+      expect(front).toContain('data-edge="' + field + '"');
+    }
     expect(front).toContain(DISCLOSURE);
     expect(back).toContain('aria-label="Hoodie back body schematic"');
     expectSourcePiece(back, "back", pieceToPath(rolePiece(block, "back")));
@@ -45,6 +48,9 @@ describe("hidden Hoodie schematic views", () => {
       expectSourcePiece(svg, role, pieceToPath(rolePiece(block, role)));
     }
     expect(svg).toContain('data-pattern-mark-name="hoodDrawcordExit"');
+    for (const field of ["bicep", "sleeveLength"]) {
+      expect(svg).toContain('data-edge="' + field + '"');
+    }
     expect(svg).toContain("KANGAROO POUCH · ON FOLD");
     expect(svg).toContain('data-on-fold="true"');
     expect(svg).toContain('fill="#123456"');

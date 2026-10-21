@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { STANDARD_M, GARMENTS, blockPieces, gradeRun } from "../drafting";
+import { STANDARD_M, GARMENTS, blockPieces, defaultGarmentOptions, gradeRecipeRun, gradeRun } from "../drafting";
 import optionMatrix from "../../docs/research/epic17/S330-integrated-browser/matrix.json";
 import { exportDxfCentimeters } from "./dxf-centimeters";
 import { adaptiveSeamAllowance, CUT_GEOMETRY_ALGORITHM } from "./adaptive-cut";
@@ -31,10 +31,21 @@ async function sha256(value: string): Promise<string> {
 describe("C04-bounded DXF interchange package", () => {
   it("binds every registered recipe and grade row to an exact DXF and seam graph", async () => {
     for (const recipe of GARMENTS) {
-      const run = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft);
+      const options = defaultGarmentOptions(recipe.options ?? []);
+      const run = gradeRecipeRun(recipe, STANDARD_M, recipe.sizes, options);
       expect(run).toHaveLength(recipe.sizes.length);
       for (const graded of run) {
-        const candidate = await createDxfInterchangePackage(recipe, graded);
+        const candidate = await createDxfInterchangePackage(recipe, graded, options);
+        const resolvedForSize = recipe.resolveOptionsForSize && graded.step !== 0
+          ? recipe.resolveOptionsForSize({
+            baseMeasurements: STANDARD_M,
+            sizeMeasurements: graded.measurements,
+            step: graded.step,
+            draft: recipe.draft,
+            baseOptions: options,
+          })
+          : options;
+        expect(candidate.manifest.options).toEqual(resolvedForSize);
         expect(candidate.manifest.recipe.id).toBe(recipe.name);
         expect(candidate.manifest.grade.selectedSize).toEqual({ label: graded.label, step: graded.step });
         expect(candidate.manifest.grade.sizeRun).toEqual(recipe.sizes);

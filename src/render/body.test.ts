@@ -370,3 +370,24 @@ describe("renderBody — woven-shirt independent neck", () => {
     expect(changed).toContain("Hip depth 24");
   });
 });
+
+
+describe("sleeved recipe neckline measurement targets", () => {
+  it("highlights adjustable Crewneck neckline fields on the live front and back edges", () => {
+    const neckline = {
+      shape: "crew" as const,
+      widthEase: STANDARD_M.neckWidthEase,
+      frontDrop: STANDARD_M.neckDrop,
+    };
+    const front = renderBody(STANDARD_M, true, neckline);
+    const back = renderBody(STANDARD_M, true, neckline, undefined, "back");
+
+    expect(front).toContain('data-dim="neckDrop"');
+    expect(front).toContain('data-edge="neckDrop"');
+    expect(front).toContain('data-dim="neckWidthEase"');
+    expect(front).toContain('data-edge="neckWidthEase"');
+    expect(back).not.toContain('data-dim="neckDrop"');
+    expect(back).toContain('data-dim="neckWidthEase"');
+    expect(back).toContain('data-edge="neckWidthEase"');
+  });
+});

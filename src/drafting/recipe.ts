@@ -666,6 +666,8 @@ export const HOODIE: GarmentRecipe = {
   options: HOODIE_OPTION_DEFINITIONS,
   resolveOptionsForSize: resolveHoodieOptionsForSize,
   allowances: HOODIE_ALLOWANCES,
+  a0Overflow: true,
+  tiledPdfLocalCoordinates: true,
 };
 
 export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK, JOGGER, HOODIE];

@@ -68,6 +68,8 @@ describe("Hoodie recipe activation (S1137)", () => {
     expect(HOODIE.options).toEqual(HOODIE_OPTION_DEFINITIONS);
     expect(HOODIE_DEFAULT_OPTIONS.hoodHeight).toBe(32);
     expect(HOODIE.resolveOptionsForSize).toBeDefined();
+    expect(HOODIE.a0Overflow).toBe(true);
+    expect(HOODIE.tiledPdfLocalCoordinates).toBe(true);
 
     const drafted = HOODIE.draft(STANDARD_M);
     expect(Object.keys(drafted.roles)).toEqual([...HOODIE_ROLE_ORDER]);

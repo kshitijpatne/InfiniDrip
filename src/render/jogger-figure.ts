@@ -4,6 +4,7 @@
 
 import type { Block, Measurements } from "../drafting";
 import { draftJogger } from "../drafting/jogger";
+import { edgeEnd, edgeStart, pieceEdge, type Piece } from "../drafting/piece";
 import type { JoggerOptions } from "../drafting/jogger-contract";
 import type { PatternMark } from "../drafting/pattern-mark";
 import { pieceBounds, pieceToPath } from "./shape";
@@ -28,17 +29,82 @@ function omitMarkLabel(mark: PatternMark): PatternMark {
   return geometryOnly;
 }
 
+
+function edgePath(piece: Piece, edgeName: string): string {
+  const edge = pieceEdge(piece, edgeName);
+  if (edge.kind === "line") {
+    return '<path d="M ' + round(edge.start.x) + ' ' + round(edge.start.y) + ' L ' +
+      round(edge.end.x) + ' ' + round(edge.end.y) + '" fill="none" stroke="' + T.line +
+      '" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/>';
+  }
+  const curve = edge.curve;
+  return '<path d="M ' + round(curve.start.x) + ' ' + round(curve.start.y) + ' C ' +
+    round(curve.control1.x) + ' ' + round(curve.control1.y) + ' ' +
+    round(curve.control2.x) + ' ' + round(curve.control2.y) + ' ' +
+    round(curve.end.x) + ' ' + round(curve.end.y) + '" fill="none" stroke="' + T.line +
+    '" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/>';
+}
+
+function edgeGroup(field: string, content: string): string {
+  return '<g data-edge="' + field + '">' + content + "</g>";
+}
+
+function lineBetween(piece: Piece, first: string, second: string, secondAt: "start" | "end"): string {
+  const firstPoint = edgeEnd(pieceEdge(piece, first));
+  const secondEdge = pieceEdge(piece, second);
+  const secondPoint = secondAt === "start" ? edgeStart(secondEdge) : edgeEnd(secondEdge);
+  return '<line x1="' + round(firstPoint.x) + '" y1="' + round(firstPoint.y) +
+    '" x2="' + round(secondPoint.x) + '" y2="' + round(secondPoint.y) +
+    '" stroke="' + T.line + '" stroke-width="1.1" vector-effect="non-scaling-stroke"/>';
+}
+
+function measurementOverlays(
+  block: Block, position: Position, cx: number, top: number,
+): string {
+  const roles = panelRoles(position);
+  const pieces = roles.map((roleId) => sourcePiece(block, roleId));
+  const paired = (name: string): string => pieces.map((piece) => edgePath(piece, name)).join("");
+  const center = position === "front" ? "centerFront" : "centerBack";
+  const leftHip = edgeEnd(pieceEdge(pieces[0]!, "sideUpper"));
+  const rightHip = edgeEnd(pieceEdge(pieces[1]!, "sideUpper"));
+  const hipDepth = '<line x1="' + round(leftHip.x) + '" y1="' + round(leftHip.y) +
+    '" x2="' + round(rightHip.x) + '" y2="' + round(rightHip.y) +
+    '" stroke="' + T.line + '" stroke-width="1.1" vector-effect="non-scaling-stroke"/>';
+  const thigh = pieces.map((piece) =>
+    lineBetween(piece, "sideHipToThigh", "innerThighToCrotch", "start"),
+  ).join("");
+  const knee = pieces.map((piece) =>
+    lineBetween(piece, "sideThighToKnee", "inseamLower", "end"),
+  ).join("");
+  const inseamNames = ["inseamLower", "inseamUpper", "innerThighToCrotch"];
+  const inseam = pieces.map((piece) =>
+    inseamNames.map((name) => edgePath(piece, name)).join(""),
+  ).join("");
+  return '<g transform="translate(' + round(cx) + ' ' + round(top) + ')">' +
+    edgeGroup("waist", paired("waist")) +
+    edgeGroup("hip", paired("sideUpper") + paired("sideHipToThigh")) +
+    edgeGroup("hipDepth", hipDepth) +
+    edgeGroup("crotchDepth", paired(center) + paired("crotch")) +
+    edgeGroup("thigh", thigh) +
+    edgeGroup("knee", knee) +
+    edgeGroup("inseam", inseam) +
+    "</g>";
+}
+
 function panelPair(block: Block, position: Position, color: string, cx: number, top: number): string {
-  return panelRoles(position).map((roleId) => {
+  const roles = panelRoles(position);
+  const panels = roles.map((roleId) => {
     const piece = sourcePiece(block, roleId);
     const pocketMarks = piece.marks!.filter((mark) => mark.name === "pocketOpening")
       .map(omitMarkLabel);
-    return `<g transform="translate(${round(cx)} ${round(top)})" data-source-role="${roleId}">` +
-      `<path data-role="${roleId}" d="${pieceToPath(piece)}" fill="${color}" stroke="${T.line}" ` +
-      `stroke-width="1.1" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>` +
+    return '<g transform="translate(' + round(cx) + ' ' + round(top) + ')" data-source-role="' + roleId + '">' +
+      '<path data-role="' + roleId + '" d="' + pieceToPath(piece) + '" fill="' + color +
+      '" data-edge="ease" stroke="' + T.line + '" stroke-width="1.1" stroke-linejoin="round" ' +
+      'vector-effect="non-scaling-stroke"/>' +
       patternMarksSvg(pocketMarks, { stroke: T.marker, width: 0.8, pointSize: 0.55, labelSize: 1.1 }) +
-      `</g>`;
+      '</g>';
   }).join("");
+  return panels + measurementOverlays(block, position, cx, top);
 }
 
 function svgShell(viewBox: string, label: string, body: string): string {

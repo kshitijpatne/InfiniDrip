@@ -12,6 +12,10 @@ describe("hidden Jogger lower-body views", () => {
     expect(front).toContain('data-role="frontLeft"');
     expect(front).toContain('data-role="frontRight"');
     expect(front).toContain('data-pattern-mark-name="pocketOpening"');
+    for (const field of ["waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease"]) {
+      expect(front).toContain('data-edge="' + field + '"');
+      expect(back).toContain('data-edge="' + field + '"');
+    }
     expect(front).not.toContain('data-role="backLeft"');
     expect(back).toContain('aria-label="Jogger back body figure"');
     expect(back).toContain('data-role="backLeft"');

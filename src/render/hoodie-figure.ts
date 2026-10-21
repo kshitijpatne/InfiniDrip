@@ -4,6 +4,7 @@
 
 import type { Block, Measurements, Piece } from "../drafting";
 import { rolePiece } from "../drafting/block";
+import { pieceEdge } from "../drafting/piece";
 import { draftHoodie } from "../drafting/hoodie";
 import { resolveHoodieOptions, type HoodieOptions } from "../drafting/hoodie-contract";
 import { patternMarksSvg } from "./pattern-mark";
@@ -61,6 +62,45 @@ function sourceBounds(piece: Piece): PieceBounds {
   return { minX, minY, width: maxX - minX, height: maxY - minY };
 }
 
+
+function edgePath(piece: Piece, edgeName: string): string {
+  const edge = pieceEdge(piece, edgeName);
+  if (edge.kind === "line") {
+    return '<path d="M ' + round(edge.start.x) + ' ' + round(edge.start.y) + ' L ' +
+      round(edge.end.x) + ' ' + round(edge.end.y) + '" fill="none" stroke="' + T.line +
+      '" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/>';
+  }
+  const curve = edge.curve;
+  return '<path d="M ' + round(curve.start.x) + ' ' + round(curve.start.y) + ' C ' +
+    round(curve.control1.x) + ' ' + round(curve.control1.y) + ' ' +
+    round(curve.control2.x) + ' ' + round(curve.control2.y) + ' ' +
+    round(curve.end.x) + ' ' + round(curve.end.y) + '" fill="none" stroke="' + T.line +
+    '" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/>';
+}
+
+function measurementOverlays(piece: Piece, role: string): string {
+  const fields: Record<string, readonly string[]> = role === "front" || role === "back"
+    ? {
+        chest: ["side"],
+        shoulderWidth: ["shoulder"],
+        armholeDepth: ["armhole"],
+        length: ["hem"],
+      }
+    : role === "sleeveLeft" || role === "sleeveRight"
+      ? {
+          bicep: ["capLeft", "capRight"],
+          sleeveLength: ["sideRight", "hem", "sideLeft"],
+        }
+      : {};
+  return Object.entries(fields).map(([field, edges]) =>
+    '<g data-edge="' + field + '">' + edges.map((name) => edgePath(piece, name)).join("") + '</g>',
+  ).join("");
+}
+
+function carriesBodyEase(role: string): boolean {
+  return role === "front" || role === "back" || role === "sleeveLeft" || role === "sleeveRight";
+}
+
 function disclosure(width: number, height: number): string {
   return '<text data-disclosure="schematic-not-pattern-linked" x="' + round(width / 2) +
     '" y="' + round(height - 2.4) + '" fill="' + T.patternInstruction +
@@ -83,12 +123,13 @@ function sourcePiece(
   translateX: number,
   translateY: number,
 ): string {
-  const path = '<path data-role="' + role + '" d="' + pieceToPath(piece) + '" fill="' + fill +
-    '" stroke="' + T.line + '" stroke-width="1.1" stroke-linejoin="round" ' +
+  const path = '<path data-role="' + role + '" d="' + pieceToPath(piece) + '" fill="' + fill + '"' +
+    (carriesBodyEase(role) ? ' data-edge="ease"' : "") +
+    ' stroke="' + T.line + '" stroke-width="1.1" stroke-linejoin="round" ' +
     'vector-effect="non-scaling-stroke"/>';
   return '<g data-source-role="' + role + '" data-on-fold="' + String(piece.onFold) +
     '" transform="translate(' + round(translateX) + " " + round(translateY) + ')">' +
-    path + patternMarksSvg(piece.marks, MARK_STYLE) + "</g>";
+    path + patternMarksSvg(piece.marks, MARK_STYLE) + measurementOverlays(piece, role) + "</g>";
 }
 
 function bodySvg(block: Block, position: HoodieBodyPosition): string {
