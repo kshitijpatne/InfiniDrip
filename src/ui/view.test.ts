@@ -784,7 +784,7 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain('data-garment-region="Lower body"');
     expect(html).toContain('id="starter-blank-library" aria-labelledby="starter-blank-library-heading"');
     expect(html).toContain('id="custom-measurement-candidates" aria-labelledby="custom-measurement-candidates-heading"');
-    expect(html).toContain("Starter Blank Library</span><span>4</span>");
+    expect(html).toContain("Starter Blank Library</span><span>5</span>");
     expect(html).toContain("Custom measurement candidates</span><span>1</span>");
     expect(html).toContain('data-starter-entry-id="tee-classic-digital-v1" aria-pressed="false"');
     expect(html).toContain('data-starter-entry-id="tee-relaxed-digital-v1" aria-pressed="false"');
@@ -792,6 +792,11 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain("Tee Boxy Crop · software defaults");
     expect(html).toContain('data-starter-entry-id="tee-cropped-digital-v1" aria-pressed="false"');
     expect(html).toContain("Tee Crop · software defaults");
+    expect(html).toContain('data-starter-entry-id="tee-longline-digital-v1" aria-pressed="false"');
+    expect(html).toContain("Tee Longline · software defaults");
+    expect(html).toContain("Length (design input): 78–100 cm");
+    expect(html).toContain("Ease (design input): 7–18 cm");
+    expect(html).toContain("The Tech Pack maps modeled length to HPS-to-hem; Tol ± values are generic Tee recipe references, not validated tolerances for this starter.");
     expect(html).toContain("Length (design input): 40–57 cm");
     expect(html).toContain("Ease (design input): 13–30 cm");
     expect(html).toContain("drop-shoulder geometry is not implemented");
@@ -827,6 +832,8 @@ describe("garmentToggleMarkup", () => {
       .toContain('data-starter-entry-id="tee-relaxed-digital-v1" aria-pressed="true"');
     expect(garmentToggleMarkup("tee", "tee-boxy-crop-digital-v1"))
       .toContain('data-starter-entry-id="tee-boxy-crop-digital-v1" aria-pressed="true"');
+    expect(garmentToggleMarkup("tee", "tee-longline-digital-v1"))
+      .toContain('data-starter-entry-id="tee-longline-digital-v1" aria-pressed="true"');
   });
 });
 
