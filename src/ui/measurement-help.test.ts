@@ -78,8 +78,8 @@ function bodyTextOf(recipeId: string, fieldId: string): string {
 }
 
 describe("measurement help catalog", () => {
-  it("covers every field definition of all eleven recipes exactly once", () => {
-    expect(GARMENTS).toHaveLength(11);
+  it("covers every field definition of all twelve recipes exactly once", () => {
+    expect(GARMENTS).toHaveLength(12);
     expect(Object.keys(MEASUREMENT_HELP).sort()).toEqual(GARMENTS.map((recipe) => recipe.name).sort());
     for (const recipe of GARMENTS) {
       const definitions = getFieldDefinitions(recipe.name);
@@ -164,6 +164,27 @@ describe("measurement help catalog", () => {
     expect(length.draftUse).toContain("no knee station");
     expect(length.limits).toContain("45 cm product cap permits lengths that cross the knee");
     expect(length.limits).toContain("no anatomical knee station, mark, or POM");
+  });
+
+  it("describes Jeans thigh, knee transition, and inseam as digital targets without Trouser mapping", () => {
+    const thigh = measurementHelpFor("jeans", "target.jeans-finished-thigh-girth")!;
+    const knee = measurementHelpFor("jeans", "target.jeans-finished-knee-transition-girth")!;
+    const inseam = measurementHelpFor("jeans", "target.jeans-crotch-to-hem")!;
+    for (const entry of [thigh, knee, inseam]) {
+      expect(entry.techniqueQualified).toBe(false);
+      expect(entry.qualificationNote).toContain("No accepted fit-qualified capture procedure exists");
+      expect(entry.limits).toContain("NOT_ASSESSED");
+      expect(`${entry.draftUse} ${entry.limits}`.toLowerCase()).not.toContain("trouser");
+    }
+    expect(thigh.draftUse).toContain("finished digital girth target");
+    expect(thigh.limits).toContain("not a body capture");
+    expect(knee.draftUse).toContain("internal knee-transition station");
+    expect(knee.limits).toContain("no anatomical mapping");
+    expect(knee.draftUse.toLowerCase()).not.toContain("52 percent");
+    expect(knee.limits.toLowerCase()).not.toContain("52-percent");
+    expect(inseam.draftUse).toContain("vertical crotch-to-hem target");
+    expect(inseam.draftUse).toContain("sloped digital seam");
+    expect(inseam.limits).toContain("not a body inseam");
   });
 
   it("describes crewneck neckline controls against the crewneck draft", () => {

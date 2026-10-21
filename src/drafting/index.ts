@@ -50,3 +50,7 @@ export * from "./hoodie";
 export * from "./hoodie-contract";
 export * from "./hoodie-guidance";
 export * from "./hoodie-tables";
+export * from "./jeans";
+export * from "./jeans-contract";
+export * from "./jeans-guidance";
+export * from "./jeans-tables";

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
-import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK, JOGGER, HOODIE, GARMENTS, garmentByName } from "./recipe";
+import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, JEANS, SHORTS, CREWNECK, JOGGER, HOODIE, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -37,8 +37,8 @@ import { HOODIE_ROLE_ORDER } from "./hoodie";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
-    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts", "crewneck", "jogger", "hoodie"]);
-    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser", "Shorts", "Crewneck sweatshirt", "Jogger", "Pullover hoodie"]);
+    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "jeans", "shorts", "crewneck", "jogger", "hoodie"]);
+    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser", "Jeans", "Shorts", "Crewneck sweatshirt", "Jogger", "Pullover hoodie"]);
   });
 
   it("looks a recipe up by name and falls back to the tee for an unknown one", () => {
@@ -47,11 +47,34 @@ describe("the garment registry", () => {
     expect(garmentByName("polo")).toBe(POLO);
     expect(garmentByName("woven-shirt")).toBe(WOVEN_SHIRT);
     expect(garmentByName("trouser")).toBe(TROUSER);
+    expect(garmentByName("jeans")).toBe(JEANS);
     expect(garmentByName("shorts")).toBe(SHORTS);
     expect(garmentByName("crewneck")).toBe(CREWNECK);
     expect(garmentByName("jogger")).toBe(JOGGER);
     expect(garmentByName("hoodie")).toBe(HOODIE);
     expect(garmentByName("kimono")).toBe(TEE);
+  });
+
+  it("registers the admitted Jeans draft with its own style, options, POMs, and XS–XL contract", () => {
+    expect(JEANS.name).toBe("jeans");
+    expect(JEANS.region).toBe("lower");
+    expect(JEANS.styles).toEqual([{ name: "Relaxed straight mid-rise jeans", ranges: {} }]);
+    expect(JEANS.styles).not.toEqual(TROUSER.styles);
+    expect(JEANS.options?.map(({ id }) => id)).toContain("backPocketDrop");
+    expect(JEANS.poms.length).toBeGreaterThan(0);
+    expect(JEANS.sizes.map(({ label }) => label)).toEqual(["XS", "S", "M", "L", "XL"]);
+    expect(garmentByName("jeans")).toBe(JEANS);
+
+    const jeansBlock = JEANS.draft(STANDARD_M);
+    const jeansPieces = blockPieces(jeansBlock);
+    for (const piece of jeansPieces) {
+      const rule = JEANS.notches.find(({ pieceName }) => pieceName === piece.name)!;
+      expect(rule.notches.length, piece.name).toBeGreaterThan(0);
+      expect(rule.notches.every(({ edgeName }) => piece.edges.some(({ name }) => name === edgeName)), piece.name).toBe(true);
+      expect(piece.edges.some(({ name }) => name === rule.grainline.topEdge), piece.name).toBe(true);
+      expect(piece.edges.some(({ name }) => name === rule.grainline.bottomEdge), piece.name).toBe(true);
+    }
+    expect(garmentReport(JEANS, STANDARD_M).ok).toBe(true);
   });
 });
 
@@ -148,9 +171,9 @@ describe("recipes are self-describing", () => {
 
   it("each declares notches for every piece it drafts", () => {
     for (const g of GARMENTS) {
-      for (const p of blockPieces(g.draft(STANDARD_M))) {
-        expect(g.notches.find((n) => n.pieceName === p.name)).toBeDefined();
-      }
+      const missing = blockPieces(g.draft(STANDARD_M)).map((piece) => piece.name)
+        .filter((pieceName) => !g.notches.some((notch) => notch.pieceName === pieceName));
+      expect(missing, g.name).toEqual([]);
     }
   });
 

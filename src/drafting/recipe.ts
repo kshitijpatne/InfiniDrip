@@ -13,7 +13,7 @@ import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
-import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES } from "../style";
+import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES, JEANS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { draftAtSize, gradeRun, type GradeOptionResolver, type GradeRule, type SizeStep } from "./grading";
@@ -91,6 +91,10 @@ import {
   resolveHoodieOptionsForSize,
 } from "./hoodie-tables";
 import { hoodieGuidance } from "./hoodie-guidance";
+import { draftJeansCore } from "./jeans";
+import { JEANS_FIELDS, JEANS_OPTION_DEFINITIONS, type JeansOptions } from "./jeans-contract";
+import { draftJeansWithGuidance } from "./jeans-guidance";
+import { JEANS_ALLOWANCES, JEANS_GRADE, JEANS_NOTCHES, JEANS_POMS, JEANS_SIZES, JEANS_TECH_PACK } from "./jeans-tables";
 
 /**
  * How a garment declares its production-readiness checks, so the checker never
@@ -573,6 +577,26 @@ export const TROUSER: GarmentRecipe = {
   allowances: TROUSER_ALLOWANCES,
 };
 
+export const JEANS: GarmentRecipe = {
+  name: "jeans",
+  label: "Jeans",
+  region: "lower",
+  editRole: "frontLeft",
+  fields: JEANS_FIELDS,
+  styles: JEANS_STYLES,
+  draft: (m, options = {}) => draftJeansCore(m, options as Partial<JeansOptions>),
+  notches: JEANS_NOTCHES,
+  poms: JEANS_POMS,
+  grade: JEANS_GRADE,
+  sizes: JEANS_SIZES,
+  checks: () => [],
+  guidance: (_block, m, options = {}) => [...draftJeansWithGuidance(m, options as Partial<JeansOptions>).notes],
+  sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "frontLeft"), "waist")),
+  techPack: JEANS_TECH_PACK,
+  options: JEANS_OPTION_DEFINITIONS,
+  allowances: JEANS_ALLOWANCES,
+};
+
 export const SHORTS: GarmentRecipe = {
   name: "shorts",
   label: "Shorts",
@@ -670,7 +694,7 @@ export const HOODIE: GarmentRecipe = {
   tiledPdfLocalCoordinates: true,
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK, JOGGER, HOODIE];
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, JEANS, SHORTS, CREWNECK, JOGGER, HOODIE];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {

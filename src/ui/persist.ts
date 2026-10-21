@@ -36,6 +36,7 @@ const DEFAULT_STRETCH_BY_GARMENT: Readonly<Record<string, string>> = {
   "woven-shirt": "Cotton woven",
   skirt: "Cotton woven",
   trouser: "Cotton woven",
+  jeans: "Cotton woven",
   shorts: "Cotton woven",
   crewneck: "Stable sweatshirt knit (10% width seed)",
   jogger: "Cotton jersey",

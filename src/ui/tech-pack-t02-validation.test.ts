@@ -88,7 +88,8 @@ function evaluate(recipe: GarmentRecipe, input?: {
 
 describe("T02 source-aware callout and size-run checks", () => {
   it("checks every existing recipe and calculates separate finite pattern predictions", () => {
-    expect(TECH_PACK_POM_RECIPE_IDS).toEqual([...GARMENTS.map((recipe) => recipe.name), "jeans"]);
+    expect(new Set(TECH_PACK_POM_RECIPE_IDS).size).toBe(GARMENTS.length);
+    expect([...TECH_PACK_POM_RECIPE_IDS].sort()).toEqual(GARMENTS.map((recipe) => recipe.name).sort());
     for (const recipe of GARMENTS) {
       const result = evaluate(recipe);
       expect(result.ready, recipe.name).toBe(true);

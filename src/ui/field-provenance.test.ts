@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_APPEARANCE } from "./appearance";
-import { GARMENTS, HOODIE_FIELDS, HOODIE_OPTION_DEFINITIONS, STANDARD_M, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
+import { GARMENTS, HOODIE_FIELDS, HOODIE_OPTION_DEFINITIONS, JEANS_FIELDS, STANDARD_M, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
 import { DEFAULT_WORKSPACE, deserializeRecovery, serialize, serializeRecovery } from "./persist";
 import { migrateLegacySaveFile, type RecoveryPayload, type StyleRecord } from "./project-records";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
@@ -68,8 +68,8 @@ function recoveryFor(style: StyleRecord, changes: {
 }
 
 describe("C03 field definitions and append-only observations", () => {
-  it("covers every editable input exactly once across all eleven current recipes", () => {
-    expect(GARMENTS).toHaveLength(11);
+  it("covers every editable input exactly once across all twelve current recipes", () => {
+    expect(GARMENTS).toHaveLength(12);
     expect(() => assertRecipeFieldCoverage()).not.toThrow();
     expect(getAllFieldDefinitions().length).toBe(
       GARMENTS.reduce((sum, recipe) => sum + recipe.fields.length + (recipe.options?.length ?? 0), 0),
@@ -96,6 +96,8 @@ describe("C03 field definitions and append-only observations", () => {
   });
 
   it("distinguishes body, finished-garment, pattern, and style-control meanings from C03", () => {
+    expect(getFieldDefinitions("jeans").filter(({ inputKind }) => inputKind === "measurement")
+      .map(({ inputKey }) => inputKey)).toEqual([...JEANS_FIELDS]);
     expect(getFieldDefinition("tee", "chest")?.semanticKind).toBe("BODY_MEASURE");
     expect(getFieldDefinition("tee", "length")?.semanticKind).toBe("GARMENT_MEASURE");
     expect(getFieldDefinition("woven-shirt", "armholeDepth")).toMatchObject({
@@ -108,6 +110,27 @@ describe("C03 field definitions and append-only observations", () => {
       label: "Target finished thigh girth",
     });
     expect(getFieldDefinition("trouser", "knee")?.semanticId).toBe("target.finished-knee-girth");
+    expect(getFieldDefinition("jeans", "thigh")).toMatchObject({
+      semanticId: "target.jeans-finished-thigh-girth",
+      semanticKind: "GARMENT_MEASURE",
+      referenceFrame: "finished-garment",
+      label: "Target finished thigh girth",
+      captureBoundary: expect.stringContaining("not a wearer thigh capture"),
+    });
+    expect(getFieldDefinition("jeans", "knee")).toMatchObject({
+      semanticId: "target.jeans-finished-knee-transition-girth",
+      semanticKind: "GARMENT_MEASURE",
+      referenceFrame: "finished-garment",
+      label: "Target finished knee-transition girth",
+      captureBoundary: expect.stringContaining("not a wearer knee landmark"),
+    });
+    expect(getFieldDefinition("jeans", "inseam")).toMatchObject({
+      semanticId: "target.jeans-crotch-to-hem",
+      semanticKind: "GARMENT_MEASURE",
+      referenceFrame: "finished-garment",
+      label: "Crotch-to-hem target",
+      captureBoundary: expect.stringContaining("not a wearer body inseam"),
+    });
     expect(getFieldDefinition("shorts", "thigh")).toMatchObject({
       semanticId: "target.shorts-finished-thigh-girth",
       semanticKind: "GARMENT_MEASURE",

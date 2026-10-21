@@ -10767,3 +10767,102 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("100");
   });
 });
+
+describe("switching to Jeans (S1153)", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("uses the current Jeans assessment in the Checks view", () => {
+    const root = mount();
+    clickId(root, "garment-jeans");
+    clickId(root, "journey-step-fit");
+    clickId(root, "journey-next");
+
+    expect(root.querySelector<HTMLButtonElement>("#view-check")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Digital checks pass");
+  });
+
+  it("activates the Jeans contract, keeps Body and Assembled routes explicit, and gates knit material", () => {
+    const root = mount();
+    clickId(root, "garment-jeans");
+
+    expect(root.querySelector<HTMLButtonElement>("#garment-jeans")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton woven");
+    expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Relaxed straight mid-rise jeans");
+    expect(root.querySelector('input[data-field="chest"]')).toBeNull();
+    expect(root.querySelector('input[data-field="thigh"]')?.closest("[data-control-page]")?.getAttribute("data-control-label"))
+      .toBe("Finished targets");
+    expect(root.querySelector<HTMLInputElement>('[data-option="backPocketDrop"]')!.value).toBe("7");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("Cotton woven is an unqualified woven, 0% stretch product seed");
+
+    root.querySelector<HTMLButtonElement>('button[data-open-field-history="target.jeans-finished-knee-transition-girth"]')!.click();
+    expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.textContent)
+      .toContain("internal pattern transition has no reviewed anatomical mapping");
+    clickId(root, "view-body");
+    expect(root.querySelector("#analysis-host [data-jeans-body-unavailable]")).not.toBeNull();
+    expect(root.querySelector("#analysis-host svg[data-croquis-region]")).toBeNull();
+
+    clickId(root, "assembled-preview-toggle");
+    expect(root.querySelector("#garment-host [data-jeans-assembled-unavailable]")).not.toBeNull();
+    expect(root.querySelector("#garment-host svg[data-garment='skirt']")).toBeNull();
+    clickId(root, "assembled-preview-toggle");
+    clickId(root, "view-pattern");
+    expect(root.querySelector("#analysis-host svg")).not.toBeNull();
+    reachExportStage(root);
+    clickId(root, "view-check");
+    expect(root.querySelector<HTMLButtonElement>("#view-check")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Digital checks pass");
+
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("compatibility remains unassessed");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+  });
+
+  it("preserves Jeans options through undo, redo, and raw recovery", () => {
+    const first = mount();
+    clickId(first, "garment-jeans");
+    const drop = first.querySelector<HTMLInputElement>('[data-option="backPocketDrop"]')!;
+    drop.value = "8";
+    drop.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(drop.value).toBe("8");
+    clickId(first, "undo-pattern");
+    expect(first.querySelector<HTMLInputElement>('[data-option="backPocketDrop"]')!.value).toBe("7");
+    clickId(first, "redo-pattern");
+    expect(first.querySelector<HTMLInputElement>('[data-option="backPocketDrop"]')!.value).toBe("8");
+
+    const coinPocketWidth = first.querySelector<HTMLInputElement>('[data-option="coinPocketWidth"]')!;
+    coinPocketWidth.value = "";
+    coinPocketWidth.dispatchEvent(new Event("input", { bubbles: true }));
+    const recovered = mount();
+    clickId(recovered, "recovery-accept");
+    expect(recovered.querySelector<HTMLButtonElement>("#garment-jeans")!.getAttribute("aria-pressed")).toBe("true");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="backPocketDrop"]')!.value).toBe("8");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="coinPocketWidth"]')!.value).toBe("");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="coinPocketWidth"]')!.getAttribute("aria-invalid")).toBe("true");
+  });
+
+  it("pauses output for a relationship-invalid Jeans draft without changing the raw options", () => {
+    const root = mount();
+    clickId(root, "garment-jeans");
+
+    const hipDepth = root.querySelector<HTMLInputElement>('input[data-field="hipDepth"]')!;
+    hipDepth.value = "30";
+    hipDepth.dispatchEvent(new Event("input", { bubbles: true }));
+    const crotchDepth = root.querySelector<HTMLInputElement>('input[data-field="crotchDepth"]')!;
+    crotchDepth.value = "29";
+    crotchDepth.dispatchEvent(new Event("input", { bubbles: true }));
+
+    expect(hipDepth.value).toBe("30");
+    expect(crotchDepth.value).toBe("29");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("Hip depth");
+    expect(root.querySelector("#canvas-host [data-jeans-output-paused]")).not.toBeNull();
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("compatibility remains unassessed");
+    clickId(root, "view-body");
+    expect(root.querySelector("#canvas-host [data-jeans-body-unavailable]")).not.toBeNull();
+    clickId(root, "assembled-preview-toggle");
+    expect(root.querySelector("#canvas-host [data-jeans-assembled-unavailable]")).not.toBeNull();
+  });
+});

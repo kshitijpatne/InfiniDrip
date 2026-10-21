@@ -309,6 +309,34 @@ const BACK_LOWER_NOTCHES: readonly NotchRule[] = [
   { edgeName: "inseamUpper", t: 0.5 },
 ];
 
+const FLY_FACING_GRAINLINE: GrainlineRule = {
+  topEdge: "facingTop",
+  topT: 0.5,
+  bottomEdge: "facingBottom",
+  bottomT: 0.5,
+};
+
+const FLY_SHIELD_GRAINLINE: GrainlineRule = {
+  topEdge: "shieldTop",
+  topT: 0.5,
+  bottomEdge: "shieldBottom",
+  bottomT: 0.5,
+};
+
+const WAISTBAND_GRAINLINE: GrainlineRule = {
+  topEdge: "frontTop",
+  topT: 0.5,
+  bottomEdge: "backTop",
+  bottomT: 0.5,
+};
+
+const BELT_LOOP_STRIP_GRAINLINE: GrainlineRule = {
+  topEdge: "stripStart",
+  topT: 0.5,
+  bottomEdge: "stripEnd",
+  bottomT: 0.5,
+};
+
 /** Rule-based notches and grain for the internal Jeans draft roles. */
 export const JEANS_NOTCHES: readonly PieceNotches[] = [
   { pieceName: "jeans front left", notches: FRONT_NOTCHES, grainline: FRONT_GRAINLINE },
@@ -327,6 +355,37 @@ export const JEANS_NOTCHES: readonly PieceNotches[] = [
   { pieceName: "jeans coin pocket", notches: [{ edgeName: "pocketTop", t: 0.5 }], grainline: PATCH_POCKET_GRAINLINE },
   { pieceName: "jeans back patch pocket left", notches: [{ edgeName: "pocketTop", t: 0.5 }], grainline: PATCH_POCKET_GRAINLINE },
   { pieceName: "jeans back patch pocket right", notches: [{ edgeName: "pocketTop", t: 0.5 }], grainline: PATCH_POCKET_GRAINLINE },
+  {
+    pieceName: "jeans right fly facing and underlap",
+    notches: [{ edgeName: "facingTop", t: 0.5 }],
+    grainline: FLY_FACING_GRAINLINE,
+  },
+  {
+    pieceName: "jeans fly shield",
+    notches: [{ edgeName: "shieldBottom", t: 0.5 }],
+    grainline: FLY_SHIELD_GRAINLINE,
+  },
+  ...[
+    "jeans outer waistband left",
+    "jeans outer waistband right",
+    "jeans inner waistband left",
+    "jeans inner waistband right",
+  ].map((pieceName) => ({
+    pieceName,
+    notches: [
+      { edgeName: "frontWaistSeam", t: 1 },
+      { edgeName: "centerBackJoin", t: 0.5 },
+    ],
+    grainline: WAISTBAND_GRAINLINE,
+  })),
+  {
+    pieceName: "jeans belt-loop strip",
+    notches: [
+      { edgeName: "stripStart", t: 1 / 3 },
+      { edgeName: "stripStart", t: 2 / 3 },
+    ],
+    grainline: BELT_LOOP_STRIP_GRAINLINE,
+  },
 ];
 
 /** Keep the back-yoke side notch at its live station when the pocket drop

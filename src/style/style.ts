@@ -77,6 +77,12 @@ export const TROUSER_STYLES: readonly StyleDef[] = [
   { name: "Long straight trouser", ranges: { ease: [8, 18], inseam: [85, 105] } },
 ];
 
+/** One declared digital Jeans direction. Its ranges remain empty until product
+ * targets are separately reviewed; this label is not a validated fit claim. */
+export const JEANS_STYLES: readonly StyleDef[] = [
+  { name: "Relaxed straight mid-rise jeans", ranges: {} },
+];
+
 /** One relaxed woven short style; recipe-owned length remains an option. */
 export const SHORTS_STYLES: readonly StyleDef[] = [
   { name: "Relaxed woven shorts", ranges: { ease: [8, 16] } },

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { HOODIE_OPTION_DEFINITIONS, STANDARD_M } from "../drafting";
+import { HOODIE_OPTION_DEFINITIONS, JEANS_OPTION_DEFINITIONS, STANDARD_M } from "../drafting";
 import {
   serialize,
   deserialize,
@@ -71,6 +71,54 @@ describe("v4 workspace validation", () => {
     }
     expect(DEFAULT_WORKSPACE.garment).toBe("tee");
     expect(defaultStretchFabricForGarment("crewneck")).toBe("Stable sweatshirt knit (10% width seed)");
+  });
+
+  it("round-trips Jeans selection and options in v7 while keeping old defaults and recovery raw values", () => {
+    const workspace = {
+      ...DEFAULT_WORKSPACE,
+      garment: "jeans",
+      targetStyle: "Relaxed straight mid-rise jeans",
+      stretchFabric: "Cotton woven",
+    };
+    const jeansOptions = { coinPocketWidth: 8.5, backPocketDrop: 7, thighEase: 9 };
+    const options = { jeans: jeansOptions };
+    const json = serialize(STANDARD_M, FABRIC, options, workspace);
+    expect(JSON.parse(json).v).toBe(7);
+    const loaded = deserialize(json);
+    expect(loaded.ok).toBe(true);
+    if (loaded.ok) {
+      expect(loaded.workspace).toMatchObject(workspace);
+      expect(loaded.garmentOptions.jeans).toEqual(jeansOptions);
+    }
+    expect(JEANS_OPTION_DEFINITIONS.map(({ id }) => id)).toContain("backPocketDrop");
+    expect(defaultStretchFabricForGarment("jeans")).toBe("Cotton woven");
+    expect(DEFAULT_WORKSPACE.garment).toBe("tee");
+    expect(SAVE_VERSION).toBe(7);
+
+    const rawOptions = { coinPocketWidth: "999", backPocketDrop: "7" };
+    const recovery = {
+      savedAt: 790,
+      measurements: Object.fromEntries(FIELDS.map((field) => [field.id, STANDARD_M[field.id]])),
+      rawMeasurements: Object.fromEntries(FIELDS.map((field) => [field.id, String(STANDARD_M[field.id])])),
+      fabric: FABRIC,
+      appearance: DEFAULT_APPEARANCE,
+      garmentOptions: { jeans: jeansOptions },
+      rawOptions: { jeans: rawOptions },
+      workspace,
+      materialSelectionExplicit: false,
+      surface: {},
+      rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
+      semanticEdits: null,
+    } as const;
+    expect(saveRecoveryToStorage(recovery)).toBe(true);
+    const recovered = readRecoveryFromStorage();
+    expect(recovered.ok).toBe(true);
+    if (recovered.ok) {
+      expect(recovered.workspace).toMatchObject(workspace);
+      expect(recovered.garmentOptions.jeans).toMatchObject(jeansOptions);
+      expect(recovered.rawOptions.jeans).toMatchObject(rawOptions);
+    }
+    expect(clearRecoveryFromStorage()).toBe(true);
   });
 
   it("round-trips Hoodie selection and recipe options through v7 saves and recovery", () => {

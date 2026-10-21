@@ -433,6 +433,7 @@ const GARMENT_UI: Readonly<Record<string, { region: string; summary: string; det
   "woven-shirt": { region: "Upper body", summary: "Stable woven shirt", detail: "Yoke, placket and pocket" },
   skirt: { region: "Lower body", summary: "Simple woven skirt", detail: "Waist and hem controls" },
   trouser: { region: "Lower body", summary: "Straight-leg trouser", detail: "Rise, leg and pocket controls" },
+  jeans: { region: "Lower body", summary: "Rigid-woven jeans draft", detail: "Rise, yoke, fly, waistband and pocket controls" },
   shorts: { region: "Lower body", summary: "Stable woven shorts", detail: "Rise, leg opening, fly and pocket controls" },
   crewneck: { region: "Upper body", summary: "Crewneck sweatshirt", detail: "Body, neckline, sleeve and separate band controls" },
   jogger: { region: "Lower body", summary: "Knit jogger", detail: "Rise, tapered leg, casing, drawcord and pocket controls" },

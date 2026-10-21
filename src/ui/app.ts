@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY, withModeledPomLabels } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, JeansOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY, withModeledPomLabels, draftJeansWithGuidance, jeansSizeRunWithGuidance } from "../drafting";
 import { gradeRecipeRun, gradeMeasurements, draftRecipeAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { TEE_NECKBAND_OPTIONS, teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
@@ -1866,6 +1866,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
   };
   const materialCompatibilityNote = (): Note | null => {
+    if (recipe.name === "jeans" && (stretchFabric.family === "knit" || stretchFabric.stretchPercent > 0)) {
+      return { level: "warn", field: "stretchFabric", text: "The Jeans digital seed is rigid woven with 0% stretch. Choose Cotton woven to match that unqualified category seed, or retain the current fabric while compatibility remains unassessed; no fiber, weight, stretch/recovery, or physical fit is verified." };
+    }
     if (recipe.name === "jogger" && stretchFabric.family === "woven") {
       return { level: "warn", field: "stretchFabric", text: "Jogger P0 is drafted for knit material; choose Cotton jersey or Stable sweatshirt knit, or review the construction before using a woven fabric." };
     }
@@ -1875,14 +1878,59 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     return null;
   };
+  type JeansUiAssessment = {
+    readonly options: Partial<JeansOptions>;
+    readonly draft: ReturnType<typeof draftJeansWithGuidance>;
+    readonly sizeRun: ReturnType<typeof jeansSizeRunWithGuidance>;
+    readonly guidance: Note[];
+    readonly report: ReturnType<typeof garmentReport> | null;
+  };
+  let jeansUiAssessmentCache: {
+    readonly recipe: GarmentRecipe;
+    readonly style: string;
+    readonly measurements: string;
+    readonly options: string;
+    readonly value: JeansUiAssessment;
+  } | null = null;
+  const currentJeansUiAssessment = (): JeansUiAssessment | null => {
+    if (recipe.name !== "jeans") return null;
+    const options = recipeOptions() as Partial<JeansOptions>;
+    const measurementsKey = JSON.stringify(measurements);
+    const optionsKey = JSON.stringify(options);
+    const cached = jeansUiAssessmentCache;
+    if (cached && cached.recipe === recipe && cached.style === targetStyle
+      && cached.measurements === measurementsKey && cached.options === optionsKey) return cached.value;
+
+    const draft = draftJeansWithGuidance(measurements, options);
+    const sizeRun = jeansSizeRunWithGuidance(measurements, options);
+    const value: JeansUiAssessment = {
+      options,
+      draft,
+      sizeRun,
+      guidance: guide(recipe, measurements, options),
+      report: draft.ready && sizeRun.ready
+        ? garmentReport(recipe, measurements, options, { includeSizeRun: !customOneSizeStyle() })
+        : null,
+    };
+    jeansUiAssessmentCache = {
+      recipe,
+      style: targetStyle,
+      measurements: measurementsKey,
+      options: optionsKey,
+      value,
+    };
+    return value;
+  };
   // The parametric report stays separate; semantic edits have their own
   // all-size validator and never inherit a green result from the source draft.
   const baseDesignValid = (): boolean => {
     if (inputErrors().size > 0) return false;
     try {
-      return !guide(recipe, measurements, recipeOptions()).some((note) => note.level === "warn")
-        && materialCompatibilityNote() === null
-        && garmentReportForCurrentStyle(recipe).ok;
+      const jeansAssessment = currentJeansUiAssessment();
+      if (jeansAssessment && (!jeansAssessment.draft.ready || !jeansAssessment.sizeRun.ready)) return false;
+      const guidance = jeansAssessment?.guidance ?? guide(recipe, measurements, recipeOptions());
+      if (guidance.some((note) => note.level === "warn") || materialCompatibilityNote() !== null) return false;
+      return (jeansAssessment?.report ?? garmentReportForCurrentStyle(recipe)).ok;
     } catch {
       return false;
     }
@@ -3008,8 +3056,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     applyDisclosure();
     syncOptionalOptionControls();
     const errors = inputErrors();
+    const jeansAssessment = errors.size === 0 ? currentJeansUiAssessment() : null;
+    const jeansDraftReview = jeansAssessment?.draft ?? null;
+    const jeansRunReview = jeansAssessment?.sizeRun ?? null;
     const valid = designValid();
-    const semanticState = errors.size === 0 && (semanticEdits !== null || view === "edit")
+    const semanticState = errors.size === 0 && (recipe.name !== "jeans"
+      || (jeansDraftReview?.ready === true && jeansRunReview?.ready === true))
+      && (semanticEdits !== null || view === "edit")
       ? currentSemanticState()
       : null;
     root.querySelectorAll<HTMLElement>("[data-finished]").forEach((total) => {
@@ -3072,6 +3125,23 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       renderJourney();
       return;
     }
+    if (recipe.name === "jeans" && (!jeansDraftReview?.ready || !jeansRunReview?.ready)) {
+      const unavailableMarkup = previewActive
+        ? '<p role="status" data-jeans-assembled-unavailable>Assembled Jeans view is not available yet. Its pattern-linked representation is assigned to S1154.</p>'
+        : view === "body"
+          ? '<p role="status" data-jeans-body-unavailable>Jeans Body view is not available yet. Its pattern-linked representation is assigned to S1154.</p>'
+          : '<p role="status" data-jeans-output-paused>Jeans pattern output is paused until the flagged measurements and options produce a safe draft across XS–XL.</p>';
+      canvasHost.innerHTML = inspectionMarkup(unavailableMarkup, previewActive ? "assembled" : view);
+      const notes = [...jeansDraftReview!.notes, ...jeansRunReview!.notes];
+      const materialNote = materialCompatibilityNote();
+      renderGuidance(materialNote ? [...notes, materialNote] : notes);
+      updateMaterialClarity(materialNote ? [...notes, materialNote] : notes);
+      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(styleMatchMeasurements(), targetStyle, recipe.styles), styleNames(recipe.styles), false) + gradePlanPanel() + renderSurface();
+      syncSurfaceValidity();
+      syncSurfaceAssetPreviews();
+      renderJourney();
+      return;
+    }
     // Presentation follows the recipe's declared body region. Legacy/custom
     // recipes without it retain the historical field-based fallback.
     const isTop = (recipe.region ?? (recipe.fields.includes("chest") ? "upper" : "lower")) === "upper";
@@ -3098,6 +3168,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       field: "ease",
       text: activeStarter && starterMaterialNote && starterEase !== null
         ? `${starterMaterialNote} ${starterEase} cm ease remains a product choice, not a fabric-derived recommendation.`
+        : recipe.name === "jeans"
+          ? "Jeans geometry does not respond to the selected fabric. Cotton woven is an unqualified woven, 0% stretch product seed; no fiber, weight, stretch/recovery, shrinkage, or physical fit has been validated."
         : recipe.name === "crewneck"
           ? "The stable-knit selector is a 10% width seed, not a measured material. It does not set sweatshirt ease or band length; stretch/recovery and physical fit have not been validated."
           : isHoodie
@@ -3110,7 +3182,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? recipeForCurrentOutputs()
       : recipe;
     const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
-    const failedChecks: Note[] = sourceCannotDraft ? [] : garmentReportForCurrentStyle(checkRecipe).checks
+    // The Jeans readiness gate above returns before this report is read.
+    const checkRecipeReport = sourceCannotDraft ? null : checkRecipe === recipe && recipe.name === "jeans"
+      ? jeansAssessment!.report!
+      : garmentReportForCurrentStyle(checkRecipe);
+    const failedChecks: Note[] = sourceCannotDraft || checkRecipeReport === null ? [] : checkRecipeReport.checks
       .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
     const materialNote = materialCompatibilityNote();
     // Piece frames for surface bounds/coverage checks, at base size. Built
@@ -3122,9 +3198,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const editIssues = semanticOutputIssues();
     const guidanceNotes: Note[] = [
       ...(sourceCannotDraft ? [] : [
-        ...guide(recipe, measurements, recipeOptions()).filter((note) =>
+        ...(jeansAssessment?.guidance ?? guide(recipe, measurements, recipeOptions()).filter((note) =>
           recipe.name !== "fitted" || customOneSizeStyle()
-            || note.field !== "option-bustApexVertical"),
+            || note.field !== "option-bustApexVertical")),
         ...fittedRunClearanceNotes(),
       ]),
       ...failedChecks,
@@ -3194,8 +3270,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     } else if (view === "check") {
       const dismissedGuidance = guidanceNotes.filter((note) =>
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
+      const currentCheckReport = (): ReturnType<typeof garmentReport> => {
+        const checkRecipe = recipeForCurrentOutputs();
+        return recipe.name === "jeans" && checkRecipe.draft === recipe.draft
+          ? jeansAssessment!.report!
+          : garmentReportForCurrentStyle(checkRecipe);
+      };
       canvasContent = semanticSizeReady(0)
-        ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance,
+        ? checkMarkup(currentCheckReport(), valid, dismissedGuidance,
           customOneSizeStyle(), gradePlanApproved(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan)
           + (customOneSizeStyle() ? gradePlanRunMarkup(currentGradePlanRun(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan) : "")
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
@@ -3278,7 +3360,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         measureText: technicalFlatTextMeasurer,
       });
     } else if (view === "body") {
-      if (bodyCroquisView === "side") {
+      if (recipe.name === "jeans") {
+        canvasContent = '<p role="status" data-jeans-body-unavailable>Jeans Body view is not available yet. Its pattern-linked representation is assigned to S1154; the Jeans Pattern view remains available.</p>';
+      } else if (bodyCroquisView === "side") {
         canvasContent = isTrouser
           ? renderTrouserSide(measurements, recipeOptions())
           : isShorts
@@ -3335,7 +3419,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         );
       }
     }
-    const assembled = recipe.name === "crewneck"
+    const assembled = recipe.name === "jeans"
+      ? null
+      : recipe.name === "crewneck"
       ? renderCrewneckFigure(measurements, fabric, recipeOptions())
       : isHoodie
         ? renderHoodieGarment(measurements, fabric, recipeOptions())
@@ -3349,7 +3435,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             : isJogger
               ? renderJoggerGarment(measurements, fabric, recipeOptions())
               : renderSkirtGarment(measurements, fabric);
-    const assembledPreview = applyAppearanceToSvg(assembled, fabric, appearance);
+    const assembledPreview = assembled === null
+      ? '<p role="status" data-jeans-assembled-unavailable>Assembled Jeans view is not available yet. Its pattern-linked representation is assigned to S1154; the Jeans Pattern view remains available.</p>'
+      : applyAppearanceToSvg(assembled, fabric, appearance);
     const assembledEditNotice = semanticEdits
       ? '<p class="semantic-edit-preview-notice" role="status">Saved pattern edits are not reflected in this schematic assembled illustration. Pattern-linked 3D simulation is not available.</p>'
       : "";
@@ -4350,9 +4438,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     semanticEdits = semanticEdits?.recipeId === recipe.name ? semanticEdits : null;
     semanticSourceCache = null;
     semanticEvaluationCache = null;
-    editRoleId = resolveSemanticEditorRole(
-      recipe.editRole, Object.keys(recipe.draft(measurements, recipeOptions()).roles),
-    );
+    const roleDraft = recipe.name === "jeans"
+      ? recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options!))
+      : recipe.draft(measurements, recipeOptions());
+    editRoleId = resolveSemanticEditorRole(recipe.editRole, Object.keys(roleDraft.roles));
     selectedId = null;
     // Re-render the measurement panel to this garment's fields (a skirt shows
     // waist/hip, not chest/sleeve), then re-attach its listeners.

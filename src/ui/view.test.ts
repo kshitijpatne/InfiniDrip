@@ -794,8 +794,12 @@ describe("garmentToggleMarkup", () => {
       expect(html).toContain(`>${g.label}</span>`);
     }
     expect(html).toContain("Choose a starting garment");
-    expect(html).toContain("11 drafting blocks");
+    expect(html).toContain("12 drafting blocks");
     expect(html).toContain("Straight-leg trouser");
+    expect(html).toContain('id="garment-jeans"');
+    expect(html).toContain('data-garment-region="Lower body" aria-pressed="false" aria-label="Choose Jeans"');
+    expect(html).toContain("Rigid-woven jeans draft");
+    expect(html).toContain("Rise, yoke, fly, waistband and pocket controls");
     expect(html).toContain("Stable woven shorts");
     expect(html).toContain("Rise, leg opening, fly and pocket controls");
     expect(html).toContain('data-garment-region="Lower body"');

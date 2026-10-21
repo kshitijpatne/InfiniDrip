@@ -123,6 +123,16 @@ const DRAFT_USE_BASE: Readonly<Record<string, string>> = Object.freeze({
 });
 
 const DRAFT_USE_OVERRIDE: Readonly<Record<string, Readonly<Record<string, string>>>> = Object.freeze({
+  jeans: Object.freeze({
+    waist: "The Jeans draft combines waist with shared ease and divides that finished digital circumference across the waist edges.",
+    hip: "The Jeans draft combines hip with shared ease to set the digital seat geometry; the result does not qualify a body level or fit.",
+    hipDepth: "The Jeans draft places its digital seat station this vertical distance below the wear-line reference; reference endpoints remain unreviewed.",
+    crotchDepth: "The Jeans draft uses this seated-depth input with separate rise controls to locate front and back digital crotch stations; it is not a qualified capture method.",
+    thigh: "The Jeans draft uses this as a finished digital girth target at its internal thigh station. It is not a wearer thigh measurement or a qualified body landmark.",
+    knee: "The Jeans draft uses this as a finished digital girth target at its internal knee-transition station. That transition has no reviewed anatomical mapping and is not a body knee landmark.",
+    inseam: "The Jeans draft uses this as a vertical crotch-to-hem target. Its finished inseam POM follows the sloped digital seam and may differ; this is not a wearer body inseam.",
+    ease: "The Jeans draft applies shared ease at waist and seat; thigh and knee-transition girths have separate Jeans options.",
+  }),
   shorts: Object.freeze({
     waist: "The shorts draft sets each quarter waist edge from (waist plus shared ease) divided by four.",
     hip: "The shorts draft sets each quarter seat edge from (hip plus shared ease) divided by four.",
@@ -225,6 +235,19 @@ const LIMITS_ADDITION: Readonly<Record<string, string>> = Object.freeze({
   neckWidthEase: "Design control, not a body value or sourced default. Per-side adjustment applied to front and back. Confidence stays NOT_ASSESSED.",
 });
 
+const LIMITS_ADDITION_BY_RECIPE: Readonly<Record<string, Readonly<Record<string, string>>>> = Object.freeze({
+  jeans: Object.freeze({
+    waist: "Jeans wear-line capture remains unresolved; entered values are unconfirmed. Confidence stays NOT_ASSESSED; no fit claim.",
+    hip: "Jeans hip/seat level and capture path remain unresolved. Confidence stays NOT_ASSESSED; no fit claim.",
+    hipDepth: "Jeans reference endpoints and vertical method remain unresolved; the pattern station is calculated, not observed. Confidence stays NOT_ASSESSED.",
+    crotchDepth: "Jeans seated-depth posture and reference remain unresolved. Confidence stays NOT_ASSESSED; no fit claim.",
+    thigh: "Finished digital target only; the internal thigh station has no reviewed anatomical mapping and is not a body capture. Confidence stays NOT_ASSESSED.",
+    knee: "Finished digital target at an internal pattern transition only; no anatomical mapping or body-knee capture is established. Confidence stays NOT_ASSESSED.",
+    inseam: "Vertical crotch-to-hem pattern target only; the finished POM follows the sloped digital seam. This is not a body inseam. Confidence stays NOT_ASSESSED.",
+    ease: "Digital Jeans design control, not a validated standard. Review affected regions and material choice. Confidence stays NOT_ASSESSED.",
+  }),
+});
+
 const TEE_METHOD_LIMITS: Readonly<Record<string, string>> = Object.freeze({
   chest: "Size Korea 8th Survey, No. 041: axilla-level Chest Circumference, not nipple-level Bust; standing, horizontal path, level back line, midpoint of the natural breathing cycle. Examiner-survey only; no qualified home/self capture. Girth omits torso shape; neckline is formula-derived, not measured. Value unconfirmed; repeatability/fit unvalidated. Confidence NOT_ASSESSED. Credit: Korean Agency for Technology and Standards (KATS); KATRI report. Results: https://sizekorea.kr/human-info/meas-report?measDegree=8; protocol: https://sizekorea.kr/support/pds/view?bbsCntntsSeq=725&currentPageNo=1",
   bicep: "Size Korea 8th Survey, No. 036: relaxed right upper-arm circumference at axillary level; tape perpendicular to arm axis, arm hanging at side, midpoint of the natural breathing cycle. Examiner-survey only; no qualified home/self capture. App records no capture side or posture; sleeve fit unvalidated. Value unconfirmed; repeatability/fit unvalidated. Confidence NOT_ASSESSED. Credit: Korean Agency for Technology and Standards (KATS); KATRI report. Results: https://sizekorea.kr/human-info/meas-report?measDegree=8; protocol: https://sizekorea.kr/support/pds/view?bbsCntntsSeq=725&currentPageNo=1",
@@ -273,7 +296,8 @@ function draftUseFor(recipeId: string, inputKey: string): string {
 function limitsFor(recipeId: string, inputKey: string, captureBoundary: string): string {
   const teeMethod = recipeId === "tee" ? TEE_METHOD_LIMITS[inputKey] : undefined;
   if (teeMethod !== undefined) return teeMethod;
-  const base = LIMITS_ADDITION[inputKey] ?? LIMITS_FALLBACK;
+  const base = LIMITS_ADDITION_BY_RECIPE[recipeId]?.[inputKey]
+    ?? LIMITS_ADDITION[inputKey] ?? LIMITS_FALLBACK;
   const suffix = LIMITS_SUFFIX[recipeId]?.[inputKey];
   const extra = suffix ? ` ${suffix}` : "";
   return `${captureBoundary} ${base}${extra}`;

@@ -470,6 +470,10 @@ describe("Jeans lower-body core", () => {
       "jeans front pocket stay left", "jeans front pocket stay right",
       "jeans right coin-pocket facing extension", "jeans coin pocket",
       "jeans back patch pocket left", "jeans back patch pocket right",
+      "jeans right fly facing and underlap", "jeans fly shield",
+      "jeans outer waistband left", "jeans outer waistband right",
+      "jeans inner waistband left", "jeans inner waistband right",
+      "jeans belt-loop strip",
     ]);
     const leftYoke = JEANS_NOTCHES.find(({ pieceName }) => pieceName === "jeans back yoke left")!;
     const leftLower = JEANS_NOTCHES.find(({ pieceName }) => pieceName === "jeans back lower left")!;
