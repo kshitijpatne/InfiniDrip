@@ -137,13 +137,14 @@ describe("Jeans lower-body core", () => {
     expect(actual.kneeY).toBe(72.56);
   });
 
-  it("drafts eighteen closed roles with finite paired seams and the unchanged outside back stations", () => {
+  it("drafts twenty-three closed roles with finite paired seams and the unchanged outside back stations", () => {
     const draft = draftJeansCore(STANDARD_M);
     expect(Object.keys(draft.roles)).toEqual([
       "frontLeft", "frontRight", "backYokeLeft", "backYokeRight", "backLowerLeft", "backLowerRight",
       "pocketFacingLeft", "pocketFacingRight", "pocketBagLeft", "pocketBagRight", "pocketStayLeft", "pocketStayRight",
       "pocketFacingExtensionRight", "coinPocket", "backPocketLeft", "backPocketRight",
       "flyFacingUnderlapRight", "flyShield",
+      "waistbandOuterLeft", "waistbandOuterRight", "waistbandInnerLeft", "waistbandInnerRight", "beltLoopStrip",
     ]);
     expect(blockPieces(draft).map(({ name }) => name)).toEqual([
       "jeans front left", "jeans front right",
@@ -155,6 +156,8 @@ describe("Jeans lower-body core", () => {
       "jeans right coin-pocket facing extension", "jeans coin pocket",
       "jeans back patch pocket left", "jeans back patch pocket right",
       "jeans right fly facing and underlap", "jeans fly shield",
+      "jeans outer waistband left", "jeans outer waistband right",
+      "jeans inner waistband left", "jeans inner waistband right", "jeans belt-loop strip",
     ]);
     expect(draft.stitches.map(({ label }) => label)).toEqual([
       "Left side seam (front ↔ back)",
@@ -174,6 +177,16 @@ describe("Jeans lower-body core", () => {
       "Right localized pocket stay ↔ bag",
       "Wearer-right fly extension ↔ facing/underlap",
       "Fly facing/underlap ↔ shield",
+      "Left front waist ↔ outer waistband",
+      "Left back waist ↔ outer waistband",
+      "Right front waist ↔ outer waistband",
+      "Right back waist ↔ outer waistband",
+      "Left outer ↔ inner waistband top",
+      "Right outer ↔ inner waistband top",
+      "Left outer ↔ inner waistband closure end",
+      "Right outer ↔ inner waistband closure end",
+      "Center-back outer waistband join",
+      "Center-back inner waistband join",
     ]);
     expect(stitchChecks(draft, draft.stitches).filter(({ ok }) => !ok)).toEqual([]);
     for (const piece of blockPieces(draft)) {
@@ -181,6 +194,9 @@ describe("Jeans lower-body core", () => {
       expect(isClosed(piece)).toBe(true);
       expect(isFinitePiece(piece)).toBe(true);
       expect(perimeter(piece)).toBeGreaterThan(0);
+      if (piece.name.includes("waistband") || piece.name.includes("belt-loop")) {
+        expect(hasSelfIntersection(piece), piece.name).toBe(false);
+      }
     }
 
     const upper = lowerBodyUpperMetrics(

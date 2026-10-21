@@ -9,27 +9,28 @@ import {
 } from "./jeans-contract";
 
 const expectedDefinitions = [
-  ["frontRiseEase", 1, -2, 8],
-  ["backRiseEase", 9, 2, 14],
-  ["waistbandDepth", 4, 2, 8],
-  ["thighEase", 8, 0, 20],
-  ["kneeEase", 5, 0, 15],
-  ["legOpening", 40, 25, 65],
-  ["flyLength", 15, 8, 25],
-  ["flyExtensionWidth", 3.5, 2.5, 5],
-  ["yokeDepth", 9, 5, 15],
-  ["yokeEase", 0.5, 0, 1.5],
-  ["frontPocketOpening", 15, 10, 22],
-  ["frontPocketDrop", 4, 2, 12],
-  ["frontPocketCurveDepth", 3, 1, 6],
-  ["frontPocketBagDepth", 24, 16, 35],
-  ["coinPocketWidth", 8, 5, 10],
-  ["coinPocketHeight", 7, 5, 10],
-  ["backPocketWidth", 14, 10, 20],
-  ["backPocketHeight", 15, 10, 22],
-  ["backPocketDrop", 7, 2, 15],
-  ["backPocketOffset", 4, 2, 15],
-  ["waistbandExtension", 1.5, 1, 3],
+  ["frontRiseEase", 1, -2, 8, 0.5],
+  ["backRiseEase", 9, 2, 14, 0.5],
+  ["waistbandDepth", 4, 2, 8, 0.5],
+  ["thighEase", 8, 0, 20, 0.5],
+  ["kneeEase", 5, 0, 15, 0.5],
+  ["legOpening", 40, 25, 65, 0.5],
+  ["flyLength", 15, 8, 25, 0.5],
+  ["flyExtensionWidth", 3.5, 2.5, 5, 0.5],
+  ["yokeDepth", 9, 5, 15, 0.5],
+  ["yokeEase", 0.5, 0, 1.5, 0.5],
+  ["frontPocketOpening", 15, 10, 22, 0.5],
+  ["frontPocketDrop", 4, 2, 12, 0.5],
+  ["frontPocketCurveDepth", 3, 1, 6, 0.5],
+  ["frontPocketBagDepth", 24, 16, 35, 0.5],
+  ["coinPocketWidth", 8, 5, 10, 0.5],
+  ["coinPocketHeight", 7, 5, 10, 0.5],
+  ["backPocketWidth", 14, 10, 20, 0.5],
+  ["backPocketHeight", 15, 10, 22, 0.5],
+  ["backPocketDrop", 7, 2, 15, 0.5],
+  ["backPocketOffset", 4, 2, 15, 0.5],
+  ["waistbandExtension", 1.5, 1, 3, 0.5],
+  ["beltLoopWidth", 1, 0.5, 1.5, 0.25],
 ] as const;
 
 describe("Jeans option contract", () => {
@@ -43,8 +44,7 @@ describe("Jeans option contract", () => {
   it("declares all unique packet options with their product seeds and bounds", () => {
     const actual = JEANS_OPTION_DEFINITIONS.map(({ id, defaultValue, min, max, step }) =>
       [id, defaultValue, min, max, step]);
-    expect(actual).toEqual(expectedDefinitions.map(([id, value, min, max]) =>
-      [id, value, min, max, 0.5]));
+    expect(actual).toEqual(expectedDefinitions);
     expect(new Set(JEANS_OPTION_DEFINITIONS.map(({ id }) => id)).size).toBe(expectedDefinitions.length);
     expect(JEANS_OPTION_DEFINITIONS.every(({ label, unit, group, help }) =>
       label.length > 0 && unit === "cm" && typeof group === "string" && group.length > 0 &&
@@ -69,6 +69,15 @@ describe("Jeans option contract", () => {
     expect(help.flyLength).toContain("frontPocketOpening");
     expect(help.flyExtensionWidth).toContain("wearer-right integral fly extension");
     expect(help.flyExtensionWidth).toContain("front pocket opening");
+  });
+
+  it("describes the finished loop width and folded raw strip relationship", () => {
+    const definition = JEANS_OPTION_DEFINITIONS.find(({ id }) => id === "beltLoopWidth")!;
+    expect(definition.help).toContain("six belt loops");
+    expect(definition.help).toContain("folded in thirds");
+    expect(definition.help).toContain("provisional 1 cm");
+    expect(DEFAULT_JEANS_OPTIONS.beltLoopWidth).toBe(1);
+    expect(resolveJeansOptions({ beltLoopWidth: Number.NaN }).beltLoopWidth).toBeNaN();
   });
 
   it("derives defaults from the definitions and fills missing or undefined values", () => {

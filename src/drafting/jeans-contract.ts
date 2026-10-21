@@ -9,6 +9,7 @@ export interface JeansOptions {
   readonly frontRiseEase: number;
   readonly backRiseEase: number;
   readonly waistbandDepth: number;
+  readonly beltLoopWidth: number;
   readonly thighEase: number;
   readonly kneeEase: number;
   readonly legOpening: number;
@@ -263,6 +264,17 @@ export const JEANS_OPTION_DEFINITIONS: readonly GarmentOption[] = [
     min: 1,
     max: 3,
     step: 0.5,
+  },
+  {
+    id: "beltLoopWidth",
+    label: "Finished belt-loop width",
+    unit: "cm",
+    group: "Waistband & loops",
+    help: "Sets the finished width of each of six belt loops after the strip is folded in thirds; reduce it if the provisional 1 cm waistband placement clearance fails. The raw strip width is three times this value.",
+    defaultValue: 1,
+    min: 0.5,
+    max: 1.5,
+    step: 0.25,
   },
 ];
 

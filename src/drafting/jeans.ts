@@ -8,6 +8,7 @@ import type { Measurements } from "./measurements";
 import { buildJeansFrontPocket } from "./jeans-pocket";
 import { buildJeansCoinBackPockets } from "./jeans-coin-back-pockets";
 import { buildJeansFly } from "./jeans-fly";
+import { buildJeansWaistband } from "./jeans-waistband";
 import {
   resolveJeansOptions,
   type JeansOptions,
@@ -320,11 +321,24 @@ export function draftJeansCore(
     options,
   );
   const fly = buildJeansFly(frontLeft, frontRight, options);
+  const backYokeRight = mirrorPiece(back.yoke, "jeans back yoke right");
+  const waistband = buildJeansWaistband({
+    frontLeft: fly.frontLeft,
+    frontRight: fly.frontRight,
+    pocketFacingLeft: leftPocket.facing,
+    pocketFacingRight,
+    backYokeLeft: back.yoke,
+    backYokeRight,
+    coinPocket: pocketFeatures.coinPocket,
+    backPocketLeft: pocketFeatures.backPocketLeft,
+    backPocketRight: pocketFeatures.backPocketRight,
+    options,
+  });
   const roles = {
     frontLeft: fly.frontLeft,
     frontRight: fly.frontRight,
     backYokeLeft: back.yoke,
-    backYokeRight: mirrorPiece(back.yoke, "jeans back yoke right"),
+    backYokeRight,
     backLowerLeft: pocketFeatures.backLowerLeft,
     backLowerRight: pocketFeatures.backLowerRight,
     pocketFacingLeft: leftPocket.facing,
@@ -339,6 +353,11 @@ export function draftJeansCore(
     backPocketRight: pocketFeatures.backPocketRight,
     flyFacingUnderlapRight: fly.facingUnderlapRight,
     flyShield: fly.shield,
+    waistbandOuterLeft: waistband.outerLeft,
+    waistbandOuterRight: waistband.outerRight,
+    waistbandInnerLeft: waistband.innerLeft,
+    waistbandInnerRight: waistband.innerRight,
+    beltLoopStrip: waistband.beltLoopStrip,
   };
   const stitches: readonly Stitch[] = [
     { label: "Left side seam (front ↔ back)", a: frontSideInterface("frontLeft", "pocketFacingLeft", fly.frontLeft), b: backSideInterface("backYokeLeft", "backLowerLeft") },
@@ -357,6 +376,7 @@ export function draftJeansCore(
     { label: "Left localized pocket stay ↔ bag", a: iface(edgeRef("pocketStayLeft", "stayJoin")), b: iface(edgeRef("pocketBagLeft", "bagClose")) },
     { label: "Right localized pocket stay ↔ bag", a: iface(edgeRef("pocketStayRight", "stayJoin")), b: iface(edgeRef("pocketBagRight", "bagClose")) },
     ...fly.stitches,
+    ...waistband.stitches,
   ];
   return block(roles, stitches);
 }
