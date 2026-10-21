@@ -4,8 +4,7 @@ import { resolveGrainline, resolveNotch } from "../render/notch";
 import { blockPieces } from "./block";
 import { draftJeansCore } from "./jeans";
 import { STANDARD_M } from "./measurements";
-import { JEANS_NOTCHES, jeansNotchesForDraft } from "./jeans-tables";
-import { TROUSER_GRADE } from "./trouser-tables";
+import { TROUSER_GRADE, TROUSER_SIZES } from "./trouser-tables";
 import { TROUSER_ALLOWANCES } from "./trouser";
 import { allowanceFor } from "./allowance";
 import {
@@ -17,7 +16,14 @@ import {
   JEANS_PRIMARY_TOPSTITCH_CM,
   JEANS_SECONDARY_TOPSTITCH_SPACING_CM,
   JEANS_TECH_PACK,
+  JEANS_GRADE,
+  JEANS_POM_DEFINITIONS,
+  JEANS_POMS,
+  JEANS_SIZES,
+  JEANS_NOTCHES,
+  jeansNotchesForDraft,
 } from "./jeans-tables";
+import { specSheet } from "./pom";
 
 describe("Jeans notch and grainline rules", () => {
   it("names every draft role and resolves its matched marks from live geometry", () => {
@@ -32,10 +38,11 @@ describe("Jeans notch and grainline rules", () => {
       "jeans back patch pocket left", "jeans back patch pocket right",
     ]);
 
-    for (const step of [-2, 0, 2]) {
+    for (const { step } of JEANS_SIZES) {
       const measurements = gradeMeasurements(STANDARD_M, TROUSER_GRADE, step);
       const draft = draftJeansCore(measurements);
       const pieces = blockPieces(draft);
+      expect(JEANS_CUT_ROLE_QUANTITIES.map(({ role }) => role)).toEqual(Object.keys(draft.roles));
       const notches = jeansNotchesForDraft(draft);
       for (const rule of notches) {
         const piece = pieces.find(({ name }) => name === rule.pieceName)!;
@@ -84,6 +91,30 @@ describe("Jeans notch and grainline rules", () => {
 });
 
 describe("Jeans allowance and digital construction tables", () => {
+  it("uses live pattern POMs with explicit XS–XL redrafts and no invented tolerances", () => {
+    expect(JEANS_GRADE).toEqual(TROUSER_GRADE);
+    expect(JEANS_SIZES).toEqual(TROUSER_SIZES);
+    expect(JEANS_SIZES.map(({ label }) => label)).toEqual(["XS", "S", "M", "L", "XL"]);
+    expect(JEANS_POMS.map(({ label }) => label)).toEqual(JEANS_POM_DEFINITIONS.map(({ label }) => label));
+    expect(JEANS_POMS.every(({ tolerance }) => tolerance === undefined)).toBe(true);
+    const waist = JEANS_POM_DEFINITIONS.find(({ id }) => id === "jeans.waist.finished")!;
+    expect(waist.instructions).toContain("pocket-facing waist edges");
+    expect(waist.landmarks.map(({ id }) => id)).toContain("pocket-facing.waist.left");
+    expect(waist.landmarks.map(({ id }) => id)).toContain("pocket-facing.waist.right");
+
+    const graded = JEANS_SIZES.map(({ step, label }) => ({
+      label,
+      step,
+      measurements: gradeMeasurements(STANDARD_M, JEANS_GRADE, step),
+      block: draftJeansCore(gradeMeasurements(STANDARD_M, JEANS_GRADE, step)),
+    }));
+    const rows = specSheet(graded, JEANS_POMS);
+    expect(rows).toHaveLength(JEANS_POMS.length);
+    expect(rows.every(({ values }) => values.length === JEANS_SIZES.length && values.every((value) => Number.isFinite(value) && value > 0))).toBe(true);
+    expect(rows.find(({ label }) => label === "Waist circumference (modeled)")?.values[2]).toBeCloseTo(STANDARD_M.waist + STANDARD_M.ease);
+    expect(rows.find(({ label }) => label === "Seat circumference (modeled)")?.values[2]).toBeCloseTo(STANDARD_M.hip + STANDARD_M.ease);
+  });
+
   it("maps the Jeans-only seam and cut exceptions without changing other defaults", () => {
     expect(JEANS_ALLOWANCES.default).toBe(1.6);
     expect(JEANS_ALLOWANCES.byEdge).toEqual({ hem: 3.8, pocketTop: 1.9 });
