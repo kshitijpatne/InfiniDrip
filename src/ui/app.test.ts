@@ -10768,7 +10768,7 @@ describe("EPIC-19 L02 starter binding", () => {
   });
 });
 
-describe("switching to Jeans (S1153)", () => {
+describe("switching to Jeans (S1154)", () => {
   beforeEach(() => localStorage.clear());
 
   it("uses the current Jeans assessment in the Checks view", () => {
@@ -10781,7 +10781,7 @@ describe("switching to Jeans (S1153)", () => {
     expect(root.querySelector("#canvas-host")?.textContent).toContain("Digital checks pass");
   });
 
-  it("activates the Jeans contract, keeps Body and Assembled routes explicit, and gates knit material", () => {
+  it("activates the Jeans contract, renders its pattern-linked views, and gates knit material", () => {
     const root = mount();
     clickId(root, "garment-jeans");
 
@@ -10798,11 +10798,23 @@ describe("switching to Jeans (S1153)", () => {
     expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.textContent)
       .toContain("internal pattern transition has no reviewed anatomical mapping");
     clickId(root, "view-body");
-    expect(root.querySelector("#analysis-host [data-jeans-body-unavailable]")).not.toBeNull();
+    expect(root.querySelectorAll("#analysis-host svg[data-renderer='jeans-body']")).toHaveLength(2);
+    expect(root.querySelector("#analysis-host svg[data-view='front'] [data-source-role='frontLeft']")).not.toBeNull();
+    expect(root.querySelector("#analysis-host svg[data-view='back'] [data-source-role='backYokeLeft']")).not.toBeNull();
+    root.querySelector<HTMLButtonElement>("#body-back")!.click();
+    expect(root.querySelector("#analysis-host svg[data-view='back']")).not.toBeNull();
+    root.querySelector<HTMLButtonElement>("#body-front")!.click();
+    expect(root.querySelector("#analysis-host svg[data-view='front']")).not.toBeNull();
+    root.querySelector<HTMLButtonElement>("#body-side")!.click();
+    expect(root.querySelector("#analysis-host [data-jeans-body-side-unavailable]")).not.toBeNull();
     expect(root.querySelector("#analysis-host svg[data-croquis-region]")).toBeNull();
+    root.querySelector<HTMLButtonElement>("#body-front-back")!.click();
 
     clickId(root, "assembled-preview-toggle");
-    expect(root.querySelector("#garment-host [data-jeans-assembled-unavailable]")).not.toBeNull();
+    expect(root.querySelector("#garment-host svg[data-renderer='jeans-assembled']")).not.toBeNull();
+    expect(root.querySelector("#garment-host [data-component-role='flyShield']")).not.toBeNull();
+    expect(root.querySelector("#garment-host [data-disclosure='assembled-component-schematic']")!.textContent)
+      .toContain("NOT SEWN OR FIT SIMULATED");
     expect(root.querySelector("#garment-host svg[data-garment='skirt']")).toBeNull();
     clickId(root, "assembled-preview-toggle");
     clickId(root, "view-pattern");
@@ -10816,6 +10828,58 @@ describe("switching to Jeans (S1153)", () => {
     root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
     expect(root.querySelector("#guidance-host")!.textContent).toContain("compatibility remains unassessed");
     expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+  });
+
+  it("discloses when saved Jeans semantic edits are not reflected in Body or Assembled views", () => {
+    const seed = mount();
+    clickId(seed, "garment-jeans");
+    clickId(seed, "save-pattern");
+    const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+      measurements: typeof STANDARD_M;
+      garmentOptions: Record<string, Record<string, number>>;
+      workspace: typeof DEFAULT_WORKSPACE;
+      fabric: string;
+      appearance: typeof DEFAULT_APPEARANCE;
+    };
+    const recipe = GARMENTS.find((candidate) => candidate.name === "jeans")!;
+    const savedOptions = saved.garmentOptions.jeans ?? {};
+    const options = Object.fromEntries((recipe.options ?? []).flatMap((option) => {
+      if (option.appliesToStyle !== undefined && option.appliesToStyle !== saved.workspace.targetStyle) return [];
+      const value = savedOptions[option.id] ?? (option.optional ? undefined : option.defaultValue);
+      return value === undefined ? [] : [[option.id, value] as const];
+    }));
+    const sourceInputs = {
+      measurements: Object.fromEntries(recipe.fields.flatMap((field) => {
+        const value = saved.measurements[field];
+        return typeof value === "number" ? [[field, value] as const] : [];
+      })),
+      options,
+    };
+    // A structurally valid but stale saved edit record models the pending-edit
+    // state; these schematic routes must disclose that they show the base draft.
+    const sourceFingerprint = `semantic-edit:v2:sha256:${"a".repeat(64)}`;
+    const document = semanticEditEngine.appendSemanticEditOperations(
+      semanticEditEngine.emptySemanticEditDocument(recipe.name, sourceFingerprint, sourceInputs),
+      [{
+        schemaVersion: 2,
+        id: "jeans-body-disclosure",
+        kind: "move-anchors",
+        recipeId: recipe.name,
+        sourceFingerprint,
+        moves: [{ anchorId: "jeans/frontLeft/fixture-control", signature: "saved-source-anchor", deltaCm: { x: 0.025, y: 0 } }],
+      }],
+    );
+    expect(saveToStorage(saved.measurements, saved.fabric, saved.garmentOptions, saved.workspace,
+      saved.appearance, {}, undefined, document)).toBe(true);
+    seed.remove();
+
+    const root = mount();
+    clickId(root, "view-body");
+    expect(root.querySelector("#analysis-host [data-jeans-edit-preview-notice]")?.textContent)
+      .toContain("Saved pattern edits are not reflected in this parametric Jeans schematic");
+    clickId(root, "assembled-preview-toggle");
+    expect(root.querySelector("#garment-host .semantic-edit-preview-notice")?.textContent)
+      .toContain("Saved pattern edits are not reflected in this schematic assembled illustration");
   });
 
   it("preserves Jeans options through undo, redo, and raw recovery", () => {
@@ -10861,8 +10925,8 @@ describe("switching to Jeans (S1153)", () => {
     root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
     expect(root.querySelector("#guidance-host")!.textContent).toContain("compatibility remains unassessed");
     clickId(root, "view-body");
-    expect(root.querySelector("#canvas-host [data-jeans-body-unavailable]")).not.toBeNull();
+    expect(root.querySelector("#canvas-host [data-jeans-body-paused]")).not.toBeNull();
     clickId(root, "assembled-preview-toggle");
-    expect(root.querySelector("#canvas-host [data-jeans-assembled-unavailable]")).not.toBeNull();
+    expect(root.querySelector("#canvas-host [data-jeans-assembled-paused]")).not.toBeNull();
   });
 });

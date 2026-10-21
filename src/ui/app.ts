@@ -11,6 +11,7 @@ import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
 import { renderBlueprint, renderGarment, renderCrewneckFigure, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderShortsGarment, renderShortsBody, renderShortsBodyPair, renderShortsSide, renderJoggerGarment, renderJoggerBody, renderJoggerBodyPair, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { renderHoodieBody, renderHoodieBodyPair, renderHoodieGarment } from "../render";
+import { renderJeansBody, renderJeansBodyPair, renderJeansAssembled } from "../render";
 import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import {
   appendSemanticEditOperations,
@@ -3059,6 +3060,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const jeansAssessment = errors.size === 0 ? currentJeansUiAssessment() : null;
     const jeansDraftReview = jeansAssessment?.draft ?? null;
     const jeansRunReview = jeansAssessment?.sizeRun ?? null;
+    const jeansRepresentationBlock = jeansDraftReview?.ready === true && jeansRunReview?.ready === true
+      ? jeansDraftReview.block
+      : null;
     const valid = designValid();
     const semanticState = errors.size === 0 && (recipe.name !== "jeans"
       || (jeansDraftReview?.ready === true && jeansRunReview?.ready === true))
@@ -3127,9 +3131,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     if (recipe.name === "jeans" && (!jeansDraftReview?.ready || !jeansRunReview?.ready)) {
       const unavailableMarkup = previewActive
-        ? '<p role="status" data-jeans-assembled-unavailable>Assembled Jeans view is not available yet. Its pattern-linked representation is assigned to S1154.</p>'
+        ? '<p role="status" data-jeans-assembled-paused>Assembled Jeans view is paused until the selected measurements and options produce a safe draft across XS–XL. Review the Jeans guidance before continuing.</p>'
         : view === "body"
-          ? '<p role="status" data-jeans-body-unavailable>Jeans Body view is not available yet. Its pattern-linked representation is assigned to S1154.</p>'
+          ? '<p role="status" data-jeans-body-paused>Jeans Body view is paused until the selected measurements and options produce a safe draft across XS–XL. Review the Jeans guidance before continuing.</p>'
           : '<p role="status" data-jeans-output-paused>Jeans pattern output is paused until the flagged measurements and options produce a safe draft across XS–XL.</p>';
       canvasHost.innerHTML = inspectionMarkup(unavailableMarkup, previewActive ? "assembled" : view);
       const notes = [...jeansDraftReview!.notes, ...jeansRunReview!.notes];
@@ -3361,7 +3365,20 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       });
     } else if (view === "body") {
       if (recipe.name === "jeans") {
-        canvasContent = '<p role="status" data-jeans-body-unavailable>Jeans Body view is not available yet. Its pattern-linked representation is assigned to S1154; the Jeans Pattern view remains available.</p>';
+        // The earlier Jeans readiness gate returns before rendering unless both
+        // reviews are ready, so this is the already-approved shared source block.
+        if (bodyCroquisView === "side") {
+          canvasContent = '<p role="status" data-jeans-body-side-unavailable>Jeans side view is not included yet. Choose front, back, or front/back.</p>';
+        } else if (bodyCroquisView === "front") {
+          canvasContent = renderJeansBody(jeansRepresentationBlock!, "front");
+        } else if (bodyCroquisView === "back") {
+          canvasContent = renderJeansBody(jeansRepresentationBlock!, "back");
+        } else {
+          canvasContent = renderJeansBodyPair(jeansRepresentationBlock!);
+        }
+        if (semanticEdits !== null && jeansRepresentationBlock !== null) {
+          canvasContent += '<p class="semantic-edit-preview-notice" role="status" data-jeans-edit-preview-notice>Saved pattern edits are not reflected in this parametric Jeans schematic. Pattern-linked 3D simulation is not available.</p>';
+        }
       } else if (bodyCroquisView === "side") {
         canvasContent = isTrouser
           ? renderTrouserSide(measurements, recipeOptions())
@@ -3420,7 +3437,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       }
     }
     const assembled = recipe.name === "jeans"
-      ? null
+      ? renderJeansAssembled(jeansRepresentationBlock!)
       : recipe.name === "crewneck"
       ? renderCrewneckFigure(measurements, fabric, recipeOptions())
       : isHoodie
@@ -3435,9 +3452,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             : isJogger
               ? renderJoggerGarment(measurements, fabric, recipeOptions())
               : renderSkirtGarment(measurements, fabric);
-    const assembledPreview = assembled === null
-      ? '<p role="status" data-jeans-assembled-unavailable>Assembled Jeans view is not available yet. Its pattern-linked representation is assigned to S1154; the Jeans Pattern view remains available.</p>'
-      : applyAppearanceToSvg(assembled, fabric, appearance);
+    const assembledPreview = applyAppearanceToSvg(assembled, fabric, appearance);
     const assembledEditNotice = semanticEdits
       ? '<p class="semantic-edit-preview-notice" role="status">Saved pattern edits are not reflected in this schematic assembled illustration. Pattern-linked 3D simulation is not available.</p>'
       : "";
