@@ -51,6 +51,20 @@ const POCKET_STAY_GRAINLINE: GrainlineRule = {
   bottomT: 0.5,
 };
 
+const COIN_FACING_EXTENSION_GRAINLINE: GrainlineRule = {
+  topEdge: "facingJoin",
+  topT: 0.5,
+  bottomEdge: "extensionBottom",
+  bottomT: 0.5,
+};
+
+const PATCH_POCKET_GRAINLINE: GrainlineRule = {
+  topEdge: "pocketTop",
+  topT: 0.5,
+  bottomEdge: "pocketBottom",
+  bottomT: 0.5,
+};
+
 const BACK_YOKE_NOTCHES: readonly NotchRule[] = [
   { edgeName: "sideWaistToYoke", t: 0 },
   { edgeName: "yokeJoin", t: 0.5 },
@@ -78,6 +92,10 @@ export const JEANS_NOTCHES: readonly PieceNotches[] = [
   { pieceName: "jeans front pocket bag right", notches: [{ edgeName: "pocketOpening", t: 0.5 }], grainline: POCKET_BAG_GRAINLINE },
   { pieceName: "jeans front pocket stay left", notches: [{ edgeName: "stayJoin", t: 0.5 }], grainline: POCKET_STAY_GRAINLINE },
   { pieceName: "jeans front pocket stay right", notches: [{ edgeName: "stayJoin", t: 0.5 }], grainline: POCKET_STAY_GRAINLINE },
+  { pieceName: "jeans right coin-pocket facing extension", notches: [{ edgeName: "facingJoin", t: 0.5 }], grainline: COIN_FACING_EXTENSION_GRAINLINE },
+  { pieceName: "jeans coin pocket", notches: [{ edgeName: "pocketTop", t: 0.5 }], grainline: PATCH_POCKET_GRAINLINE },
+  { pieceName: "jeans back patch pocket left", notches: [{ edgeName: "pocketTop", t: 0.5 }], grainline: PATCH_POCKET_GRAINLINE },
+  { pieceName: "jeans back patch pocket right", notches: [{ edgeName: "pocketTop", t: 0.5 }], grainline: PATCH_POCKET_GRAINLINE },
 ];
 
 /** Keep the back-yoke side notch at its live station when the pocket drop

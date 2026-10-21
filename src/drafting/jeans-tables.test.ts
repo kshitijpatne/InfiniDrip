@@ -16,6 +16,8 @@ describe("Jeans notch and grainline rules", () => {
       "jeans front pocket facing left", "jeans front pocket facing right",
       "jeans front pocket bag left", "jeans front pocket bag right",
       "jeans front pocket stay left", "jeans front pocket stay right",
+      "jeans right coin-pocket facing extension", "jeans coin pocket",
+      "jeans back patch pocket left", "jeans back patch pocket right",
     ]);
 
     for (const step of [-2, 0, 2]) {

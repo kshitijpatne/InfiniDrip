@@ -6,6 +6,7 @@ import { lowerBodyUpperMetrics } from "./lower-body-upper";
 import type { LowerBodyUpperMetrics } from "./lower-body-upper";
 import type { Measurements } from "./measurements";
 import { buildJeansFrontPocket } from "./jeans-pocket";
+import { buildJeansCoinBackPockets } from "./jeans-coin-back-pockets";
 import {
   resolveJeansOptions,
   type JeansOptions,
@@ -309,19 +310,31 @@ export function draftJeansCore(
   );
   const frontLeft = leftPocket.front;
   const back = backPieces(measurements, metrics, options);
+  const frontRight = mirrorPiece(frontLeft, "jeans front right");
+  const pocketFacingRight = mirrorPiece(leftPocket.facing, "jeans front pocket facing right");
+  const pocketFeatures = buildJeansCoinBackPockets(
+    pocketFacingRight,
+    back.lower,
+    mirrorPiece(back.lower, "jeans back lower right"),
+    options,
+  );
   const roles = {
     frontLeft,
-    frontRight: mirrorPiece(frontLeft, "jeans front right"),
+    frontRight,
     backYokeLeft: back.yoke,
     backYokeRight: mirrorPiece(back.yoke, "jeans back yoke right"),
-    backLowerLeft: back.lower,
-    backLowerRight: mirrorPiece(back.lower, "jeans back lower right"),
+    backLowerLeft: pocketFeatures.backLowerLeft,
+    backLowerRight: pocketFeatures.backLowerRight,
     pocketFacingLeft: leftPocket.facing,
-    pocketFacingRight: mirrorPiece(leftPocket.facing, "jeans front pocket facing right"),
+    pocketFacingRight,
     pocketBagLeft: leftPocket.bag,
     pocketBagRight: mirrorPiece(leftPocket.bag, "jeans front pocket bag right"),
     pocketStayLeft: leftPocket.stay,
     pocketStayRight: mirrorPiece(leftPocket.stay, "jeans front pocket stay right"),
+    pocketFacingExtensionRight: pocketFeatures.facingExtensionRight,
+    coinPocket: pocketFeatures.coinPocket,
+    backPocketLeft: pocketFeatures.backPocketLeft,
+    backPocketRight: pocketFeatures.backPocketRight,
   };
   const stitches: readonly Stitch[] = [
     { label: "Left side seam (front ↔ back)", a: frontSideInterface("frontLeft", "pocketFacingLeft", frontLeft), b: backSideInterface("backYokeLeft", "backLowerLeft") },
@@ -336,6 +349,7 @@ export function draftJeansCore(
     { label: "Right front pocket opening (front ↔ facing)", a: iface(edgeRef("frontRight", "pocketOpening")), b: iface(edgeRef("pocketFacingRight", "opening")) },
     { label: "Left pocket facing ↔ bag opening", a: iface(edgeRef("pocketFacingLeft", "opening")), b: iface(edgeRef("pocketBagLeft", "pocketOpening")) },
     { label: "Right pocket facing ↔ bag opening", a: iface(edgeRef("pocketFacingRight", "opening")), b: iface(edgeRef("pocketBagRight", "pocketOpening")) },
+    { label: "Right coin-facing extension ↔ facing", a: iface(edgeRef("pocketFacingExtensionRight", "facingJoin")), b: iface(edgeRef("pocketFacingRight", "sideFacing")) },
     { label: "Left localized pocket stay ↔ bag", a: iface(edgeRef("pocketStayLeft", "stayJoin")), b: iface(edgeRef("pocketBagLeft", "bagClose")) },
     { label: "Right localized pocket stay ↔ bag", a: iface(edgeRef("pocketStayRight", "stayJoin")), b: iface(edgeRef("pocketBagRight", "bagClose")) },
   ];

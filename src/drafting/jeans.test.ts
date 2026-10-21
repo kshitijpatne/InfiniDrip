@@ -137,11 +137,12 @@ describe("Jeans lower-body core", () => {
     expect(actual.kneeY).toBe(72.56);
   });
 
-  it("drafts six closed roles with finite paired seams and the unchanged outside back stations", () => {
+  it("drafts sixteen closed roles with finite paired seams and the unchanged outside back stations", () => {
     const draft = draftJeansCore(STANDARD_M);
     expect(Object.keys(draft.roles)).toEqual([
       "frontLeft", "frontRight", "backYokeLeft", "backYokeRight", "backLowerLeft", "backLowerRight",
       "pocketFacingLeft", "pocketFacingRight", "pocketBagLeft", "pocketBagRight", "pocketStayLeft", "pocketStayRight",
+      "pocketFacingExtensionRight", "coinPocket", "backPocketLeft", "backPocketRight",
     ]);
     expect(blockPieces(draft).map(({ name }) => name)).toEqual([
       "jeans front left", "jeans front right",
@@ -150,6 +151,8 @@ describe("Jeans lower-body core", () => {
       "jeans front pocket facing left", "jeans front pocket facing right",
       "jeans front pocket bag left", "jeans front pocket bag right",
       "jeans front pocket stay left", "jeans front pocket stay right",
+      "jeans right coin-pocket facing extension", "jeans coin pocket",
+      "jeans back patch pocket left", "jeans back patch pocket right",
     ]);
     expect(draft.stitches.map(({ label }) => label)).toEqual([
       "Left side seam (front ↔ back)",
@@ -164,6 +167,7 @@ describe("Jeans lower-body core", () => {
       "Right front pocket opening (front ↔ facing)",
       "Left pocket facing ↔ bag opening",
       "Right pocket facing ↔ bag opening",
+      "Right coin-facing extension ↔ facing",
       "Left localized pocket stay ↔ bag",
       "Right localized pocket stay ↔ bag",
     ]);
@@ -201,6 +205,7 @@ describe("Jeans lower-body core", () => {
       ["frontLeft", "frontRight"],
       ["backYokeLeft", "backYokeRight"],
       ["backLowerLeft", "backLowerRight"],
+      ["backPocketLeft", "backPocketRight"],
       ["pocketFacingLeft", "pocketFacingRight"],
       ["pocketBagLeft", "pocketBagRight"],
       ["pocketStayLeft", "pocketStayRight"],
@@ -380,6 +385,8 @@ describe("Jeans lower-body core", () => {
       "jeans front pocket facing left", "jeans front pocket facing right",
       "jeans front pocket bag left", "jeans front pocket bag right",
       "jeans front pocket stay left", "jeans front pocket stay right",
+      "jeans right coin-pocket facing extension", "jeans coin pocket",
+      "jeans back patch pocket left", "jeans back patch pocket right",
     ]);
     const leftYoke = JEANS_NOTCHES.find(({ pieceName }) => pieceName === "jeans back yoke left")!;
     const leftLower = JEANS_NOTCHES.find(({ pieceName }) => pieceName === "jeans back lower left")!;

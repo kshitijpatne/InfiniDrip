@@ -50,6 +50,18 @@ describe("Jeans option contract", () => {
       typeof help === "string" && help.length > 0)).toBe(true);
   });
 
+  it("describes the chosen coin host and lower-yoke back-pocket drop", () => {
+    const help = Object.fromEntries(JEANS_OPTION_DEFINITIONS.map(({ id, help: text }) => [id, text]));
+    expect(help.coinPocketWidth).toContain("wearer-right pocket-facing extension");
+    expect(help.coinPocketHeight).toContain("provisional 1 cm margin");
+    expect(help.backPocketDrop).toContain("live lower-yoke seam");
+    expect(help.backPocketDrop).not.toContain("back waist");
+    expect(help.backPocketWidth).toContain("reduce the width");
+    expect(help.backPocketHeight).toContain("backPocketDrop");
+    expect(help.backPocketOffset).toContain("narrowest live side-seam station");
+    expect(help.backPocketOffset).toContain("provisional 1 cm envelope");
+  });
+
   it("derives defaults from the definitions and fills missing or undefined values", () => {
     const expectedDefaults = Object.fromEntries(
       JEANS_OPTION_DEFINITIONS.map(({ id, defaultValue }) => [id, defaultValue]),
