@@ -1,6 +1,6 @@
 import { point } from "../geometry";
 import { block, type Block } from "./block";
-import type { Edge, Piece } from "./piece";
+import { edgeLength, type Edge, type Piece } from "./piece";
 import { edgeRef, iface, type Stitch } from "./stitch";
 import { lowerBodyUpperMetrics } from "./lower-body-upper";
 import type { LowerBodyUpperMetrics } from "./lower-body-upper";
@@ -97,40 +97,25 @@ function legProfile(
   };
 }
 
-function legPiece(
+type CurveEdge = Extract<Edge, { readonly kind: "curve" }>;
+
+function frontPiece(
   measurements: Measurements,
   metrics: JeansDraftMetrics,
   options: JeansOptions,
-  position: "front" | "back",
   name: string,
 ): Piece {
   const profile = legProfile(measurements, metrics, options);
-  const centerY = position === "front" ? metrics.frontCrotchY : metrics.backCrotchY;
-  const centerName = position === "front" ? "centerFront" : "centerBack";
-  const crotch: Edge = position === "front"
-    ? {
-      kind: "curve",
-      name: "crotch",
-      curve: {
-        start: profile.crotch,
-        control1: point(profile.crotch.x - 2.2, profile.crotch.y - 0.6),
-        control2: point(profile.crotch.x - 2.6, centerY + 0.8),
-        end: point(0, centerY),
-      },
-    }
-    : {
-      kind: "curve",
-      name: "crotch",
-      curve: {
-        start: profile.crotch,
-        control1: point(profile.crotch.x + 2.8, profile.crotch.y + 1.2),
-        control2: point(profile.crotch.x + 3.7, centerY - 1.6),
-        end: point(0, centerY),
-      },
-    };
+  const yokeSideY = options.yokeDepth / 2;
+  const yokeSideRatio = yokeSideY / measurements.hipDepth;
+  const sideYoke = point(
+    profile.sideWaist.x + (profile.sideHip.x - profile.sideWaist.x) * yokeSideRatio,
+    yokeSideY,
+  );
   const edges: Edge[] = [
     { kind: "line", name: "waist", start: point(0, 0), end: profile.sideWaist },
-    { kind: "line", name: "sideUpper", start: profile.sideWaist, end: profile.sideHip },
+    { kind: "line", name: "sideWaistToYoke", start: profile.sideWaist, end: sideYoke },
+    { kind: "line", name: "sideYokeToHip", start: sideYoke, end: profile.sideHip },
     { kind: "line", name: "sideHipToThigh", start: profile.sideHip, end: profile.sideThigh },
     { kind: "line", name: "sideThighToKnee", start: profile.sideThigh, end: profile.sideKnee },
     { kind: "line", name: "sideKneeToHem", start: profile.sideKnee, end: profile.sideHem },
@@ -138,17 +123,165 @@ function legPiece(
     { kind: "line", name: "inseamLower", start: profile.innerHem, end: profile.innerKnee },
     { kind: "line", name: "inseamUpper", start: profile.innerKnee, end: profile.innerThigh },
     { kind: "line", name: "innerThighToCrotch", start: profile.innerThigh, end: profile.crotch },
-    crotch,
-    { kind: "line", name: centerName, start: point(0, centerY), end: point(0, 0) },
+    {
+      kind: "curve",
+      name: "crotch",
+      curve: {
+        start: profile.crotch,
+        control1: point(profile.crotch.x - 2.2, profile.crotch.y - 0.6),
+        control2: point(profile.crotch.x - 2.6, metrics.frontCrotchY + 0.8),
+        end: point(0, metrics.frontCrotchY),
+      },
+    },
+    { kind: "line", name: "centerFront", start: point(0, metrics.frontCrotchY), end: point(0, 0) },
   ];
   return { name, onFold: false, edges };
 }
 
+function offsetCurveControls(edge: CurveEdge, normal: ReturnType<typeof point>, amount: number): CurveEdge {
+  return {
+    ...edge,
+    curve: {
+      ...edge.curve,
+      control1: point(
+        edge.curve.control1.x + normal.x * amount,
+        edge.curve.control1.y + normal.y * amount,
+      ),
+      control2: point(
+        edge.curve.control2.x + normal.x * amount,
+        edge.curve.control2.y + normal.y * amount,
+      ),
+    },
+  };
+}
+
+/** Add an exact positive arc-length difference by offsetting both controls. */
+function curveWithExtraLength(
+  edge: CurveEdge,
+  normal: ReturnType<typeof point>,
+  extraLength: number,
+): CurveEdge {
+  if (extraLength === 0) return edge;
+  if (!Number.isFinite(extraLength) || extraLength < 0) {
+    // Preserve invalid raw input in the geometry; later Jeans guidance owns
+    // explaining unsupported values. This is intentionally not a clamp.
+    return offsetCurveControls(edge, normal, extraLength);
+  }
+
+  const targetLength = edgeLength(edge) + extraLength;
+  let lower = 0;
+  let upper = Math.max(extraLength, 0.1);
+  let upperLength = edgeLength(offsetCurveControls(edge, normal, upper));
+  for (let attempt = 0; attempt < 20 && upperLength < targetLength; attempt += 1) {
+    upper *= 2;
+    upperLength = edgeLength(offsetCurveControls(edge, normal, upper));
+  }
+  for (let iteration = 0; iteration < 40; iteration += 1) {
+    const middle = (lower + upper) / 2;
+    const middleLength = edgeLength(offsetCurveControls(edge, normal, middle));
+    if (middleLength < targetLength) lower = middle;
+    else upper = middle;
+  }
+  // Keep the result on the shorter side of the numerical target so the
+  // declared upper ease bound is never exceeded by floating-point rounding.
+  return offsetCurveControls(edge, normal, lower);
+}
+
+function yokeCurve(
+  center: ReturnType<typeof point>,
+  side: ReturnType<typeof point>,
+): { readonly edge: CurveEdge; readonly normal: ReturnType<typeof point> } {
+  const dx = side.x - center.x;
+  const dy = side.y - center.y;
+  const chord = Math.hypot(dx, dy);
+  const normal = point(-dy / chord, dx / chord);
+  return {
+    edge: {
+      kind: "curve",
+      name: "yokeJoin",
+      curve: {
+        start: center,
+        control1: point(center.x + dx * 0.3 + normal.x * 0.6, center.y + dy * 0.3 + normal.y * 0.6),
+        control2: point(center.x + dx * 0.72 + normal.x * 0.6, center.y + dy * 0.72 + normal.y * 0.6),
+        end: side,
+      },
+    },
+    normal,
+  };
+}
+
+function backPieces(
+  measurements: Measurements,
+  metrics: JeansDraftMetrics,
+  options: JeansOptions,
+): { readonly yoke: Piece; readonly lower: Piece } {
+  const profile = legProfile(measurements, metrics, options);
+  const yokeSideY = options.yokeDepth / 2;
+  const yokeSideRatio = yokeSideY / measurements.hipDepth;
+  const sideYoke = point(
+    profile.sideWaist.x + (profile.sideHip.x - profile.sideWaist.x) * yokeSideRatio,
+    yokeSideY,
+  );
+  const centerYoke = point(0, options.yokeDepth);
+  const baseYokeSeam = yokeCurve(centerYoke, sideYoke);
+  const lowerYokeSeam = curveWithExtraLength(
+    baseYokeSeam.edge,
+    baseYokeSeam.normal,
+    options.yokeEase,
+  );
+  const lowerYoke: Piece = {
+    name: "jeans back lower left",
+    onFold: false,
+    edges: [
+      lowerYokeSeam,
+      { kind: "line", name: "sideYokeToHip", start: sideYoke, end: profile.sideHip },
+      { kind: "line", name: "sideHipToThigh", start: profile.sideHip, end: profile.sideThigh },
+      { kind: "line", name: "sideThighToKnee", start: profile.sideThigh, end: profile.sideKnee },
+      { kind: "line", name: "sideKneeToHem", start: profile.sideKnee, end: profile.sideHem },
+      { kind: "line", name: "hem", start: profile.sideHem, end: profile.innerHem },
+      { kind: "line", name: "inseamLower", start: profile.innerHem, end: profile.innerKnee },
+      { kind: "line", name: "inseamUpper", start: profile.innerKnee, end: profile.innerThigh },
+      { kind: "line", name: "innerThighToCrotch", start: profile.innerThigh, end: profile.crotch },
+      {
+        kind: "curve",
+        name: "crotch",
+        curve: {
+          start: profile.crotch,
+          control1: point(profile.crotch.x + 2.8, profile.crotch.y + 1.2),
+          control2: point(profile.crotch.x + 3.7, metrics.backCrotchY - 1.6),
+          end: point(0, metrics.backCrotchY),
+        },
+      },
+      { kind: "line", name: "centerBackLower", start: point(0, metrics.backCrotchY), end: centerYoke },
+    ],
+  };
+  const yoke: Piece = {
+    name: "jeans back yoke left",
+    onFold: false,
+    edges: [
+      { kind: "line", name: "centerBackYoke", start: point(0, 0), end: centerYoke },
+      baseYokeSeam.edge,
+      { kind: "line", name: "sideWaistToYoke", start: sideYoke, end: profile.sideWaist },
+      { kind: "line", name: "waist", start: profile.sideWaist, end: point(0, 0) },
+    ],
+  };
+  return { yoke, lower: lowerYoke };
+}
+
 const sideInterface = (role: string) => iface(
-  edgeRef(role, "sideUpper"),
+  edgeRef(role, "sideWaistToYoke"),
+  edgeRef(role, "sideYokeToHip"),
   edgeRef(role, "sideHipToThigh"),
   edgeRef(role, "sideThighToKnee"),
   edgeRef(role, "sideKneeToHem"),
+);
+
+const backSideInterface = (yokeRole: string, lowerRole: string) => iface(
+  edgeRef(yokeRole, "sideWaistToYoke"),
+  edgeRef(lowerRole, "sideYokeToHip"),
+  edgeRef(lowerRole, "sideHipToThigh"),
+  edgeRef(lowerRole, "sideThighToKnee"),
+  edgeRef(lowerRole, "sideKneeToHem"),
 );
 
 const inseamInterface = (role: string) => iface(
@@ -164,20 +297,25 @@ export function draftJeansCore(
 ): Block {
   const options = resolveJeansOptions(rawOptions);
   const metrics = jeansMetrics(measurements, options);
-  const frontLeft = legPiece(measurements, metrics, options, "front", "jeans front left");
-  const backLeft = legPiece(measurements, metrics, options, "back", "jeans back left");
+  const frontLeft = frontPiece(measurements, metrics, options, "jeans front left");
+  const back = backPieces(measurements, metrics, options);
   const roles = {
     frontLeft,
     frontRight: mirrorPiece(frontLeft, "jeans front right"),
-    backLeft,
-    backRight: mirrorPiece(backLeft, "jeans back right"),
+    backYokeLeft: back.yoke,
+    backYokeRight: mirrorPiece(back.yoke, "jeans back yoke right"),
+    backLowerLeft: back.lower,
+    backLowerRight: mirrorPiece(back.lower, "jeans back lower right"),
   };
   const stitches: readonly Stitch[] = [
-    { label: "Left side seam (front ↔ back)", a: sideInterface("frontLeft"), b: sideInterface("backLeft") },
-    { label: "Right side seam (front ↔ back)", a: sideInterface("frontRight"), b: sideInterface("backRight") },
-    { label: "Left inseam (front ↔ back)", a: inseamInterface("frontLeft"), b: inseamInterface("backLeft") },
-    { label: "Right inseam (front ↔ back)", a: inseamInterface("frontRight"), b: inseamInterface("backRight") },
-    { label: "Center-back seam (left ↔ right)", a: iface(edgeRef("backLeft", "centerBack")), b: iface(edgeRef("backRight", "centerBack")) },
+    { label: "Left side seam (front ↔ back)", a: sideInterface("frontLeft"), b: backSideInterface("backYokeLeft", "backLowerLeft") },
+    { label: "Right side seam (front ↔ back)", a: sideInterface("frontRight"), b: backSideInterface("backYokeRight", "backLowerRight") },
+    { label: "Left inseam (front ↔ back)", a: inseamInterface("frontLeft"), b: inseamInterface("backLowerLeft") },
+    { label: "Right inseam (front ↔ back)", a: inseamInterface("frontRight"), b: inseamInterface("backLowerRight") },
+    { label: "Left back yoke join (back lower longer)", a: iface(edgeRef("backLowerLeft", "yokeJoin")), b: iface(edgeRef("backYokeLeft", "yokeJoin")), ease: { lo: 0, hi: options.yokeEase } },
+    { label: "Right back yoke join (back lower longer)", a: iface(edgeRef("backLowerRight", "yokeJoin")), b: iface(edgeRef("backYokeRight", "yokeJoin")), ease: { lo: 0, hi: options.yokeEase } },
+    { label: "Center-back yoke seam (left ↔ right)", a: iface(edgeRef("backYokeLeft", "centerBackYoke")), b: iface(edgeRef("backYokeRight", "centerBackYoke")) },
+    { label: "Center-back lower seam (left ↔ right)", a: iface(edgeRef("backLowerLeft", "centerBackLower")), b: iface(edgeRef("backLowerRight", "centerBackLower")) },
   ];
   return block(roles, stitches);
 }
