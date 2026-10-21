@@ -93,6 +93,9 @@ const HOOD_NECK_EASE_MEASUREMENT_ROUNDOFF_CM = 1e-12;
 const HOOD_NECK_EASE_UPPER_ROUNDOFF_MARGIN_CM = 0.005;
 const HOOD_FRONT_OVERLAP_MIN = 0;
 const HOOD_FRONT_OVERLAP_MAX = 8;
+// Match semantic-edit's 14 curve samples so a repaired outline also passes its gate.
+const HOOD_FACE_CROSSING_SAMPLES = 14;
+const HOOD_FACE_CROSSING_STEP_CM = 0.25;
 const HOOD_CASING_WIDTH_MIN = 0;
 const HOOD_CASING_WIDTH_MAX = 5.5;
 const HOOD_DRAWCORD_LENGTH_MIN = 60;
@@ -369,6 +372,62 @@ function mirrorEdgeAcrossCenterFront(edge: Edge): Edge {
   return { ...edge, curve: mirrorCurveAcrossCenterFront(edge.curve) };
 }
 
+function cross(a: Point, b: Point, c: Point): number {
+  return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+}
+
+function segmentsProperlyIntersect(a: Point, b: Point, c: Point, d: Point): boolean {
+  const abC = cross(a, b, c);
+  const abD = cross(a, b, d);
+  const cdA = cross(c, d, a);
+  const cdB = cross(c, d, b);
+  return ((abC > 1e-9 && abD < -1e-9) || (abC < -1e-9 && abD > 1e-9)) &&
+    ((cdA > 1e-9 && cdB < -1e-9) || (cdA < -1e-9 && cdB > 1e-9));
+}
+
+function curvesIntersect(first: CubicBezier, second: CubicBezier): boolean {
+  const firstPoints = Array.from({ length: HOOD_FACE_CROSSING_SAMPLES + 1 }, (_, index) =>
+    cubicPoint(first, index / HOOD_FACE_CROSSING_SAMPLES));
+  const secondPoints = Array.from({ length: HOOD_FACE_CROSSING_SAMPLES + 1 }, (_, index) =>
+    cubicPoint(second, index / HOOD_FACE_CROSSING_SAMPLES));
+  for (let firstIndex = 0; firstIndex < HOOD_FACE_CROSSING_SAMPLES; firstIndex += 1) {
+    const a = firstPoints[firstIndex]!;
+    const b = firstPoints[firstIndex + 1]!;
+    for (let secondIndex = 0; secondIndex < HOOD_FACE_CROSSING_SAMPLES; secondIndex += 1) {
+      const c = secondPoints[secondIndex]!;
+      const d = secondPoints[secondIndex + 1]!;
+      if (Math.max(a.x, b.x) + 1e-8 < Math.min(c.x, d.x) ||
+          Math.max(c.x, d.x) + 1e-8 < Math.min(a.x, b.x) ||
+          Math.max(a.y, b.y) + 1e-8 < Math.min(c.y, d.y) ||
+          Math.max(c.y, d.y) + 1e-8 < Math.min(a.y, b.y)) continue;
+      if (segmentsProperlyIntersect(a, b, c, d)) return true;
+    }
+  }
+  return false;
+}
+
+function keepFaceOpeningClearOfFrontSeam(
+  frontSeam: CubicBezier,
+  faceOpening: CubicBezier,
+  hoodHeight: number,
+): CubicBezier {
+  if (!curvesIntersect(frontSeam, faceOpening)) return faceOpening;
+
+  // A positive paired overlap extends the face edge past center front. Move
+  // only its derived terminal handle downward, in y-down pattern coordinates,
+  // until the opening clears the neckline. Raw option values and endpoints
+  // remain intact; unresolved collisions still reach semantic-edit validation.
+  let adjusted = faceOpening;
+  for (let offset = HOOD_FACE_CROSSING_STEP_CM; offset <= hoodHeight; offset += HOOD_FACE_CROSSING_STEP_CM) {
+    adjusted = {
+      ...faceOpening,
+      control2: { ...faceOpening.control2, y: faceOpening.control2.y + offset },
+    };
+    if (!curvesIntersect(frontSeam, adjusted)) break;
+  }
+  return adjusted;
+}
+
 function hoodSidePiece(
   side: "left" | "right",
   layer: "outer" | "lining",
@@ -396,15 +455,18 @@ function hoodSidePiece(
       end: crown,
     },
   };
+  const faceOpeningCurve: CubicBezier = {
+    start: crown,
+    control1: point(-options.hoodDepth * 0.78, -options.hoodHeight * 0.72),
+    control2: point(-options.hoodDepth * 0.22, centerFront.y - options.hoodHeight * 0.18),
+    end: frontOverlapEndpoint,
+  };
   const faceOpening: Edge = {
     kind: "curve",
     name: "faceOpening",
-    curve: {
-      start: crown,
-      control1: point(-options.hoodDepth * 0.78, -options.hoodHeight * 0.72),
-      control2: point(-options.hoodDepth * 0.22, centerFront.y - options.hoodHeight * 0.18),
-      end: frontOverlapEndpoint,
-    },
+    curve: overlap > HOOD_FRONT_OVERLAP_MIN
+      ? keepFaceOpeningClearOfFrontSeam(frontSeam.curve, faceOpeningCurve, options.hoodHeight)
+      : faceOpeningCurve,
   };
   const overlapConnector: Edge | undefined = overlap > HOOD_FRONT_OVERLAP_MIN
     ? {

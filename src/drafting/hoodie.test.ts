@@ -34,7 +34,7 @@ const HOOD_ROLES: readonly HoodieHoodRole[] = [
   "hoodLiningRight",
 ];
 
-function outlinePoints(piece: Piece, segmentsPerCurve = 32): readonly Point[] {
+function outlinePoints(piece: Piece, segmentsPerCurve = 128): readonly Point[] {
   const points: Point[] = [];
   for (const edge of piece.edges) {
     const edgePoints = edge.kind === "line"
@@ -396,7 +396,7 @@ describe("hoodie draft core", () => {
     expect(leftExit && "at" in leftExit && rightExit && "at" in rightExit
       ? distance(leftExit.at, rightExit.at)
       : Number.NaN).toBeCloseTo(OPTIONS.hoodExitSpacing, 10);
-    const faceSamples = Array.from({ length: 257 }, (_, index) => cubicPoint(face.curve, index / 256));
+    const faceSamples = Array.from({ length: 1025 }, (_, index) => cubicPoint(face.curve, index / 1024));
     const exitOffset = leftExit && "at" in leftExit
       ? Math.min(...faceSamples.map((curvePoint) => distance(leftExit.at, curvePoint)))
       : Number.NaN;
@@ -405,8 +405,10 @@ describe("hoodie draft core", () => {
     leftGuides.forEach((mark) => {
       if (mark.kind !== "foldLine") throw new Error("Casing guide must be a fold-line mark");
       const closestDistance = (value: Point) => Math.min(...faceSamples.map((curvePoint) => distance(value, curvePoint)));
-      expect(closestDistance(mark.start)).toBeCloseTo(OPTIONS.hoodCasingWidth, 2);
-      expect(closestDistance(mark.end)).toBeCloseTo(OPTIONS.hoodCasingWidth, 2);
+      // Nearest-point distance can be up to 0.014 cm inside the authored
+      // normal offset at the repaired, high-curvature front endpoint.
+      expect(closestDistance(mark.start)).toBeCloseTo(OPTIONS.hoodCasingWidth, 1);
+      expect(closestDistance(mark.end)).toBeCloseTo(OPTIONS.hoodCasingWidth, 1);
       expect(pointInPiece(mark.start, left)).toBe(true);
       expect(pointInPiece(mark.end, left)).toBe(true);
       expect(pointInPiece(point((mark.start.x + mark.end.x) / 2, (mark.start.y + mark.end.y) / 2), left)).toBe(true);
@@ -430,15 +432,21 @@ describe("hoodie draft core", () => {
     expect(unused?.text).toContain("increase casing width");
   });
 
-  it("omits a casing that fits only a short section and explains how to correct it", () => {
+  it("keeps the maximum casing width when the corrected face opening can host it", () => {
     const options = { ...OPTIONS, hoodCasingWidth: 5.5 };
     const draft = draftHoodie(STANDARD_M, options);
-    expect(draft.roles.hoodOuterLeft?.marks).toBeUndefined();
-    expect(draft.roles.hoodOuterRight?.marks).toBeUndefined();
+    const left = draft.roles.hoodOuterLeft!;
+    const leftMarks = left.marks ?? [];
+    const guides = leftMarks.filter((mark) => mark.kind === "foldLine");
+    expect(guides.length).toBeGreaterThanOrEqual(16);
+    expect(draft.roles.hoodOuterRight?.marks).toEqual(leftMarks.map(reflectedMark));
+    guides.forEach((mark) => {
+      if (mark.kind !== "foldLine") throw new Error("Casing guide must be a fold-line mark");
+      expect(pointInPiece(mark.start, left)).toBe(true);
+      expect(pointInPiece(mark.end, left)).toBe(true);
+    });
     const note = hoodieCasingNotes(STANDARD_M, options).find((item) => item.field === "hoodCasingWidth");
-    expect(note?.level).toBe("warn");
-    expect(note?.text).toContain("cannot be represented inside this hood face");
-    expect(note?.text).toContain("reduce the width or adjust the hood shape");
+    expect(note).toBeUndefined();
   });
 
   it("warns and keeps the fold guide if an unusable hood shape cannot host the requested exits", () => {
