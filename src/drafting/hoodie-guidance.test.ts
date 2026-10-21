@@ -85,24 +85,21 @@ describe("hoodieGuidance", () => {
     const multipleInvalid = notesFor({ hoodHeight: 19, pocketWidth: 55 });
     expect(multipleInvalid.map(({ field }) => field)).toEqual(["hoodHeight", "pocketWidth"]);
 
-    const offStepAlongsideRepresentability = notesFor({ cuffDepth: 6.25, hoodCasingWidth: 5.5 });
-    expect(offStepAlongsideRepresentability).toEqual(expect.arrayContaining([
+    const offStepAlongsideRepresentableMaximumCasing = notesFor({ cuffDepth: 6.25, hoodCasingWidth: 5.5 });
+    expect(offStepAlongsideRepresentableMaximumCasing).toEqual(expect.arrayContaining([
       expect.objectContaining({ field: "cuffDepth", text: expect.stringContaining("step") }),
-      expect.objectContaining({ field: "hoodCasingWidth", text: expect.stringContaining("cannot be represented") }),
     ]));
+    expect(offStepAlongsideRepresentableMaximumCasing.some(({ field }) => field === "hoodCasingWidth")).toBe(false);
   });
 
-  it("composes existing neckline and casing representability warnings", () => {
+  it("omits the maximum-casing warning when its guides are represented by the live hood", () => {
     const options = { ...HOODIE_DEFAULT_OPTIONS, hoodCasingWidth: 5.5 };
     const { block, measurements } = draft(options);
     const notes = hoodieGuidance(block, measurements, options);
-    expect(notes).toEqual(expect.arrayContaining([
-      expect.objectContaining({
-        field: "hoodCasingWidth",
-        level: "warn",
-        text: expect.stringContaining("cannot be represented"),
-      }),
-    ]));
+    const casingGuides = block.roles.hoodOuterLeft?.marks?.filter((mark) =>
+      mark.kind === "foldLine" && mark.name.startsWith("hoodCasingFold-")) ?? [];
+    expect(casingGuides.length).toBeGreaterThanOrEqual(16);
+    expect(notes.some(({ field }) => field === "hoodCasingWidth")).toBe(false);
 
     const necklineBoundary = notesFor({ hoodNecklineFrontDrop: 22 });
     expect(necklineBoundary).toEqual(expect.arrayContaining([

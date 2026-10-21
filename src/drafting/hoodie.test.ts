@@ -6,7 +6,10 @@ import { pieceEdge, edgeEnd, edgeLength, edgeStart, type Edge, type Piece } from
 import type { PatternMark } from "./pattern-mark";
 import { stitchChecks } from "./stitch";
 import { TSHIRT_GRADE } from "./tshirt-grade";
+import { polylineBounds } from "../export/layout";
+import { seamAllowance } from "../render/allowance";
 import { draftCrewneck } from "./crewneck";
+import { HOODIE_ALLOWANCES } from "./hoodie-tables";
 import { HOODIE_POUCH_DEFAULT_OPTIONS, HOODIE_SHAPE_DEFAULT_OPTIONS } from "./hoodie-contract";
 import {
   draftHoodie,
@@ -233,7 +236,7 @@ describe("hoodie draft core", () => {
         const drafted = draftHoodie(size, { ...OPTIONS, hoodFrontOverlap });
         const frontNeckline = pieceEdge(drafted.roles.front!, "neckline");
         const measurements = hoodieNecklineMeasurements(drafted);
-        let pairedConnectorLength = 0;
+        let pairedOverlapProjection = 0;
         for (const [leftRole, rightRole] of [
           ["hoodOuterLeft", "hoodOuterRight"],
           ["hoodLiningLeft", "hoodLiningRight"],
@@ -244,8 +247,9 @@ describe("hoodie draft core", () => {
           const rightFace = pieceEdge(right, "faceOpening");
           expect(edgeEnd(leftFace).x).toBeCloseTo(hoodFrontOverlap / 2, 10);
           expect(edgeEnd(rightFace).x).toBeCloseTo(-hoodFrontOverlap / 2, 10);
-          expect(edgeEnd(leftFace).y).toBeCloseTo(edgeStart(frontNeckline).y, 10);
-          expect(edgeEnd(rightFace).y).toBeCloseTo(edgeStart(frontNeckline).y, 10);
+          const expectedOverlapDrop = hoodFrontOverlap === 0 ? 0 : 1.25;
+          expect(edgeEnd(leftFace).y).toBeCloseTo(edgeStart(frontNeckline).y + expectedOverlapDrop, 10);
+          expect(edgeEnd(rightFace).y).toBeCloseTo(edgeStart(frontNeckline).y + expectedOverlapDrop, 10);
           expect(right.edges).toEqual(left.edges.map(reflectedCurve));
 
           const leftConnector = left.edges.find((edge) => edge.name === "frontOverlap");
@@ -261,11 +265,12 @@ describe("hoodie draft core", () => {
             expect(rightConnector?.kind).toBe("line");
             expect(edgeStart(leftConnector!)).toEqual(edgeEnd(leftFace));
             expect(edgeEnd(leftConnector!)).toEqual(edgeStart(pieceEdge(left, "necklineFront")));
-            expect(edgeLength(leftConnector!)).toBeCloseTo(hoodFrontOverlap / 2, 10);
-            pairedConnectorLength += edgeLength(leftConnector!) + edgeLength(rightConnector!);
+            expect(edgeLength(leftConnector!)).toBeCloseTo(Math.hypot(hoodFrontOverlap / 2, expectedOverlapDrop), 10);
+            pairedOverlapProjection += Math.abs(edgeStart(leftConnector!).x - edgeEnd(leftConnector!).x) +
+              Math.abs(edgeStart(rightConnector!).x - edgeEnd(rightConnector!).x);
           }
         }
-        expect(pairedConnectorLength).toBeCloseTo(hoodFrontOverlap * 2, 10);
+        expect(pairedOverlapProjection).toBeCloseTo(hoodFrontOverlap * 2, 10);
         expect(measurements.hoodPieces.every((piece) =>
           Math.abs(piece.differenceFromGarmentCm - OPTIONS.hoodNeckEase) < 0.02)).toBe(true);
       }
@@ -369,6 +374,34 @@ describe("hoodie draft core", () => {
           .toBeCloseTo(d.neckWidthHalf + options.hoodNecklineWidthEase, 10);
       }
     }
+  });
+
+  it("keeps default Hoodie hood cut bounds within A0-safe dimensions across XS-XL", () => {
+    for (let step = -2; step <= 2; step += 1) {
+      const size = gradeMeasurements(STANDARD_M, TSHIRT_GRADE, step);
+      const drafted = draftHoodie(size, OPTIONS);
+      for (const role of HOOD_ROLES) {
+        const bounds = polylineBounds(seamAllowance(drafted.roles[role]!, HOODIE_ALLOWANCES));
+        expect(bounds.width).toBeLessThan(60);
+        expect(bounds.height).toBeLessThan(65);
+      }
+    }
+  });
+
+  it("preserves raw invalid hood geometry when no positive face-clearance step is available", () => {
+    const size = gradeMeasurements(STANDARD_M, TSHIRT_GRADE, -2);
+    const drafted = draftHoodie(size, {
+      ...OPTIONS,
+      hoodHeight: -1,
+      hoodDepth: 18,
+      hoodNecklineWidthEase: 0,
+      hoodNecklineFrontDrop: 22,
+      hoodFrontOverlap: 8,
+    });
+    const hood = drafted.roles.hoodOuterLeft!;
+
+    expect(edgeEnd(pieceEdge(hood, "centerBack"))).toEqual(point(-18, 1));
+    expect(outlinePoints(hood).every(({ x, y }) => Number.isFinite(x) && Number.isFinite(y))).toBe(true);
   });
 
   it("adds an inset curved casing guide and exactly spaced mirrored outer buttonholes", () => {

@@ -93,9 +93,12 @@ const HOOD_NECK_EASE_MEASUREMENT_ROUNDOFF_CM = 1e-12;
 const HOOD_NECK_EASE_UPPER_ROUNDOFF_MARGIN_CM = 0.005;
 const HOOD_FRONT_OVERLAP_MIN = 0;
 const HOOD_FRONT_OVERLAP_MAX = 8;
+const HOOD_FRONT_OVERLAP_EDGE_DROP_CM = 1.25;
 // Match semantic-edit's 14 curve samples so a repaired outline also passes its gate.
 const HOOD_FACE_CROSSING_SAMPLES = 14;
+const HOOD_FACE_OUTLINE_VALIDATION_SAMPLES = 128;
 const HOOD_FACE_CROSSING_STEP_CM = 0.25;
+const HOOD_FACE_MIN_OVERLAP_TURN_SINE = 0.65;
 const HOOD_CASING_WIDTH_MIN = 0;
 const HOOD_CASING_WIDTH_MAX = 5.5;
 const HOOD_DRAWCORD_LENGTH_MIN = 60;
@@ -385,15 +388,15 @@ function segmentsProperlyIntersect(a: Point, b: Point, c: Point, d: Point): bool
     ((cdA > 1e-9 && cdB < -1e-9) || (cdA < -1e-9 && cdB > 1e-9));
 }
 
-function curvesIntersect(first: CubicBezier, second: CubicBezier): boolean {
-  const firstPoints = Array.from({ length: HOOD_FACE_CROSSING_SAMPLES + 1 }, (_, index) =>
-    cubicPoint(first, index / HOOD_FACE_CROSSING_SAMPLES));
-  const secondPoints = Array.from({ length: HOOD_FACE_CROSSING_SAMPLES + 1 }, (_, index) =>
-    cubicPoint(second, index / HOOD_FACE_CROSSING_SAMPLES));
-  for (let firstIndex = 0; firstIndex < HOOD_FACE_CROSSING_SAMPLES; firstIndex += 1) {
+function curvesIntersect(first: CubicBezier, second: CubicBezier, samples = HOOD_FACE_CROSSING_SAMPLES): boolean {
+  const firstPoints = Array.from({ length: samples + 1 }, (_, index) =>
+    cubicPoint(first, index / samples));
+  const secondPoints = Array.from({ length: samples + 1 }, (_, index) =>
+    cubicPoint(second, index / samples));
+  for (let firstIndex = 0; firstIndex < samples; firstIndex += 1) {
     const a = firstPoints[firstIndex]!;
     const b = firstPoints[firstIndex + 1]!;
-    for (let secondIndex = 0; secondIndex < HOOD_FACE_CROSSING_SAMPLES; secondIndex += 1) {
+    for (let secondIndex = 0; secondIndex < samples; secondIndex += 1) {
       const c = secondPoints[secondIndex]!;
       const d = secondPoints[secondIndex + 1]!;
       if (Math.max(a.x, b.x) + 1e-8 < Math.min(c.x, d.x) ||
@@ -406,26 +409,114 @@ function curvesIntersect(first: CubicBezier, second: CubicBezier): boolean {
   return false;
 }
 
+function curveIntersectsSegment(curve: CubicBezier, start: Point, end: Point): boolean {
+  let previous = cubicPoint(curve, 0);
+  for (let index = 1; index <= HOOD_FACE_OUTLINE_VALIDATION_SAMPLES; index += 1) {
+    const current = cubicPoint(curve, index / HOOD_FACE_OUTLINE_VALIDATION_SAMPLES);
+    if (Math.max(previous.x, current.x) + 1e-8 >= Math.min(start.x, end.x) &&
+        Math.max(start.x, end.x) + 1e-8 >= Math.min(previous.x, current.x) &&
+        Math.max(previous.y, current.y) + 1e-8 >= Math.min(start.y, end.y) &&
+        Math.max(start.y, end.y) + 1e-8 >= Math.min(previous.y, current.y) &&
+        segmentsProperlyIntersect(previous, current, start, end)) return true;
+    previous = current;
+  }
+  return false;
+}
+
+function faceOpeningHasStableOverlapTurn(faceOpening: CubicBezier, centerFront: Point): boolean {
+  const outgoingLength = Math.hypot(centerFront.x - faceOpening.end.x, centerFront.y - faceOpening.end.y);
+  if (Number.isFinite(outgoingLength) && outgoingLength <= Number.EPSILON) return true;
+  const lastSample = cubicPoint(
+    faceOpening,
+    (HOOD_FACE_CROSSING_SAMPLES - 1) / HOOD_FACE_CROSSING_SAMPLES,
+  );
+  const incoming = {
+    x: faceOpening.end.x - lastSample.x,
+    y: faceOpening.end.y - lastSample.y,
+  };
+  const outgoing = {
+    x: centerFront.x - faceOpening.end.x,
+    y: centerFront.y - faceOpening.end.y,
+  };
+  const scale = Math.hypot(incoming.x, incoming.y) * Math.hypot(outgoing.x, outgoing.y);
+  if (!Number.isFinite(scale) || scale <= Number.EPSILON) return false;
+  const sine = Math.abs(incoming.x * outgoing.y - incoming.y * outgoing.x) / scale;
+  return Number.isFinite(sine) && sine >= HOOD_FACE_MIN_OVERLAP_TURN_SINE;
+}
+
 function keepFaceOpeningClearOfFrontSeam(
   frontSeam: CubicBezier,
   faceOpening: CubicBezier,
   hoodHeight: number,
+  centerFront: Point,
 ): CubicBezier {
-  if (!curvesIntersect(frontSeam, faceOpening)) return faceOpening;
+  // Match the validator's 14-sample cadence while searching derived handles.
+  // A near-reversal at the overlap connector can create an extreme miter even
+  // after the curve crossing is gone, so check the terminal turn as well.
+  const initiallyClear = !curvesIntersect(frontSeam, faceOpening);
+  if (initiallyClear && faceOpeningHasStableOverlapTurn(faceOpening, centerFront)) return faceOpening;
 
-  // A positive paired overlap extends the face edge past center front. Move
-  // only its derived terminal handle downward, in y-down pattern coordinates,
-  // until the opening clears the neckline. Raw option values and endpoints
-  // remain intact; unresolved collisions still reach semantic-edit validation.
+  // Move only the derived terminal handle downward in y-down pattern
+  // coordinates. Raw option values and endpoints remain intact; unresolved
+  // collisions still reach semantic-edit validation.
   let adjusted = faceOpening;
+  let firstClearCandidate: CubicBezier | undefined = initiallyClear ? faceOpening : undefined;
   for (let offset = HOOD_FACE_CROSSING_STEP_CM; offset <= hoodHeight; offset += HOOD_FACE_CROSSING_STEP_CM) {
     adjusted = {
       ...faceOpening,
       control2: { ...faceOpening.control2, y: faceOpening.control2.y + offset },
     };
-    if (!curvesIntersect(frontSeam, adjusted)) break;
+    if (curvesIntersect(frontSeam, adjusted)) continue;
+    firstClearCandidate ??= adjusted;
+    if (faceOpeningHasStableOverlapTurn(adjusted, centerFront)) return adjusted;
   }
-  return adjusted;
+  return firstClearCandidate ?? adjusted;
+}
+
+function createFaceOpeningCurve(
+  centerFront: Point,
+  endpoint: Point,
+  hoodDepth: number,
+  hoodHeight: number,
+): CubicBezier {
+  return {
+    start: point(-hoodDepth, -hoodHeight),
+    control1: point(-hoodDepth * 0.78, -hoodHeight * 0.72),
+    control2: point(-hoodDepth * 0.22, centerFront.y - hoodHeight * 0.18),
+    end: endpoint,
+  };
+}
+
+function resolveFrontOverlapGeometry(
+  frontSeam: CubicBezier,
+  centerFront: Point,
+  overlap: number,
+  hoodDepth: number,
+  hoodHeight: number,
+): { readonly endpoint: Point; readonly faceOpening: CubicBezier } {
+  // Prefer the largest digital endpoint drop that clears both the connector
+  // and a fine-sampled outline check. Keep the same 0.25 cm candidate cadence
+  // used by the derived-handle search; no raw option is modified.
+  const fallbackEndpoint = point(centerFront.x + overlap / 2, centerFront.y);
+  let fallback = {
+    endpoint: fallbackEndpoint,
+    faceOpening: createFaceOpeningCurve(centerFront, fallbackEndpoint, hoodDepth, hoodHeight),
+  };
+  const dropSteps = overlap > HOOD_FRONT_OVERLAP_MIN
+    ? Math.round(HOOD_FRONT_OVERLAP_EDGE_DROP_CM / HOOD_FACE_CROSSING_STEP_CM)
+    : 0;
+  for (let step = dropSteps; step >= 0; step -= 1) {
+    const drop = step * HOOD_FACE_CROSSING_STEP_CM;
+    const endpoint = point(centerFront.x + overlap / 2, centerFront.y + drop);
+    if (overlap > HOOD_FRONT_OVERLAP_MIN && curveIntersectsSegment(frontSeam, endpoint, centerFront)) continue;
+    const candidate = createFaceOpeningCurve(centerFront, endpoint, hoodDepth, hoodHeight);
+    const faceOpening = keepFaceOpeningClearOfFrontSeam(frontSeam, candidate, hoodHeight, centerFront);
+    const noCrossing = !curvesIntersect(frontSeam, faceOpening, HOOD_FACE_OUTLINE_VALIDATION_SAMPLES);
+    const stableTurn = overlap <= HOOD_FRONT_OVERLAP_MIN || faceOpeningHasStableOverlapTurn(faceOpening, centerFront);
+    if (noCrossing && stableTurn) return { endpoint, faceOpening };
+    if (noCrossing) fallback = { endpoint, faceOpening };
+  }
+  return fallback;
 }
 
 function hoodSidePiece(
@@ -442,7 +533,14 @@ function hoodSidePiece(
     options.hoodFrontOverlap <= HOOD_FRONT_OVERLAP_MAX
     ? options.hoodFrontOverlap
     : HOOD_FRONT_OVERLAP_MIN;
-  const frontOverlapEndpoint = point(centerFront.x + overlap / 2, centerFront.y);
+  const resolvedFrontOverlap = resolveFrontOverlapGeometry(
+    frontSeam.curve,
+    centerFront,
+    overlap,
+    options.hoodDepth,
+    options.hoodHeight,
+  );
+  const frontOverlapEndpoint = resolvedFrontOverlap.endpoint;
   const centerBack = edgeEnd(backSeam);
   const crown = point(-options.hoodDepth, -options.hoodHeight);
   const centerBackSeam: Edge = {
@@ -455,18 +553,10 @@ function hoodSidePiece(
       end: crown,
     },
   };
-  const faceOpeningCurve: CubicBezier = {
-    start: crown,
-    control1: point(-options.hoodDepth * 0.78, -options.hoodHeight * 0.72),
-    control2: point(-options.hoodDepth * 0.22, centerFront.y - options.hoodHeight * 0.18),
-    end: frontOverlapEndpoint,
-  };
   const faceOpening: Edge = {
     kind: "curve",
     name: "faceOpening",
-    curve: overlap > HOOD_FRONT_OVERLAP_MIN
-      ? keepFaceOpeningClearOfFrontSeam(frontSeam.curve, faceOpeningCurve, options.hoodHeight)
-      : faceOpeningCurve,
+    curve: resolvedFrontOverlap.faceOpening,
   };
   const overlapConnector: Edge | undefined = overlap > HOOD_FRONT_OVERLAP_MIN
     ? {
