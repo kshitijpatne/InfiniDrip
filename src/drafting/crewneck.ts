@@ -1,11 +1,12 @@
 import { Note } from "../guidance/note";
 import { bodice } from "./bodice";
 import { Block, block } from "./block";
-import { ComponentResult } from "./component";
+import type { Component, ComponentResult } from "./component";
 import { Measurements, derive } from "./measurements";
 import { NecklineParams, necklineEdge } from "./neckline";
 import { Piece } from "./piece";
 import { GarmentOptions } from "./options";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import { edgeRef, iface, interfaceLength, Stitch } from "./stitch";
 import { sleeve } from "./sleeve";
 import {
@@ -63,7 +64,7 @@ function sleeveCapStitch(role: "sleeveLeft" | "sleeveRight"): Stitch {
  * supplied by the later recipe contract; missing numeric controls remain
  * visibly invalid rather than receiving a hidden product default.
  */
-export function draftCrewneck(
+function draftCrewneckBlock(
   measurements: Measurements,
   options: GarmentOptions = {},
 ): Block {
@@ -140,6 +141,26 @@ export function draftCrewneck(
   ];
 
   return block(roles, stitches);
+}
+
+const crewneckRecipeComponent: Component<GarmentOptions> = (measurements, options): ComponentResult => {
+  const drafted = draftCrewneckBlock(measurements, options);
+  return { pieces: drafted.roles, stitches: drafted.stitches, interfaces: {} };
+};
+
+/** The Crewneck's current block is an integrated composition. Registering it
+ * as one source component keeps its role order and joins intact until the
+ * recipe's internal construction is decomposed into reusable nodes. */
+export const CREWNECK_GRAMMAR = garmentGrammar("crewneck", [
+  componentNode("crewneck", "integrated-crewneck", crewneckRecipeComponent,
+    (context) => context.options),
+]);
+
+export function draftCrewneck(
+  measurements: Measurements,
+  options: GarmentOptions = {},
+): Block {
+  return composeBlock(CREWNECK_GRAMMAR, measurements, options);
 }
 
 /** Surface the warn-never-clamp notes emitted by the same neckline function

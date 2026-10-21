@@ -13,6 +13,7 @@ import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { compileTechnicalFlatPomCallouts, technicalFlatLeaderCrossesBox, technicalFlatLeaderSegmentsCross } from "./technical-flat-poms";
 
 const revisionId = "revision-g04-pom";
+const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
 
 function faceGeometry(recipeId: string, block: Block, kind: "FRONT_FLAT" | "BACK_FLAT", revision = revisionId): TechnicalFlatPrimitive[] {
   return [...compileTechnicalFlatSourceGeometry(recipeId, block, revision, kind).primitives];
@@ -44,8 +45,8 @@ describe("technical-flat POM callouts", () => {
       { minX: 4, minY: 4, maxX: 6, maxY: 6 })).toBe(false);
   });
 
-  it("binds every anchored POM to an exact same-revision front outline vertex across seven recipes", () => {
-    for (const recipe of GARMENTS) {
+  it("binds every anchored POM to an exact same-revision front outline vertex across G04-admitted recipes", () => {
+    for (const recipe of G04_RECIPES) {
       const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipe.name];
       if (!mapping) throw new Error(`Missing G04 map for ${recipe.name}`);
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));

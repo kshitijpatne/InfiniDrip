@@ -36,6 +36,10 @@ describe("Jeans notch and grainline rules", () => {
       "jeans front pocket stay left", "jeans front pocket stay right",
       "jeans right coin-pocket facing extension", "jeans coin pocket",
       "jeans back patch pocket left", "jeans back patch pocket right",
+      "jeans right fly facing and underlap", "jeans fly shield",
+      "jeans outer waistband left", "jeans outer waistband right",
+      "jeans inner waistband left", "jeans inner waistband right",
+      "jeans belt-loop strip",
     ]);
 
     for (const { step } of JEANS_SIZES) {

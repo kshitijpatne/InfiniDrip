@@ -15,9 +15,10 @@ import {
 } from "./technical-flat-projection";
 
 const REVISION = "draft-r7";
+const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
 
 function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number]["draft"]>): TechnicalFlatProjectionMap {
-  if (recipeId === "skirt") return createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)!;
+  if (recipeId === "skirt" || recipeId === "crewneck") return createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)!;
   const source = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
   const authored = ["woven-shirt", "tee", "fitted", "polo"].includes(recipeId)
     ? createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)! : undefined;
@@ -789,7 +790,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
   });
 
   it("creates source-edge maps for every supported recipe and numeric option endpoint", () => {
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
       for (const options of endpointOptions) {
         const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
@@ -1097,7 +1098,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
   });
 
   it("records only source-validated local-y fold axes across every recipe option endpoint", () => {
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
       for (const options of endpointOptions) {
         const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
@@ -1232,7 +1233,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
   });
 
   it("accepts explicit per-face edge accounting for every supported recipe and option endpoint", () => {
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
       for (const options of endpointOptions) {
         const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });

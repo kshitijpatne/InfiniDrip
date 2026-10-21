@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { GARMENTS } from "./recipe";
+import { defaultGarmentOptions } from "./options";
 import type { Component, ComponentResult } from "./component";
 import {
   componentNode,
@@ -52,7 +53,7 @@ describe("composeGrammar", () => {
       expect(grammar!.id).toBe(recipe.name);
       expect(new Set(grammar!.nodes.map((node) => node.id)).size).toBe(grammar!.nodes.length);
 
-      const composed = composeGrammar(grammar!, STANDARD_M, {});
+      const composed = composeGrammar(grammar!, STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
       expect(composed.components).toHaveLength(grammar!.nodes.length);
       expect(Object.keys(composed.block.roles)).toEqual(Object.keys(recipe.draft(STANDARD_M).roles));
       expect(composed.block.roles).not.toEqual({});

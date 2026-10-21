@@ -40,7 +40,7 @@ function teeSession(): MeasurementCaptureSession {
 
 describe("measurement-first capture session", () => {
   it("starts every supported recipe with all consumed inputs unresolved and without defaults", () => {
-  expect(GARMENTS).toHaveLength(11);
+    expect(GARMENTS).toHaveLength(12);
     for (const recipe of GARMENTS) {
       const session = createMeasurementCaptureSession(SESSION_ID, recipe.name, TIME);
       expect(session.fields).toHaveLength(recipe.fields.length + (recipe.options ?? []).filter((option) => !option.optional).length);

@@ -15,6 +15,7 @@ import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection
 import { draftJogger } from "../drafting/jogger";
 
 const draft = (recipe: typeof GARMENTS[number]) => recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
 
 describe("assembleTechnicalFlatRoles", () => {
   it("assembles each crewneck body and one source sleeve per view while keeping detached bands outside the solver", () => {
@@ -70,8 +71,8 @@ describe("assembleTechnicalFlatRoles", () => {
       && issue.sourceId === "stitch:Sleeve-cap ease")).toBe(true);
   });
 
-  it("maps every exterior role for all seven default recipes without exposing interior support pieces", () => {
-    for (const recipe of GARMENTS) {
+  it("maps every exterior role for all G04-admitted default recipes without exposing interior support pieces", () => {
+    for (const recipe of G04_RECIPES) {
       const source = draft(recipe);
       for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
         const result = assembleTechnicalFlatRoles(recipe.name, source, kind);

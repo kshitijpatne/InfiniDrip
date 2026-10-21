@@ -12,6 +12,7 @@ import { createG04TechnicalFlatProjectionMap, edgeParameterAtArclengthFraction, 
 import { TECHNICAL_FLAT_SCHEMA_VERSION, validateTechnicalFlat } from "./technical-flat";
 
 const revisionId = "style-revision-17";
+const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
 
 /** The Polo face is production-held for its sleeve view. This test-only map
  * clears that hold solely to exercise the independent collar fill compiler. */
@@ -21,9 +22,9 @@ function poloColorwayDiagnosticMap(block: Block): TechnicalFlatProjectionMap {
 
 function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionMap {
   const base = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
-  const authored = ["woven-shirt", "tee", "fitted", "polo"].includes(recipeId)
+  const authored = ["woven-shirt", "tee", "fitted", "polo", "crewneck"].includes(recipeId)
     ? createG04TechnicalFlatProjectionMap(recipeId, block, revisionId)! : undefined;
-  if (recipeId === "polo" || recipeId === "woven-shirt") return authored!;
+  if (recipeId === "polo" || recipeId === "woven-shirt" || recipeId === "crewneck") return authored!;
   return {
     version: 1, recipeId, revisionId,
     faces: base.faces.map((face) => ({
@@ -347,8 +348,8 @@ describe("technical-flat source geometry", () => {
     }
   });
 
-  it("compiles exact mapped role outlines, marks and darts for every recipe and option endpoint", () => {
-    for (const recipe of GARMENTS) {
+  it("compiles exact mapped role outlines, marks and darts for every G04-admitted recipe and option endpoint", () => {
+    for (const recipe of G04_RECIPES) {
       const optionSets = [defaultGarmentOptions(recipe.options ?? [])];
       for (const option of recipe.options ?? []) {
         optionSets.push({ ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min });
@@ -519,7 +520,7 @@ describe("technical-flat source geometry", () => {
     const lineStartMap = { ...map, faces: [{ ...face, roles: face.roles.map((candidate) => candidate.roleId === role.roleId ? lineStartRole : candidate) }, map.faces[1]] } as unknown as TechnicalFlatProjectionMap;
     expect(compileTechnicalFlatSourceGeometry("tee", markedBlock, revisionId, "FRONT_FLAT", lineStartMap).issues).toEqual([]);
 
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       const optionSets = [defaultGarmentOptions(recipe.options ?? [])];
       for (const option of recipe.options ?? []) {
         optionSets.push({ ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min });
@@ -681,6 +682,10 @@ describe("technical-flat source geometry", () => {
     const unsupported = compileTechnicalFlatSourceGeometry("dress", block, revisionId, "FRONT_FLAT");
     expect(unsupported.primitives).toEqual([]);
     expect(unsupported.issues).toContainEqual(expect.objectContaining({ code: "UNSUPPORTED_RECIPE" }));
+    const jeans = GARMENTS.find((recipe) => recipe.name === "jeans")!;
+    const jeansBlock = jeans.draft(STANDARD_M, defaultGarmentOptions(jeans.options ?? []));
+    expect(compileTechnicalFlatSourceGeometry("jeans", jeansBlock, revisionId, "FRONT_FLAT").issues)
+      .toContainEqual(expect.objectContaining({ code: "UNSUPPORTED_RECIPE" }));
     const points = compileTechnicalFlatSourceGeometry("woven-shirt",
       GARMENTS.find((recipe) => recipe.name === "woven-shirt")!.draft(STANDARD_M, defaultGarmentOptions([])),
       revisionId, "FRONT_FLAT").primitives.filter((primitive) => primitive.kind === "mark");

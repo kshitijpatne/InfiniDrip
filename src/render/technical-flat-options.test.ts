@@ -4,12 +4,14 @@ import { GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { validateTechnicalFlatOptions } from "./technical-flat-options";
+import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 
 const revisionId = "style-revision-17";
+const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
 
 describe("technical-flat option and topology validation", () => {
   it("drafts and validates default values and every declared option endpoint for both faces", () => {
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       const defaults = validateTechnicalFlatOptions(recipe, STANDARD_M, undefined, revisionId);
       expect(defaults.issues, recipe.name).toEqual([]);
       expect(defaults.options).toEqual(defaultGarmentOptions(recipe.options ?? []));
@@ -125,5 +127,13 @@ describe("technical-flat option and topology validation", () => {
     expect(result.options).toEqual(options);
     expect(result.faces?.[0].primitives.length).toBeGreaterThan(0);
     expect(result.faces?.[1].primitives.length).toBeGreaterThan(0);
+  });
+
+  it("keeps Jeans fail-closed until a G04 technical-flat map is admitted", () => {
+    const jeans = GARMENTS.find((recipe) => recipe.name === "jeans")!;
+    const result = validateTechnicalFlatOptions(jeans, STANDARD_M, undefined, revisionId);
+    expect(G04_TECHNICAL_FLAT_MAPPINGS.jeans).toBeUndefined();
+    expect(result.issues).toContainEqual(expect.objectContaining({ code: "UNSUPPORTED_RECIPE" }));
+    expect(result.faces).toBeNull();
   });
 });

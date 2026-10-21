@@ -5,6 +5,7 @@ import type { Block, Piece } from "../drafting";
 import { jeansNotchesForDraft } from "../drafting/jeans-tables";
 import type { PieceNotches } from "../drafting/tshirt-notches";
 import { rolePiece } from "../drafting/block";
+import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
 import { patternMarksSvg } from "./pattern-mark";
 import { grainlineSvg, notchSvg, resolveGrainline, resolveNotch } from "./notch";
 import { pieceToPath } from "./shape";
@@ -46,6 +47,73 @@ const MARK_STYLE = {
 };
 
 const round = (value: number): number => Math.round(value * 1000) / 1000;
+
+function fieldGroup(field: string, content: string): string {
+  return `<g data-dim="${field}">${content}</g>`;
+}
+
+function fieldLine(a: { readonly x: number; readonly y: number }, b: { readonly x: number; readonly y: number }): string {
+  return `<line x1="${round(a.x)}" y1="${round(a.y)}" x2="${round(b.x)}" y2="${round(b.y)}" ` +
+    `stroke="${T.marker}" stroke-width="0.85" stroke-dasharray="1.3 0.8" ` +
+    `vector-effect="non-scaling-stroke"/>`;
+}
+
+function fieldSourceEdge(piece: Piece, name: string): string {
+  const edge = pieceEdge(piece, name);
+  if (edge.kind === "line") return fieldLine(edge.start, edge.end);
+  const curve = edge.curve;
+  return `<path d="M ${round(curve.start.x)} ${round(curve.start.y)} ` +
+    `C ${round(curve.control1.x)} ${round(curve.control1.y)} ${round(curve.control2.x)} ${round(curve.control2.y)} ` +
+    `${round(curve.end.x)} ${round(curve.end.y)}" fill="none" stroke="${T.marker}" stroke-width="0.85" ` +
+    `stroke-dasharray="1.3 0.8" vector-effect="non-scaling-stroke"/>`;
+}
+
+/** Measurement overlays use actual Jeans seams and stations. The knee input
+ * is shown at the current internal lower-leg station, without assigning it an
+ * anatomical location. */
+function measurementTargets(block: Block, position: JeansViewPosition): string {
+  const [leftRole, rightRole] = position === "front"
+    ? ["frontLeft", "frontRight"]
+    : ["backLowerLeft", "backLowerRight"];
+  const left = rolePiece(block, leftRole);
+  const right = rolePiece(block, rightRole);
+  const waistLeft = position === "front" ? left : rolePiece(block, "backYokeLeft");
+  const waistRight = position === "front" ? right : rolePiece(block, "backYokeRight");
+  const hipLeft = edgeStart(pieceEdge(left, "sideHipToThigh"));
+  const hipRight = edgeStart(pieceEdge(right, "sideHipToThigh"));
+  const waistSideLeft = edgeEnd(pieceEdge(waistLeft, "waist"));
+  const waistSideRight = edgeEnd(pieceEdge(waistRight, "waist"));
+  const thighSideLeft = edgeEnd(pieceEdge(left, "sideHipToThigh"));
+  const thighSideRight = edgeEnd(pieceEdge(right, "sideHipToThigh"));
+  const thighInnerLeft = edgeStart(pieceEdge(left, "innerThighToCrotch"));
+  const thighInnerRight = edgeStart(pieceEdge(right, "innerThighToCrotch"));
+  const kneeSideLeft = edgeEnd(pieceEdge(left, "sideThighToKnee"));
+  const kneeSideRight = edgeEnd(pieceEdge(right, "sideThighToKnee"));
+  const kneeInnerLeft = edgeEnd(pieceEdge(left, "inseamLower"));
+  const kneeInnerRight = edgeEnd(pieceEdge(right, "inseamLower"));
+  const lowerEdge = (role: Piece, name: string) => fieldSourceEdge(role, name);
+  const centerDepth = position === "front"
+    ? lowerEdge(left, "centerFront") + lowerEdge(right, "centerFront") +
+      lowerEdge(left, "crotch") + lowerEdge(right, "crotch")
+    : lowerEdge(waistLeft, "centerBackYoke") + lowerEdge(left, "centerBackLower") +
+      lowerEdge(waistRight, "centerBackYoke") + lowerEdge(right, "centerBackLower") +
+      lowerEdge(left, "crotch") + lowerEdge(right, "crotch");
+  const inseams = [left, right].map((piece) => [
+    lowerEdge(piece, "inseamLower"),
+    lowerEdge(piece, "inseamUpper"),
+    lowerEdge(piece, "innerThighToCrotch"),
+  ].join("")).join("");
+  return [
+    fieldGroup("waist", lowerEdge(waistLeft, "waist") + lowerEdge(waistRight, "waist")),
+    fieldGroup("hip", fieldLine(hipLeft, hipRight)),
+    fieldGroup("hipDepth", fieldLine(waistSideLeft, hipLeft) + fieldLine(waistSideRight, hipRight)),
+    fieldGroup("crotchDepth", centerDepth),
+    fieldGroup("thigh", fieldLine(thighSideLeft, thighInnerLeft) + fieldLine(thighSideRight, thighInnerRight)),
+    fieldGroup("knee", fieldLine(kneeSideLeft, kneeInnerLeft) + fieldLine(kneeSideRight, kneeInnerRight)),
+    fieldGroup("inseam", inseams),
+    fieldGroup("ease", lowerEdge(waistLeft, "waist") + lowerEdge(waistRight, "waist") + fieldLine(hipLeft, hipRight)),
+  ].join("");
+}
 
 const FRONT_ROLES = [
   { role: "frontLeft", fill: T.cloth },
@@ -148,10 +216,13 @@ function projectionView(block: Block, position: JeansViewPosition): string {
     `<rect x="${round(minX)}" y="${round(minY)}" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
     `<text x="${round((bounds.minX + bounds.maxX) / 2)}" y="${round(bounds.minY - 4)}" ` +
     `fill="${T.patternHeading}" font-size="2.8" font-family="system-ui, sans-serif" text-anchor="middle">${title}</text>` +
-    roles.map(renderRole).join("") +
+    roles.map(renderRole).join("") + measurementTargets(block, position) +
     `<text data-disclosure="pattern-linked-digital-view" x="${round((bounds.minX + bounds.maxX) / 2)}" ` +
     `y="${round(bounds.maxY + 8)}" fill="${T.patternInstruction}" font-size="1.7" ` +
-    `font-family="system-ui, sans-serif" text-anchor="middle">${DISCLOSURE}</text></svg>`;
+    `font-family="system-ui, sans-serif" text-anchor="middle">${DISCLOSURE}</text>` +
+    `<text data-disclosure="jeans-lower-leg-measurement" x="${round((bounds.minX + bounds.maxX) / 2)}" ` +
+    `y="${round(bounds.maxY + 11)}" fill="${T.patternInstruction}" font-size="1.5" ` +
+    `font-family="system-ui, sans-serif" text-anchor="middle">LOWER-LEG WIDTH INPUT IS SHOWN AT ITS DIGITAL MODEL STATION; THIS IS NOT AN ANATOMICAL LANDMARK</text></svg>`;
 }
 
 /** One Jeans front or back projection from the already-assessed live draft block. */

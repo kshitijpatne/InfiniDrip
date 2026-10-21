@@ -10,6 +10,9 @@ import { crewneckBandPiece } from "./crewneck-components";
 import { edgeEnd, edgeLength, edgeStart, pieceEdge, type Edge, type Piece } from "./piece";
 import { edgeRef, iface, interfaceLength, markRef, type Interface, type Stitch } from "./stitch";
 import { sleeve } from "./sleeve";
+import type { Component, ComponentResult } from "./component";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
+import type { GarmentOptions } from "./options";
 
 export const HOODIE_ROLE_ORDER = [
   "front",
@@ -549,7 +552,7 @@ function sleevePiece(result: ReturnType<typeof sleeve>): Piece {
  * Hoodie-specific controls remain required inputs so this geometry layer does
  * not publish recipe defaults or silently replace missing/invalid values.
  */
-export function draftHoodie(
+function draftHoodieBlock(
   measurements: Measurements,
   options: HoodieDraftOptions,
 ): Block {
@@ -630,6 +633,25 @@ export function draftHoodie(
     ...(pouch === undefined ? [] : HOODIE_POUCH_STITCHES),
   ];
   return block(roles, stitches);
+}
+
+const hoodieRecipeComponent: Component<HoodieDraftOptions> = (measurements, options): ComponentResult => {
+  const drafted = draftHoodieBlock(measurements, options);
+  return { pieces: drafted.roles, stitches: drafted.stitches, interfaces: {} };
+};
+
+/** The Hoodie block remains one integrated source component until its
+ * independently authored hood, pouch, and band nodes are separated. */
+export const HOODIE_GRAMMAR = garmentGrammar("hoodie", [
+  componentNode("hoodie", "integrated-hoodie", hoodieRecipeComponent,
+    (context) => context.options as HoodieDraftOptions),
+]);
+
+export function draftHoodie(
+  measurements: Measurements,
+  options: HoodieDraftOptions,
+): Block {
+  return composeBlock(HOODIE_GRAMMAR, measurements, options as GarmentOptions);
 }
 
 /** Walk the garment's real half-neckline and every outer/lining hood seam. */

@@ -11,6 +11,8 @@ import {
   validateFlatRoleMapping,
 } from "./technical-flat-mapping";
 
+const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
+
 const draft = (name: string) => {
   const recipe = GARMENTS.find((candidate) => candidate.name === name)!;
   const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
@@ -55,7 +57,7 @@ describe("mapTechnicalFlatSources", () => {
   });
 
   it("maps every supported recipe's drafted roles, construction sources and POMs", () => {
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
       const mapping = mapTechnicalFlatSources(recipe.name, block, recipe.poms);
       expect(mapping.issues, recipe.name).toEqual([]);
@@ -249,7 +251,7 @@ describe("mapTechnicalFlatSources", () => {
   });
 
   it("keeps every declared numeric option endpoint inside its recipe's mapped topology", () => {
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       for (const option of recipe.options ?? []) {
         for (const value of [option.min, option.max]) {
           const options = { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: value };
@@ -278,6 +280,10 @@ describe("mapTechnicalFlatSources", () => {
     const result = mapTechnicalFlatSources("dress", draft("tee").block);
     expect(result.issues).toEqual([expect.objectContaining({ code: "UNSUPPORTED_RECIPE" })]);
     expect(result.sources).toEqual([]);
+    const jeans = GARMENTS.find((recipe) => recipe.name === "jeans")!;
+    const jeansResult = mapTechnicalFlatSources("jeans", jeans.draft(STANDARD_M, defaultGarmentOptions(jeans.options ?? [])));
+    expect(jeansResult.issues).toEqual([expect.objectContaining({ code: "UNSUPPORTED_RECIPE" })]);
+    expect(jeansResult.sources).toEqual([]);
   });
 
   it("reports missing and newly added roles against the exact mapped topology", () => {

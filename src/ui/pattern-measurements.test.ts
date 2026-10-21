@@ -24,8 +24,8 @@ describe("pattern block measurement inventory", () => {
         totalPieces += 1;
       }
     }
-    expect(totalPieces).toBe(78);
-    expect(optionOnlyPieces).toBe(14);
+    expect(totalPieces).toBe(101);
+    expect(optionOnlyPieces).toBe(17);
     expect(PATTERN_MEASUREMENT_MAP.shorts).not.toHaveProperty("knee");
   });
 

@@ -25,9 +25,16 @@ describe("pattern-linked Jeans views", () => {
     expect(front).toContain('data-role-mark="notch"');
     expect(front).toContain('data-disclosure="pattern-linked-digital-view"');
     expect(front).toContain("NO BODY, FIT, SEWING, DRAPE OR MATERIAL SIMULATION");
-    expect(front).not.toContain("knee");
+    for (const field of ["waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease"]) {
+      expect(front).toContain(`data-dim="${field}"`);
+    }
+    expect(front).toContain('data-disclosure="jeans-lower-leg-measurement"');
+    expect(front).toContain("NOT AN ANATOMICAL LANDMARK");
+    expect(front.toLowerCase()).not.toContain("anatomical knee");
 
     expect(back).toContain('data-renderer="jeans-body" data-view="back"');
+    expect(back).toContain('data-dim="knee"');
+    expect(back).toContain("NOT AN ANATOMICAL LANDMARK");
     for (const role of ["backYokeLeft", "backYokeRight", "backLowerLeft", "backLowerRight", "backPocketLeft", "backPocketRight"]) {
       expectSourceRole(back, block, role);
     }

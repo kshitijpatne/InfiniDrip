@@ -1,7 +1,7 @@
 // EPIC 10 — bounded, seeded fast-check properties covering geometry finiteness
-// and deterministic repeated drafting/grading across all eleven registered
-// recipes (tee, fitted, tank, polo, woven-shirt, skirt, trouser, shorts,
-// crewneck).
+// and deterministic repeated drafting/grading across all twelve registered
+// recipes. Cross-field combinations blocked by a recipe's draft review are
+// checked for actionable rejection and produce no geometry to inspect.
 //
 // Test/developer-only: fast-check is a dev dependency and is never imported by
 // production code. Every property below uses a fixed seed and an explicit
@@ -23,11 +23,31 @@ import {
   type GarmentRecipe,
   type GarmentOptions,
 } from "../drafting";
+import { gradeMeasurements } from "../drafting/grading";
 import type { Edge } from "../drafting/piece";
 import type { PatternMark } from "../drafting/pattern-mark";
 import { FIELDS } from "../ui/controls";
 
 const FIELD_BOUNDS = new Map(FIELDS.map((f) => [f.id, f]));
+
+function reviewedBlockAtSize(
+  recipe: GarmentRecipe,
+  measurements: Measurements,
+  options: GarmentOptions,
+  step: number,
+) {
+  const graded = gradeMeasurements(measurements, recipe.grade, step);
+  const review = recipe.draftReview?.(graded, options);
+  if (review) {
+    if (!review.block) {
+      expect(review.notes.length).toBeGreaterThan(0);
+      expect(review.notes.some(({ field, text }) => (field?.length ?? 0) > 0 && text.length > 0)).toBe(true);
+      return null;
+    }
+    return review.block;
+  }
+  return draftAtSize(measurements, recipe.grade, step, recipe.draft, options);
+}
 
 /** A generator for one recipe's own valid domain: only its declared
  * measurement fields vary (bounded by the shared UI field ranges), every
@@ -80,7 +100,8 @@ describe("EPIC 10 — geometry finiteness (Slice 142)", () => {
     it(`${recipe.name}: every drafted coordinate stays finite across its declared domain`, () => {
       fc.assert(
         fc.property(validInputArbitrary(recipe), ({ measurements, options, step }) => {
-          const block = draftAtSize(measurements, recipe.grade, step, recipe.draft, options);
+          const block = reviewedBlockAtSize(recipe, measurements, options, step);
+          if (!block) return true;
           for (const piece of blockPieces(block)) {
             for (const edge of piece.edges) {
               if (!edgeFinite(edge)) return false;
@@ -98,8 +119,8 @@ describe("EPIC 10 — geometry finiteness (Slice 142)", () => {
     it(`${recipe.name}: repeated drafting of the same valid input is deterministic`, () => {
       fc.assert(
         fc.property(validInputArbitrary(recipe), ({ measurements, options, step }) => {
-          const first = draftAtSize(measurements, recipe.grade, step, recipe.draft, options);
-          const second = draftAtSize(measurements, recipe.grade, step, recipe.draft, options);
+          const first = reviewedBlockAtSize(recipe, measurements, options, step);
+          const second = reviewedBlockAtSize(recipe, measurements, options, step);
           expect(second).toEqual(first);
         }),
         { seed: 1401421, numRuns: 20 },
@@ -109,7 +130,8 @@ describe("EPIC 10 — geometry finiteness (Slice 142)", () => {
     it(`${recipe.name}: every declared stitch resolves to a real edge or mark (no dangling interface reference)`, () => {
       fc.assert(
         fc.property(validInputArbitrary(recipe), ({ measurements, options, step }) => {
-          const block = draftAtSize(measurements, recipe.grade, step, recipe.draft, options);
+          const block = reviewedBlockAtSize(recipe, measurements, options, step);
+          if (!block) return;
           // stitchChecks calls rolePiece/pieceEdge internally, both of which
           // throw loudly on a missing role/edge/mark reference — so a clean
           // run IS the assertion that every declared stitch resolves.
@@ -120,9 +142,9 @@ describe("EPIC 10 — geometry finiteness (Slice 142)", () => {
     });
   }
 
-  it("all eleven recipe identifiers are exercised (registry drift guard)", () => {
+  it("all twelve recipe identifiers are exercised (registry drift guard)", () => {
     expect(GARMENTS.map((r) => r.name).sort()).toEqual(
-      ["crewneck", "fitted", "hoodie", "jogger", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
+      ["crewneck", "fitted", "hoodie", "jeans", "jogger", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
     );
   });
 

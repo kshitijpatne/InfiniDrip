@@ -74,7 +74,7 @@ async function fixture(recipeId = "tee"): Promise<{ recipe: typeof GARMENTS[numb
 }
 
 describe("approved grade-plan drafting and exact reconciliation", () => {
-  it("drafts each explicit size from authored inputs for all eleven recipes without using legacy grades", async () => {
+  it("drafts each explicit size from authored inputs for all twelve recipes without using legacy grades", async () => {
     for (const recipe of GARMENTS) {
       const values = await fixture(recipe.name);
       const recipeWithoutLegacyGradeAccess = { ...values.recipe, grade: new Proxy(values.recipe.grade, {
@@ -103,7 +103,7 @@ describe("approved grade-plan drafting and exact reconciliation", () => {
     }
   });
 
-  it("parses Tech Pack PDFs, checks Projector labels, and reconciles Marker pieces for all eleven declared runs", async () => {
+  it("parses Tech Pack PDFs, checks Projector labels, and reconciles Marker pieces for all twelve declared runs", async () => {
     for (const recipe of GARMENTS) {
       const values = await fixture(recipe.name);
       const result = evaluateGradePlanRun(recipe, values.style.design.measurements,
@@ -136,7 +136,7 @@ describe("approved grade-plan drafting and exact reconciliation", () => {
     }
   });
 
-  it("replays exact nonzero digital size geometry into outputs for all eleven recipes", async () => {
+  it("replays exact nonzero digital size geometry into outputs for all twelve recipes", async () => {
     for (const recipe of GARMENTS) {
       const values = await fixture(recipe.name);
       const required = values.plan.targets;

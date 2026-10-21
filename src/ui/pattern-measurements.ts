@@ -18,6 +18,8 @@ const lowerPanel = linked("waist", "hip", "hipDepth", "length", "ease");
 const trouserLeg = linked("waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease");
 const shortsLeg = linked("waist", "hip", "hipDepth", "crotchDepth", "thigh", "ease");
 const joggerLeg = linked("waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease");
+const jeansPanel = linked("waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease");
+const jeansUpper = linked("waist", "hip", "hipDepth", "ease");
 
 /**
  * Reviewed Slice 197 candidate links, keyed by stable recipe id and drafted
@@ -111,6 +113,31 @@ export const PATTERN_MEASUREMENT_MAP: Readonly<Record<string, Readonly<Record<st
     "jogger waistband casing": linked("waist", "ease"),
     "jogger pocket bag left": linked("waist", "ease"),
     "jogger pocket bag right": linked("waist", "ease"),
+  },
+  jeans: {
+    "jeans front left": jeansPanel,
+    "jeans front right": jeansPanel,
+    "jeans back yoke left": jeansUpper,
+    "jeans back yoke right": jeansUpper,
+    "jeans back lower left": jeansPanel,
+    "jeans back lower right": jeansPanel,
+    "jeans front pocket facing left": jeansUpper,
+    "jeans front pocket facing right": jeansUpper,
+    "jeans front pocket bag left": jeansPanel,
+    "jeans front pocket bag right": jeansPanel,
+    "jeans front pocket stay left": jeansPanel,
+    "jeans front pocket stay right": jeansPanel,
+    "jeans right coin-pocket facing extension": jeansUpper,
+    "jeans coin pocket": optionOnly("This piece is sized by the coinPocketWidth and coinPocketHeight options, not body measurements."),
+    "jeans back patch pocket left": jeansPanel,
+    "jeans back patch pocket right": jeansPanel,
+    "jeans right fly facing and underlap": linked("waist", "hip", "crotchDepth", "ease"),
+    "jeans fly shield": optionOnly("This support piece is sized by the flyLength and flyExtensionWidth options, not body measurements."),
+    "jeans outer waistband left": linked("waist", "ease"),
+    "jeans outer waistband right": linked("waist", "ease"),
+    "jeans inner waistband left": linked("waist", "ease"),
+    "jeans inner waistband right": linked("waist", "ease"),
+    "jeans belt-loop strip": optionOnly("This strip is sized by the beltLoopWidth option, not body measurements."),
   },
   hoodie: {
     front: teeFrontBack,

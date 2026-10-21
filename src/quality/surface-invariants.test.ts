@@ -15,6 +15,7 @@ import { describe, it, expect } from "vitest";
 import fc from "fast-check";
 import { Polygon } from "@flatten-js/core";
 import { GARMENTS, STANDARD_M, draftAtSize, blockPieces, type Measurements } from "../drafting";
+import { gradeMeasurements } from "../drafting/grading";
 import { flattenPiece } from "../export/layout";
 import { polygonArea } from "../export/nesting";
 import { FIELDS } from "../ui/controls";
@@ -265,7 +266,14 @@ describe("EPIC 10 — independent geometry oracle on flattened loops (Slice 143)
 
   const simplePolygonProperty = (recipe: (typeof GARMENTS)[number]) =>
     fc.property(measurementsArb(recipe), (measurements) => {
-      const block = draftAtSize(measurements, recipe.grade, 0, recipe.draft, {});
+      const graded = gradeMeasurements(measurements, recipe.grade, 0);
+      const review = recipe.draftReview?.(graded, {});
+      if (review && !review.block) {
+        expect(review.notes.length).toBeGreaterThan(0);
+        expect(review.notes.some(({ field, text }) => (field?.length ?? 0) > 0 && text.length > 0)).toBe(true);
+        return true;
+      }
+      const block = review?.block ?? draftAtSize(measurements, recipe.grade, 0, recipe.draft, {});
       for (const piece of blockPieces(block)) {
         const flat = flattenPiece(piece, recipe.allowances);
         if (flat.cut.length < 3) continue; // degenerate open construction lines are not polygons

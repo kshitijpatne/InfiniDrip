@@ -10,6 +10,9 @@ import { buildJeansCoinBackPockets } from "./jeans-coin-back-pockets";
 import { buildJeansFly } from "./jeans-fly";
 import { buildJeansWaistband } from "./jeans-waistband";
 import { addJeansConstructionMarks } from "./jeans-construction";
+import type { Component, ComponentResult } from "./component";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
+import type { GarmentOptions } from "./options";
 import {
   resolveJeansOptions,
   type JeansOptions,
@@ -301,7 +304,7 @@ const inseamInterface = (role: string) => iface(
 );
 
 /** The internal four-panel Jeans lower-body core; later slices add its other pieces. */
-export function draftJeansCore(
+function draftJeansBlock(
   measurements: Measurements,
   rawOptions: Partial<JeansOptions> = {},
 ): Block {
@@ -380,4 +383,26 @@ export function draftJeansCore(
     ...waistband.stitches,
   ];
   return addJeansConstructionMarks(block(roles, stitches));
+}
+
+const jeansCoreComponent: Component<JeansOptions> = (measurements, options): ComponentResult => {
+  const drafted = draftJeansBlock(measurements, options);
+  return { pieces: drafted.roles, stitches: drafted.stitches, interfaces: {} };
+};
+
+/** The Jeans recipe currently owns one integrated source component. Keeping it
+ * in the declarative grammar gives the registry the same composition contract
+ * as every other migrated recipe without implying that its internal seams are
+ * independent parts. */
+export const JEANS_GRAMMAR = garmentGrammar("jeans", [
+  componentNode("jeansCore", "five-pocket-jeans", jeansCoreComponent,
+    (context) => resolveJeansOptions(context.options as Partial<JeansOptions>)),
+]);
+
+/** Draft the integrated Jeans source through its registered composition. */
+export function draftJeansCore(
+  measurements: Measurements,
+  rawOptions: Partial<JeansOptions> = {},
+): Block {
+  return composeBlock(JEANS_GRAMMAR, measurements, rawOptions as GarmentOptions);
 }
