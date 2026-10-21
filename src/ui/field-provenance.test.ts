@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_APPEARANCE } from "./appearance";
-import { GARMENTS, STANDARD_M, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
+import { GARMENTS, HOODIE_FIELDS, HOODIE_OPTION_DEFINITIONS, STANDARD_M, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
 import { DEFAULT_WORKSPACE, deserializeRecovery, serialize, serializeRecovery } from "./persist";
 import { migrateLegacySaveFile, type RecoveryPayload, type StyleRecord } from "./project-records";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
@@ -68,8 +68,8 @@ function recoveryFor(style: StyleRecord, changes: {
 }
 
 describe("C03 field definitions and append-only observations", () => {
-  it("covers every editable input exactly once across all ten current recipes", () => {
-    expect(GARMENTS).toHaveLength(10);
+  it("covers every editable input exactly once across all eleven current recipes", () => {
+    expect(GARMENTS).toHaveLength(11);
     expect(() => assertRecipeFieldCoverage()).not.toThrow();
     expect(getAllFieldDefinitions().length).toBe(
       GARMENTS.reduce((sum, recipe) => sum + recipe.fields.length + (recipe.options?.length ?? 0), 0),
@@ -79,6 +79,20 @@ describe("C03 field definitions and append-only observations", () => {
       expect(new Set(definitions.map(({ inputKind, inputKey }) => `${inputKind}/${inputKey}`)).size).toBe(definitions.length);
       expect(definitions.every((definition) => definition.recipeId === recipe.name)).toBe(true);
     }
+  });
+
+  it("builds Hoodie measurement and option provenance from its recipe-owned contract", () => {
+    const definitions = getFieldDefinitions("hoodie");
+    expect(definitions.filter((definition) => definition.inputKind === "measurement").map(({ inputKey }) => inputKey))
+      .toEqual([...HOODIE_FIELDS]);
+    const options = definitions.filter((definition) => definition.inputKind === "option");
+    expect(options.map(({ inputKey }) => inputKey)).toEqual(HOODIE_OPTION_DEFINITIONS.map(({ id }) => id));
+    expect(options.every((definition) => definition.recipeId === "hoodie" && definition.semanticId.startsWith("style.hoodie.")))
+      .toBe(true);
+    expect(getFieldDefinition("hoodie", "neckDrop", "measurement")).toBeUndefined();
+    expect(getFieldDefinition("hoodie", "neckWidthEase", "measurement")).toBeUndefined();
+    expect(options.find(({ inputKey }) => inputKey === "hoodHeight")?.meaning)
+      .toContain("no head measurement is used");
   });
 
   it("distinguishes body, finished-garment, pattern, and style-control meanings from C03", () => {

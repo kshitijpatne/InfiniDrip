@@ -19,6 +19,7 @@ export const TECH_PACK_POM_RECIPE_IDS = Object.freeze([
   "shorts",
   "crewneck",
   "jogger",
+  "hoodie",
 ] as const);
 
 export const TECH_PACK_POM_UNITS = Object.freeze(["cm", "mm", "in"] as const);

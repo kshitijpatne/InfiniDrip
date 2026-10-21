@@ -1,5 +1,5 @@
 // EPIC 10 — bounded, seeded fast-check properties covering geometry finiteness
-// and deterministic repeated drafting/grading across all nine registered
+// and deterministic repeated drafting/grading across all eleven registered
 // recipes (tee, fitted, tank, polo, woven-shirt, skirt, trouser, shorts,
 // crewneck).
 //
@@ -120,9 +120,9 @@ describe("EPIC 10 — geometry finiteness (Slice 142)", () => {
     });
   }
 
-  it("all nine recipe identifiers are exercised (registry drift guard)", () => {
+  it("all eleven recipe identifiers are exercised (registry drift guard)", () => {
     expect(GARMENTS.map((r) => r.name).sort()).toEqual(
-      ["crewneck", "fitted", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
+      ["crewneck", "fitted", "hoodie", "jogger", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
     );
   });
 

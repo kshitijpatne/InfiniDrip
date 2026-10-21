@@ -1,5 +1,23 @@
 import { defaultGarmentOptions, type GarmentOption, type GarmentOptions } from "./options";
 import { CREWNECK_OPTION_DEFINITIONS } from "./crewneck-contract";
+import type { Measurements } from "./measurements";
+import type { StyleDef } from "../style";
+
+/** Hoodie uses existing body inputs; neckline shape stays in Hoodie options. */
+export const HOODIE_FIELDS = [
+  "chest",
+  "shoulderWidth",
+  "bicep",
+  "length",
+  "armholeDepth",
+  "sleeveLength",
+  "ease",
+] as const satisfies readonly (keyof Measurements)[];
+
+/** Adult P0 catalog label; no unsourced fit or style ranges are implied. */
+export const HOODIE_STYLES: readonly StyleDef[] = [
+  { name: "Adult pullover hoodie P0", ranges: {} },
+];
 
 export interface HoodieShapeOptions extends GarmentOptions {
   readonly hoodNecklineWidthEase: number;
@@ -61,7 +79,7 @@ export const HOODIE_SHAPE_OPTION_DEFINITIONS: readonly GarmentOption[] = [
     label: "Hood front overlap",
     unit: "cm",
     group: "Hood",
-    help: "Sets the total paired overlap at center front, split evenly across the mirrored hood halves. Set it to zero for front edges to meet without an extra edge; reduce it if the hood outline crosses itself.",
+    help: "Sets the total paired overlap at center front, split evenly across the left and right hood halves. Set it to zero for front edges to meet without an extra edge; reduce it if the hood outline crosses itself.",
     defaultValue: 3,
     min: 0,
     max: 8,
@@ -116,7 +134,7 @@ export const HOODIE_SHAPE_OPTION_DEFINITIONS: readonly GarmentOption[] = [
     label: "Drawcord exit spacing",
     unit: "cm",
     group: "Hood",
-    help: "Sets the center-to-center distance between the mirrored exits. Reduce it if both marks do not fit on the current casing.",
+    help: "Sets the center-to-center distance between the left and right exits. Reduce it if both marks do not fit on the current casing.",
     defaultValue: 8,
     min: 4,
     max: 16,
@@ -183,7 +201,7 @@ export const HOODIE_POUCH_OPTION_DEFINITIONS: readonly GarmentOption[] = [
     label: "Each side opening length",
     unit: "cm",
     group: "Pocket",
-    help: "Sets one opening on the on-fold half pattern; the fold mirrors it to form the pair. Shorten it if it reaches the pouch lower edge.",
+    help: "Sets one opening on the on-fold half pattern; the fold creates a matching opening on the other side. Shorten it if it reaches the pouch lower edge.",
     defaultValue: 10,
     min: 4,
     max: 18,

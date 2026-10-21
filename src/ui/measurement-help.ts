@@ -146,6 +146,9 @@ const DRAFT_USE_OVERRIDE: Readonly<Record<string, Readonly<Record<string, string
     neckWidthEase: "The crewneck draft adds this value per side to the derived width of both front and back necklines.",
     ease: "The crewneck draft uses this shared ease in the body panels and solves the sleeves from the resulting armholes; band circumferences stay separate user controls.",
   }),
+  hoodie: Object.freeze({
+    ease: "The Hoodie draft uses this shared ease in the body and sleeve blocks; cuff and hem-band lengths remain separate Hoodie options, and selected material does not change geometry.",
+  }),
   jogger: Object.freeze({
     waist: "The Jogger draft adds shared ease to waist before dividing the four-panel waist; its separate casing is attached to that drafted opening. Elastic cut length is never calculated.",
     hip: "The Jogger draft adds shared ease to hip before deriving the four-panel seat width.",

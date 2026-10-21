@@ -71,6 +71,26 @@ import type { JoggerOptions } from "./jogger-contract";
 import { JOGGER_FIELDS, JOGGER_OPTION_DEFINITIONS, JOGGER_DEFAULT_OPTIONS, JOGGER_STYLES } from "./jogger-contract";
 import { JOGGER_ALLOWANCES, JOGGER_GRADE, JOGGER_NOTCHES, JOGGER_POMS, JOGGER_SIZES, JOGGER_TECH_PACK, joggerTechPackForOptions } from "./jogger-tables";
 import { joggerGuidance } from "./jogger-guidance";
+import { draftHoodie } from "./hoodie";
+import type { HoodieOptions } from "./hoodie-contract";
+import {
+  HOODIE_FIELDS,
+  HOODIE_OPTION_DEFINITIONS,
+  HOODIE_DEFAULT_OPTIONS,
+  HOODIE_STYLES,
+  resolveHoodieOptions,
+} from "./hoodie-contract";
+import {
+  HOODIE_ALLOWANCES,
+  HOODIE_GRADE,
+  HOODIE_NOTCHES,
+  HOODIE_POMS,
+  HOODIE_SIZES,
+  HOODIE_TECH_PACK,
+  hoodieTechPackForOptions,
+  resolveHoodieOptionsForSize,
+} from "./hoodie-tables";
+import { hoodieGuidance } from "./hoodie-guidance";
 
 /**
  * How a garment declares its production-readiness checks, so the checker never
@@ -624,7 +644,31 @@ export const JOGGER: GarmentRecipe = {
   allowances: JOGGER_ALLOWANCES,
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK, JOGGER];
+export const HOODIE: GarmentRecipe = {
+  name: "hoodie",
+  label: "Pullover hoodie",
+  region: "upper",
+  editRole: "front",
+  fields: HOODIE_FIELDS,
+  styles: HOODIE_STYLES,
+  draft: (m, options = HOODIE_DEFAULT_OPTIONS) =>
+    draftHoodie(m, resolveHoodieOptions(options as Partial<HoodieOptions>)),
+  notches: HOODIE_NOTCHES,
+  poms: HOODIE_POMS,
+  grade: HOODIE_GRADE,
+  sizes: HOODIE_SIZES,
+  checks: sleevedTopPanelChecks(true),
+  guidance: (block, m, options = HOODIE_DEFAULT_OPTIONS) =>
+    hoodieGuidance(block, m, options as Partial<HoodieOptions>),
+  sizeMetric: frontHemWidth,
+  techPack: HOODIE_TECH_PACK,
+  techPackForOptions: hoodieTechPackForOptions,
+  options: HOODIE_OPTION_DEFINITIONS,
+  resolveOptionsForSize: resolveHoodieOptionsForSize,
+  allowances: HOODIE_ALLOWANCES,
+};
+
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK, JOGGER, HOODIE];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {

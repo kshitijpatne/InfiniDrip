@@ -10,6 +10,7 @@ import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
 import { renderBlueprint, renderGarment, renderCrewneckFigure, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderShortsGarment, renderShortsBody, renderShortsBodyPair, renderShortsSide, renderJoggerGarment, renderJoggerBody, renderJoggerBodyPair, renderSideCroquis, DEFAULT_FABRIC } from "../render";
+import { renderHoodieBody, renderHoodieBodyPair, renderHoodieGarment } from "../render";
 import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import {
   appendSemanticEditOperations,
@@ -3077,6 +3078,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const isTrouser = recipe.name === "trouser";
     const isShorts = recipe.name === "shorts";
     const isJogger = recipe.name === "jogger";
+    const isHoodie = recipe.name === "hoodie";
     // A sleeveless top (the tank) still carries a `sleeveLength` value on
     // `measurements` (fields not shown in a garment's UI don't disappear from
     // the object) — without this check both figures would draw it with a
@@ -3098,6 +3100,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? `${starterMaterialNote} ${starterEase} cm ease remains a product choice, not a fabric-derived recommendation.`
         : recipe.name === "crewneck"
           ? "The stable-knit selector is a 10% width seed, not a measured material. It does not set sweatshirt ease or band length; stretch/recovery and physical fit have not been validated."
+          : isHoodie
+            ? "Hoodie geometry is independent of the selected material. Its stable-knit default is a 10% width seed, not a measured material; stretch/recovery and physical fit have not been validated."
           : isJogger
             ? "Jogger is a knit-only P0. Cotton jersey is a digital product default; the material selector does not model stretch/recovery or change the draft. Physical fit and material performance have not been validated."
             : fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip),
@@ -3300,6 +3304,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
                   ? renderJoggerBody(measurements, recipeOptions(), "back")
                   : renderJoggerBodyPair(measurements, recipeOptions())
               : renderSkirtBody(measurements);
+      } else if (isHoodie) {
+        canvasContent = bodyCroquisView === "front"
+          ? renderHoodieBody(measurements, recipeOptions(), "front")
+          : bodyCroquisView === "back"
+            ? renderHoodieBody(measurements, recipeOptions(), "back")
+            : renderHoodieBodyPair(measurements, recipeOptions());
       } else if (bodyCroquisView === "front") {
         canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       } else if (bodyCroquisView === "back") {
@@ -3327,7 +3337,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     const assembled = recipe.name === "crewneck"
       ? renderCrewneckFigure(measurements, fabric, recipeOptions())
-      : isTop
+      : isHoodie
+        ? renderHoodieGarment(measurements, fabric, recipeOptions())
+        : isTop
         ? renderGarment(measurements, fabric, hasSleeve,
           recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
         : isTrouser

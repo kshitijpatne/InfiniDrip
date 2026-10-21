@@ -38,9 +38,9 @@ describe("EPIC 10 — empty-placement export identity (Slice 144)", () => {
     });
   }
 
-  it("all ten recipe identifiers are exercised (registry drift guard)", () => {
+  it("all eleven recipe identifiers are exercised (registry drift guard)", () => {
     expect(GARMENTS.map((r) => r.name).sort()).toEqual(
-      ["crewneck", "fitted", "jogger", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
+      ["crewneck", "fitted", "hoodie", "jogger", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
     );
   });
 

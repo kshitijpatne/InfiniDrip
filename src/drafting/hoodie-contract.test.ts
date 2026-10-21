@@ -34,7 +34,7 @@ describe("Hoodie shape option contract", () => {
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[2]?.help).toContain("each left or right hood half's front and back neck edges");
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[2]?.help).toContain("outer and lining share the same seam");
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[3]?.help).toContain("total paired overlap at center front");
-    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[3]?.help).toContain("split evenly across the mirrored hood halves");
+    expect(HOODIE_SHAPE_OPTION_DEFINITIONS[3]?.help).toContain("split evenly across the left and right hood halves");
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[4]?.help).toContain("same authored value is used from XS–XL");
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[5]?.help).toContain("same authored value is used from XS–XL");
     expect(HOODIE_SHAPE_OPTION_DEFINITIONS[6]?.help).toContain("perpendicular depth");

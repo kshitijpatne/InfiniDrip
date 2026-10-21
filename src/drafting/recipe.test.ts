@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
-import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK, JOGGER, GARMENTS, garmentByName } from "./recipe";
+import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, SHORTS, CREWNECK, JOGGER, HOODIE, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -32,11 +32,13 @@ import { STRETCH_FABRICS } from "./ease";
 import { CREWNECK as BARREL_CREWNECK, CREWNECK_STABLE_KNIT_DEFAULT as BARREL_STABLE_KNIT } from "./index";
 import { JOGGER as BARREL_JOGGER } from "./index";
 import { JOGGER_DEFAULT_OPTIONS, JOGGER_FIELDS, JOGGER_OPTION_DEFINITIONS, JOGGER_STYLES } from "./jogger-contract";
+import { HOODIE_DEFAULT_OPTIONS, HOODIE_FIELDS, HOODIE_OPTION_DEFINITIONS, HOODIE_STYLES } from "./hoodie-contract";
+import { HOODIE_ROLE_ORDER } from "./hoodie";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
-    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts", "crewneck", "jogger"]);
-    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser", "Shorts", "Crewneck sweatshirt", "Jogger"]);
+    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts", "crewneck", "jogger", "hoodie"]);
+    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser", "Shorts", "Crewneck sweatshirt", "Jogger", "Pullover hoodie"]);
   });
 
   it("looks a recipe up by name and falls back to the tee for an unknown one", () => {
@@ -48,7 +50,31 @@ describe("the garment registry", () => {
     expect(garmentByName("shorts")).toBe(SHORTS);
     expect(garmentByName("crewneck")).toBe(CREWNECK);
     expect(garmentByName("jogger")).toBe(JOGGER);
+    expect(garmentByName("hoodie")).toBe(HOODIE);
     expect(garmentByName("kimono")).toBe(TEE);
+  });
+});
+
+describe("Hoodie recipe activation (S1137)", () => {
+  it("registers the existing adult P0 draft, options, views, and production contract", () => {
+    expect(HOODIE.name).toBe("hoodie");
+    expect(HOODIE.region).toBe("upper");
+    expect(HOODIE_FIELDS).toEqual(["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"]);
+    expect(HOODIE.fields).toEqual(HOODIE_FIELDS);
+    expect(HOODIE.fields).not.toContain("neckDrop");
+    expect(HOODIE.fields).not.toContain("neckWidthEase");
+    expect(HOODIE_STYLES).toEqual([{ name: "Adult pullover hoodie P0", ranges: {} }]);
+    expect(HOODIE.styles).toEqual(HOODIE_STYLES);
+    expect(HOODIE.options).toEqual(HOODIE_OPTION_DEFINITIONS);
+    expect(HOODIE_DEFAULT_OPTIONS.hoodHeight).toBe(32);
+    expect(HOODIE.resolveOptionsForSize).toBeDefined();
+
+    const drafted = HOODIE.draft(STANDARD_M);
+    expect(Object.keys(drafted.roles)).toEqual([...HOODIE_ROLE_ORDER]);
+    expect(HOODIE.guidance(drafted, STANDARD_M)).toEqual(expect.any(Array));
+    expect(HOODIE.techPackForOptions?.({ ...HOODIE_DEFAULT_OPTIONS, hoodCasingWidth: 0 })
+      .construction.join(" ")).toContain("not a cut length");
+    expect(garmentByName("hoodie")).toBe(HOODIE);
   });
 });
 
@@ -475,7 +501,7 @@ describe("internal crewneck recipe contract (S1110)", () => {
 describe("Jogger recipe activation (S1119)", () => {
   it("registers the existing P0 contract without adding a numeric style fit range", () => {
     expect(BARREL_JOGGER).toBe(JOGGER);
-    expect(GARMENTS[GARMENTS.length - 1]).toBe(JOGGER);
+    expect(GARMENTS.slice(-2)).toEqual([JOGGER, HOODIE]);
     expect(JOGGER).toMatchObject({
       name: "jogger",
       label: "Jogger",

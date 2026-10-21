@@ -119,6 +119,7 @@ describe("draftAtSize", () => {
 describe("recipe-aware graded options", () => {
   it("keeps recipes without an option resolver identical to the low-level grade run", () => {
     for (const recipe of GARMENTS) {
+      if (recipe.resolveOptionsForSize) continue;
       const options = defaultGarmentOptions(recipe.options ?? []);
       expect(recipe.resolveOptionsForSize).toBeUndefined();
       expect(gradeRecipeRun(recipe, STANDARD_M, recipe.sizes, options))

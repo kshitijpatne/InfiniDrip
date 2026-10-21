@@ -6757,6 +6757,89 @@ describe("CREWNECK activation (Slice 1114)", () => {
   });
 });
 
+describe("HOODIE activation (S1137)", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("uses the stable-knit default on a fresh Hoodie selection and retains an explicit material", () => {
+    const root = mount();
+    try {
+      clickId(root, "garment-hoodie");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value)
+        .toBe("Stable sweatshirt knit (10% width seed)");
+      expect(root.querySelector("#guidance-host")!.textContent)
+        .toContain("Hoodie geometry is independent of the selected material");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+
+    expect(saveToStorage(STANDARD_M, "#123456", {}, {
+      ...DEFAULT_WORKSPACE,
+      stretchFabric: "Linen",
+    })).toBe(true);
+    const secondRoot = mount();
+    try {
+      clickId(secondRoot, "garment-hoodie");
+      expect(secondRoot.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Linen");
+    } finally {
+      secondRoot.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("routes Hoodie controls and source-geometry views through v7 save/load", () => {
+    const root = mount();
+    try {
+      clickId(root, "garment-hoodie");
+      expect(root.querySelector<HTMLButtonElement>("#garment-hoodie")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')).not.toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')).toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-field="neckWidthEase"]')).toBeNull();
+      expect(root.querySelectorAll("input[data-option]")).toHaveLength(18);
+
+      const height = root.querySelector<HTMLInputElement>('input[data-option="hoodHeight"]')!;
+      height.value = "36";
+      height.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.v).toBe(7);
+      expect(saved.workspace).toMatchObject({
+        garment: "hoodie",
+        targetStyle: "Adult pullover hoodie P0",
+        stretchFabric: "Stable sweatshirt knit (10% width seed)",
+      });
+      expect(saved.garmentOptions.hoodie.hoodHeight).toBe(36);
+
+      clickId(root, "view-body");
+      expect(root.querySelectorAll('#analysis-host svg[data-source-geometry="draftHoodie"]')).toHaveLength(2);
+      clickId(root, "body-front");
+      expect(root.querySelector('#analysis-host svg [data-role="front"]')).not.toBeNull();
+      expect(root.querySelectorAll('#analysis-host svg[data-source-geometry="draftHoodie"]')).toHaveLength(1);
+      clickId(root, "body-back");
+      expect(root.querySelector('#analysis-host svg [data-role="back"]')).not.toBeNull();
+      clickId(root, "body-front-back");
+      expect(root.querySelectorAll('#analysis-host svg[data-source-geometry="draftHoodie"]')).toHaveLength(2);
+
+      clickId(root, "assembled-preview-toggle");
+      expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(false);
+      expect(root.querySelector('#garment-host svg[data-garment="hoodie"] [data-source-role="hoodOuterLeft"]')).not.toBeNull();
+      expect(root.querySelector('#garment-host svg[data-garment="hoodie"] [data-source-role="hoodLiningRight"]')).not.toBeNull();
+      expect(root.querySelector("#garment-host")!.textContent).toContain("SCHEMATIC ONLY");
+
+      clickId(root, "garment-tee");
+      clickId(root, "load-pattern");
+      clickId(root, "workspace-confirm-accept");
+      expect(root.querySelector<HTMLButtonElement>("#garment-hoodie")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value)
+        .toBe("Stable sweatshirt knit (10% width seed)");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="hoodHeight"]')!.value).toBe("36");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+});
+
 describe("JOGGER activation (Slice 1119)", () => {
   beforeEach(() => localStorage.clear());
 

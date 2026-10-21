@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { STANDARD_M } from "../drafting";
+import { HOODIE_OPTION_DEFINITIONS, STANDARD_M } from "../drafting";
 import {
   serialize,
   deserialize,
@@ -71,6 +71,53 @@ describe("v4 workspace validation", () => {
     }
     expect(DEFAULT_WORKSPACE.garment).toBe("tee");
     expect(defaultStretchFabricForGarment("crewneck")).toBe("Stable sweatshirt knit (10% width seed)");
+  });
+
+  it("round-trips Hoodie selection and recipe options through v7 saves and recovery", () => {
+    const workspace = {
+      ...DEFAULT_WORKSPACE,
+      garment: "hoodie",
+      targetStyle: "Adult pullover hoodie P0",
+      stretchFabric: "Stable sweatshirt knit (10% width seed)",
+    };
+    const hoodieOptions = { hoodHeight: 36, hoodCasingWidth: 0, pocketWidth: 0, cuffDepth: 7.5 };
+    const options = { hoodie: hoodieOptions };
+    const json = serialize(STANDARD_M, FABRIC, options, workspace);
+    expect(JSON.parse(json).v).toBe(7);
+    const loaded = deserialize(json);
+    expect(loaded.ok).toBe(true);
+    if (loaded.ok) {
+      expect(loaded.workspace).toMatchObject(workspace);
+      expect(loaded.garmentOptions.hoodie).toEqual(hoodieOptions);
+    }
+
+    const rawOptions = Object.fromEntries(Object.entries(hoodieOptions).map(([key, value]) => [key, String(value)]));
+    const recovery = {
+      savedAt: 789,
+      measurements: Object.fromEntries(FIELDS.map((field) => [field.id, STANDARD_M[field.id]])),
+      rawMeasurements: Object.fromEntries(FIELDS.map((field) => [field.id, String(STANDARD_M[field.id])])),
+      fabric: FABRIC,
+      appearance: DEFAULT_APPEARANCE,
+      garmentOptions: options,
+      rawOptions: { hoodie: rawOptions },
+      workspace,
+      materialSelectionExplicit: false,
+      surface: {},
+      rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
+      semanticEdits: null,
+    } as const;
+    expect(defaultStretchFabricForGarment("hoodie")).toBe("Stable sweatshirt knit (10% width seed)");
+    expect(HOODIE_OPTION_DEFINITIONS.map(({ id }) => id)).toContain("hoodHeight");
+    expect(DEFAULT_WORKSPACE.garment).toBe("tee");
+    expect(saveRecoveryToStorage(recovery)).toBe(true);
+    const recovered = readRecoveryFromStorage();
+    expect(recovered.ok).toBe(true);
+    if (recovered.ok) {
+      expect(recovered.workspace).toMatchObject(workspace);
+      expect(recovered.garmentOptions.hoodie).toMatchObject(hoodieOptions);
+      expect(recovered.rawOptions.hoodie).toMatchObject({ hoodHeight: "36", hoodCasingWidth: "0" });
+    }
+    expect(clearRecoveryFromStorage()).toBe(true);
   });
   it("persists the exact starter origin and loads old v6 workspaces without inferring one", () => {
     const origin = starterOriginForEntry(STARTER_REGISTRY.entries[0]!);
@@ -323,6 +370,7 @@ describe("fresh workspace material defaults", () => {
     expect(defaultStretchFabricForGarment("shorts")).toBe("Cotton woven");
     expect(defaultStretchFabricForGarment("crewneck")).toBe("Stable sweatshirt knit (10% width seed)");
     expect(defaultStretchFabricForGarment("jogger")).toBe("Cotton jersey");
+    expect(defaultStretchFabricForGarment("hoodie")).toBe("Stable sweatshirt knit (10% width seed)");
     expect(defaultStretchFabricForGarment("future")).toBe("Cotton woven");
     expect(DEFAULT_WORKSPACE.garment).toBe("tee");
   });

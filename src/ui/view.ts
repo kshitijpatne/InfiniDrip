@@ -436,6 +436,7 @@ const GARMENT_UI: Readonly<Record<string, { region: string; summary: string; det
   shorts: { region: "Lower body", summary: "Stable woven shorts", detail: "Rise, leg opening, fly and pocket controls" },
   crewneck: { region: "Upper body", summary: "Crewneck sweatshirt", detail: "Body, neckline, sleeve and separate band controls" },
   jogger: { region: "Lower body", summary: "Knit jogger", detail: "Rise, tapered leg, casing, drawcord and pocket controls" },
+  hoodie: { region: "Upper body", summary: "Pullover hoodie", detail: "Hood, pouch, casing, sleeve and band controls" },
 };
 
 function styleDescription(name: string): string {

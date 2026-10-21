@@ -78,8 +78,8 @@ function bodyTextOf(recipeId: string, fieldId: string): string {
 }
 
 describe("measurement help catalog", () => {
-  it("covers every field definition of all ten recipes exactly once", () => {
-    expect(GARMENTS).toHaveLength(10);
+  it("covers every field definition of all eleven recipes exactly once", () => {
+    expect(GARMENTS).toHaveLength(11);
     expect(Object.keys(MEASUREMENT_HELP).sort()).toEqual(GARMENTS.map((recipe) => recipe.name).sort());
     for (const recipe of GARMENTS) {
       const definitions = getFieldDefinitions(recipe.name);
@@ -101,6 +101,19 @@ describe("measurement help catalog", () => {
         expect(entry.guardrailNote.toLowerCase()).toContain("not an industry standard");
       }
     }
+  });
+
+  it("describes Hoodie shared ease and recipe-owned hood controls in context", () => {
+    const definitions = getFieldDefinitions("hoodie");
+    const ease = definitions.find(({ inputKey, inputKind }) => inputKey === "ease" && inputKind === "measurement")!;
+    const easeHelp = measurementHelpFor("hoodie", ease.id)!;
+    expect(easeHelp.draftUse).toContain("Hoodie draft uses this shared ease in the body and sleeve blocks");
+    const hoodHeight = definitions.find(({ inputKey, inputKind }) => inputKey === "hoodHeight" && inputKind === "option")!;
+    const hoodHeightHelp = measurementHelpFor("hoodie", hoodHeight.id)!;
+    expect(hoodHeightHelp.recipeId).toBe("hoodie");
+    expect(hoodHeightHelp.inputKind).toBe("option");
+    expect(hoodHeightHelp.meaning).toContain("no head measurement is used");
+    expect(hoodHeightHelp.techniqueQualified).toBe(false);
   });
 
   it("returns stable entries and explicit null for unknown or stale IDs", () => {
