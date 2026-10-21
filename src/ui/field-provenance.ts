@@ -209,6 +209,7 @@ const EVIDENCE = new Set<FieldEvidenceStatus>(["UNCONFIRMED", "USER_CONFIRMED", 
 const SEMANTIC_KINDS = new Set<FieldSemanticKind>(["BODY_MEASURE", "GARMENT_MEASURE", "FINISHED_POM", "PATTERN_PARAMETER", "STYLE_CONTROL"]);
 const definitionsByRecipe = new Map<string, readonly FieldDefinition[]>();
 const OPTIONAL_INHERITANCE_SOURCE = "Optional control is unset and inherits the shared measurement; it is not an independent user selection or fit validation.";
+const OPTIONAL_INACTIVE_SOURCE = "Optional control is not selected; its software default is inactive and is not an independent user selection or fit validation.";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -221,6 +222,10 @@ function validTimestamp(value: unknown): value is string {
 function isUnsetOptional(design: SavedDesign, definition: FieldDefinition): boolean {
   return definition.inputKind === "option" && definition.optional === true
     && !Object.prototype.hasOwnProperty.call(design.garmentOptions[definition.recipeId] ?? {}, definition.inputKey);
+}
+
+function isInheritedOptional(design: SavedDesign, definition: FieldDefinition): boolean {
+  return definition.fallbackMeasurement !== undefined && isUnsetOptional(design, definition);
 }
 
 function currentValue(design: SavedDesign, definition: FieldDefinition): number {
@@ -377,7 +382,7 @@ export function getAllFieldDefinitions(): readonly FieldDefinition[] {
   return GARMENTS.flatMap((recipe) => getFieldDefinitions(recipe.name));
 }
 
-/** Capture excludes optional controls because their inherited value needs no independent reading. */
+/** Capture excludes optional controls because unset options need no independent reading. */
 export function getCaptureFieldDefinitions(recipeId: string): readonly FieldDefinition[] {
   return getFieldDefinitions(recipeId).filter((definition) => !definition.optional);
 }
@@ -396,9 +401,11 @@ export function createFieldObservationRecord(
   const observations = getFieldDefinitions(style.recipeId).map((definition, index) => {
     const value = currentValue(style.design, definition);
     const raw = String(value);
-    const inherited = isUnsetOptional(style.design, definition);
+    const inherited = isInheritedOptional(style.design, definition);
+    const inactiveOptional = isUnsetOptional(style.design, definition) && !inherited;
     return makeObservation(definition, index + 1, raw, value,
-      inherited ? "INHERITED" : initialProvenance(origin), inherited ? OPTIONAL_INHERITANCE_SOURCE : sourceLabel(origin),
+      inherited ? "INHERITED" : inactiveOptional ? "UNRESOLVED" : initialProvenance(origin),
+      inherited ? OPTIONAL_INHERITANCE_SOURCE : inactiveOptional ? OPTIONAL_INACTIVE_SOURCE : sourceLabel(origin),
       origin === "first-run-default" ? recordedAt : null, style.revision);
   });
   return {
@@ -652,11 +659,14 @@ export function reconcileDesignFieldObservations(
   for (const definition of getFieldDefinitions(design.workspace.garment)) {
     const value = currentValue(design, definition);
     const current = currentFieldObservation(next, definition);
-    const inherited = isUnsetOptional(design, definition);
+    const unsetOptional = isUnsetOptional(design, definition);
+    const inherited = isInheritedOptional(design, definition);
+    const inactiveOptional = unsetOptional && !inherited;
+    const staleInheritance = current?.provenance === "INHERITED" && !inherited;
     if (current?.canonicalValue === value && current.validationStatus === "VALID"
-      && (!inherited || current.provenance === "INHERITED")) continue;
+      && !staleInheritance && (!inherited || current.provenance === "INHERITED")) continue;
     const oldMeaning = current ? undefined : priorMeaningForInput(next, definition);
-    const source = inherited ? OPTIONAL_INHERITANCE_SOURCE : oldMeaning
+    const source = inherited ? OPTIONAL_INHERITANCE_SOURCE : inactiveOptional ? OPTIONAL_INACTIVE_SOURCE : oldMeaning
       ? "The shared legacy control value carried across recipes has a different reference meaning; review it."
       : "Saved design value differs from its observation; the specific input event or source was not recorded.";
     next = appendOne(next, definition, String(value), value, recordedAt, style.revision,

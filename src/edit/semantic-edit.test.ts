@@ -28,7 +28,9 @@ const testFingerprint = (label: string): string => {
 };
 
 function optionsFor(recipe: GarmentRecipe): Record<string, number> {
-  return Object.fromEntries((recipe.options ?? []).map((option) => [option.id, option.defaultValue]));
+  return Object.fromEntries((recipe.options ?? [])
+    .filter((option) => !option.optional)
+    .map((option) => [option.id, option.defaultValue]));
 }
 
 function sourceBlock(recipe: GarmentRecipe, measurements: Measurements = STANDARD_M): Block {

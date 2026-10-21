@@ -476,6 +476,17 @@ describe("exportTechPackV2ForSelectedSize", () => {
 });
 
 describe("readable draft tech pack", () => {
+  it("prints the V-neck construction limitation in the rendered candidate Tech Pack", () => {
+    const output = exportTechPackV2(TEE, STANDARD_M, undefined, undefined, { teeVNeckDropCm: 5 });
+    const constructionPage = pageStreams(output).find((stream) =>
+      shownText(stream).some((line) => line.startsWith("V-neck finishing is not defined"))
+    );
+    expect(constructionPage).toBeDefined();
+    const constructionText = shownText(constructionPage!).join(" ");
+    expect(constructionText).toContain("No neckband geometry, cut template, or sewing steps are provided.");
+    expect(constructionText).not.toContain("Attach the neckband to the neckline");
+  });
+
   it("keeps the estimate disclosure with a fabric-specific V2 BOM", () => {
     const woven = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton woven")!;
     const output = exportTechPackV2(TANK, STANDARD_M, undefined, woven);

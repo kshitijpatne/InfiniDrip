@@ -46,7 +46,7 @@ import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foun
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, saveRecoveryToStorage, saveToStorage } from "./persist";
 import { STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
-import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinitions } from "./field-provenance";
+import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
   addCaptureReadingForField,
@@ -10527,6 +10527,121 @@ describe("EPIC-19 L02 starter binding", () => {
     localStorage.clear();
   });
 
+  it("selects T06 V-neck Tee, withholds the generic band, and preserves the option and origin through save and reopen", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-vneck-digital-v1");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee V-neck · software defaults");
+    expect(root.querySelector<HTMLInputElement>('input[data-option="teeVNeckDropCm"]')!.value).toBe("5");
+    expect(root.querySelector<HTMLElement>("#starter-blank-library")!.textContent).toContain("Starter Blank Library");
+    expect(root.querySelector<HTMLElement>("#starter-blank-library")!.textContent)
+      .toContain("outside the 56 digitally complete count");
+
+    clickId(root, "assembled-preview-toggle");
+    const assembledV = root.querySelector<SVGSVGElement>("#garment-host svg")!.innerHTML;
+    clickId(root, "assembled-preview-toggle");
+    clickId(root, "view-body");
+    clickId(root, "body-front");
+    const bodyV = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+
+    const drop = root.querySelector<HTMLInputElement>('input[data-option="teeVNeckDropCm"]')!;
+    expect(drop.disabled).toBe(false);
+    root.querySelector<HTMLButtonElement>('[data-reset-option="teeVNeckDropCm"]')!.click();
+    expect(root.querySelector<HTMLInputElement>('input[data-option="teeVNeckDropCm"]')!.disabled).toBe(true);
+    expect(root.querySelector<HTMLElement>('[data-option-mode="teeVNeckDropCm"]')!.textContent)
+      .toContain("Crew neckline active");
+    expect(root.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!.disabled).toBe(false);
+    const crewBody = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    const crewAssembled = root.querySelector<SVGSVGElement>("#garment-host svg")!.innerHTML;
+    expect(crewBody).not.toBe(bodyV);
+    expect(crewAssembled).not.toBe(assembledV);
+    root.querySelector<HTMLButtonElement>('[data-set-option="teeVNeckDropCm"]')!.click();
+    expect(root.querySelector<HTMLInputElement>('input[data-option="teeVNeckDropCm"]')!.disabled).toBe(false);
+    expect(root.querySelector<HTMLInputElement>('input[data-option="teeVNeckDropCm"]')!.value).toBe("5");
+    expect(root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(bodyV);
+    expect(root.querySelector<SVGSVGElement>("#garment-host svg")!.innerHTML).toBe(assembledV);
+
+    clickId(root, "view-pattern");
+    const defaultV = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    drop.value = "16";
+    drop.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(drop.value).toBe("16");
+    expect(root.querySelector<HTMLElement>("#error-option-teeVNeckDropCm")!.textContent).toContain("0–15 cm");
+    expect(root.querySelector<HTMLElement>('[data-option-mode="teeVNeckDropCm"]')!.textContent)
+      .toContain("Additional front drop: 16 cm");
+    drop.value = "15";
+    drop.dispatchEvent(new Event("input", { bubbles: true }));
+    const armholeDepth = root.querySelector<HTMLInputElement>('input[data-field="armholeDepth"]')!;
+    armholeDepth.value = "22";
+    armholeDepth.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#error-option-teeVNeckDropCm")!.textContent).toBe("");
+    expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+      .toContain("The front V drops below the underarm");
+    expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+      .toContain("reduce the V drop or increase armhole depth");
+    expect(root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).not.toBe(defaultV);
+    armholeDepth.value = "24";
+    armholeDepth.dispatchEvent(new Event("input", { bubbles: true }));
+    drop.value = "7.5";
+    drop.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>('[data-option-mode="teeVNeckDropCm"]')!.textContent)
+      .toContain("Additional front drop: 7.5 cm");
+    const editedV = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(editedV).not.toBe(defaultV);
+    expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+      .not.toContain("The front V drops below the underarm");
+
+    reachExportStage(root);
+    const neckbandControls = root.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!;
+    const limitation = root.querySelector<HTMLElement>("#tee-neckband-v-limitation")!;
+    const neckbandExport = root.querySelector<HTMLButtonElement>("#export-tee-neckband")!;
+    expect(neckbandControls.disabled).toBe(true);
+    expect(limitation.hidden).toBe(false);
+    expect(neckbandExport.disabled).toBe(true);
+    expect(neckbandExport.title).toContain("does not model the V-point join");
+    expect(root.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!.disabled).toBe(false);
+
+    const neckbandValuesBeforeSave = [
+      root.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandLengthPercent"]')!.value,
+      root.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandFinishedWidthCm"]')!.value,
+    ];
+    const rendered = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    clickId(root, "save-pattern");
+    const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(stored.garmentOptions.tee.teeVNeckDropCm).toBe(7.5);
+    expect(stored.workspace.starterOrigin).toMatchObject({
+      entryId: "tee-vneck-digital-v1",
+      entryRevision: "2026-10-21.1",
+      recipeId: "tee",
+      recipeRevision: "052c1e4418428cc0ca831c92b2659d7104f113ec",
+      configurationSnapshot: {
+        targetStyle: "Classic tee",
+        options: { chestEase: 7, teeVNeckDropCm: 5 },
+      },
+    });
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="teeVNeckDropCm"]')!.value).toBe("7.5");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-vneck-digital-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee V-neck · software defaults");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(rendered);
+    expect(reopened.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!.disabled).toBe(true);
+    expect(reopened.querySelector<HTMLElement>("#tee-neckband-v-limitation")!.hidden).toBe(false);
+    expect(reopened.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled).toBe(true);
+    expect([
+      reopened.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandLengthPercent"]')!.value,
+      reopened.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandFinishedWidthCm"]')!.value,
+    ]).toEqual(neckbandValuesBeforeSave);
+    root.remove();
+    reopened.remove();
+    localStorage.clear();
+  });
+
   it("separates generic fabric guidance from active Tee starter material and ease intent", () => {
     localStorage.clear();
     const root = mount();
@@ -10580,7 +10695,7 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(reopened.querySelector<HTMLButtonElement>("#starter-tee-classic-custom-v1")!.getAttribute("aria-pressed")).toBe("true");
     expect(reopened.querySelector<HTMLElement>("#error-ease")!.textContent).toContain("candidate supports");
   });
-  it("flushes pending Tee field history before selecting its same-recipe starter", async () => {
+  it("flushes pending Tee field history before selecting T06 and records its starter options", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     const workflow = await openProjectWorkflow({
@@ -10592,7 +10707,7 @@ describe("EPIC-19 L02 starter binding", () => {
       storage: localStorage,
       now: () => "2026-10-19T05:00:00.000Z",
     });
-    const recordFieldHistory = vi.spyOn(workflow, "recordFieldHistory").mockResolvedValue();
+    const recordFieldHistory = vi.spyOn(workflow, "recordFieldHistory");
     const root = document.createElement("div");
     document.body.append(root);
     try {
@@ -10601,22 +10716,44 @@ describe("EPIC-19 L02 starter binding", () => {
       const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
       chest.value = "101";
       chest.dispatchEvent(new Event("input", { bubbles: true }));
-      clickId(root, "starter-tee-classic-custom-v1");
-      await vi.waitFor(() => expect(recordFieldHistory).toHaveBeenCalledTimes(1));
+      clickId(root, "starter-tee-vneck-digital-v1");
+      await vi.waitFor(() => expect(recordFieldHistory).toHaveBeenCalledTimes(3));
       await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure"));
-      expect(recordFieldHistory.mock.calls[0]![2]).toMatchObject({
-        recipeId: "tee",
-        inputKind: "measurement",
-        inputKey: "chest",
+      const recordedInputs = recordFieldHistory.mock.calls.map((call) => call[2]);
+      expect(recordedInputs).toEqual(expect.arrayContaining([
+        expect.objectContaining({
+          recipeId: "tee",
+          inputKind: "measurement",
+          inputKey: "chest",
+        }),
+        expect.objectContaining({
+          recipeId: "tee",
+          inputKind: "option",
+          inputKey: "chestEase",
+        }),
+        expect.objectContaining({
+          recipeId: "tee",
+          inputKind: "option",
+          inputKey: "teeVNeckDropCm",
+        }),
+      ]));
+      await vi.waitFor(() => {
+        const record = workflow.snapshot.fieldObservations.find((item) => item.styleId === workflow.snapshot.activeStyle.id)!;
+        const vDepth = currentFieldObservation(record, getFieldDefinition("tee", "teeVNeckDropCm", "option")!);
+        expect(vDepth).toMatchObject({ rawValue: "5", provenance: "USER_SELECTED" });
+        expect(root.querySelector<HTMLElement>('[data-field-source-current="style.tee.tee-vneck-drop-cm"]')?.textContent)
+          .toContain("User selected");
       });
+      expect(root.querySelector<HTMLElement>('[data-field-source-current="style.tee.tee-vneck-drop-cm"]')?.textContent)
+        .not.toContain("Inherited from another style");
       expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
-        .toContain("Tee Classic · custom measurements");
+        .toContain("Starting design: Tee V-neck · software defaults");
     } finally {
       workflow.close();
       root.remove();
       vi.unstubAllGlobals();
     }
-  });
+  }, 10_000);
 
   it("restores the exact candidate origin from an unfinished recovery draft", () => {
     localStorage.clear();

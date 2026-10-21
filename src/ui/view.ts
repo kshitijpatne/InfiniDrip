@@ -3,7 +3,7 @@
 // Pure, so the markup can be checked in tests without a browser.
 import "./enhancements/tech-pack/tech-pack-presentation.css";
 
-import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions, GradedSize, Block, Pom, specSheet, withModeledPomLabels } from "../drafting";
+import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions, GradedSize, Block, Pom, specSheet, withModeledPomLabels, optionalOptionStatusMessage, optionalOptionActionLabel } from "../drafting";
 import { TEE_NECKBAND_OPTIONS } from "../drafting/tshirt";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note, SEVERITY_ICON } from "../guidance";
@@ -271,15 +271,14 @@ export function controlsMarkup(
       ? row.replace(`data-option="${option.id}"`, `data-option="${option.id}" disabled`)
       : row;
     if (!option.optional) return input;
-    const mode = explicit ? "Independent chest allowance is active for this style."
-      : `Inherits the shared fit allowance: ${inherited} cm.`;
+    const mode = optionalOptionStatusMessage(option, explicit, value);
     const setAction = explicit ? " hidden" : "";
     const resetAction = explicit ? "" : " hidden";
     return input +
       `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-3px 0 8px 0;font-size:11px;color:${T.label}">` +
       `<span data-option-mode="${option.id}" role="status">${mode}</span>` +
-      `<button type="button" data-set-option="${option.id}"${setAction}>Set independent value</button>` +
-      `<button type="button" data-reset-option="${option.id}"${resetAction}>Use shared fit allowance</button></div>`;
+      `<button type="button" data-set-option="${option.id}"${setAction}>${optionalOptionActionLabel(option, false)}</button>` +
+      `<button type="button" data-reset-option="${option.id}"${resetAction}>${optionalOptionActionLabel(option, true)}</button></div>`;
   };
   const groups = new Map<string, GarmentOption[]>();
   options.forEach((option) => {
@@ -864,9 +863,10 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[], activeGarment = 
     '<fieldset data-tee-neckband-controls style="display:flex;flex-direction:column;gap:8px;margin:0 0 8px;padding:8px;border:1px solid ' + BORDER + '">' +
     '<legend>Output settings</legend><div style="display:flex;gap:10px;flex-wrap:wrap">' + teeNeckbandControls + '</div>' +
     '<p id="tee-neckband-control-help" style="margin:0;font-size:11px;color:' + T.label + '">These provisional drafting settings affect the neckband SVG only. They do not validate fabric recovery or physical fit.</p>' +
+    '<p id="tee-neckband-v-limitation" role="status" hidden style="margin:0;font-size:11px;color:' + T.lineActive + '">The V-neck finish has no accepted band geometry. The current rectangular-loop template does not model the V-point join and is unavailable for this candidate.</p>' +
     '<p id="tee-neckband-control-error" role="alert" aria-live="polite" hidden style="margin:0;color:' + T.lineActive + '"></p></fieldset>' +
     '<div class="export-format-grid"><div class="export-format" data-export-format="export-tee-neckband">' +
-    '<button id="export-tee-neckband" type="button" aria-describedby="export-tee-neckband-description" ' +
+    '<button id="export-tee-neckband" type="button" aria-describedby="export-tee-neckband-description tee-neckband-v-limitation" ' +
     'title="True-scale provisional rib-knit neckband template for the selected Tee size" class="export-format-button">Neckband SVG</button>' +
     '<span id="export-tee-neckband-description" class="export-format-description">' +
     'Cuttable rectangle calculated from the selected Tee neckline. Adjust the provisional ratio and width; verify the 10 cm scale line.</span>' +

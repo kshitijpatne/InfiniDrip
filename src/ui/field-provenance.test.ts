@@ -135,6 +135,35 @@ describe("C03 field definitions and append-only observations", () => {
     expect(parseFieldObservationRecord(record).ok).toBe(true);
   });
 
+  it("keeps an unset optional V-depth inactive instead of labeling it as inherited", () => {
+    const style = styleFor("tee");
+    const definition = getFieldDefinition("tee", "teeVNeckDropCm", "option")!;
+    const initial = createFieldObservationRecord(style, TIME, "first-run-default");
+    expect(currentFieldObservation(initial, definition)).toMatchObject({
+      rawValue: "5",
+      canonicalValue: 5,
+      provenance: "UNRESOLVED",
+      validationStatus: "VALID",
+      sourceLabel: expect.stringContaining("software default is inactive"),
+    });
+    expect(currentFieldObservation(initial, definition)?.sourceLabel).not.toContain("inherits the shared measurement");
+
+    const legacyInherited = {
+      ...initial,
+      observations: initial.observations.map((observation) => observation.fieldId === definition.id
+        ? { ...observation, provenance: "INHERITED" as const,
+          sourceLabel: "Optional control is unset and inherits the shared measurement." }
+        : observation),
+    };
+    const reconciled = reconcileDesignFieldObservations(
+      legacyInherited, style, style.design, "2026-09-24T16:00:01.000Z",
+    );
+    expect(currentFieldObservation(reconciled, definition)).toMatchObject({
+      provenance: "UNRESOLVED",
+      sourceLabel: expect.stringContaining("software default is inactive"),
+    });
+  });
+
   it("records first-run defaults as presets and legacy values as unresolved, without confidence claims", () => {
     const style = styleFor();
     expect(() => createFieldObservationRecord(style, "yesterday", "first-run-default"))

@@ -11,7 +11,9 @@
 // The sleeve cap is special: its length is fitted to the armhole length (plus a
 // little ease) so the sleeve actually sews into the armhole — see draftSleeve.
 
-import { Measurements } from "./measurements";
+import { Measurements, derive } from "./measurements";
+import { NECKLINE_DEFAULT, NecklineParams, necklineEdge } from "./neckline";
+import type { Note } from "../guidance/note";
 import { Piece, edgeLength, pieceEdge } from "./piece";
 import { Block } from "./block";
 import { sleevedTopStitches } from "./tshirt-checks";
@@ -21,10 +23,47 @@ import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import type { Component } from "./component";
 import type { GarmentOption, GarmentOptions } from "./options";
 
-type TeeBodiceParams = { readonly position: "front" | "back"; readonly chestEase?: number };
+export const TEE_V_NECK_DROP_OPTION_ID = "teeVNeckDropCm";
+
+export function isTeeVNeckActive(options: GarmentOptions = {}): boolean {
+  return Object.prototype.hasOwnProperty.call(options, TEE_V_NECK_DROP_OPTION_ID);
+}
+
+export function teeFrontNecklineParams(options: GarmentOptions = {}): NecklineParams {
+  if (!isTeeVNeckActive(options)) return NECKLINE_DEFAULT;
+  return {
+    shape: "v",
+    widthEase: 0,
+    frontDrop: options[TEE_V_NECK_DROP_OPTION_ID]!,
+  };
+}
+
+export function teeVNeckNotes(m: Measurements, options: GarmentOptions = {}): Note[] {
+  if (!isTeeVNeckActive(options)) return [];
+  const derived = derive(m);
+  const notes = necklineEdge("front", derived.neckWidthHalf, derived.frontNeckDepth,
+    derived.shoulderHalf, m.armholeDepth, teeFrontNecklineParams(options)).notes;
+  return [
+    ...notes.filter((note) => note.field === "neckDrop").map((note) => ({
+      ...note,
+      field: "option-" + TEE_V_NECK_DROP_OPTION_ID,
+      text: "The front V drops below the underarm; reduce the V drop or increase armhole depth.",
+    })),
+    ...notes.filter((note) => note.field === "neckWidthEase").map((note) => ({
+      ...note,
+      field: "shoulderWidth",
+      text: "The front V reaches the shoulder seam; review the shoulder width or neckline placement.",
+    })),
+  ];
+}
+type TeeBodiceParams = {
+  readonly position: "front" | "back";
+  readonly chestEase?: number;
+  readonly necklineParams?: NecklineParams;
+};
 const teeBodice: Component<TeeBodiceParams> = (m, params) => bodice(
   params.chestEase === undefined ? m : { ...m, ease: params.chestEase },
-  { position: params.position },
+  { position: params.position, necklineParams: params.necklineParams },
 );
 
 /** Thin wrapper over the Bodice component (Phase B2, Slice 53) — kept so
@@ -67,6 +106,9 @@ export const TEE_GRAMMAR = garmentGrammar(
     componentNode("front", "bodice", teeBodice, (context) => ({
       position: "front" as const,
       ...(context.options.chestEase === undefined ? {} : { chestEase: context.options.chestEase }),
+      ...(isTeeVNeckActive(context.options)
+        ? { necklineParams: teeFrontNecklineParams(context.options) }
+        : {}),
     })),
     componentNode("back", "bodice", teeBodice, (context) => ({
       position: "back" as const,

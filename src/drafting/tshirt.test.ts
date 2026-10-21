@@ -2,7 +2,17 @@ import { describe, it, expect } from "vitest";
 import { distance } from "../geometry";
 import { STANDARD_M } from "./measurements";
 import { edgeStart, edgeEnd, edgeLength, pieceEdge } from "./piece";
-import { draftFront, draftBack, draftSleeve, draftTshirt, armholeLength } from "./tshirt";
+import {
+  draftFront,
+  draftBack,
+  draftSleeve,
+  draftTshirt,
+  armholeLength,
+  isTeeVNeckActive,
+  teeFrontNecklineParams,
+  teeVNeckNotes,
+  TEE_V_NECK_DROP_OPTION_ID,
+} from "./tshirt";
 import { rolePiece } from "./block";
 
 describe("draftFront", () => {
@@ -63,5 +73,35 @@ describe("draftTshirt", () => {
     const block = draftTshirt(STANDARD_M);
     expect([rolePiece(block, "front").name, rolePiece(block, "back").name, rolePiece(block, "sleeve").name])
       .toEqual(["front", "back", "sleeve"]);
+  });
+});
+
+describe("Tee V-neck option", () => {
+  it("uses option presence to select the front V while retaining crew defaults", () => {
+    expect(isTeeVNeckActive({})).toBe(false);
+    expect(isTeeVNeckActive({ [TEE_V_NECK_DROP_OPTION_ID]: 0 })).toBe(true);
+    expect(teeFrontNecklineParams()).toEqual({ shape: "crew", widthEase: 0, frontDrop: 0 });
+    expect(teeFrontNecklineParams({ [TEE_V_NECK_DROP_OPTION_ID]: 6.5 }))
+      .toEqual({ shape: "v", widthEase: 0, frontDrop: 6.5 });
+  });
+
+  it("maps V-neck underarm and shoulder warnings to actionable controls without changing the value", () => {
+    const active = { [TEE_V_NECK_DROP_OPTION_ID]: 15 };
+    expect(teeVNeckNotes(STANDARD_M, {})).toEqual([]);
+    expect(teeVNeckNotes(STANDARD_M, { [TEE_V_NECK_DROP_OPTION_ID]: 5 })).toEqual([]);
+
+    const notes = teeVNeckNotes({ ...STANDARD_M, armholeDepth: 12, shoulderWidth: 14 }, active);
+    expect(notes).toHaveLength(2);
+    expect(notes[0]).toMatchObject({
+      field: "option-teeVNeckDropCm",
+      level: "warn",
+      text: "The front V drops below the underarm; reduce the V drop or increase armhole depth.",
+    });
+    expect(notes[1]).toMatchObject({
+      field: "shoulderWidth",
+      level: "warn",
+      text: "The front V reaches the shoulder seam; review the shoulder width or neckline placement.",
+    });
+    expect(active[TEE_V_NECK_DROP_OPTION_ID]).toBe(15);
   });
 });

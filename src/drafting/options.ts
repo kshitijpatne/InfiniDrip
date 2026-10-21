@@ -12,12 +12,18 @@ export interface GarmentOption {
   readonly help?: string;
   /** Construction area used to group related controls in the UI. */
   readonly group?: string;
-  /** Optional controls inherit their declared measurement until explicitly set. */
+  /** Optional controls are absent until explicitly set; a fallback measurement may supply the inactive value. */
   readonly optional?: boolean;
   /** Measurement inherited while an optional control is unset. */
   readonly fallbackMeasurement?: keyof import("./measurements").Measurements;
   /** Style that activates this control; its saved value remains dormant otherwise. */
   readonly appliesToStyle?: string;
+  /** Optional-control copy for features whose inactive state is not an inherited measurement. */
+  readonly optionalSetLabel?: string;
+  readonly optionalResetLabel?: string;
+  /** Status copy supports {value} and {unit} placeholders. */
+  readonly optionalSetStatus?: string;
+  readonly optionalUnsetStatus?: string;
   readonly defaultValue: number;
   readonly min: number;
   readonly max: number;
@@ -28,6 +34,33 @@ export type GarmentOptions = Readonly<Record<string, number>>;
 export type GarmentOptionsByRecipe = Readonly<Record<string, GarmentOptions>>;
 
 export const EMPTY_GARMENT_OPTIONS: GarmentOptions = {};
+
+export function optionalOptionStatusMessage(
+  option: GarmentOption,
+  explicit: boolean,
+  value: number | string,
+): string {
+  const template = explicit ? option.optionalSetStatus : option.optionalUnsetStatus;
+  if (template !== undefined) {
+    return template.split("{value}").join(String(value))
+      .split("{unit}").join(option.unit ?? "cm");
+  }
+  if (explicit && option.fallbackMeasurement) {
+    return "Independent value: " + String(value) + " " + (option.unit ?? "cm") + ".";
+  }
+  if (explicit) {
+    return "Independent value: " + String(value) + " " + (option.unit ?? "cm") + ".";
+  }
+  if (option.fallbackMeasurement) {
+    return "Inherited from shared fit allowance: " + String(value) + " cm.";
+  }
+  return option.label + " is inactive. Set a value to enable it.";
+}
+
+export function optionalOptionActionLabel(option: GarmentOption, explicit: boolean): string {
+  if (explicit) return option.optionalResetLabel ?? "Use shared fit allowance";
+  return option.optionalSetLabel ?? "Set independent value";
+}
 
 /** Defaults are recipe data, so a future recipe never relies on UI state. */
 export function defaultGarmentOptions(definitions: readonly GarmentOption[]): GarmentOptions {

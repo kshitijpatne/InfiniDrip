@@ -18,7 +18,7 @@ import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
-import { draftTshirt, TEE_GRAMMAR } from "./tshirt";
+import { draftTshirt, TEE_GRAMMAR, isTeeVNeckActive, teeFrontNecklineParams, teeVNeckNotes, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { draftFitted, FITTED_GRAMMAR, FITTED_DART_OPTIONS, fittedGuidance } from "./fitted";
 import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
@@ -107,7 +107,7 @@ export interface GarmentRecipe {
   /** Recipe-owned design controls; absent means this garment has no such options. */
   readonly options?: readonly GarmentOption[];
   /** Option-aware production notes/BOM; absent keeps the static tech pack. */
-  readonly techPackForOptions?: (options: GarmentOptions) => TechPack;
+  readonly techPackForOptions?: (this: GarmentRecipe, options: GarmentOptions) => TechPack;
   /** Optional material variant selected from the live fabric family. */
   readonly techPackForFabric?: (fabric: StretchFabric) => TechPack;
   readonly allowances: AllowanceSpec;
@@ -120,7 +120,7 @@ export interface GarmentRecipe {
   // Functions of `Measurements`, not fixed values (Slice 63) — the tank's
   // front depends on `m.neckDrop`, a real user-adjustable measurement now,
   // not a hardcoded recipe constant. tee/fitted's just ignore `m`.
-  readonly frontNeckline?: (m: Measurements) => NecklineParams;
+  readonly frontNeckline?: (m: Measurements, options?: GarmentOptions) => NecklineParams;
   readonly backNeckline?: (m: Measurements) => NecklineParams;
   // Slice 63: a sleeveless garment's real strap position (`m.strapWidth`),
   // so body/garment preview views draw the real strap instead of the full
@@ -189,14 +189,29 @@ export const TEE: GarmentRecipe = {
       fallbackMeasurement: "ease",
       appliesToStyle: "Classic tee",
     },
+    {
+      id: TEE_V_NECK_DROP_OPTION_ID,
+      label: "Front V-neck drop",
+      unit: "cm",
+      group: "Neckline",
+      help: "Sets the additional front V depth. This 0–15 cm software range is not a fit specification; reduce the V drop or review armhole depth when guidance appears.",
+      defaultValue: 5,
+      min: 0,
+      max: 15,
+      step: 0.5,
+      optional: true,
+      optionalSetLabel: "Use V neckline",
+      optionalResetLabel: "Use crew neckline",
+      optionalSetStatus: "V neckline active. Additional front drop: {value} {unit}.",
+      optionalUnsetStatus: "Crew neckline active. Set a value to switch to the V neckline.",
+    },
   ],
-  guidance: sleevedTopGuidance,
+  guidance: (block, m, options = {}) => [...sleevedTopGuidance(block, m), ...teeVNeckNotes(m, options)],
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
-  // draftTshirt calls bodice() with no necklineParams on either panel, so both
-  // default to NECKLINE_DEFAULT (crew) — declared explicitly here rather than
-  // left implicit, matching what the draft actually does.
-  frontNeckline: () => NECKLINE_DEFAULT,
+  // The optional Tee V-depth selects a straight front V; when absent, the front
+  // and back remain crew. The back never consumes the V-depth option.
+  frontNeckline: (_m, options = {}) => teeFrontNecklineParams(options),
   backNeckline: () => NECKLINE_DEFAULT,
   techPack: {
     bom: TEE_BOM,
@@ -209,6 +224,14 @@ export const TEE: GarmentRecipe = {
       "Close the side and underarm seams in one pass.",
       "Hem the sleeves and the body.",
     ],
+  },
+  techPackForOptions: function (this: GarmentRecipe, options) {
+    if (!isTeeVNeckActive(options)) return this.techPack;
+    return {
+      bom: this.techPack.bom.filter((row) => row.placement !== "Neckband"),
+      constructionNotice: "V-neck finishing is not defined for this digital candidate. No neckband geometry, cut template, or sewing steps are provided.",
+      construction: this.techPack.construction.filter((step) => !step.startsWith("Attach the neckband")),
+    };
   },
 };
 
