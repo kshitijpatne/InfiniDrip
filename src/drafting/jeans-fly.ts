@@ -1,10 +1,11 @@
 import { cubicPoint, distance, point, type Point } from "../geometry";
 import { lineMark, pointMark, type PatternMark } from "./pattern-mark";
+import { JEANS_ALLOWANCES } from "./jeans-tables";
 import { edgeLength, pieceEdge, type Edge, type Piece } from "./piece";
 import { edgeRef, iface, type Stitch } from "./stitch";
 import type { JeansOptions } from "./jeans-contract";
 
-export const JEANS_FLY_POCKET_KEEPOUT_CM = 1;
+export const JEANS_FLY_POCKET_KEEPOUT_CM = JEANS_ALLOWANCES.default;
 const FLY_LENGTH_RANGE = [8, 25] as const;
 const EXTENSION_WIDTH_RANGE = [2.5, 5] as const;
 const RISE_CLEARANCE_CM = 1;
@@ -180,7 +181,7 @@ export function buildJeansFly(
   );
   if (clearance < JEANS_FLY_POCKET_KEEPOUT_CM - 1e-6) {
     throw new RangeError(
-      `flyLength ${options.flyLength} cm and flyExtensionWidth ${options.flyExtensionWidth} cm leave less than the provisional ${JEANS_FLY_POCKET_KEEPOUT_CM} cm digital clearance to frontPocketOpening; reduce flyLength/flyExtensionWidth or revise the frontPocket settings.`,
+      `flyLength ${options.flyLength} cm and flyExtensionWidth ${options.flyExtensionWidth} cm leave less than the allowance-based ${JEANS_FLY_POCKET_KEEPOUT_CM} cm digital clearance to frontPocketOpening; reduce flyLength/flyExtensionWidth or revise the frontPocket settings.`,
     );
   }
 
@@ -212,7 +213,7 @@ export function buildJeansFly(
   const stop = point(0, length);
   const extendedFront = extendWearerRightFront(frontRight, width, length);
   const markedCover = withMarks(frontLeft, [
-    lineMark("placementLine", "flyCoverStitch", coverTop, stop, "fly cover row"),
+    lineMark("placementLine", "flyCoverStitch", coverTop, stop),
     pointMark("placementPoint", "flyClosureTop", coverTop, "CF closure"),
     pointMark("placementPoint", "flyClosureStop", stop, "fly stop"),
   ]);

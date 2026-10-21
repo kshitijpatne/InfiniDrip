@@ -118,7 +118,7 @@ describe("Jeans asymmetric fly", () => {
     expect(() => draftFly({ flyExtensionWidth: 5 }, frontPiece(1), frontPiece(-1, 24, 5)))
       .toThrow(/less than 1 cm on the wearer-right waist edge/);
     expect(() => draftFly({}, frontPiece(1, 32, 14, 2), frontPiece(-1)))
-      .toThrow(/flyLength .* flyExtensionWidth .* provisional 1 cm .* frontPocketOpening/);
+      .toThrow(/flyLength .* flyExtensionWidth .* allowance-based 1\.6 cm .* frontPocketOpening/);
   });
 
   it("fails closed for invalid source edges, non-finite pocket data, or misaligned waist landmarks", () => {

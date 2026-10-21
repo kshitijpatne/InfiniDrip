@@ -9,6 +9,7 @@ import { buildJeansFrontPocket } from "./jeans-pocket";
 import { buildJeansCoinBackPockets } from "./jeans-coin-back-pockets";
 import { buildJeansFly } from "./jeans-fly";
 import { buildJeansWaistband } from "./jeans-waistband";
+import { addJeansConstructionMarks } from "./jeans-construction";
 import {
   resolveJeansOptions,
   type JeansOptions,
@@ -378,5 +379,5 @@ export function draftJeansCore(
     ...fly.stitches,
     ...waistband.stitches,
   ];
-  return block(roles, stitches);
+  return addJeansConstructionMarks(block(roles, stitches));
 }

@@ -1,7 +1,9 @@
 import type { GrainlineRule, NotchRule } from "../render/notch";
+import type { AllowanceSpec } from "./allowance";
 import { edgeEnd, edgeStart, pieceEdge } from "./piece";
 import { rolePiece, type Block } from "./block";
 import type { PieceNotches } from "./tshirt-notches";
+import type { BomRow, TechPack } from "./recipe";
 
 const FRONT_GRAINLINE: GrainlineRule = {
   topEdge: "waist",
@@ -121,3 +123,154 @@ export function jeansNotchesForDraft(draft: Block): readonly PieceNotches[] {
     return rule;
   });
 }
+
+export const JEANS_PATCH_POCKET_TOP_ALLOWANCE_CM = 1.9;
+
+/** Digital Jeans cut map based on the named, pattern-specific source examples. */
+export const JEANS_ALLOWANCES: AllowanceSpec = {
+  default: 1.6,
+  byEdge: {
+    hem: 3.8,
+    pocketTop: JEANS_PATCH_POCKET_TOP_ALLOWANCE_CM,
+  },
+  byPieceEdge: {
+    "jeans fly shield": { shieldBottom: 0.6 },
+    "jeans front pocket bag left": { bagClose: 1.0 },
+    "jeans front pocket bag right": { bagClose: 1.0 },
+    "jeans belt-loop strip": {
+      stripStart: 0,
+      stripOuter: 0,
+      stripEnd: 0,
+      stripInner: 0,
+    },
+  },
+};
+
+export const JEANS_PRIMARY_TOPSTITCH_CM = 0.3;
+export const JEANS_SECONDARY_TOPSTITCH_SPACING_CM = 0.6;
+
+export interface JeansCutRoleQuantity {
+  readonly role: string;
+  readonly pieceName: string;
+  readonly quantity: number;
+  readonly note?: string;
+}
+
+/** Separate named cut roles are listed once; strip yield is reported separately. */
+export const JEANS_CUT_ROLE_QUANTITIES: readonly JeansCutRoleQuantity[] = [
+  { role: "frontLeft", pieceName: "jeans front left", quantity: 1 },
+  { role: "frontRight", pieceName: "jeans front right", quantity: 1 },
+  { role: "backYokeLeft", pieceName: "jeans back yoke left", quantity: 1 },
+  { role: "backYokeRight", pieceName: "jeans back yoke right", quantity: 1 },
+  { role: "backLowerLeft", pieceName: "jeans back lower left", quantity: 1 },
+  { role: "backLowerRight", pieceName: "jeans back lower right", quantity: 1 },
+  { role: "pocketFacingLeft", pieceName: "jeans front pocket facing left", quantity: 1 },
+  { role: "pocketFacingRight", pieceName: "jeans front pocket facing right", quantity: 1 },
+  { role: "pocketBagLeft", pieceName: "jeans front pocket bag left", quantity: 1 },
+  { role: "pocketBagRight", pieceName: "jeans front pocket bag right", quantity: 1 },
+  { role: "pocketStayLeft", pieceName: "jeans front pocket stay left", quantity: 1 },
+  { role: "pocketStayRight", pieceName: "jeans front pocket stay right", quantity: 1 },
+  { role: "pocketFacingExtensionRight", pieceName: "jeans right coin-pocket facing extension", quantity: 1 },
+  { role: "coinPocket", pieceName: "jeans coin pocket", quantity: 1 },
+  { role: "backPocketLeft", pieceName: "jeans back patch pocket left", quantity: 1 },
+  { role: "backPocketRight", pieceName: "jeans back patch pocket right", quantity: 1 },
+  { role: "flyFacingUnderlapRight", pieceName: "jeans right fly facing and underlap", quantity: 1 },
+  { role: "flyShield", pieceName: "jeans fly shield", quantity: 1 },
+  { role: "waistbandOuterLeft", pieceName: "jeans outer waistband left", quantity: 1 },
+  { role: "waistbandOuterRight", pieceName: "jeans outer waistband right", quantity: 1 },
+  { role: "waistbandInnerLeft", pieceName: "jeans inner waistband left", quantity: 1 },
+  { role: "waistbandInnerRight", pieceName: "jeans inner waistband right", quantity: 1 },
+  {
+    role: "beltLoopStrip",
+    pieceName: "jeans belt-loop strip",
+    quantity: 1,
+    note: "One cut strip yields six loop segments; fabric consumption and marker yield are unknown.",
+  },
+];
+
+export interface JeansConstructionStep {
+  readonly order: number;
+  readonly action: string;
+  readonly roles: readonly string[];
+}
+
+/** Ordered digital workflow notes; they are not physical sewing validation. */
+export const JEANS_CONSTRUCTION_STEPS: readonly JeansConstructionStep[] = [
+  {
+    order: 1,
+    action: "Prepare the listed pieces and use their notches, grainlines, construction marks, and Jeans allowance map.",
+    roles: JEANS_CUT_ROLE_QUANTITIES.map(({ role }) => role),
+  },
+  {
+    order: 2,
+    action: "Turn and topstitch the coin and back-pocket tops, then attach the pockets at their placement marks; the marked bartacks and six rivets are digital callouts, with rivets optional.",
+    roles: ["coinPocket", "backPocketLeft", "backPocketRight", "backLowerLeft", "backLowerRight", "pocketFacingExtensionRight"],
+  },
+  {
+    order: 3,
+    action: "Assemble the front pocket bags, facings, and stays; sew the first bag pass, trim it to the recorded 0.3 cm, then secure it with the recorded 0.6 cm pass.",
+    roles: ["frontLeft", "frontRight", "pocketFacingLeft", "pocketFacingRight", "pocketBagLeft", "pocketBagRight", "pocketStayLeft", "pocketStayRight"],
+  },
+  {
+    order: 4,
+    action: "Join the back yokes with the paired marked rows; after sewing, the named back-side allowance is digitally noted for trimming to 0.6 cm.",
+    roles: ["backYokeLeft", "backYokeRight", "backLowerLeft", "backLowerRight"],
+  },
+  {
+    order: 5,
+    action: "Install the fly zipper and shield at their placement marks, then sew the two marked fly bartacks.",
+    roles: ["frontLeft", "frontRight", "flyFacingUnderlapRight", "flyShield"],
+  },
+  {
+    order: 6,
+    action: "Join the center-back seat, inseams, and side seams at their matching role interfaces; retain the paired flat-felled yoke/inseam rows and the source's regular side-seam treatment.",
+    roles: ["frontLeft", "frontRight", "backLowerLeft", "backLowerRight"],
+  },
+  {
+    order: 7,
+    action: "Join the waistband halves at center back, attach the outer waistband to the waist, turn the inner layer, and topstitch at the marked rows.",
+    roles: ["waistbandOuterLeft", "waistbandOuterRight", "waistbandInnerLeft", "waistbandInnerRight"],
+  },
+  {
+    order: 8,
+    action: "Cut six loop segments from the single strip, fold and topstitch them, then attach each at its paired waistband anchors; set the single button at the wearer-right waistband cue.",
+    roles: ["beltLoopStrip", "waistbandOuterLeft", "waistbandOuterRight"],
+  },
+  {
+    order: 9,
+    action: "Turn and stitch each leg hem using the mapped 3.8 cm cut allowance.",
+    roles: ["frontLeft", "frontRight", "backLowerLeft", "backLowerRight"],
+  },
+];
+
+export const JEANS_BOM: readonly BomRow[] = [
+  {
+    material: "Shell fabric (denim or other selected woven)",
+    placement: "All Jeans cut roles",
+    qty: "Unknown; size, fabric width, marker, and process are unselected.",
+  },
+  {
+    material: "Pocketing fabric",
+    placement: "Front pocket bags",
+    qty: "Unknown; marker and selected fabric width are required.",
+  },
+  {
+    material: "Interfacing",
+    placement: "Waistband/fly as selected",
+    qty: "Unknown; material and construction choice are unselected.",
+  },
+  { material: "Jeans zipper", placement: "Fly", qty: "1; size and length unconfirmed." },
+  { material: "Jeans button", placement: "Wearer-right waistband", qty: "1; size and compatibility unconfirmed." },
+  {
+    material: "Jeans rivets (optional)",
+    placement: "Two front scoop pockets and coin pocket",
+    qty: "6 optional; size, tool, supplier, and material compatibility unconfirmed.",
+  },
+  { material: "Sewing thread", placement: "Seams and topstitching", qty: "Unknown; type and consumption unvalidated." },
+];
+
+export const JEANS_TECH_PACK: TechPack = {
+  bom: JEANS_BOM,
+  constructionNotice: "Internal digital draft notes only. Verify material, hardware compatibility, seam bulk, tools, and physical sewing order before use; no InfiniDrip Jeans has been sewn or fit validated.",
+  construction: JEANS_CONSTRUCTION_STEPS.map(({ order, action }) => `${order}. ${action}`),
+};

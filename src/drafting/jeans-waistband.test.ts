@@ -269,7 +269,7 @@ describe("Jeans waistband and six belt loops", () => {
         start: point(coinTop.start.x, 0.5),
         end: point(coinTop.end.x, 0.5),
       }),
-    })).toThrow(/must remain at least 1 cm below the live waist/);
+    })).toThrow(/must remain at least 1\.6 cm below the live waist/);
     const backPocketTop = pieceEdge(input.backPocketRight, "pocketTop");
     if (backPocketTop.kind !== "line") throw new Error("Expected a straight back-pocket top.");
     const nonFiniteBackPocket = {
@@ -292,11 +292,11 @@ describe("Jeans waistband and six belt loops", () => {
       pocketFacingLeft: replaceEdge(input.pocketFacingLeft, "waistFacing", { ...facingWaist, end: shortSide }),
       backYokeLeft: replaceEdge(input.backYokeLeft, "waist", { ...backWaist, start: shortSide }),
     };
-    expect(() => buildJeansWaistband(shortInput)).toThrow(/leaves less than 1 cm from the left front pocket-waist intersection/);
+    expect(() => buildJeansWaistband(shortInput)).toThrow(/leaves less than 1\.6 cm from the left front pocket-waist intersection/);
 
     expect(() => buildJeansWaistband(withShortLeftBackSeam(input, 4)))
       .toThrow(/puts the left side loop outside the live waistband/);
     expect(() => buildJeansWaistband(withShortLeftBackSeam(input, 5)))
-      .toThrow(/side and rear loops leave less than 1 cm between their full footprints/);
+      .toThrow(/side and rear loops leave less than 1\.6 cm between their full footprints/);
   });
 });

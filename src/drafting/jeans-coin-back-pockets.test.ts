@@ -3,12 +3,14 @@ import { cubicPoint, point } from "../geometry";
 import { blockPieces, rolePiece } from "./block";
 import { DEFAULT_JEANS_OPTIONS, type JeansOptions } from "./jeans-contract";
 import { buildJeansCoinBackPockets, JEANS_POCKET_KEEP_OUT_CM } from "./jeans-coin-back-pockets";
+import { allowanceFor } from "./allowance";
 import { draftJeansCore } from "./jeans";
 import { gradeMeasurements } from "./grading";
 import { STANDARD_M } from "./measurements";
 import { edgeEnd, edgeLength, edgeStart, pieceEdge, type Edge, type Piece } from "./piece";
 import { stitchChecks } from "./stitch";
 import { TROUSER_GRADE } from "./trouser-tables";
+import { JEANS_ALLOWANCES } from "./jeans-tables";
 
 const base = draftJeansCore(STANDARD_M);
 
@@ -148,21 +150,23 @@ describe("Jeans coin and back-pocket geometry", () => {
     const coinTop = pieceEdge(coin, "pocketTop");
     expect(coinTop.kind).toBe("line");
     if (coinTop.kind !== "line" || facingSide.kind !== "line") throw new Error("Expected straight pocket edges.");
-    expect(coinTop.start.y).toBe(facingSide.end.y + JEANS_POCKET_KEEP_OUT_CM);
+    expect(coinTop.start.y).toBe(facingSide.end.y + allowanceFor(JEANS_ALLOWANCES, "pocketTop", coin.name));
     expect(pieceEdge(coin, "pocketBottom").kind).toBe("line");
-    expect(coin.marks).toHaveLength(2);
+    expect(coin.marks?.filter(({ name }) => name.startsWith("optional-rivet-coin-"))).toHaveLength(2);
     expect(coin.edges.every((edge) => edge.kind === "line")).toBe(true);
 
     const extensionPoints = extension.edges.flatMap((edge) => edge.kind === "line"
       ? [edge.start, edge.end]
       : [edge.curve.start, edge.curve.control1, edge.curve.control2, edge.curve.end]);
     const coinPoints = coin.edges.flatMap((edge) => edge.kind === "line" ? [edge.start, edge.end] : []);
+    const sideAllowance = allowanceFor(JEANS_ALLOWANCES, "pocketInner", coin.name);
+    const bottomAllowance = allowanceFor(JEANS_ALLOWANCES, "pocketBottom", coin.name);
     expect(Math.min(...coinPoints.map(({ x }) => x)) - Math.min(...extensionPoints.map(({ x }) => x)))
-      .toBeGreaterThanOrEqual(JEANS_POCKET_KEEP_OUT_CM);
+      .toBeGreaterThanOrEqual(sideAllowance);
     expect(Math.max(...extensionPoints.map(({ x }) => x)) - Math.max(...coinPoints.map(({ x }) => x)))
-      .toBe(JEANS_POCKET_KEEP_OUT_CM);
+      .toBeCloseTo(sideAllowance, 9);
     expect(Math.max(...extensionPoints.map(({ y }) => y)) - Math.max(...coinPoints.map(({ y }) => y)))
-      .toBe(JEANS_POCKET_KEEP_OUT_CM);
+      .toBeCloseTo(bottomAllowance, 9);
     const coinMarks = placementLines(extension, "coin-pocket-placement");
     expect(coinMarks).toHaveLength(4);
     expect(coinMarks.map(({ start, end }) => ({ start, end }))).toEqual([
@@ -189,7 +193,7 @@ describe("Jeans coin and back-pocket geometry", () => {
       const top = requireLine(pieceEdge(pocket, "pocketTop"));
       const bottom = requireLine(pieceEdge(pocket, "pocketBottom"));
 
-      const envelopeMaximum = maximumYInXSpan(yoke.curve, left.start.x - 1, right.start.x + 1);
+      const envelopeMaximum = maximumYInXSpan(yoke.curve, left.start.x - JEANS_POCKET_KEEP_OUT_CM, right.start.x + JEANS_POCKET_KEEP_OUT_CM);
       expect(top.start.y - envelopeMaximum).toBeGreaterThanOrEqual(DEFAULT_JEANS_OPTIONS.backPocketDrop - 1e-7);
       expect(top.start.y - envelopeMaximum).toBeLessThan(DEFAULT_JEANS_OPTIONS.backPocketDrop + 0.01);
 
@@ -209,10 +213,11 @@ describe("Jeans coin and back-pocket geometry", () => {
       expect(rightPocket.edges.map((edge) => edge.kind)).toEqual(pocket.edges.map((edge) => edge.kind));
       const rightEdges = rightPocket.edges.map(requireLine);
       expect(rightEdges[0]!.start.x).toBe(-requireLine(pieceEdge(pocket, "pocketTop")).start.x);
-      expect(rightPocket.marks?.map(({ name }) => name)).toEqual([
+      expect(rightPocket.marks?.map(({ name }) => name).slice(0, 2)).toEqual([
         "jeans back patch pocket right-top-outer",
         "jeans back patch pocket right-top-inner",
       ]);
+      expect(rightPocket.marks?.filter(({ name }) => name.startsWith("back-pocket-right-bartack-"))).toHaveLength(2);
       const leftMarks = placementLines(lower, "left-back-pocket-placement");
       const rightMarks = placementLines(lowerRight, "right-back-pocket-placement");
       expect(leftMarks).toHaveLength(4);
@@ -298,7 +303,7 @@ describe("Jeans coin and back-pocket geometry", () => {
 
   it("fails clearly when a pathological side/yoke relationship cannot settle", () => {
     const lower = rolePiece(base, "backLowerLeft");
-    const unstable = bowedBackHost(lower, 1.2, 35, -35);
+    const unstable = bowedBackHost(lower, 0.5, -100, 100);
     expect(() => build({}, rolePiece(base, "pocketFacingRight"), unstable))
       .toThrow(/placement did not resolve against the live side and yoke seams/);
   });

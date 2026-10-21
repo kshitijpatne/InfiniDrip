@@ -1,9 +1,11 @@
 import { cubicPoint, point, type Point } from "../geometry";
+import { allowanceFor } from "./allowance";
 import { lineMark, pointMark, type PatternMark } from "./pattern-mark";
 import { edgeEnd, edgeStart, pieceEdge, type Edge, type Piece } from "./piece";
 import type { JeansOptions } from "./jeans-contract";
+import { JEANS_ALLOWANCES } from "./jeans-tables";
 
-export const JEANS_POCKET_KEEP_OUT_CM = 1;
+export const JEANS_POCKET_KEEP_OUT_CM = allowanceFor(JEANS_ALLOWANCES, "pocketTop");
 
 const OPTION_RANGES = {
   coinPocketWidth: [5, 10],
@@ -214,15 +216,18 @@ function buildCoinFacingExtension(
   const facingSide = requireLine(facingRight, "sideFacing");
   const sideWaist = edgeStart(facingSide);
   const sideDrop = edgeEnd(facingSide);
-  const top = sideDrop.y + JEANS_POCKET_KEEP_OUT_CM;
+  const topAllowance = allowanceFor(JEANS_ALLOWANCES, "pocketTop", "jeans coin pocket");
+  const sideAllowance = allowanceFor(JEANS_ALLOWANCES, "pocketInner", "jeans coin pocket");
+  const bottomAllowance = allowanceFor(JEANS_ALLOWANCES, "pocketBottom", "jeans coin pocket");
+  const top = sideDrop.y + topAllowance;
   const bottom = top + options.coinPocketHeight;
-  const panelBottom = bottom + JEANS_POCKET_KEEP_OUT_CM;
+  const panelBottom = bottom + bottomAllowance;
 
   const outerX = Math.max(sideWaist.x, sideDrop.x);
-  const innerX = outerX + options.coinPocketWidth + 2 * JEANS_POCKET_KEEP_OUT_CM;
+  const innerX = outerX + options.coinPocketWidth + 2 * sideAllowance;
   const hostRect: PocketRect = {
-    left: outerX + JEANS_POCKET_KEEP_OUT_CM,
-    right: outerX + JEANS_POCKET_KEEP_OUT_CM + options.coinPocketWidth,
+    left: outerX + sideAllowance,
+    right: outerX + sideAllowance + options.coinPocketWidth,
     top,
     bottom,
   };
@@ -297,13 +302,13 @@ function backPocketRect(
   right = minSideX - options.backPocketOffset;
   left = right - options.backPocketWidth;
   if (left - JEANS_POCKET_KEEP_OUT_CM < center.x) {
-    throw new RangeError("Back pocket and its 1 cm envelope reach the center-back seam; increase backPocketOffset or reduce backPocketWidth.");
+    throw new RangeError(`Back pocket and its ${JEANS_POCKET_KEEP_OUT_CM} cm allowance envelope reach the center-back seam; increase backPocketOffset or reduce backPocketWidth.`);
   }
   if (bottom + JEANS_POCKET_KEEP_OUT_CM >= knee.y) {
-    throw new RangeError("Back pocket and its 1 cm envelope reach the lower-leg station; reduce backPocketHeight or backPocketDrop.");
+    throw new RangeError(`Back pocket and its ${JEANS_POCKET_KEEP_OUT_CM} cm allowance envelope reach the lower-leg station; reduce backPocketHeight or backPocketDrop.`);
   }
   if (bottom + JEANS_POCKET_KEEP_OUT_CM >= hem.y) {
-    throw new RangeError("Back pocket and its 1 cm envelope reach the hem; reduce backPocketHeight or backPocketDrop.");
+    throw new RangeError(`Back pocket and its ${JEANS_POCKET_KEEP_OUT_CM} cm allowance envelope reach the hem; reduce backPocketHeight or backPocketDrop.`);
   }
   return { left, right, top, bottom };
 }

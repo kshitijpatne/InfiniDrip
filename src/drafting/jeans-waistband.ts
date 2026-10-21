@@ -3,8 +3,9 @@ import { lineMark, pointMark, type PatternMark } from "./pattern-mark";
 import { edgeLength, pieceEdge, type Edge, type Piece } from "./piece";
 import { edgeRef, iface, type Stitch } from "./stitch";
 import type { JeansOptions } from "./jeans-contract";
+import { JEANS_ALLOWANCES } from "./jeans-tables";
 
-export const JEANS_WAISTBAND_LOOP_CLEARANCE_CM = 1;
+export const JEANS_WAISTBAND_LOOP_CLEARANCE_CM = JEANS_ALLOWANCES.default;
 
 const LOOP_COUNT = 6;
 const LOOP_END_FOLD_CM = 1;
@@ -141,7 +142,7 @@ function requirePocketBelowWaist(piece: Piece): void {
   const topY = Math.min(top.start.y, top.end.y);
   if (topY < JEANS_WAISTBAND_LOOP_CLEARANCE_CM) {
     throw new RangeError(
-      `${piece.name} must remain at least ${JEANS_WAISTBAND_LOOP_CLEARANCE_CM} cm below the live waist for the provisional loop-clearance screen; adjust its placement options.`,
+      `${piece.name} must remain at least ${JEANS_WAISTBAND_LOOP_CLEARANCE_CM} cm below the live waist for the allowance-based loop-clearance screen; adjust its placement options.`,
     );
   }
 }

@@ -6,6 +6,18 @@ import { draftJeansCore } from "./jeans";
 import { STANDARD_M } from "./measurements";
 import { JEANS_NOTCHES, jeansNotchesForDraft } from "./jeans-tables";
 import { TROUSER_GRADE } from "./trouser-tables";
+import { TROUSER_ALLOWANCES } from "./trouser";
+import { allowanceFor } from "./allowance";
+import {
+  JEANS_ALLOWANCES,
+  JEANS_BOM,
+  JEANS_CONSTRUCTION_STEPS,
+  JEANS_CUT_ROLE_QUANTITIES,
+  JEANS_PATCH_POCKET_TOP_ALLOWANCE_CM,
+  JEANS_PRIMARY_TOPSTITCH_CM,
+  JEANS_SECONDARY_TOPSTITCH_SPACING_CM,
+  JEANS_TECH_PACK,
+} from "./jeans-tables";
 
 describe("Jeans notch and grainline rules", () => {
   it("names every draft role and resolves its matched marks from live geometry", () => {
@@ -68,5 +80,40 @@ describe("Jeans notch and grainline rules", () => {
     const yokeSideRule = notches.find(({ pieceName }) => pieceName === "jeans back yoke left")!
       .notches.find(({ edgeName }) => edgeName === "sideWaistToYoke")!;
     expect(resolveNotch(facing, facingSideRule).point).toEqual(resolveNotch(yoke, yokeSideRule).point);
+  });
+});
+
+describe("Jeans allowance and digital construction tables", () => {
+  it("maps the Jeans-only seam and cut exceptions without changing other defaults", () => {
+    expect(JEANS_ALLOWANCES.default).toBe(1.6);
+    expect(JEANS_ALLOWANCES.byEdge).toEqual({ hem: 3.8, pocketTop: 1.9 });
+    expect(JEANS_PATCH_POCKET_TOP_ALLOWANCE_CM).toBe(1.9);
+    expect(JEANS_PRIMARY_TOPSTITCH_CM).toBe(0.3);
+    expect(JEANS_SECONDARY_TOPSTITCH_SPACING_CM).toBe(0.6);
+    expect(allowanceFor(JEANS_ALLOWANCES, "yokeJoin", "jeans back lower left")).toBe(1.6);
+    expect(allowanceFor(JEANS_ALLOWANCES, "hem", "jeans front left")).toBe(3.8);
+    expect(allowanceFor(JEANS_ALLOWANCES, "pocketTop", "jeans coin pocket")).toBe(1.9);
+    expect(allowanceFor(JEANS_ALLOWANCES, "bagClose", "jeans front pocket bag right")).toBe(1);
+    expect(allowanceFor(JEANS_ALLOWANCES, "shieldBottom", "jeans fly shield")).toBe(0.6);
+    expect(allowanceFor(JEANS_ALLOWANCES, "stripOuter", "jeans belt-loop strip")).toBe(0);
+    expect(TROUSER_ALLOWANCES.default).toBe(1);
+    expect(allowanceFor(TROUSER_ALLOWANCES, "hem", "trouser front left")).toBe(2);
+  });
+
+  it("declares all 23 cut roles and qualified, ordered internal production notes", () => {
+    const draft = draftJeansCore(STANDARD_M);
+    expect(JEANS_CUT_ROLE_QUANTITIES.map(({ role }) => role)).toEqual(Object.keys(draft.roles));
+    expect(JEANS_CUT_ROLE_QUANTITIES).toHaveLength(23);
+    expect(JEANS_CUT_ROLE_QUANTITIES.every(({ quantity }) => quantity === 1)).toBe(true);
+    expect(JEANS_CUT_ROLE_QUANTITIES.find(({ role }) => role === "beltLoopStrip")?.note).toContain("six loop segments");
+    expect(JEANS_BOM.find(({ material }) => material === "Jeans zipper")?.qty).toBe("1; size and length unconfirmed.");
+    expect(JEANS_BOM.find(({ material }) => material === "Jeans button")?.qty).toContain("1;");
+    expect(JEANS_BOM.find(({ material }) => material === "Jeans rivets (optional)")?.qty).toContain("6 optional");
+    expect(JEANS_BOM.filter(({ qty }) => qty.startsWith("Unknown")).length).toBeGreaterThanOrEqual(3);
+    expect(JEANS_TECH_PACK.constructionNotice).toContain("digital draft notes only");
+    expect(JEANS_CONSTRUCTION_STEPS.map(({ order }) => order)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(JEANS_TECH_PACK.construction).toEqual(
+      JEANS_CONSTRUCTION_STEPS.map(({ order, action }) => `${order}. ${action}`),
+    );
   });
 });
