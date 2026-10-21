@@ -16,6 +16,7 @@ const expectedDefinitions = [
   ["kneeEase", 5, 0, 15],
   ["legOpening", 40, 25, 65],
   ["flyLength", 15, 8, 25],
+  ["flyExtensionWidth", 3.5, 2.5, 5],
   ["yokeDepth", 9, 5, 15],
   ["yokeEase", 0.5, 0, 1.5],
   ["frontPocketOpening", 15, 10, 22],
@@ -60,6 +61,14 @@ describe("Jeans option contract", () => {
     expect(help.backPocketHeight).toContain("backPocketDrop");
     expect(help.backPocketOffset).toContain("narrowest live side-seam station");
     expect(help.backPocketOffset).toContain("provisional 1 cm envelope");
+  });
+
+  it("describes the live asymmetric fly controls and their relationship checks", () => {
+    const help = Object.fromEntries(JEANS_OPTION_DEFINITIONS.map(({ id, help: text }) => [id, text]));
+    expect(help.flyLength).toContain("front crotch transition");
+    expect(help.flyLength).toContain("frontPocketOpening");
+    expect(help.flyExtensionWidth).toContain("wearer-right integral fly extension");
+    expect(help.flyExtensionWidth).toContain("front pocket opening");
   });
 
   it("derives defaults from the definitions and fills missing or undefined values", () => {

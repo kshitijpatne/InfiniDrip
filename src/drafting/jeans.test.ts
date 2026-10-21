@@ -137,12 +137,13 @@ describe("Jeans lower-body core", () => {
     expect(actual.kneeY).toBe(72.56);
   });
 
-  it("drafts sixteen closed roles with finite paired seams and the unchanged outside back stations", () => {
+  it("drafts eighteen closed roles with finite paired seams and the unchanged outside back stations", () => {
     const draft = draftJeansCore(STANDARD_M);
     expect(Object.keys(draft.roles)).toEqual([
       "frontLeft", "frontRight", "backYokeLeft", "backYokeRight", "backLowerLeft", "backLowerRight",
       "pocketFacingLeft", "pocketFacingRight", "pocketBagLeft", "pocketBagRight", "pocketStayLeft", "pocketStayRight",
       "pocketFacingExtensionRight", "coinPocket", "backPocketLeft", "backPocketRight",
+      "flyFacingUnderlapRight", "flyShield",
     ]);
     expect(blockPieces(draft).map(({ name }) => name)).toEqual([
       "jeans front left", "jeans front right",
@@ -153,6 +154,7 @@ describe("Jeans lower-body core", () => {
       "jeans front pocket stay left", "jeans front pocket stay right",
       "jeans right coin-pocket facing extension", "jeans coin pocket",
       "jeans back patch pocket left", "jeans back patch pocket right",
+      "jeans right fly facing and underlap", "jeans fly shield",
     ]);
     expect(draft.stitches.map(({ label }) => label)).toEqual([
       "Left side seam (front ↔ back)",
@@ -170,6 +172,8 @@ describe("Jeans lower-body core", () => {
       "Right coin-facing extension ↔ facing",
       "Left localized pocket stay ↔ bag",
       "Right localized pocket stay ↔ bag",
+      "Wearer-right fly extension ↔ facing/underlap",
+      "Fly facing/underlap ↔ shield",
     ]);
     expect(stitchChecks(draft, draft.stitches).filter(({ ok }) => !ok)).toEqual([]);
     for (const piece of blockPieces(draft)) {
@@ -202,7 +206,6 @@ describe("Jeans lower-body core", () => {
   it("mirrors paired panels while preserving distinct front and back crotch curves", () => {
     const draft = draftJeansCore(STANDARD_M, DEFAULT_JEANS_OPTIONS);
     for (const [leftRole, rightRole] of [
-      ["frontLeft", "frontRight"],
       ["backYokeLeft", "backYokeRight"],
       ["backLowerLeft", "backLowerRight"],
       ["backPocketLeft", "backPocketRight"],
@@ -218,6 +221,47 @@ describe("Jeans lower-body core", () => {
     expect(backCrotch.kind).toBe("curve");
     if (frontCrotch.kind === "curve" && backCrotch.kind === "curve") {
       expect(frontCrotch.curve.control1).not.toEqual(backCrotch.curve.control1);
+    }
+  });
+
+  it("adds the source-led wearer-right fly and checks shortest/longest controls at XS, M, and XL", () => {
+    const flyOptions = [
+      { flyLength: 8, flyExtensionWidth: 2.5 },
+      { flyLength: 25, flyExtensionWidth: 5 },
+    ] as const;
+    for (const { label, step } of sizeCases) {
+      const measurements = gradeMeasurements(STANDARD_M, TROUSER_GRADE, step);
+      for (const optionPatch of flyOptions) {
+        let draft: ReturnType<typeof draftJeansCore>;
+        try {
+          draft = draftJeansCore(measurements, optionPatch);
+        } catch (error) {
+          expect(error).toBeInstanceOf(RangeError);
+          expect(String(error)).toMatch(/flyLength|flyExtensionWidth|frontPocketOpening/);
+          continue;
+        }
+        const frontLeft = rolePiece(draft, "frontLeft");
+        const frontRight = rolePiece(draft, "frontRight");
+        const facing = rolePiece(draft, "flyFacingUnderlapRight");
+        const shield = rolePiece(draft, "flyShield");
+        expect(pieceEdge(frontRight, "flyExtensionJoin")).toMatchObject({
+          kind: "line",
+          start: { x: optionPatch.flyExtensionWidth, y: optionPatch.flyLength },
+          end: { x: optionPatch.flyExtensionWidth, y: 0 },
+        });
+        expect(frontRight.marks?.map(({ name }) => name)).toContain("flyExtensionFold");
+        expect(frontLeft.marks?.map(({ name }) => name)).toContain("flyCoverStitch");
+        expect(facing.marks?.map(({ name }) => name)).toEqual(["zipperPlacement", "zipperStopNotch"]);
+        expect(shield.marks?.map(({ name }) => name)).toContain("flyBartackUpper");
+        expect(shield.marks?.map(({ name }) => name)).toContain("flyBartackLower");
+        expect(stitchChecks(draft, draft.stitches).filter(({ ok }) => !ok), `${label} ${JSON.stringify(optionPatch)}`)
+          .toEqual([]);
+        for (const piece of [frontLeft, frontRight, facing, shield]) {
+          expect(isClosed(piece), `${label} ${piece.name}`).toBe(true);
+          expect(isFinitePiece(piece), `${label} ${piece.name}`).toBe(true);
+          expect(hasSelfIntersection(piece), `${label} ${piece.name}`).toBe(false);
+        }
+      }
     }
   });
 
@@ -273,7 +317,14 @@ describe("Jeans lower-body core", () => {
       const baselineFront = rolePiece(draftJeansCore(measurements), "frontLeft");
       for (const optionPatch of boundaryOptions) {
         const options = { ...DEFAULT_JEANS_OPTIONS, ...optionPatch };
-        const draft = draftJeansCore(measurements, optionPatch);
+        let draft: ReturnType<typeof draftJeansCore>;
+        try {
+          draft = draftJeansCore(measurements, optionPatch);
+        } catch (error) {
+          expect(error).toBeInstanceOf(RangeError);
+          expect(String(error)).toMatch(/flyLength .* flyExtensionWidth .* frontPocketOpening/);
+          continue;
+        }
         const front = rolePiece(draft, "frontLeft");
         const facing = rolePiece(draft, "pocketFacingLeft");
         const bag = rolePiece(draft, "pocketBagLeft");
@@ -339,7 +390,23 @@ describe("Jeans lower-body core", () => {
           .toBeGreaterThan(0);
 
         const frontRight = rolePiece(draft, "frontRight");
-        expectMirror(front, frontRight);
+        for (const edgeName of [
+          "sideHipToThigh", "sideThighToKnee", "sideKneeToHem", "hem", "inseamLower",
+          "inseamUpper", "innerThighToCrotch", "crotch",
+        ]) {
+          const leftEdge = pieceEdge(front, edgeName);
+          const rightEdge = pieceEdge(frontRight, edgeName);
+          expect(rightEdge.kind, edgeName).toBe(leftEdge.kind);
+          if (leftEdge.kind === "line" && rightEdge.kind === "line") {
+            expect(rightEdge.start, edgeName).toEqual({ x: -leftEdge.start.x, y: leftEdge.start.y });
+            expect(rightEdge.end, edgeName).toEqual({ x: -leftEdge.end.x, y: leftEdge.end.y });
+          } else if (leftEdge.kind === "curve" && rightEdge.kind === "curve") {
+            expect(rightEdge.curve.start, edgeName).toEqual({ x: -leftEdge.curve.start.x, y: leftEdge.curve.start.y });
+            expect(rightEdge.curve.control1, edgeName).toEqual({ x: -leftEdge.curve.control1.x, y: leftEdge.curve.control1.y });
+            expect(rightEdge.curve.control2, edgeName).toEqual({ x: -leftEdge.curve.control2.x, y: leftEdge.curve.control2.y });
+            expect(rightEdge.curve.end, edgeName).toEqual({ x: -leftEdge.curve.end.x, y: leftEdge.curve.end.y });
+          }
+        }
         expectMirror(facing, rolePiece(draft, "pocketFacingRight"));
         expectMirror(bag, rolePiece(draft, "pocketBagRight"));
         expectMirror(stay, rolePiece(draft, "pocketStayRight"));

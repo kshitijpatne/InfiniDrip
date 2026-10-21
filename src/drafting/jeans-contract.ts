@@ -13,6 +13,7 @@ export interface JeansOptions {
   readonly kneeEase: number;
   readonly legOpening: number;
   readonly flyLength: number;
+  readonly flyExtensionWidth: number;
   readonly yokeDepth: number;
   readonly yokeEase: number;
   readonly frontPocketOpening: number;
@@ -103,10 +104,21 @@ export const JEANS_OPTION_DEFINITIONS: readonly GarmentOption[] = [
     label: "Fly length",
     unit: "cm",
     group: "Front closure",
-    help: "Sets the digital fly length; later geometry checks its clearance from the rise, pockets, and waistband.",
+    help: "Sets the zipper fly length from the front waist seam; reduce flyLength if the lower stop reaches the front crotch transition or conflicts with frontPocketOpening.",
     defaultValue: 15,
     min: 8,
     max: 25,
+    step: 0.5,
+  },
+  {
+    id: "flyExtensionWidth",
+    label: "Fly extension width",
+    unit: "cm",
+    group: "Front closure",
+    help: "Sets the wearer-right integral fly extension width; reduce it if the extension overlaps the front pocket opening or consumes the live waist edge.",
+    defaultValue: 3.5,
+    min: 2.5,
+    max: 5,
     step: 0.5,
   },
   {
