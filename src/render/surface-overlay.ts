@@ -45,7 +45,8 @@ export function surfaceOverlay(items: readonly OverlayItem[]): string {
   const polygons = ordered.map((item) => {
     const points = item.polygon.map((p) => `${round(p.x)},${round(p.y)}`).join(" ");
     return `<polygon data-placement="${escapeAttr(item.id)}" data-piece="${escapeAttr(item.pieceRole)}" ` +
-      `data-kind="${escapeAttr(item.kind)}" points="${points}" fill="none" stroke-width="0.1"/>`;
+      `data-kind="${escapeAttr(item.kind)}" points="${points}" fill="none" ` +
+      `stroke="currentColor" stroke-width="0.1"/>`;
   });
   return `<g data-surface="overlay" data-count="${ordered.length}">${polygons.join("")}</g>`;
 }

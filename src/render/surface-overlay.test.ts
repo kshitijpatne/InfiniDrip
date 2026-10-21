@@ -36,6 +36,9 @@ describe("surfaceOverlay", () => {
     expect(polygon.getAttribute("data-piece")).toBe("front");
     expect(polygon.getAttribute("data-kind")).toBe("print");
     expect(polygon.getAttribute("points")).toBe("0,0 20,0 20,25 0,25");
+    expect(polygon.getAttribute("fill")).toBe("none");
+    expect(polygon.getAttribute("stroke")).toBe("currentColor");
+    expect(polygon.getAttribute("stroke-width")).toBe("0.1");
   });
 
   it("renders in ascending z-order regardless of input order", () => {

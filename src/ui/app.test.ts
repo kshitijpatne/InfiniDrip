@@ -6988,6 +6988,7 @@ describe("surface artwork panel (Slice 126)", () => {
     const polygon = root.querySelector('#surface-preview polygon[data-placement="chest-print"]')!;
     expect(polygon.getAttribute("points")).toBe("2,2 22,2 22,27 2,27");
     expect(polygon.getAttribute("data-piece")).toBe("front");
+    expect(polygon.getAttribute("stroke")).toBe("currentColor");
   });
 
   it("creates a placement with its entered size and optional provenance reference", () => {
