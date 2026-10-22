@@ -9111,9 +9111,33 @@ describe("bundled local artwork library (Slice 203)", () => {
       await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
         .toBe("Approved grade-plan record"), { timeout: 20_000 });
       reachExportStage(root);
+      const exportedTechPacks = new Map<string, string>();
+      const saveTechPack = vi.fn(async (filename: string, content: string) => {
+        exportedTechPacks.set(filename, content);
+        return { saved: true, filePath: filename };
+      });
+      window.electronAPI = { saveFile: saveTechPack };
       const exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
       exportSize.value = "S";
       exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+
+      const selectedTechPack = root.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!;
+      expect(selectedTechPack.disabled).toBe(false);
+      selectedTechPack.click();
+      await vi.waitFor(() => expect(exportedTechPacks.has("tee-S-selected-techpack.pdf")).toBe(true));
+      const selectedTechPackText = exportedTechPacks.get("tee-S-selected-techpack.pdf")!;
+      expect(selectedTechPackText).toContain("Provisional digital V-band construction");
+      expect(selectedTechPackText).toContain("Measured selected-size body neckline");
+
+      const wholeRunExport = root.querySelector<HTMLButtonElement>("#export-techpack")!;
+      expect(wholeRunExport.disabled).toBe(false);
+      wholeRunExport.click();
+      await vi.waitFor(() => expect(exportedTechPacks.has("tee-techpack.pdf")).toBe(true));
+      const wholeRunExportText = exportedTechPacks.get("tee-techpack.pdf")!;
+      expect(wholeRunExportText).toContain("V-band output is available only in the selected-size V-band Tech Pack;");
+      expect(wholeRunExportText).toContain("graded-size V-band instructions or pattern output.");
+      expect(wholeRunExportText).not.toContain("V-band settings:");
+
       root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
       const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
       await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 20_000 });
@@ -9136,6 +9160,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       expect(wholeRunText).toContain("selected-size V-band Tech Pack");
       expect(wholeRunText).not.toContain("V-band settings:");
     } finally {
+      delete window.electronAPI;
       workflow.close();
       starterRoot.remove();
       root.remove();
