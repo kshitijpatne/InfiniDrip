@@ -11,6 +11,7 @@ import type { ArtworkUseAssessment } from "../surface/artwork-library/search";
 import { pieceHandles } from "../edit";
 import { buildReport, present } from "../guidance";
 import type { FieldObservationRecord } from "./field-provenance";
+import { TEE_RAGLAN } from "../drafting/recipe";
 
 describe("controlsMarkup", () => {
   it("renders an input for every measurement, showing its value", () => {
@@ -103,6 +104,37 @@ describe("controlsMarkup", () => {
       .toContain("No value history is recorded for this field yet.");
   });
 
+  it("summarizes a matching source observation", () => {
+    const record: FieldObservationRecord = {
+      schemaVersion: 1,
+      definitionVersion: 1,
+      styleId: "b53a1a03-ea2e-4c4f-82dc-14ac86a29895",
+      revision: 1,
+      updatedAt: "2026-10-22T10:00:00.000Z",
+      observations: [{
+        revision: 1,
+        definitionVersion: 1,
+        fieldId: "body.chest-girth",
+        semanticId: "body.chest-girth",
+        recipeId: "tee",
+        inputKey: "chest",
+        rawValue: "100",
+        canonicalValue: 100,
+        unit: "cm",
+        semanticKind: "BODY_MEASURE",
+        provenance: "USER_CAPTURED",
+        evidenceStatus: "USER_CONFIRMED",
+        validationStatus: "VALID",
+        sourceLabel: "User confirmed body input",
+        recordedAt: null,
+        styleRevision: 1,
+        confidence: "NOT_ASSESSED",
+      }],
+    };
+    expect(fieldObservationSummary("tee", "measurement", "chest", record))
+      .toBe("User entered · USER_CONFIRMED · VALID · User confirmed body input · confidence not assessed");
+  });
+
   it("tags each measurement as body or finished (chest as a circumference)", () => {
     const html = controlsMarkup(STANDARD_M, TEE.fields);
     expect(html).toContain("body · circ"); // chest / bicep
@@ -175,9 +207,17 @@ describe("patternAnnotationKeyMarkup", () => {
         { kind: "button", name: "labeled-button", label: "Button placement", at: { x: 2, y: 2 } },
       ],
     };
-    const html = patternAnnotationKeyMarkup([piece]);
+    const foldedWithoutMarks: Piece = {
+      ...rolePiece(draftTshirt(STANDARD_M), "back"),
+      onFold: true,
+      marks: [],
+    };
+    const unmarkedOffFoldPiece: Piece = { name: "sleeve", onFold: false, edges: [], marks: [] };
+    const html = patternAnnotationKeyMarkup([piece, foldedWithoutMarks, unmarkedOffFoldPiece]);
     expect(html).not.toContain("unlabeled-button");
     expect(html).toContain("Button placement");
+    expect(html).toContain("Cut on fold");
+    expect(html).toContain("No written construction marks.");
   });
 });
 
@@ -415,6 +455,25 @@ describe("woven option controls", () => {
     expect(html).toContain('data-option="custom"');
     expect(html).not.toContain('data-field-unit="option-custom"');
     expect(html).toContain('aria-label="Increase Custom choice by 1"');
+  });
+});
+
+describe("raglan Tee option controls", () => {
+  it("renders both defaulted and explicitly selected optional Tee options", () => {
+    const options = TEE_RAGLAN.options ?? [];
+    const optional = options.find((option) => option.optional)!;
+    const inherited = controlsMarkup(STANDARD_M, TEE_RAGLAN.fields, options, {}, "tee");
+    const explicit = controlsMarkup(STANDARD_M, TEE_RAGLAN.fields, options, {
+      [optional.id]: optional.defaultValue,
+    }, "tee");
+
+    expect(inherited).toContain(`data-option="${optional.id}" disabled`);
+    expect(inherited).toContain(`data-set-option="${optional.id}"`);
+    expect(inherited).toContain(`data-reset-option="${optional.id}" hidden`);
+    expect(explicit).toContain(`data-option="${optional.id}"`);
+    expect(explicit).not.toContain(`data-option="${optional.id}" disabled`);
+    expect(explicit).toContain(`data-set-option="${optional.id}" hidden`);
+    expect(explicit).toContain(`data-reset-option="${optional.id}"`);
   });
 });
 
@@ -787,7 +846,10 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain('data-garment-region="Lower body"');
     expect(html).toContain('id="starter-blank-library" aria-labelledby="starter-blank-library-heading"');
     expect(html).toContain('id="custom-measurement-candidates" aria-labelledby="custom-measurement-candidates-heading"');
-    expect(html).toContain("Starter Blank Library</span><span>7</span>");
+    expect(html).toContain("Starter Blank Library</span><span>8</span>");
+    expect(html).toContain('id="tee-construction"');
+    expect(html).toContain("Raglan is crew-neck only");
+    expect(html).toContain('data-starter-entry-id="tee-raglan-digital-v1" aria-pressed="false"');
     expect(html).toContain("Custom measurement candidates</span><span>1</span>");
     expect(html).toContain('data-starter-entry-id="tee-classic-digital-v1" aria-pressed="false"');
     expect(html).toContain('data-starter-entry-id="tee-relaxed-digital-v1" aria-pressed="false"');
@@ -1034,7 +1096,12 @@ describe("surfaceMarkup — artwork sets per style", () => {
   it("renders the local library, all taxonomy filters, transparent provenance, and local-only actions", () => {
     const record = ARTWORK_CATALOG[0]!;
     const html = surfaceMarkup({
-      style: "Scoop", placements: [], errors: new Map(), preview: "",
+      style: "Scoop",
+      placements: [{
+        id: "body-front", kind: "print", pieceRole: "front", widthCm: 20, heightCm: 25,
+        transform: { dx: 0, dy: 0, scale: 1, rotationDeg: 0 }, zOrder: 0, sourceName: "front.png",
+      }],
+      errors: new Map(), preview: "",
       artworkLibrary: {
         query: "birds", category: "", garmentFamily: "", pieceRoleGroup: "",
         printUseFilter: "", assessmentUse: "all-over", selectedPlacementIndex: "",
@@ -1062,6 +1129,20 @@ describe("surfaceMarkup — artwork sets per style", () => {
     expect(html).not.toContain(`href="${record.source.itemRecordUrl}"`);
     expect(html).not.toContain(`src="${record.source.originalImageUrl}"`);
     expect(html).toContain("the app does not fetch them");
+    expect(html).toContain("#1 · body-front · front");
+  });
+  it("shows the empty artwork search result while keeping catalog inventory unchanged", () => {
+    const html = surfaceMarkup({
+      style: "Scoop", placements: [], errors: new Map(), preview: "",
+      artworkLibrary: {
+        query: "no match", category: "", garmentFamily: "", pieceRoleGroup: "",
+        printUseFilter: "", assessmentUse: "all-over", selectedPlacementIndex: "",
+        actionMessage: "No reference selected.", isOpen: true, totalCount: ARTWORK_CATALOG.length, items: [],
+      },
+    });
+    expect(html).toContain("0 of " + ARTWORK_CATALOG.length + " bundled references shown.");
+    expect(html).toContain("No artwork references match. Clear or broaden a search or filter");
+    expect(html).toContain('id="surface-library-target"');
   });
   it("adds only scoped UIQ artwork classes and a recovery control when enabled", () => {
     const data: Parameters<typeof surfaceMarkup>[0] = {
@@ -1109,6 +1190,7 @@ describe("surfaceMarkup — artwork sets per style", () => {
       technical: { ...base.technical, presentation, imageIsSeamlessTile },
     } as ArtworkCatalogRecord);
     const clean = record(999991, "clean-artwork", true);
+    const paper = record(999990, "paper-study", false);
     const unknown = record(999992, "unconfirmed", false);
     const unverifiedRights: ArtworkCatalogRecord = {
       ...clean,
@@ -1132,6 +1214,7 @@ describe("surfaceMarkup — artwork sets per style", () => {
         actionMessage: "Review the reference.", isOpen: true, totalCount: 2,
         items: [
           { record: clean, assessment: assessment(clean, "recommended", 20, 12, 120) },
+          { record: paper, assessment: assessment(paper, "possible", 18, 12, 80) },
           { record: unknown, assessment: assessment(unknown, "needs-review", null, null, null) },
           { record: unknown, assessment: assessment(unknown, "possible", 20, 10, null) },
           { record: unverifiedRights, assessment: assessment(unverifiedRights, "needs-review", null, null, null) },
@@ -1139,6 +1222,7 @@ describe("surfaceMarkup — artwork sets per style", () => {
       },
     });
     expect(html).toContain("Artwork image");
+    expect(html).toContain("Photographed paper study");
     expect(html).toContain("Image presentation unconfirmed");
     expect(html).toContain("Verified seamless tile");
     expect(html).toContain("Recommended");

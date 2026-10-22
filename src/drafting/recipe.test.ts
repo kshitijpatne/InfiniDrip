@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
-import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
+import { TEE, TEE_RAGLAN, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, GARMENTS, garmentByName, garmentForConstruction } from "./recipe";
+import { raglanNecklineLength, raglanTeeGuidance, TEE_RAGLAN_GRAMMAR, TEE_RAGLAN_STITCHES } from "./tshirt-raglan";
 import { TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION } from "./vneck-band-output";
 import { dartOf } from "./dart";
@@ -12,6 +13,11 @@ import { derive } from "./measurements";
 import { necklineEdge } from "./neckline";
 import { garmentReport } from "../guidance/garment-check";
 import { wovenShirtAllowances } from "./shirt";
+import { teeNeckbandTemplateSvg } from "./tshirt";
+import { exportSvg } from "../export/svg";
+import { exportDxf } from "../export/dxf";
+import { gradeRun } from "./grading";
+import { stitchChecks } from "./stitch";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
@@ -26,6 +32,109 @@ describe("the garment registry", () => {
     expect(garmentByName("woven-shirt")).toBe(WOVEN_SHIRT);
     expect(garmentByName("trouser")).toBe(TROUSER);
     expect(garmentByName("kimono")).toBe(TEE);
+  });
+});
+
+describe("T08 Raglan Tee construction variant", () => {
+  it("keeps seven roots while resolving Tee construction to the correct digital recipe", () => {
+    expect(GARMENTS).toHaveLength(7);
+    expect(garmentForConstruction("tee", "set-in")).toBe(TEE);
+    expect(garmentForConstruction("tee", "raglan")).toBe(TEE_RAGLAN);
+    expect(garmentForConstruction("polo", "raglan")).toBe(POLO);
+    expect(TEE_RAGLAN.name).toBe("tee");
+    expect(TEE_RAGLAN.label).toBe("Raglan Tee");
+    expect(TEE_RAGLAN.grammar).toBe(TEE_RAGLAN_GRAMMAR);
+    expect(TEE_RAGLAN.options?.map((option) => option.id)).not.toContain("teeVNeckDropCm");
+    expect(TEE_RAGLAN.options?.map((option) => option.id)).not.toContain("teeScoopNeckDropCm");
+  });
+
+  it("drafts matched front and back Raglan seams with notches, POMs, and a digital neckline", () => {
+    const block = TEE_RAGLAN.draft(STANDARD_M);
+    const report = garmentReport(TEE_RAGLAN, STANDARD_M);
+    expect(blockPieces(block).map((piece) => piece.name)).toEqual(["front", "back", "sleeve"]);
+    expect(report.checks.filter((check) => check.name.toLowerCase().includes("raglan")).every((check) => check.ok)).toBe(true);
+    const sideToCuff = TEE_RAGLAN_STITCHES.find((stitch) => stitch.label.startsWith("Continuous side-to-cuff"))!;
+    expect(sideToCuff.a.edges).toEqual([
+      { piece: "front", edge: "side", reversed: true },
+      { piece: "sleeve", edge: "sideLeft", reversed: true },
+    ]);
+    expect(sideToCuff.b.edges).toEqual([
+      { piece: "sleeve", edge: "sideRight", reversed: true },
+      { piece: "back", edge: "side" },
+    ]);
+    expect(report.checks.find((check) => check.name === sideToCuff.label)?.ok).toBe(true);
+    expect(TEE_RAGLAN.notches.map((entry) => entry.pieceName)).toEqual(["front", "back", "sleeve"]);
+    expect(TEE_RAGLAN.notches.flatMap((entry) => entry.notches).length).toBeGreaterThan(0);
+    expect(TEE_RAGLAN.notches.find((entry) => entry.pieceName === "sleeve")?.notches)
+      .toContainEqual({ edgeName: "backRaglan", t: 0.66 });
+    expect(TEE_RAGLAN.poms).toHaveLength(9);
+    expect(TEE_RAGLAN.poms.every((pom) => Number.isFinite(pom.measure(block)) && pom.measure(block) > 0)).toBe(true);
+    expect(raglanNecklineLength(block)).toBeGreaterThan(0);
+    expect(TEE_RAGLAN.techPack.construction.join(" ")).toContain("front body raglan seam");
+    expect(TEE_RAGLAN.techPack.construction.join(" ")).toContain("short ends at center back");
+    expect(TEE_RAGLAN.techPack.construction.join(" ")).toContain("side-to-cuff path in one continuous pass");
+    expect(TEE_RAGLAN.techPack.construction.join(" ")).not.toMatch(/shoulder seam|set in|cap ease/i);
+    expect(TEE_RAGLAN.techPack.bom.some((row) => row.placement === "Shoulder seams")).toBe(false);
+    expect(TEE_RAGLAN.techPack.constructionNotice).toContain("no sewn sample");
+    expect(TEE_RAGLAN.techPackForOptions?.({ teeScoopNeckDropCm: 2 })?.constructionNotice).toContain("crew-neck only");
+    const neckband = teeNeckbandTemplateSvg(blockPieces(block), 85, 2.4);
+    expect(neckband).toContain("<title>Raglan Tee neckband provisional cutting template</title>");
+    expect(neckband).toContain("data-neckline-circumference-cm=");
+    expect(neckband).toContain("both sleeve neckline edges");
+    expect(neckband).toContain("data-neckband-anchor=\"center-back\"");
+    expect(neckband).toContain("data-neckband-match=\"center-front\"");
+    expect(neckband).not.toContain("data-quarter-notch");
+    const neckbandCircumference = Number(neckband.match(/data-neckline-circumference-cm="([^"]+)"/)?.[1]);
+    expect(neckbandCircumference).toBeCloseTo(raglanNecklineLength(block), 2);
+    const notchMatches = [...neckband.matchAll(/data-neckband-match="([^"]+)" data-neckband-offset-cm="([^"]+)"/g)];
+    const frontNeckline = edgeLength(pieceEdge(rolePiece(block, "front"), "neckline"));
+    const backNeckline = edgeLength(pieceEdge(rolePiece(block, "back"), "neckline"));
+    const sleeveNeckline = edgeLength(pieceEdge(rolePiece(block, "sleeve"), "neckline"));
+    const expectedNotches = [
+      ["back-raglan-1", backNeckline * 0.85],
+      ["front-raglan-1", (backNeckline + sleeveNeckline) * 0.85],
+      ["center-front", (backNeckline + sleeveNeckline + frontNeckline) * 0.85],
+      ["front-raglan-2", (backNeckline + sleeveNeckline + 2 * frontNeckline) * 0.85],
+      ["back-raglan-2", (backNeckline + sleeveNeckline + 2 * frontNeckline + sleeveNeckline) * 0.85],
+    ] as const;
+    expect(notchMatches.map((match) => match[1])).toEqual(expectedNotches.map(([name]) => name));
+    notchMatches.forEach((match, index) => expect(Number(match[2])).toBeCloseTo(expectedNotches[index]![1], 3));
+    const svg = exportSvg(blockPieces(block), TEE_RAGLAN.allowances!, TEE_RAGLAN.notches);
+    expect(svg).toContain(">FRONT</text>");
+    expect(svg).toContain(">BACK</text>");
+    expect(svg).toContain(">SLEEVE</text>");
+    const dxf = exportDxf(blockPieces(block), TEE_RAGLAN.allowances!);
+    expect((dxf.match(/^POLYLINE$/gm) ?? []).length).toBe(6);
+  });
+
+  it("adds the inactive-neckline notice when the base Tech Pack has no construction notice", () => {
+    const noNotice = TEE_RAGLAN.techPackForOptions!.call(
+      {
+        ...TEE_RAGLAN,
+        techPack: { ...TEE_RAGLAN.techPack, constructionNotice: undefined },
+      },
+      { [TEE_SCOOP_NECK_DROP_OPTION_ID]: 2 },
+    );
+
+    expect(noNotice.constructionNotice).toMatch(/^ Raglan is crew-neck only;/);
+  });
+
+  it("redrafts the complete supported Tee size run with matching digital Raglan seams", () => {
+    const run = gradeRun(STANDARD_M, TEE_RAGLAN.grade!, TEE_RAGLAN.sizes, TEE_RAGLAN.draft);
+    expect(run.map((size) => size.label)).toEqual(TEE_RAGLAN.sizes.map((size) => size.label));
+    for (const size of run) {
+      expect(stitchChecks(size.block, size.block.stitches).every((check) => check.ok), size.label).toBe(true);
+      expect(TEE_RAGLAN.poms.every((pom) => Number.isFinite(pom.measure(size.block))), size.label).toBe(true);
+    }
+  });
+
+  it("reports invalid digital inputs and inactive Set-in neckline settings without clamping", () => {
+    const shortSleeve = { ...STANDARD_M, sleeveLength: 2, armholeDepth: 40 };
+    const block = TEE_RAGLAN.draft(shortSleeve);
+    const guidance = raglanTeeGuidance(block, shortSleeve, { teeVNeckDropCm: 5 });
+    expect(guidance.some((note) => note.field === "sleeveLength" && note.text.includes("Increase sleeve length"))).toBe(true);
+    expect(guidance.some((note) => note.field === "teeConstruction" && note.text.includes("inactive"))).toBe(true);
+    expect(guidance.every((note) => !note.text.includes("input was changed"))).toBe(true);
   });
 });
 

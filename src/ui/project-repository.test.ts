@@ -2563,6 +2563,7 @@ describe("transactional project repository", () => {
     };
     legacySave.v = 6;
     delete legacySave.workspace.starterOrigin;
+    delete legacySave.workspace.teeConstruction;
     const input = {
       saveJson: JSON.stringify(legacySave, null, 2), recoveryJson: serializeRecovery(recovery().payload),
       projectId: PROJECT_ID, styleId: STYLE_ID, migratedAt: TIME,

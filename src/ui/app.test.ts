@@ -4118,6 +4118,34 @@ describe("mountApp", () => {
     expect(root.querySelector<HTMLInputElement>('[data-option="backHemDrop"]')!.value).toBe("5");
   });
 
+  it("replays history when one garment selector is missing", () => {
+    localStorage.clear();
+    const root = mount();
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    const initialChest = chest.value;
+    chest.value = String(Number(initialChest) + 1);
+    chest.dispatchEvent(new Event("input"));
+
+    const nativeQuerySelector = root.querySelector.bind(root);
+    let skipTankLookup = true;
+    root.querySelector = ((selector: string) => {
+      if (selector === "#garment-tank" && skipTankLookup) {
+        skipTankLookup = false;
+        return null;
+      }
+      return nativeQuerySelector(selector);
+    }) as typeof root.querySelector;
+    try {
+      clickId(root, "undo-pattern");
+    } finally {
+      root.querySelector = nativeQuerySelector as typeof root.querySelector;
+    }
+
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe(initialChest);
+    expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+    expect(root.querySelector("#garment-tank")).not.toBeNull();
+  });
+
   it("guards navigation while dirty and clears the guard after a valid Save", () => {
     localStorage.clear();
     const root = mount();
@@ -5386,7 +5414,7 @@ describe("semantic Edit view", () => {
       v: number;
       semanticEdits?: { operations?: readonly unknown[] } | null;
     };
-    expect(recovery.v).toBe(2);
+    expect(recovery.v).toBe(3);
     expect(recovery.semanticEdits?.operations).toHaveLength(1);
 
     const recovered = mount();
@@ -11153,6 +11181,161 @@ describe("EPIC-19 L02 starter binding", () => {
     localStorage.clear();
   });
 
+  it("selects, saves, reloads, and renders T08 Raglan while preserving inactive Set-in neckline options", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-scoop-digital-v1");
+    const scoopDrop = root.querySelector<HTMLInputElement>('input[data-option="teeScoopNeckDropCm"]')!;
+    scoopDrop.value = "7.5";
+    scoopDrop.dispatchEvent(new Event("input", { bubbles: true }));
+
+    const setInSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+    clickId(root, "starter-tee-raglan-digital-v1");
+    expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Raglan Tee");
+    expect(root.querySelector<HTMLSelectElement>("#tee-construction")!.value).toBe("raglan");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Tee Raglan · software defaults");
+    expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+      .toContain("Saved V-neck or Scoop settings are inactive");
+    const raglanSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+    expect(raglanSvg).not.toBe(setInSvg);
+    expect(root.querySelector<HTMLInputElement>('input[data-option="teeScoopNeckDropCm"]')).toBeNull();
+    clickId(root, "undo-pattern");
+    expect(root.querySelector<HTMLSelectElement>("#tee-construction")!.value).toBe("set-in");
+    expect(root.querySelector<HTMLInputElement>('input[data-option="teeScoopNeckDropCm"]')!.value).toBe("7.5");
+    clickId(root, "redo-pattern");
+    expect(root.querySelector<HTMLSelectElement>("#tee-construction")!.value).toBe("raglan");
+    expect(root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(raglanSvg);
+
+    const construction = root.querySelector<HTMLSelectElement>("#tee-construction")!;
+    construction.value = "set-in";
+    construction.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector<HTMLInputElement>('input[data-option="teeScoopNeckDropCm"]')!.value).toBe("7.5");
+    construction.value = "raglan";
+    construction.dispatchEvent(new Event("change", { bubbles: true }));
+    clickId(root, "starter-tee-raglan-digital-v1");
+
+    clickId(root, "save-pattern");
+    const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(saved.workspace.teeConstruction).toBe("raglan");
+    expect(saved.workspace.starterOrigin.entryId).toBe("tee-raglan-digital-v1");
+    expect(saved.garmentOptions.tee.teeScoopNeckDropCm).toBe(7.5);
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLSelectElement>("#tee-construction")!.value).toBe("raglan");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="tee-raglan-digital-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(raglanSvg);
+    root.remove();
+    reopened.remove();
+    localStorage.clear();
+  });
+
+  it("ignores invalid or no-op construction choices and blocks topology changes with semantic edits", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    localStorage.clear();
+    const root = mount();
+    const initialConstruction = root.querySelector<HTMLSelectElement>("#tee-construction")!;
+    initialConstruction.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(initialConstruction.value).toBe("set-in");
+
+    const unsupported = new Option("Unsupported", "unsupported");
+    initialConstruction.add(unsupported);
+    initialConstruction.value = "unsupported";
+    initialConstruction.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(initialConstruction.value).toBe("unsupported");
+    unsupported.remove();
+    initialConstruction.value = "set-in";
+    initialConstruction.dispatchEvent(new Event("change", { bubbles: true }));
+
+    clickId(root, "view-edit");
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    const before = [...root.querySelectorAll<HTMLInputElement>('input[data-editor-coordinate][data-editor-axis="x"]')]
+      .find((input) => input.dataset.editorHandleId?.includes("/control/"))!;
+    before.value = String(Number(before.value) + 0.05);
+    before.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    const patternBeforeRejectedSwitch = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+
+    const construction = root.querySelector<HTMLSelectElement>("#tee-construction")!;
+    expect(construction.value).toBe("set-in");
+    construction.value = "raglan";
+    construction.dispatchEvent(new Event("change", { bubbles: true }));
+
+    expect(root.querySelector<HTMLSelectElement>("#tee-construction")!.value).toBe("set-in");
+    expect(root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(patternBeforeRejectedSwitch);
+    expect(root.textContent).toContain("Clear pattern edits before changing Tee construction");
+  });
+
+  it("clears stale starter provenance on a manual construction change and remembers Raglan across garment navigation", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-classic-digital-v1");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(false);
+
+    const construction = root.querySelector<HTMLSelectElement>("#tee-construction")!;
+    construction.value = "raglan";
+    construction.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+
+    clickId(root, "garment-woven-shirt");
+    expect(root.querySelector<HTMLElement>("#tee-construction-controls")!.hidden).toBe(true);
+    clickId(root, "garment-tee");
+    expect(root.querySelector<HTMLSelectElement>("#tee-construction")!.value).toBe("raglan");
+    expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Raglan Tee");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+
+    root.remove();
+    localStorage.clear();
+  });
+
+  it("exports the selected Raglan pieces, measured neckband joins, and matching Tech Pack with distinct names", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-tee-raglan-digital-v1");
+      reachExportStage(root);
+      clickId(root, "export-svg");
+      clickId(root, "export-dxf");
+      clickId(root, "export-tee-neckband");
+      clickId(root, "export-tee-selected-techpack");
+      await vi.waitFor(() => expect(files.size).toBe(4), { timeout: 10_000 });
+
+      expect([...files.keys()].sort()).toEqual([
+        "tee-raglan-M-neckband.svg",
+        "tee-raglan-M-selected-techpack.pdf",
+        "tee-raglan-M.dxf",
+        "tee-raglan-M.svg",
+      ]);
+      const pattern = files.get("tee-raglan-M.svg")!;
+      expect(pattern).toContain(">FRONT</text>");
+      expect(pattern).toContain(">BACK</text>");
+      expect(pattern).toContain(">SLEEVE</text>");
+      const band = files.get("tee-raglan-M-neckband.svg")!;
+      expect(band).toContain('data-neckband-anchor="center-back"');
+      expect(band).toContain('data-neckband-match="center-front"');
+      expect(band).toContain('data-neckband-match="front-raglan-1"');
+      expect(band).toContain('data-neckband-match="back-raglan-1"');
+      expect(band).not.toContain("data-quarter-notch");
+      expect(files.get("tee-raglan-M-selected-techpack.pdf")).toContain("Raglan Tee");
+      expect(files.get("tee-raglan-M-selected-techpack.pdf")).toContain("short ends at center back");
+    } finally {
+      delete window.electronAPI;
+      root?.remove();
+      localStorage.clear();
+    }
+  });
+
   it("separates generic fabric guidance from active Tee starter material and ease intent", () => {
     localStorage.clear();
     const root = mount();
@@ -11266,8 +11449,9 @@ describe("EPIC-19 L02 starter binding", () => {
     }
   }, 10_000);
 
-  it("restores the exact candidate origin from an unfinished recovery draft", () => {
+  it("restores the Raglan construction and exact candidate origin from an unfinished recovery draft", () => {
     localStorage.clear();
+    const raglanEntry = STARTER_REGISTRY.entries.find((entry) => entry.entryId === "tee-raglan-digital-v1")!;
     const recovery = {
       savedAt: 123,
       measurements: { ...STANDARD_M },
@@ -11276,7 +11460,11 @@ describe("EPIC-19 L02 starter binding", () => {
       appearance: DEFAULT_APPEARANCE,
       garmentOptions: { tee: { chestEase: 7 } },
       rawOptions: { tee: { chestEase: "7" } },
-      workspace: { ...DEFAULT_WORKSPACE, starterOrigin: starterOriginForEntry(STARTER_REGISTRY.entries[0]!) },
+      workspace: {
+        ...DEFAULT_WORKSPACE,
+        teeConstruction: "raglan" as const,
+        starterOrigin: starterOriginForEntry(raglanEntry),
+      },
       materialSelectionExplicit: false,
       surface: {},
       rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
@@ -11286,7 +11474,9 @@ describe("EPIC-19 L02 starter binding", () => {
     const root = mount();
     clickId(root, "recovery-accept");
     expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
-      .toContain("Tee Classic · custom measurements");
+      .toContain("Starting design: Tee Raglan · software defaults");
+    expect(root.querySelector<HTMLSelectElement>("#tee-construction")!.value).toBe("raglan");
+    expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Raglan Tee");
     expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("100");
   });
 });

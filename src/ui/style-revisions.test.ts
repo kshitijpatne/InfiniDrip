@@ -188,6 +188,7 @@ describe("immutable revision and frozen output records", () => {
       workspace: { ...v2Payload.design.workspace },
     };
     delete historicalDesign.workspace.starterOrigin;
+    delete historicalDesign.workspace.teeConstruction;
     const historicalObservations = v2Payload.fieldObservations.observations
       .filter((observation) => observation.semanticId !== "style.tee.chest-ease"
         && observation.semanticId !== "style.tee.tee-vneck-drop-cm"

@@ -13,8 +13,9 @@ import {
 import type { ViewName } from "./journey";
 import { parseSemanticEditDocument, type SemanticEditDocument } from "../edit/semantic-edit";
 import { starterOriginError, type StarterOrigin } from "./starter-registry";
+import type { TeeConstruction } from "../drafting/tshirt";
 
-export const SAVE_VERSION = 7;
+export const SAVE_VERSION = 8;
 export interface Workspace {
   readonly garment: string;
   readonly targetStyle: string;
@@ -24,6 +25,8 @@ export interface Workspace {
   readonly exportStep: number;
   readonly fabricWidth: number;
   readonly nestScope: "single" | "marker";
+  /** Saved Tee topology. Missing from older formats means the legacy set-in construction. */
+  readonly teeConstruction?: TeeConstruction;
   /** Absent only in pre-v7 saves; null means the design did not originate from a registry entry. */
   readonly starterOrigin?: StarterOrigin | null;
 }
@@ -46,7 +49,7 @@ export function defaultStretchFabricForGarment(garment: string): string {
 export const DEFAULT_WORKSPACE: Workspace = {
   garment: "tee", targetStyle: "Classic tee", stretchFabric: defaultStretchFabricForGarment("tee"),
   view: "pattern", bodyCroquisView: "front-back", exportStep: 0,
-  fabricWidth: 150, nestScope: "single", starterOrigin: null,
+  fabricWidth: 150, nestScope: "single", starterOrigin: null, teeConstruction: "set-in",
 };
 export interface SaveFile {
   readonly v: number;
@@ -98,7 +101,7 @@ export function parseNestingIntelligence(value: unknown): NestingIntelligence | 
 type LoadResult = ({ ok: true } & Omit<SaveFile, "v">) | { ok: false; error: string };
 const object = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
 
-export const RECOVERY_VERSION = 2;
+export const RECOVERY_VERSION = 3;
 export interface RecoveryFile {
   readonly v: number;
   readonly savedAt: number;
@@ -156,6 +159,7 @@ function validWorkspace(value: unknown): value is Workspace {
     || typeof value.stretchFabric !== "string" || typeof value.view !== "string"
     || typeof value.bodyCroquisView !== "string" || typeof value.exportStep !== "number"
     || typeof value.fabricWidth !== "number" || typeof value.nestScope !== "string") return false;
+  if (value.teeConstruction !== undefined && value.teeConstruction !== "set-in" && value.teeConstruction !== "raglan") return false;
   const recipe = GARMENTS.find((candidate) => candidate.name === value.garment);
   const originMatchesGarment = value.starterOrigin === undefined || value.starterOrigin === null
     || (object(value.starterOrigin) && value.starterOrigin.recipeId === value.garment);
@@ -171,8 +175,12 @@ function validWorkspace(value: unknown): value is Workspace {
     && ["single", "marker"].includes(value.nestScope);
 }
 
+function normalizeWorkspace(value: Workspace): Workspace {
+  return { ...value, teeConstruction: value.teeConstruction ?? "set-in" };
+}
+
 export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}, nestingIntelligence: NestingIntelligence = { ...DEFAULT_NESTING_INTELLIGENCE }, semanticEdits: SemanticEditDocument | null = null): string {
-  const currentWorkspace = { ...workspace, starterOrigin: workspace.starterOrigin ?? null };
+  const currentWorkspace = { ...normalizeWorkspace(workspace), starterOrigin: workspace.starterOrigin ?? null };
   return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, appearance, garmentOptions, workspace: currentWorkspace, surface, nestingIntelligence, semanticEdits }, null, 2);
 }
 
@@ -183,7 +191,7 @@ export function deserialize(json: string): LoadResult {
   let p: unknown;
   try { p = JSON.parse(json); } catch { return { ok: false, error: "Not valid JSON." }; }
   if (!object(p)) return { ok: false, error: "Save file is not an object." };
-  if (![1, 2, 3, 4, 5, 6, SAVE_VERSION].includes(p.v as number)) return { ok: false, error: `Unrecognised save version: ${String(p.v)}.` };
+  if (![1, 2, 3, 4, 5, 6, 7, SAVE_VERSION].includes(p.v as number)) return { ok: false, error: `Unrecognised save version: ${String(p.v)}.` };
   if (!object(p.measurements)) return { ok: false, error: "Missing measurements." };
   const legacy = typeof p.v === "number" && p.v < 5;
   const measurements = { ...STANDARD_M };
@@ -239,8 +247,9 @@ export function deserialize(json: string): LoadResult {
   let workspace = DEFAULT_WORKSPACE;
   if (!legacy) {
     const w = p.workspace;
-    if (p.v === SAVE_VERSION && (!object(w) || !Object.prototype.hasOwnProperty.call(w, "starterOrigin"))) {
-      return { ok: false, error: "Current SaveFile is missing starter origin state." };
+    if (p.v === SAVE_VERSION && (!object(w) || !Object.prototype.hasOwnProperty.call(w, "starterOrigin")
+      || !Object.prototype.hasOwnProperty.call(w, "teeConstruction"))) {
+      return { ok: false, error: "Current SaveFile is missing starter origin or Tee construction state." };
     }
     const originError = object(w) ? starterOriginError(w.starterOrigin) : null;
     if (originError) return { ok: false, error: originError };
@@ -250,9 +259,9 @@ export function deserialize(json: string): LoadResult {
     if (!validWorkspace(w)) {
       return { ok: false, error: "Invalid workspace choices. Check garment, style, material, view, size and fabric width." };
     }
-    workspace = w;
+    workspace = normalizeWorkspace(w);
   }
-  const supportsSemanticEdits = p.v === 6 || p.v === SAVE_VERSION;
+  const supportsSemanticEdits = p.v === 6 || p.v === 7 || p.v === SAVE_VERSION;
   if (!supportsSemanticEdits && Object.prototype.hasOwnProperty.call(p, "semanticEdits")) {
     return { ok: false, error: "Older SaveFile contains unsupported semantic edit state." };
   }
@@ -291,7 +300,7 @@ export function readFromStorage(): LoadResult {
 }
 
 export function serializeRecovery(file: Omit<RecoveryFile, "v">): string {
-  const workspace = { ...file.workspace, starterOrigin: file.workspace.starterOrigin ?? null };
+  const workspace = { ...normalizeWorkspace(file.workspace), starterOrigin: file.workspace.starterOrigin ?? null };
   return JSON.stringify({ v: RECOVERY_VERSION, ...file, workspace, semanticEdits: file.semanticEdits ?? null }, null, 2);
 }
 
@@ -299,8 +308,11 @@ export function deserializeRecovery(json: string): RecoveryResult {
   let p: unknown;
   try { p = JSON.parse(json); } catch { return { ok: false, error: "Recovery data is not valid JSON." }; }
   if (!object(p)) return { ok: false, error: "Recovery data is not an object." };
-  if (p.v !== 1 && p.v !== RECOVERY_VERSION) return { ok: false, error: `Unrecognised recovery version: ${String(p.v)}.` };
+  if (p.v !== 1 && p.v !== 2 && p.v !== RECOVERY_VERSION) return { ok: false, error: `Unrecognised recovery version: ${String(p.v)}.` };
   const legacy = p.v === 1;
+  if (p.v === RECOVERY_VERSION && (!object(p.workspace) || !Object.prototype.hasOwnProperty.call(p.workspace, "teeConstruction"))) {
+    return { ok: false, error: "Current recovery data is missing Tee construction state." };
+  }
   if (legacy && Object.prototype.hasOwnProperty.call(p, "semanticEdits")) {
     return { ok: false, error: "Legacy recovery contains unsupported semantic edit state." };
   }
@@ -311,6 +323,7 @@ export function deserializeRecovery(json: string): RecoveryResult {
     || !validWorkspace(p.workspace) || typeof p.materialSelectionExplicit !== "boolean") {
     return { ok: false, error: "Recovery data is incomplete or invalid." };
   }
+  const workspace = normalizeWorkspace(p.workspace);
   const appearance = parseAppearance(p.appearance);
   if (!appearance) return { ok: false, error: "Recovery appearance settings are invalid." };
   const surface = parseSurfaceBook(p.surface);
@@ -324,7 +337,7 @@ export function deserializeRecovery(json: string): RecoveryResult {
   if (!legacy && semanticEdits === null && p.semanticEdits !== null) {
     return { ok: false, error: "Recovery semantic edits are malformed or use an unsupported schema." };
   }
-  if (semanticEdits && semanticEdits.recipeId !== p.workspace.garment) {
+  if (semanticEdits && semanticEdits.recipeId !== workspace.garment) {
     return { ok: false, error: "Recovery semantic edits do not match the selected recipe." };
   }
   return {
@@ -336,7 +349,7 @@ export function deserializeRecovery(json: string): RecoveryResult {
     appearance,
     garmentOptions: p.garmentOptions,
     rawOptions: p.rawOptions,
-    workspace: p.workspace,
+    workspace,
     materialSelectionExplicit: p.materialSelectionExplicit,
     surface,
     rawNestingIntelligence,

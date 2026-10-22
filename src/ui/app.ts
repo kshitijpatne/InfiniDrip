@@ -3,16 +3,19 @@
 // logic lives in the pure modules.
 
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY, withModeledPomLabels, optionalOptionStatusMessage, optionalOptionActionLabel } from "../drafting";
-import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
+import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName, garmentForConstruction } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { teeVBandTechPackOptions } from "../drafting/vneck-band-output";
 import {
   TEE_NECKBAND_OPTIONS,
+  TEE_SCOOP_NECK_DROP_OPTION_ID,
+  TEE_V_NECK_DROP_OPTION_ID,
   hasConflictingTeeNecklineOptions,
   isTeeVNeckActive,
   teeNeckbandSettings,
   teeNeckbandTemplateSvg,
   teeVNeckbandTemplateSvg,
+  type TeeConstruction,
 } from "../drafting/tshirt";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
@@ -206,6 +209,7 @@ interface DraftSnapshot {
   readonly garmentOptions: GarmentOptionsByRecipe;
   readonly rawOptions: Record<string, Record<string, string>>;
   readonly garment: string;
+  readonly teeConstruction: TeeConstruction;
   readonly targetStyle: string;
   readonly stretchFabric: string;
   readonly materialSelectionExplicit: boolean;
@@ -571,7 +575,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     stretchFabric: defaultStretchFabricForGarment(DEFAULT_WORKSPACE.garment),
   };
   let starterOrigin: StarterOrigin | null = initialWorkspace.starterOrigin ?? null;
-  let recipe: GarmentRecipe = garmentByName(initialWorkspace.garment);
+  // Persist deserialization normalizes legacy workspaces to Set-in before mount.
+  let teeConstruction: TeeConstruction = initialWorkspace.teeConstruction!;
+  let recipe: GarmentRecipe = garmentForConstruction(initialWorkspace.garment, teeConstruction);
   const initialTeeNeckbandOptions: GarmentOptions = Object.fromEntries(
     TEE_NECKBAND_OPTIONS.map((option) => [
       option.id,
@@ -589,7 +595,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let appearanceOpen = false;
   root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields,
     initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations(), uiqMaterialEnabled,
-    uiqOperationalClarityEnabled, initialTeeNeckbandOptions, starterOrigin?.entryId ?? null);
+    uiqOperationalClarityEnabled, initialTeeNeckbandOptions, starterOrigin?.entryId ?? null, teeConstruction);
   root.querySelector<HTMLElement>("#export-host")!.append(createDxfInterchangePanel({
     audit: (sourcePackage, returnedDxf) => auditDxfInterchangeRoundTrip(sourcePackage as never, returnedDxf),
     readFile: (file) => file.text(),
@@ -1370,7 +1376,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let inactiveInspection = { zoom: 1, left: 0, top: 0 };
 
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
-    view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin });
+    view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
+  const exportRecipeName = (): string =>
+    recipe.name === "tee" && teeConstruction === "raglan" ? "tee-raglan" : recipe.name;
   const currentSavedDesign = (): SavedDesign | null => {
     const result = deserialize(serialize(measurements, fabric, garmentOptions, currentWorkspace(), appearance, surfaceBook, {
       bufferPct: nestBufferRaw.trim() === "" ? NaN : Number(nestBufferRaw),
@@ -1425,6 +1433,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     garmentOptions: copyOptions(garmentOptions),
     rawOptions: currentRawOptions(),
     garment: recipe.name,
+    teeConstruction,
     targetStyle,
     stretchFabric: stretchFabric.name,
     materialSelectionExplicit,
@@ -1837,6 +1846,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (!starterOrigin) return null;
     const entry = starterEntryById(starterOrigin.entryId);
     return entry && entry.recipeId === recipe.name && entry.configuration.targetStyle === targetStyle
+      && (entry.teeConstruction ?? "set-in") === teeConstruction
       ? entry : null;
   };
   const inputErrors = (): Map<string, string> => {
@@ -2990,6 +3000,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       button.setAttribute("aria-pressed", String(button.dataset.starterEntryId === activeStarter?.entryId));
       button.disabled = customOneSizeStyle();
     });
+    const constructionSelect = root.querySelector<HTMLSelectElement>("#tee-construction");
+    const constructionControls = root.querySelector<HTMLElement>("#tee-construction-controls");
+    if (constructionSelect) constructionSelect.value = teeConstruction;
+    if (constructionControls) constructionControls.hidden = recipe.name !== "tee";
     teeSelectedTechPackExport.hidden = recipe.name !== "tee";
     teeNeckbandExportScope.hidden = recipe.name !== "tee";
     const currentTeeOptions = recipeOptions();
@@ -3151,9 +3165,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? null
       : pieceFrames(surfaceBaseBlock, currentAllowances());
     const editIssues = semanticOutputIssues();
+    const savedTeeOptions = garmentOptions.tee ?? {};
+    const inactiveNecklineOptions = Object.fromEntries(
+      [TEE_V_NECK_DROP_OPTION_ID, TEE_SCOOP_NECK_DROP_OPTION_ID].flatMap((optionId) =>
+        Object.prototype.hasOwnProperty.call(savedTeeOptions, optionId)
+          ? [[optionId, savedTeeOptions[optionId]!]]
+          : []),
+    );
+    const constructionGuidanceOptions = recipe.name === "tee" && teeConstruction === "raglan"
+      ? { ...recipeOptions(), ...inactiveNecklineOptions }
+      : recipeOptions();
     const guidanceNotes: Note[] = [
       ...(sourceCannotDraft ? [] : [
-        ...guide(recipe, measurements, recipeOptions()).filter((note) =>
+        ...guide(recipe, measurements, constructionGuidanceOptions).filter((note) =>
           recipe.name !== "fitted" || customOneSizeStyle()
             || note.field !== "option-bustApexVertical"),
         ...fittedRunClearanceNotes(),
@@ -4292,14 +4316,25 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
   });
 
-  const setGarment = (name: string, afterSelection?: () => void, starterOptionKeys: readonly string[] = []): void => {
+  const setGarment = (
+    name: string,
+    afterSelection?: () => void,
+    starterOptionKeys: readonly string[] = [],
+    nextTeeConstruction: TeeConstruction = teeConstruction,
+  ): void => {
     if (customOneSizeStyle() && name !== recipe.name) {
       flash("This custom one-size style keeps its garment. Create another style to design a different garment.", BLUEPRINT.lineActive);
       return;
     }
+    if (name === "tee" && nextTeeConstruction !== teeConstruction && semanticEdits !== null) {
+      flash("Clear pattern edits before changing Tee construction. The saved edit basis is construction-specific.", BLUEPRINT.lineActive);
+      const constructionSelect = root.querySelector<HTMLSelectElement>("#tee-construction");
+      if (constructionSelect) constructionSelect.value = teeConstruction;
+      return;
+    }
     if (projectWorkflow && (captureSaveError !== null
       || captureSaveTimer !== null || captureWritesPending > 0)) {
-      void flushCaptureSave().then(() => setGarment(name, afterSelection, starterOptionKeys)).catch((error: Error) => {
+      void flushCaptureSave().then(() => setGarment(name, afterSelection, starterOptionKeys, nextTeeConstruction)).catch((error: Error) => {
         const message = error.message;
         projectPersistenceState.textContent = message;
         projectPersistenceState.dataset.state = "failed";
@@ -4308,7 +4343,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       return;
     }
     if (projectWorkflow && (pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0)) {
-      void flushPendingFieldObservations!().then(() => setGarment(name, afterSelection, starterOptionKeys)).catch((error: unknown) => {
+      void flushPendingFieldObservations!().then(() => setGarment(name, afterSelection, starterOptionKeys, nextTeeConstruction)).catch((error: unknown) => {
         const message = error instanceof Error ? error.message : "Pending field history could not be saved.";
         projectPersistenceState.textContent = message;
         projectPersistenceState.dataset.state = "failed";
@@ -4323,8 +4358,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     captureAnnouncement = null;
     measurementRoute = "editor";
     const previousRecipe = recipe.name;
-    recipe = garmentByName(name);
-    if (previousRecipe !== recipe.name) starterOrigin = null;
+    const previousConstruction = teeConstruction;
+    teeConstruction = name === "tee" ? nextTeeConstruction : teeConstruction;
+    recipe = garmentForConstruction(name, teeConstruction);
+    if (previousRecipe !== recipe.name || previousConstruction !== teeConstruction) starterOrigin = null;
     if (!materialSelectionExplicit) {
       const defaultMaterial = defaultStretchFabricForGarment(recipe.name);
       stretchFabric = STRETCH_FABRICS.find((f) => f.name === defaultMaterial)!;
@@ -4339,7 +4376,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     syncBodyCroquisButton(bodyCroquisBtns.front, bodyCroquisView === "front");
     syncBodyCroquisButton(bodyCroquisBtns.back, bodyCroquisView === "back");
     syncBodyCroquisButton(bodyCroquisBtns.side, bodyCroquisView === "side");
-    targetStyle = recipe.styles[0].name; // the old target may not exist for this garment
+    if (!recipe.styles.some((style) => style.name === targetStyle)) targetStyle = recipe.styles[0].name;
     afterSelection?.();
     GARMENTS.forEach((g) => {
       const btn = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
@@ -4348,9 +4385,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       btn.style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
       btn.setAttribute("aria-pressed", String(on));
     });
-    editedFront = null; // a new garment invalidates the semantic source and preview
+    editedFront = null; // a new garment or construction invalidates the semantic source and preview
     dragStart = null;
-    semanticEdits = semanticEdits?.recipeId === recipe.name ? semanticEdits : null;
+    semanticEdits = previousConstruction === teeConstruction && semanticEdits?.recipeId === recipe.name
+      ? semanticEdits : null;
     semanticSourceCache = null;
     semanticEvaluationCache = null;
     editRoleId = resolveSemanticEditorRole(
@@ -4362,6 +4400,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
       measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
     wireMeasurementInputs();
+    const constructionSelect = root.querySelector<HTMLSelectElement>("#tee-construction");
+    const constructionControls = root.querySelector<HTMLElement>("#tee-construction-controls");
+    if (constructionSelect) constructionSelect.value = teeConstruction;
+    if (constructionControls) constructionControls.hidden = recipe.name !== "tee";
     if (projectWorkflow) {
       for (const inputKey of starterOptionKeys) {
         const input = [...root.querySelectorAll<HTMLInputElement>("input[data-option]")]
@@ -4392,8 +4434,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         };
         starterOrigin = starterOriginForEntry(entry);
         measurementRoute = "editor";
-      }, Object.keys(entry.configuration.options));
+      }, Object.keys(entry.configuration.options), entry.teeConstruction ?? "set-in");
     });
+  });
+  const teeConstructionSelect = root.querySelector<HTMLSelectElement>("#tee-construction")!;
+  teeConstructionSelect.addEventListener("change", () => {
+    if (teeConstructionSelect.value !== "set-in" && teeConstructionSelect.value !== "raglan") return;
+    if (recipe.name !== "tee" || teeConstructionSelect.value === teeConstruction) return;
+    setGarment("tee", undefined, [], teeConstructionSelect.value);
   });
   const syncGarmentChoices = (): void => {
     GARMENTS.forEach((g) => {
@@ -5481,7 +5529,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     semanticEdits = loaded.semanticEdits;
     semanticSourceCache = null;
     semanticEvaluationCache = null;
-    recipe = garmentByName(loaded.workspace.garment);
+    teeConstruction = loaded.workspace.teeConstruction!;
+    recipe = garmentForConstruction(loaded.workspace.garment, teeConstruction);
     starterOrigin = loaded.workspace.starterOrigin ?? null;
     targetStyle = loaded.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((f) => f.name === loaded.workspace.stretchFabric)!;
@@ -5695,7 +5744,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     });
   });
   onExport("#export-svg", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), exportAllowances(), recipe.notches), "image/svg+xml");
+    download(`${exportRecipeName()}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), exportAllowances(), recipe.notches), "image/svg+xml");
   });
   onExport("#export-tee-neckband", () => {
     try {
@@ -5706,31 +5755,31 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const output = vNeck
         ? teeVNeckbandTemplateSvg(exportPieces(), settings.lengthPercent, settings.finishedWidthCm)
         : teeNeckbandTemplateSvg(exportPieces(), settings.lengthPercent, settings.finishedWidthCm);
-      download(`${recipe.name}-${exportSizeLabel()}-${vNeck ? "vneck-band" : "neckband"}.svg`, output, "image/svg+xml");
+      download(`${exportRecipeName()}-${exportSizeLabel()}-${vNeck ? "vneck-band" : "neckband"}.svg`, output, "image/svg+xml");
     } catch (error) {
       flash(error instanceof Error ? error.message : "The neckband template could not be generated.", BLUEPRINT.lineActive);
     }
   }, () => recipe.name === "tee" && !hasConflictingTeeNecklineOptions(recipeOptions())
     && (!isTeeVNeckActive(recipeOptions()) || teeVBandOutputError === "") && canExport());
   onExport("#export-dxf", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
+    download(`${exportRecipeName()}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
   });
   onExport("#export-cad-dxf", () => {
     void createPackageForCurrentSelection().then((candidate) =>
-      download(`${recipe.name}-${exportSizeLabel()}-cad-exchange.dxf`, candidate.dxf, "image/vnd.dxf"),
+      download(`${exportRecipeName()}-${exportSizeLabel()}-cad-exchange.dxf`, candidate.dxf, "image/vnd.dxf"),
     ).catch((error: unknown) => {
       flash(`CAD exchange export failed: ${error instanceof Error ? error.message : "source package could not be created."}`, BLUEPRINT.lineActive);
     });
   });
   onExport("#export-dxf-source-package", () => {
     void createPackageForCurrentSelection().then((candidate) =>
-      download(`${recipe.name}-${exportSizeLabel()}-cad-exchange-source.json`, JSON.stringify(candidate, null, 2), "application/json"),
+      download(`${exportRecipeName()}-${exportSizeLabel()}-cad-exchange-source.json`, JSON.stringify(candidate, null, 2), "application/json"),
     ).catch((error: unknown) => {
       flash(`Source package export failed: ${error instanceof Error ? error.message : "source package could not be created."}`, BLUEPRINT.lineActive);
     });
   });
   onExport("#export-pdf", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(
+    download(`${exportRecipeName()}-${exportSizeLabel()}.pdf`, exportPdf(
       exportPieces(), exportAllowances(), undefined, 1.0, recipe.tiledPdfLocalCoordinates === true
     ), "application/pdf");
   });
@@ -5754,7 +5803,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const output = exportTechPackV2ForSelectedSize(
       recipeForCurrentOutputs(), size, undefined, stretchFabric, surfacePlacementsNow(), targetStyle, planSize !== null,
     );
-    download(`${recipe.name}-${size.label}-selected-techpack.pdf`, output, "application/pdf");
+    download(`${exportRecipeName()}-${size.label}-selected-techpack.pdf`, output, "application/pdf");
   }, () => recipe.name === "tee" && !hasConflictingTeeNecklineOptions(recipeOptions())
     && (!isTeeVNeckActive(recipeOptions()) || teeVBandOutputError === "") && canExport());
   // The draft tech pack is a whole-style document (paginated piece overview +
@@ -5774,7 +5823,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
         pomExceptionRows(planRun))
       : exportTechPackV2(recipeForCurrentOutputs(), measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle);
-    download(`${recipe.name}-techpack.pdf`, output, "application/pdf");
+    download(`${exportRecipeName()}-techpack.pdf`, output, "application/pdf");
   }, canExportRun, true);
   // The projector file carries EVERY graded size as a toggleable layer, so it too
   // is a whole-style file and ignores the per-size picker.
@@ -5784,17 +5833,17 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       label: size.label, step: size.position, block: size.block!,
       allowances: allowancesForOptions(size.options!),
     }));
-    download(`${recipe.name}-projector.svg`, exportProjectorSvg(
+    download(`${exportRecipeName()}-projector.svg`, exportProjectorSvg(
       recipeForCurrentOutputs(), measurements, recipeOptions(), projectorRun, planRun ? pomExceptionRows(planRun) : [],
     ), "image/svg+xml");
   }, canExportRun, true);
   // The print sheet carries one style's artwork at true scale, so like the
   // tech pack and projector it is a whole-style file and ignores the picker.
   onExport("#export-surface-sheet", () => {
-    download(`${recipe.name}-surface-sheet.svg`, exportSurfaceSheet(surfacePlacementsNow(), targetStyle), "image/svg+xml");
+    download(`${exportRecipeName()}-surface-sheet.svg`, exportSurfaceSheet(surfacePlacementsNow(), targetStyle), "image/svg+xml");
   }, () => styleReviewed && checkReviewed && baseDesignValid());
   onExport("#export-a0", () => {
-    download(`${recipe.name}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(
+    download(`${exportRecipeName()}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(
       exportPieces(), exportAllowances(), recipe.notches, undefined, recipe.a0Overflow === true
     ), "application/pdf");
   });
@@ -6000,7 +6049,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     semanticEdits = file.semanticEdits ?? null;
     semanticSourceCache = null;
     semanticEvaluationCache = null;
-    recipe = garmentByName(file.workspace.garment);
+    teeConstruction = file.workspace.teeConstruction!;
+    recipe = garmentForConstruction(file.workspace.garment, teeConstruction);
     starterOrigin = file.workspace.starterOrigin ?? null;
     targetStyle = file.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((candidate) => candidate.name === file.workspace.stretchFabric)!;
@@ -6034,7 +6084,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     garmentOptions = copyOptions(snapshot.garmentOptions);
     fabric = snapshot.fabric;
     appearance = { ...snapshot.appearance };
-    recipe = garmentByName(snapshot.garment);
+    teeConstruction = snapshot.teeConstruction;
+    recipe = garmentForConstruction(snapshot.garment, teeConstruction);
     starterOrigin = snapshot.starterOrigin;
     targetStyle = snapshot.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((candidate) => candidate.name === snapshot.stretchFabric)!;
@@ -6044,6 +6095,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     exportStep = customOneSizeStyle() ? 0 : snapshot.exportStep;
     fabricWidth = snapshot.fabricWidth;
     nestScope = snapshot.nestScope;
+    GARMENTS.forEach((garment) => {
+      const button = root.querySelector<HTMLButtonElement>(`#garment-${garment.name}`);
+      if (!button) return;
+      const selected = garment.name === recipe.name;
+      button.style.background = selected ? BLUEPRINT.lineActive : BLUEPRINT.background;
+      button.style.color = selected ? BLUEPRINT.background : BLUEPRINT.line;
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
+      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
+    wireMeasurementInputs();
+    syncGarmentChoices();
+    syncExportSizes();
     syncWorkspace(true);
     applyRawDraft(snapshot.rawMeasurements, snapshot.rawOptions);
     historyPresent = captureDraftSnapshot();

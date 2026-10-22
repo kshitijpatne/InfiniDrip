@@ -53,7 +53,7 @@ describe("v4 workspace validation", () => {
       expect(result.garmentOptions["woven-shirt"].buttonCount).toBe(6);
     }
   });
-  it("persists the exact starter origin and loads old v6 workspaces without inferring one", () => {
+  it("persists construction and starter origin while migrating legacy Tee construction to set-in", () => {
     const origin = starterOriginForEntry(STARTER_REGISTRY.entries[0]!);
     const workspace = { ...DEFAULT_WORKSPACE, starterOrigin: origin };
     const current = JSON.parse(serialize(STANDARD_M, FABRIC, {}, workspace));
@@ -62,17 +62,26 @@ describe("v4 workspace validation", () => {
     expect(loaded.ok).toBe(true);
     if (loaded.ok) expect(loaded.workspace.starterOrigin).toEqual(origin);
 
-    const previous = { ...current, v: 6, workspace: { ...workspace } };
+    const previous = { ...current, v: 7, workspace: { ...workspace } };
     delete previous.workspace.starterOrigin;
+    delete previous.workspace.teeConstruction;
     const migrated = deserialize(JSON.stringify(previous));
     expect(migrated.ok).toBe(true);
-    if (migrated.ok) expect(migrated.workspace).not.toHaveProperty("starterOrigin");
+    if (migrated.ok) {
+      expect(migrated.workspace).not.toHaveProperty("starterOrigin");
+      expect(migrated.workspace.teeConstruction).toBe("set-in");
+    }
     expect(deserialize(JSON.stringify({ ...previous, workspace: null })).ok).toBe(false);
 
     const missingCurrentOrigin = { ...current, workspace: { ...current.workspace } };
     delete missingCurrentOrigin.workspace.starterOrigin;
     expect(deserialize(JSON.stringify(missingCurrentOrigin))).toEqual({
-      ok: false, error: "Current SaveFile is missing starter origin state.",
+      ok: false, error: "Current SaveFile is missing starter origin or Tee construction state.",
+    });
+    const missingConstruction = { ...current, workspace: { ...current.workspace } };
+    delete missingConstruction.workspace.teeConstruction;
+    expect(deserialize(JSON.stringify(missingConstruction))).toEqual({
+      ok: false, error: "Current SaveFile is missing starter origin or Tee construction state.",
     });
     const unknownOrigin = { ...current, workspace: { ...current.workspace, starterOrigin: { ...origin, entryId: "removed-entry" } } };
     expect(deserialize(JSON.stringify(unknownOrigin))).toMatchObject({ ok: false, error: expect.stringContaining("saved starter entry is unavailable") });
@@ -81,6 +90,11 @@ describe("v4 workspace validation", () => {
     expect(deserialize(JSON.stringify(mismatchedRecipe))).toEqual({
       ok: false, error: "Saved starter origin does not match the selected recipe.",
     });
+    const raglanEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-raglan-digital-v1")!;
+    const changedFromRaglan = deserialize(serialize(STANDARD_M, FABRIC, {}, {
+      ...DEFAULT_WORKSPACE, teeConstruction: "set-in", starterOrigin: starterOriginForEntry(raglanEntry),
+    }));
+    expect(changedFromRaglan.ok).toBe(true);
   });
   it("round-trips appearance without changing the workspace contract", () => {
     const appearance = { texture: "rib" as const, shine: 35 };
@@ -190,6 +204,41 @@ describe("v4 workspace validation", () => {
     expect(readRecoveryFromStorage()).toEqual({ ok: false, error: "Nothing to recover" });
   });
 
+  it("migrates pre-v3 recovery files to Set-in and round-trips explicit Raglan state", () => {
+    const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-raglan-digital-v1")!;
+    const raglanWorkspace = { ...DEFAULT_WORKSPACE, teeConstruction: "raglan" as const, starterOrigin: starterOriginForEntry(entry) };
+    const recovery = {
+      savedAt: 1,
+      measurements: Object.fromEntries(FIELDS.map((field) => [field.id, STANDARD_M[field.id]])),
+      rawMeasurements: {},
+      fabric: FABRIC,
+      appearance: DEFAULT_APPEARANCE,
+      garmentOptions: { tee: { chestEase: 7 } },
+      rawOptions: {},
+      workspace: raglanWorkspace,
+      materialSelectionExplicit: false,
+      surface: {},
+      rawNestingIntelligence: { buffer: "8", available: "", napAware: false },
+      semanticEdits: null,
+    };
+    const current = JSON.parse(serializeRecovery(recovery));
+    const roundTrip = deserializeRecovery(JSON.stringify(current));
+    expect(roundTrip.ok).toBe(true);
+    if (roundTrip.ok) expect(roundTrip.workspace.teeConstruction).toBe("raglan");
+    const missingConstruction = { ...current, workspace: { ...current.workspace } };
+    delete missingConstruction.workspace.teeConstruction;
+    expect(deserializeRecovery(JSON.stringify(missingConstruction))).toEqual({
+      ok: false,
+      error: "Current recovery data is missing Tee construction state.",
+    });
+    const legacy = { ...current, v: 2, workspace: { ...current.workspace } };
+    delete legacy.workspace.teeConstruction;
+    legacy.workspace.starterOrigin = null;
+    const migrated = deserializeRecovery(JSON.stringify(legacy));
+    expect(migrated.ok).toBe(true);
+    if (migrated.ok) expect(migrated.workspace.teeConstruction).toBe("set-in");
+  });
+
   it("rejects malformed recovery data without weakening current-save validation", () => {
     const recovery = {
       savedAt: 123,
@@ -223,6 +272,7 @@ describe("v4 workspace validation", () => {
       { fabric: "bad" }, { garmentOptions: { tee: [] } },
       { rawOptions: { tee: { ease: 1 } } }, { appearance: { texture: "missing", shine: 50 } },
       { workspace: { ...DEFAULT_WORKSPACE, garment: "missing" } }, { materialSelectionExplicit: "no" },
+      { workspace: { ...DEFAULT_WORKSPACE, teeConstruction: "unknown" } },
       { rawNestingIntelligence: { buffer: 1 } }, { rawNestingIntelligence: null },
       { rawNestingIntelligence: { buffer: "10", available: 1, napAware: true } },
       { rawNestingIntelligence: { buffer: "10", available: "", napAware: "yes" } },

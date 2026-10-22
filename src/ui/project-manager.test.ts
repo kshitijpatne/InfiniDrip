@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob, File as NodeFile } from "node:buffer";
 import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
-import { GARMENTS, STANDARD_M } from "../drafting";
+import { GARMENTS, STANDARD_M, TEE_RAGLAN } from "../drafting";
 import {
   CUSTOM_ONE_SIZE_MODE,
   CUSTOM_STYLE_RECORD_VERSION,
@@ -284,6 +284,24 @@ describe("accessible project and style manager", () => {
     } finally {
       t02.mockRestore();
       t03.mockRestore();
+      state.close();
+    }
+  });
+
+  it("resolves the saved Tee construction for T02 POM review", async () => {
+    const t02 = vi.spyOn(techPackT02Validation, "evaluateTechPackT02");
+    const state = await techPackHarness();
+    try {
+      const design = state.workflow.snapshot.activeStyle.design;
+      await state.workflow.saveActiveDesign({
+        ...design,
+        workspace: { ...design.workspace, teeConstruction: "raglan" },
+      });
+      t02.mockClear();
+      state.manager.refresh();
+      expect(t02).toHaveBeenCalledWith(expect.objectContaining({ recipe: TEE_RAGLAN }));
+    } finally {
+      t02.mockRestore();
       state.close();
     }
   });

@@ -1,4 +1,4 @@
-import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
+import { GARMENTS, STANDARD_M, TEE_RAGLAN, defaultGarmentOptions } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, defaultStretchFabricForGarment, deserialize, serialize } from "./persist";
 import { createMeasurementCaptureSession } from "./measurement-capture";
@@ -151,6 +151,32 @@ describe("explicit grade-plan base context", () => {
     expect(context.targets.some((target) => target.targetId === "option.tee.chestEase")).toBe(false);
     expect(context.targets.filter((target) => target.kind === "pom").map((target) => target.baseValue))
       .toEqual(recipe.poms.map((pom) => pom.measure(inheritedBlock)));
+  });
+
+  it("uses the saved Tee construction variant for grade-plan POM targets", async () => {
+    const setInDesign = designFor("tee");
+    const raglanDesign: SavedDesign = {
+      ...setInDesign,
+      workspace: { ...setInDesign.workspace, teeConstruction: "raglan" },
+    };
+    const style = styleFor("tee", raglanDesign);
+    const context = value(await createGradePlanContext(PROJECT_ID, style, captureFor("tee")));
+    const raglanBlock = TEE_RAGLAN.draft(raglanDesign.measurements, raglanDesign.garmentOptions.tee);
+    const pomTargets = context.targets.filter((target) => target.kind === "pom");
+    expect(pomTargets.map((target) => target.baseValue)).toEqual(TEE_RAGLAN.poms.map((pom) => pom.measure(raglanBlock)));
+    expect(pomTargets.map((target) => target.targetId))
+      .toEqual(TEE_RAGLAN.poms.map((pom) => `pom.tee.${encodeURIComponent(pom.label)}`));
+
+    const legacyWorkspace = { ...setInDesign.workspace };
+    delete legacyWorkspace.teeConstruction;
+    const legacyContext = value(await createGradePlanContext(
+      PROJECT_ID,
+      styleFor("tee", { ...setInDesign, workspace: legacyWorkspace }),
+      captureFor("tee"),
+    ));
+    const setInBlock = GARMENTS.find((recipe) => recipe.name === "tee")!.draft(setInDesign.measurements);
+    expect(legacyContext.targets.filter((target) => target.kind === "pom").map((target) => target.baseValue))
+      .toEqual(GARMENTS.find((recipe) => recipe.name === "tee")!.poms.map((pom) => pom.measure(setInBlock)));
   });
 
   it("fails closed for legacy styles, mismatched captures, missing revision heads, and missing explicit recipe controls", async () => {

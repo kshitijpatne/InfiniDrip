@@ -121,6 +121,7 @@ describe("strict project and style records", () => {
       expect(result.value.style.recipeId).toBe("tee");
       expect(result.value.style.recipePresetId).toBe("Classic tee");
       expect(result.value.style.design.measurements).toEqual(STANDARD_M);
+      expect(result.value.style.design.workspace.teeConstruction).toBe("set-in");
       expect(result.value.style.techPack).toMatchObject({
         styleId: STYLE_ID, recipeId: "tee", recipeVersion: "unversioned", revisionId: null, revisionNumber: 0,
       });
@@ -224,12 +225,32 @@ describe("strict project and style records", () => {
     expect(parseStyleRecord(style).ok).toBe(true);
     expect(parseStyleRecord({ ...style, archivedAt: TIME }).ok).toBe(true);
     expect(parseSavedDesignRecord(style.design).ok).toBe(true);
+    const raglanDesign = {
+      ...style.design,
+      workspace: { ...style.design.workspace, teeConstruction: "raglan" as const },
+    };
+    const parsedRaglanDesign = parseSavedDesignRecord(raglanDesign);
+    expect(parsedRaglanDesign).toMatchObject({ ok: true, value: { workspace: { teeConstruction: "raglan" } } });
+    expect(parseStyleRecord({ ...style, design: raglanDesign }))
+      .toMatchObject({ ok: true, value: { design: { workspace: { teeConstruction: "raglan" } } } });
     expect(parseSavedDesignRecord({ ...style.design, workspace: { ...style.design.workspace, unexpected: true } }).ok).toBe(false);
     const legacyWorkspace = { ...style.design.workspace } as Record<string, unknown>;
     delete legacyWorkspace.starterOrigin;
+    delete legacyWorkspace.teeConstruction;
     const legacySavedDesign = parseSavedDesignRecord({ ...style.design, workspace: legacyWorkspace });
     expect(legacySavedDesign.ok).toBe(true);
-    if (legacySavedDesign.ok) expect(legacySavedDesign.value.workspace).not.toHaveProperty("starterOrigin");
+    if (legacySavedDesign.ok) {
+      expect(legacySavedDesign.value.workspace).not.toHaveProperty("starterOrigin");
+      expect(legacySavedDesign.value.workspace.teeConstruction).toBe("set-in");
+    }
+    const v7Workspace = { ...style.design.workspace } as Record<string, unknown>;
+    delete v7Workspace.teeConstruction;
+    const v7SavedDesign = parseSavedDesignRecord({ ...style.design, workspace: v7Workspace });
+    expect(v7SavedDesign.ok).toBe(true);
+    if (v7SavedDesign.ok) {
+      expect(v7SavedDesign.value.workspace.starterOrigin).toEqual(style.design.workspace.starterOrigin);
+      expect(v7SavedDesign.value.workspace.teeConstruction).toBe("set-in");
+    }
     const candidateWorkspace = {
       ...DEFAULT_WORKSPACE,
       starterOrigin: starterOriginForEntry(STARTER_REGISTRY.entries[0]!),
@@ -397,7 +418,9 @@ describe("strict project and style records", () => {
     expect(parseMigrationRecord({ ...marker, extra: true }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, schemaVersion: 2 }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, sourceKeys: ["wrong", "wrong"] }).ok).toBe(false);
-    expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 8 }).ok).toBe(false);
+    expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 7 }).ok).toBe(true);
+    expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 8 }).ok).toBe(true);
+    expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 9 }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 1.5 }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, sourceSaveVersion: null }).ok).toBe(true);
     expect(parseMigrationRecord({ ...marker, sourceSha256: "bad" }).ok).toBe(false);
