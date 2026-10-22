@@ -11232,6 +11232,83 @@ describe("EPIC-19 L02 starter binding", () => {
     localStorage.clear();
   });
 
+  it("selects, edits, saves, reloads, and renders the F01 Fitted Crew Tee starter", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-fitted-tee-digital-v1");
+
+    expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Darted tee");
+    expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Fitted tee");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Fitted crew Tee · software defaults");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("B1 technical review pending; physical validation not performed");
+    for (const [field, value] of Object.entries({ chest: "100", shoulderWidth: "45", bicep: "38", length: "70", armholeDepth: "24", sleeveLength: "22", ease: "7" })) {
+      expect(root.querySelector<HTMLInputElement>('input[data-field="' + field + '"]')!.value).toBe(value);
+    }
+    expect(root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    for (const [field, value] of Object.entries({ dartIntake: "4", bustApexHorizontal: "55", bustApexVertical: "28" })) {
+      expect(root.querySelector<HTMLInputElement>('input[data-option="' + field + '"]')!.value).toBe(value);
+    }
+
+    clickId(root, "view-pattern");
+    const defaultSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+    const intake = root.querySelector<HTMLInputElement>('input[data-option="dartIntake"]')!;
+    intake.value = "6"; intake.dispatchEvent(new Event("input", { bubbles: true }));
+    const apexX = root.querySelector<HTMLInputElement>('input[data-option="bustApexHorizontal"]')!;
+    apexX.value = "65"; apexX.dispatchEvent(new Event("input", { bubbles: true }));
+    const apexY = root.querySelector<HTMLInputElement>('input[data-option="bustApexVertical"]')!;
+    apexY.value = "40"; apexY.dispatchEvent(new Event("input", { bubbles: true }));
+    const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+    expect(editedSvg).not.toBe(defaultSvg);
+
+    clickId(root, "view-spec");
+    expect(root.querySelector<HTMLElement>("#canvas-host")!.textContent).toContain("Side seam (dart closed)");
+    clickId(root, "save-pattern");
+    const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(saved.workspace.starterOrigin).toMatchObject({
+      entryId: "fitted-tee-digital-v1", entryRevision: "2026-10-22.1",
+      recipeId: "fitted", recipeRevision: "fitted-bust-dart-v1",
+      configurationSnapshot: {
+        targetStyle: "Fitted tee",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+        options: { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28 },
+      },
+    });
+    expect(saved.garmentOptions.fitted).toMatchObject({ dartIntake: 6, bustApexHorizontal: 65, bustApexVertical: 40 });
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Fitted tee");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="fitted-tee-digital-v1"]')!.getAttribute("aria-pressed")).toBe("true");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="dartIntake"]')!.value).toBe("6");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="bustApexHorizontal"]')!.value).toBe("65");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="bustApexVertical"]')!.value).toBe("40");
+    clickId(reopened, "view-pattern");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(editedSvg);
+    root.remove(); reopened.remove(); localStorage.clear();
+  });
+
+  it("keeps raw Fitted inputs and warns when the dart mouth crosses the underarm", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-fitted-tee-digital-v1");
+    const edit = (selector: string, value: string): HTMLInputElement => {
+      const input = root.querySelector<HTMLInputElement>(selector)!;
+      input.value = value;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      return input;
+    };
+    expect(edit('input[data-field="length"]', "59").value).toBe("59");
+    expect(edit('input[data-field="armholeDepth"]', "40").value).toBe("40");
+    expect(edit('input[data-option="dartIntake"]', "8").value).toBe("8");
+    expect(edit('input[data-option="bustApexVertical"]', "20").value).toBe("20");
+    expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+      .toContain("Move the apex toward the hem or reduce dart intake");
+    root.remove(); localStorage.clear();
+  });
+
   it("ignores invalid or no-op construction choices and blocks topology changes with semantic edits", async () => {
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     localStorage.clear();

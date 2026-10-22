@@ -846,10 +846,13 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain('data-garment-region="Lower body"');
     expect(html).toContain('id="starter-blank-library" aria-labelledby="starter-blank-library-heading"');
     expect(html).toContain('id="custom-measurement-candidates" aria-labelledby="custom-measurement-candidates-heading"');
-    expect(html).toContain("Starter Blank Library</span><span>8</span>");
+    expect(html).toContain("Starter Blank Library</span><span>9</span>");
     expect(html).toContain('id="tee-construction"');
     expect(html).toContain("Raglan is crew-neck only");
     expect(html).toContain('data-starter-entry-id="tee-raglan-digital-v1" aria-pressed="false"');
+    expect(html).toContain('data-starter-entry-id="fitted-tee-digital-v1" aria-pressed="false"');
+    expect(html).toContain("Fitted crew Tee · software defaults");
+    expect(html).toContain("Bust apex across half-front (design option): 20–80 %");
     expect(html).toContain("Custom measurement candidates</span><span>1</span>");
     expect(html).toContain('data-starter-entry-id="tee-classic-digital-v1" aria-pressed="false"');
     expect(html).toContain('data-starter-entry-id="tee-relaxed-digital-v1" aria-pressed="false"');
@@ -909,6 +912,8 @@ describe("garmentToggleMarkup", () => {
       .toContain('data-starter-entry-id="tee-vneck-digital-v1" aria-pressed="true"');
     expect(garmentToggleMarkup("tee", "tee-scoop-digital-v1"))
       .toContain('data-starter-entry-id="tee-scoop-digital-v1" aria-pressed="true"');
+    expect(garmentToggleMarkup("fitted", "fitted-tee-digital-v1"))
+      .toContain('data-starter-entry-id="fitted-tee-digital-v1" aria-pressed="true"');
   });
 });
 

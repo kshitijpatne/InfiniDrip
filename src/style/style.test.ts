@@ -1,6 +1,14 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
-import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, SKIRT_STYLES, TROUSER_STYLES } from "./style";
+import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TROUSER_STYLES } from "./style";
+
+describe("FITTED_STYLES", () => {
+  it("classifies the darted construction without using ease as a fit standard", () => {
+    expect(currentStyles({ ...STANDARD_M, ease: 7 }, FITTED_STYLES)).toEqual(["Fitted tee"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 12 }, FITTED_STYLES)).toEqual(["Fitted tee"]);
+    expect(FITTED_STYLES[0]?.ranges.ease).toBeUndefined();
+  });
+});
 
 describe("currentStyles", () => {
   it("classifies the standard block as a Classic tee", () => {

@@ -235,7 +235,10 @@ describe("recipes are self-describing", () => {
     expect(dartOf(rolePiece(FITTED.draft(STANDARD_M), "front"))).not.toBeNull();
     const fittedChecks = garmentReport(FITTED, STANDARD_M).checks.map((c) => c.name);
     expect(fittedChecks).toContain("Dart legs equal");
-    expect(fittedChecks).not.toContain("Hem square to the fold"); // untrued, opts out
+    expect(fittedChecks).toContain("Side seam trued in closed reference");
+    expect(fittedChecks).toContain("Bust dart closed before trueing");
+    expect(fittedChecks).toContain("Hem level in dart-closed reference");
+    expect(fittedChecks).toContain("Hem square to fold (dart-closed reference)");
 
     expect(typeof TEE.sizeMetric(TEE.draft(STANDARD_M))).toBe("number");
   });
