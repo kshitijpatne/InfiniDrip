@@ -476,15 +476,16 @@ describe("exportTechPackV2ForSelectedSize", () => {
 });
 
 describe("readable draft tech pack", () => {
-  it("prints the V-neck construction limitation in the rendered candidate Tech Pack", () => {
+  it("states that V-band construction is limited to selected-size output in the whole-run Tech Pack", () => {
     const output = exportTechPackV2(TEE, STANDARD_M, undefined, undefined, { teeVNeckDropCm: 5 });
     const constructionPage = pageStreams(output).find((stream) =>
-      shownText(stream).some((line) => line.startsWith("V-neck finishing is not defined"))
+      shownText(stream).some((line) => line.startsWith("V-band output is available only in the selected-size V-band Tech Pack;"))
     );
     expect(constructionPage).toBeDefined();
     const constructionText = shownText(constructionPage!).join(" ");
-    expect(constructionText).toContain("No neckband geometry, cut template, or sewing steps are provided.");
+    expect(constructionText).toContain("graded-size V-band instructions or pattern output.");
     expect(constructionText).not.toContain("Attach the neckband to the neckline");
+    expect(constructionText).not.toContain("Provisional digital V-band construction");
   });
 
   it("keeps the provisional rounded-loop construction in the Scoop candidate Tech Pack", () => {

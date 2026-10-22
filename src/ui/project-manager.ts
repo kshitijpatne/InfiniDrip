@@ -13,7 +13,11 @@ import {
   type ProjectPackageOptions,
   type ProjectPackageProgress,
 } from "./project-package";
-import { TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION, type FrozenArtifactInput } from "./style-revisions";
+import {
+  TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION,
+  VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
+  type FrozenArtifactInput,
+} from "./style-revisions";
 import type { GradePlanRecord } from "./grade-plan";
 import type { FieldEvidenceStatus, FieldProvenance, FieldValidationStatus } from "./field-provenance";
 import { TECH_PACK_T02_RECORD_VERSION, TECH_PACK_T03_RECORD_VERSION, parseTechPackRecord } from "./tech-pack-records";
@@ -75,13 +79,13 @@ export interface ProjectManagerOptions {
   readonly getFrozenOutputSet?: () => {
     readonly artifacts: readonly FrozenArtifactInput[];
     readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
-    readonly schemaVersion?: 1 | 2;
+    readonly schemaVersion?: 1 | 2 | typeof VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION;
     readonly approvalRefs?: readonly string[];
     readonly gradePlanFreeze?: { readonly record: GradePlanRecord; readonly approvalRef: string };
   } | null | Promise<{
     readonly artifacts: readonly FrozenArtifactInput[];
     readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
-    readonly schemaVersion?: 1 | 2;
+    readonly schemaVersion?: 1 | 2 | typeof VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION;
     readonly approvalRefs?: readonly string[];
     readonly gradePlanFreeze?: { readonly record: GradePlanRecord; readonly approvalRef: string };
   } | null>;

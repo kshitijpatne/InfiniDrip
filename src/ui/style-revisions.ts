@@ -9,8 +9,10 @@ export const STYLE_REVISION_PAYLOAD_VERSION = 2;
 export const EXPORT_MANIFEST_SCHEMA_VERSION = 1;
 export const GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION = 2;
 export const TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION = 3;
+export const VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION = 4;
 export const EXPORTER_CONTRACT_VERSION = "infinidrip-exporters-v1";
 export const TECH_PACK_SHARE_EXPORTER_VERSION = "infinidrip-techpack-share-v1";
+export const VNECK_BAND_EXPORTER_VERSION = "infinidrip-vneck-band-export-v1";
 export const STYLE_REVISION_RULE_VERSIONS = Object.freeze({
   designRecord: "savefile-v6",
   fieldHistory: "field-observations-v1",
@@ -71,7 +73,7 @@ export interface RevisionManifestArtifact {
 }
 
 export interface FrozenOutputManifestPayload {
-  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION | typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION;
+  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION | typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION | typeof VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION;
   readonly styleId: string;
   readonly revisionId: string;
   readonly revisionContentDigest: string;
@@ -80,7 +82,7 @@ export interface FrozenOutputManifestPayload {
   readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
   readonly selectedColorwayIds: readonly string[];
   readonly ruleVersions: typeof STYLE_REVISION_RULE_VERSIONS;
-  readonly exporterVersion: typeof EXPORTER_CONTRACT_VERSION | typeof TECH_PACK_SHARE_EXPORTER_VERSION;
+  readonly exporterVersion: typeof EXPORTER_CONTRACT_VERSION | typeof TECH_PACK_SHARE_EXPORTER_VERSION | typeof VNECK_BAND_EXPORTER_VERSION;
   readonly approvalRefs: readonly string[];
   readonly unresolved: readonly string[];
   readonly artifacts: readonly Omit<RevisionManifestArtifact, "bytes">[];
@@ -88,7 +90,7 @@ export interface FrozenOutputManifestPayload {
 }
 
 export interface FrozenOutputManifestRecord {
-  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION | typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION;
+  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION | typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION | typeof VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION;
   readonly manifestId: string;
   readonly styleId: string;
   readonly revisionId: string;
@@ -121,6 +123,12 @@ export const FROZEN_ARTIFACT_IDS = Object.freeze([
   "whole-run-projector-svg",
   "whole-run-surface-sheet-svg",
   "whole-run-tech-pack-pdf",
+]);
+export const FROZEN_VNECK_BAND_ARTIFACT_IDS = Object.freeze([
+  ...FROZEN_ARTIFACT_IDS.slice(0, 4),
+  "selected-size-vneck-band-svg",
+  "selected-size-vneck-band-tech-pack-pdf",
+  ...FROZEN_ARTIFACT_IDS.slice(4),
 ]);
 const SHA256 = /^[0-9a-f]{64}$/;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -202,7 +210,7 @@ export function parseFrozenOutputManifestRecord(value: unknown): FrozenOutputMan
   const recordKeys = ["schemaVersion", "manifestId", "styleId", "revisionId", "capturedAt", "canonicalization", "digestAlgorithm", "packetDigest", "payload", "artifacts"];
   const payloadKeys = ["schemaVersion", "styleId", "revisionId", "revisionContentDigest", "audience", "purpose", "selectedSizes", "selectedColorwayIds", "ruleVersions", "exporterVersion", "approvalRefs", "unresolved", "artifacts"];
   const ruleKeys = Object.keys(STYLE_REVISION_RULE_VERSIONS);
-  if (!exactKeys(value, recordKeys) || ![EXPORT_MANIFEST_SCHEMA_VERSION, GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION].includes(value.schemaVersion as number)
+  if (!exactKeys(value, recordKeys) || ![EXPORT_MANIFEST_SCHEMA_VERSION, GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION, VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION].includes(value.schemaVersion as number)
     || !UUID.test(String(value.manifestId)) || !UUID.test(String(value.styleId)) || !UUID.test(String(value.revisionId))
     || !canonicalTimestamp(value.capturedAt) || value.canonicalization !== "RFC8785"
     || value.digestAlgorithm !== "SHA-256" || !isDigest(value.packetDigest)
@@ -219,7 +227,9 @@ export function parseFrozenOutputManifestRecord(value: unknown): FrozenOutputMan
     || !exactKeys(payload.ruleVersions, ruleKeys)
     || ruleKeys.some((key) => payloadRules[key] !== (STYLE_REVISION_RULE_VERSIONS as Record<string, string>)[key])
     || payload.exporterVersion !== (payload.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
-      ? TECH_PACK_SHARE_EXPORTER_VERSION : EXPORTER_CONTRACT_VERSION) || !Array.isArray(payload.approvalRefs)
+      ? TECH_PACK_SHARE_EXPORTER_VERSION
+      : payload.schemaVersion === VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION
+        ? VNECK_BAND_EXPORTER_VERSION : EXPORTER_CONTRACT_VERSION) || !Array.isArray(payload.approvalRefs)
     || (payload.schemaVersion === EXPORT_MANIFEST_SCHEMA_VERSION && payload.approvalRefs.length !== 0)
     || (payload.schemaVersion === GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION
       && (payload.approvalRefs.length !== 1 || typeof payload.approvalRefs[0] !== "string"
@@ -227,6 +237,10 @@ export function parseFrozenOutputManifestRecord(value: unknown): FrozenOutputMan
     || (payload.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
       && (payload.approvalRefs.length !== 1 || typeof payload.approvalRefs[0] !== "string"
         || !/^tech-pack-approval-sha256:[0-9a-f]{64}$/.test(payload.approvalRefs[0])))
+    || (payload.schemaVersion === VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION
+      && !(payload.approvalRefs.length === 0 || (payload.approvalRefs.length === 1
+        && typeof payload.approvalRefs[0] === "string"
+        && /^grade-plan-sha256:[0-9a-f]{64}$/.test(payload.approvalRefs[0]))))
     || !Array.isArray(payload.unresolved) || payload.unresolved.length < 1
     || !Array.isArray(payload.artifacts)) return null;
   for (const size of payload.selectedSizes) {
@@ -240,7 +254,9 @@ export function parseFrozenOutputManifestRecord(value: unknown): FrozenOutputMan
   if (![payload.selectedColorwayIds, payload.unresolved].every((list) => list.every((entry) => typeof entry === "string"))) return null;
   if (value.artifacts.length > FROZEN_MANIFEST_ARTIFACT_LIMIT) return null;
   const expectedArtifactIds = value.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
-    ? TECH_PACK_SHARE_ARTIFACT_IDS : FROZEN_ARTIFACT_IDS;
+    ? TECH_PACK_SHARE_ARTIFACT_IDS
+    : value.schemaVersion === VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION
+      ? FROZEN_VNECK_BAND_ARTIFACT_IDS : FROZEN_ARTIFACT_IDS;
   if (value.artifacts.length !== expectedArtifactIds.length || value.artifacts.length !== payload.artifacts.length) return null;
   const ids = new Set<string>();
   let priorArtifactId = "";
@@ -260,6 +276,8 @@ export function parseFrozenOutputManifestRecord(value: unknown): FrozenOutputMan
       || !Number.isSafeInteger(artifact.byteLength) || (artifact.byteLength as number) < 1
       || typeof artifact.path !== "string" || !/^artifacts\/[a-z0-9][a-z0-9-]{0,63}\.[a-z0-9]{1,8}$/.test(artifact.path)
       || (artifact.byteLength as number) > (value.schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+        || (value.schemaVersion === VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION
+          && artifact.artifactId === "selected-size-vneck-band-tech-pack-pdf")
         ? FROZEN_TECH_PACK_ARTIFACT_LIMIT : FROZEN_ARTIFACT_LIMIT) || !isDigest(artifact.sha256)
       || typeof artifact.bytes !== "object" || artifact.bytes === null
       || typeof (artifact.bytes as Blob).arrayBuffer !== "function" || typeof (artifact.bytes as Blob).size !== "number"
@@ -387,7 +405,7 @@ export async function createFrozenOutputManifest(input: {
   readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
   readonly unresolved: readonly string[];
   readonly artifacts: readonly FrozenArtifactInput[];
-  readonly schemaVersion?: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION | typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION;
+  readonly schemaVersion?: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION | typeof TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION | typeof VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION;
   readonly approvalRefs?: readonly string[];
   readonly selectedSections?: readonly string[];
 }, provider?: Crypto): Promise<FrozenOutputManifestRecord> {
@@ -405,13 +423,18 @@ export async function createFrozenOutputManifest(input: {
         || !Array.isArray(input.selectedSections) || input.selectedSections.length < 1
         || input.selectedSections.some((section) => !TECH_PACK_SHARE_SECTIONS.has(section))
         || new Set(input.selectedSections).size !== input.selectedSections.length))
+    || (schemaVersion === VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION
+      && !(approvalRefs.length === 0 || (approvalRefs.length === 1
+        && /^grade-plan-sha256:[0-9a-f]{64}$/.test(approvalRefs[0] ?? ""))))
     || input.artifacts.length > FROZEN_MANIFEST_ARTIFACT_LIMIT) {
     throw new Error("Frozen output manifest identity or capture inputs are invalid.");
   }
   const sorted = [...input.artifacts].sort((left, right) => left.artifactId < right.artifactId ? -1 : left.artifactId > right.artifactId ? 1 : 0);
   if (new Set(sorted.map((artifact) => artifact.artifactId)).size !== sorted.length) throw new Error("Frozen output artifact IDs must be unique.");
   const expectedArtifactIds = schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
-    ? TECH_PACK_SHARE_ARTIFACT_IDS : FROZEN_ARTIFACT_IDS;
+    ? TECH_PACK_SHARE_ARTIFACT_IDS
+    : schemaVersion === VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION
+      ? FROZEN_VNECK_BAND_ARTIFACT_IDS : FROZEN_ARTIFACT_IDS;
   if (sorted.length !== expectedArtifactIds.length
     || expectedArtifactIds.some((id) => !sorted.some((artifact) => artifact.artifactId === id))) {
     throw new Error("Frozen output manifest must contain the complete supported artifact set.");
@@ -425,6 +448,8 @@ export async function createFrozenOutputManifest(input: {
       throw new Error("Frozen output artifact identity, extension, name, or media type is invalid.");
     }
     const artifactLimit = schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
+      || (schemaVersion === VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION
+        && artifact.artifactId === "selected-size-vneck-band-tech-pack-pdf")
       ? FROZEN_TECH_PACK_ARTIFACT_LIMIT : FROZEN_ARTIFACT_LIMIT;
     if (schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
       && artifact.bytes instanceof Uint8Array && artifact.bytes.byteLength > artifactLimit) {
@@ -459,7 +484,9 @@ export async function createFrozenOutputManifest(input: {
     selectedColorwayIds: [],
     ruleVersions: STYLE_REVISION_RULE_VERSIONS,
     exporterVersion: schemaVersion === TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION
-      ? TECH_PACK_SHARE_EXPORTER_VERSION : EXPORTER_CONTRACT_VERSION,
+      ? TECH_PACK_SHARE_EXPORTER_VERSION
+      : schemaVersion === VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION
+        ? VNECK_BAND_EXPORTER_VERSION : EXPORTER_CONTRACT_VERSION,
     approvalRefs: [...approvalRefs],
     unresolved: [...input.unresolved],
     artifacts: artifacts.map(({ bytes: _bytes, ...descriptor }) => descriptor),
@@ -596,7 +623,7 @@ export async function verifyFrozenOutputManifest(record: FrozenOutputManifestRec
 }
 
 export async function verifyFrozenOutputManifestMetadata(record: FrozenOutputManifestRecord, provider?: Crypto): Promise<boolean> {
-  if (![EXPORT_MANIFEST_SCHEMA_VERSION, GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION].includes(record.schemaVersion)
+  if (![EXPORT_MANIFEST_SCHEMA_VERSION, GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION, VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION].includes(record.schemaVersion)
     || record.schemaVersion !== record.payload.schemaVersion || record.canonicalization !== "RFC8785"
     || record.digestAlgorithm !== "SHA-256" || record.payload.styleId !== record.styleId
     || record.payload.revisionId !== record.revisionId) return false;

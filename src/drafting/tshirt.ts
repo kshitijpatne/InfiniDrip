@@ -330,3 +330,191 @@ export function teeNeckbandTemplateSvg(
     `<text x="${format(x)}" y="${format(scaleY + 0.43)}" font-size="0.22">0.6 cm seam allowance · both long edges · 1 cm ends · quarter notches · fit/recovery not validated</text>` +
     `</g></svg>`;
 }
+
+/**
+ * Build the selected-size T06 V-band strip. This is a product-defined digital
+ * construction: the full included V angle comes from mirroring the active
+ * front neckline line, and the strip end join is mitered by half of that
+ * included angle. The formula is not a sourced universal pattern rule and
+ * does not predict physical fit or material behavior.
+ *
+ * The open strip is laid flat with its two opposing center-front join seams
+ * marked at its ends. Registration points follow the measured front/back
+ * neckline proportions, while the V schematic records the actual garment
+ * center-front point used to derive the join.
+ */
+export function teeVNeckbandTemplateSvg(
+  pieces: readonly Piece[],
+  lengthPercent: number,
+  finishedWidthCm: number,
+): string {
+  const percentageOption = TEE_NECKBAND_OPTIONS[0]!;
+  const widthOption = TEE_NECKBAND_OPTIONS[1]!;
+  const validSetting = (value: number, option: GarmentOption): boolean => Number.isFinite(value)
+    && value >= option.min
+    && value <= option.max
+    && Math.abs((value - option.min) / option.step - Math.round((value - option.min) / option.step)) <= 1e-7;
+  if (!validSetting(lengthPercent, percentageOption)) {
+    throw new Error(`Neckband length must be ${percentageOption.min}–${percentageOption.max}% of the drafted neckline.`);
+  }
+  if (!validSetting(finishedWidthCm, widthOption)) {
+    throw new Error(`Finished neckband width must be ${widthOption.min}–${widthOption.max} cm.`);
+  }
+
+  const front = pieces.find((piece) => piece.name.trim().toLowerCase() === "front");
+  const back = pieces.find((piece) => piece.name.trim().toLowerCase() === "back");
+  if (!front || !back) throw new Error("The selected Tee pattern must include front and back pieces.");
+
+  const frontEdge = pieceEdge(front, "neckline");
+  const backEdge = pieceEdge(back, "neckline");
+  if (frontEdge.kind !== "line") {
+    throw new Error("The selected front neckline is not a straight V and cannot define the V-band join.");
+  }
+  const frontNecklineCm = edgeLength(frontEdge);
+  const backNecklineCm = edgeLength(backEdge);
+  if (!Number.isFinite(frontNecklineCm) || frontNecklineCm <= 0 ||
+      !Number.isFinite(backNecklineCm) || backNecklineCm <= 0) {
+    throw new Error("The selected Tee neckline geometry is not usable for a V-band template.");
+  }
+
+  // The folded front is at x=0; accept either edge direction so this helper
+  // still consumes actual geometry rather than depending on edge ordering.
+  const centerFront = Math.abs(frontEdge.start.x) <= Math.abs(frontEdge.end.x)
+    ? frontEdge.start : frontEdge.end;
+  const shoulder = centerFront === frontEdge.start ? frontEdge.end : frontEdge.start;
+  const frontHalfWidthCm = Math.abs(shoulder.x - centerFront.x);
+  const frontDropCm = Math.abs(shoulder.y - centerFront.y);
+  const halfVAngleRadians = Math.atan2(frontHalfWidthCm, frontDropCm);
+  const includedVAngleRadians = 2 * halfVAngleRadians;
+  if (!Number.isFinite(frontHalfWidthCm) || frontHalfWidthCm <= 0 ||
+      !Number.isFinite(frontDropCm) || frontDropCm <= 0 ||
+      !Number.isFinite(includedVAngleRadians) || includedVAngleRadians <= 0 || includedVAngleRadians >= Math.PI) {
+    throw new Error("The selected front V geometry cannot define a center-front band join; review the V drop and neckline draft.");
+  }
+
+  const necklineCircumferenceCm = 2 * (frontNecklineCm + backNecklineCm);
+  if (!Number.isFinite(necklineCircumferenceCm) || necklineCircumferenceCm <= 0) {
+    throw new Error("The selected Tee neckline geometry is not usable for a V-band template.");
+  }
+  const loopSeamlineCm = necklineCircumferenceCm * lengthPercent / 100;
+  const endSeamAllowanceCm = 1;
+  const necklineSeamAllowanceCm = 0.6;
+  const cutLengthCm = loopSeamlineCm + 2 * endSeamAllowanceCm;
+  const cutWidthCm = 2 * (finishedWidthCm + necklineSeamAllowanceCm);
+  const joinWidthCm = cutWidthCm - 2 * necklineSeamAllowanceCm;
+  const miterRunCm = joinWidthCm / Math.tan(halfVAngleRadians);
+  if (!Number.isFinite(miterRunCm) || miterRunCm <= 0 || miterRunCm * 2 >= loopSeamlineCm) {
+    throw new Error("The selected front V is too sharp for this band length to keep the center-front join clear; review the V draft or band settings.");
+  }
+
+  const marginCm = 1;
+  const topSpaceCm = 4.4;
+  const bottomSpaceCm = 2.6;
+  const sheetWidthCm = cutLengthCm + marginCm * 2;
+  const sheetHeightCm = topSpaceCm + cutWidthCm + bottomSpaceCm;
+  const x = marginCm;
+  const y = topSpaceCm;
+  const loopStartX = x + endSeamAllowanceCm;
+  const loopEndX = loopStartX + loopSeamlineCm;
+  const format = (value: number): string => Number(value.toFixed(3)).toString();
+  const dimension = (value: number): string => value.toFixed(1);
+  const angleDegrees = includedVAngleRadians * 180 / Math.PI;
+
+  const registrationMarks = [
+    { id: "center-front-start", label: "CF", bodyPosition: 0, bandPosition: 0 },
+    {
+      id: "shoulder-front", label: "SHOULDER", bodyPosition: frontNecklineCm,
+      bandPosition: loopSeamlineCm * frontNecklineCm / necklineCircumferenceCm,
+    },
+    {
+      id: "center-back", label: "CB", bodyPosition: frontNecklineCm + backNecklineCm,
+      bandPosition: loopSeamlineCm / 2,
+    },
+    {
+      id: "shoulder-back", label: "SHOULDER", bodyPosition: frontNecklineCm + 2 * backNecklineCm,
+      bandPosition: loopSeamlineCm * (frontNecklineCm + 2 * backNecklineCm) / necklineCircumferenceCm,
+    },
+    {
+      id: "center-front-end", label: "CF", bodyPosition: necklineCircumferenceCm,
+      bandPosition: loopSeamlineCm,
+    },
+  ].map((mark) => {
+    const notchX = loopStartX + mark.bandPosition;
+    const notchHalfWidth = 0.12;
+    const notchDepth = 0.28;
+    const top = `M ${format(notchX - notchHalfWidth)} ${format(y)} L ${format(notchX)} ${format(y + notchDepth)} L ${format(notchX + notchHalfWidth)} ${format(y)}`;
+    const bottom = `M ${format(notchX - notchHalfWidth)} ${format(y + cutWidthCm)} L ${format(notchX)} ${format(y + cutWidthCm - notchDepth)} L ${format(notchX + notchHalfWidth)} ${format(y + cutWidthCm)}`;
+    const markType = mark.label === "CF" ? "center-front" : mark.label === "CB" ? "center-back" : "shoulder";
+    return `<g data-registration="${mark.id}" data-registration-type="${markType}" ` +
+      `data-body-position-cm="${format(mark.bodyPosition)}" ` +
+      `data-band-position-cm="${format(mark.bandPosition)}">` +
+      `<path data-registration-notch="true" d="${top}${bottom}"/>` +
+      `</g>`;
+  }).join("");
+
+  const vDiagramScale = Math.min(1, 5.2 / (2 * frontHalfWidthCm), 1.7 / frontDropCm);
+  const vDiagramCenterX = x + cutLengthCm / 2;
+  const vDiagramTopY = 2.05;
+  const vDiagramPointY = vDiagramTopY + frontDropCm * vDiagramScale;
+  const vDiagramLeftX = vDiagramCenterX - frontHalfWidthCm * vDiagramScale;
+  const vDiagramRightX = vDiagramCenterX + frontHalfWidthCm * vDiagramScale;
+  const startJoin = `M ${format(loopStartX)} ${format(y + necklineSeamAllowanceCm)} ` +
+    `L ${format(loopStartX + miterRunCm)} ${format(y + cutWidthCm - necklineSeamAllowanceCm)}`;
+  const endJoin = `M ${format(loopEndX)} ${format(y + necklineSeamAllowanceCm)} ` +
+    `L ${format(loopEndX - miterRunCm)} ${format(y + cutWidthCm - necklineSeamAllowanceCm)}`;
+  const scaleY = y + cutWidthCm + 1.78;
+  const necklineJoinY1 = y + necklineSeamAllowanceCm;
+  const necklineJoinY2 = y + cutWidthCm - necklineSeamAllowanceCm;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" role="img" ` +
+    `width="${format(sheetWidthCm)}cm" height="${format(sheetHeightCm)}cm" ` +
+    `viewBox="0 0 ${format(sheetWidthCm)} ${format(sheetHeightCm)}" ` +
+    `data-neckline-circumference-cm="${format(necklineCircumferenceCm)}" ` +
+    `data-loop-seamline-cm="${format(loopSeamlineCm)}" ` +
+    `data-cut-length-cm="${format(cutLengthCm)}" data-cut-width-cm="${format(cutWidthCm)}" ` +
+    `data-finished-width-cm="${format(finishedWidthCm)}" data-v-included-angle-deg="${format(angleDegrees)}" ` +
+    `data-v-miter-run-cm="${format(miterRunCm)}" data-front-v-drop-cm="${format(frontDropCm)}" ` +
+    `data-front-v-half-width-cm="${format(frontHalfWidthCm)}" ` +
+    `data-v-center-front-x-cm="${format(centerFront.x)}" data-v-center-front-y-cm="${format(centerFront.y)}" ` +
+    `data-v-shoulder-x-cm="${format(shoulder.x)}" data-v-shoulder-y-cm="${format(shoulder.y)}">` +
+    `<title>T06 V-neck band provisional cutting template</title>` +
+    `<desc>True-scale one-piece digital band strip from the selected Tee front V and crew back. ` +
+    `Opposing center-front join seams use a product-defined miter derived from the active V angle. ` +
+    `Print at 100 percent and verify the ten centimetre calibration line. Material behavior and physical fit are unvalidated.</desc>` +
+    `<g fill="none" stroke="#111" stroke-width="0.035">` +
+    `<rect data-cut-outline="true" x="${format(x)}" y="${format(y)}" ` +
+    `width="${format(cutLengthCm)}" height="${format(cutWidthCm)}"/>` +
+    `<line data-neckline-seamline="true" x1="${format(x)}" y1="${format(necklineJoinY1)}" ` +
+    `x2="${format(x + cutLengthCm)}" y2="${format(necklineJoinY1)}" stroke-dasharray="0.16 0.1"/>` +
+    `<line data-neckline-seamline="true" x1="${format(x)}" y1="${format(necklineJoinY2)}" ` +
+    `x2="${format(x + cutLengthCm)}" y2="${format(necklineJoinY2)}" stroke-dasharray="0.16 0.1"/>` +
+    `<path data-v-forming-join="start" data-center-front="true" d="${startJoin}" stroke-dasharray="0.08 0.06"/>` +
+    `<path data-v-forming-join="end" data-center-front="true" d="${endJoin}" stroke-dasharray="0.08 0.06"/>` +
+    `<line data-fold-line="true" x1="${format(x)}" y1="${format(y + cutWidthCm / 2)}" ` +
+    `x2="${format(x + cutLengthCm)}" y2="${format(y + cutWidthCm / 2)}" stroke-dasharray="0.28 0.12 0.06 0.12"/>` +
+    registrationMarks +
+    `<line data-calibration-length-cm="10" x1="${format(x)}" y1="${format(scaleY)}" ` +
+    `x2="${format(x + 10)}" y2="${format(scaleY)}"/>` +
+    `<line x1="${format(x)}" y1="${format(scaleY - 0.12)}" x2="${format(x)}" y2="${format(scaleY + 0.12)}"/>` +
+    `<line x1="${format(x + 10)}" y1="${format(scaleY - 0.12)}" x2="${format(x + 10)}" y2="${format(scaleY + 0.12)}"/>` +
+    `</g>` +
+    `<g fill="#111" font-family="Arial, sans-serif">` +
+    `<text x="${format(x)}" y="0.48" font-size="0.3">T06 V-NECK BAND — PROVISIONAL TEMPLATE · SELECTED SIZE</text>` +
+    `<text x="${format(x)}" y="0.95" font-size="0.22">Body neckline ${dimension(necklineCircumferenceCm)} cm · band target ${dimension(loopSeamlineCm)} cm at ${dimension(lengthPercent)}% · finished width ${dimension(finishedWidthCm)} cm</text>` +
+    `<text x="${format(x)}" y="1.38" font-size="0.22">CF miter ${dimension(angleDegrees)}° included V angle · matching CF, shoulder and CB registration marks</text>` +
+    `<text x="${format(vDiagramCenterX - 2.5)}" y="1.72" font-size="0.2">GARMENT FRONT V REFERENCE · SCHEMATIC</text>` +
+    `<text x="${format(vDiagramLeftX - 0.28)}" y="${format(vDiagramTopY + 0.12)}" font-size="0.18">SHOULDER</text>` +
+    `<text x="${format(vDiagramRightX + 0.12)}" y="${format(vDiagramTopY + 0.12)}" font-size="0.18">SHOULDER</text>` +
+    `<text x="${format(vDiagramCenterX + 0.15)}" y="${format(vDiagramPointY + 0.12)}" font-size="0.18">CF</text>` +
+    `<text x="${format(x)}" y="${format(y + 1.25)}" font-size="0.22">CUT 1 BAND STRIP · FOLD ON DASH-DOT LINE · JOIN THE OPPOSING MITER SEAMS AT CENTER FRONT</text>` +
+    `<text x="${format(x)}" y="${format(scaleY + 0.08)}" font-size="0.22">10 cm scale check — print at 100%</text>` +
+    `<text x="${format(x)}" y="${format(scaleY + 0.43)}" font-size="0.22">0.6 cm long-edge allowance · 1 cm end allowance · digital software choices · physical fit/material behavior unvalidated</text>` +
+    `</g>` +
+    `<g fill="none" stroke="#111" stroke-width="0.045" data-garment-v-reference="true">` +
+    `<path data-garment-v-neckline="true" d="M ${format(vDiagramLeftX)} ${format(vDiagramTopY)} ` +
+    `L ${format(vDiagramCenterX)} ${format(vDiagramPointY)} L ${format(vDiagramRightX)} ${format(vDiagramTopY)}"/>` +
+    `<circle data-garment-center-front="true" cx="${format(vDiagramCenterX)}" cy="${format(vDiagramPointY)}" r="0.09" fill="#111"/>` +
+    `<path data-v-join-diagram="true" d="M ${format(vDiagramCenterX - 0.38)} ${format(vDiagramPointY + 0.16)} ` +
+    `L ${format(vDiagramCenterX)} ${format(vDiagramPointY + 0.52)} L ${format(vDiagramCenterX + 0.38)} ${format(vDiagramPointY + 0.16)}"/>` +
+    `</g></svg>`;
+}
