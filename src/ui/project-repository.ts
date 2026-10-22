@@ -43,6 +43,8 @@ import {
   verifyFrozenOutputManifestMetadata,
   verifyFrozenOutputManifest,
   verifyStyleRevision,
+  GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+  VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
   type FrozenOutputManifestRecord,
   type StyleRevisionRecord,
 } from "./style-revisions";
@@ -1439,7 +1441,9 @@ export class ProjectRepository {
         const capture = await requireStoredPlanCapture(transaction, expectedPlan);
         assertGradePlanBase(expectedPlan, style.value, capture);
         const matchingManifest = exportManifests.find((manifest) => manifest.styleId === expectedPlan.styleId);
-        if (!matchingManifest || matchingManifest.schemaVersion !== 2
+        if (!matchingManifest
+          || (matchingManifest.schemaVersion !== GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION
+            && matchingManifest.schemaVersion !== VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION)
           || matchingManifest.payload.approvalRefs.length !== 1
           || matchingManifest.payload.approvalRefs[0] !== input.gradePlanFreeze.approvalRef) {
           throw new ProjectRepositoryError("invalid-data", "The frozen output manifest is not bound to the reviewed grade plan.");

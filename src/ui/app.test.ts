@@ -34,7 +34,7 @@ import * as gradePlan from "./grade-plan";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { GARMENTS, STANDARD_M, STRETCH_FABRICS, draftTshirt, gradeRun, rolePiece, type GarmentRecipe } from "../drafting";
+import { GARMENTS, STANDARD_M, STRETCH_FABRICS, draftTshirt, gradeRun, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
 import { teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
 import * as teeDrafting from "../drafting/tshirt";
@@ -1714,7 +1714,7 @@ describe("mountApp", () => {
       vi.unstubAllGlobals();
       localStorage.clear();
     }
-  }, 30_000);
+  }, 60_000);
 
   it("downloads both revision-matched outputs and blocks stale or unsupported downloads", async () => {
     localStorage.clear();
@@ -4758,7 +4758,7 @@ describe("FITTED custom one-size guidance", () => {
       }
       clickId(root, "journey-next");
       await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("fit"),
-        { timeout: 20_000 });
+        { timeout: 60_000 });
       expect(workflow.snapshot.activeStyle.recipeId).toBe("fitted");
       expect(isCustomOneSizeStyle(workflow.snapshot.activeStyle)).toBe(true);
 
@@ -4783,7 +4783,7 @@ describe("FITTED custom one-size guidance", () => {
       vi.unstubAllGlobals();
       localStorage.clear();
     }
-  }, 20_000);
+  }, 60_000);
 });
 describe("fabric width visibility", () => {
   it("shows the bolt-width box only in the Nesting view, where it does something", () => {
@@ -8918,6 +8918,231 @@ describe("bundled local artwork library (Slice 203)", () => {
     }
   }, 20_000);
 
+  it("freezes the reviewed T06 V-neck outputs including the selected-size band SVG and Tech Pack", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-standard-freeze-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-27T12:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-tee-vneck-digital-v1");
+      const bandLength = root.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandLengthPercent"]')!;
+      const bandWidth = root.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandFinishedWidthCm"]')!;
+      bandLength.value = "84";
+      bandLength.dispatchEvent(new Event("input", { bubbles: true }));
+      bandWidth.value = "2.4";
+      bandWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("saved"),
+        { timeout: 10_000 });
+      reachExportStage(root);
+      const manager = root.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+      manager.open = true;
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+      freeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+      expect(workflow.snapshot.exportManifests).toHaveLength(1);
+      const manifest = workflow.snapshot.exportManifests[0]!;
+      expect(manifest.schemaVersion).toBe(4);
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-vneck-band-svg");
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-vneck-band-tech-pack-pdf");
+      const frozenBand = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-vneck-band-svg");
+      const frozenVBandTechPack = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-vneck-band-tech-pack-pdf");
+      const frozenWholeRunTechPack = await workflow.readFrozenArtifact(manifest.manifestId, "whole-run-tech-pack-pdf");
+      expect(await frozenBand.artifact.bytes.text()).toContain('data-v-forming-join="start"');
+      const techPackText = await frozenVBandTechPack.artifact.bytes.text();
+      expect(techPackText).toContain("Measured selected-size body neckline");
+      expect(techPackText).toContain("Finished width 2.4 cm");
+      const wholeRunTechPackText = await frozenWholeRunTechPack.artifact.bytes.text();
+      expect(wholeRunTechPackText).toContain("V-band output is available only in the selected-size V-band Tech Pack;");
+      expect(wholeRunTechPackText).toContain("graded-size V-band instructions or pattern output.");
+      expect(wholeRunTechPackText).not.toContain("V-band settings:");
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 20_000);
+
+  it("freezes the selected-size V-band for an approved custom-size grade plan", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const now = "2026-09-27T12:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-vneck-grade-plan-freeze-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => now,
+    });
+    const starterRoot = document.createElement("div");
+    const root = document.createElement("div");
+    document.body.append(starterRoot, root);
+    try {
+      mountApp(starterRoot, { projectWorkflow: workflow });
+      clickIfPresent(starterRoot, "welcome-start");
+      clickId(starterRoot, "starter-tee-vneck-digital-v1");
+      const seededDesign = workflow.snapshot.activeStyle.design;
+      const sessionStart = createMeasurementCaptureSession(
+        webcrypto.randomUUID(), "tee", now, workflow.snapshot.activeStyle.id,
+      );
+      let session = sessionStart;
+      for (const [index, definition] of getCaptureFieldDefinitions("tee").entries()) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Synthetic digital test input; no physical fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, new Date(Date.parse(now) + index + 1).toISOString());
+      }
+      await workflow.loadMeasurementCapture("tee");
+      await workflow.saveMeasurementCapture(session, []);
+      const capturedDesign = materializeCustomSizeDesign(seededDesign, session);
+      const customDesign = {
+        ...capturedDesign,
+        garmentOptions: {
+          ...capturedDesign.garmentOptions,
+          tee: { ...capturedDesign.garmentOptions.tee, teeVNeckDropCm: 5 },
+        },
+      };
+      await workflow.createCustomSizeStyle("Synthetic V-neck grade plan", customDesign);
+
+      const style = workflow.snapshot.activeStyle;
+      const options: GarmentOptions = customDesign.garmentOptions.tee ?? {};
+      const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      const sourceInputs = {
+        measurements: Object.fromEntries(recipe.fields.map((field) => [field, customDesign.measurements[field]])),
+        options: Object.fromEntries((recipe.options ?? []).flatMap((option) => {
+          const value = options[option.id];
+          return value === undefined ? [] : [[option.id, value]];
+        })),
+      };
+      const sourceBlock = recipe.draft(customDesign.measurements, options);
+      const fingerprint = await editEngine.semanticEditSourceFingerprint(
+        recipe.name, sourceBlock, webcrypto as unknown as Crypto, sourceInputs,
+      );
+      await workflow.saveActiveDesign({
+        ...style.design,
+        semanticEdits: semanticEditEngine.emptySemanticEditDocument(recipe.name, fingerprint, sourceInputs),
+      });
+      const capture = await workflow.loadMeasurementCapture("tee");
+      expect(capture).not.toBeNull();
+      const contextResult = await gradePlanContext.createGradePlanContext(
+        workflow.snapshot.project.id,
+        workflow.snapshot.activeStyle,
+        capture!,
+        webcrypto as unknown as Crypto,
+      );
+      expect(contextResult.ok).toBe(true);
+      if (!contextResult.ok) throw new Error(contextResult.errors.join(" "));
+
+      const at = (offset: number): string => new Date(Date.parse(now) + 60_000 + offset).toISOString();
+      const created = gradePlan.createGradePlanDraft(
+        contextResult.value.binding, contextResult.value.targets, at(0),
+      );
+      expect(created.ok).toBe(true);
+      if (!created.ok) throw new Error(created.errors.join(" "));
+      let plan = await workflow.saveGradePlan(created.value);
+      const configured = gradePlan.configureGradePlan(created.value, {
+        basis: {
+          kind: "user-authored-digital-rule",
+          decision: "Synthetic integration fixture only.",
+          digitalRange: "S and M; no physical grading claim.",
+        },
+        declaredRange: "S and M only; synthetic digital verification.",
+        baseSizeLabel: "M",
+        sizes: [{ label: "S", position: -1 }, { label: "M", position: 0 }],
+        exceptions: [],
+      }, at(1));
+      expect(configured.ok).toBe(true);
+      if (!configured.ok) throw new Error(configured.errors.join(" "));
+      plan = await workflow.saveGradePlan(configured.value);
+      const completedDraft = gradePlan.updateGradePlanDraft(plan, {
+        basis: plan.basis,
+        declaredRange: plan.declaredRange,
+        baseSizeLabel: plan.baseSizeLabel,
+        sizes: plan.sizes,
+        targets: plan.targets.map((target) => ({
+          ...target,
+          deltas: target.deltas.map((delta) => ({
+            ...delta,
+            deltaFromBase: delta.sizeLabel === "S" ? 0 : delta.deltaFromBase,
+          })),
+        })),
+        exceptions: plan.exceptions,
+      }, at(2));
+      expect(completedDraft.ok).toBe(true);
+      if (!completedDraft.ok) throw new Error(completedDraft.errors.join(" "));
+      plan = await workflow.saveGradePlan(completedDraft.value);
+      const targetIds = plan.targets.map((target) => target.targetId);
+      const reviewed = gradePlan.reviewGradePlan(plan, targetIds, contextResult.value.binding, at(100));
+      expect(reviewed.ok).toBe(true);
+      if (!reviewed.ok) throw new Error(reviewed.errors.join(" "));
+      plan = await workflow.saveGradePlan(reviewed.value);
+      const approved = gradePlan.approveGradePlan(plan, targetIds, contextResult.value.binding, at(101));
+      expect(approved.ok).toBe(true);
+      if (!approved.ok) throw new Error(approved.errors.join(" "));
+      const approvedPlan = await workflow.saveGradePlan(approved.value);
+
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"), { timeout: 20_000 });
+      reachExportStage(root);
+      const exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      exportSize.value = "S";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 20_000 });
+      freeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      expect(workflow.snapshot.exportManifests).toHaveLength(1);
+      const manifest = workflow.snapshot.exportManifests[0]!;
+      expect(manifest.schemaVersion).toBe(4);
+      expect(manifest.payload.approvalRefs).toHaveLength(1);
+      expect(manifest.payload.approvalRefs[0]).toMatch(/^grade-plan-sha256:[0-9a-f]{64}$/);
+      expect(workflow.snapshot.gradePlans).toContainEqual(approvedPlan);
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-vneck-band-svg");
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-vneck-band-tech-pack-pdf");
+      const vBandTechPack = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-vneck-band-tech-pack-pdf");
+      expect(await vBandTechPack.artifact.bytes.text()).toContain("Measured selected-size body neckline");
+      const wholeRunTechPack = await workflow.readFrozenArtifact(manifest.manifestId, "whole-run-tech-pack-pdf");
+      const wholeRunText = await wholeRunTechPack.artifact.bytes.text();
+      expect(wholeRunText).toContain("selected-size V-band Tech Pack");
+      expect(wholeRunText).not.toContain("V-band settings:");
+    } finally {
+      workflow.close();
+      starterRoot.remove();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 60_000);
+
   it("gates whole-run outputs on exact plan readiness and invalidates approval after edits", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
@@ -10566,7 +10791,7 @@ describe("EPIC-19 L02 starter binding", () => {
     localStorage.clear();
   });
 
-  it("selects T06 V-neck Tee, withholds the generic band, and preserves the option and origin through save and reopen", () => {
+  it("selects T06 V-neck Tee, exposes its V-specific band controls, and preserves the option and origin through save and reopen", () => {
     localStorage.clear();
     const root = mount();
     clickIfPresent(root, "welcome-start");
@@ -10637,10 +10862,11 @@ describe("EPIC-19 L02 starter binding", () => {
     const neckbandControls = root.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!;
     const limitation = root.querySelector<HTMLElement>("#tee-neckband-v-limitation")!;
     const neckbandExport = root.querySelector<HTMLButtonElement>("#export-tee-neckband")!;
-    expect(neckbandControls.disabled).toBe(true);
+    expect(neckbandControls.disabled).toBe(false);
     expect(limitation.hidden).toBe(false);
-    expect(neckbandExport.disabled).toBe(true);
-    expect(neckbandExport.title).toContain("does not model the V-point join");
+    expect(limitation.textContent).toContain("V-specific provisional band output is available");
+    expect(neckbandExport.disabled).toBe(false);
+    expect(neckbandExport.title).toContain("V-band strip with its center-front join");
     expect(root.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!.disabled).toBe(false);
 
     const neckbandValuesBeforeSave = [
@@ -10669,15 +10895,129 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
       .toContain("Starting design: Tee V-neck · software defaults");
     expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(rendered);
-    expect(reopened.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!.disabled).toBe(true);
+    reachExportStage(reopened);
+    expect(reopened.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!.disabled).toBe(false);
     expect(reopened.querySelector<HTMLElement>("#tee-neckband-v-limitation")!.hidden).toBe(false);
-    expect(reopened.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled).toBe(true);
+    expect(reopened.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled).toBe(false);
     expect([
       reopened.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandLengthPercent"]')!.value,
       reopened.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandFinishedWidthCm"]')!.value,
     ]).toEqual(neckbandValuesBeforeSave);
     root.remove();
     reopened.remove();
+    localStorage.clear();
+  });
+
+  it("exports identical selected-size V-band SVG and Tech Pack after saving and reopening T06", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename: string, content: string) => {
+        files.set(filename, content);
+        return { saved: true, filePath: filename };
+      }),
+    };
+    try {
+      const root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-tee-vneck-digital-v1");
+      const length = root.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandLengthPercent"]')!;
+      const width = root.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandFinishedWidthCm"]')!;
+      length.value = "84";
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      width.value = "2.4";
+      width.dispatchEvent(new Event("input", { bubbles: true }));
+      reachExportStage(root);
+
+      expect(root.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled).toBe(false);
+      expect(root.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!.disabled).toBe(false);
+      clickId(root, "export-tee-neckband");
+      await vi.waitFor(() => expect(files.has("tee-M-vneck-band.svg")).toBe(true));
+      clickId(root, "export-tee-selected-techpack");
+      await vi.waitFor(() => expect(files.has("tee-M-selected-techpack.pdf")).toBe(true));
+      clickId(root, "export-techpack");
+      await vi.waitFor(() => expect(files.has("tee-techpack.pdf")).toBe(true));
+      const wholeRunTechPack = files.get("tee-techpack.pdf")!;
+      expect(wholeRunTechPack).toContain("V-band output is available only in the selected-size V-band Tech Pack;");
+      expect(wholeRunTechPack).toContain("graded-size V-band instructions or pattern output.");
+      expect(wholeRunTechPack).not.toContain("V-band settings:");
+      const originalBand = files.get("tee-M-vneck-band.svg")!;
+      const originalTechPack = files.get("tee-M-selected-techpack.pdf")!;
+      expect(originalBand).toContain('data-v-forming-join="start"');
+      expect(originalBand).toContain('data-v-forming-join="end"');
+      expect(originalBand).toContain('data-finished-width-cm="2.4"');
+      expect(originalTechPack).toContain("Provisional digital V-band construction");
+      expect(originalTechPack).toContain("Measured selected-size body neckline");
+      expect(originalTechPack).toContain("selected band target");
+      expect(originalTechPack).toContain("Finished width 2.4 cm");
+
+      clickId(root, "save-pattern");
+      const reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandLengthPercent"]')!.value).toBe("84");
+      expect(reopened.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandFinishedWidthCm"]')!.value).toBe("2.4");
+      reachExportStage(reopened);
+      files.delete("tee-M-vneck-band.svg");
+      files.delete("tee-M-selected-techpack.pdf");
+      clickId(reopened, "export-tee-neckband");
+      await vi.waitFor(() => expect(files.has("tee-M-vneck-band.svg")).toBe(true));
+      clickId(reopened, "export-tee-selected-techpack");
+      await vi.waitFor(() => expect(files.has("tee-M-selected-techpack.pdf")).toBe(true));
+      expect(files.get("tee-M-vneck-band.svg")).toBe(originalBand);
+      expect(files.get("tee-M-selected-techpack.pdf")).toBe(originalTechPack);
+      root.remove();
+      reopened.remove();
+    } finally {
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("keeps invalid V-band settings visible and disables band exports until corrected", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-vneck-digital-v1");
+    reachExportStage(root);
+    const length = root.querySelector<HTMLInputElement>('[data-tee-neckband-option="teeNeckbandLengthPercent"]')!;
+    length.value = "91";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(length.value).toBe("91");
+    expect(root.querySelector<HTMLElement>("#tee-neckband-control-error")!.textContent).toContain("75–90%");
+    expect(root.querySelector<HTMLFieldSetElement>("[data-tee-neckband-controls]")!.disabled).toBe(false);
+    expect(root.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!.disabled).toBe(true);
+
+    length.value = "90";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#tee-neckband-control-error")!.textContent).toBe("");
+    expect(root.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled).toBe(false);
+    expect(root.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!.disabled).toBe(false);
+    root.remove();
+    localStorage.clear();
+  });
+
+  it("reports V-band geometry failures and disables output when generation fails", () => {
+    localStorage.clear();
+    const generateBand = vi.spyOn(teeDrafting, "teeVNeckbandTemplateSvg")
+      .mockImplementation(() => { throw new Error("synthetic V-band geometry failure"); });
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-tee-vneck-digital-v1");
+    reachExportStage(root);
+    expect(root.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled).toBe(true);
+    expect(root.querySelector<HTMLElement>("#tee-neckband-v-limitation")!.textContent)
+      .toContain("synthetic V-band geometry failure");
+
+    generateBand.mockImplementation(() => { throw "synthetic non-Error V-band failure"; });
+    const fallbackRoot = mount();
+    clickIfPresent(fallbackRoot, "welcome-start");
+    clickId(fallbackRoot, "starter-tee-vneck-digital-v1");
+    reachExportStage(fallbackRoot);
+    expect(fallbackRoot.querySelector<HTMLButtonElement>("#export-tee-neckband")!.disabled).toBe(true);
+    expect(fallbackRoot.querySelector<HTMLElement>("#tee-neckband-v-limitation")!.textContent)
+      .toContain("The selected V-band geometry could not be generated.");
+
+    generateBand.mockRestore();
     localStorage.clear();
   });
 

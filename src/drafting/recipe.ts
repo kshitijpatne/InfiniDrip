@@ -18,9 +18,11 @@ import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
+import { TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION } from "./vneck-band-output";
 import {
   draftTshirt,
   TEE_GRAMMAR,
+  TEE_NECKBAND_OPTIONS,
   hasConflictingTeeNecklineOptions,
   isTeeVNeckActive,
   teeFrontNecklineParams,
@@ -259,10 +261,61 @@ export const TEE: GarmentRecipe = {
       };
     }
     if (!isTeeVNeckActive(options)) return this.techPack;
+    const withoutNeckband = this.techPack.construction.filter((step) => !step.startsWith("Attach the neckband"));
+    if (options[TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION] !== 1) {
+      return {
+        bom: this.techPack.bom.filter((row) => row.placement !== "Neckband"),
+        constructionNotice: "V-band output is available only in the selected-size V-band Tech Pack; whole-run Tech Packs do not include graded-size V-band instructions or pattern output.",
+        construction: withoutNeckband,
+      };
+    }
+    const lengthOption = TEE_NECKBAND_OPTIONS[0]!;
+    const widthOption = TEE_NECKBAND_OPTIONS[1]!;
+    const lengthPercent = options[lengthOption.id] ?? lengthOption.defaultValue;
+    const finishedWidthCm = options[widthOption.id] ?? widthOption.defaultValue;
+    const validLength = Number.isFinite(lengthPercent)
+      && lengthPercent >= lengthOption.min
+      && lengthPercent <= lengthOption.max
+      && Math.abs((lengthPercent - lengthOption.min) / lengthOption.step
+        - Math.round((lengthPercent - lengthOption.min) / lengthOption.step)) <= 1e-7;
+    const validWidth = Number.isFinite(finishedWidthCm)
+      && finishedWidthCm >= widthOption.min
+      && finishedWidthCm <= widthOption.max
+      && Math.abs((finishedWidthCm - widthOption.min) / widthOption.step
+        - Math.round((finishedWidthCm - widthOption.min) / widthOption.step)) <= 1e-7;
+    if (!validLength || !validWidth) {
+      return {
+        bom: this.techPack.bom.filter((row) => row.placement !== "Neckband"),
+        constructionNotice: "V-band output is unavailable while its length or finished-width setting is invalid. Correct the Tee band settings before generating the selected-size V-band SVG and Tech Pack.",
+        construction: withoutNeckband,
+      };
+    }
+    const necklineCm = options.teeVNecklineCircumferenceCm;
+    const bandTargetCm = options.teeVNeckbandTargetLengthCm;
+    const geometrySummary = Number.isFinite(necklineCm) && necklineCm! > 0
+      && Number.isFinite(bandTargetCm) && bandTargetCm! > 0
+      ? `Measured selected-size body neckline ${necklineCm!.toFixed(1)} cm; selected band target ${bandTargetCm!.toFixed(1)} cm at ${lengthPercent}% of that measured length.`
+      : `Selected band target ${lengthPercent}% of the measured neckline; the selected-size SVG reports both measured neckline and target lengths.`;
+    const vNeckConstruction = [
+      "Mark and staystitch the front V point; clip to, but not through, the point stitching.",
+      "Join the band ends at center front along the opposing V-forming seams shown in the separate selected-size band SVG.",
+      "Match the band center-front to the garment V point, then align shoulder and center-back registration notches.",
+      "Attach the band to the neckline, clipping only to the V-point stitching as needed; complete the seam around the neckline.",
+    ];
+    const attachIndex = this.techPack.construction.findIndex((step) => step.startsWith("Attach the neckband"));
+    const construction = [
+      ...this.techPack.construction.slice(0, attachIndex),
+      ...vNeckConstruction,
+      ...this.techPack.construction.slice(attachIndex + 1),
+      `V-band settings: ${geometrySummary} Finished width ${finishedWidthCm.toFixed(1)} cm; these are product-software choices, not fabric or fit recommendations. The band SVG and these measurements apply to the selected size only; no graded-size band output is supplied.`,
+    ];
     return {
-      bom: this.techPack.bom.filter((row) => row.placement !== "Neckband"),
-      constructionNotice: "V-neck finishing is not defined for this digital candidate. No neckband geometry, cut template, or sewing steps are provided.",
-      construction: this.techPack.construction.filter((step) => !step.startsWith("Attach the neckband")),
+      bom: [
+        ...this.techPack.bom.filter((row) => row.placement !== "Neckband"),
+        { material: "User-selected band material", placement: "Provisional V-neck band", qty: "1 strip; see selected-size V-band SVG" },
+      ],
+      constructionNotice: "Provisional digital V-band construction. Join geometry and allowances are product-software choices; physical fit, comfort, wear, fabric behavior and recovery are unvalidated.",
+      construction,
     };
   },
 };

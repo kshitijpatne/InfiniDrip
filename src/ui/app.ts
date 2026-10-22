@@ -5,12 +5,14 @@
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY, withModeledPomLabels, optionalOptionStatusMessage, optionalOptionActionLabel } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
+import { teeVBandTechPackOptions } from "../drafting/vneck-band-output";
 import {
   TEE_NECKBAND_OPTIONS,
   hasConflictingTeeNecklineOptions,
   isTeeVNeckActive,
   teeNeckbandSettings,
   teeNeckbandTemplateSvg,
+  teeVNeckbandTemplateSvg,
 } from "../drafting/tshirt";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
@@ -162,7 +164,11 @@ import { createGradePlanContext, type GradePlanContext } from "./grade-plan-cont
 import { gradePlanPanelMarkup } from "./grade-plan-panel";
 import { evaluateGradePlanRun, type GradePlanRunEvaluation, type GradePlanRunSize } from "./grade-plan-run";
 import { gradePlanRunMarkup } from "./grade-plan-run-panel";
-import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex } from "./style-revisions";
+import {
+  GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+  VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
+  jcsSha256Hex,
+} from "./style-revisions";
 import { createBrowserTechnicalFlatTextMeasurer, type TechnicalFlatMeasureText } from "../render/technical-flat-svg";
 import type { TechnicalFlatViewKind } from "../render/technical-flat";
 import { technicalFlatPanelMarkup } from "./technical-flat-panel";
@@ -594,6 +600,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const teeNeckbandExportScope = root.querySelector<HTMLElement>('[data-export-scope="tee-neckband"]')!;
   const teeNeckbandControls = root.querySelector<HTMLFieldSetElement>('[data-tee-neckband-controls]')!;
   const teeNeckbandVLimitation = root.querySelector<HTMLElement>("#tee-neckband-v-limitation")!;
+  let teeVBandOutputError = "";
+  const teeNeckbandHelp = root.querySelector<HTMLElement>("#tee-neckband-control-help")!;
+  const teeNeckbandDescription = root.querySelector<HTMLElement>("#export-tee-neckband-description")!;
   let technicalFlatTextMeasurer: TechnicalFlatMeasureText | null = null;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
@@ -2986,12 +2995,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const currentTeeOptions = recipeOptions();
     const teeVNeckActive = recipe.name === "tee" && isTeeVNeckActive(currentTeeOptions);
     const teeNecklineConflict = recipe.name === "tee" && hasConflictingTeeNecklineOptions(currentTeeOptions);
-    teeNeckbandControls.disabled = teeVNeckActive;
+    teeVBandOutputError = teeVNeckActive && !teeNecklineConflict ? currentTeeVBandOutputError() : "";
+    teeNeckbandControls.disabled = teeNecklineConflict;
     teeNeckbandVLimitation.hidden = !teeVNeckActive;
+    teeNeckbandHelp.textContent = teeVNeckActive
+      ? "V-band length and width are product-software drafting choices. They do not recommend fabric or predict material recovery, physical fit, comfort, or wear."
+      : "These provisional drafting settings affect the neckband SVG only. They do not validate fabric recovery or physical fit.";
+    teeNeckbandDescription.textContent = teeVNeckActive
+      ? "One-piece band strip with V-forming center-front join and CF, shoulder, and CB registrations. Selected-size digital output; check the 10 cm calibration mark."
+      : "Cuttable rectangle calculated from the selected Tee neckline. Adjust the provisional ratio and width; verify the 10 cm scale line.";
     if (teeVNeckActive) {
       teeNeckbandVLimitation.textContent = teeNecklineConflict
         ? "Both V and Scoop options are active. Reset one before generating neckband output; the preview uses crew while the conflict remains."
-        : "The V-neck finish has no accepted band geometry. The current rectangular-loop template does not model the V-point join and is unavailable for this candidate.";
+        : teeVBandOutputError || "V-specific provisional band output is available. This selected-size digital draft does not validate physical fit or material behavior.";
     }
     try {
       drawCurrentView();
@@ -3046,7 +3062,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : button.id === "export-surface-sheet"
           ? styleReviewed && checkReviewed && baseDesignValid()
           : canExport());
-      button.disabled = !allowed || needsArtwork || (button.id === "export-tee-neckband" && recipe.name === "tee" && isTeeVNeckActive(recipeOptions()));
+      const vBandUnavailable = button.id === "export-tee-neckband" && recipe.name === "tee"
+        && isTeeVNeckActive(recipeOptions())
+        && (hasConflictingTeeNecklineOptions(recipeOptions()) || teeVBandOutputError !== "");
+      const vBandTechPackUnavailable = button.id === "export-tee-selected-techpack" && recipe.name === "tee"
+        && (hasConflictingTeeNecklineOptions(recipeOptions())
+          || (isTeeVNeckActive(recipeOptions()) && teeVBandOutputError !== ""));
+      button.disabled = !allowed || needsArtwork || vBandUnavailable || vBandTechPackUnavailable;
       button.title = !allowed
         ? packageSizeUnsupported
           ? "CAD exchange packages currently support registered recipe sizes, not custom one-size styles."
@@ -3064,7 +3086,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       if (button.id === "export-tee-neckband" && recipe.name === "tee" && isTeeVNeckActive(recipeOptions())) {
         button.title = hasConflictingTeeNecklineOptions(recipeOptions())
           ? "Unavailable while V and Scoop options conflict. Reset one option; the preview uses crew while the conflict remains."
-          : "Unavailable for this V-neck candidate because the rectangular-loop template does not model the V-point join.";
+          : teeVBandOutputError || "Export the selected-size V-band strip with its center-front join and registration marks.";
+      }
+      if (button.id === "export-tee-selected-techpack" && recipe.name === "tee"
+        && (hasConflictingTeeNecklineOptions(recipeOptions())
+          || (isTeeVNeckActive(recipeOptions()) && teeVBandOutputError !== ""))) {
+        button.title = hasConflictingTeeNecklineOptions(recipeOptions())
+          ? "Reset either V or Scoop before exporting the selected-size neckline Tech Pack."
+          : teeVBandOutputError;
       }
     });
     if (errors.size > 0) {
@@ -5630,6 +5659,18 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     feedback.hidden = firstError === "";
     return firstError;
   };
+  const currentTeeVBandOutputError = (): string => {
+    const inputError = validateTeeNeckbandInputs();
+    if (inputError !== "") return inputError;
+    if (!canExport()) return "";
+    try {
+      const settings = teeNeckbandSettings(selectedGradePlanSize(), currentTeeNeckbandOptions());
+      teeVNeckbandTemplateSvg(exportPieces(), settings.lengthPercent, settings.finishedWidthCm);
+      return "";
+    } catch (error) {
+      return error instanceof Error ? error.message : "The selected V-band geometry could not be generated.";
+    }
+  };
   const syncTeeNeckbandInputsFromState = (): void => {
     root.querySelectorAll<HTMLInputElement>("[data-tee-neckband-option]").forEach((input) => {
       const option = TEE_NECKBAND_OPTIONS.find((candidate) => candidate.id === input.dataset.teeNeckbandOption)!;
@@ -5661,16 +5702,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const inputError = validateTeeNeckbandInputs();
       if (inputError !== "") throw new Error(inputError);
       const settings = teeNeckbandSettings(selectedGradePlanSize(), currentTeeNeckbandOptions());
-      const output = teeNeckbandTemplateSvg(
-        exportPieces(),
-        settings.lengthPercent,
-        settings.finishedWidthCm,
-      );
-      download(`${recipe.name}-${exportSizeLabel()}-neckband.svg`, output, "image/svg+xml");
+      const vNeck = isTeeVNeckActive(recipeOptions());
+      const output = vNeck
+        ? teeVNeckbandTemplateSvg(exportPieces(), settings.lengthPercent, settings.finishedWidthCm)
+        : teeNeckbandTemplateSvg(exportPieces(), settings.lengthPercent, settings.finishedWidthCm);
+      download(`${recipe.name}-${exportSizeLabel()}-${vNeck ? "vneck-band" : "neckband"}.svg`, output, "image/svg+xml");
     } catch (error) {
       flash(error instanceof Error ? error.message : "The neckband template could not be generated.", BLUEPRINT.lineActive);
     }
-  }, () => recipe.name === "tee" && !isTeeVNeckActive(recipeOptions()) && canExport());
+  }, () => recipe.name === "tee" && !hasConflictingTeeNecklineOptions(recipeOptions())
+    && (!isTeeVNeckActive(recipeOptions()) || teeVBandOutputError === "") && canExport());
   onExport("#export-dxf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
   });
@@ -5701,25 +5742,38 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const size = {
       label: exportSizeLabel(),
       measurements: planSize?.measurements ?? gradeMeasurements(measurements, recipe.grade, step),
-      options: planSize?.options ?? recipeOptions(),
+      options: isTeeVNeckActive(recipeOptions())
+        ? teeVBandTechPackOptions(
+          planSize?.options ?? recipeOptions(),
+          blockPieces(blockAtSize!),
+          teeNeckbandSettings(planSize, currentTeeNeckbandOptions()),
+        )
+        : planSize?.options ?? recipeOptions(),
       block: blockAtSize!,
     };
     const output = exportTechPackV2ForSelectedSize(
       recipeForCurrentOutputs(), size, undefined, stretchFabric, surfacePlacementsNow(), targetStyle, planSize !== null,
     );
     download(`${recipe.name}-${size.label}-selected-techpack.pdf`, output, "application/pdf");
-  }, () => recipe.name === "tee" && canExport());
+  }, () => recipe.name === "tee" && !hasConflictingTeeNecklineOptions(recipeOptions())
+    && (!isTeeVNeckActive(recipeOptions()) || teeVBandOutputError === "") && canExport());
   // The draft tech pack is a whole-style document (paginated piece overview +
   // graded table), so it uses live measurements and ignores the size picker.
   // The overview is explicitly not to scale; cutting files remain separate.
   onExport("#export-techpack", () => {
     const planRun = customOneSizeStyle() ? currentGradePlanRun().sizes : null;
+    const vNeckActive = isTeeVNeckActive(recipeOptions()) && !hasConflictingTeeNecklineOptions(recipeOptions());
+    const wholeRunOptions = vNeckActive
+      ? { ...recipeOptions(), ...currentTeeNeckbandOptions() }
+      : recipeOptions();
     const output = planRun
       ? exportTechPackV2ForGradePlan(recipeForCurrentOutputs(), planRun.map((size) => ({
-        label: size.label, measurements: size.measurements!, options: size.options!, block: size.block!,
+        label: size.label, measurements: size.measurements!,
+        options: vNeckActive ? { ...size.options!, ...currentTeeNeckbandOptions() } : size.options!,
+        block: size.block!,
       })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
         pomExceptionRows(planRun))
-      : exportTechPackV2(recipeForCurrentOutputs(), measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle);
+      : exportTechPackV2(recipeForCurrentOutputs(), measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle);
     download(`${recipe.name}-techpack.pdf`, output, "application/pdf");
   }, canExportRun, true);
   // The projector file carries EVERY graded size as a toggleable layer, so it too
@@ -6150,17 +6204,54 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             === gradePlanLabelKey(gradePlanSelectedLabel ?? gradePlanState!.plan!.baseSizeLabel!))
           : null;
         const label = customRun ? selectedPlanSize!.label : exportSizeLabel();
-        const pieces = customRun ? blockPieces(selectedPlanSize!.block!) : exportPieces();
+        const selectedBlock = customRun ? selectedPlanSize!.block! : semanticSizeBlock(selectedOutputStep())!;
+        const pieces = customRun ? blockPieces(selectedBlock) : exportPieces();
         const allowances = customRun ? allowancesForOptions(selectedPlanSize!.options!) : currentAllowances();
+        const vNeckActive = currentRecipe.name === "tee" && isTeeVNeckActive(recipeOptions());
+        const vNeckConflict = currentRecipe.name === "tee" && hasConflictingTeeNecklineOptions(recipeOptions());
+        const liveBandOptions = currentTeeNeckbandOptions();
+        const frozenBandSettings = vNeckActive
+          ? teeNeckbandSettings(selectedPlanSize, liveBandOptions)
+          : null;
+        const canFreezeVBand = vNeckActive && !vNeckConflict && teeVBandOutputError === "" && frozenBandSettings !== null;
         const projectorRun = customRun?.map((size) => ({
           label: size.label, step: size.position, block: size.block!, allowances: allowancesForOptions(size.options!),
         }));
+        const wholeRunOptions = vNeckActive && !vNeckConflict
+          ? { ...recipeOptions(), ...liveBandOptions }
+          : recipeOptions();
         const techPack = customRun
           ? exportTechPackV2ForGradePlan(currentRecipe, customRun.map((size) => ({
-            label: size.label, measurements: size.measurements!, options: size.options!, block: size.block!,
+            label: size.label, measurements: size.measurements!,
+            options: vNeckActive && !vNeckConflict ? { ...size.options!, ...liveBandOptions } : size.options!,
+            block: size.block!,
           })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
             pomExceptionRows(customRun))
-          : exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle);
+          : exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle);
+        const artifacts = [
+          { artifactId: "selected-size-svg", extension: "svg", displayName: `${recipe.name}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, recipe.notches) },
+          { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${recipe.name}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
+          { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${recipe.name}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true) },
+          { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${recipe.name}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, recipe.notches, undefined, recipe.a0Overflow === true) },
+          { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
+          { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${recipe.name}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : []) },
+          { artifactId: "whole-run-surface-sheet-svg", extension: "svg", displayName: `${recipe.name}-surface-sheet.svg`, mediaType: "image/svg+xml", content: exportSurfaceSheet(surfacePlacementsNow(), targetStyle) },
+        ];
+        if (canFreezeVBand && frozenBandSettings) {
+          const selectedBandOptions = teeVBandTechPackOptions(
+            selectedPlanSize?.options ?? recipeOptions(), pieces, frozenBandSettings,
+          );
+          const selectedBandTechPack = exportTechPackV2ForSelectedSize(currentRecipe, {
+            label,
+            measurements: selectedPlanSize?.measurements ?? gradeMeasurements(measurements, currentRecipe.grade, selectedOutputStep()),
+            options: selectedBandOptions,
+            block: selectedBlock,
+          }, undefined, stretchFabric, surfacePlacementsNow(), targetStyle, selectedPlanSize !== null);
+          artifacts.push(
+            { artifactId: "selected-size-vneck-band-svg", extension: "svg", displayName: `${recipe.name}-${label}-vneck-band.svg`, mediaType: "image/svg+xml", content: teeVNeckbandTemplateSvg(pieces, frozenBandSettings.lengthPercent, frozenBandSettings.finishedWidthCm) },
+            { artifactId: "selected-size-vneck-band-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-${label}-vneck-band-techpack.pdf`, mediaType: "application/pdf", content: selectedBandTechPack },
+          );
+        }
         const approvalRefs = customRun && gradePlanState?.plan
           ? [`grade-plan-sha256:${await jcsSha256Hex(gradePlanState.plan)}`]
           : [];
@@ -6171,20 +6262,18 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           selectedSizes: [{ sizeId: customRun
             ? `${recipe.name}-grade-plan-${gradePlanState!.plan!.revision}-${encodeURIComponent(label)}`
             : `${recipe.name}-step-${selectedOutputStep()}`, label }],
-          ...(customRun ? {
-            schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
-            approvalRefs,
-            gradePlanFreeze,
-          } : {}),
-          artifacts: [
-            { artifactId: "selected-size-svg", extension: "svg", displayName: `${recipe.name}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, recipe.notches) },
-            { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${recipe.name}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
-            { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${recipe.name}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true) },
-            { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${recipe.name}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, recipe.notches, undefined, recipe.a0Overflow === true) },
-            { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
-            { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${recipe.name}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : []) },
-            { artifactId: "whole-run-surface-sheet-svg", extension: "svg", displayName: `${recipe.name}-surface-sheet.svg`, mediaType: "image/svg+xml", content: exportSurfaceSheet(surfacePlacementsNow(), targetStyle) },
-          ],
+          ...(canFreezeVBand
+            ? {
+              schemaVersion: VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
+              approvalRefs,
+              ...(gradePlanFreeze ? { gradePlanFreeze } : {}),
+            }
+            : customRun ? {
+              schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+              approvalRefs,
+              gradePlanFreeze,
+            } : {}),
+          artifacts,
         };
       },
       ...(window.electronAPI?.saveFile ? {

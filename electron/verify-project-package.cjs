@@ -57,6 +57,10 @@ async function waitForReady(page) {
   await page.waitForSelector("#project-manager-host .project-manager-details", { state: "attached", timeout: 25000 });
   const skip = page.locator("#welcome-skip");
   if (await skip.count() && await skip.isVisible()) await skip.click();
+  const next = page.locator("#journey-next");
+  if (await next.count() && await next.isVisible() && (await next.innerText()).includes("Use Tee in the full editor")) {
+    await next.click();
+  }
   return page;
 }
 

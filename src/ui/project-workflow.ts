@@ -35,6 +35,7 @@ import {
 } from "../surface/artwork-library/catalog";
 import { isLocalArtworkAssetId, type ArtworkAssetStore } from "../surface/artwork-store";
 import {
+  VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
   canonicalizeJcs,
   createFrozenOutputManifest,
   createStyleRevision,
@@ -806,7 +807,7 @@ export class ProjectWorkflow {
     unresolved: readonly string[],
     expectedRevisionId: string,
     metadata: {
-      readonly schemaVersion?: 1 | 2;
+      readonly schemaVersion?: 1 | 2 | typeof VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION;
       readonly approvalRefs?: readonly string[];
       readonly gradePlanFreeze?: { readonly record: GradePlanRecord; readonly approvalRef: string };
     } = {},

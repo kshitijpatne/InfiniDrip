@@ -3,6 +3,7 @@ import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
 import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
 import { TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
+import { TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION } from "./vneck-band-output";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -196,16 +197,68 @@ describe("recipe callbacks", () => {
     expect(TEE.backNeckline!(STANDARD_M)).toEqual({ shape: "crew", widthEase: 0, frontDrop: 0 });
   });
 
-  it("withholds generic neckband steps and BOM only while V-neck geometry is active", () => {
+  it("keeps crew output unchanged and supplies a V-specific neckband BOM and construction summary", () => {
     const crew = TEE.techPackForOptions!({});
-    const vNeck = TEE.techPackForOptions!({ [TEE_V_NECK_DROP_OPTION_ID]: 5 });
+    const vNeckOptions = {
+      [TEE_V_NECK_DROP_OPTION_ID]: 5,
+      teeNeckbandLengthPercent: 85,
+      teeNeckbandFinishedWidthCm: 2.4,
+      teeVNecklineCircumferenceCm: 40,
+      teeVNeckbandTargetLengthCm: 34,
+      [TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION]: 1,
+    };
+    const wholeRunVNeck = TEE.techPackForOptions!({ [TEE_V_NECK_DROP_OPTION_ID]: 5 });
+    const vNeck = TEE.techPackForOptions!(vNeckOptions);
 
     expect(crew).toBe(TEE.techPack);
     expect(crew.bom.some((row) => row.placement === "Neckband")).toBe(true);
     expect(crew.construction.some((step) => step.startsWith("Attach the neckband"))).toBe(true);
-    expect(vNeck.constructionNotice).toContain("V-neck finishing is not defined");
+    expect(wholeRunVNeck.constructionNotice).toContain("whole-run Tech Packs do not include graded-size V-band");
+    expect(wholeRunVNeck.bom.some((row) => row.placement === "Provisional V-neck band")).toBe(false);
+    expect(wholeRunVNeck.construction.join(" ")).not.toContain("V-band settings:");
+    expect(vNeck.constructionNotice).toContain("Provisional digital V-band construction");
     expect(vNeck.bom.some((row) => row.placement === "Neckband")).toBe(false);
-    expect(vNeck.construction.some((step) => step.startsWith("Attach the neckband"))).toBe(false);
+    expect(vNeck.bom).toContainEqual({
+      material: "User-selected band material",
+      placement: "Provisional V-neck band",
+      qty: "1 strip; see selected-size V-band SVG",
+    });
+    expect(vNeck.construction).toContain("Mark and staystitch the front V point; clip to, but not through, the point stitching.");
+    expect(vNeck.construction).toContain("Match the band center-front to the garment V point, then align shoulder and center-back registration notches.");
+    expect(vNeck.construction.some((step) => step.startsWith("V-band settings: Measured selected-size body neckline 40.0 cm; selected band target 34.0 cm at 85%"))).toBe(true);
+    expect(vNeck.construction.join(" ")).toContain("Finished width 2.4 cm");
+    expect(vNeck.construction.join(" ")).toContain("no graded-size band output is supplied");
+  });
+
+  it("uses default V band parameters when omitted and withholds band steps for invalid settings", () => {
+    const defaults = TEE.techPackForOptions!({
+      [TEE_V_NECK_DROP_OPTION_ID]: 5,
+      [TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION]: 1,
+    });
+    expect(defaults.bom.some((row) => row.placement === "Provisional V-neck band")).toBe(true);
+    expect(defaults.construction.join(" ")).toContain("Selected band target 75% of the measured neckline");
+    expect(defaults.construction.join(" ")).toContain("Finished width 2.0 cm");
+
+    const invalidSettings: Readonly<Record<string, number>>[] = [
+      { teeNeckbandLengthPercent: Number.NaN },
+      { teeNeckbandLengthPercent: 74 },
+      { teeNeckbandLengthPercent: 91 },
+      { teeNeckbandLengthPercent: 75.5 },
+      { teeNeckbandFinishedWidthCm: Number.NaN },
+      { teeNeckbandFinishedWidthCm: 1.4 },
+      { teeNeckbandFinishedWidthCm: 3.1 },
+      { teeNeckbandFinishedWidthCm: 2.05 },
+    ];
+    for (const settings of invalidSettings) {
+      const invalid = TEE.techPackForOptions!({
+        [TEE_V_NECK_DROP_OPTION_ID]: 5,
+        [TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION]: 1,
+        ...settings,
+      });
+      expect(invalid.constructionNotice).toContain("unavailable while its length or finished-width setting is invalid");
+      expect(invalid.bom.some((row) => row.placement === "Provisional V-neck band")).toBe(false);
+      expect(invalid.construction.some((step) => step.startsWith("Attach the neckband"))).toBe(false);
+    }
   });
 
   it("keeps the provisional rounded-loop output for Scoop and explicitly withholds it on an option conflict", () => {

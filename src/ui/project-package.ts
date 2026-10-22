@@ -23,6 +23,7 @@ import {
   FROZEN_ARTIFACT_LIMIT,
   FROZEN_TECH_PACK_ARTIFACT_LIMIT,
   FROZEN_ARTIFACT_IDS,
+  FROZEN_VNECK_BAND_ARTIFACT_IDS,
   jcsSha256Hex,
   parseFrozenOutputManifestRecord,
   parseStyleRevisionRecord,
@@ -73,7 +74,8 @@ export const PROJECT_PACKAGE_MAX_CONTENT_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_ASSETS = 128;
 export const PROJECT_PACKAGE_MAX_MANIFEST_BYTES = 32 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS = 256;
-export const PROJECT_PACKAGE_MAX_FROZEN_ARTIFACTS = PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS * FROZEN_ARTIFACT_IDS.length;
+export const PROJECT_PACKAGE_MAX_FROZEN_ARTIFACTS = PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS
+  * Math.max(FROZEN_ARTIFACT_IDS.length, FROZEN_VNECK_BAND_ARTIFACT_IDS.length);
 export const PROJECT_PACKAGE_MAX_ZIP_ENTRIES = PROJECT_PACKAGE_MAX_ASSETS + PROJECT_PACKAGE_MAX_FROZEN_ARTIFACTS + 1;
 const ZIP_EOCD_BYTES = 22;
 const ZIP_EOCD_MAX_COMMENT = 0xffff;
@@ -585,7 +587,10 @@ export async function createProjectPackage(
     byteLength: artifact.byteLength,
     sha256: artifact.sha256,
     name: artifact.displayName,
-    limit: record.schemaVersion === 3 ? FROZEN_TECH_PACK_ARTIFACT_LIMIT : FROZEN_ARTIFACT_LIMIT,
+    limit: record.schemaVersion === 3
+      || (record.schemaVersion === 4 && artifact.artifactId === "selected-size-vneck-band-tech-pack-pdf")
+      ? FROZEN_TECH_PACK_ARTIFACT_LIMIT
+      : FROZEN_ARTIFACT_LIMIT,
   })));
   for (const artifact of frozenArtifacts) {
     if (artifact.blob.size !== artifact.byteLength

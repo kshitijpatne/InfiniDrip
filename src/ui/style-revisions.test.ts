@@ -13,9 +13,11 @@ import {
   createFrozenOutputManifest,
   createStyleRevision,
   FROZEN_ARTIFACT_IDS,
+  FROZEN_VNECK_BAND_ARTIFACT_IDS,
   FROZEN_TECH_PACK_ARTIFACT_LIMIT,
   GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
   TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION,
+  VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
   jcsSha256Hex,
   parseFrozenOutputManifestRecord,
   parseStyleRevisionRecord,
@@ -86,6 +88,19 @@ async function revisionFixture() {
 
 function frozenInputs(content = "exact output bytes"): FrozenArtifactInput[] {
   return FROZEN_ARTIFACT_IDS.map((artifactId) => {
+    const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+    return {
+      artifactId,
+      extension,
+      displayName: `${artifactId}.${extension}`,
+      mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+      content,
+    };
+  });
+}
+
+function frozenVNeckBandInputs(content = "exact V-band output bytes"): FrozenArtifactInput[] {
+  return FROZEN_VNECK_BAND_ARTIFACT_IDS.map((artifactId) => {
     const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
     return {
       artifactId,
@@ -494,6 +509,83 @@ describe("immutable revision and frozen output records", () => {
       payload: { ...record.payload, artifacts: record.payload.artifacts.map((artifact) => ({ ...artifact, byteLength: 20 * 1024 * 1024 })) },
     };
     expect(parseFrozenOutputManifestRecord(overTotal)).toBeNull();
+  });
+
+  it("freezes selected-size V-band files under a separate schema while preserving the legacy seven-file schema", async () => {
+    const revision = await revisionFixture();
+    const record = await createFrozenOutputManifest({
+      manifestId: MANIFEST_ID,
+      styleId: STYLE_ID,
+      revision,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "tee-step-1", label: "S" }],
+      unresolved: ["V-band output is digital only; physical fit and material behavior are unvalidated."],
+      artifacts: frozenVNeckBandInputs(),
+      schemaVersion: VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
+    }, crypto);
+
+    expect(record.schemaVersion).toBe(VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION);
+    expect(record.artifacts.map((artifact) => artifact.artifactId)).toEqual([...FROZEN_VNECK_BAND_ARTIFACT_IDS].sort());
+    expect(parseFrozenOutputManifestRecord(record)).toEqual(record);
+    const approvedGradePlanRef = "grade-plan-sha256:" + "a".repeat(64);
+    const gradePlanRecord = await createFrozenOutputManifest({
+      manifestId: "33333333-3333-4333-8333-333333333333",
+      styleId: STYLE_ID,
+      revision,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "tee-step-1", label: "S" }],
+      unresolved: ["Digital fit only; physical fit is not validated."],
+      artifacts: frozenVNeckBandInputs(),
+      schemaVersion: VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs: [approvedGradePlanRef],
+    }, crypto);
+    expect(gradePlanRecord.payload.approvalRefs).toEqual([approvedGradePlanRef]);
+    expect(parseFrozenOutputManifestRecord(gradePlanRecord)).toEqual(gradePlanRecord);
+    expect(await verifyFrozenOutputManifest(record, crypto)).toBe(true);
+    expect(await verifyFrozenOutputManifestMetadata(record, crypto)).toBe(true);
+    expect(await frozenFixture()).toMatchObject({ schemaVersion: 1, artifacts: expect.arrayContaining([
+      expect.objectContaining({ artifactId: "whole-run-tech-pack-pdf" }),
+    ]) });
+
+    await expect(createFrozenOutputManifest({
+      manifestId: "33333333-3333-4333-8333-333333333333",
+      styleId: STYLE_ID,
+      revision,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "tee-step-1", label: "S" }],
+      unresolved: ["Digital only."],
+      artifacts: frozenVNeckBandInputs(),
+      schemaVersion: VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs: ["not-a-grade-plan"],
+    }, crypto)).rejects.toThrow("identity or capture inputs");
+    await expect(createFrozenOutputManifest({
+      manifestId: "33333333-3333-4333-8333-333333333333",
+      styleId: STYLE_ID,
+      revision,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "tee-step-1", label: "S" }],
+      unresolved: ["Digital only."],
+      artifacts: frozenVNeckBandInputs(),
+      schemaVersion: VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs: [undefined as unknown as string],
+    }, crypto)).rejects.toThrow("identity or capture inputs");
+    const duplicateApprovalRef = "grade-plan-sha256:" + "b".repeat(64);
+    await expect(createFrozenOutputManifest({
+      manifestId: "33333333-3333-4333-8333-333333333333",
+      styleId: STYLE_ID,
+      revision,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "tee-step-1", label: "S" }],
+      unresolved: ["Digital only."],
+      artifacts: frozenVNeckBandInputs(),
+      schemaVersion: VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs: [duplicateApprovalRef, duplicateApprovalRef],
+    }, crypto)).rejects.toThrow("identity or capture inputs");
+    expect(parseFrozenOutputManifestRecord({
+      ...record,
+      artifacts: record.artifacts.slice(1),
+      payload: { ...record.payload, artifacts: record.payload.artifacts.slice(1) },
+    })).toBeNull();
   });
 
   it("binds a custom frozen output capture to the exact approved grade-plan digest", async () => {

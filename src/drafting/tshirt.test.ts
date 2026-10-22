@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { distance } from "../geometry";
 import { STANDARD_M } from "./measurements";
-import { edgeStart, edgeEnd, edgeLength, pieceEdge } from "./piece";
+import { edgeStart, edgeEnd, edgeLength, pieceEdge, type Piece } from "./piece";
 import {
   draftFront,
   draftBack,
@@ -15,6 +15,7 @@ import {
   teeNecklineNotes,
   teeScoopNeckNotes,
   teeVNeckNotes,
+  teeVNeckbandTemplateSvg,
   TEE_SCOOP_NECK_DROP_OPTION_ID,
   TEE_V_NECK_DROP_OPTION_ID,
 } from "./tshirt";
@@ -160,5 +161,112 @@ describe("Tee Scoop-neck option", () => {
     ]);
     expect(conflicting).toEqual({ teeVNeckDropCm: 7, teeScoopNeckDropCm: 5 });
     expect(teeNecklineNotes(STANDARD_M, { [TEE_SCOOP_NECK_DROP_OPTION_ID]: 5 })).toHaveLength(0);
+  });
+});
+
+describe("Tee V-neck band template", () => {
+  const vBlock = draftTshirt(STANDARD_M, { [TEE_V_NECK_DROP_OPTION_ID]: 5 });
+  const front = rolePiece(vBlock, "front");
+  const back = rolePiece(vBlock, "back");
+  const pieces = [front, back];
+  const template = (sourcePieces: readonly Piece[] = pieces, lengthPercent = 75, finishedWidthCm = 2) =>
+    teeVNeckbandTemplateSvg(sourcePieces, lengthPercent, finishedWidthCm);
+  const linePiece = (name: string, start: { x: number; y: number }, end: { x: number; y: number }): Piece => ({
+    name,
+    onFold: name === "front",
+    edges: [{ kind: "line", name: "neckline", start, end }],
+  });
+
+  it("derives a selected-size band, V join, and registration marks from the active front V and crew back", () => {
+    const svg = template();
+    const measured = 2 * (edgeLength(pieceEdge(front, "neckline")) + edgeLength(pieceEdge(back, "neckline")));
+    const circumference = Number(svg.match(/data-neckline-circumference-cm="([^"]+)"/)?.[1]);
+    const target = Number(svg.match(/data-loop-seamline-cm="([^"]+)"/)?.[1]);
+    const registrations = [...svg.matchAll(/data-registration="([^"]+)"/g)].map((match) => match[1]);
+
+    expect(circumference).toBeCloseTo(measured, 3);
+    expect(target).toBeCloseTo(measured * 0.75, 3);
+    expect(svg).toContain('data-finished-width-cm="2"');
+    expect(svg).toContain('data-front-v-drop-cm="');
+    expect(svg).toContain('data-v-forming-join="start" data-center-front="true"');
+    expect(svg).toContain('data-v-forming-join="end" data-center-front="true"');
+    expect(svg).toContain('data-registration-type="center-front"');
+    expect(svg).toContain('data-registration-type="shoulder"');
+    expect(svg).toContain('data-registration-type="center-back"');
+    expect(registrations).toEqual([
+      "center-front-start", "shoulder-front", "center-back", "shoulder-back", "center-front-end",
+    ]);
+    expect(svg).toContain('data-fold-line="true"');
+    expect(svg).toContain('data-neckline-seamline="true"');
+    expect(svg).toContain('data-calibration-length-cm="10"');
+    expect(svg).toContain("1 cm end allowance");
+    expect(svg).toContain("digital software choices");
+    expect(svg).toContain("physical fit/material behavior unvalidated");
+    expect(svg).toContain('data-garment-v-neckline="true"');
+    expect(svg).toContain('data-v-join-diagram="true"');
+    expect(svg).not.toMatch(/rib|maximum stretch|recovery recommendation/i);
+  });
+
+  it("accepts both range boundaries and uses the same center-front point when the edge direction is reversed", () => {
+    expect(template(pieces, 75, 1.5)).toContain('data-finished-width-cm="1.5"');
+    expect(template(pieces, 90, 3)).toContain('data-finished-width-cm="3"');
+
+    const reversedFront: Piece = {
+      ...front,
+      edges: front.edges.map((edge) => edge.name === "neckline" && edge.kind === "line"
+        ? { ...edge, start: edge.end, end: edge.start }
+        : edge),
+    };
+    expect(template([reversedFront, back])).toBe(template());
+  });
+
+  it("rejects band settings outside the declared bounds without clamping", () => {
+    for (const length of [74, 91, 75.5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      expect(() => template(pieces, length, 2)).toThrow("Neckband length must be");
+    }
+    for (const width of [1.4, 3.1, 2.05, Number.NaN, Number.POSITIVE_INFINITY]) {
+      expect(() => template(pieces, 75, width)).toThrow("Finished neckband width must be");
+    }
+  });
+
+  it("requires front and back pieces and a straight active V front", () => {
+    expect(() => template([])).toThrow("front and back pieces");
+    expect(() => template([front])).toThrow("front and back pieces");
+    const crewFront = rolePiece(draftTshirt(STANDARD_M), "front");
+    expect(() => template([crewFront, back])).toThrow("not a straight V");
+  });
+
+  it("rejects non-finite or zero-length front and back neckline geometry", () => {
+    const nonFiniteFront = linePiece("front", { x: 0, y: 0 }, { x: Number.NaN, y: 5 });
+    const zeroFront = linePiece("front", { x: 0, y: 0 }, { x: 0, y: 0 });
+    const nonFiniteBack = linePiece("back", { x: 0, y: Number.NaN }, { x: 0, y: 3 });
+    const zeroBack = linePiece("back", { x: 0, y: 0 }, { x: 0, y: 0 });
+
+    expect(() => template([nonFiniteFront, back])).toThrow("geometry is not usable");
+    expect(() => template([front, nonFiniteBack])).toThrow("geometry is not usable");
+    expect(() => template([zeroFront, back])).toThrow("geometry is not usable");
+    expect(() => template([front, zeroBack])).toThrow("geometry is not usable");
+  });
+
+  it("requires positive front V width and drop and a finite neckline circumference", () => {
+    expect(() => template([
+      linePiece("front", { x: 0, y: 0 }, { x: 0, y: 4 }), back,
+    ])).toThrow("cannot define a center-front band join");
+    expect(() => template([
+      linePiece("front", { x: 0, y: 0 }, { x: 4, y: 0 }), back,
+    ])).toThrow("cannot define a center-front band join");
+    expect(() => template([
+      linePiece("front", { x: 0, y: 0 }, { x: 8e307, y: 6e307 }),
+      linePiece("back", { x: 0, y: 0 }, { x: 1e308, y: 0 }),
+    ])).toThrow("geometry is not usable");
+  });
+
+  it("rejects a V join that overlaps itself or cannot be represented at finite scale", () => {
+    expect(() => template([
+      linePiece("front", { x: 0, y: 100 }, { x: 1, y: 0 }), back,
+    ])).toThrow("too sharp for this band length");
+    expect(() => template([
+      linePiece("front", { x: 0, y: 1e15 }, { x: 1e-308, y: 0 }), back,
+    ])).toThrow("too sharp for this band length");
   });
 });

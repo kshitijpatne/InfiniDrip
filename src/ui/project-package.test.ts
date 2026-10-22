@@ -64,7 +64,9 @@ import {
   createFrozenOutputManifest,
   createStyleRevision,
   FROZEN_ARTIFACT_IDS,
+  FROZEN_VNECK_BAND_ARTIFACT_IDS,
   TECH_PACK_SHARE_EXPORT_MANIFEST_SCHEMA_VERSION,
+  VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
   jcsSha256Hex,
   sha256Hex,
   verifyFrozenOutputManifest,
@@ -1350,6 +1352,62 @@ describe("portable local project package", () => {
     const reloaded = await readProjectPackage(reExported, { crypto });
     expect(await reloaded.frozenManifests[0]?.artifacts[0]?.bytes.text()).toBe(outputText);
     expect(reloaded.manifest.styles[0]?.techPack.operationData).toEqual(operationData);
+  });
+
+  it("round-trips selected-size V-band frozen outputs through project backup and copy import", async () => {
+    const source = await createFrozenSourcePackage();
+    const svg = "<svg xmlns=\"http://www.w3.org/2000/svg\"><path data-v-join=\"true\" d=\"M0 0 L1 1\"/></svg>";
+    const pdf = "%PDF-1.7\nselected-size V-band Tech Pack\n";
+    const frozen = await createFrozenOutputManifest({
+      manifestId: "33333333-3333-4333-8333-333333333333",
+      styleId: source.style.id,
+      revision: source.revision,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "m", label: "M" }],
+      unresolved: ["Digital selected-size review only; physical fit and material performance are not validated."],
+      schemaVersion: VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION,
+      artifacts: FROZEN_VNECK_BAND_ARTIFACT_IDS.map((artifactId) => {
+        const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+        const content = artifactId === "selected-size-vneck-band-svg" ? svg
+          : artifactId === "selected-size-vneck-band-tech-pack-pdf" ? pdf
+            : "frozen base output";
+        return {
+          artifactId,
+          extension,
+          displayName: `${artifactId}.${extension}`,
+          mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+          content,
+        };
+      }),
+    }, crypto);
+    const packed = await createProjectPackage({
+      project: source.project,
+      styles: [source.style],
+      recoveries: [],
+      fieldObservations: [source.observations],
+      styleRevisions: [source.revision],
+      exportManifests: [frozen],
+    }, memoryAssets(), { crypto });
+    const archive = await readProjectPackage(packed, { crypto });
+    expect(archive.manifest.exportManifests[0]?.schemaVersion).toBe(VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION);
+    expect(archive.manifest.exportManifests[0]?.artifacts).toHaveLength(FROZEN_VNECK_BAND_ARTIFACT_IDS.length);
+    const archivedArtifacts = archive.frozenManifests[0]?.artifacts ?? [];
+    expect(await archivedArtifacts.find((artifact) => artifact.artifactId === "selected-size-vneck-band-svg")?.bytes.text()).toBe(svg);
+    expect(await archivedArtifacts.find((artifact) => artifact.artifactId === "selected-size-vneck-band-tech-pack-pdf")?.bytes.text()).toBe(pdf);
+
+    const target = await repository();
+    const copied = await importProjectPackage(target, memoryAssets(), archive, true, {
+      crypto,
+      now: () => TIME,
+      idFactory: deterministicUuidFactory(),
+    });
+    expect(copied).toMatchObject({ status: "imported", importedAsCopy: true });
+    if (copied.status !== "imported") throw new Error("V-band frozen package copy did not complete.");
+    const restored = await target.loadProject(copied.projectId);
+    const restoredArtifacts = restored?.exportManifests[0]?.artifacts ?? [];
+    expect(restored?.exportManifests[0]?.schemaVersion).toBe(VNECK_BAND_EXPORT_MANIFEST_SCHEMA_VERSION);
+    expect(await restoredArtifacts.find((artifact) => artifact.artifactId === "selected-size-vneck-band-svg")?.bytes.text()).toBe(svg);
+    expect(await restoredArtifacts.find((artifact) => artifact.artifactId === "selected-size-vneck-band-tech-pack-pdf")?.bytes.text()).toBe(pdf);
   });
 
   it("packages and reopens binary Tech Pack shares above the legacy 32 MiB text artifact limit", async () => {
