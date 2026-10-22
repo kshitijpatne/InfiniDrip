@@ -98,6 +98,7 @@ const HOOD_FRONT_OVERLAP_EDGE_DROP_CM = 1.25;
 const HOOD_FACE_CROSSING_SAMPLES = 14;
 const HOOD_FACE_OUTLINE_VALIDATION_SAMPLES = 128;
 const HOOD_FACE_CROSSING_STEP_CM = 0.25;
+const HOOD_FACE_MAX_SEARCH_HEIGHT_CM = 50; // Matches hoodie-contract's authored hoodHeight maximum.
 const HOOD_FACE_MIN_OVERLAP_TURN_SINE = 0.65;
 const HOOD_CASING_WIDTH_MIN = 0;
 const HOOD_CASING_WIDTH_MAX = 5.5;
@@ -502,6 +503,11 @@ function resolveFrontOverlapGeometry(
     endpoint: fallbackEndpoint,
     faceOpening: createFaceOpeningCurve(centerFront, fallbackEndpoint, hoodDepth, hoodHeight),
   };
+  // Invalid dimensions are blocked by recipe guidance. Keep their raw-derived
+  // fallback geometry, and never search with an unbounded or unsupported height.
+  if (!Number.isFinite(hoodDepth) || !Number.isFinite(hoodHeight) ||
+      hoodHeight > HOOD_FACE_MAX_SEARCH_HEIGHT_CM) return fallback;
+
   const dropSteps = overlap > HOOD_FRONT_OVERLAP_MIN
     ? Math.round(HOOD_FRONT_OVERLAP_EDGE_DROP_CM / HOOD_FACE_CROSSING_STEP_CM)
     : 0;
