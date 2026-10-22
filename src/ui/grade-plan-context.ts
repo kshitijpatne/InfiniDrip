@@ -1,4 +1,4 @@
-import { GARMENTS, garmentOptionsForStyle, type GarmentRecipe } from "../drafting";
+import { GARMENTS, garmentForConstruction, garmentOptionsForStyle, type GarmentRecipe } from "../drafting";
 import { FIELDS } from "./controls";
 import { canonicalizeJcs, sha256Hex } from "./style-revisions";
 import { isCustomOneSizeStyle, type MeasurementCaptureRecord, type StyleRecord } from "./project-records";
@@ -38,7 +38,9 @@ export async function createGradePlanContext(
     return invalid("The grade plan needs the matching saved capture for this project, style and recipe.");
   }
   if (!style.revisionHeadId) return invalid("Save the style revision before creating a grade plan.");
-  const recipe = requireRecipe(style.recipeId);
+  const recipe = style.recipeId === "tee"
+    ? garmentForConstruction(style.recipeId, style.design.workspace.teeConstruction ?? "set-in")
+    : requireRecipe(style.recipeId);
   if (!recipe) return invalid("The style recipe is not supported by this application version.");
   const baseOptions = garmentOptionsForStyle(
     recipe.options ?? [], style.design.garmentOptions[recipe.name] ?? {}, style.design.workspace.targetStyle, false,

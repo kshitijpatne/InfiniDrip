@@ -5,6 +5,7 @@ import "./enhancements/tech-pack/tech-pack-presentation.css";
 
 import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions, GradedSize, Block, Pom, specSheet, withModeledPomLabels, optionalOptionStatusMessage, optionalOptionActionLabel } from "../drafting";
 import { TEE_NECKBAND_OPTIONS } from "../drafting/tshirt";
+import type { TeeConstruction } from "../drafting/tshirt";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
@@ -1061,7 +1062,11 @@ export function inspectionMarkup(content: string, view: string): string {
     `<div id="spatial-guidance-host" aria-live="polite"></div></section>`;
 }
 
-export function garmentToggleMarkup(active: string, activeStarterId: string | null = null): string {
+export function garmentToggleMarkup(
+  active: string,
+  activeStarterId: string | null = null,
+  teeConstruction: TeeConstruction = "set-in",
+): string {
   const cards = GARMENTS.map((g) => {
     const ui = GARMENT_UI[g.name];
     return `<button id="garment-${g.name}" class="garment-card" type="button" ` +
@@ -1095,6 +1100,11 @@ export function garmentToggleMarkup(active: string, activeStarterId: string | nu
   return `<div id="garment-toggle-host" role="group" aria-label="Garment and digital design candidates" class="garment-library">` +
     `<div class="garment-library-heading"><span>Choose a starting garment</span><span>7 drafting blocks</span></div>` +
     `<div class="garment-card-grid">${cards}</div>` +
+    `<fieldset id="tee-construction-controls"${active === "tee" ? "" : " hidden"}>` +
+    `<legend>Tee construction</legend><label for="tee-construction">Shoulder and sleeve construction</label>` +
+    `<select id="tee-construction"><option value="set-in"${teeConstruction === "set-in" ? " selected" : ""}>Set-in sleeve</option>` +
+    `<option value="raglan"${teeConstruction === "raglan" ? " selected" : ""}>Raglan sleeve</option></select>` +
+    `<p id="tee-construction-help">Raglan is crew-neck only. Saved V-neck and Scoop settings remain stored and become active again when Set-in is selected.</p></fieldset>` +
     `<section id="starter-registry" aria-label="Digital design candidates">` +
     `<section id="starter-blank-library" aria-labelledby="starter-blank-library-heading">` +
     `<div class="garment-library-heading"><span id="starter-blank-library-heading">Starter Blank Library</span><span>${blankEntries.length}</span></div>` +
@@ -1461,6 +1471,7 @@ export function appShellMarkup(
   uiqOperationalClarityEnabled = false,
   teeNeckbandOptions: GarmentOptions = {},
   activeStarterId: string | null = null,
+  teeConstruction: TeeConstruction = "set-in",
 ): string {
   const activeGarmentLabel = GARMENTS.find((g) => g.name === activeGarment)?.label ?? activeGarment;
   return `<main id="infini-shell" aria-labelledby="product-title">` +
@@ -1482,7 +1493,7 @@ export function appShellMarkup(
     `<button id="workspace-confirm-accept" type="button">Load saved workspace</button></div></div></div>` +
     `<div id="journey-area"><div id="journey-host"></div><div id="tutorial-host"></div></div><div id="studio-body">` +
     `<aside id="studio-inspector" aria-label="Design controls">` +
-    `<div id="project-manager-host"></div>${garmentToggleMarkup(activeGarment, activeStarterId)}` +
+    `<div id="project-manager-host"></div>${garmentToggleMarkup(activeGarment, activeStarterId, teeConstruction)}` +
     `<p id="starter-origin-status" role="status" aria-live="polite" hidden style="font-size:11px;line-height:1.4"></p>` +
     `<div id="review-context"></div>` +
     `<details id="readiness-details"><summary>Design readiness</summary><div id="readiness-host"></div></details>` +

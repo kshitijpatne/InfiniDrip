@@ -23,6 +23,8 @@ import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import type { Component } from "./component";
 import type { GarmentOption, GarmentOptions } from "./options";
 
+export type TeeConstruction = "set-in" | "raglan";
+
 export const TEE_V_NECK_DROP_OPTION_ID = "teeVNeckDropCm";
 export const TEE_SCOOP_NECK_DROP_OPTION_ID = "teeScoopNeckDropCm";
 
@@ -228,9 +230,9 @@ export function teeNeckbandSettings(
 }
 
 /**
- * Build a separate, true-scale Tee neckband SVG from the live front/back
- * neckline curves. The front and back blocks are half pieces on the fold, so
- * their seam lengths are doubled to get the complete neckline.
+ * Build a separate, true-scale Tee neckband SVG from the live neckline edges.
+ * Body half pieces are doubled; an off-fold sleeve neckline edge is present
+ * twice, once for each sleeve. Set-in output retains its existing bytes.
  */
 export function teeNeckbandTemplateSvg(
   pieces: readonly Piece[],
@@ -249,15 +251,18 @@ export function teeNeckbandTemplateSvg(
   const front = pieces.find((piece) => piece.name.trim().toLowerCase() === "front");
   const back = pieces.find((piece) => piece.name.trim().toLowerCase() === "back");
   if (!front || !back) throw new Error("The selected Tee pattern must include front and back pieces.");
+  const sleeve = pieces.find((piece) => piece.name.trim().toLowerCase() === "sleeve");
 
   const frontNecklineCm = edgeLength(pieceEdge(front, "neckline"));
   const backNecklineCm = edgeLength(pieceEdge(back, "neckline"));
+  const sleeveNecklineEdge = sleeve?.edges.find((edge) => edge.name === "neckline");
+  const sleeveNecklineCm = sleeveNecklineEdge ? edgeLength(sleeveNecklineEdge) : 0;
   if (!Number.isFinite(frontNecklineCm) || frontNecklineCm <= 0 ||
       !Number.isFinite(backNecklineCm) || backNecklineCm <= 0) {
     throw new Error("The selected Tee neckline geometry is not usable for a neckband template.");
   }
 
-  const necklineCircumferenceCm = 2 * (frontNecklineCm + backNecklineCm);
+  const necklineCircumferenceCm = 2 * (frontNecklineCm + backNecklineCm + sleeveNecklineCm);
   const loopSeamlineCm = necklineCircumferenceCm * lengthPercent / 100;
   const endSeamAllowanceCm = 1;
   const necklineSeamAllowanceCm = 0.6;
@@ -272,6 +277,26 @@ export function teeNeckbandTemplateSvg(
   const y = topSpaceCm;
   const format = (value: number): string => Number(value.toFixed(3)).toString();
   const dimension = (value: number): string => value.toFixed(1);
+  const loopStartX = x + endSeamAllowanceCm;
+  const loopEndX = loopStartX + loopSeamlineCm;
+  const raglanJoinPositions = sleeveNecklineEdge ? [
+    { name: "back-raglan-1", distanceCm: backNecklineCm },
+    { name: "front-raglan-1", distanceCm: backNecklineCm + sleeveNecklineCm },
+    { name: "center-front", distanceCm: backNecklineCm + sleeveNecklineCm + frontNecklineCm },
+    { name: "front-raglan-2", distanceCm: backNecklineCm + sleeveNecklineCm + 2 * frontNecklineCm },
+    { name: "back-raglan-2", distanceCm: backNecklineCm + sleeveNecklineCm + 2 * frontNecklineCm + sleeveNecklineCm },
+  ] : [];
+  const raglanNotches = raglanJoinPositions.map(({ name, distanceCm }) => {
+    const offsetCm = distanceCm * lengthPercent / 100;
+    const notchX = loopStartX + offsetCm;
+    const notchHalfWidth = 0.12;
+    const notchDepth = 0.28;
+    return `<path data-neckband-match="${name}" data-neckband-offset-cm="${format(offsetCm)}" d="M ${format(notchX - notchHalfWidth)} ${format(y)} ` +
+      `L ${format(notchX)} ${format(y + notchDepth)} L ${format(notchX + notchHalfWidth)} ${format(y)} ` +
+      `M ${format(notchX - notchHalfWidth)} ${format(y + cutWidthCm)} ` +
+      `L ${format(notchX)} ${format(y + cutWidthCm - notchDepth)} ` +
+      `L ${format(notchX + notchHalfWidth)} ${format(y + cutWidthCm)}"/>`;
+  }).join("");
   const quarterNotches = [0.25, 0.5, 0.75].map((fraction) => {
     const notchX = x + endSeamAllowanceCm + loopSeamlineCm * fraction;
     const notchHalfWidth = 0.12;
@@ -286,8 +311,8 @@ export function teeNeckbandTemplateSvg(
   const stretchY = y + cutWidthCm + 0.48;
   const necklineJoinY1 = y + necklineSeamAllowanceCm;
   const necklineJoinY2 = y + cutWidthCm - necklineSeamAllowanceCm;
-  const loopStartX = x + endSeamAllowanceCm;
-  const loopEndX = loopStartX + loopSeamlineCm;
+  const registrationNotches = sleeveNecklineEdge ? raglanNotches : quarterNotches;
+  const endSeamLandmark = sleeveNecklineEdge ? " data-neckband-anchor=\"center-back\"" : "";
 
   return `<svg xmlns="http://www.w3.org/2000/svg" role="img" ` +
     `width="${format(sheetWidthCm)}cm" height="${format(sheetHeightCm)}cm" ` +
@@ -295,8 +320,9 @@ export function teeNeckbandTemplateSvg(
     `data-neckline-circumference-cm="${format(necklineCircumferenceCm)}" ` +
     `data-loop-seamline-cm="${format(loopSeamlineCm)}" ` +
     `data-cut-length-cm="${format(cutLengthCm)}" data-cut-width-cm="${format(cutWidthCm)}">` +
-    `<title>Tee neckband provisional cutting template</title>` +
-    `<desc>True-scale pattern rectangle calculated from the selected Tee front and back neckline curves. ` +
+    `<title>${sleeveNecklineEdge ? "Raglan Tee" : "Tee"} neckband provisional cutting template</title>` +
+    `<desc>True-scale pattern rectangle calculated from the selected Tee front and back neckline curves` +
+    `${sleeveNecklineEdge ? " and both sleeve neckline edges. The band short ends meet at center back; marks follow the measured center-front and four raglan join positions" : ""}. ` +
     `Print at 100 percent and verify the ten centimetre calibration line. Physical fit and fabric recovery are unvalidated.</desc>` +
     `<g fill="none" stroke="#111" stroke-width="0.035">` +
     `<rect data-cut-outline="true" x="${format(x)}" y="${format(y)}" ` +
@@ -305,13 +331,13 @@ export function teeNeckbandTemplateSvg(
     `x2="${format(x + cutLengthCm)}" y2="${format(necklineJoinY1)}" stroke-dasharray="0.16 0.1"/>` +
     `<line data-neckline-seamline="true" x1="${format(x)}" y1="${format(necklineJoinY2)}" ` +
     `x2="${format(x + cutLengthCm)}" y2="${format(necklineJoinY2)}" stroke-dasharray="0.16 0.1"/>` +
-    `<line data-end-seamline="true" x1="${format(loopStartX)}" y1="${format(y)}" ` +
+    `<line data-end-seamline="true"${endSeamLandmark} x1="${format(loopStartX)}" y1="${format(y)}" ` +
     `x2="${format(loopStartX)}" y2="${format(y + cutWidthCm)}" stroke-dasharray="0.06 0.08"/>` +
-    `<line data-end-seamline="true" x1="${format(loopEndX)}" y1="${format(y)}" ` +
+    `<line data-end-seamline="true"${endSeamLandmark} x1="${format(loopEndX)}" y1="${format(y)}" ` +
     `x2="${format(loopEndX)}" y2="${format(y + cutWidthCm)}" stroke-dasharray="0.06 0.08"/>` +
     `<line data-fold-line="true" x1="${format(x)}" y1="${format(y + cutWidthCm / 2)}" ` +
     `x2="${format(x + cutLengthCm)}" y2="${format(y + cutWidthCm / 2)}" stroke-dasharray="0.28 0.12 0.06 0.12"/>` +
-    quarterNotches +
+    registrationNotches +
     `<line data-stretch-direction="lengthwise" x1="${format(x)}" y1="${format(stretchY)}" ` +
     `x2="${format(x + 2.5)}" y2="${format(stretchY)}" marker-end="url(#neckband-arrow)"/>` +
     `<line data-calibration-length-cm="10" x1="${format(x)}" y1="${format(scaleY)}" ` +
@@ -322,12 +348,12 @@ export function teeNeckbandTemplateSvg(
     `refX="0.16" refY="0.09" orient="auto" markerUnits="userSpaceOnUse">` +
     `<path d="M 0 0 L 0.18 0.09 L 0 0.18 z" fill="#111"/></marker></defs>` +
     `<g fill="#111" font-family="Arial, sans-serif">` +
-    `<text x="${format(x)}" y="0.62" font-size="0.3">TEE NECKBAND — PROVISIONAL TEMPLATE · SELECTED SIZE</text>` +
+    `<text x="${format(x)}" y="0.62" font-size="0.3">${sleeveNecklineEdge ? "RAGLAN TEE" : "TEE"} NECKBAND — PROVISIONAL TEMPLATE · SELECTED SIZE</text>` +
     `<text x="${format(x)}" y="1.15" font-size="0.22">Neckline ${dimension(necklineCircumferenceCm)} cm · loop ${dimension(loopSeamlineCm)} cm at ${dimension(lengthPercent)}% · cut ${dimension(cutLengthCm)} × ${dimension(cutWidthCm)} cm</text>` +
     `<text x="${format(x)}" y="1.63" font-size="0.22">CUT 1 RIB · FOLD ON DASH-DOT LINE</text>` +
     `<text x="${format(x + 2.8)}" y="${format(stretchY + 0.08)}" font-size="0.22">PLACE MAXIMUM STRETCH ALONG LENGTH</text>` +
     `<text x="${format(x + 10.2)}" y="${format(scaleY + 0.08)}" font-size="0.22">10 cm scale check — print at 100%</text>` +
-    `<text x="${format(x)}" y="${format(scaleY + 0.43)}" font-size="0.22">0.6 cm seam allowance · both long edges · 1 cm ends · quarter notches · fit/recovery not validated</text>` +
+    `<text x="${format(x)}" y="${format(scaleY + 0.43)}" font-size="0.22">0.6 cm seam allowance · both long edges · 1 cm ends · ${sleeveNecklineEdge ? "center-back end seam; center-front and matched raglan join notches" : "quarter notches"} · fit/recovery not validated</text>` +
     `</g></svg>`;
 }
 

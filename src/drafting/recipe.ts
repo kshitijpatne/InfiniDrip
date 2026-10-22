@@ -24,6 +24,7 @@ import {
   TEE_GRAMMAR,
   TEE_NECKBAND_OPTIONS,
   hasConflictingTeeNecklineOptions,
+  hasTeeNecklineOverride,
   isTeeVNeckActive,
   teeFrontNecklineParams,
   teeNecklineNotes,
@@ -35,6 +36,15 @@ import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFro
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import { TEE_POMS } from "./tshirt-pom";
+import {
+  draftRaglanTshirt,
+  raglanTeeGuidance,
+  TEE_RAGLAN_GRAMMAR,
+  TEE_RAGLAN_NOTCHES,
+  TEE_RAGLAN_PANEL_CHECKS,
+  TEE_RAGLAN_POMS,
+} from "./tshirt-raglan";
+import type { TeeConstruction } from "./tshirt";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
@@ -317,6 +327,45 @@ export const TEE: GarmentRecipe = {
       constructionNotice: "Provisional digital V-band construction. Join geometry and allowances are product-software choices; physical fit, comfort, wear, fabric behavior and recovery are unvalidated.",
       construction,
     };
+  },
+};
+
+const TEE_RAGLAN_TECH_PACK: TechPack = {
+  bom: KNIT_BOM,
+  constructionNotice: "Digital raglan construction candidate. Paired seam lengths and the selected-size neckline are software-derived; no sewn sample, physical fit, fabric performance, comfort, wear, validated grading, or production review is represented.",
+  construction: [
+    "Staystitch the body and sleeve neckline edges.",
+    "Join the front body raglan seam to the front sleeve raglan seam, matching the single registration notch.",
+    "Join the back body raglan seam to the back sleeve raglan seam, matching the double registration notch.",
+    "Join the neckband short ends at center back; use the seam-length-derived band notches to align center front and all four body-to-sleeve raglan joins.",
+    "Attach the selected-size neckband around the assembled body and sleeve neckline, matching the center-front, center-back, and sleeve-neck joins.",
+    "Close each side-to-cuff path in one continuous pass from the body hem, through the joined side and sleeve underarm, to the sleeve cuff.",
+    "Hem the sleeves and the body.",
+  ],
+};
+
+/** T08 is a construction variant in the Tee root; the seven-root registry stays unchanged. */
+export const TEE_RAGLAN: GarmentRecipe = {
+  ...TEE,
+  label: "Raglan Tee",
+  draft: (m, options = {}) => draftRaglanTshirt(m, options),
+  grammar: TEE_RAGLAN_GRAMMAR,
+  notches: TEE_RAGLAN_NOTCHES,
+  poms: TEE_RAGLAN_POMS,
+  checks: TEE_RAGLAN_PANEL_CHECKS,
+  guidance: (block, m, options = {}) => raglanTeeGuidance(block, m, options),
+  options: TEE.options?.filter((option) =>
+    option.id !== TEE_V_NECK_DROP_OPTION_ID && option.id !== TEE_SCOOP_NECK_DROP_OPTION_ID),
+  frontNeckline: () => NECKLINE_DEFAULT,
+  backNeckline: () => NECKLINE_DEFAULT,
+  techPack: TEE_RAGLAN_TECH_PACK,
+  techPackForOptions: function (this: GarmentRecipe, options) {
+    return hasTeeNecklineOverride(options)
+      ? {
+          ...this.techPack,
+          constructionNotice: `${this.techPack.constructionNotice ?? ""} Raglan is crew-neck only; saved V-neck or Scoop settings are inactive while this construction is selected.`,
+        }
+      : this.techPack;
   },
 };
 
@@ -624,4 +673,10 @@ export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVE
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {
   return GARMENTS.find((g) => g.name === name) ?? TEE;
+}
+
+/** Resolve the saved Tee construction while keeping the root registry stable. */
+export function garmentForConstruction(name: string, teeConstruction: TeeConstruction = "set-in"): GarmentRecipe {
+  const recipe = garmentByName(name);
+  return recipe.name === "tee" && teeConstruction === "raglan" ? TEE_RAGLAN : recipe;
 }

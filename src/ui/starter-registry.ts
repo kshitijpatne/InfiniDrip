@@ -1,3 +1,5 @@
+import type { TeeConstruction } from "../drafting/tshirt";
+
 export interface StarterControl {
   readonly fieldId: string;
   readonly label: string;
@@ -13,6 +15,8 @@ export interface StarterEntry {
   readonly entryId: string;
   readonly entryRevision: string;
   readonly recipeId: string;
+  /** Optional topology discriminator for Tee construction variants within the stable Tee root. */
+  readonly teeConstruction?: TeeConstruction;
   readonly recipeRevision: string;
   readonly catalogKind: "blank" | "custom-measurement";
   readonly label: string;
@@ -386,10 +390,35 @@ const TEE_SCOOP_BLANK_ENTRY: StarterEntry = {
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
+
+const TEE_RAGLAN_BLANK_ENTRY: StarterEntry = {
+  ...TEE_CLASSIC_BLANK_ENTRY,
+  entryId: "tee-raglan-digital-v1",
+  entryRevision: "2026-10-22.1",
+  recipeRevision: "raglan-tee-v1",
+  teeConstruction: "raglan",
+  label: "Tee Raglan · software defaults",
+  intent: {
+    ...TEE_CLASSIC_BLANK_ENTRY.intent,
+    use: "Preconfigured crew-neck, short-sleeve Raglan Tee draft; editable before saving.",
+    fit: "Crew-neck Raglan construction; 7 cm ease and all dimensions are software choices, not validated fit targets.",
+    construction: "Uses a distinct digital Raglan body and sleeve topology with paired raglan seam-length construction, notches, and a crew neckline. No sewn garment or physical fit has been validated.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; not a population chart or validated size-M profile. Generic Tee grading remains software output until separately validated for this construction.",
+  },
+  limits: [
+    "STANDARD_M contributes software starting values only; it is not a population-derived or validated size-M profile.",
+    "The body, sleeve, POM, notch, and seam-length outputs are digital construction data, not sewn measurements or physical-fit evidence.",
+    "The 7 cm ease and all dimensions are product-software choices, not fit, fabric, or wearer recommendations.",
+    "The generic Tee grade rule is reused as a software starting point; this starter's graded-size behavior has not been independently validated.",
+    "No physical-fit, comfort, wear, material-performance, supplier, manufacturing, or production claim.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v1",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v2",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

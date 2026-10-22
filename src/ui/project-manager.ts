@@ -1,7 +1,7 @@
 import type { LoadedProject, ProjectRepositoryError } from "./project-repository";
 import { isCustomOneSizeStyle } from "./project-records";
 import type { RecoveryPayload, SavedDesign, StyleRecord } from "./project-records";
-import { GARMENTS, garmentOptionsForStyle } from "../drafting";
+import { GARMENTS, garmentForConstruction, garmentOptionsForStyle } from "../drafting";
 import { ProjectWorkflow, type TechPackShareFreezeInput } from "./project-workflow";
 import type { ArtworkAssetStore } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
@@ -1221,7 +1221,9 @@ export class ProjectManager {
     this.projectManagerOpen = open;
     const activeTechPackRecord = open ? this.currentTechPackRecord() ?? loaded.activeStyle.techPack : null;
     const pendingT02 = activeTechPackRecord ? this.t02DataWithPendingDefinitionDraft(activeTechPackRecord) : null;
-    const t02Recipe = activeTechPackRecord ? GARMENTS.find((recipe) => recipe.name === activeTechPackRecord.recipeId) : undefined;
+    const t02Recipe = activeTechPackRecord && GARMENTS.some((recipe) => recipe.name === activeTechPackRecord.recipeId)
+      ? garmentForConstruction(activeTechPackRecord.recipeId, loaded.activeStyle.design.workspace.teeConstruction)
+      : undefined;
     const customOneSizeId = activeTechPackRecord?.cover.baseSizeId.value;
     const t02SizeSteps = t02Recipe
       ? isCustomOneSizeStyle(loaded.activeStyle)

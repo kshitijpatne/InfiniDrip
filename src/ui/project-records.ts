@@ -158,10 +158,15 @@ const CURRENT_CUSTOM_STYLE_KEYS = [...CURRENT_STYLE_KEYS, "sizeMode"];
 export const LEGACY_STYLE_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "design"]);
 const RECOVERY_KEYS = ["schemaVersion", "styleId", "payload"];
 const MIGRATION_KEYS = ["schemaVersion", "sourceKeys", "sourceSaveVersion", "sourceSha256", "migratedAt", "projectId", "styleId"];
+// Local-storage project migration must record both historical inputs and the
+// current SaveFile shape. Keep versions enumerated so a future version bump
+// requires an explicit migration-compatibility decision.
+const LEGACY_SOURCE_SAVE_VERSIONS = new Set([1, 2, 3, 4, 5, 6, 7, SAVE_VERSION]);
 const DESIGN_V5_KEYS = ["measurements", "fabric", "appearance", "garmentOptions", "workspace", "surface", "nestingIntelligence"];
 const DESIGN_KEYS = [...DESIGN_V5_KEYS, "semanticEdits"];
 const WORKSPACE_V6_KEYS = ["garment", "targetStyle", "stretchFabric", "view", "bodyCroquisView", "exportStep", "fabricWidth", "nestScope"];
-const WORKSPACE_KEYS = [...WORKSPACE_V6_KEYS, "starterOrigin"];
+const WORKSPACE_V7_KEYS = [...WORKSPACE_V6_KEYS, "starterOrigin"];
+const WORKSPACE_KEYS = [...WORKSPACE_V7_KEYS, "teeConstruction"];
 const APPEARANCE_KEYS = ["texture", "shine"];
 const NESTING_KEYS = ["bufferPct", "availableLengthCm", "napAware"];
 const RECOVERY_PAYLOAD_KEYS = [
@@ -212,13 +217,14 @@ function parseSavedDesign(value: unknown, legacy = false): RecordResult<SavedDes
   const measurementKeys = FIELDS.map((field) => field.id);
   if (!hasExactKeys(value.measurements, measurementKeys)) return fail("Style measurements do not match this record schema.");
   const hasCurrentWorkspace = hasExactKeys(value.workspace, WORKSPACE_KEYS);
-  const hasLegacyWorkspace = hasExactKeys(value.workspace, WORKSPACE_V6_KEYS);
-  if (!hasCurrentWorkspace && !hasLegacyWorkspace) return fail("Style workspace fields are incomplete or unknown.");
+  const hasV7Workspace = hasExactKeys(value.workspace, WORKSPACE_V7_KEYS);
+  const hasV6Workspace = hasExactKeys(value.workspace, WORKSPACE_V6_KEYS);
+  if (!hasCurrentWorkspace && !hasV7Workspace && !hasV6Workspace) return fail("Style workspace fields are incomplete or unknown.");
   if (!hasExactKeys(value.appearance, APPEARANCE_KEYS)) return fail("Style appearance fields are incomplete or unknown.");
   if (!hasExactKeys(value.nestingIntelligence, NESTING_KEYS)) return fail("Style nesting fields are incomplete or unknown.");
   let parsed: ReturnType<typeof deserialize>;
   try {
-    const saveVersion = legacy ? 5 : hasCurrentWorkspace ? SAVE_VERSION : 6;
+    const saveVersion = legacy ? 5 : hasCurrentWorkspace ? SAVE_VERSION : hasV7Workspace ? 7 : 6;
     const payload = legacy ? { v: saveVersion, ...value } : { v: saveVersion, ...value, semanticEdits: value.semanticEdits };
     parsed = deserialize(JSON.stringify(payload));
   } catch {
@@ -373,7 +379,7 @@ export function parseMigrationRecord(value: unknown): RecordResult<MigrationReco
   }
   if (value.sourceSaveVersion !== null
     && (typeof value.sourceSaveVersion !== "number" || !Number.isInteger(value.sourceSaveVersion)
-      || value.sourceSaveVersion < 1 || value.sourceSaveVersion > SAVE_VERSION)) {
+      || !LEGACY_SOURCE_SAVE_VERSIONS.has(value.sourceSaveVersion))) {
     return fail("Migration source SaveFile version is invalid.");
   }
   if (typeof value.sourceSha256 !== "string" || !SHA256.test(value.sourceSha256)
@@ -486,6 +492,15 @@ export function migrateLegacySaveFile(input: LegacySaveMigrationInput): RecordRe
   const migrated = deserialize(input.json);
   if (!migrated.ok) return fail(migrated.error);
   const { ok: _ok, ...design } = migrated;
+  // Legacy SaveFile deserialization normalizes missing Tee construction to
+  // Set-in; project-record migration only needs to add pre-v7 provenance.
+  const currentDesign: SavedDesign = {
+    ...design,
+    workspace: {
+      ...design.workspace,
+      starterOrigin: design.workspace.starterOrigin ?? null,
+    },
+  };
   const projectId = input.projectId;
   const styleId = input.styleId;
   const project: ProjectRecord = {
@@ -503,16 +518,16 @@ export function migrateLegacySaveFile(input: LegacySaveMigrationInput): RecordRe
     schemaVersion: STYLE_RECORD_VERSION,
     id: styleId,
     projectId,
-    name: `Untitled ${design.workspace.garment}`,
-    recipeId: design.workspace.garment,
-    recipePresetId: design.workspace.targetStyle,
+    name: `Untitled ${currentDesign.workspace.garment}`,
+    recipeId: currentDesign.workspace.garment,
+    recipePresetId: currentDesign.workspace.targetStyle,
     createdAt: input.migratedAt,
     updatedAt: input.migratedAt,
     revision: 1,
     archivedAt: null,
     revisionHeadId: null,
-    design,
-    techPack: createEmptyTechPackRecord(styleId, design.workspace.garment,
+    design: currentDesign,
+    techPack: createEmptyTechPackRecord(styleId, currentDesign.workspace.garment,
       input.migratedAt, input.migratedAt),
   };
   const bundle = validateProjectBundle(project, [style]);
