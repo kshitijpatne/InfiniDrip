@@ -31,10 +31,11 @@ const BASELINE: Record<string, string> = {
   "tee.dxf": "0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9",
   "tee.pdf": "1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523",
   "tee.techpack": "cd8d8aad31c98b3141703d26e118ab52285b3d8cddf574a4d7243053d4a1ac6d", // slice 62 neckline fix; slices 1054-1055 Tee stabilizer BOM and construction sequence
-  "fitted.svg": "cd16df87d100a40866e20738f858d3f11fdc3238ba0db88d99ca3a46f981a09c",
-  "fitted.dxf": "e2dd0a36ea6d834a0aec470918f4ba2b823136c13998966a8f04ddeda085a8a6",
-  "fitted.pdf": "184dcd975bb8067b452370c78748045384bb18fa8f89f7ca1d4a583b9d0190ff",
-  "fitted.techpack": "8e89320bfa235c44ebb481b01012a43c7c1614ce27608ccbb49df31369bca8d2", // slice 65: product label clarified to Darted tee
+  // Slice 1163: Fitted-only geometry correction; the closed-reference trace now opens the lower side around the dart apex. Tee identities above remain unchanged.
+  "fitted.svg": "a11bc97419da6c9c741d23bff5a79e8e148352153da751ff963c9cc5051aed05",
+  "fitted.dxf": "875ed4aa76636fd55bd261a26af285a8be1205391339be4cc0fb4d12540bd069",
+  "fitted.pdf": "a9bd4bf0df9e9d6fc671f76ddb28d3e406630d5dacfb0a96bc9f35ad5fdbc313",
+  "fitted.techpack": "6376babcf0ff3c6ee7a7cd65a3f3fd156a8b5d08734ed537cf918fa5f33cf8a3", // slice 65 label clarification; S1163 Fitted geometry correction
 };
 
 for (const name of ["tee", "fitted"]) {

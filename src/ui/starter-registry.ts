@@ -4,7 +4,7 @@ export interface StarterControl {
   readonly fieldId: string;
   readonly label: string;
   readonly kind: "measurement" | "option" | "design";
-  readonly unit: "cm";
+  readonly unit: "cm" | "%";
   readonly min: number;
   readonly max: number;
   readonly step: number;
@@ -415,10 +415,47 @@ const TEE_RAGLAN_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const FITTED_TEE_BLANK_ENTRY: StarterEntry = {
+  entryId: "fitted-tee-digital-v1",
+  entryRevision: "2026-10-22.1",
+  recipeId: "fitted",
+  recipeRevision: "fitted-bust-dart-v1",
+  catalogKind: "blank",
+  label: "Fitted crew Tee · software defaults",
+  configuration: {
+    targetStyle: "Fitted tee",
+    measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+    options: { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28 },
+  },
+  supportedControls: [
+    ...TEE_CLASSIC_BLANK_ENTRY.supportedControls.filter((control) => control.fieldId !== "chestEase"),
+    { fieldId: "dartIntake", label: "Bust dart intake", kind: "option", unit: "cm", min: 0.5, max: 8, step: 0.5, defaultValue: 4 },
+    { fieldId: "bustApexHorizontal", label: "Bust apex across half-front", kind: "option", unit: "%", min: 20, max: 80, step: 1, defaultValue: 55 },
+    { fieldId: "bustApexVertical", label: "Bust apex from underarm to hem", kind: "option", unit: "%", min: 20, max: 80, step: 1, defaultValue: 28 },
+  ],
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured bust-darted fitted crew Tee draft; editable before saving.",
+    fit: "Fitted construction label; 7 cm ease and dart controls are software defaults, not validated fit targets.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Uses the existing Fitted recipe with one retained bust dart. The dart-closed side and level-hem reference is a digital construction check, not a sewn-garment simulation.",
+    sizeScope: "One software-default profile based on the existing T01 measurement contract; not a population chart, validated size profile, or validated Fitted grade run.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The seven measurements and three dart controls are editable software defaults, not sourced fit or population standards.",
+    "The open cut pattern retains one bust dart; the closed-reference side and hem checks do not predict sewn fit.",
+    "Generic Tee grading is software output and has not been independently validated for this Fitted starter.",
+    "No physical-fit, comfort, wear, material-performance, supplier, manufacturing, or production claim.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v2",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v3",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;
@@ -491,13 +528,13 @@ export function starterControlError(entryId: string | null, fieldId: string, val
   if (!entry) return "The selected starter is unavailable; choose a supported design candidate.";
   const control = entry.supportedControls.find((item) => item.fieldId === fieldId);
   if (!control) return null;
-  if (!Number.isFinite(value)) return control.label + ": enter a finite number in cm.";
+  if (!Number.isFinite(value)) return control.label + ": enter a finite number in " + control.unit + ".";
   if (value < control.min || value > control.max) {
-    return control.label + ": this candidate supports " + control.min + "–" + control.max + " cm.";
+    return control.label + ": this candidate supports " + control.min + "–" + control.max + " " + control.unit + ".";
   }
   const stepsFromMinimum = (value - control.min) / control.step;
   if (Math.abs(stepsFromMinimum - Math.round(stepsFromMinimum)) > 1e-8) {
-    return control.label + ": use " + control.step + " cm increments from " + control.min + " cm.";
+    return control.label + ": use " + control.step + " " + control.unit + " increments from " + control.min + " " + control.unit + ".";
   }
   return null;
 }

@@ -31,6 +31,10 @@ export const TEE_STYLES: readonly StyleDef[] = [
   { name: "Long-sleeve tee", ranges: { ease: [7, 14], sleeveLength: [55, 70] } },
 ];
 
+/** Fitted is a construction category; ease remains a software input, not a fit claim. */
+export const FITTED_STYLES: readonly StyleDef[] = [
+  { name: "Fitted tee", ranges: { length: [59, 74] } },
+];
 /** The skirt style table (lower-body: length by silhouette, ease by fit). */
 export const SKIRT_STYLES: readonly StyleDef[] = [
   { name: "Mini skirt", ranges: { length: [40, 50] } },

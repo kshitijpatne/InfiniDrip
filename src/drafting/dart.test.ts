@@ -43,6 +43,23 @@ import { Piece } from "./piece";
 const FRONT = draftFittedFront(STANDARD_M);
 const len = (p: Piece, n: string): number => edgeLength(pieceEdge(p, n));
 
+// Shared transfer/truing tests need a visible residual corner to remove. Keep
+// that generic engine fixture deliberately untrued even as the Fitted recipe
+// moves to a traced, level dart-closed reference.
+const TRANSFER_FRONT = (() => {
+  const sideLower = pieceEdge(FRONT, "sideLower");
+  if (sideLower.kind !== "line") throw new Error("transfer fixture requires a straight side seam");
+  const sideHem = { x: sideLower.start.x, y: STANDARD_M.length + dartIntake(FRONT) };
+  return {
+    ...FRONT,
+    edges: FRONT.edges.map((edge) => edge.name === "sideLower"
+      ? { ...edge, end: sideHem }
+      : edge.name === "hem"
+        ? { ...edge, start: sideHem }
+        : edge),
+  };
+})();
+
 /** Largest gap between one edge's end and the next edge's start (0 = closed). */
 function outlineGap(p: Piece): number {
   let worst = 0;
@@ -68,16 +85,16 @@ describe("transferDart", () => {
   });
 
   it("refuses a curved target — a dart mouth needs a straight seam", () => {
-    expect(() => transferDart(FRONT, "armhole", 0.5, "centerFront")).toThrow(/straight/);
+    expect(() => transferDart(TRANSFER_FRONT, "armhole", 0.5, "centerFront")).toThrow(/straight/);
   });
 
   it("throws for an edge that doesn't exist", () => {
-    expect(() => transferDart(FRONT, "collar", 0.5, "centerFront")).toThrow(/no edge/);
+    expect(() => transferDart(TRANSFER_FRONT, "collar", 0.5, "centerFront")).toThrow(/no edge/);
   });
 
   for (const target of ["shoulder", "hem"] as const) {
     describe(`to the ${target}`, () => {
-      const moved = transferDart(FRONT, target, 0.5, "centerFront");
+      const moved = transferDart(TRANSFER_FRONT, target, 0.5, "centerFront");
 
       it("keeps the outline closed", () => {
         expect(outlineGap(moved)).toBeLessThan(1e-9);
@@ -113,13 +130,13 @@ describe("transferDart", () => {
   }
 
   it("splits the target seam in two, so its total length survives", () => {
-    const moved = transferDart(FRONT, "shoulder", 0.5, "centerFront");
+    const moved = transferDart(TRANSFER_FRONT, "shoulder", 0.5, "centerFront");
     expect(len(moved, "shoulder") + len(moved, "shoulderOuter"))
-      .toBeCloseTo(len(FRONT, "shoulder"), 6);
+      .toBeCloseTo(len(TRANSFER_FRONT, "shoulder"), 6);
   });
 
   it("widens the mouth when the dart moves farther from the apex (same angle)", () => {
-    const moved = transferDart(FRONT, "shoulder", 0.5, "centerFront");
+    const moved = transferDart(TRANSFER_FRONT, "shoulder", 0.5, "centerFront");
     expect(dartIntake(moved)).toBeGreaterThan(dartIntake(FRONT));
   });
 });
@@ -131,7 +148,7 @@ describe("edgesMeet", () => {
 });
 
 describe("seamKink and trueSeam", () => {
-  const moved = transferDart(FRONT, "shoulder", 0.5, "centerFront");
+  const moved = transferDart(TRANSFER_FRONT, "shoulder", 0.5, "centerFront");
 
   it("leaves a corner exactly the size of the dart it removed", () => {
     expect(seamKink(moved, "sideUpper", "sideLower"))
