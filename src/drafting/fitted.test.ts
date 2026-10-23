@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { derive, STANDARD_M } from "./measurements";
-import { draftFront, draftBack, draftSleeve } from "./tshirt";
+import { draftFront, draftBack, draftSleeve, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { draftFittedFront, draftFitted, fittedGuidance, fittedGeometryPair, reopenFittedReference, FITTED_DART_OPTIONS,
-  FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID, sideBoundaryAtY, draftFittedPrincessFronts } from "./fitted";
+  FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID, FITTED_VNECK_ENTRY_ID, sideBoundaryAtY, draftFittedPrincessFronts } from "./fitted";
 import { Edge, Piece, pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 import { dartIntake, dartOf, edgesMeet, seamKink } from "./dart";
 import { rolePiece } from "./block";
@@ -98,6 +98,26 @@ describe("draftFittedFront", () => {
     const openSideHem = rotatePoint(point(d.chestWidthHalf, STANDARD_M.length), apex,
       2 * Math.atan2(3, upperMouth.x - apex.x));
     expect(edgeEnd(pieceEdge(front, "sideLower"))).toEqual(openSideHem);
+  });
+
+  it("adds an entry-scoped V neckline while retaining the F04 bust dart and F01 crew default", () => {
+    const f01Options = defaultGarmentOptions(FITTED_OPTIONS, "fitted-tee-digital-v1");
+    const f04Options = defaultGarmentOptions(FITTED_OPTIONS, FITTED_VNECK_ENTRY_ID);
+    const crewFront = rolePiece(draftFitted(STANDARD_M, f01Options), "front");
+    const vNeckFront = rolePiece(draftFitted(STANDARD_M, f04Options), "front");
+
+    expect(f01Options).not.toHaveProperty(TEE_V_NECK_DROP_OPTION_ID);
+    expect(f04Options[TEE_V_NECK_DROP_OPTION_ID]).toBe(5);
+    expect(pieceEdge(vNeckFront, "neckline")).not.toEqual(pieceEdge(crewFront, "neckline"));
+    expect(vNeckFront.dart).toEqual({ legs: ["bustDartUpper", "bustDartLower"] });
+    expect(pieceEdge(vNeckFront, "bustDartUpper")).toEqual(pieceEdge(crewFront, "bustDartUpper"));
+    expect(fittedGuidance(draftFitted(STANDARD_M, f04Options), STANDARD_M, f04Options)
+      .filter((note) => note.level === "warn")).toEqual([]);
+
+    const invalid = { ...f04Options, [TEE_V_NECK_DROP_OPTION_ID]: 20 };
+    expect(fittedGuidance(draftFitted(STANDARD_M, invalid), STANDARD_M, invalid)
+      .find((note) => note.field === `option-${TEE_V_NECK_DROP_OPTION_ID}`)?.text).toContain("reduce the V drop or increase armhole depth");
+    expect(invalid[TEE_V_NECK_DROP_OPTION_ID]).toBe(20);
   });
 });
 

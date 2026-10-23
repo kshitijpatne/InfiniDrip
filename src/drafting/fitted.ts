@@ -23,11 +23,13 @@ import { necklineEdge } from "./neckline";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import { GarmentOption, GarmentOptions } from "./options";
 import { Note } from "../guidance/note";
+import { teeFrontNecklineParams, teeNecklineNotes, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { lineMark } from "./pattern-mark";
 import { fittedPrincessLineReferences } from "./fitted-reference";
 
 export const FITTED_PRINCESS_ENTRY_ID = "fitted-princess-tee-digital-v1";
+export const FITTED_VNECK_ENTRY_ID = "fitted-vneck-tee-digital-v1";
 
 const DART_INTAKE_OPTION: GarmentOption = {
   id: "dartIntake",
@@ -183,7 +185,24 @@ export const FITTED_PRINCESS_OPTIONS: readonly GarmentOption[] = [
   },
 ];
 
-export const FITTED_OPTIONS: readonly GarmentOption[] = [...FITTED_DART_OPTIONS, ...FITTED_PRINCESS_OPTIONS];
+const FITTED_VNECK_OPTION: GarmentOption = {
+  id: TEE_V_NECK_DROP_OPTION_ID,
+  label: "Front V-neck drop",
+  unit: "cm",
+  group: "Neckline",
+  help: "The 5 cm starting drop is a software geometry choice, not a fit target. Adjust the V while keeping its point above the underarm; the app will not clamp the value.",
+  defaultValue: 5,
+  min: 0,
+  max: 15,
+  step: 0.5,
+  appliesToStarterEntryId: FITTED_VNECK_ENTRY_ID,
+};
+
+export const FITTED_OPTIONS: readonly GarmentOption[] = [
+  ...FITTED_DART_OPTIONS,
+  ...FITTED_PRINCESS_OPTIONS,
+  FITTED_VNECK_OPTION,
+];
 
 export function usesFittedPrincessSeam(options: GarmentOptions): boolean {
   return options.princessSeamShaping !== undefined;
@@ -260,7 +279,9 @@ const fittedDartParameters = (options: GarmentOptions): FittedDartParameters => 
 export function draftFittedFront(m: Measurements, options: GarmentOptions = {}): Piece {
   const d = derive(m);
   const { intake, apexHorizontalPercent, apexVerticalPercent } = fittedDartParameters(options);
-  const { cNeck: cfNeck, hps, edge: neckline } = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, m.armholeDepth);
+  const { cNeck: cfNeck, hps, edge: neckline } = necklineEdge(
+    "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, m.armholeDepth, teeFrontNecklineParams(options),
+  );
   const shoulder = point(d.shoulderHalf, d.shoulderSlope);
   const underarm = point(d.chestWidthHalf, m.armholeDepth);
   const sideHem = point(d.chestWidthHalf, m.length);
@@ -569,7 +590,10 @@ export function draftFitted(m: Measurements, options: GarmentOptions = {}): Bloc
 /** Reuse the shared tee notes and reject dart openings that cross panel edges. */
 export function fittedGuidance(block: Block, m: Measurements, options: GarmentOptions = {}): Note[] {
   const princess = usesFittedPrincessSeam(options);
-  const notes = [...sleevedTopGuidance(block, m, princess ? "frontSide" : "front")];
+  const notes = [
+    ...sleevedTopGuidance(block, m, princess ? "frontSide" : "front"),
+    ...teeNecklineNotes(m, options),
+  ];
   if (princess) {
     const shaping = options.princessSeamShaping!;
     const horizontal = options.princessApexHorizontal ?? 55;

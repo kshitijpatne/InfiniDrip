@@ -4,17 +4,27 @@ import { edgeLength, pieceEdge, type Piece } from "./piece";
 /** Ephemeral Tech Pack context; never saved as a garment design option. */
 export const TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION = "teeSelectedSizeVBandOutput";
 
+export function vNeckBodyPieces(
+  pieces: readonly Piece[],
+  familyLabel = "Tee",
+): { readonly front: Piece; readonly back: Piece } {
+  const front = pieces.find((piece) => piece.name.trim().toLowerCase() === "front")
+    ?? pieces.find((piece) => piece.name.trim().toLowerCase() === "fitted front");
+  const back = pieces.find((piece) => piece.name.trim().toLowerCase() === "back");
+  if (!front || !back) throw new Error(`The selected ${familyLabel} pattern must include front and back pieces.`);
+  return { front, back };
+}
+
 export function teeVBandTechPackOptions(
   baseOptions: GarmentOptions,
   selectedPieces: readonly Piece[],
   settings: { readonly lengthPercent: number; readonly finishedWidthCm: number },
+  familyLabel = "Tee",
 ): GarmentOptions {
-  const front = selectedPieces.find((piece) => piece.name.trim().toLowerCase() === "front");
-  const back = selectedPieces.find((piece) => piece.name.trim().toLowerCase() === "back");
-  if (!front || !back) throw new Error("The selected Tee pattern must include front and back pieces.");
+  const { front, back } = vNeckBodyPieces(selectedPieces, familyLabel);
   const necklineCm = 2 * (edgeLength(pieceEdge(front, "neckline")) + edgeLength(pieceEdge(back, "neckline")));
   if (!Number.isFinite(necklineCm) || necklineCm <= 0) {
-    throw new Error("The selected Tee neckline geometry is not usable for a V-band Tech Pack.");
+    throw new Error(`The selected ${familyLabel} neckline geometry is not usable for a V-band Tech Pack.`);
   }
   return {
     ...baseOptions,
