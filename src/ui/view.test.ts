@@ -12,6 +12,7 @@ import { pieceHandles } from "../edit";
 import { buildReport, present } from "../guidance";
 import type { FieldObservationRecord } from "./field-provenance";
 import { TEE_RAGLAN } from "../drafting/recipe";
+import { STARTER_REGISTRY } from "./starter-registry";
 
 describe("controlsMarkup", () => {
   it("renders an input for every measurement, showing its value", () => {
@@ -846,7 +847,8 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain('data-garment-region="Lower body"');
     expect(html).toContain('id="starter-blank-library" aria-labelledby="starter-blank-library-heading"');
     expect(html).toContain('id="custom-measurement-candidates" aria-labelledby="custom-measurement-candidates-heading"');
-    expect(html).toContain("Starter Blank Library</span><span>10</span>");
+    const blankCount = STARTER_REGISTRY.entries.filter((entry) => entry.catalogKind === "blank").length;
+    expect(html).toContain(`Starter Blank Library</span><span>${blankCount}</span>`);
     expect(html).toContain('id="tee-construction"');
     expect(html).toContain("Raglan is crew-neck only");
     expect(html).toContain('data-starter-entry-id="tee-raglan-digital-v1" aria-pressed="false"');

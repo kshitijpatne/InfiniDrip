@@ -43,7 +43,7 @@ describe("measurement-first capture session", () => {
     expect(GARMENTS).toHaveLength(7);
     for (const recipe of GARMENTS) {
       const session = createMeasurementCaptureSession(SESSION_ID, recipe.name, TIME);
-      expect(session.fields).toHaveLength(recipe.fields.length + (recipe.options ?? []).filter((option) => !option.optional).length);
+      expect(session.fields).toHaveLength(getCaptureFieldDefinitions(recipe.name).length);
       expect(session.fields.every((field) => field.readings.length === 0 && field.selectedReadingId === null)).toBe(true);
       expect(measurementCaptureReadiness(session).ready).toBe(false);
       expect(parseMeasurementCaptureSession(session)).toEqual({ ok: true, value: session });

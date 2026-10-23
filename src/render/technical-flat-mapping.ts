@@ -84,6 +84,18 @@ export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatR
     "frontLeft", "backLeft"),
 };
 
+/** Resolve topology-specific role membership while preserving the legacy
+ * single-front map for F01/F02 and other recipes using the same root. */
+export function technicalFlatMappingForBlock(recipeId: string, block: Block): TechnicalFlatRecipeMapping | undefined {
+  const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  if (!mapping || recipeId !== "fitted" || !block.roles.frontSide) return mapping;
+  const [front, back] = mapping.faces;
+  return {
+    ...mapping,
+    faces: [{ ...front, roles: [...front.roles, { roleId: "frontSide", treatment: "SHELL" }] }, back],
+  };
+}
+
 export type FlatSourceKind = "component" | "stitch" | "mark" | "dart" | "pom" | "artwork";
 export type FlatSourceTreatment = FlatRoleTreatment | "ANCHORED" | "TABLE_ONLY" | "VISIBILITY_UNRESOLVED";
 
@@ -210,7 +222,7 @@ export function mapTechnicalFlatSources(
   poms: readonly Pom[] = [],
   artwork: readonly ArtworkPlacement[] = [],
 ): TechnicalFlatSourceMap {
-  const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  const mapping = technicalFlatMappingForBlock(recipeId, block);
   if (!mapping) {
     return {
       recipeId,

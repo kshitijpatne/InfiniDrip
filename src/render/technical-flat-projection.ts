@@ -3,7 +3,8 @@ import type { Block } from "../drafting/block";
 import type { EdgeRef, InterfaceRef, Stitch } from "../drafting/stitch";
 import { cubicLength, cubicPoint } from "../geometry/curve";
 import { WOVEN_SHIRT_PHYSICAL_ROLES } from "../drafting/shirt-contract";
-import { G04_TECHNICAL_FLAT_MAPPINGS, type FlatRoleTreatment } from "./technical-flat-mapping";
+import { FITTED_PRINCESS_PHYSICAL_ROLES } from "../drafting/fitted";
+import { technicalFlatMappingForBlock, type FlatRoleTreatment } from "./technical-flat-mapping";
 import type { TechnicalFlatViewKind } from "./technical-flat";
 
 export type FlatProjectionLandmark =
@@ -63,8 +64,9 @@ export interface FlatProjectionViewPairReflection {
   readonly axisRoleId: "front" | "back";
   readonly edgeId: "centerFront" | "centerBack";
   readonly axis: "ASSEMBLED_BODY_CENTER";
-  readonly source: "MAINTAINER_VIEW_DECISION" | "WOVEN_SHIRT_PHYSICAL_ROLES";
-  readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" | "G04-S333-POLO-SLEEVE-VIEW-MAP";
+  readonly source: "MAINTAINER_VIEW_DECISION" | "WOVEN_SHIRT_PHYSICAL_ROLES" | "FITTED_PRINCESS_PHYSICAL_ROLES";
+  readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR"
+    | "G04-S333-POLO-SLEEVE-VIEW-MAP" | "G18-S1170-F03-PRINCESS-SIDE-FRONT-PAIR";
   readonly quantity: 2;
 }
 
@@ -95,7 +97,7 @@ export interface FlatProjectionViewBoundary {
  * rigid placement correspondence; the drafted stitch references stay intact. */
 export interface FlatProjectionReversedStitchEdge {
   readonly stitchLabel: "Sleeve-cap ease" | "Woven sleeve-cap ease" | "Yoke seam (yoke ↔ back lower)" | "Outer stand ↔ woven neckline";
-  readonly pieceId: "front" | "back" | "yoke";
+  readonly pieceId: "front" | "frontSide" | "back" | "yoke";
   readonly edgeId: "armhole" | "yokeSeam" | "neckline";
   readonly source: "SOURCE_ENDPOINT_ORDER";
 }
@@ -300,6 +302,7 @@ function pairedSleeveProjection(
   decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S333-POLO-SLEEVE-VIEW-MAP",
 ): FlatProjectionRole | undefined {
   const piece = block.roles.sleeve!;
+  const frontArmholeRoleId = block.roles.frontSide ? "frontSide" : "front";
   const axisRoleId = kind === "FRONT_FLAT" ? "front" : "back";
   const axisPiece = block.roles[axisRoleId];
   const axis = axisPiece && foldAxisEdge(axisPiece);
@@ -315,7 +318,7 @@ function pairedSleeveProjection(
     && stitch[0]!.a.edges.length === 2 && stitch[0]!.b.edges.length === 2
     && stitch[0]!.a.edges[0]?.piece === "sleeve" && "edge" in stitch[0]!.a.edges[0]! && stitch[0]!.a.edges[0]!.edge === "capLeft"
     && stitch[0]!.a.edges[1]?.piece === "sleeve" && "edge" in stitch[0]!.a.edges[1]! && stitch[0]!.a.edges[1]!.edge === "capRight"
-    && stitch[0]!.b.edges[0]?.piece === "front" && "edge" in stitch[0]!.b.edges[0]! && stitch[0]!.b.edges[0]!.edge === "armhole"
+    && stitch[0]!.b.edges[0]?.piece === frontArmholeRoleId && "edge" in stitch[0]!.b.edges[0]! && stitch[0]!.b.edges[0]!.edge === "armhole"
     && stitch[0]!.b.edges[1]?.piece === "back" && "edge" in stitch[0]!.b.edges[1]! && stitch[0]!.b.edges[1]!.edge === "armhole";
   const valid = !!axis && !!capLeft && capLeft.kind === "curve" && !!capRight && capRight.kind === "curve"
     && !!leftSide && leftSide.kind === "line" && !!rightSide && rightSide.kind === "line"
@@ -362,7 +365,7 @@ function pairedSleeveProjection(
       source: "MAINTAINER_VIEW_DECISION" as const, decisionId, quantity: 2 as const,
     } } : {}),
     ...(valid && kind === "FRONT_FLAT" ? { reversedStitchEdges: [{
-      stitchLabel: "Sleeve-cap ease" as const, pieceId: "front" as const,
+      stitchLabel: "Sleeve-cap ease" as const, pieceId: frontArmholeRoleId,
       edgeId: "armhole" as const, source: "SOURCE_ENDPOINT_ORDER" as const,
     }] } : {}),
     ...(valid && kind === "BACK_FLAT" ? { localYReflection: {
@@ -878,7 +881,7 @@ export function createG04TechnicalFlatProjectionMap(
   block: Block,
   revisionId: string,
 ): TechnicalFlatProjectionMap | undefined {
-  const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  const mapping = technicalFlatMappingForBlock(recipeId, block);
   if (!mapping) return undefined;
   return {
     version: 1,
@@ -989,6 +992,13 @@ export function createG04TechnicalFlatProjectionMap(
           ...(pairAxisEdge ? { physicalPairReflection: {
             edgeId: pairAxisEdge.name, axis: "LOCAL_Y" as const, source: "WOVEN_SHIRT_PHYSICAL_ROLES" as const, quantity: 2 as const,
           } } : {}),
+          ...(recipeId === "fitted" && face.kind === "FRONT_FLAT" && role.roleId === "frontSide"
+            && FITTED_PRINCESS_PHYSICAL_ROLES.find((candidate) => candidate.id === "frontSide")?.quantity === 2
+            ? { viewPairReflection: {
+              axisRoleId: "front" as const, edgeId: "centerFront" as const,
+              axis: "ASSEMBLED_BODY_CENTER" as const, source: "FITTED_PRINCESS_PHYSICAL_ROLES" as const,
+              decisionId: "G18-S1170-F03-PRINCESS-SIDE-FRONT-PAIR" as const, quantity: 2 as const,
+            } } : {}),
           ...(recipeId === "woven-shirt" && face.kind === "BACK_FLAT" && role.roleId === "back" ? {
             reversedStitchEdges: [{ stitchLabel: "Yoke seam (yoke ↔ back lower)" as const,
               pieceId: "back" as const, edgeId: "yokeSeam" as const, source: "SOURCE_ENDPOINT_ORDER" as const }],
@@ -1516,18 +1526,19 @@ function validateRole(
     const stitch = matches[0];
     const capLeft = block.roles.sleeve?.edges.find((edge) => edge.name === "capLeft");
     const sideLeft = block.roles.sleeve?.edges.find((edge) => edge.name === "sideLeft");
-    const armhole = block.roles.front?.edges.find((edge) => edge.name === "armhole");
+    const frontArmholeRoleId = block.roles.frontSide ? "frontSide" : "front";
+    const armhole = block.roles[frontArmholeRoleId]?.edges.find((edge) => edge.name === "armhole");
     const topologyMatches = matches.length === 1 && !!stitch
       && stitch.a.edges.length === 2 && stitch.b.edges.length === 2
       && stitch.a.edges[0]?.piece === "sleeve" && "edge" in stitch.a.edges[0] && stitch.a.edges[0].edge === "capLeft"
       && stitch.a.edges[1]?.piece === "sleeve" && "edge" in stitch.a.edges[1] && stitch.a.edges[1].edge === "capRight"
-      && stitch.b.edges[0]?.piece === "front" && "edge" in stitch.b.edges[0] && stitch.b.edges[0].edge === "armhole"
+      && stitch.b.edges[0]?.piece === frontArmholeRoleId && "edge" in stitch.b.edges[0] && stitch.b.edges[0].edge === "armhole"
       && stitch.b.edges[1]?.piece === "back" && "edge" in stitch.b.edges[1] && stitch.b.edges[1].edge === "armhole"
       && !!capLeft && capLeft.kind === "curve" && !!sideLeft && sideLeft.kind === "line"
       && samePoint(capLeft.curve.start, sideLeft.end)
       && !!armhole && armhole.kind === "curve";
     const exactRule = entries.length === 1 && isRecord(entries[0])
-      && entries[0].stitchLabel === "Sleeve-cap ease" && entries[0].pieceId === "front"
+      && entries[0].stitchLabel === "Sleeve-cap ease" && entries[0].pieceId === frontArmholeRoleId
       && entries[0].edgeId === "armhole" && entries[0].source === "SOURCE_ENDPOINT_ORDER";
     if (!requiresSleeveEndpointOrder || !topologyMatches || !exactRule) {
       issues.push({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION", sourceId,
@@ -1748,6 +1759,11 @@ function validateRole(
     const teeFittedPair = (recipeId === "tee" || recipeId === "fitted") && roleId === "sleeve"
       && isRecord(reflection) && reflection.source === "MAINTAINER_VIEW_DECISION"
       && reflection.decisionId === "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+    const fittedPrincessPair = recipeId === "fitted" && faceKind === "FRONT_FLAT" && roleId === "frontSide"
+      && isRecord(reflection) && reflection.source === "FITTED_PRINCESS_PHYSICAL_ROLES"
+      && reflection.decisionId === "G18-S1170-F03-PRINCESS-SIDE-FRONT-PAIR"
+      && FITTED_PRINCESS_PHYSICAL_ROLES.find((candidate) => candidate.id === roleId)?.quantity === 2
+      && !FITTED_PRINCESS_PHYSICAL_ROLES.find((candidate) => candidate.id === roleId)?.onFold;
     const poloPair = recipeId === "polo" && roleId === "sleeve" && isRecord(reflection)
       && reflection.source === "MAINTAINER_VIEW_DECISION"
       && reflection.decisionId === "G04-S333-POLO-SLEEVE-VIEW-MAP";
@@ -1760,7 +1776,7 @@ function validateRole(
       && reflection.source === "WOVEN_SHIRT_PHYSICAL_ROLES"
       && reflection.decisionId === "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR"
       && physicalRole?.quantity === 2 && !physicalRole.onFold;
-    if ((!teeFittedPair && !poloPair && !wovenPair) || !isRecord(reflection)
+    if ((!teeFittedPair && !fittedPrincessPair && !poloPair && !wovenPair) || !isRecord(reflection)
       || reflection.axisRoleId !== axisRoleId || reflection.edgeId !== expectedAxisId
       || reflection.axis !== "ASSEMBLED_BODY_CENTER" || reflection.quantity !== 2
       || !exactAxis) {
@@ -1770,6 +1786,9 @@ function validateRole(
   } else if ((recipeId === "tee" || recipeId === "fitted") && roleId === "sleeve") {
     issues.push({ code: "INVALID_VIEW_PAIR_REFLECTION", sourceId,
       message: "The approved Tee/Fitted sleeve mapping requires two explicit mirrored view instances." });
+  } else if (recipeId === "fitted" && faceKind === "FRONT_FLAT" && roleId === "frontSide") {
+    issues.push({ code: "INVALID_VIEW_PAIR_REFLECTION", sourceId,
+      message: "The F03 side-front pair requires an explicit reflection across the exact assembled center-front axis." });
   } else if (recipeId === "woven-shirt" && (roleId === "sleeve" || roleId === "sleeveBand")) {
     issues.push({ code: "INVALID_VIEW_PAIR_REFLECTION", sourceId,
       message: "The approved Woven sleeve/band mapping requires two explicit mirrored physical instances." });
@@ -2020,7 +2039,7 @@ export function validateTechnicalFlatProjectionMap(
   liveRevisionId: string,
   input: unknown,
 ): FlatProjectionIssue[] {
-  const base = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  const base = technicalFlatMappingForBlock(recipeId, block);
   if (!base) return [{ code: "UNSUPPORTED_RECIPE", sourceId: recipeId, message: `Recipe “${recipeId}” has no admitted G04 mapping.` }];
   if (typeof liveRevisionId !== "string" || liveRevisionId.trim().length === 0) {
     return [{ code: "INVALID_REVISION", sourceId: recipeId, message: "Projection mapping requires the live design revision ID." }];

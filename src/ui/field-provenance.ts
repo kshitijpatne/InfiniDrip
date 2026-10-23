@@ -384,7 +384,15 @@ export function getAllFieldDefinitions(): readonly FieldDefinition[] {
 
 /** Capture excludes optional controls because unset options need no independent reading. */
 export function getCaptureFieldDefinitions(recipeId: string): readonly FieldDefinition[] {
-  return getFieldDefinitions(recipeId).filter((definition) => !definition.optional);
+  const recipe = GARMENTS.find((candidate) => candidate.name === recipeId);
+  // Generic custom-size capture has no starter identity. Keep controls that
+  // require one out of the captured option set so a starter-only topology is
+  // not accidentally materialized as an unbound custom style.
+  const starterBoundOptions = new Set((recipe?.options ?? [])
+    .filter((option) => option.appliesToStarterEntryId !== undefined)
+    .map((option) => option.id));
+  return getFieldDefinitions(recipeId).filter((definition) => !definition.optional
+    && !(definition.inputKind === "option" && starterBoundOptions.has(definition.inputKey)));
 }
 
 export function getFieldDefinition(recipeId: string, inputKey: string, inputKind?: FieldInputKind): FieldDefinition | undefined {

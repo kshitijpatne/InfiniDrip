@@ -1,4 +1,4 @@
-import { GARMENTS, STANDARD_M, TEE_RAGLAN, defaultGarmentOptions } from "../drafting";
+import { GARMENTS, STANDARD_M, TEE_RAGLAN, defaultGarmentOptions, optionAppliesToStarterEntry } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, defaultStretchFabricForGarment, deserialize, serialize } from "./persist";
 import { createMeasurementCaptureSession } from "./measurement-capture";
@@ -83,8 +83,7 @@ describe("explicit grade-plan base context", () => {
       const savedOptionIds = (recipe.options ?? [])
         .filter((option) =>
           (option.appliesToStyle === undefined || option.appliesToStyle === style.design.workspace.targetStyle)
-          && (option.appliesToStarterEntryId === undefined
-            || option.appliesToStarterEntryId === style.design.workspace.starterOrigin?.entryId)
+          && optionAppliesToStarterEntry(option, style.design.workspace.starterOrigin?.entryId)
           && typeof savedOptions[option.id] === "number")
         .map((option) => `option.${recipe.name}.${option.id}`);
       expect(context.targets).toHaveLength(recipe.fields.length + savedOptionIds.length + recipe.poms.length);

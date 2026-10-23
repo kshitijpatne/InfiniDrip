@@ -14,6 +14,8 @@ import {
   rolePiece,
   lineMark,
   pointMark,
+  defaultGarmentOptions,
+  FITTED_PRINCESS_ENTRY_ID,
 } from "../drafting";
 import { resolveNotch } from "../render/notch";
 import { flattenPiece, polylineBounds } from "./layout";
@@ -169,6 +171,18 @@ describe("exportProjectorSvg — other garments and sparse recipes", () => {
     );
     expect(fitted.querySelector("parsererror")).toBeNull();
     expect(fitted.documentElement.tagName).toBe("svg");
+  });
+
+  it("renders F03 princess panel labels in every projector size layer", () => {
+    const options = defaultGarmentOptions(FITTED.options ?? [], FITTED_PRINCESS_ENTRY_ID);
+    const fitted = new DOMParser().parseFromString(
+      exportProjectorSvg(FITTED, STANDARD_M, options),
+      "image/svg+xml",
+    );
+    expect(fitted.querySelector("parsererror")).toBeNull();
+    const labels = [...fitted.getElementsByTagName("text")].map((element) => element.textContent?.toLowerCase());
+    expect(labels).toContain("m fitted front center");
+    expect(labels).toContain("m fitted side front (cut 2 mirrored)");
   });
 
   it("copes with a recipe that declares no notches", () => {

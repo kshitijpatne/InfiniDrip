@@ -11,20 +11,23 @@
 import { point } from "../geometry";
 import { rotatePoint } from "../geometry/rotate";
 import { Measurements, derive } from "./measurements";
-import { Edge, Piece, pieceEdge, edgeStart, edgeEnd } from "./piece";
+import { Edge, Piece, pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 import { dartOf, edgesMeet, transferDart } from "./dart";
 import { Block, rolePiece } from "./block";
 import { sleevedTopStitches } from "./tshirt-checks";
 import { bodice } from "./bodice";
 import { sleeve as sleeveComponent } from "./sleeve";
 import { Component, ComponentResult } from "./component";
-import { iface, edgeRef } from "./stitch";
+import { iface, edgeRef, type Stitch } from "./stitch";
 import { necklineEdge } from "./neckline";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import { GarmentOption, GarmentOptions } from "./options";
 import { Note } from "../guidance/note";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { lineMark } from "./pattern-mark";
+import { fittedPrincessLineReferences } from "./fitted-reference";
+
+export const FITTED_PRINCESS_ENTRY_ID = "fitted-princess-tee-digital-v1";
 
 const DART_INTAKE_OPTION: GarmentOption = {
   id: "dartIntake",
@@ -36,6 +39,7 @@ const DART_INTAKE_OPTION: GarmentOption = {
   min: 0.5,
   max: 8,
   step: 0.5,
+  excludedForStarterEntryIds: [FITTED_PRINCESS_ENTRY_ID],
 };
 
 const BUST_APEX_HORIZONTAL_OPTION: GarmentOption = {
@@ -48,6 +52,7 @@ const BUST_APEX_HORIZONTAL_OPTION: GarmentOption = {
   min: 20,
   max: 80,
   step: 1,
+  excludedForStarterEntryIds: [FITTED_PRINCESS_ENTRY_ID],
 };
 
 const BUST_APEX_VERTICAL_OPTION: GarmentOption = {
@@ -60,6 +65,7 @@ const BUST_APEX_VERTICAL_OPTION: GarmentOption = {
   min: 20,
   max: 80,
   step: 1,
+  excludedForStarterEntryIds: [FITTED_PRINCESS_ENTRY_ID],
 };
 
 export const FITTED_DART_OPTIONS: readonly GarmentOption[] = [
@@ -115,6 +121,73 @@ export const FITTED_DART_OPTIONS: readonly GarmentOption[] = [
     appliesToStarterEntryId: "fitted-waist-dart-tee-digital-v1",
   },
 ];
+
+/** Digital cut-role quantities for F03. These describe pattern instances only;
+ * they do not certify a manufacturing plan or physical material use. */
+export const FITTED_PRINCESS_PHYSICAL_ROLES = [
+  { id: "front", quantity: 1, onFold: true },
+  { id: "frontSide", quantity: 2, onFold: false },
+  { id: "back", quantity: 1, onFold: true },
+  { id: "sleeve", quantity: 2, onFold: false },
+] as const;
+
+/** Controls scoped to F03. These define digital pattern geometry, not a fit target. */
+export const FITTED_PRINCESS_OPTIONS: readonly GarmentOption[] = [
+  {
+    id: "princessSeamShaping",
+    label: "Princess-seam shaping offset",
+    unit: "cm",
+    group: "Princess seam",
+    help: "Controls the opposing digital seam curvature around the selected apex. This is a construction setting, not a fit or bust-volume claim.",
+    defaultValue: 2,
+    min: 0,
+    max: 6,
+    step: 0.5,
+    appliesToStarterEntryId: FITTED_PRINCESS_ENTRY_ID,
+  },
+  {
+    id: "princessApexHorizontal",
+    label: "Seam apex across half-front",
+    unit: "%",
+    group: "Princess seam",
+    help: "Positions the digital seam through the chosen half-front coordinate. The percentage is an InfiniDrip geometry control, not an anatomical standard.",
+    defaultValue: 55,
+    min: 20,
+    max: 80,
+    step: 1,
+    appliesToStarterEntryId: FITTED_PRINCESS_ENTRY_ID,
+  },
+  {
+    id: "princessApexVertical",
+    label: "Seam apex from underarm to hem",
+    unit: "%",
+    group: "Princess seam",
+    help: "Positions the digital seam apex along the front body. This percentage is not a fit or body-landmark claim.",
+    defaultValue: 28,
+    min: 20,
+    max: 80,
+    step: 1,
+    appliesToStarterEntryId: FITTED_PRINCESS_ENTRY_ID,
+  },
+  {
+    id: "princessShoulderOrigin",
+    label: "Seam start across shoulder",
+    unit: "%",
+    group: "Princess seam",
+    help: "Sets the shoulder-origin seam start between neckline and shoulder tip. This is a digital construction choice.",
+    defaultValue: 60,
+    min: 20,
+    max: 80,
+    step: 1,
+    appliesToStarterEntryId: FITTED_PRINCESS_ENTRY_ID,
+  },
+];
+
+export const FITTED_OPTIONS: readonly GarmentOption[] = [...FITTED_DART_OPTIONS, ...FITTED_PRINCESS_OPTIONS];
+
+export function usesFittedPrincessSeam(options: GarmentOptions): boolean {
+  return options.princessSeamShaping !== undefined;
+}
 
 interface FittedDartParameters {
   readonly intake: number;
@@ -233,11 +306,17 @@ export function draftFittedFront(m: Measurements, options: GarmentOptions = {}):
   };
 }
 
-const fittedFrontComponent: Component<GarmentOptions> = (m, options): ComponentResult => ({
-  pieces: { front: draftFittedFront(m, options) },
+const fittedFrontComponent: Component<GarmentOptions> = (m, options): ComponentResult => {
+  const pieces = usesFittedPrincessSeam(options)
+    ? draftFittedPrincessFronts(m, options)
+    : { front: draftFittedFront(m, options) };
+  const armholeRole = "frontSide" in pieces ? "frontSide" : "front";
+  return {
+  pieces,
   stitches: [],
-  interfaces: { armhole: iface(edgeRef("front", "armhole")) },
-});
+  interfaces: { armhole: iface(edgeRef(armholeRole, "armhole")) },
+  };
+};
 
 /** The fitted tee reuses the shared back and sleeve nodes while swapping only
  * its darted front. The sleeve still measures the actual front/back pair. */
@@ -258,7 +337,9 @@ export const FITTED_GRAMMAR = garmentGrammar(
       ["front", "back"],
     ),
   ],
-  () => sleevedTopStitches(["sideUpper", "sideLower"], true),
+  (context) => usesFittedPrincessSeam(context.options)
+    ? fittedPrincessStitches()
+    : sleevedTopStitches(["sideUpper", "sideLower"], true),
 );
 
 /** A fitted block: a darted front, with the tee's back and sleeve reused as-is.
@@ -310,6 +391,140 @@ export function fittedGeometryPair(block: Block): FittedGeometryPair {
   return { openPattern, dartClosedBeforeTrueing, bustDartClosed, dartClosedReference };
 }
 
+const lerpPoint = (a: { x: number; y: number }, b: { x: number; y: number }, t: number) =>
+  point(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t);
+
+function reflectAcrossLine(value: { x: number; y: number }, start: { x: number; y: number }, end: { x: number; y: number }) {
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const lengthSquared = dx * dx + dy * dy;
+  const projection = ((value.x - start.x) * dx + (value.y - start.y) * dy) / lengthSquared;
+  const projected = point(start.x + projection * dx, start.y + projection * dy);
+  return point(2 * projected.x - value.x, 2 * projected.y - value.y);
+}
+
+function reflectedReverseCurve(
+  curve: Extract<Edge, { kind: "curve" }>["curve"],
+  axisStart: { x: number; y: number },
+  axisEnd: { x: number; y: number },
+): Extract<Edge, { kind: "curve" }>["curve"] {
+  return {
+    start: reflectAcrossLine(curve.end, axisStart, axisEnd),
+    control1: reflectAcrossLine(curve.control2, axisStart, axisEnd),
+    control2: reflectAcrossLine(curve.control1, axisStart, axisEnd),
+    end: reflectAcrossLine(curve.start, axisStart, axisEnd),
+  };
+}
+
+function princessCurvePair(
+  shoulderOrigin: { x: number; y: number },
+  apex: { x: number; y: number },
+  hemOrigin: { x: number; y: number },
+  shaping: number,
+): readonly [Extract<Edge, { kind: "curve" }>["curve"], Extract<Edge, { kind: "curve" }>["curve"]] {
+  const chordX = hemOrigin.x - shoulderOrigin.x;
+  const chordY = hemOrigin.y - shoulderOrigin.y;
+  const chordLength = Math.hypot(chordX, chordY);
+  const tangent = point(chordX / chordLength, chordY / chordLength);
+  let normal = point(-tangent.y, tangent.x);
+  if (normal.x > 0) normal = point(-normal.x, -normal.y);
+  const upperLength = Math.hypot(apex.x - shoulderOrigin.x, apex.y - shoulderOrigin.y);
+  const lowerLength = Math.hypot(hemOrigin.x - apex.x, hemOrigin.y - apex.y);
+  const handle = Math.min(upperLength, lowerLength, chordLength) / 3;
+  const upper = {
+    start: point(shoulderOrigin.x, shoulderOrigin.y),
+    control1: point(shoulderOrigin.x + (apex.x - shoulderOrigin.x) / 3 + normal.x * shaping,
+      shoulderOrigin.y + (apex.y - shoulderOrigin.y) / 3 + normal.y * shaping),
+    control2: point(apex.x - tangent.x * handle, apex.y - tangent.y * handle),
+    end: point(apex.x, apex.y),
+  };
+  const lower = {
+    start: point(apex.x, apex.y),
+    control1: point(apex.x + tangent.x * handle, apex.y + tangent.y * handle),
+    control2: point(apex.x + (hemOrigin.x - apex.x) * 2 / 3 + normal.x * shaping,
+      apex.y + (hemOrigin.y - apex.y) * 2 / 3 + normal.y * shaping),
+    end: point(hemOrigin.x, hemOrigin.y),
+  };
+  return [upper, lower];
+}
+
+/** Draft the center-on-fold and mirrored-pair side fronts from the closed
+ * Fitted reference. Opposing seam curves are reflections, so their sewn edge
+ * lengths are identical by construction while the shoulder-origin path passes
+ * through the selected digital apex. */
+export function draftFittedPrincessFronts(m: Measurements, options: GarmentOptions): Record<string, Piece> {
+  const reference = fittedGeometryPair({
+    roles: { front: draftFittedFront(m, { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28 }) },
+    stitches: [],
+  }).dartClosedReference;
+  const { shoulder, hem, centerFront } = fittedPrincessLineReferences(
+    pieceEdge(reference, "shoulder"), pieceEdge(reference, "hem"), pieceEdge(reference, "centerFront"),
+  );
+  const neckline = pieceEdge(reference, "neckline");
+  const armhole = pieceEdge(reference, "armhole");
+  const sideUpper = pieceEdge(reference, "sideUpper");
+  const sideLower = pieceEdge(reference, "sideLower");
+  const shoulderPercent = options.princessShoulderOrigin ?? 60;
+  const shoulderOrigin = lerpPoint(shoulder.start, shoulder.end, shoulderPercent / 100);
+  const derived = derive(m);
+  const apexVerticalPercent = options.princessApexVertical ?? 28;
+  const apex = point(derived.chestWidthHalf * (options.princessApexHorizontal ?? 55) / 100,
+    m.armholeDepth + (m.length - m.armholeDepth) * apexVerticalPercent / 100);
+  const cfHem = centerFront.start;
+  const sideHem = hem.start;
+  const hemOrigin = lerpPoint(cfHem, sideHem, 0.4);
+  const [centerUpper, centerLower] = princessCurvePair(shoulderOrigin, apex, hemOrigin,
+    options.princessSeamShaping ?? 2);
+  const sideUpperCurve = reflectedReverseCurve(centerUpper, shoulderOrigin, hemOrigin);
+  const sideLowerCurve = reflectedReverseCurve(centerLower, shoulderOrigin, hemOrigin);
+  const centerFrontPiece: Piece = {
+    name: "fitted front center",
+    onFold: true,
+    edges: [
+      neckline,
+      { kind: "line", name: "shoulder", start: shoulder.start, end: shoulderOrigin },
+      { kind: "curve", name: "princessUpper", curve: centerUpper },
+      { kind: "curve", name: "princessLower", curve: centerLower },
+      { kind: "line", name: "hem", start: hemOrigin, end: cfHem },
+      centerFront,
+    ],
+  };
+  const sideFrontPiece: Piece = {
+    name: "fitted side front (cut 2 mirrored)",
+    onFold: false,
+    edges: [
+      { kind: "line", name: "shoulder", start: shoulderOrigin, end: shoulder.end },
+      armhole,
+      sideUpper,
+      sideLower,
+      { kind: "line", name: "hem", start: sideHem, end: hemOrigin },
+      { kind: "curve", name: "princessLower", curve: sideLowerCurve },
+      { kind: "curve", name: "princessUpper", curve: sideUpperCurve },
+    ],
+  };
+  return { front: centerFrontPiece, frontSide: sideFrontPiece };
+}
+
+export function fittedPrincessStitches(): Stitch[] {
+  return [
+    { label: "Shoulder seam (front ↔ back)",
+      a: iface(edgeRef("front", "shoulder"), edgeRef("frontSide", "shoulder")),
+      b: iface(edgeRef("back", "shoulder")) },
+    { label: "Side seam (front ↔ back)",
+      a: iface(edgeRef("frontSide", "sideUpper"), edgeRef("frontSide", "sideLower")),
+      b: iface(edgeRef("back", "side")) },
+    { label: "Princess seam (front center ↔ side front)",
+      a: iface(edgeRef("front", "princessUpper"), edgeRef("front", "princessLower")),
+      b: iface(edgeRef("frontSide", "princessUpper", true), edgeRef("frontSide", "princessLower", true)) },
+    { label: "Sleeve underarm (left ↔ right)",
+      a: iface(edgeRef("sleeve", "sideLeft")), b: iface(edgeRef("sleeve", "sideRight")) },
+    { label: "Sleeve-cap ease",
+      a: iface(edgeRef("sleeve", "capLeft"), edgeRef("sleeve", "capRight")),
+      b: iface(edgeRef("frontSide", "armhole"), edgeRef("back", "armhole")),
+      ease: { lo: -1, hi: 4 } },
+  ];
+}
+
 /** Reopen the side dart from a traced closed reference without changing the fold. */
 export function reopenFittedReference(closedReference: Piece, apex: { x: number; y: number }, intake: number): Piece {
   const upperMouth = edgeEnd(pieceEdge(closedReference, "sideUpper"));
@@ -353,7 +568,61 @@ export function draftFitted(m: Measurements, options: GarmentOptions = {}): Bloc
 
 /** Reuse the shared tee notes and reject dart openings that cross panel edges. */
 export function fittedGuidance(block: Block, m: Measurements, options: GarmentOptions = {}): Note[] {
-  const notes = [...sleevedTopGuidance(block, m)];
+  const princess = usesFittedPrincessSeam(options);
+  const notes = [...sleevedTopGuidance(block, m, princess ? "frontSide" : "front")];
+  if (princess) {
+    const shaping = options.princessSeamShaping!;
+    const horizontal = options.princessApexHorizontal ?? 55;
+    const vertical = options.princessApexVertical ?? 28;
+    const shoulder = options.princessShoulderOrigin ?? 60;
+    const values = [shaping, horizontal, vertical, shoulder, m.armholeDepth, m.length];
+    if (values.some((value) => !Number.isFinite(value))) {
+      notes.push({ level: "warn", field: "option-princessSeamShaping",
+        text: "Princess-seam controls and body lengths must be finite numbers. Enter values inside their displayed ranges; the app will not replace them automatically." });
+      return notes;
+    }
+    const derived = derive(m);
+    const apexY = m.armholeDepth + (m.length - m.armholeDepth) * vertical / 100;
+    const apexX = derived.chestWidthHalf * horizontal / 100;
+    if (shaping < 0 || shaping > 6) {
+      notes.push({ level: "warn", field: "option-princessSeamShaping",
+        text: "Princess-seam shaping offset must be between 0 and 6 cm. Reduce the offset; the app will not clamp it." });
+    }
+    if (horizontal < 20 || horizontal > 80 || apexX <= 0 || apexX >= derived.chestWidthHalf) {
+      notes.push({ level: "warn", field: "option-princessApexHorizontal",
+        text: "The seam apex must remain inside the half-front. Move it between 20% and 80% of the half-front; the app will not move it automatically." });
+    }
+    if (vertical < 20 || vertical > 80 || apexY <= m.armholeDepth || apexY >= m.length) {
+      notes.push({ level: "warn", field: "option-princessApexVertical",
+        text: "The seam apex must remain between the underarm and hem. Move it between 20% and 80% of that interval; the app will not move it automatically." });
+    }
+    if (shoulder < 20 || shoulder > 80) {
+      notes.push({ level: "warn", field: "option-princessShoulderOrigin",
+        text: "The seam start must remain on the shoulder between 20% and 80% of its length. Adjust the start; the app will not clamp it." });
+    }
+    const center = rolePiece(block, "front");
+    const side = rolePiece(block, "frontSide");
+    const centerUpper = pieceEdge(center, "princessUpper");
+    const centerLower = pieceEdge(center, "princessLower");
+    const sideUpper = pieceEdge(side, "princessUpper");
+    const sideLower = pieceEdge(side, "princessLower");
+    const endpointsMeet = Math.hypot(edgeEnd(centerUpper).x - edgeStart(centerLower).x,
+      edgeEnd(centerUpper).y - edgeStart(centerLower).y) <= 1e-7
+      && Math.hypot(edgeEnd(sideLower).x - edgeStart(sideUpper).x,
+        edgeEnd(sideLower).y - edgeStart(sideUpper).y) <= 1e-7;
+    const seamDelta = Math.abs(edgeLength(centerUpper) + edgeLength(centerLower)
+      - edgeLength(sideUpper) - edgeLength(sideLower));
+    const finiteEdges = [centerUpper, centerLower, sideUpper, sideLower].every((edge) => {
+      const points = edge.kind === "line" ? [edge.start, edge.end]
+        : [edge.curve.start, edge.curve.control1, edge.curve.control2, edge.curve.end];
+      return points.every((candidate) => Number.isFinite(candidate.x) && Number.isFinite(candidate.y));
+    });
+    if (!finiteEdges || !endpointsMeet || seamDelta > 1e-6) {
+      notes.push({ level: "warn", field: "option-princessSeamShaping",
+        text: "The digital princess seam is incomplete, non-finite, or untrued. Reduce the shaping offset or move the apex/start into the panel; the app will not substitute a dart pattern." });
+    }
+    return notes;
+  }
   const { intake, apexVerticalPercent } = fittedDartParameters(options);
   const verticalSpan = m.length - m.armholeDepth;
   if (verticalSpan <= 0) {

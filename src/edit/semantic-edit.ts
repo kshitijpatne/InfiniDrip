@@ -6,6 +6,7 @@ import type { Block } from "../drafting/block";
 import type { Measurements } from "../drafting/measurements";
 import type { GarmentOptions } from "../drafting/options";
 import type { GarmentRecipe } from "../drafting/recipe";
+import { pomsForRecipeOptions } from "../drafting/recipe";
 import type { SizeStep } from "../drafting/grading";
 import { stitchChecks } from "../drafting/stitch";
 import { outlinePoints } from "../render/allowance";
@@ -487,7 +488,8 @@ function foldEdgeName(name: string): boolean {
   return /^center(?:Front|Back)?$/i.test(name) || /^fold$/i.test(name);
 }
 
-function validateBlock(recipe: GarmentRecipe, measurements: Measurements, block: Block, sizeLabel: string): SemanticEditIssue[] {
+function validateBlock(recipe: GarmentRecipe, measurements: Measurements, block: Block, sizeLabel: string,
+  options: GarmentOptions = {}): SemanticEditIssue[] {
   const issues: SemanticEditIssue[] = [];
   const add = (issue: Omit<SemanticEditIssue, "recipeId" | "sizeLabel">): void => {
     issues.push({ ...issue, recipeId: recipe.name, sizeLabel });
@@ -555,7 +557,7 @@ function validateBlock(recipe: GarmentRecipe, measurements: Measurements, block:
     const detail = error instanceof Error ? error.message : "Recipe checks could not be evaluated.";
     add({ code: "recipe-check-invalid", message: detail });
   }
-  for (const pom of recipe.poms) {
+  for (const pom of pomsForRecipeOptions(recipe, options)) {
     try {
       const value = pom.measure(block);
       const roundedValue = Math.round(value * 10) / 10;
@@ -583,8 +585,9 @@ export function inspectSemanticEditCandidate(
   measurements: Measurements,
   block: Block,
   label = "Exploratory preview",
+  options: GarmentOptions = {},
 ): readonly SemanticEditIssue[] {
-  return validateBlock(recipe, measurements, block, label);
+  return validateBlock(recipe, measurements, block, label, options);
 }
 
 function applyOperationsToBlock(
@@ -594,6 +597,7 @@ function applyOperationsToBlock(
   operations: readonly SemanticEditOperation[],
   sizeLabel: string,
   expectedSourceFingerprint: string,
+  options: GarmentOptions = {},
 ): { readonly block: Block; readonly issues: readonly SemanticEditIssue[] } {
   let block = sourceBlock;
   const issues: SemanticEditIssue[] = [];
@@ -625,7 +629,7 @@ function applyOperationsToBlock(
     }
     block = translateAnchor(block, anchor, move.deltaCm);
   }
-  issues.push(...validateBlock(recipe, measurements, block, sizeLabel));
+  issues.push(...validateBlock(recipe, measurements, block, sizeLabel, options));
   return { block, issues };
 }
 
@@ -639,6 +643,7 @@ export function replaySemanticEditsForDrafts(
     readonly label: string;
     readonly measurements: Measurements;
     readonly block: Block;
+    readonly options?: GarmentOptions;
   }[],
 ): readonly { readonly label: string; readonly block: Block; readonly issues: readonly SemanticEditIssue[] }[] {
   if (document.recipeId !== recipe.name || document.schemaVersion !== SEMANTIC_EDIT_SCHEMA_VERSION
@@ -651,7 +656,7 @@ export function replaySemanticEditsForDrafts(
   }
   return drafts.map((draft) => {
     const replay = applyOperationsToBlock(
-      recipe, draft.measurements, draft.block, document.operations, draft.label, currentSourceFingerprint,
+      recipe, draft.measurements, draft.block, document.operations, draft.label, currentSourceFingerprint, draft.options,
     );
     return { label: draft.label, block: replay.block, issues: replay.issues };
   });
@@ -692,7 +697,8 @@ export function evaluateSemanticEditDocument(
   }
   const graded = gradeRun(measurements, recipe.grade, sizeSteps, recipe.draft, options);
   const sizes = graded.map((size) => {
-    const replay = applyOperationsToBlock(recipe, size.measurements, size.block, document.operations, size.label, document.sourceFingerprint);
+    const replay = applyOperationsToBlock(recipe, size.measurements, size.block, document.operations, size.label,
+      document.sourceFingerprint, options);
     const issues = [...replay.issues];
     return { label: size.label, step: size.step, block: replay.block, issues, canExport: issues.length === 0 };
   });

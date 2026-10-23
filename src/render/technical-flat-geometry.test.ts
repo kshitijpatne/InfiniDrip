@@ -6,7 +6,7 @@ import { lineMark, pointMark } from "../drafting/pattern-mark";
 import { cubicPoint } from "../geometry/curve";
 import type { Block } from "../drafting/block";
 import { compileTechnicalFlatSourceGeometry, parameterForLandmark, projectedCommands } from "./technical-flat-geometry";
-import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
+import { technicalFlatMappingForBlock } from "./technical-flat-mapping";
 import { createG04TechnicalFlatProjectionMap, edgeParameterAtArclengthFraction, resolveFlatProjectionLandmark,
   type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 import { TECHNICAL_FLAT_SCHEMA_VERSION, validateTechnicalFlat } from "./technical-flat";
@@ -20,7 +20,7 @@ function poloColorwayDiagnosticMap(block: Block): TechnicalFlatProjectionMap {
 }
 
 function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionMap {
-  const base = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  const base = technicalFlatMappingForBlock(recipeId, block)!;
   const authored = ["woven-shirt", "tee", "fitted", "polo"].includes(recipeId)
     ? createG04TechnicalFlatProjectionMap(recipeId, block, revisionId)! : undefined;
   if (recipeId === "polo" || recipeId === "woven-shirt") return authored!;
@@ -321,7 +321,7 @@ describe("technical-flat source geometry", () => {
       }
       for (const options of optionSets) {
         const block = recipe.draft(STANDARD_M, options);
-        for (const face of G04_TECHNICAL_FLAT_MAPPINGS[recipe.name].faces) {
+        for (const face of technicalFlatMappingForBlock(recipe.name, block)!.faces) {
           const output = compileTechnicalFlatSourceGeometry(recipe.name, block, revisionId, face.kind);
           expect(output.issues, `${recipe.name}/${face.kind}`).toEqual([]);
           expect(output.units).toBe("cm");

@@ -21,6 +21,7 @@ import {
   stitchChecks,
   GarmentOptions,
 } from "../drafting";
+import { notchesForRecipeOptions } from "../drafting/recipe";
 import {
   Report,
   CheckResult,
@@ -73,7 +74,7 @@ export function garmentReport(
     ...stitchChecks(b, b.stitches),
     ...recipe.checks(b, m),
     // Role-agnostic: every piece the garment drafted must declare its notches.
-    notchGrainCheck(blockPieces(b).map((p) => p.name), recipe.notches),
+    notchGrainCheck(blockPieces(b).map((p) => p.name), notchesForRecipeOptions(recipe, options)),
   ];
 
   if (reportOptions.includeSizeRun !== false) {

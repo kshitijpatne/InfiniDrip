@@ -7,7 +7,7 @@
 
 import { Measurements } from "./measurements";
 import { StretchFabric } from "./ease";
-import { Block } from "./block";
+import { Block, blockPieces } from "./block";
 import { CheckResult } from "../guidance/check";
 import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
@@ -31,7 +31,8 @@ import {
   TEE_SCOOP_NECK_DROP_OPTION_ID,
   TEE_V_NECK_DROP_OPTION_ID,
 } from "./tshirt";
-import { draftFitted, FITTED_GRAMMAR, FITTED_DART_OPTIONS, fittedGuidance } from "./fitted";
+import { draftFitted, FITTED_GRAMMAR, FITTED_OPTIONS, FITTED_PRINCESS_PHYSICAL_ROLES,
+  usesFittedPrincessSeam, fittedGuidance } from "./fitted";
 import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
@@ -46,7 +47,7 @@ import {
 } from "./tshirt-raglan";
 import type { TeeConstruction } from "./tshirt";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
-import { FITTED_NOTCHES, FITTED_POMS, fittedPanelChecks } from "./fitted-tables";
+import { FITTED_NOTCHES, FITTED_POMS, FITTED_PRINCESS_POMS, fittedPanelChecks } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
 import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, POLO_BODY_POMS, resolvePoloOptions } from "./polo";
 import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS } from "./shirt";
@@ -118,7 +119,13 @@ export interface GarmentRecipe {
   readonly styles: readonly StyleDef[];             // the target-fit presets this garment offers
   readonly draft: (m: Measurements, options?: GarmentOptions) => Block;
   readonly notches: readonly PieceNotches[];
+  /** Optional option-aware construction marks for recipes with alternate panel roles. */
+  readonly notchesForOptions?: (options: GarmentOptions) => readonly PieceNotches[];
   readonly poms: readonly Pom[];
+  /** Optional option-aware POM set for construction-specific digital output. */
+  readonly pomsForOptions?: (options: GarmentOptions) => readonly Pom[];
+  /** Optional option-aware counts for marker and nesting shape instances. */
+  readonly pieceQuantitiesForOptions?: (options: GarmentOptions) => Readonly<Record<string, number>> | undefined;
   readonly grade: GradeRule;
   readonly sizes: readonly SizeStep[];
   readonly checks: (block: Block, m: Measurements) => CheckResult[]; // sewability
@@ -153,6 +160,41 @@ export interface GarmentRecipe {
   readonly grammar?: GarmentGrammar;
 }
 
+/** Resolve the active POM contract while preserving each recipe's legacy default. */
+export function pomsForRecipeOptions(recipe: GarmentRecipe, options: GarmentOptions = {}): readonly Pom[] {
+  return recipe.pomsForOptions?.(options) ?? recipe.poms;
+}
+
+/** Resolve construction marks for the active option-selected panel topology. */
+export function notchesForRecipeOptions(recipe: GarmentRecipe, options: GarmentOptions = {}): readonly PieceNotches[] {
+  return recipe.notchesForOptions?.(options) ?? recipe.notches;
+}
+
+/** Expand only declared physical cut quantities; all other recipes keep one
+ * marker shape per drafted role. Copies retain the exact authored geometry. */
+export function piecesForRecipeBlock(
+  recipe: GarmentRecipe,
+  block: Block,
+  options: GarmentOptions = {},
+) {
+  const quantities = recipe.pieceQuantitiesForOptions?.(options);
+  if (quantities === undefined) return blockPieces(block);
+  for (const [roleId, quantity] of Object.entries(quantities)) {
+    if (!block.roles[roleId]) throw new RangeError(`Declared cut quantity references missing role "${roleId}".`);
+    if (!Number.isSafeInteger(quantity) || quantity < 1) {
+      throw new RangeError(`Cut quantity for role "${roleId}" must be a positive safe integer.`);
+    }
+  }
+  return Object.entries(block.roles).flatMap(([roleId, piece]) => {
+    const quantity = quantities[roleId] ?? 1;
+    if (quantity === 1) return [piece];
+    return Array.from({ length: quantity }, (_, index) => ({
+      ...piece,
+      name: `${piece.name} (${index + 1} of ${quantity})`,
+    }));
+  });
+}
+
 /**
  * The knit-tee cutting allowances, shared by tee and fitted.
  * A fold gets NOTHING — the pattern edge lies on the fabric fold, so any
@@ -166,6 +208,8 @@ const KNIT_ALLOWANCES: AllowanceSpec = {
     centerBack: 0,  // fold
     hem: 2,         // body + sleeve turn-up
     neckline: 0.6,  // narrow, for the rib band
+    princessUpper: 1,
+    princessLower: 1,
   },
 };
 
@@ -378,9 +422,19 @@ export const FITTED: GarmentRecipe = {
   styles: FITTED_STYLES,
   draft: draftFitted,
   grammar: FITTED_GRAMMAR,
-  options: FITTED_DART_OPTIONS,
+  options: FITTED_OPTIONS,
   notches: FITTED_NOTCHES,
+  notchesForOptions: (options) => {
+    const princess = usesFittedPrincessSeam(options);
+    return FITTED_NOTCHES.filter(({ pieceName }) => princess
+      ? pieceName !== "fitted front"
+      : pieceName !== "fitted front center" && pieceName !== "fitted side front (cut 2 mirrored)");
+  },
   poms: FITTED_POMS,
+  pomsForOptions: (options) => usesFittedPrincessSeam(options) ? FITTED_PRINCESS_POMS : FITTED_POMS,
+  pieceQuantitiesForOptions: (options) => usesFittedPrincessSeam(options)
+    ? Object.fromEntries(FITTED_PRINCESS_PHYSICAL_ROLES.map((role) => [role.id, role.quantity]))
+    : undefined,
   grade: TSHIRT_GRADE, // the same body grade drives both garments
   sizes: TSHIRT_SIZES,
   checks: fittedPanelChecks,
@@ -403,6 +457,22 @@ export const FITTED: GarmentRecipe = {
     ],
   },
   techPackForOptions: function (this: GarmentRecipe, options) {
+    if (usesFittedPrincessSeam(options)) {
+      return {
+        ...this.techPack,
+        constructionNotice: "F03 is a digital pattern construction. Cut quantity and modeled POMs describe the authored geometry only; material use, physical fit, comfort, wear, and production behavior are unvalidated.",
+        construction: [
+          "Cut 1 front-center piece on the fold, 2 side-front pieces as a mirrored pair, 1 back piece on the fold, and 2 sleeves.",
+          "Staystitch the front and back necklines.",
+          "Join each shoulder-origin princess seam from shoulder through the modeled apex to hem; true and press the seam toward the side front.",
+          "Join the shoulder seams, matching the center-front and side-front shoulder sections to the back.",
+          "Attach the neckband, matching centre-front and shoulder notches.",
+          "Set in the sleeves flat, easing the cap to the armhole.",
+          "Close the side and underarm seams in one pass.",
+          "Hem the sleeves and the body.",
+        ],
+      };
+    }
     if (options.waistDartIntake === undefined) return this.techPack;
     return {
       ...this.techPack,

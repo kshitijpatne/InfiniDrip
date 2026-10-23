@@ -1,5 +1,6 @@
 import type { Measurements } from "../drafting";
 import type { GarmentRecipe } from "../drafting/recipe";
+import { pomsForRecipeOptions } from "../drafting/recipe";
 import type { Block } from "../drafting/block";
 import type { ArtworkPlacement } from "../surface/placement";
 import { BLUEPRINT } from "../render";
@@ -93,7 +94,8 @@ export function technicalFlatPanelMarkup(input: TechnicalFlatPanelInput): string
     return faceControls + '<p role="status">Technical flat withheld because the selected pattern size is unavailable.</p>';
   }
 
-  const live = compileTechnicalFlatLiveView({ recipe: input.recipe, block: input.block, revisionId: input.revisionId,
+  const liveRecipe = { ...input.recipe, poms: pomsForRecipeOptions(input.recipe, checked.options!) };
+  const live = compileTechnicalFlatLiveView({ recipe: liveRecipe, block: input.block, revisionId: input.revisionId,
     kind: input.kind, placements: input.placements, colorHex: input.colorHex, texture: input.texture, shine: input.shine });
   if (!live.view || live.issues.length > 0) {
     return faceControls + '<p role="status">Technical flat withheld. Resolve the source or assembly issues below; no partial face is shown.</p>' +

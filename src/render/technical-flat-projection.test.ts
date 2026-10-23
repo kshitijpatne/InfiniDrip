@@ -4,7 +4,7 @@ import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { edgeEnd, edgeLength, edgeStart } from "../drafting/piece";
 import { cubicPoint } from "../geometry/curve";
-import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
+import { G04_TECHNICAL_FLAT_MAPPINGS, technicalFlatMappingForBlock } from "./technical-flat-mapping";
 import {
   createG04TechnicalFlatProjectionMap,
   edgeParameterAtArclengthFraction,
@@ -18,7 +18,7 @@ const REVISION = "draft-r7";
 
 function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number]["draft"]>): TechnicalFlatProjectionMap {
   if (recipeId === "skirt") return createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)!;
-  const source = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  const source = technicalFlatMappingForBlock(recipeId, block)!;
   const authored = ["woven-shirt", "tee", "fitted", "polo"].includes(recipeId)
     ? createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)! : undefined;
   return {
@@ -856,6 +856,31 @@ describe("validateTechnicalFlatProjectionMap", () => {
         }
       }
     }
+  });
+
+  it("maps and validates the F03 mirrored side-front pair on the exact center-front axis", () => {
+    const options = { princessSeamShaping: 2, princessApexHorizontal: 55,
+      princessApexVertical: 28, princessShoulderOrigin: 60 };
+    const { block } = draft("fitted", options);
+    const map = createG04TechnicalFlatProjectionMap("fitted", block, REVISION)!;
+    const front = map.faces.find((face) => face.kind === "FRONT_FLAT")!;
+    const side = front.roles.find((role) => role.roleId === "frontSide")!;
+    expect(side.viewPairReflection).toEqual({
+      axisRoleId: "front", edgeId: "centerFront", axis: "ASSEMBLED_BODY_CENTER",
+      source: "FITTED_PRINCESS_PHYSICAL_ROLES", decisionId: "G18-S1170-F03-PRINCESS-SIDE-FRONT-PAIR", quantity: 2,
+    });
+    expect(validateTechnicalFlatProjectionMap("fitted", block, REVISION, map)).toEqual([]);
+
+    const missing = structuredClone(map) as unknown as { faces: { kind: string; roles: { roleId: string; viewPairReflection?: unknown }[] }[] };
+    delete missing.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "frontSide")!.viewPairReflection;
+    expect(validateTechnicalFlatProjectionMap("fitted", block, REVISION, missing)
+      .some((issue) => issue.code === "INVALID_VIEW_PAIR_REFLECTION")).toBe(true);
+
+    const wrongAxis = structuredClone(map) as unknown as { faces: { kind: string; roles: { roleId: string; viewPairReflection?: Record<string, unknown> }[] }[] };
+    wrongAxis.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "frontSide")!
+      .viewPairReflection!.edgeId = "shoulder";
+    expect(validateTechnicalFlatProjectionMap("fitted", block, REVISION, wrongAxis)
+      .some((issue) => issue.code === "INVALID_VIEW_PAIR_REFLECTION")).toBe(true);
   });
 
   it("maps Polo sleeve halves for every supported option without adding a partition stroke", () => {

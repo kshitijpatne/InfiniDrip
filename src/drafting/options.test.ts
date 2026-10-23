@@ -4,6 +4,7 @@ import {
   garmentOptionsForStyle,
   optionalOptionActionLabel,
   optionalOptionStatusMessage,
+  optionAppliesToStarterEntry,
   restoreGarmentOptions,
   GarmentOption,
 } from "./options";
@@ -15,6 +16,25 @@ const DEFINITIONS: readonly GarmentOption[] = [
 ];
 
 describe("garment options", () => {
+  it("keeps explicitly excluded controls dormant only for the named starter entry", () => {
+    const definitions: readonly GarmentOption[] = [
+      { id: "bustDart", label: "Bust dart", defaultValue: 4, min: 0.5, max: 8, step: 0.5,
+        excludedForStarterEntryIds: ["fitted-princess-tee-digital-v1"] },
+      { id: "princessSeam", label: "Princess seam", defaultValue: 2, min: 0, max: 6, step: 0.5,
+        appliesToStarterEntryId: "fitted-princess-tee-digital-v1" },
+    ];
+    expect(optionAppliesToStarterEntry(definitions[0]!, undefined)).toBe(true);
+    expect(optionAppliesToStarterEntry(definitions[0]!, "fitted-tee-digital-v1")).toBe(true);
+    expect(optionAppliesToStarterEntry(definitions[0]!, "fitted-princess-tee-digital-v1")).toBe(false);
+    expect(optionAppliesToStarterEntry(definitions[1]!, "fitted-princess-tee-digital-v1")).toBe(true);
+    expect(optionAppliesToStarterEntry(definitions[1]!, "fitted-tee-digital-v1")).toBe(false);
+    expect(defaultGarmentOptions(definitions, "fitted-princess-tee-digital-v1")).toEqual({ princessSeam: 2 });
+    expect(garmentOptionsForStyle(definitions, { bustDart: 6, princessSeam: 3 }, "Fitted tee", true,
+      "fitted-princess-tee-digital-v1")).toEqual({ princessSeam: 3 });
+    expect(garmentOptionsForStyle(definitions, { bustDart: 6 }, "Fitted tee", true,
+      "fitted-waist-dart-tee-digital-v1")).toEqual({ bustDart: 6 });
+  });
+
   it("derives recipe defaults", () => {
     expect(defaultGarmentOptions(DEFINITIONS)).toEqual({ standHeight: 2, leafDepth: 5 });
   });

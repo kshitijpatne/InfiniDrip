@@ -1,18 +1,107 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { rolePiece } from "./block";
-import { draftFitted } from "./fitted";
+import { draftFitted, FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID } from "./fitted";
 import { specSheet } from "./pom";
 import { gradeRun } from "./grading";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS, fittedPanelChecks } from "./fitted-tables";
+import { defaultGarmentOptions } from "./options";
+import { pieceEdge, edgeEnd, edgeStart, type Edge, type Piece } from "./piece";
+import { resolveNotch } from "../render/notch";
+
+function withEdge(piece: Piece, name: string, replacement: Edge): Piece {
+  return { ...piece, edges: piece.edges.map((edge) => edge.name === name ? replacement : edge) };
+}
 
 describe("FITTED_NOTCHES", () => {
   it("gives the darted front its own rules and reuses the tee's back and sleeve", () => {
-    expect(FITTED_NOTCHES.map((r) => r.pieceName)).toEqual(["fitted front", "back", "sleeve"]);
+    expect(FITTED_NOTCHES.map((r) => r.pieceName)).toEqual([
+      "fitted front", "fitted front center", "fitted side front (cut 2 mirrored)", "back", "sleeve",
+    ]);
     const front = FITTED_NOTCHES[0];
     // the side notch lives on the lower side segment, below the dart mouth
     expect(front.notches.some((n) => n.edgeName === "sideLower")).toBe(true);
+  });
+
+  it("provides separate notches and a finite interior grainline for both F03 front panels", () => {
+    const options = defaultGarmentOptions(FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID);
+    const block = draftFitted(STANDARD_M, options);
+    const centerRule = FITTED_NOTCHES.find((rule) => rule.pieceName === "fitted front center")!;
+    const sideRule = FITTED_NOTCHES.find((rule) => rule.pieceName === "fitted side front (cut 2 mirrored)")!;
+    const center = rolePiece(block, "front");
+    const side = rolePiece(block, "frontSide");
+    const sideGrainline = sideRule.grainline.resolve!(side);
+    const centerUpper = pieceEdge(center, "princessUpper");
+    const sideUpper = pieceEdge(side, "princessUpper");
+
+    expect(centerRule.notches.map((notch) => notch.edgeName)).toContain("princessUpper");
+    expect(sideRule.notches.map((notch) => notch.edgeName)).toContain("princessUpper");
+    const centerApexNotch = resolveNotch(center, centerRule.notches.find((notch) => notch.edgeName === "princessUpper")!);
+    const sideApexNotch = resolveNotch(side, sideRule.notches.find((notch) => notch.edgeName === "princessUpper")!);
+    expect(centerApexNotch.point).toEqual(edgeEnd(centerUpper));
+    expect(sideApexNotch.point).toEqual(edgeStart(sideUpper));
+    expect(sideGrainline.top.x).toBeCloseTo(sideGrainline.bottom.x, 9);
+    expect(sideGrainline.top.y).toBeLessThan(sideGrainline.bottom.y);
+    expect(sideGrainline.top.x).toBeGreaterThan(0);
+    expect(sideGrainline.top.x).toBeLessThan(edgeEnd(pieceEdge(side, "sideUpper")).x);
+    expect(edgeEnd(pieceEdge(center, "centerFront")).x).toBe(0);
+  });
+
+  it("resolves horizontal samples and falls back to lower edges when upper edges miss the grainline", () => {
+    const options = defaultGarmentOptions(FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID);
+    const block = draftFitted(STANDARD_M, options);
+    const side = rolePiece(block, "frontSide");
+    const rule = FITTED_NOTCHES.find((candidate) => candidate.pieceName === "fitted side front (cut 2 mirrored)")!;
+    const resolve = rule.grainline.resolve!;
+    const originalSideUpper = pieceEdge(side, "sideUpper");
+    const originalSideLower = pieceEdge(side, "sideLower");
+    const underarmY = edgeStart(originalSideUpper).y;
+    const hemY = edgeEnd(originalSideLower).y;
+    const midpointY = (underarmY + hemY) / 2;
+    const upper = pieceEdge(side, "princessUpper");
+    const lower = pieceEdge(side, "princessLower");
+    expect(upper.kind).toBe("curve");
+    expect(lower.kind).toBe("curve");
+    if (upper.kind !== "curve" || lower.kind !== "curve") throw new Error("Expected authored princess curves.");
+    const horizontalCurve = (edge: Extract<Edge, { kind: "curve" }>, y: number): Edge => ({
+      ...edge,
+      curve: {
+        start: { ...edge.curve.start, y },
+        control1: { ...edge.curve.control1, y },
+        control2: { ...edge.curve.control2, y },
+        end: { ...edge.curve.end, y },
+      },
+    });
+
+    const horizontalLine = withEdge(side, "princessUpper", {
+      kind: "line", name: "princessUpper", start: { x: 2, y: midpointY }, end: { x: 4, y: midpointY },
+    });
+    const horizontalResult = resolve(horizontalLine);
+    expect(Number.isFinite(horizontalResult.top.x)).toBe(true);
+    expect(horizontalResult.top.x).toBe(horizontalResult.bottom.x);
+
+    const fallbackHemY = underarmY + 10;
+    const fallbackMidpointY = underarmY + 5;
+    const upperMiss = withEdge(side, "princessUpper", horizontalCurve(upper, underarmY));
+    const lowerHit = withEdge(upperMiss, "princessLower", horizontalCurve(lower, fallbackMidpointY));
+    const sideUpperMiss = withEdge(lowerHit, "sideUpper", {
+      kind: "line", name: "sideUpper", start: { x: 8, y: underarmY }, end: { x: 9, y: underarmY },
+    });
+    const sideLowerHit = withEdge(sideUpperMiss, "sideLower", {
+      kind: "line", name: "sideLower", start: { x: 10, y: fallbackMidpointY }, end: { x: 12, y: fallbackHemY },
+    });
+    const fallback = resolve(sideLowerHit);
+    expect(Number.isFinite(fallback.top.x)).toBe(true);
+    expect(fallback.top.x).toBe(fallback.bottom.x);
+
+    const noSeamIntersection = withEdge(
+      withEdge(sideUpperMiss, "princessLower", horizontalCurve(lower, underarmY)),
+      "sideLower", { kind: "line", name: "sideLower", start: { x: 10, y: fallbackHemY }, end: { x: 12, y: fallbackHemY } },
+    );
+    const noIntersection = resolve(noSeamIntersection);
+    expect(Number.isNaN(noIntersection.top.x)).toBe(true);
+    expect(Number.isNaN(noIntersection.bottom.x)).toBe(true);
   });
 });
 
@@ -145,6 +234,42 @@ describe("fittedPanelChecks", () => {
     const results = fittedPanelChecks(malformed);
     expect(results.find((result) => result.name === "Bust dart closed before trueing")?.ok).toBe(false);
     expect(results.find((result) => result.name === "Open pattern retains one bust dart")?.ok).toBe(false);
+  });
+
+  it("reports broken princess joins, shoulder placement, and panel cut semantics", () => {
+    const options = defaultGarmentOptions(FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID);
+    const block = draftFitted(STANDARD_M, options);
+    const center = rolePiece(block, "front");
+    const side = rolePiece(block, "frontSide");
+    const centerLower = pieceEdge(center, "princessLower");
+    const sideShoulder = pieceEdge(side, "shoulder");
+    expect(centerLower.kind).toBe("curve");
+    expect(sideShoulder.kind).toBe("line");
+    if (centerLower.kind !== "curve" || sideShoulder.kind !== "line") {
+      throw new Error("Expected curved princess edges and a straight shoulder.");
+    }
+    const malformedCenter = {
+      ...withEdge(center, "princessLower", {
+        ...centerLower,
+        curve: { ...centerLower.curve, start: { ...centerLower.curve.start, x: centerLower.curve.start.x + 0.5 } },
+      }),
+      onFold: false,
+      dart: { legs: ["bustDartUpper", "bustDartLower"] as const },
+    };
+    const malformedSide = withEdge(side, "shoulder", {
+      ...sideShoulder, start: { ...sideShoulder.start, x: sideShoulder.start.x + 0.5 },
+    });
+    const results = fittedPanelChecks({
+      ...block, roles: { ...block.roles, front: malformedCenter, frontSide: malformedSide },
+    });
+    expect(results.find((result) => result.name === "Princess seam joins continuously through the apex"))
+      .toMatchObject({ ok: false, detail: "one or both panel seams have a gap at the apex" });
+    expect(results.find((result) => result.name === "Split shoulder joins continuously"))
+      .toMatchObject({ ok: false, detail: "split shoulder edges do not meet" });
+    expect(results.find((result) => result.name === "Center-front fold and side-front pair are distinct"))
+      .toMatchObject({ ok: false, detail: "front panel cut semantics are inconsistent" });
+    expect(results.find((result) => result.name === "Princess seam replaces the bust dart"))
+      .toMatchObject({ ok: false, detail: "bust-dart geometry remains in the princess-seam pattern" });
   });
 });
 

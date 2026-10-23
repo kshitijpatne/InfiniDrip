@@ -3,7 +3,7 @@ import type { Edge, Piece } from "../drafting/piece";
 import type { EdgeRef, InterfaceRef, Stitch } from "../drafting/stitch";
 import { cubicLength, cubicPoint } from "../geometry";
 import type { FlatPoint, TechnicalFlatViewKind } from "./technical-flat";
-import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
+import { technicalFlatMappingForBlock } from "./technical-flat-mapping";
 import { validateTechnicalFlatProjectionMap, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 
 export interface FlatRoleTransform {
@@ -337,7 +337,7 @@ function trouserWaistbandFragments(block: Block, kind: TechnicalFlatViewKind): T
  * interface that cannot support a rigid placement blocks the view explicitly. */
 export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind: TechnicalFlatViewKind,
   projectionMap?: TechnicalFlatProjectionMap): TechnicalFlatAssembly {
-  const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  const mapping = technicalFlatMappingForBlock(recipeId, block);
   if (!mapping) return { recipeId, kind, transforms: {}, sourceFragments: [], joinedStitchLabels: [], issues: [{
     code: "UNSUPPORTED_RECIPE", sourceId: recipeId, message: `Recipe “${recipeId}” has no admitted front/back role assembly map.`,
   }] };

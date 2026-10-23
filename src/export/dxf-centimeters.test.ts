@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { STANDARD_M, blockPieces, draftAtSize, garmentByName, GARMENTS } from "../drafting";
+import { STANDARD_M, blockPieces, draftAtSize, garmentByName, GARMENTS, notchesForRecipeOptions } from "../drafting";
 import { exportDxf } from "./dxf";
 import { exportDxfCentimeters } from "./dxf-centimeters";
 import { flattenPiece, layoutPieces, polylineBounds } from "./layout";
@@ -48,9 +48,10 @@ describe("exportDxfCentimeters", () => {
     for (const recipe of GARMENTS) {
       const block = draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft);
       const pieces = blockPieces(block);
-      const output = exportDxfCentimeters(pieces, recipe.allowances, recipe.notches);
-      const notchCount = recipe.notches.reduce((sum, table) => sum + table.notches.length, 0);
-      const grainlineCount = recipe.notches.length * 5;
+      const notchTables = notchesForRecipeOptions(recipe);
+      const output = exportDxfCentimeters(pieces, recipe.allowances, notchTables);
+      const notchCount = notchTables.reduce((sum, table) => sum + table.notches.length, 0);
+      const grainlineCount = notchTables.length * 5;
 
       expect(output.match(/0\nLINE\n8\nMARK_NOTCH\n/g) ?? []).toHaveLength(notchCount);
       expect(output.match(/0\nLINE\n8\nMARK_GRAINLINE\n/g) ?? []).toHaveLength(grainlineCount);

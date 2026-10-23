@@ -1,4 +1,5 @@
 import type { TeeConstruction } from "../drafting/tshirt";
+import { FITTED_PRINCESS_ENTRY_ID } from "../drafting/fitted";
 
 export interface StarterControl {
   readonly fieldId: string;
@@ -499,10 +500,54 @@ const FITTED_WAIST_DART_TEE_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const FITTED_PRINCESS_TEE_BLANK_ENTRY: StarterEntry = {
+  entryId: FITTED_PRINCESS_ENTRY_ID,
+  entryRevision: "2026-10-23.1",
+  recipeId: "fitted",
+  recipeRevision: "fitted-princess-seam-v1",
+  catalogKind: "blank",
+  label: "Princess-seam fitted Tee · software defaults",
+  configuration: {
+    targetStyle: "Fitted tee",
+    measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+    options: {
+      princessSeamShaping: 2,
+      princessApexHorizontal: 55,
+      princessApexVertical: 28,
+      princessShoulderOrigin: 60,
+    },
+  },
+  supportedControls: [
+    ...FITTED_TEE_BLANK_ENTRY.supportedControls.filter((control) =>
+      !["dartIntake", "bustApexHorizontal", "bustApexVertical"].includes(control.fieldId)),
+    { fieldId: "princessSeamShaping", label: "Princess-seam shaping offset", kind: "option", unit: "cm", min: 0, max: 6, step: 0.5, defaultValue: 2 },
+    { fieldId: "princessApexHorizontal", label: "Seam apex across half-front", kind: "option", unit: "%", min: 20, max: 80, step: 1, defaultValue: 55 },
+    { fieldId: "princessApexVertical", label: "Seam apex from underarm to hem", kind: "option", unit: "%", min: 20, max: 80, step: 1, defaultValue: 28 },
+    { fieldId: "princessShoulderOrigin", label: "Seam start across shoulder", kind: "option", unit: "%", min: 20, max: 80, step: 1, defaultValue: 60 },
+  ],
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured princess-seam fitted crew Tee draft; editable before saving.",
+    fit: "Fitted construction label; 7 cm ease and princess-seam controls are software defaults, not validated fit targets.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Uses a center-front piece on fold and two mirrored side-front pieces joined by a shoulder-origin princess seam. The digital seam is not a simulation of sewn fit or physical behavior.",
+    sizeScope: "One software-default profile seeded from the existing Fitted measurement vector; not a population chart or validated Fitted grade run.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The seven measurements and four princess-seam controls are editable software values, not sourced fit, anatomical, or population standards.",
+    "The side-front pattern is one mirrored-pair geometry; the marker estimates one copy unless a quantity-aware output says otherwise.",
+    "The generic Tee grade rule is software output and has not been independently validated for this Fitted construction.",
+    "B1 technical-design review is pending. No physical-fit, comfort, wear, material-performance, supplier, manufacturing, or production claim.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v4",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v5",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

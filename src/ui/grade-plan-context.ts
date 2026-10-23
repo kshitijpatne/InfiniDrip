@@ -1,4 +1,4 @@
-import { GARMENTS, garmentForConstruction, garmentOptionsForStyle, type GarmentRecipe } from "../drafting";
+import { GARMENTS, garmentForConstruction, garmentOptionsForStyle, optionAppliesToStarterEntry, pomsForRecipeOptions, type GarmentRecipe } from "../drafting";
 import { FIELDS } from "./controls";
 import { canonicalizeJcs, sha256Hex } from "./style-revisions";
 import { isCustomOneSizeStyle, type MeasurementCaptureRecord, type StyleRecord } from "./project-records";
@@ -48,8 +48,7 @@ export async function createGradePlanContext(
   );
   const applicableOptions = (recipe.options ?? []).filter((option) =>
     (option.appliesToStyle === undefined || option.appliesToStyle === style.design.workspace.targetStyle)
-      && (option.appliesToStarterEntryId === undefined
-        || option.appliesToStarterEntryId === style.design.workspace.starterOrigin?.entryId));
+      && optionAppliesToStarterEntry(option, style.design.workspace.starterOrigin?.entryId));
   const optionTargets = applicableOptions.flatMap((option) => {
     const value = baseOptions[option.id];
     // An unset optional control means the recipe inherits its normal inputs.
@@ -87,7 +86,7 @@ export async function createGradePlanContext(
   let pomTargets: GradePlanContext["targets"];
   try {
     const block = baseBlockOverride ?? recipe.draft(style.design.measurements, baseOptions);
-    pomTargets = recipe.poms.map((pom) => ({
+    pomTargets = pomsForRecipeOptions(recipe, baseOptions).map((pom) => ({
       targetId: `pom.${recipe.name}.${encodeURIComponent(pom.label)}`,
       kind: "pom" as const,
       label: pom.label,

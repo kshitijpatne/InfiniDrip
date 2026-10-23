@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
-import { TEE, TEE_RAGLAN, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, GARMENTS, garmentByName, garmentForConstruction } from "./recipe";
+import { TEE, TEE_RAGLAN, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, GARMENTS,
+  garmentByName, garmentForConstruction, piecesForRecipeBlock, pomsForRecipeOptions, notchesForRecipeOptions } from "./recipe";
 import { raglanNecklineLength, raglanTeeGuidance, TEE_RAGLAN_GRAMMAR, TEE_RAGLAN_STITCHES } from "./tshirt-raglan";
 import { TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION } from "./vneck-band-output";
@@ -18,6 +19,8 @@ import { exportSvg } from "../export/svg";
 import { exportDxf } from "../export/dxf";
 import { gradeRun } from "./grading";
 import { stitchChecks } from "./stitch";
+import { FITTED_PRINCESS_ENTRY_ID } from "./fitted";
+
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
@@ -32,6 +35,51 @@ describe("the garment registry", () => {
     expect(garmentByName("woven-shirt")).toBe(WOVEN_SHIRT);
     expect(garmentByName("trouser")).toBe(TROUSER);
     expect(garmentByName("kimono")).toBe(TEE);
+  });
+});
+
+describe("recipe cut quantities", () => {
+  it("expands only the declared F03 cut roles for marker and nesting geometry", () => {
+    const options = defaultGarmentOptions(FITTED.options ?? [], FITTED_PRINCESS_ENTRY_ID);
+    const block = FITTED.draft(STANDARD_M, options);
+    const pieces = piecesForRecipeBlock(FITTED, block, options);
+    expect(pieces.map((piece) => piece.name)).toEqual([
+      "fitted front center", "fitted side front (cut 2 mirrored) (1 of 2)",
+      "fitted side front (cut 2 mirrored) (2 of 2)", "back", "sleeve (1 of 2)", "sleeve (2 of 2)",
+    ]);
+    expect(pieces[1]!.edges).toEqual(pieces[2]!.edges);
+    expect(pieces[4]!.edges).toEqual(pieces[5]!.edges);
+    expect(piecesForRecipeBlock(FITTED, FITTED.draft(STANDARD_M)).map((piece) => piece.name))
+      .toEqual(["fitted front", "back", "sleeve"]);
+    const partialQuantities = piecesForRecipeBlock({ ...FITTED, pieceQuantitiesForOptions: () => ({ front: 1 }) },
+      FITTED.draft(STANDARD_M));
+    expect(partialQuantities.map((piece) => piece.name)).toEqual(["fitted front", "back", "sleeve"]);
+    expect(piecesForRecipeBlock(TEE, TEE.draft(STANDARD_M)).map((piece) => piece.name))
+      .toEqual(["front", "back", "sleeve"]);
+  });
+
+  it("rejects quantities that do not resolve to a present role and positive integer", () => {
+    const block = FITTED.draft(STANDARD_M);
+    expect(() => piecesForRecipeBlock({ ...FITTED, pieceQuantitiesForOptions: () => ({ ghost: 1 }) }, block))
+      .toThrow('Declared cut quantity references missing role "ghost".');
+    for (const quantity of [0, -1, 1.5, Number.NaN]) {
+      expect(() => piecesForRecipeBlock({ ...FITTED, pieceQuantitiesForOptions: () => ({ front: quantity }) }, block))
+        .toThrow('Cut quantity for role "front" must be a positive safe integer.');
+    }
+  });
+});
+
+describe("option-aware construction marks", () => {
+  it("selects notch and grainline tables for the active Fitted panel topology", () => {
+    const legacy = notchesForRecipeOptions(FITTED);
+    expect(legacy.map(({ pieceName }) => pieceName)).toEqual(["fitted front", "back", "sleeve"]);
+
+    const princessOptions = defaultGarmentOptions(FITTED.options ?? [], FITTED_PRINCESS_ENTRY_ID);
+    const princess = notchesForRecipeOptions(FITTED, princessOptions);
+    expect(princess.map(({ pieceName }) => pieceName)).toEqual([
+      "fitted front center", "fitted side front (cut 2 mirrored)", "back", "sleeve",
+    ]);
+    expect(notchesForRecipeOptions(TEE)).toBe(TEE.notches);
   });
 });
 
@@ -151,6 +199,29 @@ describe("F02 waist-darted Fitted Tee Tech Pack", () => {
     expect(f01.construction).not.toContain(waistStep);
     expect(f02.construction).toContain(waistStep);
     expect(f02.construction.indexOf(waistStep)).toBe(f02.construction.indexOf("Sew the bust darts; press them toward the hem.") + 1);
+  });
+});
+
+describe("F03 princess-seam fitted Tee pipeline", () => {
+  const options = defaultGarmentOptions(FITTED.options ?? [], FITTED_PRINCESS_ENTRY_ID);
+
+  it("redrafts every supported grade size with matched seams, explicit POMs, allowances and cut instructions", () => {
+    const run = gradeRun(STANDARD_M, FITTED.grade, FITTED.sizes, FITTED.draft, options);
+    expect(run.map((size) => size.label)).toEqual(FITTED.sizes.map((size) => size.label));
+    for (const size of run) {
+      expect(stitchChecks(size.block, size.block.stitches).every((check) => check.ok), size.label).toBe(true);
+      expect(FITTED.checks(size.block, size.measurements).every((check) => check.ok), size.label).toBe(true);
+      expect(FITTED.guidance(size.block, size.measurements, options).filter((note) => note.level === "warn"), size.label)
+        .toEqual([]);
+      expect(pomsForRecipeOptions(FITTED, options).every((pom) => Number.isFinite(pom.measure(size.block))), size.label)
+        .toBe(true);
+    }
+    expect(pomsForRecipeOptions(FITTED, options).map((pom) => pom.label)).toContain("Modeled princess seam");
+    expect(FITTED.allowances.byEdge).toMatchObject({ princessUpper: 1, princessLower: 1 });
+    const techPack = FITTED.techPackForOptions!(options);
+    expect(techPack.construction[0]).toContain("2 side-front pieces as a mirrored pair");
+    expect(techPack.construction[0]).toContain("2 sleeves");
+    expect(techPack.constructionNotice).toContain("physical fit");
   });
 });
 
