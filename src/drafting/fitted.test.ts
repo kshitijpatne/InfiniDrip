@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { derive, STANDARD_M } from "./measurements";
 import { draftFront, draftBack, draftSleeve } from "./tshirt";
-import { draftFittedFront, draftFitted, fittedGuidance, fittedGeometryPair, reopenFittedReference, FITTED_DART_OPTIONS, sideBoundaryAtY } from "./fitted";
+import { draftFittedFront, draftFitted, fittedGuidance, fittedGeometryPair, reopenFittedReference, FITTED_DART_OPTIONS,
+  FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID, sideBoundaryAtY, draftFittedPrincessFronts } from "./fitted";
 import { Edge, Piece, pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 import { dartIntake, dartOf, edgesMeet, seamKink } from "./dart";
 import { rolePiece } from "./block";
@@ -9,6 +10,8 @@ import { point } from "../geometry";
 import { rotatePoint } from "../geometry/rotate";
 import { FITTED } from "./recipe";
 import { defaultGarmentOptions } from "./options";
+import { stitchChecks } from "./stitch";
+import { fittedPanelChecks } from "./fitted-tables";
 
 describe("draftFittedFront", () => {
   const f = draftFittedFront(STANDARD_M);
@@ -55,7 +58,8 @@ describe("draftFittedFront", () => {
     const bustY = STANDARD_M.armholeDepth + (STANDARD_M.length - STANDARD_M.armholeDepth) * 0.28;
     const front = draftFittedFront(STANDARD_M);
 
-    expect(FITTED.options).toEqual(FITTED_DART_OPTIONS);
+    expect(FITTED.options).toEqual(FITTED_OPTIONS);
+    expect(FITTED_OPTIONS.slice(0, FITTED_DART_OPTIONS.length)).toEqual(FITTED_DART_OPTIONS);
     expect(FITTED_DART_OPTIONS.slice(0, 3).map((option) => option.defaultValue)).toEqual([4, 55, 28]);
     expect(FITTED_DART_OPTIONS.slice(3).map((option) => option.defaultValue)).toEqual([43, 2, 10, 45]);
     expect(defaultGarmentOptions(FITTED_DART_OPTIONS)).not.toHaveProperty("waistDartIntake");
@@ -195,6 +199,102 @@ describe("fittedGeometryPair", () => {
       .toThrow("requires straight side edges");
     expect(() => reopenFittedReference(referenceWithCurve("hem"), apex, dartIntake(rolePiece(block, "front"))))
       .toThrow("requires a straight hem");
+  });
+});
+
+describe("F03 princess-seam fitted Tee", () => {
+  const options = defaultGarmentOptions(FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID);
+
+  it("drafts closed center and mirrored side-front panels with a continuously true digital seam", () => {
+    const block = draftFitted(STANDARD_M, options);
+    const center = rolePiece(block, "front");
+    const side = rolePiece(block, "frontSide");
+    const centerUpper = pieceEdge(center, "princessUpper");
+    const centerLower = pieceEdge(center, "princessLower");
+    const sideLower = pieceEdge(side, "princessLower");
+    const sideUpper = pieceEdge(side, "princessUpper");
+
+    expect(center.onFold).toBe(true);
+    expect(side.onFold).toBe(false);
+    expect(center.dart).toBeUndefined();
+    expect(side.dart).toBeUndefined();
+    expect(edgeEnd(pieceEdge(center, "shoulder"))).toEqual(edgeStart(centerUpper));
+    expect(edgeEnd(centerUpper)).toEqual(edgeStart(centerLower));
+    expect(edgeEnd(centerLower)).toEqual(edgeStart(pieceEdge(center, "hem")));
+    expect(edgeEnd(sideLower)).toEqual(edgeStart(sideUpper));
+    expect(edgeLength(centerUpper) + edgeLength(centerLower))
+      .toBeCloseTo(edgeLength(sideUpper) + edgeLength(sideLower), 9);
+    expect(block.stitches.find((stitch) => stitch.label === "Sleeve-cap ease")?.b.edges[0])
+      .toMatchObject({ piece: "frontSide", edge: "armhole" });
+    expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+    expect(fittedPanelChecks(block).every((check) => check.ok)).toBe(true);
+    expect(fittedGuidance(block, STANDARD_M, options).filter((note) => note.level === "warn")).toEqual([]);
+  });
+
+  it("flags invalid princess controls without changing the entered value", () => {
+    const invalid = { ...options, princessSeamShaping: 7 };
+    const notes = fittedGuidance(draftFitted(STANDARD_M, invalid), STANDARD_M, invalid);
+    expect(notes.find((note) => note.field === "option-princessSeamShaping")?.text)
+      .toContain("between 0 and 6 cm");
+    expect(invalid.princessSeamShaping).toBe(7);
+  });
+
+  it("applies omitted digital controls from their declared defaults", () => {
+    const partialOptions = { princessSeamShaping: options.princessSeamShaping };
+    const directPieces = draftFittedPrincessFronts(STANDARD_M, {});
+    expect(Object.keys(directPieces)).toEqual(["front", "frontSide"]);
+
+    const block = draftFitted(STANDARD_M, partialOptions);
+    expect(fittedGuidance(block, STANDARD_M, partialOptions).filter((note) => note.level === "warn")).toEqual([]);
+  });
+
+  it("reports invalid apex and shoulder controls without clamping", () => {
+    const invalid = {
+      ...options,
+      princessApexHorizontal: 81,
+      princessApexVertical: 81,
+      princessShoulderOrigin: 81,
+    };
+    const block = draftFitted(STANDARD_M, options);
+    const notes = fittedGuidance(block, STANDARD_M, invalid);
+    expect(notes.map((note) => note.field)).toEqual(expect.arrayContaining([
+      "option-princessApexHorizontal", "option-princessApexVertical", "option-princessShoulderOrigin",
+    ]));
+  });
+
+  it("stops with an actionable warning when a digital control is non-finite", () => {
+    const invalid = { ...options, princessApexHorizontal: Number.NaN };
+    const block = draftFitted(STANDARD_M, options);
+    const note = fittedGuidance(block, STANDARD_M, invalid).find((candidate) => candidate.level === "warn");
+    expect(note?.field).toBe("option-princessSeamShaping");
+    expect(note?.text).toContain("must be finite numbers");
+  });
+
+  it("warns when a princess seam has finite but untrued panel geometry", () => {
+    const block = draftFitted(STANDARD_M, options);
+    const center = rolePiece(block, "front");
+    const centerUpper = pieceEdge(center, "princessUpper");
+    expect(centerUpper.kind).toBe("curve");
+    if (centerUpper.kind !== "curve") throw new Error("Expected the authored princess edge to be curved.");
+    const centerAsLine = {
+      ...center,
+      edges: center.edges.map((edge) => edge.name === "princessUpper"
+        ? { kind: "line" as const, name: edge.name, start: centerUpper.curve.start, end: centerUpper.curve.end }
+        : edge),
+    };
+    const malformed = { ...block, roles: { ...block.roles, front: centerAsLine } };
+    const note = fittedGuidance(malformed, STANDARD_M, options).find((candidate) => candidate.field === "option-princessSeamShaping");
+    expect(note?.text).toContain("incomplete, non-finite, or untrued");
+  });
+
+  it("orients princess handles when a malformed reference reverses the shoulder-to-hem axis", () => {
+    const reversed = { ...STANDARD_M, length: -20 };
+    const pieces = draftFittedPrincessFronts(reversed, options);
+    const centerUpper = pieceEdge(pieces.front, "princessUpper");
+    const sideUpper = pieceEdge(pieces.frontSide, "princessUpper");
+    expect(centerUpper.kind).toBe("curve");
+    expect(sideUpper.kind).toBe("curve");
+    expect(edgeLength(centerUpper)).toBeCloseTo(edgeLength(sideUpper), 8);
   });
 });
 

@@ -1,5 +1,5 @@
-import type { GarmentRecipe } from "../drafting/recipe";
-import type { GarmentOptions } from "../drafting/options";
+import { pomsForRecipeOptions, type GarmentRecipe } from "../drafting/recipe";
+import { optionAppliesToStarterEntry, type GarmentOptions } from "../drafting/options";
 import type { Measurements } from "../drafting/measurements";
 import { mapTechnicalFlatSources, type FlatMappingIssue } from "./technical-flat-mapping";
 import type { FlatProjectionIssue } from "./technical-flat-projection";
@@ -44,17 +44,15 @@ function validateValues(
   }
   const input = raw === undefined ? {} : raw as Record<string, unknown>;
   const allDefinitions = recipe.options ?? [];
-  const definitions = allDefinitions.filter((definition) => definition.appliesToStarterEntryId === undefined
-    || definition.appliesToStarterEntryId === starterEntryId);
+  const definitions = allDefinitions.filter((definition) => optionAppliesToStarterEntry(definition, starterEntryId));
   const issues: TechnicalFlatOptionIssue[] = [];
   for (const optionId of Object.keys(input)) {
     const definition = allDefinitions.find((candidate) => candidate.id === optionId);
     if (!definition) {
       issues.push({ code: "UNKNOWN_OPTION", optionId, message: `Option “${optionId}” is not supported by ${recipe.label}; remove it or choose a supported garment.` });
-    } else if (definition.appliesToStarterEntryId !== undefined
-      && definition.appliesToStarterEntryId !== starterEntryId) {
+    } else if (!optionAppliesToStarterEntry(definition, starterEntryId)) {
       issues.push({ code: "UNKNOWN_OPTION", optionId,
-        message: `${definition.label} is only available for its matching starter entry; choose that starter or remove this option.` });
+        message: `${definition.label} is not part of this starter's option set; remove it or choose a starter that supports it.` });
     }
   }
 
@@ -114,7 +112,7 @@ export function validateTechnicalFlatOptions(
     }] };
   }
 
-  const sourceMap = mapTechnicalFlatSources(recipe.name, block, recipe.poms);
+  const sourceMap = mapTechnicalFlatSources(recipe.name, block, pomsForRecipeOptions(recipe, checked.options));
   if (sourceMap.issues.length > 0) {
     return { ...base, options: checked.options, faces: null, issues: sourceMap.issues };
   }

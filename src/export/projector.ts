@@ -15,7 +15,7 @@
 // share one slot, anchored at the slot's top-centre, so they nest like the
 // size-run view's tree rings and a toggled size lands exactly where the last was.
 
-import { Measurements, GarmentRecipe, GarmentOptions, gradeRun, rolePiece, Piece } from "../drafting";
+import { Measurements, GarmentRecipe, GarmentOptions, gradeRun, rolePiece, Piece, notchesForRecipeOptions } from "../drafting";
 import { flattenPiece, polylineBounds, Polyline } from "./layout";
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "../render/notch";
 import { unfoldFlat, FOLD_EPS } from "./unfold";
@@ -29,6 +29,7 @@ export interface ProjectorDraft {
   readonly step: number;
   readonly block: ReturnType<GarmentRecipe["draft"]>;
   readonly allowances?: AllowanceSpec;
+  readonly options?: GarmentOptions;
 }
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
@@ -97,6 +98,7 @@ const translate = (pts: Polyline, dx: number, dy: number): Polyline =>
 /** One size of one piece, drawn into its slot: outlines, notches, grain, label. */
 function pieceMarkup(
   recipe: GarmentRecipe,
+  notchTables: ReturnType<typeof notchesForRecipeOptions>,
   piece: Piece,
   step: number,
   sizeLabel: string,
@@ -118,7 +120,7 @@ function pieceMarkup(
     { stroke: SEW, width: SEW_W, pointSize: 0.35, labelSize: 1.4 }, dx, dy
   );
 
-  const table = recipe.notches.find((r) => r.pieceName === piece.name);
+  const table = notchTables.find((r) => r.pieceName === piece.name);
   let marks = "";
   if (table) {
     for (const rule of table.notches) {
@@ -219,7 +221,8 @@ export function exportProjectorSvg(
         .filter((s) => s.role in g.block.roles)
         .map((s) => {
           const slotIndex = slots.indexOf(s);
-          return pieceMarkup(recipe, rolePiece(g.block, s.role), g.step, g.label, centers[slotIndex]!, slotTop, g.allowances ?? recipe.allowances);
+          return pieceMarkup(recipe, notchesForRecipeOptions(recipe, g.options ?? options), rolePiece(g.block, s.role),
+            g.step, g.label, centers[slotIndex]!, slotTop, g.allowances ?? recipe.allowances);
         })
         .join("");
       return `<g id="size-${layerIds[index]}" inkscape:groupmode="layer" ` +

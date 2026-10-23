@@ -40,7 +40,7 @@ describe("technical-flat option and topology validation", () => {
     const unscoped = validateTechnicalFlatOptions(recipe, STANDARD_M, { waistDartIntake: 2 }, revisionId);
     expect(unscoped.options).toBeNull();
     expect(unscoped.issues).toContainEqual(expect.objectContaining({
-      code: "UNKNOWN_OPTION", optionId: "waistDartIntake", message: expect.stringContaining("matching starter entry"),
+      code: "UNKNOWN_OPTION", optionId: "waistDartIntake", message: expect.stringContaining("option set"),
     }));
 
     const options = defaultGarmentOptions(recipe.options ?? [], starterEntryId);
@@ -61,6 +61,29 @@ describe("technical-flat option and topology validation", () => {
         expect(result.options?.[definition.id]).toBe(value);
       }
     }
+  });
+
+  it("keeps the F03 princess-seam profile free of inactive bust-dart options", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted");
+    if (!recipe) throw new Error("Fitted recipe is missing.");
+    const starterEntryId = "fitted-princess-tee-digital-v1";
+    const options = defaultGarmentOptions(recipe.options ?? [], starterEntryId);
+    expect(options).toMatchObject({ princessSeamShaping: 2, princessApexHorizontal: 55,
+      princessApexVertical: 28, princessShoulderOrigin: 60 });
+    expect(options).not.toHaveProperty("dartIntake");
+    expect(options).not.toHaveProperty("bustApexHorizontal");
+    expect(options).not.toHaveProperty("bustApexVertical");
+
+    const active = validateTechnicalFlatOptions(recipe, STANDARD_M, options, revisionId, starterEntryId);
+    expect(active.issues).toEqual([]);
+    expect(active.options).toEqual(options);
+    expect(active.faces).toHaveLength(2);
+
+    const leaked = validateTechnicalFlatOptions(recipe, STANDARD_M, { ...options, dartIntake: 4 }, revisionId, starterEntryId);
+    expect(leaked.options).toBeNull();
+    expect(leaked.issues).toContainEqual(expect.objectContaining({
+      code: "UNKNOWN_OPTION", optionId: "dartIntake", message: expect.stringContaining("not part of this starter's option set"),
+    }));
   });
 
   it("keeps an unset optional Tee control absent while validating explicit values", () => {

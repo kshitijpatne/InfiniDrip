@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { blockPieces, GARMENTS, gradeRun, specSheet, STANDARD_M, WOVEN_SHIRT as WOVEN_SHIRT_RECIPE, type GarmentOptions } from "../drafting";
+import { blockPieces, GARMENTS, gradeRun, notchesForRecipeOptions, optionAppliesToStarterEntry,
+  piecesForRecipeBlock, pomsForRecipeOptions, specSheet, STANDARD_M,
+  WOVEN_SHIRT as WOVEN_SHIRT_RECIPE, type GarmentOptions } from "../drafting";
 import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg, exportTechPackV2, flattenPiece, nestPieces } from "../export";
 import { DEFAULT_WOVEN_SHIRT_OPTIONS } from "../drafting/shirt-contract";
 import { wovenShirtAllowances } from "../drafting/shirt";
@@ -13,12 +15,12 @@ import {
 } from "./artifact-dependencies";
 import { getAllFieldDefinitions, getFieldDefinitions } from "./field-provenance";
 
-function defaultOptions(recipeName: string): GarmentOptions {
+function defaultOptions(recipeName: string, starterEntryId?: string): GarmentOptions {
   const recipe = GARMENTS.find((item) => item.name === recipeName)!;
   // Optional choices are inactive until explicitly selected; loading all their
   // software defaults together can create impossible conflicting states.
   return Object.fromEntries((recipe.options ?? [])
-    .filter((option) => !option.optional)
+    .filter((option) => !option.optional && optionAppliesToStarterEntry(option, starterEntryId))
     .map((option) => [option.id, option.defaultValue]));
 }
 
@@ -30,20 +32,21 @@ function derivedOutputs(recipeName: string, options: GarmentOptions, measurement
   const recipe = GARMENTS.find((item) => item.name === recipeName)!;
   const block = recipe.draft(measurements, options);
   const pieces = blockPieces(block);
+  const nestingPieces = piecesForRecipeBlock(recipe, block, options);
   const graded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, options);
-  const flats = pieces.map((piece) => flattenPiece(piece, recipe.allowances));
+  const flats = nestingPieces.map((piece) => flattenPiece(piece, recipe.allowances));
   return {
     pattern: block,
-    pomSpec: specSheet(graded, recipe.poms),
+    pomSpec: specSheet(graded, pomsForRecipeOptions(recipe, options)),
     grade: graded,
     nesting: nestPieces(flats, 150),
     exports: {
-      svg: exportSvg(pieces, recipe.allowances, recipe.notches),
+      svg: exportSvg(pieces, recipe.allowances, notchesForRecipeOptions(recipe, options)),
       dxf: exportDxf(pieces, recipe.allowances),
       tiledPdf: exportPdf(pieces, recipe.allowances),
       techPackPdf: exportTechPackV2(recipe, measurements, undefined, undefined, options),
       projectorSvg: exportProjectorSvg(recipe, measurements, options),
-      a0Pdf: exportA0Pdf(pieces, recipe.allowances, recipe.notches),
+      a0Pdf: exportA0Pdf(pieces, recipe.allowances, notchesForRecipeOptions(recipe, options)),
     },
   };
 }
@@ -72,9 +75,12 @@ describe("field-to-artifact invalidation graph", () => {
 
   it("probes every field against the real recipe draft and records hem-turn cut dependencies", () => {
     for (const recipe of GARMENTS) {
-      const options = defaultOptions(recipe.name);
-      const baselineBlock = recipe.draft(STANDARD_M, options);
       for (const definition of getFieldDefinitions(recipe.name)) {
+        const starterEntryId = definition.inputKind === "option"
+          ? recipe.options?.find((option) => option.id === definition.inputKey)?.appliesToStarterEntryId
+          : undefined;
+        const options = defaultOptions(recipe.name, starterEntryId);
+        const baselineBlock = recipe.draft(STANDARD_M, options);
         const dependency = getFieldArtifactDependency(recipe.name, definition.inputKind, definition.inputKey)!;
         const measured = definition.inputKind === "measurement"
           ? STANDARD_M[definition.inputKey as keyof typeof STANDARD_M]

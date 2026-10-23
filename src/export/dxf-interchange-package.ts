@@ -1,6 +1,7 @@
 import type { Block } from "../drafting/block";
 import type { GarmentOptions } from "../drafting/options";
-import type { GarmentRecipe } from "../drafting/recipe";
+import { notchesForRecipeOptions, type GarmentRecipe } from "../drafting/recipe";
+import { optionAppliesToStarterEntry } from "../drafting/options";
 import type { GradedSize } from "../drafting/grading";
 import type { PatternMark } from "../drafting/pattern-mark";
 import type { Piece } from "../drafting/piece";
@@ -83,14 +84,12 @@ function resolveOptions(recipe: GarmentRecipe, options: GarmentOptions, starterE
   }
   const allDefinitions = recipe.options ?? [];
   const definitions = allDefinitions
-    .filter((definition) => definition.appliesToStarterEntryId === undefined
-      || definition.appliesToStarterEntryId === starterEntryId)
+    .filter((definition) => optionAppliesToStarterEntry(definition, starterEntryId))
     .sort((a, b) => a.id.localeCompare(b.id));
   const definitionsById = new Map(allDefinitions.map((definition) => [definition.id, definition]));
   const unknown = Object.keys(options).find((id) => {
     const definition = definitionsById.get(id);
-    return definition === undefined || (definition.appliesToStarterEntryId !== undefined
-      && definition.appliesToStarterEntryId !== starterEntryId);
+    return definition === undefined || !optionAppliesToStarterEntry(definition, starterEntryId);
   });
   if (unknown) throw new Error(`Unsupported ${recipe.name} option "${unknown}"`);
 
@@ -322,7 +321,7 @@ export async function createDxfInterchangePackage(
     };
   });
   const flatDxf = exportDxfCentimeters(
-    pieces, recipe.allowances, recipe.notches, cutOutlines, "cross", layoutGapCm,
+    pieces, recipe.allowances, notchesForRecipeOptions(recipe, resolvedOptions), cutOutlines, "cross", layoutGapCm,
   );
   const dxf = wrapDxfEntitiesInNamedBlocks(flatDxf, pieceBlockGroups(pieces, recipe, identities));
   const drawingSha256 = await sha256(dxf);

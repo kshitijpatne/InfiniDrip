@@ -39,6 +39,7 @@ import {
   blockPieces,
   NO_ALLOWANCE,
   sampleSpec,
+  pomsForRecipeOptions,
   StretchFabric,
   GarmentOptions,
 } from "../drafting";
@@ -593,12 +594,13 @@ export function exportTechPack(
   surface: readonly ArtworkPlacement[] = [],
   styleLabel = ""
 ): string {
+  const poms = pomsForRecipeOptions(recipe, options);
   const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
-  const rows = specSheet(graded, recipe.poms);
+  const rows = specSheet(graded, poms);
   const sizes = graded.map((g) => g.label);
   return assemblePdf(
     [
-      sketchStream(recipe.draft(m, options), recipe.poms, recipe.label, page, recipe.name === "trouser"),
+      sketchStream(recipe.draft(m, options), poms, recipe.label, page, recipe.name === "trouser"),
       tableStream(sizes, rows, page),
       bomStream(
         fabric && recipe.techPackForFabric
@@ -630,9 +632,10 @@ export function exportTechPackV2(
   surface: readonly ArtworkPlacement[] = [],
   styleLabel = ""
 ): string {
+  const poms = pomsForRecipeOptions(recipe, options);
   const block = recipe.draft(m, options);
   const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
-  const rows = specSheet(graded, withModeledPomLabels(recipe.poms, recipe.name === "tee"));
+  const rows = specSheet(graded, withModeledPomLabels(poms, recipe.name === "tee"));
   const sizes = graded.map((g) => g.label);
   return assemblePdf(
     [
@@ -679,8 +682,9 @@ export function exportTechPackV2ForGradePlan(
   const baseIndex = run.findIndex((size) => size.label.toLocaleLowerCase("en-US") === baseSizeLabel.toLocaleLowerCase("en-US"));
   if (baseIndex < 0) throw new Error("The approved base size is missing from the Tech Pack run.");
   const base = run[baseIndex];
+  const poms = pomsForRecipeOptions(recipe, base.options);
   for (const exception of pomExceptions) {
-    if (!run.some((size) => size.label === exception.sizeLabel) || !recipe.poms.some((pom) => pom.label === exception.pomLabel)) {
+    if (!run.some((size) => size.label === exception.sizeLabel) || !poms.some((pom) => pom.label === exception.pomLabel)) {
       throw new Error(`The not-applicable exception for ${exception.pomLabel} at ${exception.sizeLabel} does not match a declared size and POM.`);
     }
   }
@@ -689,14 +693,14 @@ export function exportTechPackV2ForGradePlan(
   // Raw, unrounded cm read off each supplied (approved, possibly semantically
   // edited) block. An approved not-applicable cell is null and its measure
   // callback is never invoked: the POM may not exist on that size's geometry.
-  const rows: GradePlanSpecRow[] = recipe.poms.map((pom) => ({
+  const rows: GradePlanSpecRow[] = poms.map((pom) => ({
     label: modeledPomLabel(pom, recipe.name === "tee"),
     values: run.map((size) => notApplicable(size.label, pom.label) ? null : pom.measure(size.block)),
     tolerance: pom.tolerance,
   }));
   // The Fit Record reuses the base column rather than calling sampleSpec():
   // that would redraft an unedited recipe block and round to 0.1 cm.
-  const fitRecord: FitRecordRow[] = recipe.poms.map((pom, index) => ({
+  const fitRecord: FitRecordRow[] = poms.map((pom, index) => ({
     label: pom.label, value: rows[index]!.values[baseIndex], tolerance: pom.tolerance,
   }));
   const exceptionLines = pomExceptions.flatMap((exception) => [

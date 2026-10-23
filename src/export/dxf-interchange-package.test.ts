@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { STANDARD_M, GARMENTS, blockPieces, defaultGarmentOptions, gradeRun } from "../drafting";
+import { STANDARD_M, GARMENTS, blockPieces, defaultGarmentOptions, gradeRun, notchesForRecipeOptions } from "../drafting";
 import optionMatrix from "../../docs/research/epic17/S330-integrated-browser/matrix.json";
 import { exportDxfCentimeters } from "./dxf-centimeters";
 import { adaptiveSeamAllowance, CUT_GEOMETRY_ALGORITHM } from "./adaptive-cut";
 import { polylineBounds } from "./layout";
+import { FITTED_PRINCESS_ENTRY_ID } from "../drafting/fitted";
 import {
   createDxfInterchangePackage,
   verifyDxfInterchangePackage,
@@ -89,10 +90,11 @@ describe("C04-bounded DXF interchange package", () => {
         for (let index = 1; index < placedBounds.length; index += 1) {
           expect(placedBounds[index]!.minX - placedBounds[index - 1]!.maxX).toBeCloseTo(expectedGap, 5);
         }
-        const flatDxf = exportDxfCentimeters(candidatePieces, recipe.allowances, recipe.notches, candidateCuts, "cross", expectedGap);
+        const notchTables = notchesForRecipeOptions(recipe);
+        const flatDxf = exportDxfCentimeters(candidatePieces, recipe.allowances, notchTables, candidateCuts, "cross", expectedGap);
         const expectedGroups = candidate.manifest.pieces.map((pieceRecord, index) => {
           const piece = candidatePieces[index]!;
-          const notchTable = recipe.notches.find((table) => table.pieceName === piece.name);
+          const notchTable = notchTables.find((table) => table.pieceName === piece.name);
           return {
             name: pieceRecord.blockName,
             leadingEntityCount: 2 + (piece.marks ?? []).reduce((total, mark) =>
@@ -151,6 +153,22 @@ describe("C04-bounded DXF interchange package", () => {
     expect(f02.manifest.patternMarks.map((mark) => mark.name)).toContain("waistDartUpperLeg");
     expect(f02.manifest.patternMarks.map((mark) => mark.name)).toContain("waistDartLowerLeg");
     expect(await verifyDxfInterchangePackage(f02)).toBe(true);
+  }, 30_000);
+
+  it("packages F03 princess options and rejects inherited bust-dart controls", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const options = defaultGarmentOptions(recipe.options ?? [], FITTED_PRINCESS_ENTRY_ID);
+    const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, options)[2]!;
+    const candidate = await createDxfInterchangePackage(recipe, graded, options, FITTED_PRINCESS_ENTRY_ID);
+
+    expect(candidate.manifest.options).toEqual(options);
+    expect(candidate.manifest.pieces.map((piece) => piece.role)).toContain("frontSide");
+    expect(notchesForRecipeOptions(recipe, options).map(({ pieceName }) => pieceName))
+      .toContain("fitted front center");
+    expect(candidate.manifest.pieces.find((piece) => piece.role === "front")?.edges).toContain("princessUpper");
+    expect(await verifyDxfInterchangePackage(candidate)).toBe(true);
+    await expect(createDxfInterchangePackage(recipe, graded, { ...options, dartIntake: 4 }, FITTED_PRINCESS_ENTRY_ID))
+      .rejects.toThrow('Unsupported fitted option "dartIntake"');
   }, 30_000);
 
   it("packages pieces with no explicit notch table and keeps a valid named drawing", async () => {

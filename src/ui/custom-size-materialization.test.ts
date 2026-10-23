@@ -91,7 +91,8 @@ describe("custom one-size design materialization", () => {
       const design = materializeCustomSizeDesign(seedFor(recipe.name), readySession(recipe.name, true));
       const options = design.garmentOptions[recipe.name] ?? {};
       expect(design.workspace.exportStep, recipe.name).toBe(0);
-      expect(Object.keys(options), recipe.name).toEqual((recipe.options ?? []).filter((option) => !option.optional).map((option) => option.id));
+      expect(Object.keys(options), recipe.name).toEqual(getCaptureFieldDefinitions(recipe.name)
+        .filter((definition) => definition.inputKind === "option").map((definition) => definition.inputKey));
 
       const customBlock = draftAtSize(
         design.measurements, recipe.grade, 0, recipe.draft, options,

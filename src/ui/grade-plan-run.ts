@@ -1,5 +1,5 @@
 /** Plan-driven custom-style drafting. This module never consults legacy grade rules. */
-import { blockPieces, modeledPomLabel, stitchChecks } from "../drafting";
+import { blockPieces, modeledPomLabel, notchesForRecipeOptions, pomsForRecipeOptions, stitchChecks } from "../drafting";
 import type { Block } from "../drafting/block";
 import type { Measurements } from "../drafting/measurements";
 import type { GarmentOptions } from "../drafting/options";
@@ -170,7 +170,7 @@ export function evaluateGradePlanRun(
         const checks = [
           ...stitchChecks(block, block.stitches),
           ...recipe.checks(block, measurements),
-          notchGrainCheck(blockPieces(block).map((piece) => piece.name), recipe.notches),
+          notchGrainCheck(blockPieces(block).map((piece) => piece.name), notchesForRecipeOptions(recipe, options)),
         ];
         for (const check of checks) {
           if (!check.ok) issues.push(`${size.label}: ${check.name} — ${check.detail}`);
@@ -187,8 +187,9 @@ export function evaluateGradePlanRun(
         issues.push(error instanceof Error ? `${size.label}: ${error.message}` : `${size.label}: drafting failed.`);
       }
     }
+    const activePoms = pomsForRecipeOptions(recipe, options);
     const poms = plan.targets.filter((target) => target.kind === "pom").map((target): GradePlanPomResult => {
-      const pom = recipe.poms.find((candidate) => `pom.${recipe.name}.${encodeURIComponent(candidate.label)}` === target.targetId);
+      const pom = activePoms.find((candidate) => `pom.${recipe.name}.${encodeURIComponent(candidate.label)}` === target.targetId);
       const displayLabel = pom ? modeledPomLabel(pom, recipe.name === "tee") : target.label;
       const exception = planException(plan, target.targetId, size.label);
       const delta = deltaFor(target, size.label);

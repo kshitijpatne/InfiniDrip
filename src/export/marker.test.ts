@@ -1,8 +1,19 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, TEE, blockPieces } from "../drafting";
+import { STANDARD_M, TEE, FITTED, blockPieces, defaultGarmentOptions } from "../drafting";
+import { FITTED_PRINCESS_ENTRY_ID } from "../drafting/fitted";
 import { markerPieces, gradedMarker, gradedMarkerForRun } from "./marker";
 
 describe("markerPieces", () => {
+  it("nests both side-front copies and both sleeves for the F03 digital cut list", () => {
+    const options = defaultGarmentOptions(FITTED.options ?? [], FITTED_PRINCESS_ENTRY_ID);
+    const pieces = markerPieces(FITTED, STANDARD_M, options);
+    expect(pieces).toHaveLength(FITTED.sizes.length * 6);
+    expect(pieces.map((piece) => piece.name)).toContain("XS fitted side front (cut 2 mirrored) (1 of 2)");
+    expect(pieces.map((piece) => piece.name)).toContain("XS fitted side front (cut 2 mirrored) (2 of 2)");
+    expect(pieces.map((piece) => piece.name)).toContain("XL sleeve (1 of 2)");
+    expect(pieces.map((piece) => piece.name)).toContain("XL sleeve (2 of 2)");
+  });
+
   it("holds every piece of every graded size, labelled with its size", () => {
     const pieces = markerPieces(TEE, STANDARD_M);
     const perSize = blockPieces(TEE.draft(STANDARD_M)).length; // 3 for the tee
@@ -29,6 +40,14 @@ describe("markerPieces", () => {
 });
 
 describe("gradedMarker", () => {
+  it("uses per-size F03 quantities for an explicit grade-plan marker", () => {
+    const options = defaultGarmentOptions(FITTED.options ?? [], FITTED_PRINCESS_ENTRY_ID);
+    const block = FITTED.draft(STANDARD_M, options);
+    const marker = gradedMarkerForRun(FITTED, [{ label: "M", block, options }], 150);
+    expect(marker.placed).toHaveLength(6);
+    expect(marker.placed.map((piece) => piece.name)).toContain("M fitted side front (cut 2 mirrored) (2 of 2)");
+  });
+
   it("uses recipe allowances when a declared size does not override them", () => {
     const block = TEE.draft(STANDARD_M);
     const marker = gradedMarkerForRun(TEE, [{ label: "M", block }], 150);

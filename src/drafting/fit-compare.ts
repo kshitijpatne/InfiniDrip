@@ -17,7 +17,7 @@
 // sew the sample size, measure it, and run the numbers through compareFit by
 // hand. Every later garment block reuses this same harness.
 
-import { GarmentRecipe } from "./recipe";
+import { GarmentRecipe, pomsForRecipeOptions } from "./recipe";
 import { Measurements } from "./measurements";
 import { GarmentOptions } from "./options";
 
@@ -37,7 +37,7 @@ export interface PredictedPom {
  */
 export function sampleSpec(recipe: GarmentRecipe, m: Measurements, options: GarmentOptions = {}): PredictedPom[] {
   const block = recipe.draft(m, options);
-  return recipe.poms.map((pom) => ({
+  return pomsForRecipeOptions(recipe, options).map((pom) => ({
     label: pom.label,
     value: round1(pom.measure(block)),
     tolerance: pom.tolerance,

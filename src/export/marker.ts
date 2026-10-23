@@ -13,7 +13,7 @@
 // upright, no interlock (see nesting.ts). What's true here is the cloth length and
 // the true-area utilization for the run as a whole.
 
-import { Measurements, GarmentRecipe, GarmentOptions, gradeRun, blockPieces, Block } from "../drafting";
+import { Measurements, GarmentRecipe, GarmentOptions, gradeRun, piecesForRecipeBlock, Block } from "../drafting";
 import { flattenPiece, FlatPiece } from "./layout";
 import { nestPieces, NestResult } from "./nesting";
 import type { AllowanceSpec } from "../drafting/allowance";
@@ -22,6 +22,7 @@ export interface MarkerDraft {
   readonly label: string;
   readonly block: Block;
   readonly allowances?: AllowanceSpec;
+  readonly options?: GarmentOptions;
 }
 
 /** Re-label a flat piece with its size, so the marker is readable. */
@@ -33,7 +34,7 @@ function labelWithSize(flat: FlatPiece, sizeLabel: string): FlatPiece {
 export function markerPieces(recipe: GarmentRecipe, m: Measurements, options: GarmentOptions = {}): FlatPiece[] {
   const run = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
   return run.flatMap((g) =>
-    blockPieces(g.block).map((p) => labelWithSize(flattenPiece(p, recipe.allowances), g.label))
+    piecesForRecipeBlock(recipe, g.block, options).map((p) => labelWithSize(flattenPiece(p, recipe.allowances), g.label))
   );
 }
 
@@ -53,7 +54,7 @@ export function gradedMarkerForRun(
   run: readonly MarkerDraft[],
   fabricWidth: number,
 ): NestResult {
-  const pieces = run.flatMap((size) => blockPieces(size.block).map((piece) =>
+  const pieces = run.flatMap((size) => piecesForRecipeBlock(recipe, size.block, size.options).map((piece) =>
     labelWithSize(flattenPiece(piece, size.allowances ?? recipe.allowances), size.label)));
   return nestPieces(pieces, fabricWidth);
 }

@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, wovenHipStationY, withModeledPomLabels, optionalOptionStatusMessage, optionalOptionActionLabel } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, optionalOptionStatusMessage, optionalOptionActionLabel } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName, garmentForConstruction } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { teeVBandTechPackOptions } from "../drafting/vneck-band-output";
@@ -1513,7 +1513,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const activeOptionDefinitions = (forRecipe: GarmentRecipe = recipe) =>
     (forRecipe.options ?? []).filter((option) =>
       (option.appliesToStyle === undefined || option.appliesToStyle === targetStyle)
-        && (option.appliesToStarterEntryId === undefined || option.appliesToStarterEntryId === starterOrigin?.entryId));
+        && optionAppliesToStarterEntry(option, starterOrigin?.entryId));
   const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => garmentOptionsForStyle(
     forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle, true, starterOrigin?.entryId,
   );
@@ -1629,14 +1629,17 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const semanticMeasurementKey = (value: Measurements): string =>
     FIELDS.map((field) => String(value[field.id])).join("|");
   const recipeForCurrentOutputs = (): GarmentRecipe => {
+    const options = recipeOptions();
     const allowances = recipe.name === "woven-shirt"
-      ? wovenShirtAllowances(recipeOptions().hemTurn)
+      ? wovenShirtAllowances(options.hemTurn)
       : recipe.allowances;
-    if (!semanticEdits) return { ...recipe, allowances };
+    const poms = pomsForRecipeOptions(recipe, options);
+    if (!semanticEdits) return { ...recipe, allowances, poms };
     const evaluation = requireSemanticEditEvaluation(currentSemanticState()?.evaluation);
     return {
       ...recipe,
       allowances,
+      poms,
       draft: (value: Measurements): Block => {
         const step = semanticSizeStepFor(evaluation.sizes, (candidate) =>
           semanticMeasurementKey(gradeMeasurements(measurements, recipe.grade, candidate.step))
@@ -2111,7 +2114,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         return { block: blockValue, issues: [semantic?.source.error ?? "Saved semantic edits need review before the graded run can be generated."] };
       }
       const [replayed] = replaySemanticEditsForDrafts(recipe, semanticEdits!, semantic.source.fingerprint, [{
-        label: size.label, measurements: sizeMeasurements, block: blockValue,
+        label: size.label, measurements: sizeMeasurements, block: blockValue, options: _sizeOptions,
       }]);
       return { block: replayed!.block, issues: replayed!.issues.map((issue) => issue.message) };
     } : undefined;
@@ -3230,14 +3233,17 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const nest = nestScope === "marker"
           ? customOneSizeStyle()
             ? gradedMarkerForRun(outputRecipe, currentGradePlanRun().sizes.map((size) => ({
-              label: size.label, block: size.block!, allowances: allowancesForOptions(size.options!),
+              label: size.label, block: size.block!, allowances: allowancesForOptions(size.options!), options: size.options!,
             })), fabricWidth)
             : gradedMarker(outputRecipe, measurements, fabricWidth, recipeOptions())
-          : nestPieces(blockPieces(customOneSizeStyle() && gradePlanSelectedLabel !== null
-            ? selectedGradePlanSize()!.block!
-            : semanticSizeBlock(selectedOutputStep())!).map((p) => flattenPiece(p,
-              customOneSizeStyle() && gradePlanSelectedLabel !== null
-                ? allowancesForOptions(selectedGradePlanSize()!.options!) : outputRecipe.allowances)), fabricWidth);
+          : (() => {
+            const plannedSize = customOneSizeStyle() && gradePlanSelectedLabel !== null ? selectedGradePlanSize() : null;
+            const nestingBlock = plannedSize?.block ?? semanticSizeBlock(selectedOutputStep())!;
+            const nestingOptions = plannedSize?.options ?? recipeOptions();
+            const nestingAllowances = plannedSize ? allowancesForOptions(plannedSize.options!) : outputRecipe.allowances;
+            return nestPieces(piecesForRecipeBlock(outputRecipe, nestingBlock, nestingOptions)
+              .map((piece) => flattenPiece(piece, nestingAllowances)), fabricWidth);
+          })();
         canvasContent = renderFabricNest(
           nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
         if (customOneSizeStyle() && nestScope === "marker") {
@@ -3274,7 +3280,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           const previewBlock = { ...draft, roles: { ...draft.roles, [editRole]: editablePiece } };
           const previewMeasurements = gradeMeasurements(measurements, recipe.grade, selectedOutputStep());
           const sizeLabel = customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, selectedOutputStep());
-          const previewIssues = inspectSemanticEditCandidate(recipe, previewMeasurements, previewBlock, sizeLabel);
+          const previewIssues = inspectSemanticEditCandidate(recipe, previewMeasurements, previewBlock, sizeLabel, recipeOptions());
           const handles = semanticEditorHandles(recipe.name, previewBlock, editRole);
           const vb = editorViewBox(editablePiece);
           const evaluation = semanticState?.evaluation;
@@ -3363,7 +3369,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const pieces = blockPieces(block);
         canvasContent = renderBlueprint(
           pieces,
-          { active: pieces[0].name, notches: outputRecipe.notches, allowances: outputRecipe.allowances,
+          { active: pieces[0].name, notches: notchesForRecipeOptions(outputRecipe, recipeOptions(outputRecipe)), allowances: outputRecipe.allowances,
             layout: recipe.name === "polo" ? "polo" : "linear", annotationMode: "external" });
         canvasContent += patternAnnotationKeyMarkup(
           pieces,
@@ -5746,7 +5752,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     });
   });
   onExport("#export-svg", () => {
-    download(`${exportRecipeName()}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), exportAllowances(), recipe.notches), "image/svg+xml");
+    download(`${exportRecipeName()}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), exportAllowances(), notchesForRecipeOptions(recipe, recipeOptions())), "image/svg+xml");
   });
   onExport("#export-tee-neckband", () => {
     try {
@@ -5834,6 +5840,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const projectorRun = planRun?.map((size) => ({
       label: size.label, step: size.position, block: size.block!,
       allowances: allowancesForOptions(size.options!),
+      options: size.options!,
     }));
     download(`${exportRecipeName()}-projector.svg`, exportProjectorSvg(
       recipeForCurrentOutputs(), measurements, recipeOptions(), projectorRun, planRun ? pomExceptionRows(planRun) : [],
@@ -5846,7 +5853,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   }, () => styleReviewed && checkReviewed && baseDesignValid());
   onExport("#export-a0", () => {
     download(`${exportRecipeName()}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(
-      exportPieces(), exportAllowances(), recipe.notches, undefined, recipe.a0Overflow === true
+      exportPieces(), exportAllowances(), notchesForRecipeOptions(recipe, recipeOptions()), undefined, recipe.a0Overflow === true
     ), "application/pdf");
   });
 
@@ -6282,6 +6289,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const canFreezeVBand = vNeckActive && !vNeckConflict && teeVBandOutputError === "" && frozenBandSettings !== null;
         const projectorRun = customRun?.map((size) => ({
           label: size.label, step: size.position, block: size.block!, allowances: allowancesForOptions(size.options!),
+          options: size.options!,
         }));
         const wholeRunOptions = vNeckActive && !vNeckConflict
           ? { ...recipeOptions(), ...liveBandOptions }
@@ -6295,10 +6303,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             pomExceptionRows(customRun))
           : exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle);
         const artifacts = [
-          { artifactId: "selected-size-svg", extension: "svg", displayName: `${recipe.name}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, recipe.notches) },
+          { artifactId: "selected-size-svg", extension: "svg", displayName: `${recipe.name}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, notchesForRecipeOptions(currentRecipe, recipeOptions(currentRecipe))) },
           { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${recipe.name}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
           { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${recipe.name}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true) },
-          { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${recipe.name}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, recipe.notches, undefined, recipe.a0Overflow === true) },
+          { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${recipe.name}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, notchesForRecipeOptions(currentRecipe, recipeOptions(currentRecipe)), undefined, recipe.a0Overflow === true) },
           { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
           { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${recipe.name}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : []) },
           { artifactId: "whole-run-surface-sheet-svg", extension: "svg", displayName: `${recipe.name}-surface-sheet.svg`, mediaType: "image/svg+xml", content: exportSurfaceSheet(surfacePlacementsNow(), targetStyle) },

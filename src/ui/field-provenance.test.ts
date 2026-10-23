@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_APPEARANCE } from "./appearance";
-import { GARMENTS, STANDARD_M, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
+import { FITTED_PRINCESS_ENTRY_ID, GARMENTS, STANDARD_M, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
 import { DEFAULT_WORKSPACE, deserializeRecovery, serialize, serializeRecovery } from "./persist";
 import { migrateLegacySaveFile, type RecoveryPayload, type StyleRecord } from "./project-records";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
@@ -109,6 +109,18 @@ describe("C03 field definitions and append-only observations", () => {
     });
     expect(shoulder?.captureBoundary).toContain("not verified by the app");
     expect(shoulder?.captureBoundary).toContain("Self-measure reliability and garment fit are not established");
+  });
+
+  it("keeps starter-bound controls out of generic custom-size capture", () => {
+    const allFittedFields = getFieldDefinitions("fitted");
+    const captureFields = getCaptureFieldDefinitions("fitted");
+    expect(allFittedFields.some((definition) => definition.inputKey === "princessSeamShaping")).toBe(true);
+    expect(captureFields.some((definition) => definition.inputKey === "princessSeamShaping")).toBe(false);
+    expect(captureFields.some((definition) => definition.inputKey === "dartIntake")).toBe(true);
+    const scopedOption = GARMENTS.find((recipe) => recipe.name === "fitted")!.options!
+      .find((option) => option.id === "princessSeamShaping")!;
+    expect(scopedOption.appliesToStarterEntryId).toBe(FITTED_PRINCESS_ENTRY_ID);
+    expect(getCaptureFieldDefinitions("missing-recipe")).toEqual([]);
   });
 
   it("records an unset optional Tee chest control as inheriting the current shared ease", () => {

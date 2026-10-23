@@ -17,9 +17,9 @@ import { pieceEdge, edgeLength } from "./piece";
 import { Note } from "../guidance/note";
 
 /** The headline check: does the sleeve cap match the armhole it sews into? */
-export function armholeMatch(block: Block): Note {
+export function armholeMatch(block: Block, frontArmholeRole = "front"): Note {
   const armhole =
-    edgeLength(pieceEdge(rolePiece(block, "front"), "armhole")) +
+    edgeLength(pieceEdge(rolePiece(block, frontArmholeRole), "armhole")) +
     edgeLength(pieceEdge(rolePiece(block, "back"), "armhole"));
   const cap =
     edgeLength(pieceEdge(rolePiece(block, "sleeve"), "capLeft")) +
@@ -99,9 +99,9 @@ export function shoulderCheck(m: Measurements): Note | null {
 
 /** The garment-specific guidance for a sleeved top, in the order the panel shows
  *  them. Nulls (checks that pass silently) are dropped. */
-export function sleevedTopGuidance(block: Block, m: Measurements): Note[] {
+export function sleevedTopGuidance(block: Block, m: Measurements, frontArmholeRole = "front"): Note[] {
   const notes: (Note | null)[] = [
-    armholeMatch(block),
+    armholeMatch(block, frontArmholeRole),
     easeRange(m),
     armholeDepthCheck(m),
     shoulderCheck(m),

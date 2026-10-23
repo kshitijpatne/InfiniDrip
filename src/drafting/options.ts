@@ -20,6 +20,8 @@ export interface GarmentOption {
   readonly appliesToStyle?: string;
   /** Starter entry that activates this control; its saved value remains dormant otherwise. */
   readonly appliesToStarterEntryId?: string;
+  /** Starter entries where this control is not part of the design contract. */
+  readonly excludedForStarterEntryIds?: readonly string[];
   /** Optional-control copy for features whose inactive state is not an inherited measurement. */
   readonly optionalSetLabel?: string;
   readonly optionalResetLabel?: string;
@@ -36,6 +38,15 @@ export type GarmentOptions = Readonly<Record<string, number>>;
 export type GarmentOptionsByRecipe = Readonly<Record<string, GarmentOptions>>;
 
 export const EMPTY_GARMENT_OPTIONS: GarmentOptions = {};
+
+/** Shared entry applicability for controls, drafting defaults and output validation. */
+export function optionAppliesToStarterEntry(option: GarmentOption, starterEntryId?: string): boolean {
+  const explicitlyMatches = option.appliesToStarterEntryId === undefined
+    || option.appliesToStarterEntryId === starterEntryId;
+  const excluded = starterEntryId !== undefined
+    && option.excludedForStarterEntryIds?.includes(starterEntryId) === true;
+  return explicitlyMatches && !excluded;
+}
 
 export function optionalOptionStatusMessage(
   option: GarmentOption,
@@ -70,7 +81,7 @@ export function defaultGarmentOptions(
   starterEntryId?: string,
 ): GarmentOptions {
   return Object.fromEntries(definitions.filter((d) => !d.optional
-    && (d.appliesToStarterEntryId === undefined || d.appliesToStarterEntryId === starterEntryId))
+    && optionAppliesToStarterEntry(d, starterEntryId))
     .map((d) => [d.id, d.defaultValue]));
 }
 
@@ -84,7 +95,7 @@ export function garmentOptionsForStyle(
 ): GarmentOptions {
   const applicable = definitions.filter((definition) =>
     (definition.appliesToStyle === undefined || definition.appliesToStyle === style)
-      && (definition.appliesToStarterEntryId === undefined || definition.appliesToStarterEntryId === starterEntryId));
+      && optionAppliesToStarterEntry(definition, starterEntryId));
   const options: Record<string, number> = includeDefaults ? { ...defaultGarmentOptions(applicable, starterEntryId) } : {};
   for (const definition of applicable) {
     if (Object.prototype.hasOwnProperty.call(saved, definition.id)) {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
+import { FITTED_PRINCESS_ENTRY_ID, GARMENTS, STANDARD_M, defaultGarmentOptions, pomsForRecipeOptions } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
 import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
@@ -261,6 +261,32 @@ describe("projectPoloSleeveFillClosures", () => {
 });
 
 describe("compileTechnicalFlatLiveView", () => {
+  it("renders the F03 center-front and mirrored side-front pair from one revision", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const options = defaultGarmentOptions(recipe.options ?? [], FITTED_PRINCESS_ENTRY_ID);
+    const block = recipe.draft(STANDARD_M, options);
+    const liveRecipe = { ...recipe, poms: pomsForRecipeOptions(recipe, options) };
+    const revisionId = "live-fitted-princess-r1";
+    const result = compileTechnicalFlatLiveView({ recipe: liveRecipe, block, revisionId, kind: "FRONT_FLAT",
+      placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+
+    expect(result.issues).toEqual([]);
+    expect(result.view).not.toBeNull();
+    expect(result.view?.primitives.some((primitive) => primitive.kind === "path"
+      && primitive.id === "flat:fitted:FRONT_FLAT:component:front:outline")).toBe(true);
+    expect(result.view?.primitives.some((primitive) => primitive.kind === "path"
+      && primitive.id === "flat:fitted:FRONT_FLAT:component:frontSide:outline")).toBe(true);
+    const reflectedSide = result.view?.primitives.find((primitive) => primitive.kind === "path"
+      && primitive.id === "flat:fitted:FRONT_FLAT:component:frontSide:outline:approved-view-pair");
+    expect(reflectedSide?.kind).toBe("path");
+    expect(reflectedSide?.source.revisionId).toBe(revisionId);
+    const rendered = renderTechnicalFlatSvg(result.view!, {
+      measureText: () => ({ widthCm: 2, ascentCm: 0.3, descentCm: 0.1 }), colorway: result.colorway!,
+    });
+    expect(rendered.issues).toEqual([]);
+    expect(rendered.svg).toContain("flat:fitted:FRONT_FLAT:component:frontSide:outline:approved-view-pair");
+  });
+
   it("fails closed when the approved detached-detail center axis is absent", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
     const authored = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));

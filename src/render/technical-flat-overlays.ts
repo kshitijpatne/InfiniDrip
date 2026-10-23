@@ -4,7 +4,7 @@ import type { ArtworkPlacement } from "../surface/placement";
 import { placementError } from "../surface/placement";
 import { artworkInPiece, artworkInsidePiece, pieceFrames, resolvePieceFrame } from "../surface/piece-frames";
 import type { TechnicalFlatNotice, FlatArtworkPrimitive, TechnicalFlatViewKind } from "./technical-flat";
-import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
+import { technicalFlatMappingForBlock } from "./technical-flat-mapping";
 
 export type TechnicalFlatTextureCue = "smooth" | "woven" | "rib" | "heather";
 
@@ -94,7 +94,7 @@ export function compileTechnicalFlatOverlays(
     issues.push({ code: "INVALID_PLACEMENT_LIST", sourceId: `style:artwork:${recipeId}`,
       message: "Saved surface artwork must be a placement list." });
   }
-  const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  const mapping = technicalFlatMappingForBlock(recipeId, block);
   if (!mapping) {
     issues.push({ code: "UNSUPPORTED_RECIPE", sourceId: recipeId,
       message: `Recipe “${recipe.label}” has no admitted technical-flat overlay map.` });

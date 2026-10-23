@@ -45,6 +45,16 @@ describe("garmentReport — the fitted block", () => {
     expect(names).toContain("Dart legs equal");
     expect(names).not.toContain("Hem square to the fold");
   });
+
+  it("checks the princess-seam panel roles against their option-aware notches", () => {
+    const report = garmentReport(FITTED, STANDARD_M, {
+      princessSeamShaping: 2, princessApexHorizontal: 55,
+      princessApexVertical: 28, princessShoulderOrigin: 60,
+    });
+    const marks = report.checks.find((check) => check.name === "Notches + grainline on every piece");
+    expect(marks).toMatchObject({ ok: true, detail: "all 4 pieces marked" });
+    expect(report.ok).toBe(true);
+  });
 });
 
 describe("dartLegCheck", () => {

@@ -12,7 +12,7 @@ import {
   type TechnicalFlatView,
   type TechnicalFlatViewKind,
 } from "./technical-flat";
-import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
+import { technicalFlatMappingForBlock } from "./technical-flat-mapping";
 import { createG04TechnicalFlatProjectionMap, type FlatProjectionPhysicalPairReflection,
   type FlatProjectionOppositeSideReflection, type FlatProjectionViewPairReflection } from "./technical-flat-projection";
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
@@ -724,6 +724,7 @@ export function appendOppositeSideReflection(
 /** Compose one face from a single exact block, revision and sewn-role solution. */
 export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): TechnicalFlatLiveResult {
   const { recipe, block, revisionId, kind } = input;
+  const recipeMapping = technicalFlatMappingForBlock(recipe.name, block);
   const projectionMap = createG04TechnicalFlatProjectionMap(recipe.name, block, revisionId);
   const geometry = compileTechnicalFlatSourceGeometry(recipe.name, block, revisionId, kind, projectionMap);
   const assembly = assembleTechnicalFlatRoles(recipe.name, block, kind, projectionMap);
@@ -749,8 +750,8 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
           && primitive.source.revisionId === revisionId);
         return target?.kind === "mark" ? { targetGeometryId: target.id, point: target.at } : undefined;
       }
-      const anchorRoleId = kind === "FRONT_FLAT" ? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
-        : G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.backPomAnchorRole;
+      const anchorRoleId = kind === "FRONT_FLAT" ? recipeMapping?.pomAnchorRole
+        : recipeMapping?.backPomAnchorRole;
       const placement = anchorRoleId ? assembly.transforms[anchorRoleId] : undefined;
       return anchorRoleId && placement ? {
         targetGeometryId: `flat:${recipe.name}:${kind}:component:${anchorRoleId}:outline`,
@@ -762,8 +763,8 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
       const markAnchor = kind === "FRONT_FLAT" ? pom.frontMarkAnchor
         : pom.backMarkAnchor ? { ...pom.backMarkAnchor, point: "at" as const } : undefined;
       const roleId = markAnchor?.roleId ?? (kind === "FRONT_FLAT"
-        ? pom.anchorRoleId ?? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
-        : pom.backAnchorRoleId ?? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.backPomAnchorRole);
+        ? pom.anchorRoleId ?? recipeMapping?.pomAnchorRole
+        : pom.backAnchorRoleId ?? recipeMapping?.backPomAnchorRole);
       // Undefined/nonexistent role IDs cannot match a transform key and stay fail-closed.
       const placement = assembly.transforms[roleId as string];
       if (!roleId || !placement) return undefined;
@@ -782,7 +783,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
       const markAnchor = kind === "FRONT_FLAT" ? pom.frontMarkAnchor
         : pom.backMarkAnchor ? { ...pom.backMarkAnchor, point: "at" as const } : undefined;
       const roleId = markAnchor?.roleId ?? (kind === "FRONT_FLAT"
-        ? pom.anchorRoleId ?? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
+        ? pom.anchorRoleId ?? recipeMapping?.pomAnchorRole
         : pom.backAnchorRoleId);
       const placement = assembly.transforms[roleId as string];
       if (!roleId || !placement) return undefined;
@@ -858,7 +859,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     issues.push({ stage: "overlay", sourceId: "style:artwork:waistband",
       message: "Artwork targeting the Skirt waistband is withheld until its face-specific segment can be clipped without crossing the side-seam boundary. Reposition it on the front or back panel." });
   }
-  const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipe.name];
+  const mapping = recipeMapping;
   const face = mapping?.faces.find((candidate) => candidate.kind === kind);
   const overlayFace = overlays.faces?.find((candidate) => candidate.kind === kind);
   const bandArtwork = recipe.name === "trouser" ? (overlayFace?.artwork ?? []).filter((primitive) => primitive.targetRoleId === "waistband") : [];

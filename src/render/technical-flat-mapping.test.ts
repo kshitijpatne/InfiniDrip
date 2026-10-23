@@ -3,11 +3,13 @@ import { GARMENTS } from "../drafting/recipe";
 import type { Block } from "../drafting/block";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
+import { FITTED_PRINCESS_ENTRY_ID } from "../drafting/fitted";
 import {
   G04_TECHNICAL_FLAT_MAPPINGS,
   type TechnicalFlatRecipeMapping,
   mapTechnicalFlatSources,
   validateFlatRoleMapping,
+  technicalFlatMappingForBlock,
 } from "./technical-flat-mapping";
 
 const draft = (name: string) => {
@@ -17,6 +19,21 @@ const draft = (name: string) => {
 };
 
 describe("mapTechnicalFlatSources", () => {
+  it("adds the F03 side-front shell only for the princess-seam Fitted topology", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const princessOptions = defaultGarmentOptions(recipe.options ?? [], FITTED_PRINCESS_ENTRY_ID);
+    const princessBlock = recipe.draft(STANDARD_M, princessOptions);
+    const princessMapping = technicalFlatMappingForBlock("fitted", princessBlock)!;
+    const front = princessMapping.faces.find((face) => face.kind === "FRONT_FLAT")!;
+    const legacyBlock = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const legacyMapping = technicalFlatMappingForBlock("fitted", legacyBlock)!;
+
+    expect(front.roles).toContainEqual({ roleId: "frontSide", treatment: "SHELL" });
+    expect(front.roles.find((role) => role.roleId === "front")?.treatment).toBe("SHELL");
+    expect(legacyMapping.faces[0].roles.some((role) => role.roleId === "frontSide")).toBe(false);
+    expect(technicalFlatMappingForBlock("unknown", princessBlock)).toBeUndefined();
+  });
+
   it("maps every supported recipe's drafted roles, construction sources and POMs", () => {
     for (const recipe of GARMENTS) {
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));

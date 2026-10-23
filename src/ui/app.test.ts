@@ -34,7 +34,7 @@ import * as gradePlan from "./grade-plan";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { GARMENTS, STANDARD_M, STRETCH_FABRICS, draftTshirt, gradeRun, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
+import { GARMENTS, STANDARD_M, STRETCH_FABRICS, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
 import { blockPieces } from "../drafting/block";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
 import { exportA0Pdf, exportDxf, exportPdf, exportSvg } from "../export";
@@ -4781,7 +4781,7 @@ describe("FITTED custom one-size guidance", () => {
       await vi.waitFor(() => expect(root.querySelector("#current-garment")?.textContent).toBe("Darted tee"));
       clickId(root, "journey-guided");
       await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
-      for (const definition of getFieldDefinitions("fitted")) {
+      for (const definition of getCaptureFieldDefinitions("fitted")) {
         const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
           .find((button) => button.dataset.fieldId === definition.id);
         if (!preset) throw new Error("No digital preset button for " + definition.id);
@@ -11373,12 +11373,13 @@ describe("EPIC-19 L02 starter binding", () => {
         manifest: { options: Record<string, number>; patternMarks: readonly { name: string }[] };
       };
       const fittedRecipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+      const fittedNotches = notchesForRecipeOptions(fittedRecipe, saved.garmentOptions.fitted);
       const expectedPieces = blockPieces(fittedRecipe.draft(saved.measurements, saved.garmentOptions.fitted));
-      expect(svg).toBe(exportSvg(expectedPieces, fittedRecipe.allowances, fittedRecipe.notches));
+      expect(svg).toBe(exportSvg(expectedPieces, fittedRecipe.allowances, fittedNotches));
       expect(dxf).toBe(exportDxf(expectedPieces, fittedRecipe.allowances));
       expect(pdf).toBe(exportPdf(expectedPieces, fittedRecipe.allowances, undefined, 1,
         fittedRecipe.tiledPdfLocalCoordinates === true));
-      expect(a0).toBe(exportA0Pdf(expectedPieces, fittedRecipe.allowances, fittedRecipe.notches, undefined,
+      expect(a0).toBe(exportA0Pdf(expectedPieces, fittedRecipe.allowances, fittedNotches, undefined,
         fittedRecipe.a0Overflow === true));
       expect(svg).toContain('data-pattern-mark-name="waistDartUpperLeg"');
       expect(dxf).toContain("MARK_PLACEMENTLINE");
@@ -11409,6 +11410,154 @@ describe("EPIC-19 L02 starter binding", () => {
       else delete (SVGElement.prototype as unknown as { getComputedTextLength?: unknown }).getComputedTextLength;
     }
   });
+
+  it("delivers the F03 princess-seam Tee through editing, save/reopen, flats, nests, and exports", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const originalGetBBox = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getBBox");
+    const originalTextLength = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getComputedTextLength");
+    Object.defineProperty(SVGElement.prototype, "getBBox", { configurable: true, value() {
+      const text = this as SVGTextElement;
+      return { x: 0, y: -0.2, width: (text.textContent?.length ?? 0) * 0.18, height: 0.25 };
+    } });
+    Object.defineProperty(SVGElement.prototype, "getComputedTextLength", { configurable: true, value() {
+      return ((this as SVGTextElement).textContent?.length ?? 0) * 0.18;
+    } });
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename: string, content: string) => {
+        files.set(filename, content);
+        return { saved: true, filePath: filename };
+      }),
+    };
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    let root: HTMLElement | null = null;
+    let reopened: HTMLElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-fitted-princess-tee-digital-v1");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Princess-seam fitted Tee · software defaults");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("B1 technical review pending; physical validation not performed");
+      for (const [option, value] of Object.entries({ princessSeamShaping: "2", princessApexHorizontal: "55",
+        princessApexVertical: "28", princessShoulderOrigin: "60" })) {
+        expect(root.querySelector<HTMLInputElement>(`input[data-option="${option}"]`)?.value).toBe(value);
+      }
+      expect(root.querySelector<HTMLInputElement>('input[data-option="dartIntake"]')).toBeNull();
+
+      clickId(root!, "view-edit");
+      await vi.waitFor(() => expect(root!.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+      const editorRole = root!.querySelector<HTMLSelectElement>("#editor-role")!;
+      expect([...editorRole.options].map((option) => option.value)).toEqual(["front", "frontSide", "back", "sleeve"]);
+      const centerEditor = root!.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      editorRole.value = "frontSide";
+      editorRole.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root!.querySelector<HTMLSelectElement>("#editor-role")!.value).toBe("frontSide");
+      const sideEditor = root!.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(sideEditor).not.toBe(centerEditor);
+
+      clickId(root!, "view-pattern");
+      const defaultPattern = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      const patternKey = root.querySelector<HTMLElement>("#pattern-annotation-key")!.textContent!.toLowerCase();
+      expect(patternKey).toContain("fitted front center");
+      expect(patternKey).toContain("fitted side front (cut 2 mirrored)");
+      expect(root.querySelectorAll("#canvas-host svg path").length).toBeGreaterThan(4);
+      clickId(root, "view-flat");
+      const flatPattern = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg")!.outerHTML;
+      expect(flatPattern).toContain("frontSide:outline:approved-view-pair");
+      expect(root.querySelector("[data-technical-flat-issues]")).toBeNull();
+      clickId(root, "view-pattern");
+
+      const shaping = root.querySelector<HTMLInputElement>('input[data-option="princessSeamShaping"]')!;
+      shaping.value = "3";
+      shaping.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedPattern = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(editedPattern).not.toBe(defaultPattern);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: "fitted-princess-tee-digital-v1", entryRevision: "2026-10-23.1",
+        recipeId: "fitted", recipeRevision: "fitted-princess-seam-v1",
+        configurationSnapshot: { targetStyle: "Fitted tee", options: { princessSeamShaping: 2,
+          princessApexHorizontal: 55, princessApexVertical: 28, princessShoulderOrigin: 60 } },
+      });
+      expect(saved.garmentOptions.fitted.princessSeamShaping).toBe(3);
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="fitted-princess-tee-digital-v1"]')
+        ?.getAttribute("aria-pressed")).toBe("true");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="princessSeamShaping"]')?.value).toBe("3");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(editedPattern);
+      clickId(reopened, "view-fabric");
+      const singleNest = reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML.toLowerCase();
+      expect(singleNest).toContain("fitted side front (cut 2 mirrored) (1 of 2)");
+      expect(singleNest).toContain("fitted side front (cut 2 mirrored) (2 of 2)");
+      clickId(reopened, "nest-marker");
+      const markerNest = reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML.toLowerCase();
+      expect(markerNest).toContain("xs fitted side front (cut 2 mirrored) (1 of 2)");
+      expect(markerNest).toContain("xl fitted side front (cut 2 mirrored) (2 of 2)");
+
+      reachExportStage(reopened);
+      const exportIds = ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack",
+        "export-cad-dxf", "export-dxf-source-package"];
+      expect(exportIds.map((id) => [id, reopened!.querySelector<HTMLButtonElement>(`#${id}`)!.disabled]))
+        .toEqual(exportIds.map((id) => [id, false]));
+      for (const id of exportIds.slice(0, 5)) clickId(reopened, id);
+      await vi.waitFor(() => expect(files.size).toBe(5), { timeout: 10_000 });
+      const waitForPackageExport = async (filename: string, failurePrefix: string): Promise<void> => {
+        await vi.waitFor(() => {
+          const failed = reopened!.querySelector<HTMLElement>("#persist-status")!.textContent!.includes(failurePrefix);
+          expect(files.has(filename) || failed).toBe(true);
+        }, { timeout: 30_000 });
+        expect(files.has(filename), reopened!.querySelector<HTMLElement>("#persist-status")!.textContent).toBe(true);
+      };
+      clickId(reopened, "export-cad-dxf");
+      await waitForPackageExport("fitted-M-cad-exchange.dxf", "CAD exchange export failed");
+      clickId(reopened, "export-dxf-source-package");
+      await waitForPackageExport("fitted-M-cad-exchange-source.json", "Source package export failed");
+      expect([...files.keys()].sort()).toHaveLength(7);
+      const svg = [...files.entries()].find(([name]) => name.endsWith(".svg"))![1];
+      const dxf = [...files.entries()].find(([name]) => name.endsWith(".dxf") && !name.endsWith("-cad-exchange.dxf"))![1];
+      const pdf = [...files.entries()].find(([name]) => name.endsWith(".pdf") && !name.endsWith("-techpack.pdf") && !name.endsWith("-A0.pdf"))![1];
+      const a0 = [...files.entries()].find(([name]) => name.endsWith("-A0.pdf"))![1];
+      const techPack = [...files.entries()].find(([name]) => name.endsWith("-techpack.pdf"))![1];
+      const cadSource = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange-source.json"))![1];
+      const cadDxf = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange.dxf"))![1];
+      const fittedRecipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+      const fittedNotches = notchesForRecipeOptions(fittedRecipe, saved.garmentOptions.fitted);
+      const expectedPieces = blockPieces(fittedRecipe.draft(saved.measurements, saved.garmentOptions.fitted));
+      expect(svg).toBe(exportSvg(expectedPieces, fittedRecipe.allowances, fittedNotches));
+      expect(dxf).toBe(exportDxf(expectedPieces, fittedRecipe.allowances));
+      expect(pdf).toBe(exportPdf(expectedPieces, fittedRecipe.allowances, undefined, 1,
+        fittedRecipe.tiledPdfLocalCoordinates === true));
+      expect(a0).toBe(exportA0Pdf(expectedPieces, fittedRecipe.allowances, fittedNotches, undefined,
+        fittedRecipe.a0Overflow === true));
+      expect(svg.toLowerCase()).toContain("fitted front center");
+      expect(svg.toLowerCase()).toContain("fitted side front (cut 2 mirrored)");
+      expect(pdf.startsWith("%PDF-")).toBe(true);
+      expect(a0.startsWith("%PDF-")).toBe(true);
+      expect(techPack).toContain("2 side-front pieces as a mirrored pair");
+      expect(techPack).toContain("physical fit, comfort, wear, and production behavior are unvalidated");
+      const cadPackage = JSON.parse(cadSource) as { dxf: string; manifest: {
+        options: Record<string, number>; pieces: readonly { role: string; edges: readonly string[] }[];
+      } };
+      expect(cadPackage.manifest.options).toMatchObject({ princessSeamShaping: 3,
+        princessApexHorizontal: 55, princessApexVertical: 28, princessShoulderOrigin: 60 });
+      expect(cadPackage.manifest.pieces.find((piece) => piece.role === "front")?.edges).toContain("princessUpper");
+      expect(cadDxf).toBe(cadPackage.dxf);
+    } finally {
+      delete window.electronAPI;
+      root?.remove();
+      reopened?.remove();
+      localStorage.clear();
+      if (originalGetBBox) Object.defineProperty(SVGElement.prototype, "getBBox", originalGetBBox);
+      else delete (SVGElement.prototype as unknown as { getBBox?: unknown }).getBBox;
+      if (originalTextLength) Object.defineProperty(SVGElement.prototype, "getComputedTextLength", originalTextLength);
+      else delete (SVGElement.prototype as unknown as { getComputedTextLength?: unknown }).getComputedTextLength;
+    }
+  }, 75_000);
 
   it("keeps raw Fitted inputs and warns when the dart mouth crosses the underarm", () => {
     localStorage.clear();

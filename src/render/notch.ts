@@ -75,6 +75,9 @@ export interface GrainlineRule {
   readonly topT: number;
   readonly bottomEdge: string;
   readonly bottomT: number;
+  /** Optional recipe resolver for a grainline that must follow live geometry
+   * while retaining a specific direction, such as a vertical side-front grain. */
+  readonly resolve?: (piece: Piece) => Grainline;
 }
 
 export interface Grainline {
@@ -84,6 +87,7 @@ export interface Grainline {
 
 /** Resolve a grainline rule against a live piece. */
 export function resolveGrainline(piece: Piece, rule: GrainlineRule): Grainline {
+  if (rule.resolve) return rule.resolve(piece);
   return {
     top: pointOnEdge(pieceEdge(piece, rule.topEdge), rule.topT),
     bottom: pointOnEdge(pieceEdge(piece, rule.bottomEdge), rule.bottomT),
