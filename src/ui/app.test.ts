@@ -11310,6 +11310,7 @@ describe("EPIC-19 L02 starter binding", () => {
         return { saved: true, filePath: filename };
       }),
     };
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     try {
       const root = mount();
       clickIfPresent(root, "welcome-start");
@@ -11357,12 +11358,20 @@ describe("EPIC-19 L02 starter binding", () => {
       root.querySelector<HTMLButtonElement>("#export-pdf")!.click();
       root.querySelector<HTMLButtonElement>("#export-a0")!.click();
       root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
-      await vi.waitFor(() => expect(files.size).toBe(5));
+      root.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      await vi.waitFor(() => expect(files.size).toBe(7));
       const svg = [...files.entries()].find(([name]) => name.endsWith(".svg"))![1];
       const dxf = [...files.entries()].find(([name]) => name.endsWith(".dxf"))![1];
       const pdf = [...files.entries()].find(([name]) => name.endsWith(".pdf") && !name.endsWith("-techpack.pdf") && !name.endsWith("-A0.pdf"))![1];
       const a0 = [...files.entries()].find(([name]) => name.endsWith("-A0.pdf"))![1];
       const techPack = [...files.entries()].find(([name]) => name.endsWith("-techpack.pdf"))![1];
+      const cadSource = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange-source.json"))![1];
+      const cadDxf = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange.dxf"))![1];
+      const cadPackage = JSON.parse(cadSource) as {
+        dxf: string;
+        manifest: { options: Record<string, number>; patternMarks: readonly { name: string }[] };
+      };
       const fittedRecipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
       const expectedPieces = blockPieces(fittedRecipe.draft(saved.measurements, saved.garmentOptions.fitted));
       expect(svg).toBe(exportSvg(expectedPieces, fittedRecipe.allowances, fittedRecipe.notches));
@@ -11376,6 +11385,12 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(pdf.startsWith("%PDF-")).toBe(true);
       expect(a0.startsWith("%PDF-")).toBe(true);
       expect(techPack).toContain("Sew the marked front waist dart by matching both legs to the apex");
+      expect(cadPackage.manifest.options).toMatchObject({
+        waistDartWaistlineFromHps: 43, waistDartIntake: 3, waistDartLength: 10, waistDartPosition: 45,
+      });
+      expect(cadPackage.manifest.patternMarks.map((mark) => mark.name)).toContain("waistDartUpperLeg");
+      expect(cadPackage.manifest.patternMarks.map((mark) => mark.name)).toContain("waistDartLowerLeg");
+      expect(cadDxf).toBe(cadPackage.dxf);
 
       const reopened = mount();
       expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="fitted-waist-dart-tee-digital-v1"]')

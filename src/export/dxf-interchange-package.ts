@@ -77,13 +77,21 @@ export interface DxfInterchangePackage {
   readonly manifest: DxfInterchangePackageManifest;
 }
 
-function resolveOptions(recipe: GarmentRecipe, options: GarmentOptions): GarmentOptions {
+function resolveOptions(recipe: GarmentRecipe, options: GarmentOptions, starterEntryId?: string): GarmentOptions {
   if (typeof options !== "object" || options === null || Array.isArray(options)) {
     throw new Error("Package options must be a recipe option object");
   }
-  const definitions = [...(recipe.options ?? [])].sort((a, b) => a.id.localeCompare(b.id));
-  const definitionsById = new Map(definitions.map((definition) => [definition.id, definition]));
-  const unknown = Object.keys(options).find((id) => !definitionsById.has(id));
+  const allDefinitions = recipe.options ?? [];
+  const definitions = allDefinitions
+    .filter((definition) => definition.appliesToStarterEntryId === undefined
+      || definition.appliesToStarterEntryId === starterEntryId)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const definitionsById = new Map(allDefinitions.map((definition) => [definition.id, definition]));
+  const unknown = Object.keys(options).find((id) => {
+    const definition = definitionsById.get(id);
+    return definition === undefined || (definition.appliesToStarterEntryId !== undefined
+      && definition.appliesToStarterEntryId !== starterEntryId);
+  });
   if (unknown) throw new Error(`Unsupported ${recipe.name} option "${unknown}"`);
 
   return Object.fromEntries(definitions.flatMap((definition) => {
@@ -283,8 +291,9 @@ export async function createDxfInterchangePackage(
   recipe: GarmentRecipe,
   graded: GradedSize,
   options: GarmentOptions = {},
+  starterEntryId?: string,
 ): Promise<DxfInterchangePackage> {
-  const resolvedOptions = resolveOptions(recipe, options);
+  const resolvedOptions = resolveOptions(recipe, options, starterEntryId);
   const size = recipe.sizes.find((entry) => entry.label === graded.label);
   if (!size || size.step !== graded.step) {
     throw new Error(`Selected size "${graded.label}" does not match the recipe's grade table`);

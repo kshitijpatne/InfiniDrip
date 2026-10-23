@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { STANDARD_M, GARMENTS, blockPieces, gradeRun } from "../drafting";
+import { STANDARD_M, GARMENTS, blockPieces, defaultGarmentOptions, gradeRun } from "../drafting";
 import optionMatrix from "../../docs/research/epic17/S330-integrated-browser/matrix.json";
 import { exportDxfCentimeters } from "./dxf-centimeters";
 import { adaptiveSeamAllowance, CUT_GEOMETRY_ALGORITHM } from "./adaptive-cut";
@@ -132,6 +132,27 @@ describe("C04-bounded DXF interchange package", () => {
     expect(first.manifest.revisionId).not.toBe(changed.manifest.revisionId);
   }, 30_000);
 
+  it("keeps F02-only Fitted options behind the matching starter origin", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const genericOptions = defaultGarmentOptions(recipe.options ?? []);
+    const genericGrade = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, genericOptions)[2]!;
+    const generic = await createDxfInterchangePackage(recipe, genericGrade, genericOptions);
+    expect(generic.manifest.options).not.toHaveProperty("waistDartIntake");
+    expect(generic.manifest.patternMarks.some((mark) => mark.name.startsWith("waistDart"))).toBe(false);
+
+    const starterEntryId = "fitted-waist-dart-tee-digital-v1";
+    const f02Options = defaultGarmentOptions(recipe.options ?? [], starterEntryId);
+    const f02Grade = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, f02Options)[2]!;
+    await expect(createDxfInterchangePackage(recipe, f02Grade, f02Options))
+      .rejects.toThrow(/Unsupported fitted option "waistDart/);
+
+    const f02 = await createDxfInterchangePackage(recipe, f02Grade, f02Options, starterEntryId);
+    expect(f02.manifest.options).toEqual(f02Options);
+    expect(f02.manifest.patternMarks.map((mark) => mark.name)).toContain("waistDartUpperLeg");
+    expect(f02.manifest.patternMarks.map((mark) => mark.name)).toContain("waistDartLowerLeg");
+    expect(await verifyDxfInterchangePackage(f02)).toBe(true);
+  }, 30_000);
+
   it("packages pieces with no explicit notch table and keeps a valid named drawing", async () => {
     const source = GARMENTS.find((candidate) => candidate.name === "tee")!;
     const recipe = { ...source, notches: [] };
@@ -163,6 +184,7 @@ describe("C04-bounded DXF interchange package", () => {
       Object.assign(options, testCase.options ?? {});
       Object.assign(options, testCase.optionValues ?? {});
       const resolvedOptions = Object.fromEntries((recipe.options ?? []).flatMap((definition) => {
+        if (definition.appliesToStarterEntryId !== undefined) return [];
         if (definition.optional && !Object.prototype.hasOwnProperty.call(options, definition.id)) return [];
         return [[definition.id, options[definition.id] ?? definition.defaultValue]];
       }));

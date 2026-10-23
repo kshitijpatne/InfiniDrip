@@ -423,9 +423,10 @@ export function fittedGuidance(block: Block, m: Measurements, options: GarmentOp
       notes.push({ level: "warn", field: "option-waistDartLength",
         text: "The waist-dart apex reaches the HPS neckline. Shorten the dart or move its line toward the hem; the app will not change either value automatically." });
     }
-    const bustApex = dartOf(waistFront)!.apex;
-    const waistCenterX = derive(m).chestWidthHalf * waistDart.positionPercent / 100;
-    if (Math.hypot(waistCenterX - bustApex.x, waistApexY - bustApex.y) < 2) {
+    const bustApex = dartOf(waistFront)?.apex;
+    const waistCenterX = sideX === null ? null : sideX * waistDart.positionPercent / 100;
+    if (bustApex && waistCenterX !== null
+      && Math.hypot(waistCenterX - bustApex.x, waistApexY - bustApex.y) < 2) {
       notes.push({ level: "warn", field: "option-waistDartLength",
         text: "The waist-dart apex is too close to the bust-dart apex for these digital marks. Shorten the waist dart or move it across the half-front; the app will not adjust it automatically." });
     }

@@ -16,12 +16,49 @@ describe("technical-flat option and topology validation", () => {
       expect(defaults.faces?.map((face) => face.kind)).toEqual(["FRONT_FLAT", "BACK_FLAT"]);
 
       for (const definition of recipe.options ?? []) {
+        if (definition.appliesToStarterEntryId !== undefined) continue;
         for (const value of [definition.min, definition.max]) {
           const result = validateTechnicalFlatOptions(recipe, STANDARD_M, { [definition.id]: value }, revisionId);
           expect(result.issues, `${recipe.name}.${definition.id}=${value}`).toEqual([]);
           expect(result.options?.[definition.id]).toBe(value);
           expect(result.faces).toHaveLength(2);
         }
+      }
+    }
+  });
+
+  it("activates F02-only waist-dart controls only for the matching starter origin", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted");
+    if (!recipe) throw new Error("Fitted recipe is missing.");
+    const starterEntryId = "fitted-waist-dart-tee-digital-v1";
+
+    const generic = validateTechnicalFlatOptions(recipe, STANDARD_M, undefined, revisionId);
+    expect(generic.issues).toEqual([]);
+    expect(generic.options).not.toHaveProperty("waistDartIntake");
+    expect(generic.faces).toHaveLength(2);
+
+    const unscoped = validateTechnicalFlatOptions(recipe, STANDARD_M, { waistDartIntake: 2 }, revisionId);
+    expect(unscoped.options).toBeNull();
+    expect(unscoped.issues).toContainEqual(expect.objectContaining({
+      code: "UNKNOWN_OPTION", optionId: "waistDartIntake", message: expect.stringContaining("matching starter entry"),
+    }));
+
+    const options = defaultGarmentOptions(recipe.options ?? [], starterEntryId);
+    expect(options).toMatchObject({
+      waistDartWaistlineFromHps: 43, waistDartIntake: 2, waistDartLength: 10, waistDartPosition: 45,
+    });
+    const active = validateTechnicalFlatOptions(recipe, STANDARD_M, options, revisionId, starterEntryId);
+    expect(active.issues).toEqual([]);
+    expect(active.options).toEqual(options);
+    expect(active.faces).toHaveLength(2);
+
+    for (const definition of recipe.options!.filter((candidate) =>
+      candidate.appliesToStarterEntryId === starterEntryId)) {
+      for (const value of [definition.min, definition.max]) {
+        const result = validateTechnicalFlatOptions(recipe, STANDARD_M,
+          { ...options, [definition.id]: value }, revisionId, starterEntryId);
+        expect(result.issues, `${definition.id}=${value}`).toEqual([]);
+        expect(result.options?.[definition.id]).toBe(value);
       }
     }
   });

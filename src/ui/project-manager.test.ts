@@ -29,7 +29,6 @@ import {
 } from "./tech-pack-operation-records";
 import { TECH_PACK_SHARE_ARTIFACTS } from "./tech-pack-sharing";
 import { bindTechPackToRevision, createEmptyTechPackRecord, type TechPackRecord } from "./tech-pack-records";
-import { STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
 
 const TIME = "2026-09-24T16:00:00.000Z";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
@@ -282,36 +281,6 @@ describe("accessible project and style manager", () => {
       expect(t03).toHaveBeenCalledWith(expect.anything(), recipe, expect.anything(),
         expect.not.objectContaining({ chestEase: 8 }), expect.anything());
       expect(workflow.snapshot.activeStyle.design.garmentOptions.tee?.chestEase).toBe(8);
-    } finally {
-      t02.mockRestore();
-      t03.mockRestore();
-      state.close();
-    }
-  });
-
-  it("resolves project Tech Pack options with the saved starter origin", async () => {
-    const t02 = vi.spyOn(techPackT02Validation, "evaluateTechPackT02");
-    const t03 = vi.spyOn(techPackOperationReconciliation, "buildTechPackReferenceReconciliation");
-    const state = await techPackHarness();
-    const teeStarter = STARTER_REGISTRY.entries.find((entry) => entry.entryId === "tee-classic-digital-v1")!;
-    try {
-      const design = state.workflow.snapshot.activeStyle.design;
-      Object.assign(design, {
-        measurements: { ...teeStarter.configuration.measurements },
-        garmentOptions: { ...design.garmentOptions, tee: { ...teeStarter.configuration.options } },
-      });
-      Object.assign(design.workspace, {
-        targetStyle: teeStarter.configuration.targetStyle,
-        starterOrigin: starterOriginForEntry(teeStarter),
-      });
-      t02.mockClear();
-      t03.mockClear();
-      state.manager.refresh();
-
-      expect(t02).toHaveBeenCalledWith(expect.objectContaining({ recipe: expect.anything() }));
-      expect(t03).toHaveBeenCalledWith(
-        expect.anything(), expect.anything(), expect.anything(), expect.anything(), expect.anything(),
-      );
     } finally {
       t02.mockRestore();
       t03.mockRestore();

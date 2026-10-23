@@ -55,11 +55,12 @@ export function fittedPanelChecks(block: Block): CheckResult[] {
     && Math.hypot(waistUpper.start.x - waistLower.start.x, waistUpper.start.y - waistLower.start.y) > 1e-6
     && Math.abs(waistUpper.start.y - waistLower.start.y) <= 1e-6
     && Math.abs(waistUpper.end.y - waistUpper.start.y) > 1e-6;
-  const waistMarkDetail = waistMarks.length === 0
-    ? "no waist dart selected"
-    : waistMarkGeometryValid
+  const waistMarkChecks = waistMarks.length === 0 ? [] : [present(
+    "Waist dart marks form one internal dart", waistMarkGeometryValid,
+    waistMarkGeometryValid
       ? "two internal placement lines have a positive opening and meet at one apex"
-      : "waist-dart marks are incomplete, non-finite, or do not meet at one apex";
+      : "waist-dart marks are incomplete, non-finite, or do not meet at one apex",
+  )];
 
   let pair: ReturnType<typeof fittedGeometryPair>;
   try {
@@ -91,7 +92,7 @@ export function fittedPanelChecks(block: Block): CheckResult[] {
     present("Hem level in dart-closed reference", levelDelta <= 1e-9, "Endpoint level delta " + levelDelta.toFixed(4) + " cm"),
     squareCorner("Hem square to fold (dart-closed reference)", edgeStart(hem), edgeEnd(hem), edgeEnd(centerFront)),
     present("Open pattern retains one bust dart", oneBustDartRetained, oneBustDartRetained ? "two named bust dart legs retained" : "named bust dart legs are missing"),
-    present("Waist dart marks form one internal dart", waistMarks.length === 0 || waistMarkGeometryValid, waistMarkDetail),
+    ...waistMarkChecks,
   ];
 }
 /** The fitted block's points of measure — the tee's, adapted to the darted front. */

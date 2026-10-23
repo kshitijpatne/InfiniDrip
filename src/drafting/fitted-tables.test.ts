@@ -27,9 +27,8 @@ describe("fittedPanelChecks", () => {
       "Hem level in dart-closed reference",
       "Hem square to fold (dart-closed reference)",
       "Open pattern retains one bust dart",
-      "Waist dart marks form one internal dart",
     ]);
-    expect(results[results.length - 1]).toMatchObject({ ok: true, detail: "no waist dart selected" });
+    expect(results.find((result) => result.name === "Waist dart marks form one internal dart")).toBeUndefined();
   });
 
   it("checks F02 waist-dart marks as two internal legs with a shared apex", () => {

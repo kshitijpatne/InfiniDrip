@@ -23,6 +23,34 @@ const base = {
 };
 
 describe("technicalFlatPanelMarkup", () => {
+  it("keeps F02 waist-dart marks in the flat only with the matching starter origin", () => {
+    const fitted = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const starterEntryId = "fitted-waist-dart-tee-digital-v1";
+    const options = defaultGarmentOptions(fitted.options ?? [], starterEntryId);
+    const fittedBlock = fitted.draft(STANDARD_M, options);
+    const markup = technicalFlatPanelMarkup({
+      ...base, recipe: fitted, measurements: STANDARD_M, rawOptions: options, starterEntryId, block: fittedBlock,
+      revisionId: "live-fitted-f02-42", kind: "FRONT_FLAT",
+    });
+    expect(markup).toContain("data-technical-flat-svg");
+    expect(markup).toContain("pattern:fitted:mark:front:waistDartUpperLeg");
+    expect(markup).toContain("pattern:fitted:mark:front:waistDartLowerLeg");
+    expect(markup).not.toContain("Technical flat withheld");
+  });
+
+  it("withholds F02-only controls when a generic Fitted draft has no matching origin", () => {
+    const fitted = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const options = defaultGarmentOptions(fitted.options ?? []);
+    const fittedBlock = fitted.draft(STANDARD_M, options);
+    const markup = technicalFlatPanelMarkup({
+      ...base, recipe: fitted, measurements: STANDARD_M, rawOptions: options, block: fittedBlock,
+      revisionId: "live-fitted-generic-42", kind: "FRONT_FLAT",
+    });
+    expect(markup).toContain("data-technical-flat-svg");
+    expect(markup).not.toContain("waistDartUpperLeg");
+    expect(markup).not.toContain("waistDartLowerLeg");
+  });
+
   it("preserves the original row for a single matching edge diagnostic", () => {
     const markup = technicalFlatIssueList([{
       stage: "geometry", sourceId: "pattern:sample:role:panel:edge:waist",

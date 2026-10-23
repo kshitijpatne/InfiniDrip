@@ -846,7 +846,7 @@ describe("garmentToggleMarkup", () => {
     expect(html).toContain('data-garment-region="Lower body"');
     expect(html).toContain('id="starter-blank-library" aria-labelledby="starter-blank-library-heading"');
     expect(html).toContain('id="custom-measurement-candidates" aria-labelledby="custom-measurement-candidates-heading"');
-    expect(html).toContain("Starter Blank Library</span><span>9</span>");
+    expect(html).toContain("Starter Blank Library</span><span>10</span>");
     expect(html).toContain('id="tee-construction"');
     expect(html).toContain("Raglan is crew-neck only");
     expect(html).toContain('data-starter-entry-id="tee-raglan-digital-v1" aria-pressed="false"');

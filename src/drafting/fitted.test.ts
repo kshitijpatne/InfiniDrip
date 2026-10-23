@@ -419,4 +419,38 @@ describe("fittedGuidance", () => {
     const notes = fittedGuidance(draftFitted(STANDARD_M, options), STANDARD_M, options);
     expect(notes.find((note) => note.text.includes("too close to the bust-dart apex"))).toBeDefined();
   });
+
+  it("measures waist-dart clearance from the side-boundary width used by the draft", () => {
+    const waistline = 43;
+    const sideX = sideBoundaryAtY(draftFittedFront(STANDARD_M), waistline)!;
+    const bustApex = dartOf(rolePiece(draftFitted(STANDARD_M), "front"))!.apex;
+    const position = (bustApex.x + 1.9) / sideX * 100;
+    const chestWidthEstimate = derive(STANDARD_M).chestWidthHalf * position / 100;
+    expect(position).toBeGreaterThan(20);
+    expect(position).toBeLessThan(80);
+    expect(Math.abs(chestWidthEstimate - bustApex.x)).toBeGreaterThan(2);
+
+    const options = {
+      waistDartWaistlineFromHps: waistline,
+      waistDartIntake: 2,
+      waistDartLength: waistline - bustApex.y,
+      waistDartPosition: position,
+    };
+    const notes = fittedGuidance(draftFitted(STANDARD_M, options), STANDARD_M, options);
+    expect(notes.find((note) => note.text.includes("too close to the bust-dart apex"))).toBeDefined();
+  });
+
+  it("withholds bust-apex clearance when the waistline falls in the opened side gap", () => {
+    const options = {
+      waistDartWaistlineFromHps: 35.5,
+      waistDartIntake: 2,
+      waistDartLength: 10,
+      waistDartPosition: 45,
+    };
+    expect(sideBoundaryAtY(draftFittedFront(STANDARD_M), options.waistDartWaistlineFromHps)).toBeNull();
+    const notes = fittedGuidance(draftFitted(STANDARD_M, options), STANDARD_M, options);
+    expect(notes.find((note) => note.field === "option-waistDartWaistlineFromHps")?.text)
+      .toContain("outside the bust-dart opening");
+    expect(notes.find((note) => note.text.includes("too close to the bust-dart apex"))).toBeUndefined();
+  });
 });

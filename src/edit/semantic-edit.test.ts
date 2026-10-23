@@ -29,7 +29,7 @@ const testFingerprint = (label: string): string => {
 
 function optionsFor(recipe: GarmentRecipe): Record<string, number> {
   return Object.fromEntries((recipe.options ?? [])
-    .filter((option) => !option.optional)
+    .filter((option) => !option.optional && option.appliesToStarterEntryId === undefined)
     .map((option) => [option.id, option.defaultValue]));
 }
 
