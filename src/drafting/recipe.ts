@@ -402,6 +402,17 @@ export const FITTED: GarmentRecipe = {
       "Hem the sleeves and the body.",
     ],
   },
+  techPackForOptions: function (this: GarmentRecipe, options) {
+    if (options.waistDartIntake === undefined) return this.techPack;
+    return {
+      ...this.techPack,
+      construction: [
+        ...this.techPack.construction.slice(0, 2),
+        "Sew the marked front waist dart by matching both legs to the apex; orient the sewn fold toward center front.",
+        ...this.techPack.construction.slice(2),
+      ],
+    };
+  },
 };
 
 const TANK_KNIT_TECH_PACK: TechPack = {

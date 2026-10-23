@@ -1512,9 +1512,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
    * values stay verbatim so guidance can explain an invalid combination. */
   const activeOptionDefinitions = (forRecipe: GarmentRecipe = recipe) =>
     (forRecipe.options ?? []).filter((option) =>
-      option.appliesToStyle === undefined || option.appliesToStyle === targetStyle);
+      (option.appliesToStyle === undefined || option.appliesToStyle === targetStyle)
+        && (option.appliesToStarterEntryId === undefined || option.appliesToStarterEntryId === starterOrigin?.entryId));
   const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => garmentOptionsForStyle(
-    forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle,
+    forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle, true, starterOrigin?.entryId,
   );
   const styleMatchMeasurements = (): Measurements => {
     const overrides = Object.fromEntries(activeOptionDefinitions()

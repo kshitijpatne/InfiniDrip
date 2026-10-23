@@ -6,6 +6,7 @@ import { FIELDS } from "./controls";
 import { CUSTOM_STYLE_RECORD_VERSION, STYLE_RECORD_VERSION, type MeasurementCaptureRecord, type SavedDesign, type StyleRecord } from "./project-records";
 import { createGradePlanContext } from "./grade-plan-context";
 import { createEmptyTechPackRecord } from "./tech-pack-records";
+import { STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
 import { describe, expect, it, vi } from "vitest";
 
 const PROJECT_ID = "0f8b8e2a-7c1d-4a5e-9b3f-2d6c8a1e4f70";
@@ -80,7 +81,11 @@ describe("explicit grade-plan base context", () => {
       expect(context.binding.fingerprint).toMatch(/^[0-9a-f]{64}$/);
       const savedOptions = style.design.garmentOptions[recipe.name] ?? {};
       const savedOptionIds = (recipe.options ?? [])
-        .filter((option) => typeof savedOptions[option.id] === "number")
+        .filter((option) =>
+          (option.appliesToStyle === undefined || option.appliesToStyle === style.design.workspace.targetStyle)
+          && (option.appliesToStarterEntryId === undefined
+            || option.appliesToStarterEntryId === style.design.workspace.starterOrigin?.entryId)
+          && typeof savedOptions[option.id] === "number")
         .map((option) => `option.${recipe.name}.${option.id}`);
       expect(context.targets).toHaveLength(recipe.fields.length + savedOptionIds.length + recipe.poms.length);
       expect(context.targets.filter((target) => target.kind === "measurement").map((target) => target.targetId))
@@ -177,6 +182,38 @@ describe("explicit grade-plan base context", () => {
     const setInBlock = GARMENTS.find((recipe) => recipe.name === "tee")!.draft(setInDesign.measurements);
     expect(legacyContext.targets.filter((target) => target.kind === "pom").map((target) => target.baseValue))
       .toEqual(GARMENTS.find((recipe) => recipe.name === "tee")!.poms.map((pom) => pom.measure(setInBlock)));
+  });
+
+  it("includes F02-only waist-dart controls in grade-plan context only for the matching starter origin", async () => {
+    const initial = designFor("fitted");
+    const entry = STARTER_REGISTRY.entries.find((candidate) =>
+      candidate.entryId === "fitted-waist-dart-tee-digital-v1")!;
+    const f02Design: SavedDesign = {
+      ...initial,
+      measurements: { ...initial.measurements, ...entry.configuration.measurements },
+      garmentOptions: {
+        ...initial.garmentOptions,
+        fitted: defaultGarmentOptions(GARMENTS.find((recipe) => recipe.name === "fitted")!.options ?? [], entry.entryId),
+      },
+      workspace: {
+        ...initial.workspace,
+        targetStyle: entry.configuration.targetStyle,
+        starterOrigin: starterOriginForEntry(entry),
+      },
+    };
+    const context = value(await createGradePlanContext(PROJECT_ID, styleFor("fitted", f02Design), captureFor("fitted")));
+    expect(context.targets.filter((target) => target.kind === "option").map((target) => target.targetId))
+      .toEqual(expect.arrayContaining([
+        "option.fitted.waistDartWaistlineFromHps",
+        "option.fitted.waistDartIntake",
+        "option.fitted.waistDartLength",
+        "option.fitted.waistDartPosition",
+      ]));
+
+    const { starterOrigin: _f02Origin, ...f01Workspace } = f02Design.workspace;
+    const f01Design: SavedDesign = { ...f02Design, workspace: f01Workspace };
+    const f01Context = value(await createGradePlanContext(PROJECT_ID, styleFor("fitted", f01Design), captureFor("fitted")));
+    expect(f01Context.targets.some((target) => target.targetId.startsWith("option.fitted.waistDart"))).toBe(false);
   });
 
   it("fails closed for legacy styles, mismatched captures, missing revision heads, and missing explicit recipe controls", async () => {

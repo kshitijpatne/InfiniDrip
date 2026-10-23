@@ -27,7 +27,29 @@ describe("fittedPanelChecks", () => {
       "Hem level in dart-closed reference",
       "Hem square to fold (dart-closed reference)",
       "Open pattern retains one bust dart",
+      "Waist dart marks form one internal dart",
     ]);
+    expect(results[results.length - 1]).toMatchObject({ ok: true, detail: "no waist dart selected" });
+  });
+
+  it("checks F02 waist-dart marks as two internal legs with a shared apex", () => {
+    const options = { waistDartWaistlineFromHps: 43, waistDartIntake: 2, waistDartLength: 10, waistDartPosition: 45 };
+    const block = draftFitted(STANDARD_M, options);
+    const valid = fittedPanelChecks(block).find((result) => result.name === "Waist dart marks form one internal dart");
+    expect(valid).toMatchObject({ ok: true, detail: "two internal placement lines have a positive opening and meet at one apex" });
+
+    const front = rolePiece(block, "front");
+    const partial = { ...front, marks: front.marks?.filter((mark) => mark.name !== "waistDartLowerLeg") };
+    const malformed = { ...block, roles: { ...block.roles, front: partial } };
+    expect(fittedPanelChecks(malformed).find((result) => result.name === "Waist dart marks form one internal dart"))
+      .toMatchObject({ ok: false, detail: "waist-dart marks are incomplete, non-finite, or do not meet at one apex" });
+
+    const nonFinite = { ...front, marks: front.marks?.map((mark) => mark.name === "waistDartUpperLeg" && "start" in mark
+      ? { ...mark, end: { ...mark.end, x: Number.NaN } }
+      : mark) };
+    const invalidNumbers = { ...block, roles: { ...block.roles, front: nonFinite } };
+    expect(fittedPanelChecks(invalidNumbers)
+      .find((result) => result.name === "Waist dart marks form one internal dart")?.ok).toBe(false);
   });
 
   it("detects a closed-reference side that no longer matches the back", () => {

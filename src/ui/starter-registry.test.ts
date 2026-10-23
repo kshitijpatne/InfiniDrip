@@ -19,11 +19,12 @@ const vNeckEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryI
 const scoopEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-scoop-digital-v1")!;
 const raglanEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tee-raglan-digital-v1")!;
 const fittedEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "fitted-tee-digital-v1")!;
+const fittedWaistDartEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "fitted-waist-dart-tee-digital-v1")!;
 const validOrigin = starterOriginForEntry(entry);
 
 describe("Tee Classic starter registry", () => {
   it("preserves the bounded existing custom-measurement candidate and its claim limits", () => {
-    expect(STARTER_REGISTRY.entries).toHaveLength(10);
+    expect(STARTER_REGISTRY.entries).toHaveLength(11);
     expect(entry).toMatchObject({
       entryId: "tee-classic-custom-v1",
       entryRevision: "2026-10-19.3",
@@ -63,7 +64,7 @@ describe("Tee Classic starter registry", () => {
   });
 
   it("defines one complete editable T01 blank with explicit software-only defaults and gates", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v3");
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v4");
     expect(blankEntry).toMatchObject({
       entryId: "tee-classic-digital-v1",
       entryRevision: "2026-10-20.1",
@@ -90,7 +91,7 @@ describe("Tee Classic starter registry", () => {
     }
     expect(blankEntry.supportedControls.find((control) => control.fieldId === "shoulderWidth"))
       .toMatchObject({ kind: "measurement", min: 30, max: 70, step: 0.1, defaultValue: 45 });
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(9);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(10);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -117,6 +118,39 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(fittedEntry.entryId, "bustApexHorizontal", 20.5)).toContain("1 % increments");
     expect(starterControlError(fittedEntry.entryId, "bustApexHorizontal", 20)).toBeNull();
     expect(starterOriginError(starterOriginForEntry(fittedEntry))).toBeNull();
+    expect(fittedEntry.configuration.options).not.toHaveProperty("waistDartIntake");
+    expect(fittedEntry.supportedControls.some((control) => control.fieldId.startsWith("waistDart"))).toBe(false);
+  });
+
+  it("defines F02 as a separate editable waist-darted Fitted Tee without changing F01's target fit", () => {
+    expect(fittedWaistDartEntry).toMatchObject({
+      entryId: "fitted-waist-dart-tee-digital-v1", entryRevision: "2026-10-22.1",
+      recipeId: "fitted", recipeRevision: "fitted-waist-dart-v1", catalogKind: "blank",
+      label: "Waist-darted fitted Tee · software defaults",
+      configuration: { targetStyle: "Fitted tee",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+        options: { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28,
+          waistDartWaistlineFromHps: 43, waistDartIntake: 2, waistDartLength: 10, waistDartPosition: 45 } },
+      gates: { b1: "pending", physical: "not-validated" },
+    });
+    expect(fittedWaistDartEntry.supportedControls).toHaveLength(14);
+    expect(fittedWaistDartEntry.supportedControls.filter((control) => control.fieldId.startsWith("waistDart")))
+      .toEqual(expect.arrayContaining([
+        expect.objectContaining({ fieldId: "waistDartWaistlineFromHps", min: 30, max: 60, defaultValue: 43 }),
+        expect.objectContaining({ fieldId: "waistDartIntake", min: 0.5, max: 6, defaultValue: 2 }),
+        expect.objectContaining({ fieldId: "waistDartLength", min: 4, max: 18, defaultValue: 10 }),
+        expect.objectContaining({ fieldId: "waistDartPosition", min: 20, max: 80, defaultValue: 45 }),
+      ]));
+    expect(fittedWaistDartEntry.intent.construction).toContain("internal construction marks");
+    expect(fittedWaistDartEntry.intent.construction).toContain("does not simulate sewn take-up");
+    expect(fittedWaistDartEntry.limits.join(" ")).toContain("not a body-waist measurement");
+    expect(fittedWaistDartEntry.limits.join(" ")).toContain("B1 technical-design review is pending");
+    expect(currentStyles({ ...STANDARD_M, ...fittedWaistDartEntry.configuration.measurements }, FITTED_STYLES))
+      .toEqual(["Fitted tee"]);
+    expect(starterControlError(fittedWaistDartEntry.entryId, "waistDartIntake", 6.5)).toContain("0.5–6 cm");
+    expect(starterControlError(fittedWaistDartEntry.entryId, "waistDartPosition", 20.5)).toContain("1 % increments");
+    expect(starterControlError(fittedWaistDartEntry.entryId, "waistDartLength", 18)).toBeNull();
+    expect(starterOriginError(starterOriginForEntry(fittedWaistDartEntry))).toBeNull();
   });
 
   it("defines T02 as a complete editable Relaxed Tee blank with a code-aligned software default", () => {
@@ -145,7 +179,7 @@ describe("Tee Classic starter registry", () => {
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "ease"))
       .toMatchObject({ kind: "design", min: 13, max: 18, step: 1, defaultValue: 13 });
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "chestEase")).toBeUndefined();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(9);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(10);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 

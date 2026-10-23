@@ -18,6 +18,8 @@ export interface GarmentOption {
   readonly fallbackMeasurement?: keyof import("./measurements").Measurements;
   /** Style that activates this control; its saved value remains dormant otherwise. */
   readonly appliesToStyle?: string;
+  /** Starter entry that activates this control; its saved value remains dormant otherwise. */
+  readonly appliesToStarterEntryId?: string;
   /** Optional-control copy for features whose inactive state is not an inherited measurement. */
   readonly optionalSetLabel?: string;
   readonly optionalResetLabel?: string;
@@ -63,8 +65,13 @@ export function optionalOptionActionLabel(option: GarmentOption, explicit: boole
 }
 
 /** Defaults are recipe data, so a future recipe never relies on UI state. */
-export function defaultGarmentOptions(definitions: readonly GarmentOption[]): GarmentOptions {
-  return Object.fromEntries(definitions.filter((d) => !d.optional).map((d) => [d.id, d.defaultValue]));
+export function defaultGarmentOptions(
+  definitions: readonly GarmentOption[],
+  starterEntryId?: string,
+): GarmentOptions {
+  return Object.fromEntries(definitions.filter((d) => !d.optional
+    && (d.appliesToStarterEntryId === undefined || d.appliesToStarterEntryId === starterEntryId))
+    .map((d) => [d.id, d.defaultValue]));
 }
 
 /** Defaults and saved values that are active for one selected recipe style. */
@@ -73,10 +80,12 @@ export function garmentOptionsForStyle(
   saved: GarmentOptions,
   style: string,
   includeDefaults = true,
+  starterEntryId?: string,
 ): GarmentOptions {
   const applicable = definitions.filter((definition) =>
-    definition.appliesToStyle === undefined || definition.appliesToStyle === style);
-  const options: Record<string, number> = includeDefaults ? { ...defaultGarmentOptions(applicable) } : {};
+    (definition.appliesToStyle === undefined || definition.appliesToStyle === style)
+      && (definition.appliesToStarterEntryId === undefined || definition.appliesToStarterEntryId === starterEntryId));
+  const options: Record<string, number> = includeDefaults ? { ...defaultGarmentOptions(applicable, starterEntryId) } : {};
   for (const definition of applicable) {
     if (Object.prototype.hasOwnProperty.call(saved, definition.id)) {
       options[definition.id] = saved[definition.id]!;

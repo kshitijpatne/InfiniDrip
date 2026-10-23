@@ -51,6 +51,9 @@ describe("T08 Raglan Tee construction variant", () => {
   it("drafts matched front and back Raglan seams with notches, POMs, and a digital neckline", () => {
     const block = TEE_RAGLAN.draft(STANDARD_M);
     const report = garmentReport(TEE_RAGLAN, STANDARD_M);
+    expect(TEE_RAGLAN.guidance?.(block, STANDARD_M)).toEqual(raglanTeeGuidance(block, STANDARD_M));
+    expect(TEE_RAGLAN.frontNeckline?.(STANDARD_M)).toEqual(TEE.frontNeckline?.(STANDARD_M));
+    expect(TEE_RAGLAN.backNeckline?.(STANDARD_M)).toEqual(TEE.backNeckline?.(STANDARD_M));
     expect(blockPieces(block).map((piece) => piece.name)).toEqual(["front", "back", "sleeve"]);
     expect(report.checks.filter((check) => check.name.toLowerCase().includes("raglan")).every((check) => check.ok)).toBe(true);
     const sideToCuff = TEE_RAGLAN_STITCHES.find((stitch) => stitch.label.startsWith("Continuous side-to-cuff"))!;
@@ -119,6 +122,10 @@ describe("T08 Raglan Tee construction variant", () => {
     expect(noNotice.constructionNotice).toMatch(/^ Raglan is crew-neck only;/);
   });
 
+  it("keeps the base Tech Pack when no inactive neckline override is supplied", () => {
+    expect(TEE_RAGLAN.techPackForOptions!({})).toBe(TEE_RAGLAN.techPack);
+  });
+
   it("redrafts the complete supported Tee size run with matching digital Raglan seams", () => {
     const run = gradeRun(STANDARD_M, TEE_RAGLAN.grade!, TEE_RAGLAN.sizes, TEE_RAGLAN.draft);
     expect(run.map((size) => size.label)).toEqual(TEE_RAGLAN.sizes.map((size) => size.label));
@@ -135,6 +142,22 @@ describe("T08 Raglan Tee construction variant", () => {
     expect(guidance.some((note) => note.field === "sleeveLength" && note.text.includes("Increase sleeve length"))).toBe(true);
     expect(guidance.some((note) => note.field === "teeConstruction" && note.text.includes("inactive"))).toBe(true);
     expect(guidance.every((note) => !note.text.includes("input was changed"))).toBe(true);
+  });
+});
+
+describe("F02 waist-darted Fitted Tee Tech Pack", () => {
+  it("adds a waist-dart sewing step only when the F02 entry options are active", () => {
+    const f01 = FITTED.techPackForOptions!(FITTED.options!.slice(0, 3).reduce((values, option) => ({
+      ...values, [option.id]: option.defaultValue,
+    }), {}));
+    const f02 = FITTED.techPackForOptions!({ waistDartWaistlineFromHps: 43, waistDartIntake: 2,
+      waistDartLength: 10, waistDartPosition: 45 });
+    const waistStep = "Sew the marked front waist dart by matching both legs to the apex; orient the sewn fold toward center front.";
+
+    expect(f01).toBe(FITTED.techPack);
+    expect(f01.construction).not.toContain(waistStep);
+    expect(f02.construction).toContain(waistStep);
+    expect(f02.construction.indexOf(waistStep)).toBe(f02.construction.indexOf("Sew the bust darts; press them toward the hem.") + 1);
   });
 });
 
@@ -164,6 +187,16 @@ describe("Polo recipe pipeline", () => {
     expect(report.ok).toBe(true);
     expect(blockPieces(POLO.draft(STANDARD_M))).toHaveLength(9);
     expect(report.checks.map((check) => check.name)).toContain("Notches + grainline on every piece");
+  });
+
+  it("states the digital vent and hem construction for closed and unresolved inputs", () => {
+    const closed = POLO.techPackForOptions!({ sideVentDepth: 0, backHemDrop: 0 });
+    const unresolved = POLO.techPackForOptions!({ sideVentDepth: -1, backHemDrop: -1 });
+
+    expect(closed.construction).toContain("Join shoulder seams, set sleeves flat, then close the side and underarm seams continuously.");
+    expect(closed.construction).toContain("Hem the front and back body edges level with each other; hem sleeves and inspect placket flatness, collar roll, and neckline recovery.");
+    expect(unresolved.construction).toContain("Resolve the side-vent value before cutting; do not assume an open or closed vent topology.");
+    expect(unresolved.construction).toContain("Resolve the back-hem value before cutting; do not assume a level or dropped back hem.");
   });
 });
 
