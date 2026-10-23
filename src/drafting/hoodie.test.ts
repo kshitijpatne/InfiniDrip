@@ -277,6 +277,23 @@ describe("hoodie draft core", () => {
     }
   });
 
+  it("preserves the raw hood overlap when an infinite neckline drop makes turn arithmetic non-finite", () => {
+    const options = { ...OPTIONS, hoodNecklineFrontDrop: Number.POSITIVE_INFINITY };
+    const drafted = draftHoodie(STANDARD_M, options);
+    const leftFace = pieceEdge(drafted.roles.hoodOuterLeft!, "faceOpening");
+    const rightFace = pieceEdge(drafted.roles.hoodOuterRight!, "faceOpening");
+    const warning = hoodieNecklineNotes(STANDARD_M, options)
+      .find((note) => note.field === "hoodNecklineFrontDrop");
+
+    expect(warning?.level).toBe("warn");
+    expect(edgeStart(pieceEdge(drafted.roles.front!, "neckline")).y).toBe(Number.POSITIVE_INFINITY);
+    expect(edgeEnd(leftFace).x).toBe(OPTIONS.hoodFrontOverlap / 2);
+    expect(edgeEnd(rightFace).x).toBe(-OPTIONS.hoodFrontOverlap / 2);
+    expect(drafted.roles.hoodOuterRight?.edges).toEqual(
+      drafted.roles.hoodOuterLeft?.edges.map(reflectedCurve),
+    );
+  });
+
   it("warns on invalid or unrepresentable hood-neck ease without clamping the raw value", () => {
     for (const hoodNeckEase of [-0.5, 6.5, Number.NaN, Number.POSITIVE_INFINITY]) {
       const notes = hoodieNecklineNotes(STANDARD_M, {
