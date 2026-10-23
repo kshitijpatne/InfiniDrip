@@ -34,17 +34,27 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function validateValues(recipe: GarmentRecipe, raw: unknown): { options: GarmentOptions | null; issues: TechnicalFlatOptionIssue[] } {
+function validateValues(
+  recipe: GarmentRecipe,
+  raw: unknown,
+  starterEntryId?: string,
+): { options: GarmentOptions | null; issues: TechnicalFlatOptionIssue[] } {
   if (raw !== undefined && !isRecord(raw)) {
     return { options: null, issues: [{ code: "INVALID_OPTIONS_OBJECT", message: "Garment options must be a named set of numeric values." }] };
   }
   const input = raw === undefined ? {} : raw as Record<string, unknown>;
-  const definitions = recipe.options ?? [];
-  const definitionIds = new Set(definitions.map((definition) => definition.id));
+  const allDefinitions = recipe.options ?? [];
+  const definitions = allDefinitions.filter((definition) => definition.appliesToStarterEntryId === undefined
+    || definition.appliesToStarterEntryId === starterEntryId);
   const issues: TechnicalFlatOptionIssue[] = [];
   for (const optionId of Object.keys(input)) {
-    if (!definitionIds.has(optionId)) {
+    const definition = allDefinitions.find((candidate) => candidate.id === optionId);
+    if (!definition) {
       issues.push({ code: "UNKNOWN_OPTION", optionId, message: `Option “${optionId}” is not supported by ${recipe.label}; remove it or choose a supported garment.` });
+    } else if (definition.appliesToStarterEntryId !== undefined
+      && definition.appliesToStarterEntryId !== starterEntryId) {
+      issues.push({ code: "UNKNOWN_OPTION", optionId,
+        message: `${definition.label} is only available for its matching starter entry; choose that starter or remove this option.` });
     }
   }
 
@@ -82,6 +92,7 @@ export function validateTechnicalFlatOptions(
   measurements: Measurements,
   rawOptions: unknown,
   revisionId: string,
+  starterEntryId?: string,
 ): ValidatedTechnicalFlatOptions {
   const base = { recipeId: recipe.name, revisionId };
   if (typeof revisionId !== "string" || !revisionId.trim()) {
@@ -90,7 +101,7 @@ export function validateTechnicalFlatOptions(
     }] };
   }
 
-  const checked = validateValues(recipe, rawOptions);
+  const checked = validateValues(recipe, rawOptions, starterEntryId);
   if (!checked.options) return { ...base, options: null, faces: null, issues: checked.issues };
 
   let block;

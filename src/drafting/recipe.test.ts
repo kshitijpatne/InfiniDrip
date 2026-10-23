@@ -138,6 +138,22 @@ describe("T08 Raglan Tee construction variant", () => {
   });
 });
 
+describe("F02 waist-darted Fitted Tee Tech Pack", () => {
+  it("adds a waist-dart sewing step only when the F02 entry options are active", () => {
+    const f01 = FITTED.techPackForOptions!(FITTED.options!.slice(0, 3).reduce((values, option) => ({
+      ...values, [option.id]: option.defaultValue,
+    }), {}));
+    const f02 = FITTED.techPackForOptions!({ waistDartWaistlineFromHps: 43, waistDartIntake: 2,
+      waistDartLength: 10, waistDartPosition: 45 });
+    const waistStep = "Sew the marked front waist dart by matching both legs to the apex; orient the sewn fold toward center front.";
+
+    expect(f01).toBe(FITTED.techPack);
+    expect(f01.construction).not.toContain(waistStep);
+    expect(f02.construction).toContain(waistStep);
+    expect(f02.construction.indexOf(waistStep)).toBe(f02.construction.indexOf("Sew the bust darts; press them toward the hem.") + 1);
+  });
+});
+
 describe("Polo recipe pipeline", () => {
   it("is a loose polo with V2 collar controls, full POMs, and complete production data", () => {
     expect(POLO.styles.map((style) => style.name)).toEqual(["Classic polo", "Relaxed polo", "Longline polo"]);
@@ -165,6 +181,7 @@ describe("Polo recipe pipeline", () => {
     expect(blockPieces(POLO.draft(STANDARD_M))).toHaveLength(9);
     expect(report.checks.map((check) => check.name)).toContain("Notches + grainline on every piece");
   });
+
 });
 
 describe("Tank fabric tech-pack selection", () => {

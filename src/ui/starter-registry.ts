@@ -452,10 +452,57 @@ const FITTED_TEE_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const FITTED_WAIST_DART_TEE_BLANK_ENTRY: StarterEntry = {
+  entryId: "fitted-waist-dart-tee-digital-v1",
+  entryRevision: "2026-10-22.1",
+  recipeId: "fitted",
+  recipeRevision: "fitted-waist-dart-v1",
+  catalogKind: "blank",
+  label: "Waist-darted fitted Tee · software defaults",
+  configuration: {
+    targetStyle: "Fitted tee",
+    measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+    options: {
+      dartIntake: 4,
+      bustApexHorizontal: 55,
+      bustApexVertical: 28,
+      waistDartWaistlineFromHps: 43,
+      waistDartIntake: 2,
+      waistDartLength: 10,
+      waistDartPosition: 45,
+    },
+  },
+  supportedControls: [
+    ...FITTED_TEE_BLANK_ENTRY.supportedControls,
+    { fieldId: "waistDartWaistlineFromHps", label: "Waistline depth from HPS", kind: "option", unit: "cm", min: 30, max: 60, step: 1, defaultValue: 43 },
+    { fieldId: "waistDartIntake", label: "Waist dart intake", kind: "option", unit: "cm", min: 0.5, max: 6, step: 0.5, defaultValue: 2 },
+    { fieldId: "waistDartLength", label: "Waist dart length", kind: "option", unit: "cm", min: 4, max: 18, step: 1, defaultValue: 10 },
+    { fieldId: "waistDartPosition", label: "Waist dart across half-front", kind: "option", unit: "%", min: 20, max: 80, step: 1, defaultValue: 45 },
+  ],
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured waist-darted fitted crew Tee draft; editable before saving.",
+    fit: "Fitted construction label; 7 cm ease and all bust/waist-dart values are software defaults, not validated fit targets.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Uses the existing Fitted recipe, bust dart and shared Tee back/sleeve, with a new front waist dart represented by internal construction marks. The app does not simulate sewn take-up or predict physical fit.",
+    sizeScope: "One software-default profile seeded from the existing F01 measurement vector; not a population chart, validated size-M profile, or validated Fitted grade run.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The seven body measurements and seven dart controls are editable software defaults or geometry guardrails, not sourced fit or population standards.",
+    "Waistline depth is an internal pattern coordinate from HPS, not a body-waist measurement; the waist circumference does not locate it vertically.",
+    "The internal waist-dart marks describe construction intent; they do not simulate fabric take-up, sewn shape, or fit.",
+    "Generic Tee grading is software output and has not been independently validated for this Fitted construction.",
+    "B1 technical-design review is pending. No physical-fit, comfort, wear, material-performance, supplier, manufacturing, or production claim.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v3",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v4",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

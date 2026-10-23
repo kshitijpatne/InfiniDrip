@@ -35,7 +35,9 @@ import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-s
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, STRETCH_FABRICS, draftTshirt, gradeRun, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
+import { blockPieces } from "../drafting/block";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
+import { exportA0Pdf, exportDxf, exportPdf, exportSvg } from "../export";
 import { teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
 import * as teeDrafting from "../drafting/tshirt";
 import * as editEngine from "../edit";
@@ -2125,6 +2127,7 @@ describe("mountApp", () => {
     const staleReset = root.querySelector<HTMLButtonElement>('[data-reset-option="chestEase"]')!;
     chooseStyle("Relaxed tee");
     expect(root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    expect(root.querySelector<HTMLInputElement>('input[data-option="waistDartIntake"]')).toBeNull();
     expect(modeledChest()).toBe("105 cm");
     staleSet.click();
     staleReset.click();
@@ -11289,6 +11292,124 @@ describe("EPIC-19 L02 starter binding", () => {
     root.remove(); reopened.remove(); localStorage.clear();
   });
 
+  it("selects, renders, exports, saves, and reopens the F02 waist-darted Fitted Tee", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const originalGetBBox = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getBBox");
+    const originalTextLength = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getComputedTextLength");
+    Object.defineProperty(SVGElement.prototype, "getBBox", { configurable: true, value() {
+      const text = this as SVGTextElement;
+      return { x: 0, y: -0.2, width: (text.textContent?.length ?? 0) * 0.18, height: 0.25 };
+    } });
+    Object.defineProperty(SVGElement.prototype, "getComputedTextLength", { configurable: true, value() {
+      return ((this as SVGTextElement).textContent?.length ?? 0) * 0.18;
+    } });
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename: string, content: string) => {
+        files.set(filename, content);
+        return { saved: true, filePath: filename };
+      }),
+    };
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    try {
+      const root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-fitted-waist-dart-tee-digital-v1");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Fitted tee");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Waist-darted fitted Tee · software defaults");
+      for (const [field, value] of Object.entries({
+        waistDartWaistlineFromHps: "43", waistDartIntake: "2", waistDartLength: "10", waistDartPosition: "45",
+      })) {
+        expect(root.querySelector<HTMLInputElement>(`input[data-option="${field}"]`)!.value).toBe(value);
+      }
+      expect(root.querySelector<HTMLInputElement>('input[data-field="waistDartWaistlineFromHps"]')).toBeNull();
+
+      clickId(root, "view-pattern");
+      const initialSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(initialSvg).toContain('data-pattern-mark-name="waistDartUpperLeg"');
+      expect(initialSvg).toContain('data-pattern-mark-name="waistDartLowerLeg"');
+      expect(root.querySelector<HTMLElement>("#pattern-annotation-key")!.textContent).toContain("WAIST DART");
+      clickId(root, "view-flat");
+      const flatSvg = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg")!.outerHTML;
+      expect(flatSvg).toContain("pattern:fitted:mark:front:waistDartUpperLeg");
+      expect(flatSvg).toContain("pattern:fitted:mark:front:waistDartLowerLeg");
+      expect(flatSvg).toContain("WAIST DART");
+      expect(root.querySelector("[data-technical-flat-issues]")).toBeNull();
+      clickId(root, "view-pattern");
+
+      const intake = root.querySelector<HTMLInputElement>('input[data-option="waistDartIntake"]')!;
+      intake.value = "3";
+      intake.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(editedSvg).not.toBe(initialSvg);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: "fitted-waist-dart-tee-digital-v1", recipeRevision: "fitted-waist-dart-v1",
+        configurationSnapshot: { targetStyle: "Fitted tee" },
+      });
+      expect(saved.garmentOptions.fitted).toMatchObject({ waistDartWaistlineFromHps: 43, waistDartIntake: 3,
+        waistDartLength: 10, waistDartPosition: 45 });
+
+      reachExportStage(root);
+      root.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-pdf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-a0")!.click();
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      root.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      await vi.waitFor(() => expect(files.size).toBe(7));
+      const svg = [...files.entries()].find(([name]) => name.endsWith(".svg"))![1];
+      const dxf = [...files.entries()].find(([name]) => name.endsWith(".dxf"))![1];
+      const pdf = [...files.entries()].find(([name]) => name.endsWith(".pdf") && !name.endsWith("-techpack.pdf") && !name.endsWith("-A0.pdf"))![1];
+      const a0 = [...files.entries()].find(([name]) => name.endsWith("-A0.pdf"))![1];
+      const techPack = [...files.entries()].find(([name]) => name.endsWith("-techpack.pdf"))![1];
+      const cadSource = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange-source.json"))![1];
+      const cadDxf = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange.dxf"))![1];
+      const cadPackage = JSON.parse(cadSource) as {
+        dxf: string;
+        manifest: { options: Record<string, number>; patternMarks: readonly { name: string }[] };
+      };
+      const fittedRecipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+      const expectedPieces = blockPieces(fittedRecipe.draft(saved.measurements, saved.garmentOptions.fitted));
+      expect(svg).toBe(exportSvg(expectedPieces, fittedRecipe.allowances, fittedRecipe.notches));
+      expect(dxf).toBe(exportDxf(expectedPieces, fittedRecipe.allowances));
+      expect(pdf).toBe(exportPdf(expectedPieces, fittedRecipe.allowances, undefined, 1,
+        fittedRecipe.tiledPdfLocalCoordinates === true));
+      expect(a0).toBe(exportA0Pdf(expectedPieces, fittedRecipe.allowances, fittedRecipe.notches, undefined,
+        fittedRecipe.a0Overflow === true));
+      expect(svg).toContain('data-pattern-mark-name="waistDartUpperLeg"');
+      expect(dxf).toContain("MARK_PLACEMENTLINE");
+      expect(pdf.startsWith("%PDF-")).toBe(true);
+      expect(a0.startsWith("%PDF-")).toBe(true);
+      expect(techPack).toContain("Sew the marked front waist dart by matching both legs to the apex");
+      expect(cadPackage.manifest.options).toMatchObject({
+        waistDartWaistlineFromHps: 43, waistDartIntake: 3, waistDartLength: 10, waistDartPosition: 45,
+      });
+      expect(cadPackage.manifest.patternMarks.map((mark) => mark.name)).toContain("waistDartUpperLeg");
+      expect(cadPackage.manifest.patternMarks.map((mark) => mark.name)).toContain("waistDartLowerLeg");
+      expect(cadDxf).toBe(cadPackage.dxf);
+
+      const reopened = mount();
+      expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="fitted-waist-dart-tee-digital-v1"]')
+        ?.getAttribute("aria-pressed")).toBe("true");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="waistDartIntake"]')?.value).toBe("3");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(editedSvg);
+      root.remove();
+      reopened.remove();
+    } finally {
+      delete window.electronAPI;
+      localStorage.clear();
+      if (originalGetBBox) Object.defineProperty(SVGElement.prototype, "getBBox", originalGetBBox);
+      else delete (SVGElement.prototype as unknown as { getBBox?: unknown }).getBBox;
+      if (originalTextLength) Object.defineProperty(SVGElement.prototype, "getComputedTextLength", originalTextLength);
+      else delete (SVGElement.prototype as unknown as { getComputedTextLength?: unknown }).getComputedTextLength;
+    }
+  });
+
   it("keeps raw Fitted inputs and warns when the dart mouth crosses the underarm", () => {
     localStorage.clear();
     const root = mount();
@@ -11307,6 +11428,23 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
       .toContain("Move the apex toward the hem or reduce dart intake");
     root.remove(); localStorage.clear();
+  });
+
+  it("keeps F02 controls and marks unavailable on a manually selected Fitted style", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    const style = root.querySelector<HTMLSelectElement>("#style-target")!;
+    style.value = "Fitted tee";
+    style.dispatchEvent(new Event("change", { bubbles: true }));
+
+    expect(root.querySelector<HTMLInputElement>('input[data-option="waistDartIntake"]')).toBeNull();
+    clickId(root, "view-pattern");
+    const svg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+    expect(svg).not.toContain('data-pattern-mark-name="waistDartUpperLeg"');
+    expect(svg).not.toContain('data-pattern-mark-name="waistDartLowerLeg"');
+    root.remove();
+    localStorage.clear();
   });
 
   it("ignores invalid or no-op construction choices and blocks topology changes with semantic edits", async () => {

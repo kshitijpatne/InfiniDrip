@@ -53,6 +53,27 @@ describe("garment options", () => {
     expect(garmentOptionsForStyle(definitions, {}, "Classic tee", false)).toEqual({});
   });
 
+  it("keeps starter-entry construction options dormant outside their selected catalog entry", () => {
+    const definitions: readonly GarmentOption[] = [
+      ...DEFINITIONS,
+      { id: "waistDartIntake", label: "Waist dart intake", defaultValue: 2, min: 0.5, max: 6, step: 0.5,
+        appliesToStarterEntryId: "fitted-waist-dart-tee-digital-v1" },
+    ];
+    const saved = { standHeight: 2.5, leafDepth: 6, waistDartIntake: 3 };
+
+    expect(garmentOptionsForStyle(definitions, saved, "Fitted tee"))
+      .toEqual({ standHeight: 2.5, leafDepth: 6 });
+    expect(garmentOptionsForStyle(definitions, saved, "Fitted tee", true, "fitted-tee-digital-v1"))
+      .toEqual({ standHeight: 2.5, leafDepth: 6 });
+    expect(garmentOptionsForStyle(definitions, saved, "Fitted tee", true, "fitted-waist-dart-tee-digital-v1"))
+      .toEqual({ standHeight: 2.5, leafDepth: 6, waistDartIntake: 3 });
+    expect(garmentOptionsForStyle(definitions, {}, "Fitted tee", true, "fitted-waist-dart-tee-digital-v1"))
+      .toEqual({ standHeight: 2, leafDepth: 5, waistDartIntake: 2 });
+    expect(defaultGarmentOptions(definitions)).toEqual({ standHeight: 2, leafDepth: 5 });
+    expect(defaultGarmentOptions(definitions, "fitted-waist-dart-tee-digital-v1"))
+      .toEqual({ standHeight: 2, leafDepth: 5, waistDartIntake: 2 });
+  });
+
   it("renders optional control status and actions for inherited and independent values", () => {
     const inherited: GarmentOption = {
       id: "chestEase", label: "Chest allowance", defaultValue: 10, min: 7, max: 12, step: 0.5,

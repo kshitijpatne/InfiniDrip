@@ -44,9 +44,12 @@ export async function createGradePlanContext(
   if (!recipe) return invalid("The style recipe is not supported by this application version.");
   const baseOptions = garmentOptionsForStyle(
     recipe.options ?? [], style.design.garmentOptions[recipe.name] ?? {}, style.design.workspace.targetStyle, false,
+    style.design.workspace.starterOrigin?.entryId,
   );
   const applicableOptions = (recipe.options ?? []).filter((option) =>
-    option.appliesToStyle === undefined || option.appliesToStyle === style.design.workspace.targetStyle);
+    (option.appliesToStyle === undefined || option.appliesToStyle === style.design.workspace.targetStyle)
+      && (option.appliesToStarterEntryId === undefined
+        || option.appliesToStarterEntryId === style.design.workspace.starterOrigin?.entryId));
   const optionTargets = applicableOptions.flatMap((option) => {
     const value = baseOptions[option.id];
     // An unset optional control means the recipe inherits its normal inputs.

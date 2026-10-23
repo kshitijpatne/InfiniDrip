@@ -1,13 +1,14 @@
 import { describe, it, expect } from "vitest";
 import { derive, STANDARD_M } from "./measurements";
 import { draftFront, draftBack, draftSleeve } from "./tshirt";
-import { draftFittedFront, draftFitted, fittedGuidance, fittedGeometryPair, reopenFittedReference, FITTED_DART_OPTIONS } from "./fitted";
+import { draftFittedFront, draftFitted, fittedGuidance, fittedGeometryPair, reopenFittedReference, FITTED_DART_OPTIONS, sideBoundaryAtY } from "./fitted";
 import { Edge, Piece, pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 import { dartIntake, dartOf, edgesMeet, seamKink } from "./dart";
 import { rolePiece } from "./block";
 import { point } from "../geometry";
 import { rotatePoint } from "../geometry/rotate";
 import { FITTED } from "./recipe";
+import { defaultGarmentOptions } from "./options";
 
 describe("draftFittedFront", () => {
   const f = draftFittedFront(STANDARD_M);
@@ -55,7 +56,14 @@ describe("draftFittedFront", () => {
     const front = draftFittedFront(STANDARD_M);
 
     expect(FITTED.options).toEqual(FITTED_DART_OPTIONS);
-    expect(FITTED_DART_OPTIONS.map((option) => option.defaultValue)).toEqual([4, 55, 28]);
+    expect(FITTED_DART_OPTIONS.slice(0, 3).map((option) => option.defaultValue)).toEqual([4, 55, 28]);
+    expect(FITTED_DART_OPTIONS.slice(3).map((option) => option.defaultValue)).toEqual([43, 2, 10, 45]);
+    expect(defaultGarmentOptions(FITTED_DART_OPTIONS)).not.toHaveProperty("waistDartIntake");
+    expect(defaultGarmentOptions(FITTED_DART_OPTIONS, "fitted-waist-dart-tee-digital-v1"))
+      .toMatchObject({ waistDartWaistlineFromHps: 43, waistDartIntake: 2, waistDartLength: 10, waistDartPosition: 45 });
+    expect(rolePiece(FITTED.draft(STANDARD_M, defaultGarmentOptions(FITTED_DART_OPTIONS)), "front").marks).toBeUndefined();
+    expect(rolePiece(FITTED.draft(STANDARD_M,
+      defaultGarmentOptions(FITTED_DART_OPTIONS, "fitted-waist-dart-tee-digital-v1")), "front").marks).toHaveLength(2);
     expect(edgeStart(pieceEdge(front, "bustDartUpper"))).toEqual(point(d.chestWidthHalf, bustY - 2));
     const apex = edgeEnd(pieceEdge(front, "bustDartUpper"));
     expect(apex.x).toBeCloseTo(d.chestWidthHalf * 0.55);
@@ -220,6 +228,82 @@ describe("draftFitted", () => {
     expect(sideHem).toEqual(rotatePoint(point(d.chestWidthHalf, m.length), apex,
       2 * Math.atan2(3, upperMouth.x - apex.x)));
   });
+
+  it("adds two internal F02 waist-dart marks without changing F01's cutting outline", () => {
+    const fittedOptions = { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28 };
+    const waistOptions = { ...fittedOptions, waistDartWaistlineFromHps: 43, waistDartIntake: 2,
+      waistDartLength: 10, waistDartPosition: 45 };
+    const f01 = draftFittedFront(STANDARD_M, fittedOptions);
+    const f02 = draftFittedFront(STANDARD_M, waistOptions);
+    const line = (name: string) => {
+      const mark = f02.marks?.find((candidate) => candidate.name === name);
+      if (!mark || !("start" in mark)) throw new Error(`Missing line mark ${name}`);
+      return mark;
+    };
+    const upper = line("waistDartUpperLeg");
+    const lower = line("waistDartLowerLeg");
+
+    expect(f01.marks).toBeUndefined();
+    expect(f02.edges).toEqual(f01.edges);
+    expect(upper).toMatchObject({ kind: "placementLine", label: "WAIST DART", labelRole: "instruction" });
+    expect(upper.start.y).toBe(43);
+    expect(lower.start.y).toBe(43);
+    expect(upper.end.y).toBe(33);
+    expect(lower.end).toEqual(upper.end);
+    expect(upper.start.x).toBeLessThan(lower.start.x);
+    expect(lower.start.x - upper.start.x).toBeCloseTo(2);
+    const boundary = sideBoundaryAtY(f02, 43);
+    expect(boundary).not.toBeNull();
+    expect((upper.start.x + lower.start.x) / 2).toBeCloseTo(boundary! * 0.45);
+  });
+
+  it("uses disclosed F02 defaults for omitted controls and does not clamp a missing-side depth", () => {
+    const d = derive(STANDARD_M);
+    const omitted = draftFittedFront(STANDARD_M, { waistDartIntake: 2 });
+    const defaultUpper = omitted.marks?.find((mark) => mark.name === "waistDartUpperLeg");
+    if (!defaultUpper || !("start" in defaultUpper)) throw new Error("Missing default waist-dart mark");
+    const boundary = sideBoundaryAtY(omitted, 43)!;
+    expect(defaultUpper.start.x).toBeCloseTo(boundary * 0.45 - 1, 12);
+    expect(defaultUpper.start.y).toBe(43);
+    expect(defaultUpper.end.x).toBeCloseTo(boundary * 0.45, 12);
+    expect(defaultUpper.end.y).toBe(33);
+
+    // This raw invalid depth is outside either fitted side segment. Drafting
+    // keeps the entered value visible; fittedGuidance explains the error.
+    const outside = draftFittedFront(STANDARD_M, { waistDartWaistlineFromHps: 200, waistDartIntake: 2 });
+    const outsideUpper = outside.marks?.find((mark) => mark.name === "waistDartUpperLeg");
+    if (!outsideUpper || !("start" in outsideUpper)) throw new Error("Missing raw out-of-range waist-dart mark");
+    expect(outsideUpper.start.x).toBeCloseTo(d.chestWidthHalf * 0.45 - 1, 12);
+    expect(outsideUpper.start.y).toBe(200);
+    expect(outsideUpper.end.x).toBeCloseTo(d.chestWidthHalf * 0.45, 12);
+    expect(outsideUpper.end.y).toBe(190);
+  });
+
+  it("returns only an unambiguous fitted-side boundary at the requested vertical level", () => {
+    const front = draftFittedFront(STANDARD_M);
+    expect(sideBoundaryAtY(front, 43)).not.toBeNull();
+    expect(sideBoundaryAtY(front, 36.9)).toBeNull();
+
+    const noSide: Piece = { ...front, edges: front.edges.filter((edge) => !edge.name.startsWith("side")) };
+    expect(sideBoundaryAtY(noSide, 43)).toBeNull();
+
+    const curvedSide: Piece = { ...front, edges: front.edges.map((edge) => edge.name === "sideLower"
+      ? { kind: "curve" as const, name: edge.name, curve: {
+        start: edgeStart(edge), control1: edgeStart(edge), control2: edgeEnd(edge), end: edgeEnd(edge),
+      } }
+      : edge) };
+    expect(sideBoundaryAtY(curvedSide, 43)).toBeNull();
+
+    const ambiguous: Piece = { ...front, edges: front.edges.map((edge) => edge.name === "sideUpper"
+      ? { kind: "line" as const, name: edge.name, start: point(8, 30), end: point(8, 50) }
+      : edge) };
+    expect(sideBoundaryAtY(ambiguous, 43)).toBeNull();
+
+    const horizontal: Piece = { ...front, edges: [
+      { kind: "line", name: "sideLower", start: point(4, 43), end: point(8, 43) },
+    ] };
+    expect(sideBoundaryAtY(horizontal, 43)).toBe(8);
+  });
 });
 
 describe("fittedGuidance", () => {
@@ -286,5 +370,87 @@ describe("fittedGuidance", () => {
       field: "armholeDepth",
       text: expect.stringContaining("Reduce armhole depth or increase body length"),
     }));
+  });
+
+  it("keeps valid F02 marks clear of the bust dart and does not activate them for F01", () => {
+    const waistOptions = { waistDartWaistlineFromHps: 43, waistDartIntake: 2, waistDartLength: 10, waistDartPosition: 45 };
+    const f02Notes = fittedGuidance(draftFitted(STANDARD_M, waistOptions), STANDARD_M, waistOptions);
+    expect(f02Notes.filter((note) => note.field?.startsWith("option-waistDart"))).toEqual([]);
+
+    const f01WithDormantSettings = fittedGuidance(draftFitted(STANDARD_M), STANDARD_M, waistOptions);
+    expect(f01WithDormantSettings.find((note) => note.text.includes("cross a bust-dart leg"))).toBeUndefined();
+  });
+
+  it("warns when waist-dart placement reaches the fold or side seam", () => {
+    // Raw saved inputs can be outside the displayed guardrail; guidance must
+    // explain the resulting collision instead of silently correcting it.
+    const foldOptions = { waistDartWaistlineFromHps: 43, waistDartIntake: 6, waistDartLength: 10, waistDartPosition: 10 };
+    const foldNotes = fittedGuidance(draftFitted(STANDARD_M, foldOptions), STANDARD_M, foldOptions);
+    expect(foldNotes.find((note) => note.field === "option-waistDartPosition")?.text)
+      .toContain("reaches the center-front fold");
+
+    const sideOptions = { ...foldOptions, waistDartPosition: 90 };
+    const sideNotes = fittedGuidance(draftFitted(STANDARD_M, sideOptions), STANDARD_M, sideOptions);
+    expect(sideNotes.some((note) => note.field === "option-waistDartPosition" && note.text.includes("reaches the side seam")))
+      .toBe(true);
+    expect(sideNotes.some((note) => note.text.includes("cross a bust-dart leg"))).toBe(true);
+  });
+
+  it("warns for an invalid waistline, an apex past HPS, and non-finite values without clamping", () => {
+    const highLine = { waistDartWaistlineFromHps: 24, waistDartIntake: 2, waistDartLength: 10, waistDartPosition: 45 };
+    const highLineNotes = fittedGuidance(draftFitted(STANDARD_M, highLine), STANDARD_M, highLine);
+    expect(highLineNotes.find((note) => note.field === "option-waistDartWaistlineFromHps")?.text)
+      .toContain("between the underarm and hem");
+
+    const pastHps = { waistDartWaistlineFromHps: 30, waistDartIntake: 2, waistDartLength: 35, waistDartPosition: 45 };
+    const pastHpsNotes = fittedGuidance(draftFitted(STANDARD_M, pastHps), STANDARD_M, pastHps);
+    expect(pastHpsNotes.find((note) => note.field === "option-waistDartLength")?.text)
+      .toContain("reaches the HPS neckline");
+
+    const nonFinite = { waistDartWaistlineFromHps: 43, waistDartIntake: Number.NaN, waistDartLength: 10, waistDartPosition: 45 };
+    const nonFiniteNotes = fittedGuidance(draftFitted(STANDARD_M, nonFinite), STANDARD_M, nonFinite);
+    expect(nonFiniteNotes.find((note) => note.field === "option-waistDartIntake")?.text)
+      .toContain("must be finite numbers");
+  });
+
+  it("warns when a waist-dart apex overlaps the bust-dart apex", () => {
+    const options = { waistDartWaistlineFromHps: 43, waistDartIntake: 2, waistDartLength: 6,
+      waistDartPosition: 55 };
+    const notes = fittedGuidance(draftFitted(STANDARD_M, options), STANDARD_M, options);
+    expect(notes.find((note) => note.text.includes("too close to the bust-dart apex"))).toBeDefined();
+  });
+
+  it("measures waist-dart clearance from the side-boundary width used by the draft", () => {
+    const waistline = 43;
+    const sideX = sideBoundaryAtY(draftFittedFront(STANDARD_M), waistline)!;
+    const bustApex = dartOf(rolePiece(draftFitted(STANDARD_M), "front"))!.apex;
+    const position = (bustApex.x + 1.9) / sideX * 100;
+    const chestWidthEstimate = derive(STANDARD_M).chestWidthHalf * position / 100;
+    expect(position).toBeGreaterThan(20);
+    expect(position).toBeLessThan(80);
+    expect(Math.abs(chestWidthEstimate - bustApex.x)).toBeGreaterThan(2);
+
+    const options = {
+      waistDartWaistlineFromHps: waistline,
+      waistDartIntake: 2,
+      waistDartLength: waistline - bustApex.y,
+      waistDartPosition: position,
+    };
+    const notes = fittedGuidance(draftFitted(STANDARD_M, options), STANDARD_M, options);
+    expect(notes.find((note) => note.text.includes("too close to the bust-dart apex"))).toBeDefined();
+  });
+
+  it("withholds bust-apex clearance when the waistline falls in the opened side gap", () => {
+    const options = {
+      waistDartWaistlineFromHps: 35.5,
+      waistDartIntake: 2,
+      waistDartLength: 10,
+      waistDartPosition: 45,
+    };
+    expect(sideBoundaryAtY(draftFittedFront(STANDARD_M), options.waistDartWaistlineFromHps)).toBeNull();
+    const notes = fittedGuidance(draftFitted(STANDARD_M, options), STANDARD_M, options);
+    expect(notes.find((note) => note.field === "option-waistDartWaistlineFromHps")?.text)
+      .toContain("outside the bust-dart opening");
+    expect(notes.find((note) => note.text.includes("too close to the bust-dart apex"))).toBeUndefined();
   });
 });

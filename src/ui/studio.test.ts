@@ -31,7 +31,8 @@ describe("bounded measurement groups", () => {
     }
     const pages = [...root.querySelectorAll<HTMLFieldSetElement>("[data-control-page]")];
     const inputs = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input")];
-    expect(inputs).toHaveLength(recipe.fields.length + (recipe.options?.length ?? 0));
+    const starterOptions = recipe.options?.filter((option) => option.appliesToStarterEntryId === undefined) ?? [];
+    expect(inputs).toHaveLength(recipe.fields.length + starterOptions.length);
     expect(new Set(inputs.map((input) => input.id)).size).toBe(inputs.length);
     expect(inputs.filter((input) => input.dataset.field !== undefined)
       .map((input) => input.dataset.field).sort())
@@ -119,6 +120,16 @@ describe("bounded measurement groups", () => {
     increment.click();
     expect(Number(representative.value)).toBeCloseTo(before + step, 8);
     expect(representative.getAttribute("aria-invalid")).toBe("false");
+  });
+
+  it("exposes the four waist-dart controls only when the F02 starter is selected", () => {
+    click('[data-starter-entry-id="fitted-waist-dart-tee-digital-v1"]');
+    const options = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-option]")]
+      .map((input) => input.dataset.option);
+    expect(options.filter((id) => id?.startsWith("waistDart"))).toEqual([
+      "waistDartWaistlineFromHps", "waistDartIntake", "waistDartLength", "waistDartPosition",
+    ]);
+    expect(new Set(options).size).toBe(options.length);
   });
 
   it("reveals a guidance target in its group before focusing the named input", () => {

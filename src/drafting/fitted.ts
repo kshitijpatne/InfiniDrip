@@ -12,7 +12,7 @@ import { point } from "../geometry";
 import { rotatePoint } from "../geometry/rotate";
 import { Measurements, derive } from "./measurements";
 import { Edge, Piece, pieceEdge, edgeStart, edgeEnd } from "./piece";
-import { edgesMeet, transferDart } from "./dart";
+import { dartOf, edgesMeet, transferDart } from "./dart";
 import { Block, rolePiece } from "./block";
 import { sleevedTopStitches } from "./tshirt-checks";
 import { bodice } from "./bodice";
@@ -24,6 +24,7 @@ import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import { GarmentOption, GarmentOptions } from "./options";
 import { Note } from "../guidance/note";
 import { sleevedTopGuidance } from "./tshirt-guidance";
+import { lineMark } from "./pattern-mark";
 
 const DART_INTAKE_OPTION: GarmentOption = {
   id: "dartIntake",
@@ -65,12 +66,116 @@ export const FITTED_DART_OPTIONS: readonly GarmentOption[] = [
   DART_INTAKE_OPTION,
   BUST_APEX_HORIZONTAL_OPTION,
   BUST_APEX_VERTICAL_OPTION,
+  {
+    id: "waistDartWaistlineFromHps",
+    label: "Waistline depth from HPS",
+    unit: "cm",
+    group: "Waist dart",
+    help: "This sets an internal pattern-mark depth from the high-point shoulder, not a measured body waist location. The 43 cm default and 30–60 cm guardrail are unvalidated software choices.",
+    defaultValue: 43,
+    min: 30,
+    max: 60,
+    step: 1,
+    appliesToStarterEntryId: "fitted-waist-dart-tee-digital-v1",
+  },
+  {
+    id: "waistDartIntake",
+    label: "Waist dart intake",
+    unit: "cm",
+    group: "Waist dart",
+    help: "The internal placement-mark opening is a software construction choice, not a fit target. Move the dart position or reduce intake if the marks reach the fold or side seam.",
+    defaultValue: 2,
+    min: 0.5,
+    max: 6,
+    step: 0.5,
+    appliesToStarterEntryId: "fitted-waist-dart-tee-digital-v1",
+  },
+  {
+    id: "waistDartLength",
+    label: "Waist dart length",
+    unit: "cm",
+    group: "Waist dart",
+    help: "The vertical internal-mark length is an unvalidated software choice. Shorten it or move the dart toward center front if it approaches the bust dart.",
+    defaultValue: 10,
+    min: 4,
+    max: 18,
+    step: 1,
+    appliesToStarterEntryId: "fitted-waist-dart-tee-digital-v1",
+  },
+  {
+    id: "waistDartPosition",
+    label: "Waist dart across half-front",
+    unit: "%",
+    group: "Waist dart",
+    help: "Positions the dart center as a percentage of the available half-front width from center front. This 20–80% range is a software geometry guardrail, not a body-position rule.",
+    defaultValue: 45,
+    min: 20,
+    max: 80,
+    step: 1,
+    appliesToStarterEntryId: "fitted-waist-dart-tee-digital-v1",
+  },
 ];
 
 interface FittedDartParameters {
   readonly intake: number;
   readonly apexHorizontalPercent: number;
   readonly apexVerticalPercent: number;
+}
+
+interface FittedWaistDartParameters {
+  readonly waistlineFromHps: number;
+  readonly intake: number;
+  readonly length: number;
+  readonly positionPercent: number;
+}
+
+const fittedWaistDartParameters = (options: GarmentOptions): FittedWaistDartParameters | null => {
+  if (options.waistDartIntake === undefined) return null;
+  return {
+    waistlineFromHps: options.waistDartWaistlineFromHps ?? 43,
+    intake: options.waistDartIntake,
+    length: options.waistDartLength ?? 10,
+    positionPercent: options.waistDartPosition ?? 45,
+  };
+};
+
+export function sideBoundaryAtY(front: Piece, y: number): number | null {
+  const candidates = ["sideUpper", "sideLower"].flatMap((name) => {
+    const edge = front.edges.find((candidate) => candidate.name === name);
+    if (!edge || edge.kind !== "line") return [];
+    const minY = Math.min(edge.start.y, edge.end.y);
+    const maxY = Math.max(edge.start.y, edge.end.y);
+    if (y < minY || y > maxY) return [];
+    const vertical = edge.end.y - edge.start.y;
+    if (Math.abs(vertical) < 1e-9) return [Math.max(edge.start.x, edge.end.x)];
+    const ratio = (y - edge.start.y) / vertical;
+    return [edge.start.x + (edge.end.x - edge.start.x) * ratio];
+  });
+  return candidates.length === 1 ? candidates[0]! : null;
+}
+
+function segmentIntersectsInterior(a: { x: number; y: number }, b: { x: number; y: number },
+  c: { x: number; y: number }, d: { x: number; y: number }): boolean {
+  const abx = b.x - a.x;
+  const aby = b.y - a.y;
+  const cdx = d.x - c.x;
+  const cdy = d.y - c.y;
+  const denominator = abx * cdy - aby * cdx;
+  const acx = c.x - a.x;
+  const acy = c.y - a.y;
+  const t = (acx * cdy - acy * cdx) / denominator;
+  const u = (acx * aby - acy * abx) / denominator;
+  return t > 1e-6 && t < 1 - 1e-6 && u > 1e-6 && u < 1 - 1e-6;
+}
+
+function waistDartCrossesBustDart(front: Piece): boolean {
+  const upper = front.marks?.find((mark) => mark.name === "waistDartUpperLeg");
+  const lower = front.marks?.find((mark) => mark.name === "waistDartLowerLeg");
+  if (!upper || !lower || !("start" in upper) || !("start" in lower)) return false;
+  const bustUpper = front.edges.find((edge) => edge.name === "bustDartUpper") as Extract<Edge, { kind: "line" }>;
+  const bustLower = front.edges.find((edge) => edge.name === "bustDartLower") as Extract<Edge, { kind: "line" }>;
+  return [upper, lower].some((waistLeg) => [bustUpper, bustLower].some((bustLeg) =>
+    segmentIntersectsInterior(waistLeg.start, waistLeg.end, bustLeg.start, bustLeg.end)));
 }
 
 const fittedDartParameters = (options: GarmentOptions): FittedDartParameters => ({
@@ -111,7 +216,21 @@ export function draftFittedFront(m: Measurements, options: GarmentOptions = {}):
       { kind: "line", name: "centerFront", start: cfHem, end: cfNeck },
     ],
   };
-  return reopenFittedReference(closedReference, apex, intake);
+  const opened = reopenFittedReference(closedReference, apex, intake);
+  const waistDart = fittedWaistDartParameters(options);
+  if (!waistDart) return opened;
+  const sideX = sideBoundaryAtY(opened, waistDart.waistlineFromHps) ?? d.chestWidthHalf;
+  const centerX = sideX * waistDart.positionPercent / 100;
+  const dartApex = point(centerX, waistDart.waistlineFromHps - waistDart.length);
+  const upperBase = point(centerX - waistDart.intake / 2, waistDart.waistlineFromHps);
+  const lowerBase = point(centerX + waistDart.intake / 2, waistDart.waistlineFromHps);
+  return {
+    ...opened,
+    marks: [
+      lineMark("placementLine", "waistDartUpperLeg", upperBase, dartApex, "WAIST DART", "instruction"),
+      lineMark("placementLine", "waistDartLowerLeg", lowerBase, dartApex),
+    ],
+  };
 }
 
 const fittedFrontComponent: Component<GarmentOptions> = (m, options): ComponentResult => ({
@@ -271,6 +390,50 @@ export function fittedGuidance(block: Block, m: Measurements, options: GarmentOp
       field: "option-bustApexHorizontal",
       text: "Opening this dart sends the lower hem across the center-front fold. Move the apex toward center front or reduce dart intake; the app will not change either value automatically.",
     });
+  }
+  const waistDart = fittedWaistDartParameters(options);
+  if (waistDart) {
+    const invalidNumbers = [waistDart.waistlineFromHps, waistDart.intake, waistDart.length, waistDart.positionPercent]
+      .some((value) => !Number.isFinite(value));
+    if (invalidNumbers) {
+      notes.push({ level: "warn", field: "option-waistDartIntake",
+        text: "Waist-dart controls must be finite numbers. Enter values inside their displayed ranges; the app will not replace them automatically." });
+      return notes;
+    }
+    const waistFront = rolePiece(block, "front");
+    const sideX = sideBoundaryAtY(waistFront, waistDart.waistlineFromHps);
+    if (waistDart.waistlineFromHps <= m.armholeDepth || waistDart.waistlineFromHps >= m.length || sideX === null) {
+      notes.push({ level: "warn", field: "option-waistDartWaistlineFromHps",
+        text: "Place the waist-dart line between the underarm and hem, outside the bust-dart opening. Move its depth toward the hem; the app will not change it automatically." });
+    } else {
+      const centerX = sideX * waistDart.positionPercent / 100;
+      const leftBaseX = centerX - waistDart.intake / 2;
+      const rightBaseX = centerX + waistDart.intake / 2;
+      if (leftBaseX <= 0) {
+        notes.push({ level: "warn", field: "option-waistDartPosition",
+          text: "The waist-dart opening reaches the center-front fold. Move the dart toward the side seam or reduce intake; the app will not change either value automatically." });
+      }
+      if (rightBaseX >= sideX) {
+        notes.push({ level: "warn", field: "option-waistDartPosition",
+          text: "The waist-dart opening reaches the side seam. Move the dart toward center front or reduce intake; the app will not change either value automatically." });
+      }
+    }
+    const waistApexY = waistDart.waistlineFromHps - waistDart.length;
+    if (waistApexY <= 0) {
+      notes.push({ level: "warn", field: "option-waistDartLength",
+        text: "The waist-dart apex reaches the HPS neckline. Shorten the dart or move its line toward the hem; the app will not change either value automatically." });
+    }
+    const bustApex = dartOf(waistFront)?.apex;
+    const waistCenterX = sideX === null ? null : sideX * waistDart.positionPercent / 100;
+    if (bustApex && waistCenterX !== null
+      && Math.hypot(waistCenterX - bustApex.x, waistApexY - bustApex.y) < 2) {
+      notes.push({ level: "warn", field: "option-waistDartLength",
+        text: "The waist-dart apex is too close to the bust-dart apex for these digital marks. Shorten the waist dart or move it across the half-front; the app will not adjust it automatically." });
+    }
+    if (waistDartCrossesBustDart(waistFront)) {
+      notes.push({ level: "warn", field: "option-waistDartPosition",
+        text: "The waist-dart marks cross a bust-dart leg. Shorten the waist dart or move its position; the app will not alter either value automatically." });
+    }
   }
   return notes;
 }

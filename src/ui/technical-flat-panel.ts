@@ -13,6 +13,7 @@ export interface TechnicalFlatPanelInput {
   readonly recipe: GarmentRecipe;
   readonly measurements: Measurements;
   readonly rawOptions: unknown;
+  readonly starterEntryId?: string;
   readonly revisionId: string;
   readonly kind: TechnicalFlatViewKind;
   readonly placements: readonly ArtworkPlacement[];
@@ -78,7 +79,9 @@ export function technicalFlatIssueList(issues: readonly TechnicalFlatPanelIssue[
 /** Build the live panel from a single face/block/revision snapshot. */
 export function technicalFlatPanelMarkup(input: TechnicalFlatPanelInput): string {
   const faceControls = technicalFlatFaceToggleMarkup(input.kind);
-  const checked = validateTechnicalFlatOptions(input.recipe, input.measurements, input.rawOptions, input.revisionId);
+  const checked = validateTechnicalFlatOptions(
+    input.recipe, input.measurements, input.rawOptions, input.revisionId, input.starterEntryId,
+  );
   if (checked.issues.length > 0) {
     return faceControls + '<p role="status">Technical flat withheld. Correct the listed supported options or pattern source.</p>' +
       technicalFlatIssueList(checked.issues);
