@@ -441,7 +441,14 @@ export const TEE: GarmentRecipe = {
     return {
       bom: [
         ...this.techPack.bom.filter((row) => row.placement !== "Neckband"),
-        { material: "User-selected band material", placement: "Provisional V-neck band", qty: "1 strip; see selected-size V-band SVG" },
+        // The Fitted Tech Pack has a narrow Qty column; its construction retains the SVG reference.
+        {
+          material: "User-selected band material",
+          placement: "Provisional V-neck band",
+          qty: this.name === "fitted"
+            ? "1 strip"
+            : "1 strip; see selected-size V-band SVG",
+        },
       ],
       constructionNotice: "Provisional digital V-band construction. Join geometry and allowances are product-software choices; physical fit, comfort, wear, fabric behavior and recovery are unvalidated.",
       construction,
