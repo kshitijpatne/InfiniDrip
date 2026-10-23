@@ -11634,7 +11634,10 @@ describe("EPIC-19 L02 starter binding", () => {
       reachExportStage(currentRoot);
       clickId(currentRoot, "export-tee-selected-techpack");
       await vi.waitFor(() => expect(exportedFiles.has("fitted-M-selected-techpack.pdf")).toBe(true), { timeout: 20_000 });
-      expect(exportedFiles.get("fitted-M-selected-techpack.pdf")).toContain("Provisional digital V-band construction");
+      const selectedPackExport = exportedFiles.get("fitted-M-selected-techpack.pdf")!;
+      expect(selectedPackExport).toContain("Provisional digital V-band construction");
+      expect(selectedPackExport).toContain("1 strip");
+      expect(selectedPackExport).not.toContain("1 strip; see selected-size V-band SVG");
       expect(exportedFiles.get("fitted-M-selected-techpack.pdf")).toContain("Sew the bust darts; press them toward the hem.");
       const manager = currentRoot.querySelector<HTMLDetailsElement>(".project-manager-details")!;
       manager.open = true;
@@ -11661,6 +11664,9 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(selectedText).toContain("Fitted V-neck Tee - M - Pattern Piece Overview");
       expect(selectedText).toContain("Sew the bust darts; press them toward the hem.");
       expect(selectedText).toContain("Measured selected-size body neckline");
+      expect(selectedText).toContain("1 strip");
+      expect(selectedText).not.toContain("1 strip; see selected-size V-band SVG");
+
       expect(selectedText).toContain("Finished width 2.4 cm");
       const wholeRunText = await frozenWholeRunTechPack.artifact.bytes.text();
       expect(wholeRunText).toContain("V-band output is available only in the selected-size V-band Tech Pack;");

@@ -459,7 +459,9 @@ describe("recipe callbacks", () => {
     expect(selectedSize.constructionNotice).toContain("Provisional digital V-band construction");
     expect(selectedSize.construction.join(" ")).toContain("Sew the bust darts; press them toward the hem.");
     expect(selectedSize.construction.join(" ")).toContain("V-band settings: Measured selected-size body neckline");
-    expect(selectedSize.bom.some((row) => row.placement === "Provisional V-neck band")).toBe(true);
+    const fittedBandBom = selectedSize.bom.find((row) => row.placement === "Provisional V-neck band");
+    expect(fittedBandBom?.qty).toBe("1 strip");
+    expect(selectedSize.construction.join(" ")).toContain("separate selected-size band SVG");
     expect(invalidSettings.constructionNotice).toContain("Fitted Tee band settings");
     expect(invalidSettings.bom.some((row) => row.placement === "Provisional V-neck band")).toBe(false);
     expect(svg).toContain("Fitted Tee V-neck band provisional cutting template");
