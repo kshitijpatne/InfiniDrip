@@ -11438,6 +11438,9 @@ describe("EPIC-19 L02 starter binding", () => {
       clickId(root, "starter-fitted-princess-tee-digital-v1");
       expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
         .toContain("Starting design: Princess-seam fitted Tee · software defaults");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Princess-seam fitted Tee");
+      expect(root.querySelector<HTMLElement>("#g03-route-title")!.textContent)
+        .toContain("Review Princess-seam fitted Tee measurements");
       expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
         .toContain("B1 technical review pending; physical validation not performed");
       for (const [option, value] of Object.entries({ princessSeamShaping: "2", princessApexHorizontal: "55",
@@ -11465,6 +11468,7 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(root.querySelectorAll("#canvas-host svg path").length).toBeGreaterThan(4);
       clickId(root, "view-flat");
       const flatPattern = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg")!.outerHTML;
+      expect(flatPattern).toContain("Princess-seam fitted Tee · front technical flat");
       expect(flatPattern).toContain("frontSide:outline:approved-view-pair");
       expect(root.querySelector("[data-technical-flat-issues]")).toBeNull();
       clickId(root, "view-pattern");
@@ -11538,6 +11542,7 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(svg.toLowerCase()).toContain("fitted side front (cut 2 mirrored)");
       expect(pdf.startsWith("%PDF-")).toBe(true);
       expect(a0.startsWith("%PDF-")).toBe(true);
+      expect(techPack).toContain("Princess-seam fitted Tee");
       expect(techPack).toContain("2 side-front pieces as a mirrored pair");
       expect(techPack).toContain("physical fit, comfort, wear, and production behavior are unvalidated");
       const cadPackage = JSON.parse(cadSource) as { dxf: string; manifest: {
@@ -11558,6 +11563,22 @@ describe("EPIC-19 L02 starter binding", () => {
       else delete (SVGElement.prototype as unknown as { getComputedTextLength?: unknown }).getComputedTextLength;
     }
   }, 75_000);
+
+  it("uses the F03 name in guided measurement capture", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const root = mount();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-fitted-princess-tee-digital-v1");
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#g03-measurement-capture-title")
+        ?.textContent).toBe("Princess-seam fitted Tee guided measurements and targets"));
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
 
   it("keeps raw Fitted inputs and warns when the dart mouth crosses the underarm", () => {
     localStorage.clear();

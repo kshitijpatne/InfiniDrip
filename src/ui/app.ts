@@ -1517,6 +1517,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => garmentOptionsForStyle(
     forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle, true, starterOrigin?.entryId,
   );
+  const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
+    options: GarmentOptions = recipeOptions(forRecipe)): string =>
+    forRecipe.name === "fitted" && options.princessSeamShaping !== undefined
+      ? "Princess-seam fitted Tee" : forRecipe.label;
   const styleMatchMeasurements = (): Measurements => {
     const overrides = Object.fromEntries(activeOptionDefinitions()
       .filter((option) => option.fallbackMeasurement !== undefined && recipeOptions()[option.id] !== undefined)
@@ -1630,16 +1634,18 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     FIELDS.map((field) => String(value[field.id])).join("|");
   const recipeForCurrentOutputs = (): GarmentRecipe => {
     const options = recipeOptions();
+    const label = recipeDisplayLabel(recipe, options);
     const allowances = recipe.name === "woven-shirt"
       ? wovenShirtAllowances(options.hemTurn)
       : recipe.allowances;
     const poms = pomsForRecipeOptions(recipe, options);
-    if (!semanticEdits) return { ...recipe, allowances, poms };
+    if (!semanticEdits) return { ...recipe, allowances, poms, label };
     const evaluation = requireSemanticEditEvaluation(currentSemanticState()?.evaluation);
     return {
       ...recipe,
       allowances,
       poms,
+      label,
       draft: (value: Measurements): Block => {
         const step = semanticSizeStepFor(evaluation.sizes, (candidate) =>
           semanticMeasurementKey(gradeMeasurements(measurements, recipe.grade, candidate.step))
@@ -2005,7 +2011,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const definitions = getFieldDefinitions(recipe.name);
       const panelModel: MeasurementCapturePanelModel = {
         panelId: "g03-measurement-capture",
-        heading: `${recipe.label} guided measurements and targets`,
+        heading: `${recipeDisplayLabel()} guided measurements and targets`,
         intro: "Add body values you know, or choose an explicitly labeled digital preset. Target values and design controls stay separate from body measurements. No measuring procedure is qualified here.",
         emptyMessage: "No input fields are available for this garment.",
         announcement: captureAnnouncement,
@@ -2214,7 +2220,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : !state.captureAvailable ? "Save a measurement capture for this style before creating a grade plan."
         : !context ? state.message! : null;
     return gradePlanPanelMarkup({
-      recipeLabel: recipe.label,
+      recipeLabel: recipeDisplayLabel(),
       plan: state.plan,
       stale,
       canCreate: !state.loading && !state.plan && !!context,
@@ -2418,7 +2424,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? "Digital validity is not available while saved semantic edits are being checked."
         : "Current digital checks need review. Use the correction actions here or the existing Guidance & corrections section.";
     return {
-      revisionLabel: `Local draft · ${recipe.label} · change ${designRevision}`,
+      revisionLabel: `Local draft · ${recipeDisplayLabel()} · change ${designRevision}`,
       step: journey.step,
       readiness: status,
       blocker,
@@ -2538,7 +2544,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     parts.push(journeyBarMarkup(journey.step, status, blocker, {
       tutorialActive,
       nextLabel: journey.step === "start" && !tutorialActive
-        ? `Use ${recipe.label} in the full editor →`
+        ? `Use ${recipeDisplayLabel()} in the full editor →`
         : tutorialActive ? nextLabel[journey.step] : undefined,
       correctionLabel: tutorialActive && journey.step === "refine" && blocker
         ? "Review the first flagged item"
@@ -2548,7 +2554,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (journey.step === "start" || (journey.step === "measure" && measurementRoute === "editor")) {
       parts.push(
         `<section class="g03-route-choice" aria-labelledby="g03-route-title">` +
-        `<h2 id="g03-route-title">${journey.step === "start" ? `Choose how to begin with ${recipe.label}` : `Review ${recipe.label} measurements`}</h2>` +
+        `<h2 id="g03-route-title">${journey.step === "start" ? `Choose how to begin with ${recipeDisplayLabel()}` : `Review ${recipeDisplayLabel()} measurements`}</h2>` +
         `<p>Use the familiar measurement editor, or review each input with source and draft-use explanations first.</p>` +
         `<button class="journey-secondary-action" id="journey-guided" type="button">Guide my measurements</button>` +
         `</section>`,
@@ -3494,7 +3500,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const applyDisclosure = (): void => {
     const d = disclosureFor(journey.step);
     root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage = journey.step;
-    root.querySelector<HTMLElement>("#current-garment")!.textContent = recipe.label;
+    root.querySelector<HTMLElement>("#current-garment")!.textContent = recipeDisplayLabel();
     root.querySelector<HTMLElement>("#garment-toggle-host")!.style.display = journey.step === "start" ? "flex" : "none";
     root.querySelector<HTMLElement>("#controls-panel")!.style.display =
       d.controls && !(journey.step === "measure" && measurementRoute === "guided") ? "" : "none";
