@@ -50,8 +50,11 @@ describe("bundled artwork catalog", () => {
       "texture/material",
       "novelty/illustrative",
     ]);
-    expect(GARMENT_FAMILIES).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"]);
+    expect(GARMENT_FAMILIES).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts"]);
     expect(PIECE_ROLE_GROUPS).toContain("front");
+    expect(PIECE_ROLE_GROUPS).toContain("shorts-leg");
+    expect(ARTWORK_CATALOG.every((record) => record.use.garmentFamilies.includes("shorts"))).toBe(true);
+    expect(ARTWORK_CATALOG.filter((record) => record.use.pieceRoleGroups.includes("shorts-leg")).length).toBeGreaterThan(0);
     expect(PRINT_USES).toEqual(["all-over", "border/trim", "panel", "focal graphic", "placement"]);
   });
 

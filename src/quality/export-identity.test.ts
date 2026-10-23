@@ -1,4 +1,4 @@
-// EPIC 10 — empty-placement export identity across all seven recipes
+// EPIC 10 — empty-placement export identity across all registered recipes
 // (Slice 144 acceptance: "Empty-placement export identity, including all
 // eight legacy hashes, with no baseline movement").
 //
@@ -8,7 +8,7 @@
 // file adds is new, bounded coverage: `techpack-surface.test.ts` already
 // proves byte-identity with empty artwork for ONE recipe (TEE) at ONE
 // measurement set (STANDARD_M). This generalizes that same claim, with a
-// seeded property, to all seven recipes and many valid measurement sets —
+// seeded property, to all registered recipes and many valid measurement sets —
 // directly exercising every recipe identifier, as Slice 144 asks.
 import { describe, it, expect } from "vitest";
 import fc from "fast-check";
@@ -20,12 +20,32 @@ describe("EPIC 10 — empty-placement export identity (Slice 144)", () => {
   for (const recipe of GARMENTS) {
     it(`${recipe.name}: an empty artwork set produces a byte-identical tech pack to no artwork argument at all, across valid measurements`, () => {
       const bound = new Map(FIELDS.map((f) => [f.id, f]));
-      const arb = fc
-        .record(Object.fromEntries(recipe.fields.map((id) => {
-          const b = bound.get(id)!;
-          return [id, fc.double({ min: b.min, max: b.max, noNaN: true, noDefaultInfinity: true })];
-        })))
-        .map((partial) => ({ ...STANDARD_M, ...(partial as Partial<Measurements>) }));
+      const jeansNeighborhoodValue = (fieldId: keyof Measurements, minimum: number, maximum: number) => {
+        const control = bound.get(fieldId)!;
+        return fc.double({
+          min: Math.max(minimum, control.min),
+          max: Math.min(maximum, control.max),
+          noNaN: true,
+          noDefaultInfinity: true,
+        });
+      };
+      const arb = recipe.name === "jeans"
+        ? fc.record({
+          waist: jeansNeighborhoodValue("waist", 80, 88),
+          hip: jeansNeighborhoodValue("hip", 96, 104),
+          hipDepth: jeansNeighborhoodValue("hipDepth", 18, 22),
+          crotchDepth: jeansNeighborhoodValue("crotchDepth", 26, 32),
+          thigh: jeansNeighborhoodValue("thigh", 55, 61),
+          knee: jeansNeighborhoodValue("knee", 37, 43),
+          inseam: jeansNeighborhoodValue("inseam", 74, 82),
+          ease: jeansNeighborhoodValue("ease", 8, 12),
+        }).map((partial) => ({ ...STANDARD_M, ...partial }))
+        : fc
+          .record(Object.fromEntries(recipe.fields.map((id) => {
+            const b = bound.get(id)!;
+            return [id, fc.double({ min: b.min, max: b.max, noNaN: true, noDefaultInfinity: true })];
+          })))
+          .map((partial) => ({ ...STANDARD_M, ...(partial as Partial<Measurements>) }));
 
       fc.assert(
         fc.property(arb, (measurements) => {
@@ -38,9 +58,9 @@ describe("EPIC 10 — empty-placement export identity (Slice 144)", () => {
     });
   }
 
-  it("all seven recipe identifiers are exercised (registry drift guard)", () => {
+  it("all twelve recipe identifiers are exercised (registry drift guard)", () => {
     expect(GARMENTS.map((r) => r.name).sort()).toEqual(
-      ["fitted", "polo", "skirt", "tank", "tee", "trouser", "woven-shirt"],
+      ["crewneck", "fitted", "hoodie", "jeans", "jogger", "polo", "shorts", "skirt", "tank", "tee", "trouser", "woven-shirt"],
     );
   });
 

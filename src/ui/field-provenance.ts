@@ -1,5 +1,5 @@
 /** C03-aligned definitions and append-only value observations for current recipe inputs. */
-import { GARMENTS, STANDARD_M, type GarmentRecipe } from "../drafting";
+import { GARMENTS, JEANS_FIELDS, STANDARD_M, type GarmentRecipe } from "../drafting";
 import { FIELDS } from "./controls";
 import type { RecoveryPayload, SavedDesign, StyleRecord } from "./project-records";
 import type { MeasurementCaptureSession } from "./measurement-capture";
@@ -200,6 +200,86 @@ const MEASUREMENT_SPECS: Readonly<Partial<Record<string, MeasurementSpec>>> = Ob
   },
 });
 
+const SHORTS_MEASUREMENT_SPECS: Readonly<Partial<Record<string, MeasurementSpec>>> = Object.freeze({
+  crotchDepth: {
+    id: "body.seated-waist-to-seat-depth", kind: "BODY_MEASURE", frame: "body",
+    meaning: "Seated waist-to-seat depth input used to seed the shorts front and back crotch stations through the inherited digital lower-body method.",
+    captureBoundary: "The seated posture and waistband reference are not qualified. The inherited coordinate seed is not a shorts fit method; one scalar does not establish front/back balance or fit.",
+  },
+  thigh: {
+    id: "target.shorts-finished-thigh-girth", kind: "GARMENT_MEASURE", frame: "finished-garment",
+    meaning: "User-selected finished shorts thigh-girth target at the block's upper-thigh station.",
+    captureBoundary: "This is a finished target, not a wearer thigh capture. The station is inherited from a fixed digital offset and has no reviewed anatomical mapping.",
+    label: "Target finished thigh girth",
+  },
+});
+
+type JeansMeasurementField = (typeof JEANS_FIELDS)[number];
+const JEANS_MEASUREMENT_SPECS: Readonly<Record<JeansMeasurementField, MeasurementSpec>> = Object.freeze({
+  waist: {
+    id: "body.girth-at-jeans-wear-line", kind: "BODY_MEASURE", frame: "body",
+    meaning: "User-supplied girth input at the intended Jeans wear line; the Jeans draft combines it with shared ease at the digital waist edges.",
+    captureBoundary: "The intended Jeans wear line and capture path are not reviewed. Preserve the entered value as unconfirmed; this does not establish fit.",
+  },
+  hip: {
+    id: "body.girth-at-jeans-seat-level", kind: "BODY_MEASURE", frame: "body",
+    meaning: "User-supplied girth input at a selected hip/seat level used by the Jeans digital seat geometry.",
+    captureBoundary: "The level, path, and posture are not qualified; one girth does not encode front/back body shape or establish fit.",
+  },
+  hipDepth: {
+    id: "body.jeans-wear-line-to-seat-depth", kind: "BODY_MEASURE", frame: "body",
+    meaning: "User-supplied vertical-depth input between the Jeans wear-line reference and the selected hip/seat station.",
+    captureBoundary: "Reference endpoints and vertical method are unreviewed. The resulting pattern station is calculated, not a body observation.",
+  },
+  crotchDepth: {
+    id: "body.jeans-seated-depth-input", kind: "BODY_MEASURE", frame: "body",
+    meaning: "User-supplied seated-depth input used with Jeans rise controls to locate digital front and back crotch stations.",
+    captureBoundary: "The seated posture and reference are not qualified. This input does not establish front/back balance or fit.",
+  },
+  thigh: {
+    id: "target.jeans-finished-thigh-girth", kind: "GARMENT_MEASURE", frame: "finished-garment",
+    meaning: "User-selected finished digital thigh-girth target at the Jeans pattern's internal thigh station.",
+    captureBoundary: "This is a finished pattern target, not a wearer thigh capture. The internal station has no reviewed anatomical mapping.",
+    label: "Target finished thigh girth",
+  },
+  knee: {
+    id: "target.jeans-finished-knee-transition-girth", kind: "GARMENT_MEASURE", frame: "finished-garment",
+    meaning: "User-selected finished digital girth at the Jeans pattern's internal knee-transition station.",
+    captureBoundary: "This internal pattern transition has no reviewed anatomical mapping; it is not a wearer knee landmark or body capture.",
+    label: "Target finished knee-transition girth",
+  },
+  inseam: {
+    id: "target.jeans-crotch-to-hem", kind: "GARMENT_MEASURE", frame: "finished-garment",
+    meaning: "User-selected vertical digital crotch-to-hem target; the separate finished Jeans inseam POM follows the sloped pattern seam.",
+    captureBoundary: "This is a finished pattern target, not a wearer body inseam. Its POM describes digital seam geometry, not sewn fit.",
+    label: "Crotch-to-hem target",
+  },
+  ease: {
+    id: "style.jeans-shared-ease", kind: "STYLE_CONTROL", frame: "design-control",
+    meaning: "Shared digital Jeans control applied at waist and seat; thigh and knee-transition girths have separate Jeans options.",
+    captureBoundary: "This is a product design control, not a body measure or validated ease standard. Review the affected regions and material choice.",
+  },
+});
+
+const CREWNECK_MEASUREMENT_SPECS: Readonly<Partial<Record<string, MeasurementSpec>>> = Object.freeze({
+  neckDrop: {
+    id: "style.crewneck-front-neck-depth",
+    kind: "STYLE_CONTROL",
+    frame: "design-control",
+    meaning: "Digital depth adjustment applied to the front crew neckline beyond its chest-derived baseline; the back neckline retains its derived depth.",
+    captureBoundary: "This is a user-editable pattern control, not an anatomical measurement or validated fit target.",
+    label: "Front neckline depth adjustment",
+  },
+  neckWidthEase: {
+    id: "style.crewneck-neckline-width-per-side",
+    kind: "STYLE_CONTROL",
+    frame: "design-control",
+    meaning: "Per-side digital width adjustment applied to both the front and back crew neckline shapes.",
+    captureBoundary: "This is a user-editable pattern control, not a neck-girth measurement or validated fit target.",
+    label: "Per-side neckline width adjustment",
+  },
+});
+
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const PROVENANCE = new Set<FieldProvenance>([
   "USER_CAPTURED", "USER_SELECTED", "PRESET", "INHERITED", "CALCULATED", "SUPPLIER",
@@ -320,7 +400,13 @@ export function getFieldDefinitions(recipeId: string): readonly FieldDefinition[
   const definitions: FieldDefinition[] = [];
   for (const inputKey of recipe.fields) {
     const control = FIELDS.find((field) => field.id === inputKey);
-    const spec = MEASUREMENT_SPECS[inputKey];
+    const spec = recipe.name === "jeans"
+      ? JEANS_MEASUREMENT_SPECS[inputKey as JeansMeasurementField]
+      : recipe.name === "shorts"
+      ? SHORTS_MEASUREMENT_SPECS[inputKey] ?? MEASUREMENT_SPECS[inputKey]
+      : recipe.name === "crewneck"
+        ? CREWNECK_MEASUREMENT_SPECS[inputKey] ?? MEASUREMENT_SPECS[inputKey]
+        : MEASUREMENT_SPECS[inputKey];
     if (!control || !spec) continue;
     const semanticId = inputKey === "length" && recipe.name === "skirt"
       ? "target.skirt-waistline-to-hem"

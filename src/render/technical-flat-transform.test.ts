@@ -119,7 +119,7 @@ describe("technical-flat rigid transforms", () => {
     expect(() => transformFlatPrimitive(invalid, identity)).toThrow("Source point must contain finite x and y coordinates.");
   });
 
-  it("preserves drafted edge lengths across all seven recipes", () => {
+  it("preserves drafted edge lengths across all eight recipes", () => {
     const transform: TechnicalFlatTransform = { offset: { x: 17, y: -8 }, rotationDegrees: 37, mirrorX: true };
     for (const recipe of GARMENTS) {
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));

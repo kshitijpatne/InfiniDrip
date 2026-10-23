@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { draftTshirt } from "./tshirt";
 import { STANDARD_M } from "./measurements";
-import { gradeMeasurements, gradeRun, GradeRule, SizeStep } from "./grading";
+import { gradeMeasurements, gradeRun, GradeOptionResolver, GradeRule, SizeStep } from "./grading";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { resolveNotch, pointOnEdge } from "../render/notch";
 
@@ -86,7 +86,8 @@ describe("notches carry free across the grade", () => {
 });
 
 import { draftAtSize } from "./grading";
-import { FITTED } from "./recipe";
+import { draftRecipeAtSize, FITTED, GARMENTS, gradeRecipeRun, TEE } from "./recipe";
+import { defaultGarmentOptions } from "./options";
 import { edgeLength, pieceEdge } from "./piece";
 import { rolePiece } from "./block";
 
@@ -112,5 +113,51 @@ describe("draftAtSize", () => {
     const fhem = (step: number): number =>
       edgeLength(pieceEdge(rolePiece(draftAtSize(STANDARD_M, FITTED.grade, step, FITTED.draft), "front"), "hem"));
     expect(fhem(2)).toBeGreaterThan(fhem(-2));
+  });
+});
+
+describe("recipe-aware graded options", () => {
+  it("keeps recipes without an option resolver identical to the low-level grade run", () => {
+    for (const recipe of GARMENTS) {
+      if (recipe.resolveOptionsForSize) continue;
+      const options = defaultGarmentOptions(recipe.options ?? []);
+      expect(recipe.resolveOptionsForSize).toBeUndefined();
+      expect(gradeRecipeRun(recipe, STANDARD_M, recipe.sizes, options))
+        .toEqual(gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, options));
+    }
+  });
+
+  it("resolves non-base run options from shared context and keeps step zero unchanged", () => {
+    const received: Parameters<GradeOptionResolver>[0][] = [];
+    const draft = vi.fn(TEE.draft);
+    const resolver: GradeOptionResolver = (context) => {
+      received.push(context);
+      return { ...context.baseOptions, resolvedStep: context.step };
+    };
+    const recipe = { ...TEE, draft, resolveOptionsForSize: resolver };
+    const baseOptions = { marker: 7 };
+
+    const run = gradeRecipeRun(recipe, STANDARD_M, sizes, baseOptions);
+
+    expect(run.map((size) => size.step)).toEqual([-1, 0, 1]);
+    expect(received.map((context) => context.step)).toEqual([-1, 1]);
+    expect(received[0]?.baseMeasurements).toEqual(STANDARD_M);
+    expect(received[0]?.sizeMeasurements).toEqual(gradeMeasurements(STANDARD_M, TEE.grade, -1));
+    expect(received[0]?.draft).toBe(draft);
+    expect(received[0]?.baseOptions).toBe(baseOptions);
+    expect(draft).toHaveBeenNthCalledWith(1, gradeMeasurements(STANDARD_M, TEE.grade, -1), { marker: 7, resolvedStep: -1 });
+    expect(draft).toHaveBeenNthCalledWith(2, STANDARD_M, baseOptions);
+    expect(draft).toHaveBeenNthCalledWith(3, gradeMeasurements(STANDARD_M, TEE.grade, 1), { marker: 7, resolvedStep: 1 });
+  });
+
+  it("uses the same resolver for one-size drafting outside the base step", () => {
+    const draft = vi.fn(TEE.draft);
+    const resolver: GradeOptionResolver = ({ baseOptions, step }) => ({ ...baseOptions, resolvedStep: step });
+    const recipe = { ...TEE, draft, resolveOptionsForSize: resolver };
+    const options = { marker: 3 };
+
+    draftRecipeAtSize(recipe, STANDARD_M, 1, options);
+
+    expect(draft).toHaveBeenCalledWith(gradeMeasurements(STANDARD_M, TEE.grade, 1), { marker: 3, resolvedStep: 1 });
   });
 });

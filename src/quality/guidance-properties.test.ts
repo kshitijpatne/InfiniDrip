@@ -22,6 +22,13 @@ const aboveMaxArb = (f: Field) => fc.double({ min: f.max + Number.EPSILON, max: 
 const outOfRangeArb = (f: Field) => fc.oneof(belowMinArb(f), aboveMaxArb(f));
 
 describe("EPIC 10 — invalid-input guidance properties (Slice 141)", () => {
+  it("preflights invalid Jeans values before the raw core can throw", () => {
+    const jeans = GARMENTS.find((recipe) => recipe.name === "jeans")!;
+    const measurements: Measurements = { ...STANDARD_M, waist: Number.NaN };
+    const notes = guide(jeans, measurements, {});
+    expect(notes.some(({ field, text }) => field === "waist" && text.includes("finite"))).toBe(true);
+  });
+
   it("applyChange never clamps: the stored value is always exactly the typed number (or NaN for unparsable text)", () => {
     fc.assert(
       fc.property(

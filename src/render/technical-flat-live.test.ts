@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { FITTED_PRINCESS_ENTRY_ID, GARMENTS, STANDARD_M, defaultGarmentOptions, pomsForRecipeOptions } from "../drafting";
+import { CREWNECK, FITTED_PRINCESS_ENTRY_ID, GARMENTS, STANDARD_M, defaultGarmentOptions, pomsForRecipeOptions, pointMark } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
-import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, crewneckDetachedBandRoles, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
@@ -285,6 +285,76 @@ describe("compileTechnicalFlatLiveView", () => {
     });
     expect(rendered.issues).toEqual([]);
     expect(rendered.svg).toContain("flat:fitted:FRONT_FLAT:component:frontSide:outline:approved-view-pair");
+  });
+
+  it("renders both crewneck technical-flat faces with all four exact source-scale rib details", () => {
+    const recipe = CREWNECK;
+    const defaults = defaultGarmentOptions(recipe.options ?? []);
+    const custom = { ...defaults, neckbandDepth: 3, cuffDepth: 7, hemBandDepth: 7.5,
+      neckbandLength: 42, cuffLength: 33, hemBandLength: 96 };
+    for (const [optionSet, revisionTag] of [[defaults, "default"], [custom, "custom"]] as const) {
+      const block = recipe.draft(STANDARD_M, optionSet);
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `crewneck-s1113-${revisionTag}-${kind}`,
+          kind, placements: [], colorHex: "#456789", texture: "rib", shine: 0 });
+        expect(result.issues, `${revisionTag}/${kind}`).toEqual([]);
+        expect(result.view, `${revisionTag}/${kind}`).not.toBeNull();
+        for (const roleId of ["neckband", "cuffLeft", "cuffRight", "hemBand"] as const) {
+          const outline = result.view!.primitives.find((primitive) => primitive.kind === "path"
+            && primitive.source.sourceId === `pattern:crewneck:role:${roleId}`
+            && primitive.id.endsWith(":detached-detail"));
+          expect(outline, `${revisionTag}/${kind}/${roleId}`).toBeDefined();
+          expect(outline?.source.revisionId).toBe(result.view!.revisionId);
+          expect(result.view!.primitives.some((primitive) => primitive.kind === "text"
+            && primitive.text.includes("DETAIL ONLY—not at assembly location")
+            && primitive.source.sourceId.endsWith(`:${roleId}`))).toBe(true);
+          expect(result.view!.primitives.filter((primitive) => primitive.source.sourceId
+            .startsWith(`pattern:crewneck:mark:${roleId}:`))).toHaveLength(2);
+        }
+        expect(result.view!.primitives.filter((primitive) => primitive.kind === "text"
+          && primitive.id.startsWith("view:crewneck:detached-detail:")).length).toBe(4);
+      }
+    }
+  });
+
+  it("withholds crewneck flats when a detached rib source detail is incomplete", () => {
+    const recipe = CREWNECK;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const malformed = { ...block, roles: { ...block.roles, neckband: { ...block.roles.neckband!, marks: [] } } };
+    const result = compileTechnicalFlatLiveView({ recipe, block: malformed, revisionId: "crewneck-s1113-missing-mark",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "rib", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues.some((issue) => issue.stage === "transform"
+      && issue.message.includes("all four admitted detail records"))).toBe(true);
+  });
+
+  it("surfaces a detached-detail composer rejection for an invalid revision", () => {
+    const recipe = CREWNECK;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: " ",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "rib", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "transform",
+      sourceId: "pattern:crewneck:role:neckband", message: expect.stringContaining("finite assembled center axis") }));
+  });
+
+  it("fails closed when the crewneck source map has no requested face", () => {
+    const recipe = CREWNECK;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const front = block.roles.front!;
+    const noCenterAxis = { ...block, roles: { ...block.roles, front: { ...front,
+      edges: front.edges.filter((edge) => edge.name !== "centerFront") } } };
+    const result = compileTechnicalFlatLiveView({ recipe, block: noCenterAxis, revisionId: "crewneck-s1113-axis-missing",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "rib", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues.some((issue) => issue.stage === "transform"
+      && issue.message.includes("exact assembled body center axis"))).toBe(true);
+  });
+
+  it("selects detached crewneck roles only from an available projection face", () => {
+    expect(crewneckDetachedBandRoles(undefined)).toEqual([]);
+    expect(crewneckDetachedBandRoles({ roles: [{ treatment: "SHELL" }, { treatment: "DETACHED_DETAIL" }] }))
+      .toEqual([{ treatment: "DETACHED_DETAIL" }]);
   });
 
   it("fails closed when the approved detached-detail center axis is absent", () => {
@@ -986,6 +1056,86 @@ describe("compileTechnicalFlatLiveView", () => {
 
   });
 
+  it("renders shorts waistband fragments and face-specific source POM anchors", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "shorts")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    for (const [kind, markName, revisionId] of [
+      ["FRONT_FLAT", "centerFront", "live-shorts-s1101"],
+      ["BACK_FLAT", "centerBack", "live-shorts-s1101"],
+    ] as const) {
+      const result = compileTechnicalFlatLiveView({ recipe, block, revisionId, kind,
+        placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+      expect(result.view).not.toBeNull();
+      expect(result.issues).toEqual([]);
+      const primitives = result.view!.primitives;
+      const waistbandMark = primitives.find((primitive) => primitive.kind === "mark"
+        && primitive.id === `live-flat:shorts:${kind}:waistband:mark:${markName}`);
+      expect(waistbandMark?.kind).toBe("mark");
+      const waistbandDepth = primitives.find((primitive) => primitive.kind === "callout"
+        && primitive.source.sourceId === "pom:shorts:waistband-depth-finished");
+      expect(waistbandDepth).toMatchObject({
+        kind: "callout",
+        source: { sourceId: "pom:shorts:waistband-depth-finished", revisionId },
+        anchor: { primitiveId: `live-flat:shorts:${kind}:waistband:mark:${markName}` },
+      });
+      if (waistbandDepth?.kind !== "callout" || waistbandMark?.kind !== "mark") {
+        throw new Error("Expected the exact emitted shorts waistband mark and depth callout.");
+      }
+      expect(waistbandDepth.anchor.point).toEqual(waistbandMark.at);
+      expect(primitives.some((primitive) => primitive.kind === "callout"
+        && primitive.source.sourceId === "pom:shorts:pocket-bag-depth-finished")).toBe(false);
+      expect(primitives.some((primitive) => primitive.kind === "callout"
+        && primitive.source.sourceId === "pom:shorts:pocket-bag-width-finished")).toBe(false);
+      expect(primitives.some((primitive) => primitive.source.sourceId.includes(":knee"))).toBe(false);
+    }
+    const back = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-shorts-s1101", kind: "BACK_FLAT",
+      placements: [], colorHex: "#456789", texture: "woven", shine: 0 }).view!;
+    const backRise = back.primitives.find((primitive) => primitive.kind === "callout"
+      && primitive.source.sourceId === "pom:shorts:back-rise-finished-incl-waistband");
+    expect(backRise).toMatchObject({ kind: "callout",
+      anchor: { primitiveId: "flat:shorts:BACK_FLAT:component:backLeft:outline",
+        sourceEntityId: "pattern:shorts:role:backLeft:edge:centerBack" } });
+  });
+
+  it("uses the mapped Shorts face roles when a POM does not declare one", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "shorts")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const frontPom = recipe.poms.find((pom) => pom.label === "Seat / hip (finished)")!;
+    const backPom = recipe.poms.find((pom) => pom.label === "Back rise (finished incl. waistband)")!;
+    const front = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms: [{ ...frontPom,
+      anchorRoleId: undefined, anchorEdgeId: undefined }] }, block, revisionId: "shorts-pom-role-fallback-front",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(front.view).not.toBeNull();
+    expect(front.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    expect(front.view!.primitives.some((primitive) => primitive.kind === "callout"
+      && primitive.source.sourceId === "pom:shorts:seat-hip-finished")).toBe(true);
+
+    const back = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms: [{ ...backPom,
+      backAnchorRoleId: undefined, backAnchorEdgeId: undefined }] }, block, revisionId: "shorts-pom-role-fallback-back",
+      kind: "BACK_FLAT", placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(back.view).not.toBeNull();
+    expect(back.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    expect(back.view!.primitives.some((primitive) => primitive.kind === "callout"
+      && primitive.source.sourceId === "pom:shorts:back-rise-finished-incl-waistband")).toBe(true);
+  });
+
+  it("fails closed when a Shorts mark anchor has no assembled role transform", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "shorts")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const markName = "interior-bag-mark";
+    const pocketBag = block.roles.pocketBagLeft!;
+    const markedBag = { ...pocketBag, marks: [...(pocketBag.marks ?? []),
+      pointMark("placementPoint", markName, { x: 0, y: 0 })] };
+    const markedBlock = { ...block, roles: { ...block.roles, pocketBagLeft: markedBag } };
+    const result = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms: [{ label: "Unplaced bag mark",
+      measure: () => 1, frontMarkAnchor: { roleId: "pocketBagLeft", markName, point: "at" } }] }, block: markedBlock,
+    revisionId: "shorts-pom-missing-role-transform", kind: "FRONT_FLAT", placements: [],
+    colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "pom",
+      message: expect.stringContaining("exact emitted mark entity") }));
+  });
+
   it("fails closed when a source POM role has no view transform", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
@@ -1023,6 +1173,19 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(result.issues).toContainEqual(expect.objectContaining({ stage: "overlay",
       message: expect.stringContaining("exact source placement can be clipped") }));
     expect(result.issues.some((issue) => issue.message.includes("no sewn placement"))).toBe(false);
+  });
+
+  it("withholds Shorts waistband artwork until the source placement is fragment-clipped", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "shorts")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-shorts-band-art",
+      kind: "BACK_FLAT", placements: [
+        { id: "band-art", kind: "print", pieceRole: "waistband", widthCm: 1, heightCm: 1,
+          transform: { dx: 0, dy: 0, scale: 1, rotationDeg: 0 }, zOrder: 1, sourceName: "Band artwork" },
+      ], colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "overlay",
+      message: expect.stringContaining("Artwork on the Shorts waistband is withheld") }));
   });
 
   it("keeps a recipe without an overlay face explicitly unsupported", () => {

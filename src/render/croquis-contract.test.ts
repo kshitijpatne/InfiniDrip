@@ -12,6 +12,7 @@ import { croquisPath } from "./croquis";
 import { renderSideCroquis } from "./croquis-view";
 import { renderSkirtBody } from "./skirt-figure";
 import { renderTrouserBody, renderTrouserSide } from "./trouser-figure";
+import { renderShortsBody, renderShortsSide } from "./shorts-figure";
 
 const parse = (svg: string): Document => new DOMParser().parseFromString(svg, "image/svg+xml");
 const GARMENT_CASES = GARMENTS.map((recipe) => [recipe.name, recipe] as const);
@@ -30,17 +31,20 @@ describe("shared croquis contracts across the garment registry", () => {
   it.each(GARMENT_CASES)("keeps %s on a valid front/side/back contract", (_name, recipe) => {
     const region = recipe.region ?? (recipe.fields.includes("chest") ? "upper" : "lower");
     const isTrouser = recipe.name === "trouser";
+    const isShorts = recipe.name === "shorts";
     const front = region === "upper"
       ? upperBody(recipe, "front")
-      : isTrouser ? renderTrouserBody(STANDARD_M, {}, "front") : renderSkirtBody(STANDARD_M);
+      : isTrouser ? renderTrouserBody(STANDARD_M, {}, "front")
+        : isShorts ? renderShortsBody(STANDARD_M, {}, "front") : renderSkirtBody(STANDARD_M);
     const back = region === "upper"
       ? upperBody(recipe, "back")
-      : isTrouser ? renderTrouserBody(STANDARD_M, {}, "back") : renderSkirtBody(STANDARD_M);
+      : isTrouser ? renderTrouserBody(STANDARD_M, {}, "back")
+        : isShorts ? renderShortsBody(STANDARD_M, {}, "back") : renderSkirtBody(STANDARD_M);
     const side = isTrouser
       ? renderTrouserSide(STANDARD_M)
-      : renderSideCroquis(STANDARD_M, region);
+      : isShorts ? renderShortsSide(STANDARD_M) : renderSideCroquis(STANDARD_M, region);
 
-    if (!isTrouser) {
+    if (!isTrouser && !isShorts) {
       for (const view of ["front", "side", "back"] as const) {
         const path = croquisPath(region, STANDARD_M, view);
         expect(path.startsWith("M ")).toBe(true);
@@ -59,6 +63,11 @@ describe("shared croquis contracts across the garment registry", () => {
       expect(sideDoc.querySelector('[data-part="side-silhouette"]')).not.toBeNull();
       expect(parse(front).querySelector('[data-role="frontLeft"]')).not.toBeNull();
       expect(parse(back).querySelector('[data-role="backLeft"]')).not.toBeNull();
+    } else if (isShorts) {
+      expect(sideDoc.querySelector('[data-part="side-silhouette"]')).not.toBeNull();
+      expect(parse(front).querySelector('[data-role="frontLeft"]')).not.toBeNull();
+      expect(parse(back).querySelector('[data-role="backLeft"]')).not.toBeNull();
+      expect(`${front}${back}${side}`).not.toMatch(/knee/i);
     } else if (region === "upper") {
       expect(parse(front).querySelector('[data-edge="figure"]')).not.toBeNull();
       expect(parse(back).querySelector('[data-edge="figure"]')).not.toBeNull();

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { STANDARD_M, blockPieces, draftAtSize, garmentByName, GARMENTS, notchesForRecipeOptions } from "../drafting";
+import { STANDARD_M, blockPieces, defaultGarmentOptions, draftAtSize, garmentByName, GARMENTS, notchesForRecipeOptions } from "../drafting";
 import { exportDxf } from "./dxf";
 import { exportDxfCentimeters } from "./dxf-centimeters";
 import { flattenPiece, layoutPieces, polylineBounds } from "./layout";
@@ -46,7 +46,7 @@ describe("exportDxfCentimeters", () => {
 
   it("carries each recipe's live notches and grainlines on typed DXF layers", () => {
     for (const recipe of GARMENTS) {
-      const block = draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft);
+      const block = draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft, defaultGarmentOptions(recipe.options ?? []));
       const pieces = blockPieces(block);
       const notchTables = notchesForRecipeOptions(recipe);
       const output = exportDxfCentimeters(pieces, recipe.allowances, notchTables);

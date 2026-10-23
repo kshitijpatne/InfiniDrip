@@ -106,6 +106,7 @@ export function renderBody(
   necklineVisual?: BodyNecklineVisual, lowerShape?: UpperCroquisLowerShape
 ): string {
   const d = derive(m);
+  const adjustableNeckline = frontNeckline !== NECKLINE_DEFAULT;
   const poloV2 = polo !== undefined && (polo.standFrontRise !== undefined || polo.collarPointExtension !== undefined || polo.sideVentDepth !== undefined || polo.backHemDrop !== undefined);
   const poloDrop = poloV2 && position === "back" ? polo?.backHemDrop ?? 0 : 0;
   const poloVentDepth = poloV2 ? polo?.sideVentDepth ?? 0 : 0;
@@ -169,9 +170,9 @@ export function renderBody(
       txt(bOut.x + 2, bOut.y - 1, `Bicep ${m.bicep} (circ)`, "start")) : "") +
     (!hasSleeve ? dim("strapWidth",
       dimH(neckHalf, strapX, slope - 3, `Strap width ${m.strapWidth}`)) : "") +
-    (!hasSleeve && position === "front" ? dim("neckDrop",
+    ((!hasSleeve || adjustableNeckline) && position === "front" ? dim("neckDrop",
       dimV(-neckHalf - 5, 0, cNeck.y, `Neck depth ${m.neckDrop}`, "left")) : "") +
-    (!hasSleeve ? dim("neckWidthEase",
+    ((!hasSleeve || adjustableNeckline) ? dim("neckWidthEase",
       dimH(-neckHalf, neckHalf, -4, `Neck width Δ ${m.neckWidthEase}`)) : "");
 
   // The measurement→EDGES map, the sibling of the measurement→dimension-line map
@@ -222,14 +223,16 @@ export function renderBody(
     lowerEdges +
     edge("length", seg(-hemHalf, len, hemHalf, len, 1.4)) +
     (!hasSleeve ? edge("strapWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * strapX, slope, 1.4))) : "") +
-    (!hasSleeve && position === "front" ? edge("neckDrop", neckHighlight()) : "") +
-    (!hasSleeve ? edge("neckWidthEase", neckHighlight()) : "") +
+    ((!hasSleeve || adjustableNeckline) && position === "front" ? edge("neckDrop", neckHighlight()) : "") +
+    ((!hasSleeve || adjustableNeckline) ? edge("neckWidthEase", neckHighlight()) : "") +
     (necklineVisual ? edge("neck", neckHighlight()) : "") +
     (hasSleeve ? edge("sleeveLength", bothArms((sx) => seg(sx * a1.x, a1.y, sx * a2.x, a2.y, 1.2))) : "") +
     (hasSleeve ? edge("bicep", bothArms((sx) => seg(sx * a2.x, a2.y, sx * a3.x, a3.y, 1.2))) : "") +
     poloDropEdges;
 
-  const minX = leftDimX - 22;
+  // The longest left-side dimension is currently "Armhole depth 24"; leave
+  // enough SVG viewBox room for that text instead of clipping its first letters.
+  const minX = leftDimX - 36;
   const maxX = rightDimX + 26;
   const minY = headTop - 8;
   const maxY = len + 8;

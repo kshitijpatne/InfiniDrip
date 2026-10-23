@@ -13,15 +13,14 @@
 // It reports SEWABILITY, not fit — a muslin still decides fit.
 
 import {
-  Measurements,
-  GarmentRecipe,
-  gradeRun,
-  PieceNotches,
   blockPieces,
-  stitchChecks,
-  GarmentOptions,
-} from "../drafting";
-import { notchesForRecipeOptions } from "../drafting/recipe";
+} from "../drafting/block";
+import { gradeRecipeRun, notchesForRecipeOptions } from "../drafting/recipe";
+import { stitchChecks } from "../drafting/stitch";
+import type { Measurements } from "../drafting/measurements";
+import type { GarmentOptions } from "../drafting/options";
+import type { GarmentRecipe } from "../drafting/recipe";
+import type { PieceNotches } from "../drafting/tshirt-notches";
 import {
   Report,
   CheckResult,
@@ -78,7 +77,7 @@ export function garmentReport(
   ];
 
   if (reportOptions.includeSizeRun !== false) {
-    const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
+    const graded = gradeRecipeRun(recipe, m, recipe.sizes, options);
     checks.push(strictlyIncreasing("Size run grows in order", graded.map((g) => recipe.sizeMetric(g.block))));
   }
 

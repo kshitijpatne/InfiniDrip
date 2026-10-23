@@ -25,6 +25,9 @@ describe("renderFabricNest", () => {
   it("warns when a piece does not fit the fabric", () => {
     const svg = renderFabricNest(placed, 8, 30, 0.42, false);
     expect(svg).toContain("wider than this fabric");
+    expect(svg).toContain("Increase fabric width or revise the garment.");
+    expect(svg).toContain('viewBox="0 0 8 48"');
+    expect(svg.indexOf('role="alert"')).toBeLessThan(svg.indexOf('<rect x="0" y="8"'));
   });
 
   it("omits the warning when everything fits", () => {

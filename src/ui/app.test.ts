@@ -14,6 +14,7 @@ import {
   guidedCaptureFieldId,
   materialSnapshotFromExistingState,
   mountApp,
+  unmountApp,
   serializeCaptureDrafts,
   renderSemanticEditorPiece,
   resolveSemanticEditorRole,
@@ -85,6 +86,13 @@ const trackedWindowListeners: TrackedWindowListener[] = [];
 const addNativeWindowListener = window.addEventListener.bind(window);
 const removeNativeWindowListener = window.removeEventListener.bind(window);
 
+function invokeTrackedWindowListener(type: string, event: Event): void {
+  const entry = trackedWindowListeners.find((candidate) => candidate.type === type);
+  if (!entry) throw new Error(`No tracked ${type} window listener`);
+  if (typeof entry.listener === "function") entry.listener.call(window, event);
+  else entry.listener.handleEvent(event);
+}
+
 beforeEach(() => {
   trackedWindowListeners.length = 0;
   vi.spyOn(window, "addEventListener").mockImplementation((type, listener, options) => {
@@ -94,6 +102,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  unmountApp();
   for (const { type, listener, options } of trackedWindowListeners) {
     removeNativeWindowListener(type, listener, options);
   }
@@ -2454,6 +2463,8 @@ describe("mountApp", () => {
       expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.dataset.stageState, recipe.name)
         .toBe("complete");
       root.remove();
+      // Do not retain each detached app tree until the full recipe matrix ends.
+      mountedRoots.delete(root);
     }
   });
 
@@ -3013,6 +3024,101 @@ describe("mountApp", () => {
     expect(root.querySelector<HTMLElement>("#body-croquis-toggle-host")!.style.display).toBe("flex");
     expect(root.querySelector<HTMLButtonElement>("#body-front-back")!.getAttribute("aria-pressed")).toBe("true");
     expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
+  });
+
+  it("integrates shorts controls, woven material, real-role Body views, and assembled output", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "garment-shorts");
+
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton woven");
+    expect(root.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!.value).toBe("20");
+    expect(root.querySelector<HTMLInputElement>('[data-option="hemOpening"]')!.value).toBe("60");
+    expect(root.querySelector<HTMLInputElement>('[data-option="pocketBagDepth"]')!.value).toBe("13");
+    expect(root.querySelector('input[data-field="knee"]')).toBeNull();
+    expect(root.querySelector("#controls-panel")!.textContent).toContain("Target finished thigh girth");
+    const thighTarget = root.querySelector<HTMLElement>('[data-dim-row="thigh"]')!;
+    expect(thighTarget.textContent).toContain("finished · circ");
+    expect(thighTarget.closest("[data-control-page]")?.getAttribute("data-control-label")).toBe("Finished targets");
+
+    const length = root.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!;
+    length.value = "46";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(length.value).toBe("46");
+    expect(length.getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector<HTMLElement>("#error-option-shortsInseam")!.textContent).toContain("45");
+    length.value = "20";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("stable woven material");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton woven"]')!.click();
+
+    clickId(root, "view-body");
+    let svgs = root.querySelectorAll<SVGSVGElement>("#analysis-host svg");
+    expect(svgs).toHaveLength(2);
+    expect(svgs[0].getAttribute("data-croquis-view")).toBe("front");
+    expect(svgs[0].querySelector('[data-role="frontLeft"]')).not.toBeNull();
+    expect(svgs[0].querySelector('[data-role="waistband"]')).not.toBeNull();
+    expect(svgs[0].querySelector('[data-role="pocketBagLeft"]')).not.toBeNull();
+    expect(svgs[0].querySelector('[data-dim="thigh"]')?.textContent).toContain("Finished thigh target");
+    expect(`${svgs[0].textContent}${svgs[0].innerHTML}`).not.toMatch(/knee/i);
+
+    clickId(root, "body-front");
+    svgs = root.querySelectorAll<SVGSVGElement>("#analysis-host svg");
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0].getAttribute("data-croquis-view")).toBe("front");
+    expect(svgs[0].querySelector('[data-role="frontLeft"]')).not.toBeNull();
+
+    clickId(root, "body-back");
+    svgs = root.querySelectorAll<SVGSVGElement>("#analysis-host svg");
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0].getAttribute("data-croquis-view")).toBe("back");
+    expect(svgs[0].querySelector('[data-role="backLeft"]')).not.toBeNull();
+
+    clickId(root, "body-side");
+    const side = root.querySelector<SVGSVGElement>("#analysis-host svg")!;
+    expect(side.getAttribute("data-croquis-view")).toBe("side");
+    expect(side.querySelector('[data-part="side-silhouette"]')).not.toBeNull();
+    expect(side.textContent).toContain("SHORTS DRAFT");
+    expect(side.textContent).not.toMatch(/knee/i);
+
+    clickId(root, "assembled-preview-toggle");
+    const assembled = root.querySelector<SVGSVGElement>("#garment-host svg")!;
+    expect(assembled.getAttribute("data-garment")).toBe("shorts");
+    expect(assembled.querySelector('[data-role="frontLeft"]')).not.toBeNull();
+    expect(assembled.querySelector('[data-role="backLeft"]')).not.toBeNull();
+    expect(assembled.querySelector('[data-role="waistband"]')).not.toBeNull();
+    expect(assembled.querySelector('[data-role="flyShield"]')).not.toBeNull();
+    expect(assembled.querySelector('[data-role="pocketBagRight"]')).not.toBeNull();
+    expect(assembled.querySelector("parsererror")).toBeNull();
+    expect(assembled.textContent).not.toMatch(/knee/i);
+  });
+
+  it("preserves shorts option raw state through recovery and bounded undo/redo", () => {
+    localStorage.clear();
+    const first = mount();
+    clickId(first, "garment-shorts");
+    const length = first.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!;
+    const waist = first.querySelector<HTMLInputElement>('[data-field="waist"]')!.value;
+    length.value = "24";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(first, "undo-pattern");
+    expect(first.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!.value).toBe("20");
+    expect(first.querySelector<HTMLInputElement>('[data-field="waist"]')!.value).toBe(waist);
+    clickId(first, "redo-pattern");
+    expect(first.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!.value).toBe("24");
+
+    const pocketDrop = first.querySelector<HTMLInputElement>('[data-option="pocketDrop"]')!;
+    pocketDrop.value = "";
+    pocketDrop.dispatchEvent(new Event("input", { bubbles: true }));
+    const recovered = mount();
+    recovered.querySelector<HTMLButtonElement>("#recovery-accept")!.click();
+    expect(recovered.querySelector<HTMLButtonElement>("#garment-shorts")!.getAttribute("aria-pressed")).toBe("true");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="shortsInseam"]')!.value).toBe("24");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="pocketDrop"]')!.value).toBe("");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="pocketDrop"]')!.getAttribute("aria-invalid")).toBe("true");
   });
 
   it("draws the tank without a sleeve, in both the body view and the assembled view (Slice 60)", () => {
@@ -4552,6 +4658,7 @@ describe("mountApp", () => {
 
       root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
       await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+      window.dispatchEvent(new MouseEvent("mouseup", { clientX: 5, clientY: 5 }));
       const vertex = pieceHandles(rolePiece(draftTshirt(STANDARD_M), "front")).find((h) => h.kind === "vertex")!;
       const sx = vertex.pos.x - vb.minX;
       const sy = vertex.pos.y - vb.minY;
@@ -6182,16 +6289,31 @@ describe("guided journey", () => {
   });
 
   it("ignores global shortcuts from an app mount that has been replaced", () => {
+    const replacedRoot = mount();
+    const chest = replacedRoot.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "101";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    chest.value = "102";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(replacedRoot.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled).toBe(false);
     mount();
-    mount();
-    const shortcut = new KeyboardEvent("keydown", { key: "q", ctrlKey: true, cancelable: true });
+    const shortcut = new KeyboardEvent("keydown", { key: "z", ctrlKey: true, cancelable: true });
+    invokeTrackedWindowListener("keydown", shortcut);
+    expect(shortcut.defaultPrevented).toBe(false);
+    expect(chest.value).toBe("102");
     expect(() => window.dispatchEvent(shortcut)).not.toThrow();
     expect(shortcut.defaultPrevented).toBe(false);
   });
 
   it("does not let a replaced app mount block before-unload", () => {
+    const replacedRoot = mount();
+    const chest = replacedRoot.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "120";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
     mount();
-    mount();
+    const staleBeforeUnload = new Event("beforeunload", { cancelable: true });
+    invokeTrackedWindowListener("beforeunload", staleBeforeUnload);
+    expect(staleBeforeUnload.defaultPrevented).toBe(false);
     const beforeUnload = new Event("beforeunload", { cancelable: true });
     expect(() => window.dispatchEvent(beforeUnload)).not.toThrow();
     expect(beforeUnload.defaultPrevented).toBe(false);
@@ -6642,6 +6764,280 @@ describe("switching to the trouser recipe (Slice 100)", () => {
   });
 });
 
+describe("CREWNECK activation (Slice 1114)", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("uses the crewneck material default when the project still has its garment default", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-crewneck-default-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-20T14:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      expect(workflow.snapshot.activeStyle.design.workspace.stretchFabric).toBe("Cotton jersey");
+      clickId(root, "garment-crewneck");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value)
+        .toBe("Stable sweatshirt knit (10% width seed)");
+    } finally {
+      workflow.close();
+      root.remove();
+      localStorage.clear();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("preserves a non-default saved material choice when switching to crewneck", () => {
+    expect(saveToStorage(STANDARD_M, "#123456", {}, {
+      ...DEFAULT_WORKSPACE,
+      stretchFabric: "Linen",
+    })).toBe(true);
+    const root = mount();
+    try {
+      clickId(root, "garment-crewneck");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Linen");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("routes the selectable crewneck through its material, controls, save/load, and distinct views", () => {
+    const root = mount();
+    clickId(root, "garment-crewneck");
+
+    expect(root.querySelector<HTMLButtonElement>("#garment-crewneck")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')).not.toBeNull();
+    expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')).not.toBeNull();
+    expect(root.querySelector<HTMLInputElement>('input[data-field="knee"]')).toBeNull();
+    expect(root.querySelectorAll("input[data-option]")).toHaveLength(6);
+
+    const material = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+    expect(material.value).toBe("Stable sweatshirt knit (10% width seed)");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("10% width seed");
+    expect(root.querySelector("#guidance-host")!.textContent).not.toContain("negative ease");
+
+    const cuffDepth = root.querySelector<HTMLInputElement>('input[data-option="cuffDepth"]')!;
+    cuffDepth.value = "7.5";
+    cuffDepth.dispatchEvent(new Event("input", { bubbles: true }));
+    material.value = "Linen";
+    material.dispatchEvent(new Event("change", { bubbles: true }));
+    clickId(root, "save-pattern");
+
+    const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(saved.v).toBe(8);
+    expect(saved.workspace).toMatchObject({
+      garment: "crewneck",
+      targetStyle: "Classic crewneck sweatshirt",
+      stretchFabric: "Linen",
+    });
+    expect(saved.garmentOptions.crewneck.cuffDepth).toBe(7.5);
+
+    clickId(root, "garment-tee");
+    clickId(root, "load-pattern");
+    clickId(root, "workspace-confirm-accept");
+    expect(root.querySelector<HTMLButtonElement>("#garment-crewneck")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Linen");
+    expect(root.querySelector<HTMLInputElement>('input[data-option="cuffDepth"]')!.value).toBe("7.5");
+
+    clickId(root, "view-body");
+    expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
+    expect(root.querySelector("#analysis-host [data-crewneck-legend-background]")).toBeNull();
+    clickId(root, "assembled-preview-toggle");
+    expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(false);
+    expect(root.querySelector("#garment-host [data-crewneck-legend-background]")).not.toBeNull();
+    expect(root.querySelector("#garment-host")!.textContent).toContain("SCHEMATIC ONLY");
+  });
+});
+
+describe("HOODIE activation (S1137)", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("uses the stable-knit default on a fresh Hoodie selection and retains an explicit material", () => {
+    const root = mount();
+    try {
+      clickId(root, "garment-hoodie");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value)
+        .toBe("Stable sweatshirt knit (10% width seed)");
+      expect(root.querySelector("#guidance-host")!.textContent)
+        .toContain("Hoodie geometry is independent of the selected material");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+
+    expect(saveToStorage(STANDARD_M, "#123456", {}, {
+      ...DEFAULT_WORKSPACE,
+      stretchFabric: "Linen",
+    })).toBe(true);
+    const secondRoot = mount();
+    try {
+      clickId(secondRoot, "garment-hoodie");
+      expect(secondRoot.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Linen");
+    } finally {
+      secondRoot.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("routes Hoodie controls and source-geometry views through v8 save/load", () => {
+    const root = mount();
+    try {
+      clickId(root, "garment-hoodie");
+      expect(root.querySelector<HTMLButtonElement>("#garment-hoodie")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')).not.toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')).toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-field="neckWidthEase"]')).toBeNull();
+      expect(root.querySelectorAll("input[data-option]")).toHaveLength(18);
+
+      const height = root.querySelector<HTMLInputElement>('input[data-option="hoodHeight"]')!;
+      height.value = "36";
+      height.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.v).toBe(8);
+      expect(saved.workspace).toMatchObject({
+        garment: "hoodie",
+        targetStyle: "Adult pullover hoodie P0",
+        stretchFabric: "Stable sweatshirt knit (10% width seed)",
+      });
+      expect(saved.garmentOptions.hoodie.hoodHeight).toBe(36);
+
+      clickId(root, "view-body");
+      expect(root.querySelectorAll('#analysis-host svg[data-source-geometry="draftHoodie"]')).toHaveLength(2);
+      clickId(root, "body-front");
+      expect(root.querySelector('#analysis-host svg [data-role="front"]')).not.toBeNull();
+      expect(root.querySelectorAll('#analysis-host svg[data-source-geometry="draftHoodie"]')).toHaveLength(1);
+      clickId(root, "body-back");
+      expect(root.querySelector('#analysis-host svg [data-role="back"]')).not.toBeNull();
+      clickId(root, "body-front-back");
+      expect(root.querySelectorAll('#analysis-host svg[data-source-geometry="draftHoodie"]')).toHaveLength(2);
+
+      clickId(root, "assembled-preview-toggle");
+      expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(false);
+      expect(root.querySelector('#garment-host svg[data-garment="hoodie"] [data-source-role="hoodOuterLeft"]')).not.toBeNull();
+      expect(root.querySelector('#garment-host svg[data-garment="hoodie"] [data-source-role="hoodLiningRight"]')).not.toBeNull();
+      expect(root.querySelector("#garment-host")!.textContent).toContain("SCHEMATIC ONLY");
+
+      clickId(root, "garment-tee");
+      clickId(root, "load-pattern");
+      clickId(root, "workspace-confirm-accept");
+      expect(root.querySelector<HTMLButtonElement>("#garment-hoodie")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value)
+        .toBe("Stable sweatshirt knit (10% width seed)");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="hoodHeight"]')!.value).toBe("36");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+});
+
+describe("JOGGER activation (Slice 1119)", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("uses the knit default, Jogger-specific views, and version-8 save/load", () => {
+    const root = mount();
+    try {
+      clickId(root, "garment-trouser");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton woven");
+      clickId(root, "garment-jogger");
+
+      expect(root.querySelector<HTMLButtonElement>("#garment-jogger")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="knee"]')).not.toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')).toBeNull();
+      expect(root.querySelectorAll('input[data-option]')).toHaveLength(15);
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
+      expect(root.querySelector("#guidance-host")!.textContent).toContain("Jogger is a knit-only P0");
+      expect(root.querySelector("#guidance-host")!.textContent).toContain("does not model stretch/recovery");
+
+      clickId(root, "view-body");
+      expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
+      expect(root.querySelector("#analysis-host svg")!.getAttribute("aria-label")).toContain("Jogger front body figure");
+      clickId(root, "body-front");
+      expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(1);
+      expect(root.querySelector("#analysis-host svg")!.getAttribute("aria-label")).toBe("Jogger front body figure");
+      clickId(root, "body-back");
+      expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(1);
+      expect(root.querySelector("#analysis-host svg")!.getAttribute("aria-label")).toBe("Jogger back body figure");
+      clickId(root, "body-front-back");
+      expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
+      clickId(root, "assembled-preview-toggle");
+      expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(false);
+      expect(root.querySelector("#garment-host [data-garment=\"jogger\"]")).not.toBeNull();
+
+      const drawcord = root.querySelector<HTMLInputElement>('input[data-option="drawcordLength"]')!;
+      drawcord.value = "132";
+      drawcord.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.v).toBe(8);
+      expect(saved.workspace).toMatchObject({ garment: "jogger", targetStyle: "Adult knit jogger P0", stretchFabric: "Cotton jersey" });
+      expect(saved.garmentOptions.jogger.drawcordLength).toBe(132);
+      expect(DEFAULT_WORKSPACE.garment).toBe("tee");
+
+      clickId(root, "garment-tee");
+      clickId(root, "load-pattern");
+      clickId(root, "workspace-confirm-accept");
+      expect(root.querySelector<HTMLButtonElement>("#garment-jogger")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="drawcordLength"]')!.value).toBe("132");
+      expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("retains explicit woven material and invalid option input with actionable Jogger guidance", () => {
+    const root = mount();
+    try {
+      const material = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+      material.value = "Cotton woven";
+      material.dispatchEvent(new Event("change", { bubbles: true }));
+      clickId(root, "garment-jogger");
+      expect(material.value).toBe("Cotton woven");
+      expect(root.querySelector("#guidance-host")!.textContent).toContain("Jogger P0 is drafted for knit material");
+
+      const casing = root.querySelector<HTMLInputElement>('input[data-option="waistbandDepth"]')!;
+      casing.value = "2";
+      casing.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(casing.value).toBe("2");
+      expect(root.querySelector("#guidance-host")!.textContent).toContain("below the declared elastic/drawcord channel need");
+      expect(root.querySelector("#guidance-host")!.textContent).toContain("increase casing depth or reduce elastic width/drawcord cut width");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("keeps woven compatibility guidance and the Skirt route after Jogger registration", () => {
+    const root = mount();
+    try {
+      const material = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+      for (const garment of ["woven-shirt", "trouser", "shorts"]) {
+        clickId(root, `garment-${garment}`);
+        material.value = "Cotton jersey";
+        material.dispatchEvent(new Event("change", { bubbles: true }));
+        expect(root.querySelector("#guidance-host")!.textContent).toContain("stable woven material");
+      }
+
+      clickId(root, "garment-skirt");
+      clickId(root, "view-body");
+      expect(root.querySelector("#analysis-host svg")).not.toBeNull();
+      clickId(root, "assembled-preview-toggle");
+      expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(false);
+      expect(root.querySelector("#garment-host svg")).not.toBeNull();
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+});
+
 describe("surface artwork panel (Slice 126)", () => {
   const toFitStep = (root: HTMLElement): void => {
     clickIfPresent(root, "welcome-skip");
@@ -6689,6 +7085,7 @@ describe("surface artwork panel (Slice 126)", () => {
     const polygon = root.querySelector('#surface-preview polygon[data-placement="chest-print"]')!;
     expect(polygon.getAttribute("points")).toBe("2,2 22,2 22,27 2,27");
     expect(polygon.getAttribute("data-piece")).toBe("front");
+    expect(polygon.getAttribute("stroke")).toBe("currentColor");
   });
 
   it("creates a placement with its entered size and optional provenance reference", () => {
@@ -8681,6 +9078,45 @@ describe("bundled local artwork library (Slice 203)", () => {
     }
   }, 20_000);
 
+  it("clears a pending guided-capture save timer when unmounting", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-capture-timer-cleanup-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      const session = createMeasurementCaptureSession(
+        webcrypto.randomUUID(), "tee", "2026-09-24T16:00:00.000Z", workflow.snapshot.activeStyle.id,
+      );
+      await workflow.saveMeasurementCapture(session, []);
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+
+      const firstFieldId = getCaptureFieldDefinitions("tee")[0]!.id;
+      const preset = root.querySelector<HTMLButtonElement>(
+        `[data-action="capture-accept-preset"][data-field-id="${firstFieldId}"]`,
+      )!;
+      preset.click(); // Schedules the 250 ms persistence debounce.
+      const clearTimeoutSpy = vi.spyOn(window, "clearTimeout");
+      unmountApp();
+      expect(clearTimeoutSpy).toHaveBeenCalled();
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("creates a one-size custom Skirt through the empty recipe-option fallback", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
@@ -9552,7 +9988,8 @@ describe("bundled local artwork library (Slice 203)", () => {
       delete window.electronAPI;
       await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
         .toBe("Approved grade-plan record"));
-      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-projector")?.disabled).toBe(false));
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-projector")?.disabled).toBe(false),
+        { timeout: 20_000 });
       exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
       exportSize.value = "M";
       exportSize.dispatchEvent(new Event("change", { bubbles: true }));
@@ -9890,6 +10327,13 @@ describe("bundled local artwork library (Slice 203)", () => {
       await switchStyle(customStyleId);
       await vi.waitFor(() => expect(root.textContent).toContain("The grade plan could not be loaded."));
       failedLoad.mockRestore();
+
+      await switchStyle(baseStyleId);
+      const failedErrorLoad = vi.spyOn(workflow, "loadGradePlan")
+        .mockRejectedValueOnce(new Error("synthetic grade-plan load failure"));
+      await switchStyle(customStyleId);
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic grade-plan load failure"));
+      failedErrorLoad.mockRestore();
 
       await switchStyle(baseStyleId);
       const staleSuccess = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((resolve) => { resolveLoad = resolve; });
@@ -11975,5 +12419,168 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(root.querySelector<HTMLSelectElement>("#tee-construction")!.value).toBe("raglan");
     expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Raglan Tee");
     expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("100");
+  });
+});
+
+describe("switching to Jeans (S1154)", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("uses the current Jeans assessment in the Checks view", () => {
+    const root = mount();
+    clickId(root, "garment-jeans");
+    clickId(root, "journey-step-fit");
+    clickId(root, "journey-next");
+
+    expect(root.querySelector<HTMLButtonElement>("#view-check")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Digital checks pass");
+  });
+
+  it("activates the Jeans contract, renders its pattern-linked views, and gates knit material", () => {
+    const root = mount();
+    clickId(root, "garment-jeans");
+
+    expect(root.querySelector<HTMLButtonElement>("#garment-jeans")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton woven");
+    expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Relaxed straight mid-rise jeans");
+    expect(root.querySelector('input[data-field="chest"]')).toBeNull();
+    expect(root.querySelector('input[data-field="thigh"]')?.closest("[data-control-page]")?.getAttribute("data-control-label"))
+      .toBe("Finished targets");
+    expect(root.querySelector<HTMLInputElement>('[data-option="backPocketDrop"]')!.value).toBe("7");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("Cotton woven is an unqualified woven, 0% stretch product seed");
+
+    root.querySelector<HTMLButtonElement>('button[data-open-field-history="target.jeans-finished-knee-transition-girth"]')!.click();
+    expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.textContent)
+      .toContain("internal pattern transition has no reviewed anatomical mapping");
+    clickId(root, "view-body");
+    expect(root.querySelectorAll("#analysis-host svg[data-renderer='jeans-body']")).toHaveLength(2);
+    expect(root.querySelector("#analysis-host svg[data-view='front'] [data-source-role='frontLeft']")).not.toBeNull();
+    expect(root.querySelector("#analysis-host svg[data-view='back'] [data-source-role='backYokeLeft']")).not.toBeNull();
+    root.querySelector<HTMLButtonElement>("#body-back")!.click();
+    expect(root.querySelector("#analysis-host svg[data-view='back']")).not.toBeNull();
+    root.querySelector<HTMLButtonElement>("#body-front")!.click();
+    expect(root.querySelector("#analysis-host svg[data-view='front']")).not.toBeNull();
+    root.querySelector<HTMLButtonElement>("#body-side")!.click();
+    expect(root.querySelector("#analysis-host [data-jeans-body-side-unavailable]")).not.toBeNull();
+    expect(root.querySelector("#analysis-host svg[data-croquis-region]")).toBeNull();
+    root.querySelector<HTMLButtonElement>("#body-front-back")!.click();
+
+    clickId(root, "assembled-preview-toggle");
+    expect(root.querySelector("#garment-host svg[data-renderer='jeans-assembled']")).not.toBeNull();
+    expect(root.querySelector("#garment-host [data-component-role='flyShield']")).not.toBeNull();
+    expect(root.querySelector("#garment-host [data-disclosure='assembled-component-schematic']")!.textContent)
+      .toContain("NOT SEWN OR FIT SIMULATED");
+    expect(root.querySelector("#garment-host svg[data-garment='skirt']")).toBeNull();
+    clickId(root, "assembled-preview-toggle");
+    clickId(root, "view-pattern");
+    expect(root.querySelector("#analysis-host svg")).not.toBeNull();
+    reachExportStage(root);
+    clickId(root, "view-check");
+    expect(root.querySelector<HTMLButtonElement>("#view-check")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Digital checks pass");
+
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("compatibility remains unassessed");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+  });
+
+  it("discloses when saved Jeans semantic edits are not reflected in Body or Assembled views", () => {
+    const seed = mount();
+    clickId(seed, "garment-jeans");
+    clickId(seed, "save-pattern");
+    const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+      measurements: typeof STANDARD_M;
+      garmentOptions: Record<string, Record<string, number>>;
+      workspace: typeof DEFAULT_WORKSPACE;
+      fabric: string;
+      appearance: typeof DEFAULT_APPEARANCE;
+    };
+    const recipe = GARMENTS.find((candidate) => candidate.name === "jeans")!;
+    const savedOptions = saved.garmentOptions.jeans ?? {};
+    const options = Object.fromEntries((recipe.options ?? []).flatMap((option) => {
+      if (option.appliesToStyle !== undefined && option.appliesToStyle !== saved.workspace.targetStyle) return [];
+      const value = savedOptions[option.id] ?? (option.optional ? undefined : option.defaultValue);
+      return value === undefined ? [] : [[option.id, value] as const];
+    }));
+    const sourceInputs = {
+      measurements: Object.fromEntries(recipe.fields.flatMap((field) => {
+        const value = saved.measurements[field];
+        return typeof value === "number" ? [[field, value] as const] : [];
+      })),
+      options,
+    };
+    // A structurally valid but stale saved edit record models the pending-edit
+    // state; these schematic routes must disclose that they show the base draft.
+    const sourceFingerprint = `semantic-edit:v2:sha256:${"a".repeat(64)}`;
+    const document = semanticEditEngine.appendSemanticEditOperations(
+      semanticEditEngine.emptySemanticEditDocument(recipe.name, sourceFingerprint, sourceInputs),
+      [{
+        schemaVersion: 2,
+        id: "jeans-body-disclosure",
+        kind: "move-anchors",
+        recipeId: recipe.name,
+        sourceFingerprint,
+        moves: [{ anchorId: "jeans/frontLeft/fixture-control", signature: "saved-source-anchor", deltaCm: { x: 0.025, y: 0 } }],
+      }],
+    );
+    expect(saveToStorage(saved.measurements, saved.fabric, saved.garmentOptions, saved.workspace,
+      saved.appearance, {}, undefined, document)).toBe(true);
+    seed.remove();
+
+    const root = mount();
+    clickId(root, "view-body");
+    expect(root.querySelector("#analysis-host [data-jeans-edit-preview-notice]")?.textContent)
+      .toContain("Saved pattern edits are not reflected in this parametric Jeans schematic");
+    clickId(root, "assembled-preview-toggle");
+    expect(root.querySelector("#garment-host .semantic-edit-preview-notice")?.textContent)
+      .toContain("Saved pattern edits are not reflected in this schematic assembled illustration");
+  });
+
+  it("preserves Jeans options through undo, redo, and raw recovery", () => {
+    const first = mount();
+    clickId(first, "garment-jeans");
+    const drop = first.querySelector<HTMLInputElement>('[data-option="backPocketDrop"]')!;
+    drop.value = "8";
+    drop.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(drop.value).toBe("8");
+    clickId(first, "undo-pattern");
+    expect(first.querySelector<HTMLInputElement>('[data-option="backPocketDrop"]')!.value).toBe("7");
+    clickId(first, "redo-pattern");
+    expect(first.querySelector<HTMLInputElement>('[data-option="backPocketDrop"]')!.value).toBe("8");
+
+    const coinPocketWidth = first.querySelector<HTMLInputElement>('[data-option="coinPocketWidth"]')!;
+    coinPocketWidth.value = "";
+    coinPocketWidth.dispatchEvent(new Event("input", { bubbles: true }));
+    const recovered = mount();
+    clickId(recovered, "recovery-accept");
+    expect(recovered.querySelector<HTMLButtonElement>("#garment-jeans")!.getAttribute("aria-pressed")).toBe("true");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="backPocketDrop"]')!.value).toBe("8");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="coinPocketWidth"]')!.value).toBe("");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="coinPocketWidth"]')!.getAttribute("aria-invalid")).toBe("true");
+  });
+
+  it("pauses output for a relationship-invalid Jeans draft without changing the raw options", () => {
+    const root = mount();
+    clickId(root, "garment-jeans");
+
+    const hipDepth = root.querySelector<HTMLInputElement>('input[data-field="hipDepth"]')!;
+    hipDepth.value = "30";
+    hipDepth.dispatchEvent(new Event("input", { bubbles: true }));
+    const crotchDepth = root.querySelector<HTMLInputElement>('input[data-field="crotchDepth"]')!;
+    crotchDepth.value = "29";
+    crotchDepth.dispatchEvent(new Event("input", { bubbles: true }));
+
+    expect(hipDepth.value).toBe("30");
+    expect(crotchDepth.value).toBe("29");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("Hip depth");
+    expect(root.querySelector("#canvas-host [data-jeans-output-paused]")).not.toBeNull();
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("compatibility remains unassessed");
+    clickId(root, "view-body");
+    expect(root.querySelector("#canvas-host [data-jeans-body-paused]")).not.toBeNull();
+    clickId(root, "assembled-preview-toggle");
+    expect(root.querySelector("#canvas-host [data-jeans-assembled-paused]")).not.toBeNull();
   });
 });

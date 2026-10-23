@@ -52,7 +52,7 @@ function derivedOutputs(recipeName: string, options: GarmentOptions, measurement
 }
 
 describe("field-to-artifact invalidation graph", () => {
-  it("covers every measurement and construction option across all seven recipes exactly once", () => {
+  it("covers every measurement and construction option across all eleven recipes exactly once", () => {
     assertFieldArtifactCoverage();
     const total = GARMENTS.reduce((sum, recipe) => sum + recipe.fields.length + (recipe.options?.length ?? 0), 0);
     expect(getAllFieldDefinitions()).toHaveLength(total);
@@ -95,6 +95,51 @@ describe("field-to-artifact invalidation graph", () => {
           ? { ...options, [definition.inputKey]: changed }
           : options;
         const nextBlock = recipe.draft(nextMeasurements, nextOptions);
+        if (recipe.name === "jogger" && definition.inputKey === "drawcordLength") {
+          const dependency = getFieldArtifactDependency(recipe.name, definition.inputKind, definition.inputKey)!;
+          expect(nextBlock).toEqual(baselineBlock);
+          expect(dependency.affected.map((artifact) => artifact.id)).toEqual(["tech-pack-pdf"]);
+          expect(dependency.unaffected.map((artifact) => artifact.id)).toEqual([
+            "pattern", "pom-spec", "grade-run", "nesting", "views",
+            "jogger-pattern-exports", "surface-sheet-svg",
+          ]);
+          expect(dependency.notRepresented).toEqual([]);
+          const baselineOutputs = derivedOutputs(recipe.name, options);
+          const changedOutputs = derivedOutputs(recipe.name, nextOptions);
+          expect(changedOutputs.pattern).toEqual(baselineOutputs.pattern);
+          expect(changedOutputs.pomSpec).toEqual(baselineOutputs.pomSpec);
+          expect(changedOutputs.grade).toEqual(baselineOutputs.grade);
+          expect(changedOutputs.nesting).toEqual(baselineOutputs.nesting);
+          expect(changedOutputs.exports.techPackPdf).not.toBe(baselineOutputs.exports.techPackPdf);
+          expect(changedOutputs.exports.svg).toEqual(baselineOutputs.exports.svg);
+          expect(changedOutputs.exports.dxf).toEqual(baselineOutputs.exports.dxf);
+          expect(changedOutputs.exports.tiledPdf).toEqual(baselineOutputs.exports.tiledPdf);
+          expect(changedOutputs.exports.projectorSvg).toEqual(baselineOutputs.exports.projectorSvg);
+          expect(changedOutputs.exports.a0Pdf).toEqual(baselineOutputs.exports.a0Pdf);
+          continue;
+        }
+        if (recipe.name === "hoodie" && definition.inputKey === "hoodDrawcordLength") {
+          expect(nextBlock).toEqual(baselineBlock);
+          expect(dependency.affected.map((artifact) => artifact.id)).toEqual(["tech-pack-pdf"]);
+          expect(dependency.unaffected.map((artifact) => artifact.id)).toEqual([
+            "pattern", "pom-spec", "grade-run", "nesting", "views",
+            "hoodie-pattern-exports", "surface-sheet-svg",
+          ]);
+          expect(dependency.notRepresented).toEqual([]);
+          const baselineOutputs = derivedOutputs(recipe.name, options);
+          const changedOutputs = derivedOutputs(recipe.name, nextOptions);
+          expect(changedOutputs.pattern).toEqual(baselineOutputs.pattern);
+          expect(changedOutputs.pomSpec).toEqual(baselineOutputs.pomSpec);
+          expect(changedOutputs.grade).toEqual(baselineOutputs.grade);
+          expect(changedOutputs.nesting).toEqual(baselineOutputs.nesting);
+          expect(changedOutputs.exports.techPackPdf).not.toBe(baselineOutputs.exports.techPackPdf);
+          expect(changedOutputs.exports.svg).toEqual(baselineOutputs.exports.svg);
+          expect(changedOutputs.exports.dxf).toEqual(baselineOutputs.exports.dxf);
+          expect(changedOutputs.exports.tiledPdf).toEqual(baselineOutputs.exports.tiledPdf);
+          expect(changedOutputs.exports.projectorSvg).toEqual(baselineOutputs.exports.projectorSvg);
+          expect(changedOutputs.exports.a0Pdf).toEqual(baselineOutputs.exports.a0Pdf);
+          continue;
+        }
         if (recipe.name === "woven-shirt" && definition.inputKey === "hemTurn") {
           expect(JSON.stringify(nextBlock)).toBe(JSON.stringify(baselineBlock));
           expect(dependency.notRepresented).toEqual([]);

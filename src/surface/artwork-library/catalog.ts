@@ -24,7 +24,7 @@ export type ArtworkCategory = typeof ARTWORK_CATEGORIES[number];
 export const PRINT_USES = ["all-over", "border/trim", "panel", "focal graphic", "placement"] as const;
 export type ArtworkPrintUse = typeof PRINT_USES[number];
 
-export const GARMENT_FAMILIES = ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"] as const;
+export const GARMENT_FAMILIES = ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "shorts"] as const;
 export type ArtworkGarmentFamily = typeof GARMENT_FAMILIES[number];
 
 export const PIECE_ROLE_GROUPS = [
@@ -36,6 +36,7 @@ export const PIECE_ROLE_GROUPS = [
   "pocket",
   "skirt-panel",
   "trouser-leg",
+  "shorts-leg",
 ] as const;
 export type ArtworkPieceRoleGroup = typeof PIECE_ROLE_GROUPS[number];
 
@@ -182,7 +183,7 @@ function cmaSource(
 }
 
 const ALL_GARMENTS: readonly ArtworkGarmentFamily[] = [...GARMENT_FAMILIES];
-const ALL_OVER_ROLES: readonly ArtworkPieceRoleGroup[] = ["front", "back", "sleeve", "skirt-panel", "trouser-leg"];
+const ALL_OVER_ROLES: readonly ArtworkPieceRoleGroup[] = ["front", "back", "sleeve", "skirt-panel", "trouser-leg", "shorts-leg"];
 const PANEL_ROLES: readonly ArtworkPieceRoleGroup[] = ["front", "back", "sleeve", "skirt-panel"];
 
 export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [

@@ -20,6 +20,7 @@ import { Piece, AllowanceSpec } from "../drafting";
 import { flattenPiece, layoutPieces, Polyline } from "./layout";
 import { polylineBounds } from "./layout";
 import { patternMarksPdfOps, translatePatternMarks } from "./pattern-mark";
+import { patternLabelPose } from "./pattern-label-layout";
 
 // ── Unit conversion ───────────────────────────────────────────────────────────
 
@@ -152,6 +153,42 @@ function tileStream(
     for (const pieceMarks of marks) {
       const localMarks = localCoordinates ? translatePatternMarks(pieceMarks, -tx, -ty) : pieceMarks;
       lines.push(patternMarksPdfOps(localMarks, drawHeight));
+    }
+  }
+
+  for (const piece of layout.pieces) {
+    if (!piece.name.toLowerCase().startsWith("shorts ")) continue;
+    const bounds = polylineBounds(piece.cut);
+    const labelText = piece.name.toUpperCase();
+    const pose = patternLabelPose(piece.name, labelText, bounds, 14 / pt(1));
+    if (pose.x < tx || pose.x > tx + tw || pose.y < ty || pose.y > ty + th) continue;
+    let x = localCoordinates ? pose.x - tx : pose.x;
+    let y = localCoordinates ? pose.y - ty : pose.y;
+    const fontSize = pt(pose.fontSize);
+    if (localCoordinates) {
+      const localBounds = { minX: bounds.minX - tx, maxX: bounds.minX + bounds.width - tx,
+        minY: bounds.minY - ty, maxY: bounds.minY + bounds.height - ty };
+      const clampWithin = (value: number, lower: number, upper: number): number =>
+        lower <= upper ? Math.max(lower, Math.min(upper, value)) : value;
+      const labelLength = labelText.length * pose.fontSize * 0.58;
+      // Keep horizontal labels inside the sewn area when a tile boundary cuts
+      // through the piece's center; the seam allowance is 1 cm on these legs.
+      const clearance = pose.rotation === 90 ? 0.1 : 2;
+      const halfWidth = (pose.rotation === 90 ? pose.fontSize / 2
+        : labelText.length * pose.fontSize * (4 / 14) / 2) + clearance;
+      const halfHeight = (pose.rotation === 90 ? labelLength / 2 : pose.fontSize / 2) + clearance;
+      x = clampWithin(x, Math.max(1 + halfWidth, localBounds.minX + halfWidth),
+        Math.min(page.width - 1 - halfWidth, localBounds.maxX - halfWidth));
+      y = clampWithin(y, Math.max(1 + halfHeight, localBounds.minY + halfHeight),
+        Math.min(page.height - 1 - halfHeight, localBounds.maxY - halfHeight));
+    }
+    if (pose.rotation === 90) {
+      const labelLength = labelText.length * pose.fontSize * 0.58;
+      lines.push(`BT /F1 ${fontSize} Tf 0 1 -1 0 ${pt(x)} ` +
+        `${pt(drawHeight - y - labelLength / 2)} Tm (${labelText}) Tj ET`);
+    } else {
+      const textX = pt(x) - labelText.length * (fontSize * 4 / 14) / 2;
+      lines.push(`BT /F1 ${fontSize} Tf ${textX} ${pt(drawHeight - y)} Td (${labelText}) Tj ET`);
     }
   }
 

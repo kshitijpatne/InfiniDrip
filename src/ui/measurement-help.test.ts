@@ -78,8 +78,8 @@ function bodyTextOf(recipeId: string, fieldId: string): string {
 }
 
 describe("measurement help catalog", () => {
-  it("covers every field definition of all seven recipes exactly once", () => {
-    expect(GARMENTS).toHaveLength(7);
+  it("covers every field definition of all twelve recipes exactly once", () => {
+    expect(GARMENTS).toHaveLength(12);
     expect(Object.keys(MEASUREMENT_HELP).sort()).toEqual(GARMENTS.map((recipe) => recipe.name).sort());
     for (const recipe of GARMENTS) {
       const definitions = getFieldDefinitions(recipe.name);
@@ -101,6 +101,19 @@ describe("measurement help catalog", () => {
         expect(entry.guardrailNote.toLowerCase()).toContain("not an industry standard");
       }
     }
+  });
+
+  it("describes Hoodie shared ease and recipe-owned hood controls in context", () => {
+    const definitions = getFieldDefinitions("hoodie");
+    const ease = definitions.find(({ inputKey, inputKind }) => inputKey === "ease" && inputKind === "measurement")!;
+    const easeHelp = measurementHelpFor("hoodie", ease.id)!;
+    expect(easeHelp.draftUse).toContain("Hoodie draft uses this shared ease in the body and sleeve blocks");
+    const hoodHeight = definitions.find(({ inputKey, inputKind }) => inputKey === "hoodHeight" && inputKind === "option")!;
+    const hoodHeightHelp = measurementHelpFor("hoodie", hoodHeight.id)!;
+    expect(hoodHeightHelp.recipeId).toBe("hoodie");
+    expect(hoodHeightHelp.inputKind).toBe("option");
+    expect(hoodHeightHelp.meaning).toContain("no head measurement is used");
+    expect(hoodHeightHelp.techniqueQualified).toBe(false);
   });
 
   it("returns stable entries and explicit null for unknown or stale IDs", () => {
@@ -134,6 +147,78 @@ describe("measurement help catalog", () => {
         expect(entry.draftUse.length).toBeGreaterThan(20);
       }
     }
+  });
+
+  it("keeps shorts thigh and length help in finished-target and recipe-control terms", () => {
+    const thigh = measurementHelpFor("shorts", "target.shorts-finished-thigh-girth")!;
+    expect(thigh.semanticKind).toBe("GARMENT_MEASURE");
+    expect(thigh.referenceFrame).toBe("finished-garment");
+    expect(thigh.meaning).toContain("finished shorts thigh-girth target");
+    expect(thigh.draftUse).toContain("finished target directly");
+    expect(thigh.limits).toContain("not a wearer thigh value");
+    expect(thigh.limits).toContain("NOT_ASSESSED");
+
+    const length = measurementHelpFor("shorts", "style.shorts.shorts-inseam")!;
+    expect(length.inputKind).toBe("option");
+    expect(length.draftUse).toContain("vertical distance from the back-crotch station");
+    expect(length.draftUse).toContain("no knee station");
+    expect(length.limits).toContain("45 cm product cap permits lengths that cross the knee");
+    expect(length.limits).toContain("no anatomical knee station, mark, or POM");
+  });
+
+  it("describes Jeans thigh, knee transition, and inseam as digital targets without Trouser mapping", () => {
+    const thigh = measurementHelpFor("jeans", "target.jeans-finished-thigh-girth")!;
+    const knee = measurementHelpFor("jeans", "target.jeans-finished-knee-transition-girth")!;
+    const inseam = measurementHelpFor("jeans", "target.jeans-crotch-to-hem")!;
+    for (const entry of [thigh, knee, inseam]) {
+      expect(entry.techniqueQualified).toBe(false);
+      expect(entry.qualificationNote).toContain("No accepted fit-qualified capture procedure exists");
+      expect(entry.limits).toContain("NOT_ASSESSED");
+      expect(`${entry.draftUse} ${entry.limits}`.toLowerCase()).not.toContain("trouser");
+    }
+    expect(thigh.draftUse).toContain("finished digital girth target");
+    expect(thigh.limits).toContain("not a body capture");
+    expect(knee.draftUse).toContain("internal knee-transition station");
+    expect(knee.limits).toContain("no anatomical mapping");
+    expect(knee.draftUse.toLowerCase()).not.toContain("52 percent");
+    expect(knee.limits.toLowerCase()).not.toContain("52-percent");
+    expect(inseam.draftUse).toContain("vertical crotch-to-hem target");
+    expect(inseam.draftUse).toContain("sloped digital seam");
+    expect(inseam.limits).toContain("not a body inseam");
+  });
+
+  it("describes crewneck neckline controls against the crewneck draft", () => {
+    const depth = measurementHelpFor("crewneck", "style.crewneck-front-neck-depth")!;
+    const width = measurementHelpFor("crewneck", "style.crewneck-neckline-width-per-side")!;
+    expect(depth.meaning).toContain("front crew neckline");
+    expect(depth.draftUse).toContain("front neckline depth");
+    expect(depth.draftUse).not.toContain("tank");
+    expect(width.meaning).toContain("both the front and back crew neckline");
+    expect(width.draftUse).toContain("both front and back necklines");
+    expect(width.draftUse).not.toContain("tank");
+    expect(measurementHelpFor("crewneck", "style.tank-neck-drop")).toBeNull();
+  });
+
+  it("describes Jogger inputs and recipe options without assigning anatomy to the inherited knee station", () => {
+    const definitions = getFieldDefinitions("jogger");
+    expect(definitions.map(({ inputKey }) => inputKey)).toEqual([
+      "waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease",
+      "frontRiseEase", "backRiseEase", "waistbandDepth", "thighEase", "kneeEase", "legOpening",
+      "elasticWidth", "pocketOpening", "pocketAngle", "pocketBagDepth", "pocketDrop",
+      "drawcordLength", "drawcordCutWidth", "drawcordExitSpacing", "drawcordExit",
+    ]);
+    const kneeDefinition = definitions.find(({ inputKey }) => inputKey === "knee")!;
+    const knee = measurementHelpFor("jogger", kneeDefinition.id)!;
+    expect(knee.recipeId).toBe("jogger");
+    expect(knee.draftUse).toContain("52% of inseam");
+    expect(knee.draftUse).toContain("no reviewed anatomical mapping");
+    expect(knee.limits).toContain("52-percent-of-inseam");
+    expect(knee.techniqueQualified).toBe(false);
+
+    const casingDefinition = definitions.find(({ inputKey }) => inputKey === "waistbandDepth")!;
+    const casing = measurementHelpFor("jogger", casingDefinition.id)!;
+    expect(casing.inputKind).toBe("option");
+    expect(casing.meaning).toContain("elastic and drawcord channel");
   });
 
   it("describes the accepted Tee source methods without prescribing a home procedure", () => {

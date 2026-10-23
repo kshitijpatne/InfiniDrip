@@ -70,8 +70,9 @@ function setDefinitionField(field: string, value: unknown): Record<string, unkno
 }
 
 describe("tech-pack POM definition records", () => {
-  it("matches the seven supported recipe IDs and parses an asymmetric sourced definition", () => {
-    expect([...TECH_PACK_POM_RECIPE_IDS]).toEqual(GARMENTS.map((recipe) => recipe.name));
+  it("matches the current supported recipe IDs and parses an asymmetric sourced definition", () => {
+    expect(new Set(TECH_PACK_POM_RECIPE_IDS).size).toBe(GARMENTS.length);
+    expect([...TECH_PACK_POM_RECIPE_IDS].sort()).toEqual(GARMENTS.map((recipe) => recipe.name).sort());
     expect(TECH_PACK_POM_METHOD_KINDS).toContain("OTHER");
     const result = parseTechPackPomDefinitionSet(definitionSet());
     expect(result).toEqual({ ok: true, value: definitionSet() });
@@ -134,7 +135,7 @@ describe("tech-pack POM definition records", () => {
     { value: { schemaVersion: 1, recipeId: "tee" } },
     { value: { ...definitionSet(), unexpected: true } },
     { value: { ...definitionSet(), schemaVersion: 2 } },
-    { value: { ...definitionSet(), recipeId: "shorts" } },
+    { value: { ...definitionSet(), recipeId: "unknown-recipe" } },
     { value: { ...definitionSet(), recipeId: 1 } },
     { value: { ...definitionSet(), definitions: null } },
     { value: { ...definitionSet(), definitions: Array.from({ length: TECH_PACK_POM_MAX_DEFINITIONS + 1 }, () => definition()) } },

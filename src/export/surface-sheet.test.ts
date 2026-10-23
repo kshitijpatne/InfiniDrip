@@ -31,6 +31,7 @@ describe("exportSurfaceSheet", () => {
     const polygon = doc.querySelector("polygon")!;
     expect(polygon.getAttribute("points")).toBe("5,36.5 25,36.5 25,61.5 5,61.5");
     expect(polygon.getAttribute("data-placement")).toBe("a");
+    expect(polygon.getAttribute("stroke")).toBe("currentColor");
     const text = doc.querySelector("svg")!.textContent ?? "";
     expect(text).toContain("Artwork print sheet - Classic tee");
     expect(text).toContain("Shared across graded sizes");

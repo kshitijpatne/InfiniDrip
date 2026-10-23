@@ -1,10 +1,12 @@
 import type { Block } from "../drafting/block";
 import type { Edge, Piece } from "../drafting/piece";
+import type { PatternMark } from "../drafting/pattern-mark";
 import type { EdgeRef, InterfaceRef, Stitch } from "../drafting/stitch";
 import { cubicLength, cubicPoint } from "../geometry";
 import type { FlatPoint, TechnicalFlatViewKind } from "./technical-flat";
 import { technicalFlatMappingForBlock } from "./technical-flat-mapping";
-import { validateTechnicalFlatProjectionMap, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import { validateTechnicalFlatProjectionMap, type FlatProjectionCrewneckSleeveCapRepresentation,
+  type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 
 export interface FlatRoleTransform {
   readonly offset: FlatPoint;
@@ -162,7 +164,8 @@ function fitRigid(source: readonly FlatPoint[], target: readonly FlatPoint[]): {
 
 function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<string>,
   reversedStitchEdges: readonly { readonly stitchLabel: string; readonly pieceId: string; readonly edgeId: string }[],
-  locallyReflectedRoles: ReadonlySet<string>): Relation[] | null {
+  locallyReflectedRoles: ReadonlySet<string>,
+  crewneckSleeveCap?: FlatProjectionCrewneckSleeveCapRepresentation): Relation[] | null {
   const viewRefs = (refs: readonly InterfaceRef[], side: "a" | "b"): InterfaceRef[] => refs.map((ref) => {
     if (!("edge" in ref) || !reversedStitchEdges.some((rule) => rule.stitchLabel === stitch.label
       && rule.pieceId === ref.piece && rule.edgeId === ref.edge && side === "b")) return ref;
@@ -215,6 +218,8 @@ function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<stri
     const fitted = fitRigid(group.source, group.target);
     let best = fitted;
     const wovenSleeveCap = stitch.label === "Woven sleeve-cap ease";
+    const crewneckCapAnchor = !!crewneckSleeveCap && stitch.label === crewneckSleeveCap.stitchLabel
+      && group.from === crewneckSleeveCap.sleeveRoleId && group.to === crewneckSleeveCap.visibleBodyRole;
     const frontEndpointAnchor = (stitch.label === "Sleeve-cap ease" || wovenSleeveCap)
       && group.from === "sleeve" && group.to === "front"
       && reversedStitchEdges.some((rule) => rule.stitchLabel === stitch.label && rule.pieceId === "front" && rule.edgeId === "armhole");
@@ -222,19 +227,23 @@ function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<stri
       && locallyReflectedRoles.has("sleeve");
     const wovenBackEndpointAnchor = wovenSleeveCap && group.from === "sleeve"
       && (group.to === "yoke" || group.to === "back");
-    if (frontEndpointAnchor || backEndpointAnchor || wovenBackEndpointAnchor) {
-      const sleeveEdgeName = frontEndpointAnchor ? "capLeft" : "capRight";
-      const sleeveEdge = block.roles.sleeve?.edges.find((edge) => edge.name === sleeveEdgeName);
-      const bodyEdgeName = wovenBackEndpointAnchor
-        ? group.to === "yoke" ? "armholeUpper" : "armholeLower"
-        : "armhole";
+    if (frontEndpointAnchor || backEndpointAnchor || wovenBackEndpointAnchor || crewneckCapAnchor) {
+      const sleeveRoleId = crewneckCapAnchor ? crewneckSleeveCap!.sleeveRoleId : "sleeve";
+      const sleeveEdgeName = crewneckCapAnchor ? crewneckSleeveCap!.capEdgeId
+        : frontEndpointAnchor ? "capLeft" : "capRight";
+      const sleeveEdge = block.roles[sleeveRoleId]?.edges.find((edge) => edge.name === sleeveEdgeName);
+      const bodyEdgeName = crewneckCapAnchor ? crewneckSleeveCap!.visibleBodyEdge
+        : wovenBackEndpointAnchor ? group.to === "yoke" ? "armholeUpper" : "armholeLower" : "armhole";
       const bodyArmhole = block.roles[group.to]?.edges.find((edge) => edge.name === bodyEdgeName);
       if (!sleeveEdge || sleeveEdge.kind !== "curve" || !bodyArmhole || bodyArmhole.kind !== "curve") return null;
-      const sleeveEndpoint = frontEndpointAnchor || (wovenBackEndpointAnchor && group.to === "yoke")
-        ? sleeveEdge.curve.start : sleeveEdge.curve.end;
-      const bodyEndpoint = frontEndpointAnchor || backEndpointAnchor || (wovenBackEndpointAnchor && group.to === "back")
-        ? bodyArmhole.curve.end : bodyArmhole.curve.start;
-      const target = locallyReflectedRoles.has("sleeve") ? point(-sleeveEndpoint.x, sleeveEndpoint.y) : sleeveEndpoint;
+      const sleeveEndpoint = crewneckCapAnchor
+        ? crewneckSleeveCap!.capEdgeId === "capLeft" ? sleeveEdge.curve.start : sleeveEdge.curve.end
+        : frontEndpointAnchor || (wovenBackEndpointAnchor && group.to === "yoke")
+          ? sleeveEdge.curve.start : sleeveEdge.curve.end;
+      const bodyEndpoint = crewneckCapAnchor ? bodyArmhole.curve.end
+        : frontEndpointAnchor || backEndpointAnchor || (wovenBackEndpointAnchor && group.to === "back")
+          ? bodyArmhole.curve.end : bodyArmhole.curve.start;
+      const target = locallyReflectedRoles.has(group.from) ? point(-sleeveEndpoint.x, sleeveEndpoint.y) : sleeveEndpoint;
       const placed = transformPoint(bodyEndpoint, fitted.transform);
       const transform = { ...fitted.transform, offset: point(
         fitted.transform.offset.x + target.x - placed.x,
@@ -272,16 +281,70 @@ function finitePoint(value: FlatPoint): boolean {
   return Number.isFinite(value.x) && Number.isFinite(value.y);
 }
 
-/** Map exact zero-ease trouser waist-interface intervals from the one lower
+function mirroredPoint(left: FlatPoint, right: FlatPoint): boolean {
+  const reflected = { x: -left.x, y: left.y };
+  return finitePoint(reflected) && finitePoint(right) && distance(reflected, right) <= 1e-8;
+}
+
+/** @internal Verify a source-authored pair before using its reflected view placement. */
+export function hasExactMirroredPanelPair(left: Piece | undefined, right: Piece | undefined, centerEdgeId: string): boolean {
+  if (!left || !right || left.onFold !== right.onFold || left.edges.length === 0
+    || left.edges.length !== right.edges.length) return false;
+  const edgesMatch = left.edges.every((edge, index) => {
+    const candidate = right.edges[index];
+    if (!candidate || candidate.name !== edge.name || candidate.kind !== edge.kind) return false;
+    if (edge.kind === "line") {
+      const lineCandidate = candidate as Extract<Edge, { readonly kind: "line" }>;
+      return mirroredPoint(edge.start, lineCandidate.start) && mirroredPoint(edge.end, lineCandidate.end);
+    }
+    const curveCandidate = candidate as Extract<Edge, { readonly kind: "curve" }>;
+    return mirroredPoint(edge.curve.start, curveCandidate.curve.start)
+      && mirroredPoint(edge.curve.control1, curveCandidate.curve.control1)
+      && mirroredPoint(edge.curve.control2, curveCandidate.curve.control2)
+      && mirroredPoint(edge.curve.end, curveCandidate.curve.end);
+  });
+  if (!edgesMatch) return false;
+  const leftAxis = left.edges.find((edge) => edge.name === centerEdgeId);
+  if (leftAxis?.kind !== "line" || leftAxis.start.x !== 0 || leftAxis.end.x !== 0) return false;
+
+  const leftMarks = left.marks ?? [];
+  const rightMarks = right.marks ?? [];
+  return leftMarks.length === rightMarks.length && leftMarks.every((mark, index) => {
+    const candidate = rightMarks[index];
+    if (!candidate || candidate.name !== mark.name || candidate.kind !== mark.kind
+      || candidate.labelRole !== mark.labelRole) return false;
+    return mirroredMark(mark, candidate);
+  });
+}
+
+function mirroredMark(left: PatternMark, right: PatternMark): boolean {
+  if ("at" in left) return "at" in right && mirroredPoint(left.at, right.at);
+  return "start" in right && mirroredPoint(left.start, right.start) && mirroredPoint(left.end, right.end);
+}
+
+function exactJoggerBackRise(stitch: Stitch): boolean {
+  const [left] = stitch.a.edges;
+  const [right] = stitch.b.edges;
+  return stitch.ease === undefined && stitch.a.edges.length === 1 && stitch.b.edges.length === 1
+    && !!left && !!right && "edge" in left && "edge" in right
+    && left.piece === "backLeft" && left.edge === "centerBack" && !left.reversed
+    && right.piece === "backRight" && right.edge === "centerBack" && right.reversed === true;
+}
+
+/** Map exact zero-ease four-panel waist-interface intervals from the one lower
  * waistband edge to each sewn leg panel. These are placements of source
  * subintervals, not additional pattern pieces. */
-function trouserWaistbandFragments(block: Block, kind: TechnicalFlatViewKind): TechnicalFlatSourceFragment[] {
-  const label = "Waistband (four legs ↔ separate waistband)";
+function waistbandFragments(block: Block, kind: TechnicalFlatViewKind, recipeId: string): TechnicalFlatSourceFragment[] {
+  const label = recipeId === "shorts"
+    ? "Waistband (four leg panels ↔ separate waistband)"
+    : recipeId === "jogger" ? "Jogger waist to separate casing"
+      : "Waistband (four legs ↔ separate waistband)";
   const matches = block.stitches.filter((stitch) => stitch.label === label);
   const stitch = matches[0];
   if (matches.length !== 1 || !stitch || stitch.ease !== undefined || stitch.a.edges.length !== 4 || stitch.b.edges.length !== 1) return [];
   const bandRef = stitch.b.edges[0];
-  if (!bandRef || !("edge" in bandRef) || bandRef.piece !== "waistband" || bandRef.edge !== "bottom" || bandRef.reversed) return [];
+  if (!bandRef || !("edge" in bandRef) || bandRef.piece !== "waistband" || bandRef.edge !== "bottom"
+    || Boolean(bandRef.reversed) !== (recipeId === "jogger")) return [];
   const band = block.roles.waistband?.edges.find((edge) => edge.name === "bottom");
   if (!band || band.kind !== "line" || !finitePoint(band.start) || !finitePoint(band.end)) return [];
   const refs = stitch.a.edges;
@@ -357,13 +420,21 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
     ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
       .find((role) => role.roleId === "sleeve")?.poloSleeveCapRepresentation
     : undefined;
-  const visible = new Set(face.roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN").map((role) => role.roleId));
-  const sourceFragments = recipeId === "trouser" ? trouserWaistbandFragments(block, kind) : [];
+  const approvedCrewneckSleeveCap = projectionIsValid && recipeId === "crewneck"
+    ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+      .find((role) => role.roleId === (kind === "FRONT_FLAT" ? "sleeveLeft" : "sleeveRight"))
+      ?.crewneckSleeveCapRepresentation
+    : undefined;
+  const visible = new Set(face.roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN"
+    && role.treatment !== "DETACHED_DETAIL").map((role) => role.roleId));
+  const sourceFragments = recipeId === "trouser" || recipeId === "shorts" || recipeId === "jogger"
+    ? waistbandFragments(block, kind, recipeId) : [];
   const fragmentPlacedRoles = sourceFragments.length === 2 ? new Set(["waistband"]) : new Set<string>();
   // Interior pattern pieces may establish where a visible exterior piece is
   // sewn. Include them in the placement graph, then omit their transforms from
   // the face result so the renderer cannot mistake them for exterior geometry.
-  const constructionRoles = new Set(face.roles.map((role) => role.roleId));
+  const constructionRoles = new Set(face.roles.filter((role) => role.treatment !== "DETACHED_DETAIL")
+    .map((role) => role.roleId));
   const reversedStitchEdges = projectionMap?.recipeId === recipeId && projectionMap.revisionId.trim().length > 0
     ? projectionMap.faces.find((candidate) => candidate.kind === kind)?.roles
       .flatMap((role) => role.reversedStitchEdges ?? []) ?? []
@@ -378,8 +449,28 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
   if (issues.length) return { recipeId, kind, transforms: {}, sourceFragments: [], joinedStitchLabels: [], issues };
 
   const relations: Relation[] = [];
+  const sourcePlacedStitchLabels = new Set<string>();
+  const exactJoggerBackPair = recipeId === "jogger" && kind === "BACK_FLAT"
+    && hasExactMirroredPanelPair(block.roles.backLeft, block.roles.backRight, "centerBack");
+  const waistbandStitchLabel = recipeId === "shorts"
+    ? "Waistband (four leg panels ↔ separate waistband)"
+    : recipeId === "jogger" ? "Jogger waist to separate casing"
+      : "Waistband (four legs ↔ separate waistband)";
   for (const stitch of block.stitches) {
-    if (fragmentPlacedRoles.has("waistband") && stitch.label === "Waistband (four legs ↔ separate waistband)") continue;
+    if (exactJoggerBackPair && stitch.label === "Jogger centre-back rise") {
+      const matchingStitches = block.stitches.filter((candidate) => candidate.label === stitch.label);
+      if (matchingStitches.length === 1 && exactJoggerBackRise(stitch)) {
+        // The authored panels already share this exact mirrored center edge.
+        // Preserve the stitch as joined while avoiding a 180° rigid transform
+        // that would invert one source panel onto the other.
+        sourcePlacedStitchLabels.add(stitch.label);
+        continue;
+      }
+      issues.push({ code: "UNRESOLVED_STITCH_REFERENCE", sourceId: `stitch:${stitch.label}`,
+        message: "Jogger centre-back rise must use the exact authored backLeft/backRight centerBack edges before the mirrored panel view can be placed." });
+      continue;
+    }
+    if (fragmentPlacedRoles.has("waistband") && stitch.label === waistbandStitchLabel) continue;
     const touchesFace = [...stitch.a.edges, ...stitch.b.edges].some((ref) => constructionRoles.has(ref.piece));
     if (!touchesFace) continue;
     if (stitch.a.edges.length === 0 || stitch.b.edges.length === 0) {
@@ -390,7 +481,10 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
     const hasMappedSideA = stitch.a.edges.some((ref) => constructionRoles.has(ref.piece));
     const hasMappedSideB = stitch.b.edges.some((ref) => constructionRoles.has(ref.piece));
     if (!hasMappedSideA || !hasMappedSideB) continue;
-    const stitchResults = stitchRelations(block, stitch, constructionRoles, reversedStitchEdges, locallyReflectedRoles);
+    const crewneckCap = recipeId === "crewneck" && approvedCrewneckSleeveCap?.stitchLabel === stitch.label
+      ? approvedCrewneckSleeveCap : undefined;
+    const stitchResults = stitchRelations(block, stitch, constructionRoles, reversedStitchEdges,
+      locallyReflectedRoles, crewneckCap);
     if (stitchResults === null) {
       issues.push({ code: "UNRESOLVED_STITCH_REFERENCE", sourceId: `stitch:${stitch.label}`,
         message: `Stitch “${stitch.label}” does not provide a length-compatible rigid placement for this view.` });
@@ -402,6 +496,8 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
       const residual = projectedResults.find((candidate) => candidate.endpointResidualCm > 0.25
         && !isApprovedWovenBaseSeamDisplay(candidate.label, approvedWovenBaseSeam?.decisionId)
         && !(candidate.label === "Woven sleeve-cap ease" && approvedWovenSleeveCap?.decisionId === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION")
+        && !(candidate.label === approvedCrewneckSleeveCap?.stitchLabel
+          && approvedCrewneckSleeveCap.decisionId === "G07-S1113-CREWNECK-SLEEVE-CAP-VIEW")
         && !isApprovedPoloEaseResidualDisplay(candidate.label, approvedPoloSleeveCap?.decisionId));
       if (residual && !issues.some((issue) => issue.sourceId === `stitch:${residual.label}`)) issues.push({
         code: "STITCH_ENDPOINT_RESIDUAL", sourceId: `stitch:${residual.label}`,
@@ -433,10 +529,22 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
       }
     }
   }
+  if (recipeId === "jogger") {
+    const [leftRoleId, rightRoleId, centerEdgeId] = kind === "FRONT_FLAT"
+      ? ["frontLeft", "frontRight", "centerFront"] as const
+      : ["backLeft", "backRight", "centerBack"] as const;
+    if (!(rightRoleId in solved) && leftRoleId in solved
+      && hasExactMirroredPanelPair(block.roles[leftRoleId], block.roles[rightRoleId], centerEdgeId)) {
+      // The Jogger draft authors both separate panels as exact local-x mirrors.
+      // This gives the no-center-front-seam front pair its source-declared view
+      // placement without adding or implying a construction stitch.
+      solved[rightRoleId] = solved[leftRoleId]!;
+    }
+  }
   for (const roleId of visible) if (!fragmentPlacedRoles.has(roleId) && !(roleId in solved)) issues.push({ code: "UNPLACED_COMPONENT_ROLE", sourceId: roleId,
     message: `Visible role “${roleId}” has no rigid placement supported by a sewn interface on this face.` });
   return { recipeId, kind, transforms: Object.fromEntries(Object.entries(solved).filter(([roleId]) => visible.has(roleId)).map(([roleId, transform]) => [roleId, {
     offset: transform.offset, rotationDegrees: transform.rotation, mirrorX: locallyReflectedRoles.has(roleId),
   }])), sourceFragments,
-  joinedStitchLabels: [...new Set(relations.map((relation) => relation.label))], issues };
+  joinedStitchLabels: [...new Set([...relations.map((relation) => relation.label), ...sourcePlacedStitchLabels])], issues };
 }

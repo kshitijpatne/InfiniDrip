@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { GARMENTS, STANDARD_M, type GarmentRecipe } from "../drafting";
+import { GARMENTS, STANDARD_M, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
 import { createEmptyTechPackRecord, type TechPackRecord } from "./tech-pack-records";
 import {
   emptyTechPackPomRecordSet,
@@ -81,14 +81,15 @@ function evaluate(recipe: GarmentRecipe, input?: {
     data: input?.data ?? dataFor(recipe, recipe.poms.map((pom, index) => definition(recipe, pom.label, index))),
     recipe: target,
     measurements: input?.measurements ?? STANDARD_M,
-    options: {},
+    options: defaultGarmentOptions(recipe.options ?? []),
     sizeSteps: input?.sizeSteps ?? recipe.sizes,
   });
 }
 
 describe("T02 source-aware callout and size-run checks", () => {
   it("checks every existing recipe and calculates separate finite pattern predictions", () => {
-    expect(TECH_PACK_POM_RECIPE_IDS).toEqual(GARMENTS.map((recipe) => recipe.name));
+    expect(new Set(TECH_PACK_POM_RECIPE_IDS).size).toBe(GARMENTS.length);
+    expect([...TECH_PACK_POM_RECIPE_IDS].sort()).toEqual(GARMENTS.map((recipe) => recipe.name).sort());
     for (const recipe of GARMENTS) {
       const result = evaluate(recipe);
       expect(result.ready, recipe.name).toBe(true);

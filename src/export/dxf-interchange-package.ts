@@ -3,6 +3,7 @@ import type { GarmentOptions } from "../drafting/options";
 import { notchesForRecipeOptions, type GarmentRecipe } from "../drafting/recipe";
 import { optionAppliesToStarterEntry } from "../drafting/options";
 import type { GradedSize } from "../drafting/grading";
+import type { Measurements } from "../drafting/measurements";
 import type { PatternMark } from "../drafting/pattern-mark";
 import type { Piece } from "../drafting/piece";
 import type { Point } from "../geometry";
@@ -146,6 +147,15 @@ interface PieceIdentity {
 
 function dxfIdentifier(value: string): string {
   return value.normalize("NFKD").replace(/[^A-Za-z0-9]+/gu, "_").replace(/^_|_$/gu, "").toUpperCase();
+}
+
+function baseMeasurementsForSize(recipe: GarmentRecipe, graded: GradedSize): Measurements {
+  const base = { ...graded.measurements } as { -readonly [K in keyof Measurements]: number };
+  for (const [rawKey, increment] of Object.entries(recipe.grade)) {
+    const key = rawKey as keyof Measurements;
+    base[key] = graded.measurements[key] - increment * graded.step;
+  }
+  return base;
 }
 
 async function pieceIdentities(
@@ -292,11 +302,21 @@ export async function createDxfInterchangePackage(
   options: GarmentOptions = {},
   starterEntryId?: string,
 ): Promise<DxfInterchangePackage> {
-  const resolvedOptions = resolveOptions(recipe, options, starterEntryId);
+  const baseOptions = resolveOptions(recipe, options, starterEntryId);
   const size = recipe.sizes.find((entry) => entry.label === graded.label);
   if (!size || size.step !== graded.step) {
     throw new Error(`Selected size "${graded.label}" does not match the recipe's grade table`);
   }
+
+  const resolvedOptions = recipe.resolveOptionsForSize && graded.step !== 0
+    ? recipe.resolveOptionsForSize({
+      baseMeasurements: baseMeasurementsForSize(recipe, graded),
+      sizeMeasurements: graded.measurements,
+      step: graded.step,
+      draft: recipe.draft,
+      baseOptions,
+    })
+    : baseOptions;
 
   const sourceBlock = recipe.draft(graded.measurements, resolvedOptions);
   if (canonicalJson(sourceBlock) !== canonicalJson(graded.block)) {

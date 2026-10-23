@@ -2,8 +2,8 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, optionalOptionStatusMessage, optionalOptionActionLabel } from "../drafting";
-import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName, garmentForConstruction } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, JeansOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, optionalOptionStatusMessage, optionalOptionActionLabel, draftJeansWithGuidance, jeansSizeRunWithGuidance } from "../drafting";
+import { gradeRecipeRun, gradeMeasurements, draftRecipeAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName, garmentForConstruction } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { teeVBandTechPackOptions } from "../drafting/vneck-band-output";
 import {
@@ -20,7 +20,9 @@ import {
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
-import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderCrewneckFigure, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderShortsGarment, renderShortsBody, renderShortsBodyPair, renderShortsSide, renderJoggerGarment, renderJoggerBody, renderJoggerBodyPair, renderSideCroquis, DEFAULT_FABRIC } from "../render";
+import { renderHoodieBody, renderHoodieBodyPair, renderHoodieGarment } from "../render";
+import { renderJeansBody, renderJeansBodyPair, renderJeansAssembled } from "../render";
 import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import {
   appendSemanticEditOperations,
@@ -280,7 +282,22 @@ let activeMountGeneration = 0;
 let activeGuidancePanelControls: GuidancePanelControls | null = null;
 let activeMaterialPanelControls: ReturnType<typeof mountMaterialPanel> | null = null;
 let activeProductionPackCleanup: (() => void) | null = null;
+let activeMountCleanups: Array<() => void> = [];
 let semanticOperationSequence = 0;
+
+export function unmountApp(): void {
+  const cleanups = activeMountCleanups;
+  activeMountCleanups = [];
+  for (const cleanup of cleanups) cleanup();
+  activeProductionPackCleanup?.();
+  activeProductionPackCleanup = null;
+  activeGuidancePanelControls?.dispose();
+  activeGuidancePanelControls = null;
+  activeMaterialPanelControls?.dispose();
+  activeMaterialPanelControls = null;
+  activeMountRoot = null;
+  activeMountGeneration++;
+}
 
 function nextSemanticOperationId(): string {
   semanticOperationSequence++;
@@ -532,14 +549,18 @@ export function defaultArtworkAssetStore(): ArtworkAssetStore {
 }
 
 export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void {
-  activeProductionPackCleanup?.();
-  activeProductionPackCleanup = null;
-  activeGuidancePanelControls?.dispose();
-  activeGuidancePanelControls = null;
-  activeMaterialPanelControls?.dispose();
-  activeMaterialPanelControls = null;
+  unmountApp();
   activeMountRoot = root;
   const mountGeneration = ++activeMountGeneration;
+  const addMountWindowListener = <K extends keyof WindowEventMap>(
+    type: K,
+    listener: (this: Window, event: WindowEventMap[K]) => unknown,
+    options?: boolean | AddEventListenerOptions,
+  ): void => {
+    window.addEventListener(type, listener, options);
+    activeMountCleanups.push(() => window.removeEventListener(type, listener, options));
+  };
+  const registerMountCleanup = (cleanup: () => void): void => { activeMountCleanups.push(cleanup); };
   const uiqGuidanceEnabled = evaluateFeatureFlag(
     "uiq_guidance", new Date(), options.uiqGuidanceEnabled,
   ).enabled;
@@ -1138,7 +1159,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     productionPackObserver.observe(projectManagerHost, { childList: true, subtree: true, attributes: true });
     productionPackObserver.observe(projectPersistenceState, { childList: true, characterData: true, attributes: true, subtree: true });
   }
-  window.addEventListener("focus", productionPackOnFocus);
+  addMountWindowListener("focus", productionPackOnFocus);
   document.addEventListener("visibilitychange", productionPackOnVisibility);
   activeProductionPackCleanup = () => {
     productionPackObserver?.disconnect();
@@ -1183,6 +1204,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let gradePlanLoadSequence = 0;
   let gradePlanSelectedLabel: string | null = null;
   let captureSaveTimer: number | null = null;
+  registerMountCleanup(() => {
+    if (captureSaveTimer !== null) window.clearTimeout(captureSaveTimer);
+    captureSaveTimer = null;
+  });
   let captureWrite = Promise.resolve();
   let captureWritesPending = 0;
   let captureSaveError: string | null = null;
@@ -1301,7 +1326,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let artworkLibraryActionMessage = "Choose a reference to stage a new placement or attach it to a selected placement.";
   let artworkLibraryOpen = false;
   let stretchFabric = STRETCH_FABRICS.find((f) => f.name === initialWorkspace.stretchFabric)!;
-  let materialSelectionExplicit = saved !== null;
+  // A persisted workspace may still be carrying the original per-garment
+  // material default. Treat that as a default so selecting another garment
+  // can adopt its own construction-family material. A non-default saved
+  // material remains an explicit user choice.
+  let materialSelectionExplicit = saved !== null
+    && saved.workspace.stretchFabric !== defaultStretchFabricForGarment(initialWorkspace.garment);
   let view: ViewName = saved ? initialWorkspace.view : stepView(journey.step);
   let technicalFlatFace: TechnicalFlatViewKind = "FRONT_FLAT";
   let bodyCroquisView: BodyCroquisView = initialWorkspace.bodyCroquisView;
@@ -1641,7 +1671,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (!semanticEdits) {
       const source = view === "edit" ? currentSemanticState()?.source : null;
       if (source?.status === "failed" && source.baseBlock === null) return null;
-      return draftAtSize(measurements, recipe.grade, step, recipe.draft, recipeOptions());
+      return draftRecipeAtSize(recipe, measurements, step, recipeOptions());
     }
     return currentSemanticState()?.evaluation?.sizes.find((size) => size.step === step)?.block ?? null;
   };
@@ -1911,18 +1941,72 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       resetButton.hidden = !explicit;
     }
   };
-  const materialCompatibilityNote = (): Note | null =>
-    (recipe.name === "woven-shirt" || recipe.name === "trouser") && stretchFabric.family === "knit"
-      ? { level: "warn", field: "stretchFabric", text: `${recipe.label} is drafted for stable woven material; choose Cotton woven or Linen, or review the construction before using a knit.` }
-      : null;
+  const materialCompatibilityNote = (): Note | null => {
+    if (recipe.name === "jeans" && (stretchFabric.family === "knit" || stretchFabric.stretchPercent > 0)) {
+      return { level: "warn", field: "stretchFabric", text: "The Jeans digital seed is rigid woven with 0% stretch. Choose Cotton woven to match that unqualified category seed, or retain the current fabric while compatibility remains unassessed; no fiber, weight, stretch/recovery, or physical fit is verified." };
+    }
+    if (recipe.name === "jogger" && stretchFabric.family === "woven") {
+      return { level: "warn", field: "stretchFabric", text: "Jogger P0 is drafted for knit material; choose Cotton jersey or Stable sweatshirt knit, or review the construction before using a woven fabric." };
+    }
+    if ((recipe.name === "woven-shirt" || recipe.name === "trouser" || recipe.name === "shorts")
+      && stretchFabric.family === "knit") {
+      return { level: "warn", field: "stretchFabric", text: `${recipe.label} is drafted for stable woven material; choose Cotton woven or Linen, or review the construction before using a knit.` };
+    }
+    return null;
+  };
+  type JeansUiAssessment = {
+    readonly options: Partial<JeansOptions>;
+    readonly draft: ReturnType<typeof draftJeansWithGuidance>;
+    readonly sizeRun: ReturnType<typeof jeansSizeRunWithGuidance>;
+    readonly guidance: Note[];
+    readonly report: ReturnType<typeof garmentReport> | null;
+  };
+  let jeansUiAssessmentCache: {
+    readonly recipe: GarmentRecipe;
+    readonly style: string;
+    readonly measurements: string;
+    readonly options: string;
+    readonly value: JeansUiAssessment;
+  } | null = null;
+  const currentJeansUiAssessment = (): JeansUiAssessment | null => {
+    if (recipe.name !== "jeans") return null;
+    const options = recipeOptions() as Partial<JeansOptions>;
+    const measurementsKey = JSON.stringify(measurements);
+    const optionsKey = JSON.stringify(options);
+    const cached = jeansUiAssessmentCache;
+    if (cached && cached.recipe === recipe && cached.style === targetStyle
+      && cached.measurements === measurementsKey && cached.options === optionsKey) return cached.value;
+
+    const draft = draftJeansWithGuidance(measurements, options);
+    const sizeRun = jeansSizeRunWithGuidance(measurements, options);
+    const value: JeansUiAssessment = {
+      options,
+      draft,
+      sizeRun,
+      guidance: guide(recipe, measurements, options),
+      report: draft.ready && sizeRun.ready
+        ? garmentReport(recipe, measurements, options, { includeSizeRun: !customOneSizeStyle() })
+        : null,
+    };
+    jeansUiAssessmentCache = {
+      recipe,
+      style: targetStyle,
+      measurements: measurementsKey,
+      options: optionsKey,
+      value,
+    };
+    return value;
+  };
   // The parametric report stays separate; semantic edits have their own
   // all-size validator and never inherit a green result from the source draft.
   const baseDesignValid = (): boolean => {
     if (inputErrors().size > 0) return false;
     try {
-      return !guide(recipe, measurements, recipeOptions()).some((note) => note.level === "warn")
-        && materialCompatibilityNote() === null
-        && garmentReportForCurrentStyle(recipe).ok;
+      const jeansAssessment = currentJeansUiAssessment();
+      if (jeansAssessment && (!jeansAssessment.draft.ready || !jeansAssessment.sizeRun.ready)) return false;
+      const guidance = jeansAssessment?.guidance ?? guide(recipe, measurements, recipeOptions());
+      if (guidance.some((note) => note.level === "warn") || materialCompatibilityNote() !== null) return false;
+      return (jeansAssessment?.report ?? garmentReportForCurrentStyle(recipe)).ok;
     } catch {
       return false;
     }
@@ -3075,8 +3159,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     applyDisclosure();
     syncOptionalOptionControls();
     const errors = inputErrors();
+    const jeansAssessment = errors.size === 0 ? currentJeansUiAssessment() : null;
+    const jeansDraftReview = jeansAssessment?.draft ?? null;
+    const jeansRunReview = jeansAssessment?.sizeRun ?? null;
+    const jeansRepresentationBlock = jeansDraftReview?.ready === true && jeansRunReview?.ready === true
+      ? jeansDraftReview.block
+      : null;
     const valid = designValid();
-    const semanticState = errors.size === 0 && (semanticEdits !== null || view === "edit")
+    const semanticState = errors.size === 0 && (recipe.name !== "jeans"
+      || (jeansDraftReview?.ready === true && jeansRunReview?.ready === true))
+      && (semanticEdits !== null || view === "edit")
       ? currentSemanticState()
       : null;
     root.querySelectorAll<HTMLElement>("[data-finished]").forEach((total) => {
@@ -3157,10 +3249,30 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       renderJourney();
       return;
     }
+    if (recipe.name === "jeans" && (!jeansDraftReview?.ready || !jeansRunReview?.ready)) {
+      const unavailableMarkup = previewActive
+        ? '<p role="status" data-jeans-assembled-paused>Assembled Jeans view is paused until the selected measurements and options produce a safe draft across XS–XL. Review the Jeans guidance before continuing.</p>'
+        : view === "body"
+          ? '<p role="status" data-jeans-body-paused>Jeans Body view is paused until the selected measurements and options produce a safe draft across XS–XL. Review the Jeans guidance before continuing.</p>'
+          : '<p role="status" data-jeans-output-paused>Jeans pattern output is paused until the flagged measurements and options produce a safe draft across XS–XL.</p>';
+      canvasHost.innerHTML = inspectionMarkup(unavailableMarkup, previewActive ? "assembled" : view);
+      const notes = [...jeansDraftReview!.notes, ...jeansRunReview!.notes];
+      const materialNote = materialCompatibilityNote();
+      renderGuidance(materialNote ? [...notes, materialNote] : notes);
+      updateMaterialClarity(materialNote ? [...notes, materialNote] : notes);
+      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(styleMatchMeasurements(), targetStyle, recipe.styles), styleNames(recipe.styles), false) + gradePlanPanel() + renderSurface();
+      syncSurfaceValidity();
+      syncSurfaceAssetPreviews();
+      renderJourney();
+      return;
+    }
     // Presentation follows the recipe's declared body region. Legacy/custom
     // recipes without it retain the historical field-based fallback.
     const isTop = (recipe.region ?? (recipe.fields.includes("chest") ? "upper" : "lower")) === "upper";
     const isTrouser = recipe.name === "trouser";
+    const isShorts = recipe.name === "shorts";
+    const isJogger = recipe.name === "jogger";
+    const isHoodie = recipe.name === "hoodie";
     // A sleeveless top (the tank) still carries a `sleeveLength` value on
     // `measurements` (fields not shown in a garment's UI don't disappear from
     // the object) — without this check both figures would draw it with a
@@ -3180,13 +3292,25 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       field: "ease",
       text: activeStarter && starterMaterialNote && starterEase !== null
         ? `${starterMaterialNote} ${starterEase} cm ease remains a product choice, not a fabric-derived recommendation.`
-        : fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip),
+        : recipe.name === "jeans"
+          ? "Jeans geometry does not respond to the selected fabric. Cotton woven is an unqualified woven, 0% stretch product seed; no fiber, weight, stretch/recovery, shrinkage, or physical fit has been validated."
+        : recipe.name === "crewneck"
+          ? "The stable-knit selector is a 10% width seed, not a measured material. It does not set sweatshirt ease or band length; stretch/recovery and physical fit have not been validated."
+          : isHoodie
+            ? "Hoodie geometry is independent of the selected material. Its stable-knit default is a 10% width seed, not a measured material; stretch/recovery and physical fit have not been validated."
+          : isJogger
+            ? "Jogger is a knit-only P0. Cotton jersey is a digital product default; the material selector does not model stretch/recovery or change the draft. Physical fit and material performance have not been validated."
+            : fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip),
     };
     const checkRecipe = semanticEdits && semanticState?.evaluation?.canExportSize(0)
       ? recipeForCurrentOutputs()
       : recipe;
     const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
-    const failedChecks: Note[] = sourceCannotDraft ? [] : garmentReportForCurrentStyle(checkRecipe).checks
+    // The Jeans readiness gate above returns before this report is read.
+    const checkRecipeReport = sourceCannotDraft ? null : checkRecipe === recipe && recipe.name === "jeans"
+      ? jeansAssessment!.report!
+      : garmentReportForCurrentStyle(checkRecipe);
+    const failedChecks: Note[] = sourceCannotDraft || checkRecipeReport === null ? [] : checkRecipeReport.checks
       .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
     const materialNote = materialCompatibilityNote();
     // Piece frames for surface bounds/coverage checks, at base size. Built
@@ -3208,9 +3332,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : recipeOptions();
     const guidanceNotes: Note[] = [
       ...(sourceCannotDraft ? [] : [
-        ...guide(recipe, measurements, constructionGuidanceOptions).filter((note) =>
+        ...(jeansAssessment?.guidance ?? guide(recipe, measurements, constructionGuidanceOptions).filter((note) =>
           recipe.name !== "fitted" || customOneSizeStyle()
-            || note.field !== "option-bustApexVertical"),
+            || note.field !== "option-bustApexVertical")),
         ...fittedRunClearanceNotes(),
       ]),
       ...failedChecks,
@@ -3242,7 +3366,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : `<p role="status">${escapeUiText(run.issues[0]!)}</p>`;
     } else if (view === "nest") {
       canvasContent = semanticRunReady()
-        ? renderNest(gradeRun(measurements, recipe.grade, recipe.sizes, recipeForCurrentOutputs().draft, recipeOptions()))
+        ? renderNest(gradeRecipeRun(recipeForCurrentOutputs(), measurements, recipe.sizes, recipeOptions()))
         : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
       if (recipe.name === "fitted" && nestScope === "marker" && !fittedRunClearanceValid()) {
@@ -3283,15 +3407,21 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     } else if (view === "check") {
       const dismissedGuidance = guidanceNotes.filter((note) =>
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
+      const currentCheckReport = (): ReturnType<typeof garmentReport> => {
+        const checkRecipe = recipeForCurrentOutputs();
+        return recipe.name === "jeans" && checkRecipe.draft === recipe.draft
+          ? jeansAssessment!.report!
+          : garmentReportForCurrentStyle(checkRecipe);
+      };
       canvasContent = semanticSizeReady(0)
-        ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance,
+        ? checkMarkup(currentCheckReport(), valid, dismissedGuidance,
           customOneSizeStyle(), gradePlanApproved(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan)
           + (customOneSizeStyle() ? gradePlanRunMarkup(currentGradePlanRun(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan) : "")
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
       const draft = semanticSizeBlock(selectedOutputStep())
-        ?? (sourceCannotDraft ? null : draftAtSize(measurements, recipe.grade, selectedOutputStep(), recipe.draft, recipeOptions()));
+        ?? (sourceCannotDraft ? null : draftRecipeAtSize(recipe, measurements, selectedOutputStep(), recipeOptions()));
       if (!draft) {
         canvasContent = '<p role="alert" data-semantic-source-unavailable>The current recipe pattern could not be generated. Resolve the source issue before editing.</p>' +
           semanticEditorHintMarkup(semanticOutputIssues(), editRoleId, {
@@ -3341,7 +3471,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         canvasContent = `<p role="status" data-semantic-output-paused>Graded specifications are paused. Review or rebase the saved edits in Edit.</p>`;
       } else {
         const outputRecipe = recipeForCurrentOutputs();
-        const graded = gradeRun(measurements, recipe.grade, recipe.sizes, outputRecipe.draft, recipeOptions());
+        const graded = gradeRecipeRun(outputRecipe, measurements, recipe.sizes, recipeOptions());
         const baseIndex = graded.findIndex((g) => g.step === 0);
         canvasContent = specTableMarkup(
           specSheet(graded, withModeledPomLabels(outputRecipe.poms, outputRecipe.name === "tee")), graded.map((g) => g.label), baseIndex);
@@ -3368,10 +3498,27 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         measureText: technicalFlatTextMeasurer,
       });
     } else if (view === "body") {
-      if (bodyCroquisView === "side") {
+      if (recipe.name === "jeans") {
+        // The earlier Jeans readiness gate returns before rendering unless both
+        // reviews are ready, so this is the already-approved shared source block.
+        if (bodyCroquisView === "side") {
+          canvasContent = '<p role="status" data-jeans-body-side-unavailable>Jeans side view is not included yet. Choose front, back, or front/back.</p>';
+        } else if (bodyCroquisView === "front") {
+          canvasContent = renderJeansBody(jeansRepresentationBlock!, "front");
+        } else if (bodyCroquisView === "back") {
+          canvasContent = renderJeansBody(jeansRepresentationBlock!, "back");
+        } else {
+          canvasContent = renderJeansBodyPair(jeansRepresentationBlock!);
+        }
+        if (semanticEdits !== null && jeansRepresentationBlock !== null) {
+          canvasContent += '<p class="semantic-edit-preview-notice" role="status" data-jeans-edit-preview-notice>Saved pattern edits are not reflected in this parametric Jeans schematic. Pattern-linked 3D simulation is not available.</p>';
+        }
+      } else if (bodyCroquisView === "side") {
         canvasContent = isTrouser
           ? renderTrouserSide(measurements, recipeOptions())
-          : renderSideCroquis(measurements, isTop ? "upper" : "lower");
+          : isShorts
+            ? renderShortsSide(measurements, recipeOptions())
+            : renderSideCroquis(measurements, isTop ? "upper" : "lower");
       } else if (!isTop) {
         canvasContent = isTrouser
           ? bodyCroquisView === "front"
@@ -3379,7 +3526,25 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             : bodyCroquisView === "back"
               ? renderTrouserBody(measurements, recipeOptions(), "back")
               : renderTrouserBodyPair(measurements, recipeOptions())
-          : renderSkirtBody(measurements);
+          : isShorts
+            ? bodyCroquisView === "front"
+              ? renderShortsBody(measurements, recipeOptions(), "front")
+              : bodyCroquisView === "back"
+                ? renderShortsBody(measurements, recipeOptions(), "back")
+                : renderShortsBodyPair(measurements, recipeOptions())
+            : isJogger
+              ? bodyCroquisView === "front"
+                ? renderJoggerBody(measurements, recipeOptions(), "front")
+                : bodyCroquisView === "back"
+                  ? renderJoggerBody(measurements, recipeOptions(), "back")
+                  : renderJoggerBodyPair(measurements, recipeOptions())
+              : renderSkirtBody(measurements);
+      } else if (isHoodie) {
+        canvasContent = bodyCroquisView === "front"
+          ? renderHoodieBody(measurements, recipeOptions(), "front")
+          : bodyCroquisView === "back"
+            ? renderHoodieBody(measurements, recipeOptions(), "back")
+            : renderHoodieBodyPair(measurements, recipeOptions());
       } else if (bodyCroquisView === "front") {
         canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements, recipeOptions()), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       } else if (bodyCroquisView === "back") {
@@ -3405,12 +3570,22 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         );
       }
     }
-    const assembled = isTop
-      ? renderGarment(measurements, fabric, hasSleeve,
-          recipe.frontNeckline?.(measurements, recipeOptions()), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
-      : isTrouser
-        ? renderTrouserGarment(measurements, fabric, recipeOptions())
-        : renderSkirtGarment(measurements, fabric);
+    const assembled = recipe.name === "jeans"
+      ? renderJeansAssembled(jeansRepresentationBlock!)
+      : recipe.name === "crewneck"
+      ? renderCrewneckFigure(measurements, fabric, recipeOptions())
+      : isHoodie
+        ? renderHoodieGarment(measurements, fabric, recipeOptions())
+        : isTop
+        ? renderGarment(measurements, fabric, hasSleeve,
+           recipe.frontNeckline?.(measurements, recipeOptions()), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
+        : isTrouser
+          ? renderTrouserGarment(measurements, fabric, recipeOptions())
+          : isShorts
+            ? renderShortsGarment(measurements, fabric, recipeOptions())
+            : isJogger
+              ? renderJoggerGarment(measurements, fabric, recipeOptions())
+              : renderSkirtGarment(measurements, fabric);
     const assembledPreview = applyAppearanceToSvg(assembled, fabric, appearance);
     const assembledEditNotice = semanticEdits
       ? '<p class="semantic-edit-preview-notice" role="status">Saved pattern edits are not reflected in this schematic assembled illustration. Pattern-linked 3D simulation is not available.</p>'
@@ -3761,7 +3936,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     menu.open = false;
     root.querySelector<HTMLElement>("#advanced-view-label")!.focus();
   });
-  window.addEventListener("resize", applyInspectionPresentation);
+  addMountWindowListener("resize", applyInspectionPresentation);
 
   const previewToggle = root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!;
   const syncPreviewToggle = (): void => {
@@ -4010,6 +4185,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     readonly inputKey: string;
   }>();
   const activeFieldObservationWrites = new Set<Promise<string | null>>();
+  registerMountCleanup(() => {
+    for (const pending of pendingFieldObservationTimers.values()) window.clearTimeout(pending.timer);
+    pendingFieldObservationTimers.clear();
+    activeFieldObservationWrites.clear();
+  });
   let flushPendingFieldObservations: (() => Promise<void>) | undefined;
   const fieldHistoryDialog = root.querySelector<HTMLDialogElement>("#field-history-dialog")!;
   const syncFieldSourceSummaries = (): void => {
@@ -4257,12 +4437,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       });
     });
   });
-  window.addEventListener("mousemove", (e) => {
+  addMountWindowListener("mousemove", (e) => {
     if (!dragStart) return;
     editedFront = moveHandle(dragStart.piece, dragStart.handle, handleAt(e, dragStart.piece, dragStart.roleId).at);
     draw();
   });
-  window.addEventListener("mouseup", () => {
+  addMountWindowListener("mouseup", () => {
     if (!dragStart) return;
     const start = dragStart;
     const moved = editedFront;
@@ -4426,9 +4606,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? semanticEdits : null;
     semanticSourceCache = null;
     semanticEvaluationCache = null;
-    editRoleId = resolveSemanticEditorRole(
-      recipe.editRole, Object.keys(recipe.draft(measurements, recipeOptions()).roles),
-    );
+    const roleDraft = recipe.name === "jeans"
+      ? recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options!))
+      : recipe.draft(measurements, recipeOptions());
+    editRoleId = resolveSemanticEditorRole(recipe.editRole, Object.keys(roleDraft.roles));
     selectedId = null;
     // Re-render the measurement panel to this garment's fields (a skirt shows
     // waist/hip, not chest/sleeve), then re-attach its listeners.
@@ -4755,6 +4936,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     repeatInterval = 0;
     activeStepper = null;
   };
+  registerMountCleanup(() => stopStepperRepeat(false));
   const stepFromButton = (button: HTMLButtonElement): HTMLButtonElement | null => {
     if (button.disabled) return null;
     const control = button.closest<HTMLElement>("[data-range-control]");
@@ -4813,9 +4995,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     stepFromButton(button);
   });
-  window.addEventListener("pointerup", () => stopStepperRepeat(true));
-  window.addEventListener("pointercancel", () => stopStepperRepeat(true));
-  window.addEventListener("blur", () => stopStepperRepeat(false));
+  addMountWindowListener("pointerup", () => stopStepperRepeat(true));
+  addMountWindowListener("pointercancel", () => stopStepperRepeat(true));
+  addMountWindowListener("blur", () => stopStepperRepeat(false));
 
   const swatchHost = root.querySelector<HTMLElement>("#swatch-host")!;
   const swatches = swatchHost.querySelectorAll<HTMLButtonElement>("button[data-fabric]");
@@ -5507,7 +5689,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const step = selectedOutputStep();
     const customPlanSize = customOneSizeStyle() ? selectedGradePlanSize() : null;
     const drafted = customPlanSize?.block ?? (semanticEdits === null
-      ? draftAtSize(measurements, recipe.grade, step, recipe.draft, recipeOptions())
+      ? draftRecipeAtSize(recipe, measurements, step, recipeOptions())
       : semanticSizeBlock(step));
     return exportablePieces(drafted, customPlanSize ? customPlanSize.ready : semanticSizeReady(step));
   };
@@ -5537,6 +5719,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const statusEl = root.querySelector<HTMLSpanElement>("#persist-status")!;
   let projectManager: ProjectManager | null = null;
   let statusTimer = 0;
+  registerMountCleanup(() => {
+    if (statusTimer !== 0) window.clearTimeout(statusTimer);
+    statusTimer = 0;
+  });
   const flash = (msg: string, color: string): void => {
     statusEl.textContent = msg;
     statusEl.style.color = color;
@@ -6178,7 +6364,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     return element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement
       || element instanceof HTMLSelectElement || element?.isContentEditable === true;
   };
-  window.addEventListener("keydown", (event) => {
+  addMountWindowListener("keydown", (event) => {
     if (activeMountRoot !== root) return;
     if (!(event.ctrlKey || event.metaKey) || event.altKey || nativeEditingTarget(event.target)) return;
     const key = event.key.toLowerCase();
@@ -6186,7 +6372,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : key === "y" ? performRedo() : false;
     if (handled) event.preventDefault();
   });
-  window.addEventListener("beforeunload", (event) => {
+  addMountWindowListener("beforeunload", (event) => {
     if (activeMountRoot !== root) return;
     if (outputRevision === savedRevision) return;
     event.preventDefault();
