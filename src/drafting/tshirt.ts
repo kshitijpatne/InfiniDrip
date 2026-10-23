@@ -16,6 +16,7 @@ import { NECKLINE_DEFAULT, NecklineParams, necklineEdge } from "./neckline";
 import type { Note } from "../guidance/note";
 import { Piece, edgeLength, pieceEdge } from "./piece";
 import { Block } from "./block";
+import { vNeckBodyPieces } from "./vneck-band-output";
 import { sleevedTopStitches } from "./tshirt-checks";
 import { bodice } from "./bodice";
 import { sleeve as sleeveComponent } from "./sleeve";
@@ -373,6 +374,7 @@ export function teeVNeckbandTemplateSvg(
   pieces: readonly Piece[],
   lengthPercent: number,
   finishedWidthCm: number,
+  familyLabel = "T06",
 ): string {
   const percentageOption = TEE_NECKBAND_OPTIONS[0]!;
   const widthOption = TEE_NECKBAND_OPTIONS[1]!;
@@ -387,9 +389,8 @@ export function teeVNeckbandTemplateSvg(
     throw new Error(`Finished neckband width must be ${widthOption.min}–${widthOption.max} cm.`);
   }
 
-  const front = pieces.find((piece) => piece.name.trim().toLowerCase() === "front");
-  const back = pieces.find((piece) => piece.name.trim().toLowerCase() === "back");
-  if (!front || !back) throw new Error("The selected Tee pattern must include front and back pieces.");
+  const patternFamily = familyLabel === "T06" ? "Tee" : familyLabel;
+  const { front, back } = vNeckBodyPieces(pieces, patternFamily);
 
   const frontEdge = pieceEdge(front, "neckline");
   const backEdge = pieceEdge(back, "neckline");
@@ -400,7 +401,7 @@ export function teeVNeckbandTemplateSvg(
   const backNecklineCm = edgeLength(backEdge);
   if (!Number.isFinite(frontNecklineCm) || frontNecklineCm <= 0 ||
       !Number.isFinite(backNecklineCm) || backNecklineCm <= 0) {
-    throw new Error("The selected Tee neckline geometry is not usable for a V-band template.");
+    throw new Error(`The selected ${patternFamily} neckline geometry is not usable for a V-band template.`);
   }
 
   // The folded front is at x=0; accept either edge direction so this helper
@@ -420,7 +421,7 @@ export function teeVNeckbandTemplateSvg(
 
   const necklineCircumferenceCm = 2 * (frontNecklineCm + backNecklineCm);
   if (!Number.isFinite(necklineCircumferenceCm) || necklineCircumferenceCm <= 0) {
-    throw new Error("The selected Tee neckline geometry is not usable for a V-band template.");
+    throw new Error(`The selected ${patternFamily} neckline geometry is not usable for a V-band template.`);
   }
   const loopSeamlineCm = necklineCircumferenceCm * lengthPercent / 100;
   const endSeamAllowanceCm = 1;
@@ -445,6 +446,12 @@ export function teeVNeckbandTemplateSvg(
   const format = (value: number): string => Number(value.toFixed(3)).toString();
   const dimension = (value: number): string => value.toFixed(1);
   const angleDegrees = includedVAngleRadians * 180 / Math.PI;
+  const vReferenceLabel = familyLabel === "T06"
+    ? "GARMENT FRONT V REFERENCE · SCHEMATIC"
+    : `${familyLabel.toUpperCase()} FRONT V REFERENCE · SCHEMATIC`;
+  const bandDescription = familyLabel === "T06"
+    ? "True-scale one-piece digital band strip from the selected Tee front V and crew back. "
+    : `True-scale one-piece digital band strip from the selected ${familyLabel} front V and crew back. `;
 
   const registrationMarks = [
     { id: "center-front-start", label: "CF", bodyPosition: 0, bandPosition: 0 },
@@ -503,8 +510,8 @@ export function teeVNeckbandTemplateSvg(
     `data-front-v-half-width-cm="${format(frontHalfWidthCm)}" ` +
     `data-v-center-front-x-cm="${format(centerFront.x)}" data-v-center-front-y-cm="${format(centerFront.y)}" ` +
     `data-v-shoulder-x-cm="${format(shoulder.x)}" data-v-shoulder-y-cm="${format(shoulder.y)}">` +
-    `<title>T06 V-neck band provisional cutting template</title>` +
-    `<desc>True-scale one-piece digital band strip from the selected Tee front V and crew back. ` +
+    `<title>${familyLabel} V-neck band provisional cutting template</title>` +
+    `<desc>${bandDescription}` +
     `Opposing center-front join seams use a product-defined miter derived from the active V angle. ` +
     `Print at 100 percent and verify the ten centimetre calibration line. Material behavior and physical fit are unvalidated.</desc>` +
     `<g fill="none" stroke="#111" stroke-width="0.035">` +
@@ -525,10 +532,10 @@ export function teeVNeckbandTemplateSvg(
     `<line x1="${format(x + 10)}" y1="${format(scaleY - 0.12)}" x2="${format(x + 10)}" y2="${format(scaleY + 0.12)}"/>` +
     `</g>` +
     `<g fill="#111" font-family="Arial, sans-serif">` +
-    `<text x="${format(x)}" y="0.48" font-size="0.3">T06 V-NECK BAND — PROVISIONAL TEMPLATE · SELECTED SIZE</text>` +
+    `<text x="${format(x)}" y="0.48" font-size="0.3">${familyLabel} V-NECK BAND — PROVISIONAL TEMPLATE · SELECTED SIZE</text>` +
     `<text x="${format(x)}" y="0.95" font-size="0.22">Body neckline ${dimension(necklineCircumferenceCm)} cm · band target ${dimension(loopSeamlineCm)} cm at ${dimension(lengthPercent)}% · finished width ${dimension(finishedWidthCm)} cm</text>` +
     `<text x="${format(x)}" y="1.38" font-size="0.22">CF miter ${dimension(angleDegrees)}° included V angle · matching CF, shoulder and CB registration marks</text>` +
-    `<text x="${format(vDiagramCenterX - 2.5)}" y="1.72" font-size="0.2">GARMENT FRONT V REFERENCE · SCHEMATIC</text>` +
+    `<text x="${format(vDiagramCenterX - 2.5)}" y="1.72" font-size="0.2">${vReferenceLabel}</text>` +
     `<text x="${format(vDiagramLeftX - 0.28)}" y="${format(vDiagramTopY + 0.12)}" font-size="0.18">SHOULDER</text>` +
     `<text x="${format(vDiagramRightX + 0.12)}" y="${format(vDiagramTopY + 0.12)}" font-size="0.18">SHOULDER</text>` +
     `<text x="${format(vDiagramCenterX + 0.15)}" y="${format(vDiagramPointY + 0.12)}" font-size="0.18">CF</text>` +

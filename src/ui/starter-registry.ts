@@ -1,5 +1,5 @@
 import type { TeeConstruction } from "../drafting/tshirt";
-import { FITTED_PRINCESS_ENTRY_ID } from "../drafting/fitted";
+import { FITTED_PRINCESS_ENTRY_ID, FITTED_VNECK_ENTRY_ID } from "../drafting/fitted";
 
 export interface StarterControl {
   readonly fieldId: string;
@@ -544,10 +544,46 @@ const FITTED_PRINCESS_TEE_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const FITTED_VNECK_TEE_BLANK_ENTRY: StarterEntry = {
+  entryId: FITTED_VNECK_ENTRY_ID,
+  entryRevision: "2026-10-23.1",
+  recipeId: "fitted",
+  recipeRevision: "fitted-v-neck-v1",
+  catalogKind: "blank",
+  label: "Fitted V-neck Tee · software defaults",
+  configuration: {
+    targetStyle: "Fitted tee",
+    measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+    options: { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28, teeVNeckDropCm: 5 },
+  },
+  supportedControls: [
+    ...FITTED_TEE_BLANK_ENTRY.supportedControls,
+    { fieldId: "teeVNeckDropCm", label: "Front V-neck drop", kind: "option", unit: "cm", min: 0, max: 15, step: 0.5, defaultValue: 5 },
+  ],
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured fitted, bust-darted V-neck Tee draft; editable before saving.",
+    fit: "The Fitted label and all measurements, dart controls, V-drop and band settings are software defaults, not validated fit targets.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Uses the existing Fitted bust-dart front and shared back/sleeve with an entry-scoped straight V neckline. The selected-size V-band join is a digital construction choice, not sewn-fit or material evidence.",
+    sizeScope: "One software-default profile based on the existing F01 measurement contract; not a population chart, validated size profile, or validated Fitted grade run.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The seven measurements, three bust-dart values and 5 cm V drop are editable software defaults or geometry controls, not sourced fit or population standards.",
+    "The V-band SVG and matching Tech Pack are selected-size digital outputs; graded V-band output is not supplied.",
+    "The 75% band-length setting and 2 cm finished width are software choices, not material or recovery recommendations.",
+    "Generic Tee grading remains software output and has not been independently validated for this Fitted V-neck starter.",
+    "B1 technical-design review is pending. No physical-fit, comfort, wear, material-performance, supplier, manufacturing, or production claim.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v5",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v6",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

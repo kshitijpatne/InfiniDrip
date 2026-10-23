@@ -14,12 +14,12 @@ import { derive } from "./measurements";
 import { necklineEdge } from "./neckline";
 import { garmentReport } from "../guidance/garment-check";
 import { wovenShirtAllowances } from "./shirt";
-import { teeNeckbandTemplateSvg } from "./tshirt";
+import { teeNeckbandTemplateSvg, teeVNeckbandTemplateSvg } from "./tshirt";
 import { exportSvg } from "../export/svg";
 import { exportDxf } from "../export/dxf";
 import { gradeRun } from "./grading";
 import { stitchChecks } from "./stitch";
-import { FITTED_PRINCESS_ENTRY_ID } from "./fitted";
+import { FITTED_PRINCESS_ENTRY_ID, FITTED_VNECK_ENTRY_ID } from "./fitted";
 
 
 describe("the garment registry", () => {
@@ -428,6 +428,44 @@ describe("recipe callbacks", () => {
     expect(vNeck.construction.some((step) => step.startsWith("V-band settings: Measured selected-size body neckline 40.0 cm; selected band target 34.0 cm at 85%"))).toBe(true);
     expect(vNeck.construction.join(" ")).toContain("Finished width 2.4 cm");
     expect(vNeck.construction.join(" ")).toContain("no graded-size band output is supplied");
+  });
+
+  it("adds selected-size V-band instructions to F04 without losing its bust-dart construction", () => {
+    const vNeckDrop = { [TEE_V_NECK_DROP_OPTION_ID]: 5 };
+    const wholeRun = FITTED.techPackForOptions!(vNeckDrop);
+    const selectedSize = FITTED.techPackForOptions!({
+      ...vNeckDrop,
+      teeNeckbandLengthPercent: 85,
+      teeNeckbandFinishedWidthCm: 2.4,
+      teeVNecklineCircumferenceCm: 40,
+      teeVNeckbandTargetLengthCm: 34,
+      [TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION]: 1,
+    });
+    const invalidSettings = FITTED.techPackForOptions!({
+      ...vNeckDrop,
+      teeNeckbandLengthPercent: 74,
+      [TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION]: 1,
+    });
+    const fittedBlock = FITTED.draft(STANDARD_M, { ...vNeckDrop, dartIntake: 4,
+      bustApexHorizontal: 55, bustApexVertical: 28 });
+    const fittedPieces = blockPieces(fittedBlock);
+    const svg = teeVNeckbandTemplateSvg(fittedPieces, 85, 2.4, "Fitted Tee");
+
+    expect(FITTED.techPackForOptions!({})).toBe(FITTED.techPack);
+    expect(wholeRun.constructionNotice).toContain("whole-run Tech Packs do not include graded-size V-band");
+    expect(wholeRun.bom.some((row) => row.placement === "Provisional V-neck band")).toBe(false);
+    expect(wholeRun.construction.join(" ")).toContain("Sew the bust darts; press them toward the hem.");
+    expect(wholeRun.construction.join(" ")).not.toContain("V-band settings:");
+    expect(selectedSize.constructionNotice).toContain("Provisional digital V-band construction");
+    expect(selectedSize.construction.join(" ")).toContain("Sew the bust darts; press them toward the hem.");
+    expect(selectedSize.construction.join(" ")).toContain("V-band settings: Measured selected-size body neckline");
+    expect(selectedSize.bom.some((row) => row.placement === "Provisional V-neck band")).toBe(true);
+    expect(invalidSettings.constructionNotice).toContain("Fitted Tee band settings");
+    expect(invalidSettings.bom.some((row) => row.placement === "Provisional V-neck band")).toBe(false);
+    expect(svg).toContain("Fitted Tee V-neck band provisional cutting template");
+    expect(svg).toContain("Fitted Tee V-NECK BAND");
+    expect(fittedPieces.some((piece) => piece.name === "fitted front")).toBe(true);
+    expect(FITTED_VNECK_ENTRY_ID).toBe("fitted-vneck-tee-digital-v1");
   });
 
   it("uses default V band parameters when omitted and withholds band steps for invalid settings", () => {

@@ -441,8 +441,9 @@ export const FITTED: GarmentRecipe = {
   guidance: fittedGuidance,
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
-  // draftFitted, like draftTshirt, defaults both panels to NECKLINE_DEFAULT.
-  frontNeckline: () => NECKLINE_DEFAULT,
+  // The entry-scoped F04 option selects the same straight-V geometry as Tee;
+  // absent options keep the established Fitted crew neckline.
+  frontNeckline: (_m, options = {}) => teeFrontNecklineParams(options),
   backNeckline: () => NECKLINE_DEFAULT,
   techPack: {
     bom: KNIT_BOM,
@@ -473,14 +474,21 @@ export const FITTED: GarmentRecipe = {
         ],
       };
     }
-    if (options.waistDartIntake === undefined) return this.techPack;
+    const fittedTechPack = options.waistDartIntake === undefined
+      ? this.techPack
+      : {
+          ...this.techPack,
+          construction: [
+            ...this.techPack.construction.slice(0, 2),
+            "Sew the marked front waist dart by matching both legs to the apex; orient the sewn fold toward center front.",
+            ...this.techPack.construction.slice(2),
+          ],
+        };
+    if (!isTeeVNeckActive(options)) return fittedTechPack;
+    const vBandTechPack = TEE.techPackForOptions!.call({ ...this, techPack: fittedTechPack }, options);
     return {
-      ...this.techPack,
-      construction: [
-        ...this.techPack.construction.slice(0, 2),
-        "Sew the marked front waist dart by matching both legs to the apex; orient the sewn fold toward center front.",
-        ...this.techPack.construction.slice(2),
-      ],
+      ...vBandTechPack,
+      constructionNotice: vBandTechPack.constructionNotice!.replace("Tee band settings", "Fitted Tee band settings"),
     };
   },
 };
