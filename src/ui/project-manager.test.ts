@@ -2811,11 +2811,23 @@ describe("accessible project and style manager", () => {
         && workflow.snapshot.project.brandProfile.rules).toEqual([]));
       expect(workflow.snapshot.project.revision).toBe(revisionBeforeRuleRemoval + 1);
 
+      const revisionBeforeColorRemoval = workflow.snapshot.project.revision;
+      host.querySelector<HTMLButtonElement>(`[data-brand-profile-action="remove-color"][data-color-id="${colorId}"]`)!.click();
+      expect(host.querySelector(`[data-brand-profile-color-row="${colorId}"]`)).toBeNull();
+      expect(workflow.snapshot.project.revision).toBe(revisionBeforeColorRemoval);
+      expect("brandProfile" in workflow.snapshot.project && workflow.snapshot.project.brandProfile.colors)
+        .toEqual([{ id: colorId, name: "Indigo", hex: "#112233" }]);
+
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!.click();
+      await vi.waitFor(() => expect("brandProfile" in workflow.snapshot.project
+        && workflow.snapshot.project.brandProfile.colors).toEqual([]));
+      expect(workflow.snapshot.project.revision).toBe(revisionBeforeColorRemoval + 1);
+
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-color"]')!.click();
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="discard-profile"]')!.click();
       const reloaded = "brandProfile" in workflow.snapshot.project ? workflow.snapshot.project.brandProfile : null;
-      expect(reloaded?.colors).toHaveLength(1);
-      expect(host.querySelectorAll("[data-brand-profile-color-row]")).toHaveLength(1);
+      expect(reloaded?.colors).toHaveLength(0);
+      expect(host.querySelectorAll("[data-brand-profile-color-row]")).toHaveLength(0);
     } finally {
       state.close();
     }

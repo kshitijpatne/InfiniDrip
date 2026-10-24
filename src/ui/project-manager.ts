@@ -992,7 +992,7 @@ export class ProjectManager {
     void this.missingBrandProfileAssets(this.brandProfileDraft).then((missingIds) => {
       if (this.brandProfileProjectId !== projectId || this.brandProfileAssetStatusKey !== key) return;
       this.brandProfileMissingIds = missingIds;
-      this.updateBrandProfileAssetRows();
+      this.updateBrandProfileAssetRows(missingIds);
     });
   }
 
@@ -1061,19 +1061,16 @@ export class ProjectManager {
     if (conflict) conflict.textContent = this.brandProfileConflictMessage();
   }
 
-  private updateBrandProfileAssetRows(): void {
-    const missing = this.brandProfileMissingIds;
+  private updateBrandProfileAssetRows(missing: readonly string[]): void {
     const status = this.options.host.querySelector<HTMLElement>("[data-brand-profile-assets-status]");
-    if (status) status.textContent = missing === null
-      ? "Checking existing artwork references against local storage…"
-      : missing.length === 0
-        ? "All existing artwork references resolve locally."
-        : `${missing.length} artwork reference(s) are missing. Remove each missing reference or restore its file before saving.`;
+    if (status) status.textContent = missing.length === 0
+      ? "All existing artwork references resolve locally."
+      : `${missing.length} artwork reference(s) are missing. Remove each missing reference or restore its file before saving.`;
     for (const row of this.options.host.querySelectorAll<HTMLElement>("[data-brand-profile-asset-row]")) {
       const assetId = row.dataset.brandProfileAssetRow ?? "";
-      const unresolved = missing?.includes(assetId) === true;
+      const unresolved = missing.includes(assetId);
       const state = row.querySelector<HTMLElement>("[data-brand-profile-asset-state]");
-      if (state) state.textContent = missing === null ? "Checking local storage…" : unresolved ? "Missing from local storage" : "Stored locally";
+      if (state) state.textContent = unresolved ? "Missing from local storage" : "Stored locally";
       const remove = row.querySelector<HTMLButtonElement>("[data-brand-profile-action='remove-artwork']");
       if (remove) remove.textContent = unresolved ? "Remove missing reference" : "Remove reference";
     }
