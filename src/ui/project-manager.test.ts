@@ -2920,10 +2920,13 @@ describe("accessible project and style manager", () => {
       const { host, workflow } = state;
       const file = new NodeFile(["image"], "discard-me.png", { type: "image/png" }) as unknown as File;
       selectArtworkFiles(host.querySelector<HTMLInputElement>("#brand-profile-artwork-files")!, [file]);
+      expect(host.querySelector("[data-brand-profile-staged-files]")?.textContent).toContain("discard-me.png");
       expect(store.put).not.toHaveBeenCalled();
-      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="discard-profile"]')!.click();
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="discard-files"]')!.click();
       expect(host.querySelector("[data-brand-profile-staged-files]")?.textContent).toContain("No new files staged");
-      expect(host.querySelector("#project-manager-status")?.textContent).toContain("nothing was written");
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("Staged artwork files were discarded; nothing was written to local storage.");
+      expect(inspectAsset).not.toHaveBeenCalled();
       expect(store.put).not.toHaveBeenCalled();
 
       vi.spyOn(workflow, "saveBrandProfile").mockRejectedValue(new Error("simulated project revision conflict"));
@@ -2934,6 +2937,36 @@ describe("accessible project and style manager", () => {
       expect(inspectAsset).toHaveBeenCalledTimes(1);
       expect(store.put).toHaveBeenCalledTimes(1);
       expect(assets.size).toBe(0);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("rejects invalid Brand Profile data before project persistence", async () => {
+    const state = await techPackHarness();
+    try {
+      const { host, workflow } = state;
+      const revisionBefore = workflow.snapshot.project.revision;
+      const saveProfile = vi.spyOn(workflow, "saveBrandProfile");
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-color"]')!.click();
+      const colorName = host.querySelector<HTMLInputElement>('[data-brand-profile-color-field="name"]')!;
+      colorName.value = "Indigo";
+      colorName.dispatchEvent(new Event("input", { bubbles: true }));
+      const colorHex = host.querySelector<HTMLInputElement>('[data-brand-profile-color-field="hex"]')!;
+      colorHex.value = "#123";
+      colorHex.dispatchEvent(new Event("input", { bubbles: true }));
+
+      const save = host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!;
+      expect(save.disabled).toBe(true);
+      expect(host.querySelector("[data-brand-profile-validation]")?.textContent)
+        .toContain("brandProfile.colors[0].hex: enter a six-digit hex color");
+      save.disabled = false;
+      save.click();
+
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("brandProfile.colors[0].hex: enter a six-digit hex color such as #2A4B6C.");
+      expect(saveProfile).not.toHaveBeenCalled();
+      expect(workflow.snapshot.project.revision).toBe(revisionBefore);
     } finally {
       state.close();
     }
