@@ -557,6 +557,15 @@ describe("collection immutable source resolution", () => {
     expect(resolveCollectionSourceStatuses(project, [{ ...currentStyle, revisionHeadId: revisionTwoId }], [oldRevision])).toMatchObject({
       ok: false, error: expect.stringContaining("missing its current immutable revision head"),
     });
+    expect(resolveCollectionSourceStatuses(project, [currentStyle, currentStyle], [oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("duplicate project style ID"),
+    });
+    expect(resolveCollectionSourceStatuses(project, [currentStyle], [oldRevision, oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("duplicate immutable revision ID"),
+    });
+    expect(resolveCollectionSourceStatuses(project, [{ ...currentStyle, revisionHeadId: null }], [oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("missing its current immutable revision head"),
+    });
     const materialOnlyReference = {
       ...project,
       collections: [{
@@ -1070,6 +1079,46 @@ describe("transactional project repository", () => {
     });
     await expect(repository.readProjectBundle(source.project.id)).resolves.toBeNull();
     repository.close();
+  });
+
+  it("rejects a persisted collection pin that no longer resolves when loading a project", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    try {
+      const source = newBundle();
+      const observations = fieldHistory(source.style);
+      const revisionId = testUuid(984);
+      const revision = await testRevision(source.style, observations, revisionId);
+      const style = { ...source.style, revisionHeadId: revisionId };
+      const project = {
+        ...source.project,
+        schemaVersion: COLLECTION_PROJECT_RECORD_VERSION as 4,
+        brandProfile: null,
+        collections: [],
+      };
+      await repository.saveProjectBundle({
+        project,
+        styles: [style],
+        fieldObservations: [observations],
+        styleRevisions: [revision],
+        expectedProjectRevision: null,
+      });
+
+      const collection = unresolvedSourceCollection(project.id, style.id, testUuid(985), 986);
+      await rawPut(factory, name, PROJECT_STORES.projects, {
+        ...project,
+        collections: [collection],
+        revision: project.revision + 1,
+        updatedAt: NEXT_TIME,
+      });
+      await expect(repository.loadProject(project.id)).rejects.toMatchObject({
+        code: "invalid-data",
+        message: expect.stringContaining("reference an immutable revision belonging to the linked style"),
+      });
+    } finally {
+      repository.close();
+    }
   });
 
   it("returns no active project before a project has been selected", async () => {

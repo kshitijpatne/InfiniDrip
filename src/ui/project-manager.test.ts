@@ -2890,6 +2890,52 @@ describe("accessible project and style manager", () => {
     }
   });
 
+  it("surfaces artwork cleanup failures and preserves profile-save errors when cleanup is unavailable", async () => {
+    const noStoreProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: "a4444444-4444-4444-8444-000000000004", name: "Indigo", hex: "#112233" }],
+      artworkAssetIds: [],
+      rules: [],
+    };
+    const noStoreState = await techPackHarness({ initialBrandProfile: noStoreProfile });
+    try {
+      const { host, workflow } = noStoreState;
+      vi.spyOn(workflow, "saveBrandProfile").mockRejectedValue(new Error("simulated project revision conflict"));
+      const colorName = host.querySelector<HTMLInputElement>("[data-brand-profile-color-field='name']")!;
+      colorName.value = "Deep Indigo";
+      colorName.dispatchEvent(new Event("input", { bubbles: true }));
+      host.querySelector<HTMLButtonElement>("[data-brand-profile-action='save-profile']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("simulated project revision conflict"));
+    } finally {
+      noStoreState.close();
+    }
+
+    const { store, assets } = memoryArtworkStore();
+    vi.mocked(store.remove).mockRejectedValue(new Error("simulated local storage failure"));
+    const inspectAsset = vi.fn(async (file: File): Promise<InspectedArtworkFile> => ({
+      name: file.name,
+      mimeType: "image/png",
+      blob: new NodeBlob(["validated-image"], { type: "image/png" }) as unknown as Blob,
+    }));
+    const state = await techPackHarness({ artworkStore: store, inspectAsset });
+    try {
+      const { host, workflow } = state;
+      vi.spyOn(workflow, "saveBrandProfile").mockRejectedValue(new Error("simulated project revision conflict"));
+      selectArtworkFiles(host.querySelector<HTMLInputElement>("#brand-profile-artwork-files")!, [
+        new NodeFile(["image"], "retain-for-diagnosis.png", { type: "image/png" }) as unknown as File,
+      ]);
+      host.querySelector<HTMLButtonElement>("[data-brand-profile-action='save-profile']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("could not be removed during cleanup"));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("simulated project revision conflict");
+      expect(store.remove).toHaveBeenCalledTimes(1);
+      expect(assets.size).toBe(1);
+    } finally {
+      state.close();
+    }
+  });
+
   it("shows unresolved local artwork, blocks save and apply, and offers a corrective removal", async () => {
     const assetId = "local-11111111111141118111000000000001-png";
     const asset: StoredArtworkAsset = {
