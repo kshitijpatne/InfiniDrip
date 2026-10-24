@@ -2911,6 +2911,23 @@ describe("accessible project and style manager", () => {
       noStoreState.close();
     }
 
+    const unavailableStorageState = await techPackHarness();
+    try {
+      const { host, workflow } = unavailableStorageState;
+      const saveProfile = vi.spyOn(workflow, "saveBrandProfile");
+      selectArtworkFiles(host.querySelector<HTMLInputElement>("#brand-profile-artwork-files")!, [
+        new NodeFile(["image"], "unavailable-storage.png", { type: "image/png" }) as unknown as File,
+      ]);
+      const saveButton = host.querySelector<HTMLButtonElement>("[data-brand-profile-action='save-profile']")!;
+      expect(saveButton.disabled).toBe(false);
+      saveButton.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("Local artwork storage is unavailable; no Brand Profile files were saved."));
+      expect(saveProfile).not.toHaveBeenCalled();
+    } finally {
+      unavailableStorageState.close();
+    }
+
     const { store, assets } = memoryArtworkStore();
     vi.mocked(store.remove).mockRejectedValue(new Error("simulated local storage failure"));
     const inspectAsset = vi.fn(async (file: File): Promise<InspectedArtworkFile> => ({
@@ -2953,7 +2970,7 @@ describe("accessible project and style manager", () => {
     };
     const state = await techPackHarness({ artworkStore: store, initialBrandProfile });
     try {
-      const { host, manager } = state;
+      const { host, manager, workflow } = state;
       assets.delete(assetId);
       manager.refresh();
       await vi.waitFor(() => expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent).toContain("1 artwork reference(s) are missing"));
@@ -2961,8 +2978,15 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="remove-artwork"]')?.textContent).toContain("Remove missing reference");
 
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-color"]')!.click();
-      expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')?.disabled).toBe(true);
+      const saveButton = host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!;
+      expect(saveButton.disabled).toBe(true);
       expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')?.disabled).toBe(true);
+      const saveProfile = vi.spyOn(workflow, "saveBrandProfile");
+      saveButton.disabled = false;
+      saveButton.click();
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("Remove or restore every missing local artwork reference before saving the Brand Profile.");
+      expect(saveProfile).not.toHaveBeenCalled();
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="remove-artwork"]')!.click();
       expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent).toContain("resolve locally");
       expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')?.disabled).toBe(false);
