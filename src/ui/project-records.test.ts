@@ -4,6 +4,11 @@ import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import { STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
 import {
+  BRAND_PROFILE_PROJECT_RECORD_VERSION,
+  COLLECTION_PROJECT_RECORD_VERSION,
+  SCENARIO_PROJECT_RECORD_VERSION,
+  PROJECT_COLLECTION_GRAPH_ENTRY_LIMIT,
+  PROJECT_COLLECTION_RECORD_LIMIT,
   CUSTOM_ONE_SIZE_MODE,
   CUSTOM_STYLE_RECORD_VERSION,
   LEGACY_CUSTOM_STYLE_RECORD_VERSION,
@@ -26,6 +31,7 @@ import {
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
+import type { ScenarioRecord } from "./scenario-records";
 import {
   addCaptureReadingForField,
   createMeasurementCaptureSession,
@@ -104,6 +110,26 @@ function validRecovery(): RecoveryRecord {
   const parsed = migrateLegacyRecovery(STYLE_ID, serializeRecovery(recovery));
   if (!parsed.ok) throw new Error(parsed.error);
   return parsed.value;
+}
+
+function scenarioRecord(id = "11111111-1111-4111-8111-111111111111"): ScenarioRecord {
+  return {
+    schemaVersion: 1,
+    id,
+    projectId: PROJECT_ID,
+    collectionId: "22222222-2222-4222-8222-222222222222",
+    name: "Draft",
+    revision: 1,
+    createdAt: TIME,
+    updatedAt: TIME,
+    evaluationDate: "",
+    currencyCode: "",
+    units: [],
+    prices: [],
+    costs: [],
+    moqs: [],
+    capacityDelivery: [],
+  };
 }
 
 describe("strict project and style records", () => {
@@ -199,6 +225,141 @@ describe("strict project and style records", () => {
     }]).ok).toBe(true);
     expect(validateProjectBundle(twoStyleProject, [style, style]).ok).toBe(false);
     expect(validateProjectBundle(project, [{ ...style, archivedAt: TIME }]).ok).toBe(false);
+  });
+
+  it("keeps profileless project v2 strict and accepts only a validated Brand Profile in v3", () => {
+    const project = validProject();
+    const profile = {
+      schemaVersion: 1,
+      colors: [{ id: "11111111-1111-4111-8111-111111111111", name: "Indigo", hex: "#314A72" }],
+      artworkAssetIds: ["local-abcdef1234567890abcdef1234567890-png"],
+      rules: [{
+        id: "22222222-2222-4222-8222-222222222222",
+        scope: "design",
+        kind: "preference",
+        description: "Use quiet contrast on the front panel.",
+      }],
+    };
+    expect(project.schemaVersion).toBe(2);
+    expect(parseProjectRecord({ ...project, schemaVersion: BRAND_PROFILE_PROJECT_RECORD_VERSION, brandProfile: profile }))
+      .toMatchObject({ ok: true, value: { schemaVersion: BRAND_PROFILE_PROJECT_RECORD_VERSION, brandProfile: profile } });
+    expect(parseProjectRecord({ ...project, schemaVersion: BRAND_PROFILE_PROJECT_RECORD_VERSION }).ok).toBe(false);
+    expect(parseProjectRecord({ ...project, brandProfile: profile }).ok).toBe(false);
+    expect(parseProjectRecord({
+      ...project,
+      schemaVersion: BRAND_PROFILE_PROJECT_RECORD_VERSION,
+      brandProfile: { ...profile, artworkAssetIds: ["missing"] },
+    })).toMatchObject({ ok: false, error: expect.stringContaining("brandProfile.artworkAssetIds[0]") });
+  });
+
+  it("validates schema-v4 collection ownership, optional profile preservation, and project parser bounds", () => {
+    const project = validProject();
+    const recordId = (value: number) => `12345678-1234-4123-8123-${value.toString(16).padStart(12, "0")}`;
+    const collection = (id = recordId(1), projectId = PROJECT_ID, sizeCount = 1) => ({
+      schemaVersion: 1,
+      id,
+      projectId,
+      name: "Spring line",
+      createdAt: TIME,
+      updatedAt: TIME,
+      revision: 1,
+      skus: [{
+        id: recordId(2),
+        code: "TEE-CORE",
+        name: "Core tee",
+        styleId: STYLE_ID,
+        styleRevisionId: recordId(3),
+        sizePlan: { id: recordId(4), name: "Core sizes", sizeIds: Array.from({ length: sizeCount }, (_, index) => `size-${index}`) },
+        colorways: [],
+        variants: [],
+      }],
+      sharedMaterialGroups: [],
+    });
+    const base = {
+      ...project,
+      schemaVersion: COLLECTION_PROJECT_RECORD_VERSION,
+      brandProfile: null,
+      collections: [collection()],
+    };
+    expect(parseProjectRecord(base)).toMatchObject({ ok: true, value: { schemaVersion: 4, brandProfile: null } });
+
+    const profile = {
+      schemaVersion: 1,
+      colors: [],
+      artworkAssetIds: [],
+      rules: [],
+    };
+    expect(parseProjectRecord({ ...base, brandProfile: profile })).toMatchObject({
+      ok: true, value: { schemaVersion: 4, brandProfile: profile },
+    });
+    expect(parseProjectRecord({ ...base, collections: {} })).toMatchObject({
+      ok: false, error: expect.stringContaining("collections must be a list"),
+    });
+    expect(parseProjectRecord({ ...base, collections: [collection(recordId(5), OTHER_PROJECT_ID)] })).toMatchObject({
+      ok: false, error: expect.stringContaining("collection must belong to this project"),
+    });
+    expect(parseProjectRecord({ ...base, collections: [collection(), collection(recordId(1))] })).toMatchObject({
+      ok: false, error: expect.stringContaining("duplicate project collection ID"),
+    });
+    expect(parseProjectRecord({
+      ...base,
+      collections: Array.from({ length: PROJECT_COLLECTION_RECORD_LIMIT + 1 }, (_, index) => collection(recordId(index + 10))),
+    })).toMatchObject({ ok: false, error: expect.stringContaining("internal limit") });
+
+    const fullCollections = Array.from({ length: 11 }, (_, index) => {
+      const offset = 100 + index * 10;
+      const item = collection(recordId(offset + 1), PROJECT_ID, 9_997);
+      return {
+        ...item,
+        skus: item.skus.map((sku) => ({
+          ...sku,
+          id: recordId(offset + 2),
+          sizePlan: { ...sku.sizePlan, id: recordId(offset + 3) },
+        })),
+      };
+    });
+    expect(parseProjectRecord({ ...base, collections: fullCollections })).toMatchObject({
+      ok: false,
+      error: expect.stringContaining(String(PROJECT_COLLECTION_GRAPH_ENTRY_LIMIT)),
+    });
+  });
+
+  it("accepts exact schema-v5 keys with nullable profile and required empty collection/scenario arrays", () => {
+    const project = validProject();
+    const base = {
+      ...project,
+      schemaVersion: SCENARIO_PROJECT_RECORD_VERSION,
+      brandProfile: null,
+      collections: [],
+      scenarios: [],
+    };
+    expect(parseProjectRecord(base)).toMatchObject({ ok: true, value: { schemaVersion: 5, collections: [], scenarios: [] } });
+    expect(parseProjectRecord({ ...base, brandProfile: { invalid: true } }).ok).toBe(false);
+    expect(parseProjectRecord({ ...base, collections: null }).ok).toBe(false);
+    expect(parseProjectRecord({ ...base, scenarios: null }).ok).toBe(false);
+    const missingScenarios = { ...base } as Record<string, unknown>;
+    delete missingScenarios.scenarios;
+    expect(parseProjectRecord(missingScenarios).ok).toBe(false);
+    expect(parseProjectRecord({ ...base, extra: true }).ok).toBe(false);
+    expect(parseProjectRecord({ ...base, scenarios: [scenarioRecord()] }).ok).toBe(true);
+  });
+
+  it("rejects project-wide duplicate scenario IDs and cross-project scenario references", () => {
+    const project = validProject();
+    const first = scenarioRecord();
+    const base = {
+      ...project,
+      schemaVersion: SCENARIO_PROJECT_RECORD_VERSION,
+      brandProfile: null,
+      collections: [],
+      scenarios: [first],
+    };
+    expect(parseProjectRecord({ ...base, scenarios: [first, { ...first, id: first.id.toUpperCase() }] }).ok).toBe(false);
+    expect(parseProjectRecord({ ...base, scenarios: [{ ...first, projectId: OTHER_PROJECT_ID }] }).ok).toBe(false);
+    expect(parseProjectRecord({
+      ...project, schemaVersion: COLLECTION_PROJECT_RECORD_VERSION, brandProfile: null, collections: [], scenarios: [],
+    }).ok).toBe(false);
+    expect(parseProjectRecord({ ...project, schemaVersion: COLLECTION_PROJECT_RECORD_VERSION, brandProfile: null, collections: [] }).ok).toBe(true);
   });
 
   it("validates style schema, timestamps, recipe identity, and nested canonical design", () => {

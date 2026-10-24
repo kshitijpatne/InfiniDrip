@@ -18,6 +18,9 @@ import { DEFAULT_APPEARANCE } from "./appearance";
 import { createFieldObservationRecord } from "./field-provenance";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import {
+  BRAND_PROFILE_PROJECT_RECORD_VERSION,
+  COLLECTION_PROJECT_RECORD_VERSION,
+  SCENARIO_PROJECT_RECORD_VERSION,
   CUSTOM_ONE_SIZE_MODE,
   CUSTOM_STYLE_RECORD_VERSION,
   MEASUREMENT_CAPTURE_RECORD_VERSION,
@@ -50,6 +53,9 @@ import {
   PROJECT_PACKAGE_CAPTURE_VERSION,
   PROJECT_PACKAGE_CUSTOM_STYLE_VERSION,
   PROJECT_PACKAGE_GRADE_PLAN_VERSION,
+  PROJECT_PACKAGE_BRAND_PROFILE_VERSION,
+  PROJECT_PACKAGE_COLLECTION_VERSION,
+  PROJECT_PACKAGE_SCENARIO_VERSION,
   PROJECT_PACKAGE_VERSION,
   PROJECT_PACKAGE_MAX_ASSETS,
   PROJECT_PACKAGE_MAX_BYTES,
@@ -3435,6 +3441,438 @@ describe("G03 capture sessions in project backups", () => {
       expect(mixed.manifest.styles[1]).not.toHaveProperty("sizeMode");
     });
 
+    it("reads package v7 when a Brand Profile and a custom style are both present", async () => {
+      const { snapshot, assets } = sourceSnapshot();
+      const profile = { schemaVersion: 1 as const, colors: [], artworkAssetIds: [], rules: [] };
+      const project = {
+        ...snapshot.project,
+        schemaVersion: BRAND_PROFILE_PROJECT_RECORD_VERSION as 3,
+        brandProfile: profile,
+      };
+      const style = customStyle(snapshot.styles[0]!);
+      const packed = await createProjectPackage({
+        ...snapshot,
+        project,
+        styles: [style],
+        measurementCaptures: [packageCapture()],
+      }, assets, { crypto, revisionIdFactory: deterministicUuidFactory() });
+      const archive = await readProjectPackage(packed, { crypto });
+      expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_BRAND_PROFILE_VERSION);
+      expect(Object.keys(JSON.parse(await manifestText(packed)))).toEqual([
+        ...V3_KEYS.slice(0, -1), "measurementCaptures", "gradePlans", "packageSha256",
+      ]);
+      expect(archive.manifest.styles[0]).toMatchObject({
+        schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE,
+      });
+    });
+
+    it("round-trips package v8 source pins, optional profile, and every copied collection identity", async () => {
+      const { snapshot, assets } = sourceSnapshot();
+      const sourceRevisionId = "55000000-0000-4a00-8b00-00000000000f";
+      const headRevisionId = "55000000-0000-4b00-8c00-00000000000e";
+      const sourceMaterialId = "55000000-0000-4000-8000-000000000002";
+      const sourceColorwayId = "55000000-0000-4000-8000-000000000003";
+      const unresolvedField = <T extends TechPackFieldValue>(fieldId: string, semanticKind: TechPackSemanticKind): TechPackField<T> => ({
+        fieldId,
+        semanticKind,
+        value: null as T,
+        unit: null,
+        provenance: "UNRESOLVED",
+        evidenceStatus: "UNCONFIRMED",
+        validationStatus: "INVALID",
+        sourceRef: null,
+        method: null,
+        capturedBy: null,
+        capturedAt: null,
+        inputRefs: [],
+        ruleId: null,
+        ruleVersion: null,
+        inheritedFrom: null,
+        unresolvedReason: "No source value is present in this fixture.",
+        nextAction: "Enter a sourced value.",
+        evidenceRefs: [],
+        confidence: "NOT_ASSESSED",
+      });
+      const sourceStyle = snapshot.styles[0]!;
+      const materialField = (name: string) => unresolvedField<string | null>(`collection-source-material.${name}`, "MATERIAL_PROPERTY");
+      const sourceTechPack: StyleRecord["techPack"] = {
+        ...sourceStyle.techPack,
+        materials: [{
+          id: sourceMaterialId,
+          category: "fabric",
+          name: materialField("name"),
+          supplier: materialField("supplier"),
+          articleId: materialField("articleId"),
+          lotId: materialField("lotId"),
+          composition: materialField("composition"),
+          construction: materialField("construction"),
+          weight: unresolvedField<number | null>("collection-source-material.weight", "MATERIAL_PROPERTY"),
+          usableWidth: unresolvedField<number | null>("collection-source-material.usableWidth", "MATERIAL_PROPERTY"),
+          finish: materialField("finish"),
+          color: materialField("color"),
+          directionalBehavior: materialField("directionalBehavior"),
+          unitCost: unresolvedField<number | null>("collection-source-material.unitCost", "MATERIAL_PROPERTY"),
+          currency: materialField("currency"),
+          costBasis: materialField("costBasis"),
+        }],
+        colorways: [{
+          id: sourceColorwayId,
+          name: unresolvedField<string | null>("collection-source-colorway.name", "STYLE_CONTROL"),
+          assignments: [],
+        }],
+      };
+      const style = customStyle({ ...sourceStyle, techPack: sourceTechPack });
+      const observations = createFieldObservationRecord(style, TIME, "existing-local-style");
+      const sourceArtwork = [{
+        assetId: ASSET_ID,
+        mimeType: "image/png" as const,
+        byteLength: PNG.byteLength,
+        sha256: await sha256Hex(PNG, crypto),
+      }];
+      const pinnedRevision = await createStyleRevision({
+        styleId: style.id,
+        revisionId: sourceRevisionId,
+        parentRevisionId: null,
+        revisionNumber: 1,
+        createdAt: TIME,
+        design: style.design,
+        fieldObservations: observations,
+        artwork: sourceArtwork,
+        techPack: revisionPack(style, sourceRevisionId, 1),
+      }, crypto);
+      const currentRevision = await createStyleRevision({
+        styleId: style.id,
+        revisionId: headRevisionId,
+        parentRevisionId: sourceRevisionId,
+        revisionNumber: 2,
+        createdAt: NEXT_TIME,
+        design: style.design,
+        fieldObservations: observations,
+        artwork: sourceArtwork,
+        techPack: revisionPack(style, headRevisionId, 2),
+      }, crypto);
+      const currentStyle = {
+        ...style,
+        revisionHeadId: headRevisionId,
+        techPack: revisionPack(style, headRevisionId, 2),
+      };
+      const profileAssetId = "local-fedcba0987654321fedcba0987654321-png";
+      assets.records.set(profileAssetId, {
+        assetId: profileAssetId,
+        name: "brand-reference.png",
+        mimeType: "image/png",
+        blob: new Blob([PNG], { type: "image/png" }),
+      });
+      const profile = { schemaVersion: 1 as const, colors: [], artworkAssetIds: [profileAssetId], rules: [] };
+      const collectionId = "55000000-0000-4000-8000-000000000004";
+      const skuOneId = "55000000-0000-4000-8000-000000000005";
+      const skuTwoId = "55000000-0000-4000-8000-000000000006";
+      const localColorwayOneId = "55000000-0000-4000-8000-000000000007";
+      const localColorwayTwoId = "55000000-0000-4000-8000-000000000008";
+      const variantOneId = "55000000-0000-4000-8000-000000000009";
+      const variantTwoId = "55000000-0000-4000-8000-000000000010";
+      const sizePlanOneId = "55000000-0000-4000-8000-000000000011";
+      const sizePlanTwoId = "55000000-0000-4000-8000-000000000012";
+      const groupId = "55000000-0000-4000-8000-000000000013";
+      const collection = {
+        schemaVersion: 1 as const,
+        id: collectionId,
+        projectId: snapshot.project.id,
+        name: "Spring line",
+        createdAt: TIME,
+        updatedAt: TIME,
+        revision: 1,
+        skus: [
+          {
+            id: skuOneId, code: "TEE-A", name: "Core tee A", styleId: style.id.toUpperCase(), styleRevisionId: sourceRevisionId.toUpperCase(),
+            sizePlan: { id: sizePlanOneId, name: "Core sizes", sizeIds: ["m"] },
+            colorways: [{ id: localColorwayOneId, name: "Ink", sourceColorwayId }],
+            variants: [{ id: variantOneId, skuCode: "TEE-A-M-INK", sizeId: "m", colorwayId: localColorwayOneId }],
+          },
+          {
+            id: skuTwoId, code: "TEE-B", name: "Core tee B", styleId: style.id.toUpperCase(), styleRevisionId: headRevisionId.toUpperCase(),
+            sizePlan: { id: sizePlanTwoId, name: "Core sizes", sizeIds: ["m"] },
+            colorways: [{ id: localColorwayTwoId, name: "Ink", sourceColorwayId }],
+            variants: [{ id: variantTwoId, skuCode: "TEE-B-M-INK", sizeId: "m", colorwayId: localColorwayTwoId }],
+          },
+        ],
+        sharedMaterialGroups: [{
+          id: groupId,
+          name: "Shared shell material",
+          members: [
+            { skuId: skuOneId, materialId: sourceMaterialId },
+            { skuId: skuTwoId, materialId: sourceMaterialId },
+          ],
+        }],
+      };
+      const project = {
+        ...snapshot.project,
+        schemaVersion: COLLECTION_PROJECT_RECORD_VERSION as 4,
+        brandProfile: profile,
+        collections: [collection],
+      };
+      const capture = packageCapture();
+      const packed = await createProjectPackage({
+        ...snapshot,
+        project,
+        styles: [currentStyle],
+        fieldObservations: [observations],
+        styleRevisions: [pinnedRevision, currentRevision],
+        measurementCaptures: [capture],
+      }, assets, { crypto, revisionIdFactory: () => sourceRevisionId });
+      const archive = await readProjectPackage(packed, { crypto });
+      const missingPinnedSource = await replacePackageManifest(packed, (manifest) => {
+        const project = manifest.project as { collections: Array<{ skus: Array<Record<string, unknown>> }> };
+        project.collections[0]!.skus[0]!.colorways = [{
+          id: localColorwayOneId,
+          name: "Ink",
+          sourceColorwayId: sourceMaterialId,
+        }];
+      });
+      await expect(readProjectPackage(missingPinnedSource, { crypto })).rejects.toMatchObject({
+        code: "invalid-package",
+        message: expect.stringContaining("not present in the pinned revision's frozen T01 colorways"),
+      });
+      const mismatchedPackageVersion = await replacePackageManifest(packed, (manifest) => {
+        manifest.packageVersion = PROJECT_PACKAGE_BRAND_PROFILE_VERSION;
+      });
+      await expect(readProjectPackage(mismatchedPackageVersion, { crypto })).rejects.toMatchObject({
+        code: "invalid-package",
+        message: expect.stringContaining("Package v7 requires a Brand Profile project record"),
+      });
+      const schemaV2InPackageV8 = await replacePackageManifest(packed, (manifest) => {
+        const project = manifest.project as Record<string, unknown>;
+        delete project.brandProfile;
+        delete project.collections;
+        project.schemaVersion = 2;
+      });
+      await expect(readProjectPackage(schemaV2InPackageV8, { crypto })).rejects.toMatchObject({
+        code: "invalid-package",
+        message: expect.stringContaining("Package v8 requires a collection project record"),
+      });
+      expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_COLLECTION_VERSION);
+      expect(Object.keys(JSON.parse(await manifestText(packed)))).toEqual([
+        ...V3_KEYS.slice(0, -1), "measurementCaptures", "gradePlans", "packageSha256",
+      ]);
+      expect(archive.manifest.project).toMatchObject({ schemaVersion: 4, brandProfile: profile, collections: [collection] });
+      expect(archive.manifest.styles[0]).toMatchObject({ schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE });
+
+      const withoutProfile = await createProjectPackage({
+        ...snapshot,
+        project: { ...project, brandProfile: null },
+        styles: [currentStyle],
+        fieldObservations: [observations],
+        styleRevisions: [pinnedRevision, currentRevision],
+        measurementCaptures: [capture],
+      }, assets, { crypto, revisionIdFactory: () => sourceRevisionId });
+      expect((await readProjectPackage(withoutProfile, { crypto })).manifest.project)
+        .toMatchObject({ schemaVersion: 4, brandProfile: null, collections: [collection] });
+
+      const directTarget = await repository();
+      const directAssets = memoryAssets();
+      await expect(importProjectPackage(directTarget, directAssets, archive, false, {
+        crypto, now: () => TIME, inspectAsset: inspector,
+      })).resolves.toMatchObject({ status: "imported", projectId: PROJECT_ID, importedAsCopy: false });
+      const direct = await directTarget.readProjectBundle(PROJECT_ID);
+      expect(direct?.project).toMatchObject({ schemaVersion: 4, brandProfile: profile, collections: [collection] });
+      const directLoaded = await directTarget.loadProject(PROJECT_ID);
+      expect(directLoaded?.collectionSourceStatuses).toMatchObject([
+        { styleRevisionId: sourceRevisionId, pinnedRevisionNumber: 1, headRevisionNumber: 2, isStale: true, isArchived: false },
+        { styleRevisionId: headRevisionId, pinnedRevisionNumber: 2, headRevisionNumber: 2, isStale: false, isArchived: false },
+      ]);
+      expect(directAssets.records.has(profileAssetId)).toBe(true);
+      const reArchive = await readProjectPackage(await createProjectPackage(direct!, directAssets, { crypto }), { crypto });
+      expect(reArchive.manifest.packageVersion).toBe(PROJECT_PACKAGE_COLLECTION_VERSION);
+      expect(reArchive.manifest.project).toMatchObject({ brandProfile: profile, collections: [collection] });
+
+      const copyTarget = await repository();
+      const copyAssets = memoryAssets();
+      const copied = await importProjectPackage(copyTarget, copyAssets, archive, true, {
+        crypto, now: () => "2026-09-24T16:00:01.000Z", idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+      });
+      if (copied.status !== "imported") throw new Error("Collection package copy did not import.");
+      const copy = await copyTarget.readProjectBundle(copied.projectId);
+      if (!copy || copy.project.schemaVersion !== COLLECTION_PROJECT_RECORD_VERSION) throw new Error("Copied collection project is missing.");
+      const copiedCollection = copy.project.collections[0]!;
+      const copiedSkus = copiedCollection.skus;
+      if (!copy.project.brandProfile) throw new Error("Copied collection project lost its Brand Profile.");
+      expect(copy.project.brandProfile.colors).toEqual(profile.colors);
+      expect(copy.project.brandProfile.artworkAssetIds).toHaveLength(1);
+      expect(copy.project.brandProfile.artworkAssetIds).not.toContain(profileAssetId);
+      expect(copyAssets.records.has(copy.project.brandProfile.artworkAssetIds[0]!)).toBe(true);
+      expect(copiedCollection.id).not.toBe(collection.id);
+      expect(copiedCollection.projectId).toBe(copy.project.id);
+      expect(copiedSkus.map((sku) => sku.id)).not.toEqual(collection.skus.map((sku) => sku.id));
+      expect(copiedSkus.map((sku) => sku.styleId)).toEqual([copy.project.styleIds[0], copy.project.styleIds[0]]);
+      expect(copiedSkus.map((sku) => sku.styleRevisionId)).not.toContain(sourceRevisionId);
+      expect(copiedSkus[0]?.sizePlan.id).not.toBe(sizePlanOneId);
+      expect(copiedSkus[0]?.colorways[0]?.id).not.toBe(localColorwayOneId);
+      expect(copiedSkus[0]?.colorways[0]?.sourceColorwayId).toBe(sourceColorwayId);
+      expect(copiedSkus[0]?.variants[0]?.id).not.toBe(variantOneId);
+      expect(copiedSkus[0]?.variants[0]?.colorwayId).toBe(copiedSkus[0]?.colorways[0]?.id);
+      expect(copiedCollection.sharedMaterialGroups[0]?.id).not.toBe(groupId);
+      expect(copiedCollection.sharedMaterialGroups[0]?.members[0]?.skuId).toBe(copiedSkus[0]?.id);
+      expect(copiedCollection.sharedMaterialGroups[0]?.members[0]?.materialId).toBe(sourceMaterialId);
+      const copiedLoaded = await copyTarget.loadProject(copied.projectId);
+      expect(copiedLoaded?.collectionSourceStatuses).toMatchObject([
+        { pinnedRevisionNumber: 1, headRevisionNumber: 2, isStale: true, isArchived: false },
+        { pinnedRevisionNumber: 2, headRevisionNumber: 2, isStale: false, isArchived: false },
+      ]);
+      const copiedArchive = await readProjectPackage(await createProjectPackage(copy, copyAssets, { crypto }), { crypto });
+      expect(copiedArchive.manifest.packageVersion).toBe(PROJECT_PACKAGE_COLLECTION_VERSION);
+      expect(copiedArchive.manifest.project).toMatchObject({
+        schemaVersion: 4,
+        brandProfile: { colors: profile.colors, artworkAssetIds: copy.project.brandProfile.artworkAssetIds },
+      });
+    });
+
+    it("round-trips package v9 raw scenarios and remaps known references on copy while retaining unresolved inputs", async () => {
+      const { snapshot, assets } = sourceSnapshot();
+      const collectionId = "56000000-0000-4000-8000-000000000001";
+      const scenarioId = "56000000-0000-4000-8000-000000000002";
+      const rowId = "56000000-0000-4000-8000-000000000003";
+      const unresolvedRowId = "56000000-0000-4000-8000-000000000004";
+      const skuId = "56000000-0000-4000-8000-000000000005";
+      const sizePlanId = "56000000-0000-4000-8000-000000000006";
+      const localColorwayId = "56000000-0000-4000-8000-000000000007";
+      const sourceColorwayId = "56000000-0000-4000-8000-000000000008";
+      const variantId = "56000000-0000-4000-8000-000000000009";
+      const sourceRevisionId = "77777777-7777-4777-8777-000000000001";
+      const unresolved = "variant-removed-from-the-source-collection";
+      const sourceStyle = snapshot.styles[0]!;
+      const style = {
+        ...sourceStyle,
+        techPack: {
+          ...sourceStyle.techPack,
+          colorways: [{
+            id: sourceColorwayId,
+            name: { ...sourceStyle.techPack.cover.styleName, fieldId: "scenario-source-colorway.name" },
+            assignments: [],
+          }],
+        },
+      };
+      const collection = {
+        schemaVersion: 1 as const,
+        id: collectionId,
+        projectId: snapshot.project.id,
+        name: "Scenario source collection",
+        createdAt: TIME,
+        updatedAt: TIME,
+        revision: 1,
+        skus: [{
+          id: skuId,
+          code: "TEE-CORE",
+          name: "Core tee",
+          styleId: style.id,
+          styleRevisionId: sourceRevisionId,
+          sizePlan: { id: sizePlanId, name: "Core sizes", sizeIds: ["M"] },
+          colorways: [{ id: localColorwayId, name: "Ink", sourceColorwayId }],
+          variants: [{ id: variantId, skuCode: "TEE-M-INK", sizeId: "M", colorwayId: localColorwayId }],
+        }],
+        sharedMaterialGroups: [],
+      };
+      const provenance = { kind: "unknown-source", sourceLabel: "", asOf: "bad-date", validThrough: "" };
+      const scenario = {
+        schemaVersion: 1 as const,
+        id: scenarioId,
+        projectId: snapshot.project.id,
+        collectionId,
+        name: "Raw draft",
+        revision: 3,
+        createdAt: TIME,
+        updatedAt: TIME,
+        evaluationDate: "not-a-date",
+        currencyCode: "",
+        units: [
+          { id: rowId, variantId, units: "keep raw text", provenance },
+          { id: unresolvedRowId, variantId: unresolved, units: "unresolved row", provenance },
+        ],
+        prices: [{ id: "56000000-0000-4000-8000-000000000010", variantId, amount: "not-money", currencyCode: "", provenance }],
+        costs: [{ id: "56000000-0000-4000-8000-000000000011", variantId, amount: "unknown-cost", currencyCode: "", provenance }],
+        moqs: [{
+          id: "56000000-0000-4000-8000-000000000012",
+          scope: { kind: "variant", styleId: style.id, skuId, colorwayId: localColorwayId, variantId },
+          unit: "piece", minimumUnits: "5", provenance,
+        }, {
+          id: "56000000-0000-4000-8000-000000000013",
+          scope: { kind: "unknown-scope", styleId: "removed-style", skuId: "removed-sku", colorwayId: "removed-colorway", variantId: unresolved },
+          unit: "unknown-unit", minimumUnits: "not-an-integer", provenance,
+        }],
+        capacityDelivery: [{
+          id: "56000000-0000-4000-8000-000000000014",
+          scope: { kind: "variant", styleId: style.id, skuId, colorwayId: localColorwayId, variantId },
+          unitsPerPeriod: "not-a-number", periodUnit: "raw-unit", minimumPeriods: "", maximumPeriods: "", provenance,
+        }],
+      };
+      const project = {
+        ...snapshot.project,
+        schemaVersion: SCENARIO_PROJECT_RECORD_VERSION as 5,
+        brandProfile: null,
+        collections: [collection],
+        scenarios: [scenario],
+      };
+      const packed = await createProjectPackage({ ...snapshot, project, styles: [style] }, assets, {
+        crypto, revisionIdFactory: deterministicUuidFactory(),
+      });
+      const archive = await readProjectPackage(packed, { crypto });
+      expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_SCENARIO_VERSION);
+      expect(archive.manifest.project).toMatchObject({ schemaVersion: 5, collections: [collection], scenarios: [scenario] });
+      expect(Object.keys(JSON.parse(await manifestText(packed)))).not.toContain("scenarios");
+      const v9WithoutScenarioProject = await replacePackageManifest(packed, (manifest) => {
+        const project = manifest.project as Record<string, unknown>;
+        delete project.scenarios;
+        project.schemaVersion = COLLECTION_PROJECT_RECORD_VERSION;
+      });
+      await expect(readProjectPackage(v9WithoutScenarioProject, { crypto })).rejects.toMatchObject({
+        code: "invalid-package",
+        message: expect.stringContaining("Package v9 requires a schema-v5 scenario project record"),
+      });
+
+      const directTarget = await repository();
+      const directAssets = memoryAssets();
+      const direct = await importProjectPackage(directTarget, directAssets, archive, false, {
+        crypto, now: () => TIME, inspectAsset: inspector,
+      });
+      expect(direct).toMatchObject({ status: "imported", projectId: snapshot.project.id, importedAsCopy: false });
+      const directBundle = await directTarget.readProjectBundle(snapshot.project.id);
+      if (!directBundle || directBundle.project.schemaVersion !== SCENARIO_PROJECT_RECORD_VERSION) throw new Error("Direct scenario package import was not retained.");
+      expect(directBundle.project.scenarios).toEqual([scenario]);
+
+      const copyTarget = await repository();
+      const copyAssets = memoryAssets();
+      const copied = await importProjectPackage(copyTarget, copyAssets, archive, true, {
+        crypto, now: () => "2026-09-24T16:00:01.000Z", idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+      });
+      if (copied.status !== "imported") throw new Error("Scenario package copy import did not complete.");
+      const copy = await copyTarget.readProjectBundle(copied.projectId);
+      if (!copy || copy.project.schemaVersion !== SCENARIO_PROJECT_RECORD_VERSION) throw new Error("Copied scenario project is missing.");
+      const copiedScenario = copy.project.scenarios[0]!;
+      expect(copy.project.collections[0]?.id).not.toBe(collectionId);
+      expect(copiedScenario.id).not.toBe(scenarioId);
+      expect(copiedScenario.projectId).toBe(copy.project.id);
+      expect(copiedScenario.collectionId).toBe(copy.project.collections[0]?.id);
+      expect(copiedScenario.units[0]?.id).not.toBe(rowId);
+      const copiedSku = copy.project.collections[0]?.skus[0]!;
+      const copiedVariant = copiedSku.variants[0]!;
+      const copiedColorway = copiedSku.colorways[0]!;
+      expect(copiedScenario.units[0]?.variantId).toBe(copiedVariant.id);
+      expect(copiedScenario.units[1]?.variantId).toBe(unresolved);
+      expect(copiedScenario.units[0]?.units).toBe("keep raw text");
+      expect(copiedScenario.prices[0]?.variantId).toBe(copiedVariant.id);
+      expect(copiedScenario.costs[0]?.variantId).toBe(copiedVariant.id);
+      expect(copiedScenario.moqs[0]?.scope).toEqual({
+        kind: "variant",
+        styleId: copy.project.activeStyleId,
+        skuId: copiedSku.id,
+        colorwayId: copiedColorway.id,
+        variantId: copiedVariant.id,
+      });
+      expect(copiedScenario.moqs[1]?.scope).toEqual(scenario.moqs[1]?.scope);
+      expect(copiedScenario.moqs[0]?.provenance).toEqual(provenance);
+      expect(copiedScenario.capacityDelivery[0]?.scope).toEqual(copiedScenario.moqs[0]?.scope);
+      expect(copiedScenario.capacityDelivery[0]?.unitsPerPeriod).toBe("not-a-number");
+    });
+
     it("round-trips a custom style through import, re-export, and copy import without losing its size mode", async () => {
       const { snapshot, assets } = sourceSnapshot();
       const style = customStyle(snapshot.styles[0]!);
@@ -3500,7 +3938,7 @@ describe("G03 capture sessions in project backups", () => {
       const customPackage = await createProjectPackage({ ...snapshot, styles: [style], measurementCaptures: [packageCapture()] }, assets, { crypto });
       const capturePackage = await createProjectPackage({ ...snapshot, measurementCaptures: [packageCapture()] }, assets, { crypto });
       const plainPackage = await createProjectPackage(snapshot, assets, { crypto });
-      const requiresV5 = "Custom one-size styles require project package version 5 or 6.";
+      const requiresV5 = "Custom one-size styles require project package version 5 or later.";
       const requiresCustom = "Project package version 5 must contain a custom one-size style.";
       const markCustom = (manifest: Record<string, unknown>) => {
         Object.assign(firstStyle(manifest), { schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE });
@@ -3941,5 +4379,109 @@ describe("G03 grade plans in project backups (package v6)", () => {
       const styles = m.styles as Array<Record<string, unknown>>;
       styles[0] = { ...styles[0], revisionHeadId: "99999999-9999-4999-8999-999999999999" };
     });
+  });
+});
+
+describe("Brand Profiles in project backups (package v7)", () => {
+  it("carries profile-only artwork with empty attribution and remaps it on copy", async () => {
+    const profileOnlyId = "local-abcdef1234567890abcdef1234567890-png";
+    const source = bundle();
+    const project = {
+      ...source.project,
+      schemaVersion: BRAND_PROFILE_PROJECT_RECORD_VERSION as 3,
+      brandProfile: {
+        schemaVersion: 1 as const,
+        colors: [{ id: "11111111-1111-4111-8111-111111111111", name: "Ink", hex: "#24334A" }],
+        artworkAssetIds: [ASSET_ID, profileOnlyId],
+        rules: [{
+          id: "22222222-2222-4222-8222-222222222222",
+          scope: "design" as const,
+          kind: "preference" as const,
+          description: "Keep marks low contrast.",
+        }],
+      },
+    };
+    const assets = memoryAssets();
+    for (const [assetId, name] of [[ASSET_ID, "front.png"], [profileOnlyId, "brand.png"]]) {
+      assets.records.set(assetId!, {
+        assetId: assetId!, name: name!, mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+      });
+    }
+    const blob = await createProjectPackage({ project, styles: [source.style], recoveries: [] }, assets, { crypto });
+    const archive = await readProjectPackage(blob, { crypto });
+    expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_BRAND_PROFILE_VERSION);
+    expect(archive.manifest.measurementCaptures).toEqual([]);
+    expect(archive.manifest.gradePlans).toEqual([]);
+    expect(archive.manifest.assets.find((asset) => asset.assetId === ASSET_ID)?.attribution).toContain("Studio reference");
+    expect(archive.manifest.assets.find((asset) => asset.assetId === profileOnlyId)?.attribution).toEqual([]);
+    const profileInProfilelessPackage = await replacePackageManifest(blob, (manifest) => {
+      manifest.packageVersion = PROJECT_PACKAGE_VERSION;
+      delete manifest.measurementCaptures;
+      delete manifest.gradePlans;
+    });
+    await expect(readProjectPackage(profileInProfilelessPackage, { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("Profileless package versions require a schema-v2 project record"),
+    });
+
+    const missingProfileAsset = memoryAssets();
+    missingProfileAsset.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    await expect(createProjectPackage({ project, styles: [source.style], recoveries: [] }, missingProfileAsset, { crypto }))
+      .rejects.toMatchObject({
+        code: "missing-asset",
+        message: expect.stringContaining("brandProfile.artworkAssetIds[1]"),
+      });
+
+    const dangling = await replacePackageManifest(blob, (manifest) => {
+      manifest.assets = (manifest.assets as Array<Record<string, unknown>>)
+        .filter((asset) => asset.assetId !== profileOnlyId);
+    });
+    await expect(readProjectPackage(dangling, { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("brandProfile.artworkAssetIds[1]"),
+    });
+
+      const directTarget = await repository();
+      const directAssets = memoryAssets();
+      const directlyRestored = await importProjectPackage(directTarget, directAssets, archive, false, {
+        crypto, now: () => TIME, inspectAsset: inspector,
+      });
+      expect(directlyRestored).toMatchObject({
+        status: "imported",
+        projectId: project.id,
+        importedAsCopy: false,
+      });
+      const directBundle = await directTarget.readProjectBundle(project.id);
+      expect(directBundle?.project.schemaVersion).toBe(BRAND_PROFILE_PROJECT_RECORD_VERSION);
+      if (directBundle?.project.schemaVersion !== BRAND_PROFILE_PROJECT_RECORD_VERSION) {
+        throw new Error("Directly restored Brand Profile project did not persist.");
+      }
+      expect(directBundle.project.brandProfile).toEqual(project.brandProfile);
+      expect(directBundle.project.brandProfile.artworkAssetIds).toEqual([ASSET_ID, profileOnlyId]);
+      for (const id of directBundle.project.brandProfile.artworkAssetIds) expect(directAssets.records.has(id)).toBe(true);
+
+    const target = await repository();
+    const copiedAssets = memoryAssets();
+    const copied = await importProjectPackage(target, copiedAssets, archive, true, {
+      crypto, now: () => TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+    });
+    if (copied.status !== "imported") throw new Error("Brand Profile package copy did not import.");
+    const copiedBundle = await target.readProjectBundle(copied.projectId);
+    if (!copiedBundle || copiedBundle.project.schemaVersion !== BRAND_PROFILE_PROJECT_RECORD_VERSION) {
+      throw new Error("Copied Brand Profile project did not persist.");
+    }
+    const copiedIds = copiedBundle.project.brandProfile.artworkAssetIds;
+    expect(copiedIds).toHaveLength(2);
+    expect(copiedIds).not.toContain(ASSET_ID);
+    expect(copiedIds).not.toContain(profileOnlyId);
+    for (const id of copiedIds) expect(copiedAssets.records.has(id)).toBe(true);
+    const copiedArchive = await readProjectPackage(
+      await createProjectPackage(copiedBundle, copiedAssets, { crypto }),
+      { crypto },
+    );
+    expect(copiedArchive.manifest.packageVersion).toBe(PROJECT_PACKAGE_BRAND_PROFILE_VERSION);
+    expect(copiedArchive.manifest.assets.find((asset) => asset.assetId === copiedIds[1])?.attribution).toEqual([]);
   });
 });

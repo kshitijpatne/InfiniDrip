@@ -5,9 +5,11 @@ import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
 import { GARMENTS, STANDARD_M, TEE_RAGLAN } from "../drafting";
 import {
+  BRAND_PROFILE_PROJECT_RECORD_VERSION,
   CUSTOM_ONE_SIZE_MODE,
   CUSTOM_STYLE_RECORD_VERSION,
   migrateLegacySaveFile,
+  projectScenarios,
   type SavedDesign,
   type StyleRecord,
 } from "./project-records";
@@ -17,7 +19,9 @@ import type { LoadedProject } from "./project-repository";
 import type { ProjectWorkflow, TechPackShareFreezeInput } from "./project-workflow";
 import { openProjectWorkflow } from "./project-workflow";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
-import { createProjectPackage, readProjectPackage } from "./project-package";
+import type { InspectedArtworkFile } from "../surface/artwork-file";
+import { BRAND_PROFILE_RECORD_VERSION, type BrandProfileRecord } from "./brand-profile-records";
+import { createProjectPackage, PROJECT_PACKAGE_MAX_ASSETS, readProjectPackage } from "./project-package";
 import { createFieldObservationRecord } from "./field-provenance";
 import * as techPackT02Validation from "./tech-pack-t02-validation";
 import * as techPackOperationReconciliation from "./tech-pack-operation-reconciliation";
@@ -29,6 +33,7 @@ import {
 } from "./tech-pack-operation-records";
 import { TECH_PACK_SHARE_ARTIFACTS } from "./tech-pack-sharing";
 import { bindTechPackToRevision, createEmptyTechPackRecord, type TechPackRecord } from "./tech-pack-records";
+import type { ScenarioRecord } from "./scenario-records";
 
 const TIME = "2026-09-24T16:00:00.000Z";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
@@ -46,6 +51,9 @@ async function techPackHarness(options: {
   readonly canFreezeOutputs?: () => boolean;
   readonly getFreezeBlocker?: () => string | null;
   readonly getTechPackShareOutput?: (revisionId: string, workflow: ProjectWorkflow) => Promise<TechPackShareFreezeInput | null>;
+  readonly artworkStore?: ArtworkAssetStore;
+  readonly inspectAsset?: (file: File) => Promise<InspectedArtworkFile>;
+  readonly initialBrandProfile?: BrandProfileRecord;
 } = {}) {
   let sequence = 0;
   const ids = [PROJECT_ID, STYLE_ID];
@@ -59,7 +67,9 @@ async function techPackHarness(options: {
     storage: { getItem: () => null },
     idFactory: () => ids.shift() ?? fallback(),
     now: () => TIME,
+    ...(options.artworkStore ? { artworkStore: options.artworkStore } : {}),
   });
+  if (options.initialBrandProfile) await workflow.saveBrandProfile(options.initialBrandProfile);
   const host = document.createElement("div");
   document.body.append(host);
   let currentDesign = workflow.snapshot.activeStyle.design;
@@ -75,6 +85,8 @@ async function techPackHarness(options: {
     setBusy: vi.fn(),
     canFreezeOutputs: options.canFreezeOutputs ?? (() => true),
     getFrozenOutputSet: () => null,
+    ...(options.artworkStore ? { artworkStore: options.artworkStore } : {}),
+    ...(options.inspectAsset ? { inspectAsset: options.inspectAsset } : {}),
     ...(options.getTechPackShareOutput ? {
       getTechPackShareOutput: (revisionId: string) => options.getTechPackShareOutput!(revisionId, workflow),
     } : {}),
@@ -114,6 +126,28 @@ function clickT01Action(host: HTMLElement, action: string, forceDisabled = false
   if (!button) throw new Error(`Missing T01 action ${action}`);
   if (forceDisabled) button.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
   else button.click();
+}
+
+function editCollectionField(host: HTMLElement, selector: string, value: string): void {
+  const control = host.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(selector);
+  if (!control) throw new Error(`Missing collection control ${selector}`);
+  control.value = value;
+  const type = control instanceof HTMLSelectElement ? "change" : "input";
+  control.dispatchEvent(new Event(type, { bubbles: true }));
+}
+
+function editScenarioField(host: HTMLElement, selector: string, value: string): void {
+  const control = host.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(selector);
+  if (!control) throw new Error(`Missing scenario control ${selector}`);
+  control.value = value;
+  const type = control instanceof HTMLSelectElement ? "change" : "input";
+  control.dispatchEvent(new Event(type, { bubbles: true }));
+}
+
+function clickCollectionAction(host: HTMLElement, action: string, selector = ""): void {
+  const button = host.querySelector<HTMLButtonElement>(`[data-collection-action="${action}"]${selector}`);
+  if (!button) throw new Error(`Missing collection action ${action}${selector}`);
+  button.click();
 }
 
 function clickT02Action(host: HTMLElement, action: string, roundId?: string): void {
@@ -157,6 +191,26 @@ function loadedProject(): LoadedProject {
     styleRevisions: [],
     exportManifests: [],
   };
+}
+
+function memoryArtworkStore(initial: readonly StoredArtworkAsset[] = []): {
+  readonly store: ArtworkAssetStore;
+  readonly assets: Map<string, StoredArtworkAsset>;
+} {
+  const assets = new Map(initial.map((asset) => [asset.assetId, asset]));
+  return {
+    assets,
+    store: {
+      put: vi.fn(async (asset) => { assets.set(asset.assetId, asset); }),
+      get: vi.fn(async (assetId) => assets.get(assetId) ?? null),
+      remove: vi.fn(async (assetId) => { assets.delete(assetId); }),
+    },
+  };
+}
+
+function selectArtworkFiles(input: HTMLInputElement, files: readonly File[]): void {
+  Object.defineProperty(input, "files", { configurable: true, value: files });
+  input.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
 function harness(initialStatusMessage?: string, getFreezeBlocker?: () => string | null) {
@@ -1986,13 +2040,14 @@ describe("accessible project and style manager", () => {
     const copyIds = ["77777777-7777-4777-8777-777777777777", copiedProjectId, copiedStyleId];
     let permitCopy = false;
     let unsaved = false;
+    const confirm = vi.fn(() => permitCopy);
     const onStyleLoaded = vi.fn();
     const flushPendingFieldObservations = vi.fn(async () => undefined);
     const manager = new ProjectManager({
       host, workflow, artworkStore,
       inspectAsset: async (file) => ({ name: file.name, mimeType: "image/svg+xml", blob: file }),
       savePackage: async (filename, blob) => { savedPackages.push({ filename, blob }); return savedPackages.length > 1; },
-      confirm: () => permitCopy,
+      confirm,
       packageOptions: { now: () => TIME, idFactory: () => copyIds.shift() ?? "77777777-7777-4777-8777-777777777777" },
       getCurrentDesign: () => workflow.snapshot.activeStyle.design,
       getBlankDesign: () => workflow.snapshot.activeStyle.design,
@@ -2041,17 +2096,44 @@ describe("accessible project and style manager", () => {
       setFile(host, await inputFile(conflictPackage, "conflict.infinidrip.zip"));
       await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("already imported"));
 
-      unsaved = true;
+      host.querySelector<HTMLDetailsElement>(".project-manager-details")!.querySelector("summary")!.click();
+      await vi.waitFor(() => expect(host.querySelector(".project-collection-editor")).not.toBeNull());
+      clickCollectionAction(host, "add-collection");
+      editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Switch draft only");
+      unsaved = false;
       permitCopy = false;
+      confirm.mockClear();
       host.querySelector<HTMLSelectElement>("#project-select")!.value = localProjectId;
       host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
-      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).not.toContain("Opening project"));
+      await vi.waitFor(() => expect(confirm).toHaveBeenCalledWith(expect.stringContaining("Switching projects will discard unsaved collection edits")));
       expect(workflow.snapshot.project.id).toBe(copiedProjectId);
+      expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Switch draft only");
       permitCopy = true;
+      confirm.mockClear();
+      host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.project.id).toBe(localProjectId));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened My designs");
+      expect(workflow.snapshot.project.id).toBe(localProjectId);
+      expect(host.querySelector('[data-ce-scope="collection"][data-ce-field="name"]')).toBeNull();
+
+      unsaved = true;
+      permitCopy = false;
+      confirm.mockClear();
+      host.querySelector<HTMLSelectElement>("#project-select")!.value = copiedProjectId;
+      host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
+      await vi.waitFor(() => expect(confirm).toHaveBeenCalledWith(expect.stringContaining("This design has unsaved edits")));
+      expect(workflow.snapshot.project.id).toBe(localProjectId);
+      permitCopy = true;
+      confirm.mockClear();
+      host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.project.id).toBe(copiedProjectId));
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened");
+      expect(workflow.snapshot.project.id).toBe(copiedProjectId);
+
+      unsaved = false;
+      host.querySelector<HTMLSelectElement>("#project-select")!.value = localProjectId;
       host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
       await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened My designs"));
-      expect(workflow.snapshot.project.id).toBe(localProjectId);
-
       host.querySelector<HTMLSelectElement>("#project-select")!.value = localProjectId;
       host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
       await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("already open"));
@@ -2610,4 +2692,812 @@ describe("accessible project and style manager", () => {
       state.close();
     }
   }, 20_000);
+
+  it("edits and saves a local Brand Profile only after explicit save, including staged artwork and text guidance", async () => {
+    const { store, assets } = memoryArtworkStore();
+    let nextId = 0;
+    const inspectAsset = vi.fn(async (file: File): Promise<InspectedArtworkFile> => ({
+      name: file.name,
+      mimeType: "image/png",
+      blob: new NodeBlob(["validated-image"], { type: "image/png" }) as unknown as Blob,
+    }));
+    const state = await techPackHarness({
+      artworkStore: store,
+      inspectAsset,
+      techPackIdFactory: () => `a3333333-3333-4333-8333-${String(++nextId).padStart(12, "0")}`,
+    });
+    try {
+      const { host, workflow } = state;
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-color"]')!.click();
+      let color = host.querySelector<HTMLElement>("[data-brand-profile-color-row]")!;
+      const colorId = color.dataset.brandProfileColorRow!;
+      const colorName = color.querySelector<HTMLInputElement>('[data-brand-profile-color-field="name"]')!;
+      colorName.value = "Indigo";
+      colorName.dispatchEvent(new Event("input", { bubbles: true }));
+      const colorHex = color.querySelector<HTMLInputElement>('[data-brand-profile-color-field="hex"]')!;
+      colorHex.value = "#112233";
+      colorHex.dispatchEvent(new Event("input", { bubbles: true }));
+
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-rule"]')!.click();
+      let rule = host.querySelector<HTMLElement>("[data-brand-profile-rule-row]")!;
+      const ruleId = rule.dataset.brandProfileRuleRow!;
+      const scope = rule.querySelector<HTMLSelectElement>('[data-brand-profile-rule-field="scope"]')!;
+      scope.value = "supplier";
+      scope.dispatchEvent(new Event("change", { bubbles: true }));
+      rule = host.querySelector<HTMLElement>(`[data-brand-profile-rule-row="${ruleId}"]`)!;
+      const kind = rule.querySelector<HTMLSelectElement>('[data-brand-profile-rule-field="kind"]')!;
+      kind.value = "supplier-constraint";
+      kind.dispatchEvent(new Event("change", { bubbles: true }));
+      rule = host.querySelector<HTMLElement>(`[data-brand-profile-rule-row="${ruleId}"]`)!;
+      const description = rule.querySelector<HTMLTextAreaElement>('[data-brand-profile-rule-field="description"]')!;
+      description.value = "Use the approved Indigo palette token.";
+      description.dispatchEvent(new Event("input", { bubbles: true }));
+
+      const file = new NodeFile(["image"], "indigo-mark.png", { type: "image/png" }) as unknown as File;
+      selectArtworkFiles(host.querySelector<HTMLInputElement>("#brand-profile-artwork-files")!, [file]);
+      expect(inspectAsset).not.toHaveBeenCalled();
+      expect(store.put).not.toHaveBeenCalled();
+      expect(host.querySelector("[data-brand-profile-staged-files]")?.textContent).toContain("indigo-mark.png");
+
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!.click();
+      await vi.waitFor(() => expect("brandProfile" in workflow.snapshot.project).toBe(true));
+      await vi.waitFor(() => expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent).toContain("resolve locally"));
+      const saved = "brandProfile" in workflow.snapshot.project ? workflow.snapshot.project.brandProfile : null;
+      expect(saved?.colors).toEqual([{ id: colorId, name: "Indigo", hex: "#112233" }]);
+      expect(saved?.rules).toEqual([{ id: ruleId, scope: "supplier", kind: "supplier-constraint", description: "Use the approved Indigo palette token." }]);
+      expect(saved?.artworkAssetIds).toHaveLength(1);
+      expect(inspectAsset).toHaveBeenCalledTimes(1);
+      expect(store.put).toHaveBeenCalledTimes(1);
+      expect(assets.size).toBe(1);
+
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-color"]')!.click();
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="discard-profile"]')!.click();
+      const reloaded = "brandProfile" in workflow.snapshot.project ? workflow.snapshot.project.brandProfile : null;
+      expect(reloaded?.colors).toHaveLength(1);
+      expect(host.querySelectorAll("[data-brand-profile-color-row]")).toHaveLength(1);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("confirms discarding a dirty profile on reload and replaces it with the latest same-project profile", async () => {
+    const initialBrandProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: "a4444444-4444-4444-8444-000000000004", name: "Indigo v1", hex: "#112233" }],
+      artworkAssetIds: [],
+      rules: [],
+    };
+    const latestBrandProfile: BrandProfileRecord = {
+      ...initialBrandProfile,
+      colors: [{ ...initialBrandProfile.colors[0], name: "Indigo v2", hex: "#445566" }],
+    };
+    const confirm = vi.fn().mockReturnValueOnce(false).mockReturnValueOnce(true);
+    const state = await techPackHarness({ initialBrandProfile, confirm });
+    try {
+      const { host, workflow } = state;
+      const saveProfile = host.querySelector<HTMLButtonElement>("[data-brand-profile-action='save-profile']")!;
+      const colorName = host.querySelector<HTMLInputElement>("[data-brand-profile-color-field='name']")!;
+      colorName.value = "Stale local v1";
+      colorName.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(saveProfile.disabled).toBe(false);
+
+      await workflow.saveBrandProfile(latestBrandProfile);
+      const reloadSpy = vi.spyOn(workflow, "reload");
+      const saveProfileSpy = vi.spyOn(workflow, "saveBrandProfile");
+
+      await clickAndSettle(host, "[data-project-action='reload']");
+      expect(confirm).toHaveBeenCalledWith(
+        "Reloading the project will discard unsaved Brand Profile edits and staged artwork files. Continue?",
+      );
+      expect(reloadSpy).not.toHaveBeenCalled();
+      expect(colorName.value).toBe("Stale local v1");
+      expect(saveProfile.disabled).toBe(false);
+
+      await clickAndSettle(host, "[data-project-action='reload']");
+      expect(reloadSpy).toHaveBeenCalledOnce();
+      expect(saveProfileSpy).not.toHaveBeenCalled();
+      const reloadedName = host.querySelector<HTMLInputElement>("[data-brand-profile-color-field='name']")!;
+      expect(reloadedName.value).toBe("Indigo v2");
+      expect(host.querySelector<HTMLInputElement>("[data-brand-profile-color-field='hex']")?.value).toBe("#445566");
+      expect(host.querySelector<HTMLButtonElement>("[data-brand-profile-action='save-profile']")?.disabled).toBe(true);
+      expect(host.querySelector<HTMLButtonElement>("[data-brand-profile-action='discard-profile']")?.disabled).toBe(true);
+      expect("brandProfile" in workflow.snapshot.project && workflow.snapshot.project.brandProfile).toEqual(latestBrandProfile);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("blocks a Brand Profile artwork save that would exceed the project backup asset limit", async () => {
+    const assets: StoredArtworkAsset[] = Array.from({ length: PROJECT_PACKAGE_MAX_ASSETS }, (_, index) => {
+      const assetId = `local-${String(index + 1).padStart(32, "0")}-png`;
+      return {
+        assetId,
+        name: `existing-${index + 1}.png`,
+        mimeType: "image/png",
+        blob: new NodeBlob(["image"], { type: "image/png" }) as unknown as Blob,
+      };
+    });
+    const initialBrandProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: "a4444444-4444-4444-8444-000000000004", name: "Indigo", hex: "#112233" }],
+      artworkAssetIds: assets.map((asset) => asset.assetId),
+      rules: [],
+    };
+    const { store } = memoryArtworkStore(assets);
+    const inspectAsset = vi.fn(async (file: File): Promise<InspectedArtworkFile> => ({
+      name: file.name,
+      mimeType: "image/png",
+      blob: new NodeBlob(["validated-image"], { type: "image/png" }) as unknown as Blob,
+    }));
+    const state = await techPackHarness({ artworkStore: store, inspectAsset, initialBrandProfile });
+    try {
+      const { host, workflow } = state;
+      const originalProfile = workflow.snapshot.project.schemaVersion === BRAND_PROFILE_PROJECT_RECORD_VERSION
+        ? workflow.snapshot.project.brandProfile : null;
+      const originalRevision = workflow.snapshot.project.revision;
+      const colorName = host.querySelector<HTMLInputElement>("[data-brand-profile-color-field='name']")!;
+      colorName.value = "Indigo updated";
+      colorName.dispatchEvent(new Event("input", { bubbles: true }));
+      selectArtworkFiles(host.querySelector<HTMLInputElement>("#brand-profile-artwork-files")!, [
+        new NodeFile(["image"], "additional.png", { type: "image/png" }) as unknown as File,
+      ]);
+      await vi.waitFor(() => expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent)
+        .toContain("All existing artwork references resolve locally"));
+
+      host.querySelector<HTMLButtonElement>("[data-brand-profile-action='save-profile']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain(`at most ${PROJECT_PACKAGE_MAX_ASSETS} referenced artwork files`));
+
+      expect(inspectAsset).not.toHaveBeenCalled();
+      expect(store.put).not.toHaveBeenCalled();
+      expect(workflow.snapshot.project.revision).toBe(originalRevision);
+      expect(workflow.snapshot.project.schemaVersion === BRAND_PROFILE_PROJECT_RECORD_VERSION
+        && workflow.snapshot.project.brandProfile).toEqual(originalProfile);
+      expect(host.querySelector("[data-brand-profile-staged-files]")?.textContent).toContain("additional.png");
+    } finally {
+      state.close();
+    }
+  });
+
+  it("discards staged files without writing and removes only new files when profile save fails", async () => {
+    const { store, assets } = memoryArtworkStore();
+    const inspectAsset = vi.fn(async (file: File): Promise<InspectedArtworkFile> => ({
+      name: file.name,
+      mimeType: "image/png",
+      blob: new NodeBlob(["validated-image"], { type: "image/png" }) as unknown as Blob,
+    }));
+    const state = await techPackHarness({ artworkStore: store, inspectAsset });
+    try {
+      const { host, workflow } = state;
+      const file = new NodeFile(["image"], "discard-me.png", { type: "image/png" }) as unknown as File;
+      selectArtworkFiles(host.querySelector<HTMLInputElement>("#brand-profile-artwork-files")!, [file]);
+      expect(store.put).not.toHaveBeenCalled();
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="discard-profile"]')!.click();
+      expect(host.querySelector("[data-brand-profile-staged-files]")?.textContent).toContain("No new files staged");
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("nothing was written");
+      expect(store.put).not.toHaveBeenCalled();
+
+      vi.spyOn(workflow, "saveBrandProfile").mockRejectedValue(new Error("simulated project revision conflict"));
+      selectArtworkFiles(host.querySelector<HTMLInputElement>("#brand-profile-artwork-files")!, [file]);
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!.click();
+      await vi.waitFor(() => expect(store.remove).toHaveBeenCalledTimes(1));
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("simulated project revision conflict"));
+      expect(inspectAsset).toHaveBeenCalledTimes(1);
+      expect(store.put).toHaveBeenCalledTimes(1);
+      expect(assets.size).toBe(0);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("shows unresolved local artwork, blocks save and apply, and offers a corrective removal", async () => {
+    const assetId = "local-11111111111141118111000000000001-png";
+    const asset: StoredArtworkAsset = {
+      assetId,
+      name: "brand-mark.png",
+      mimeType: "image/png",
+      blob: new NodeBlob(["image"], { type: "image/png" }) as unknown as Blob,
+    };
+    const { store, assets } = memoryArtworkStore([asset]);
+    const initialBrandProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: "a4444444-4444-4444-8444-000000000004", name: "Teal", hex: "#167C80" }],
+      artworkAssetIds: [assetId],
+      rules: [],
+    };
+    const state = await techPackHarness({ artworkStore: store, initialBrandProfile });
+    try {
+      const { host, manager } = state;
+      assets.delete(assetId);
+      manager.refresh();
+      await vi.waitFor(() => expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent).toContain("1 artwork reference(s) are missing"));
+      expect(host.querySelector("[data-brand-profile-asset-row]")?.textContent).toContain("Missing from local storage");
+      expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="remove-artwork"]')?.textContent).toContain("Remove missing reference");
+
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-color"]')!.click();
+      expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')?.disabled).toBe(true);
+      expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')?.disabled).toBe(true);
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="remove-artwork"]')!.click();
+      expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent).toContain("resolve locally");
+      expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')?.disabled).toBe(false);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("applies one selected palette color to the pending colorway field with truthful provenance, then saves the revision explicitly", async () => {
+    const colorId = "a5555555-5555-4555-8555-000000000005";
+    const colorwayId = "80000000-0000-4000-8000-000000000001";
+    const materialId = "80000000-0000-4000-8000-000000000002";
+    const rowId = "80000000-0000-4000-8000-000000000003";
+    const assignmentId = "80000000-0000-4000-8000-000000000004";
+    const generatedIds = [colorwayId, materialId, rowId, assignmentId];
+    const initialBrandProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: colorId, name: "Indigo", hex: "#112233" }],
+      artworkAssetIds: [],
+      rules: [],
+    };
+    const state = await techPackHarness({ initialBrandProfile, techPackIdFactory: () => generatedIds.shift()! });
+    try {
+      const { host, manager, workflow } = state;
+      const initialRevision = workflow.snapshot.activeStyle.techPack.revisionNumber;
+      clickT01Action(host, "add-colorway");
+      clickT01Action(host, "add-fabric");
+      host.querySelector<HTMLSelectElement>("[data-t01-new-bom-material]")!.value = materialId;
+      clickT01Action(host, "add-bom-row");
+      const colorway = host.querySelector<HTMLElement>(`[data-t01-colorway="${colorwayId}"]`)!;
+      colorway.querySelector<HTMLSelectElement>("[data-t01-new-assignment-row]")!.value = rowId;
+      colorway.querySelector<HTMLSelectElement>("[data-t01-new-assignment-material]")!.value = materialId;
+      clickT01Action(host, "add-assignment");
+      expect(host.querySelector(`[data-t01-assignment="${assignmentId}"]`)).not.toBeNull();
+
+      const colorSelect = host.querySelector<HTMLSelectElement>("[data-brand-profile-color-selection]")!;
+      colorSelect.value = colorId;
+      colorSelect.dispatchEvent(new Event("change", { bubbles: true }));
+      const assignmentSelect = host.querySelector<HTMLSelectElement>("[data-brand-profile-assignment-selection]")!;
+      assignmentSelect.value = assignmentId;
+      assignmentSelect.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(host.querySelector("[data-brand-profile-conflict]")?.textContent).toContain("differs from assignment.");
+      expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')?.disabled).toBe(false);
+
+      const savedTechPack = workflow.snapshot.activeStyle.techPack;
+      expect(savedTechPack.colorways.flatMap((entry) => entry.assignments).find((entry) => entry.id === assignmentId)?.color.value).toBeUndefined();
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("Save the Tech Pack revision to commit this design value."));
+      const pending = (manager as unknown as { techPackDraft: TechPackRecord }).techPackDraft;
+      const pendingField = pending.colorways.flatMap((entry) => entry.assignments).find((entry) => entry.id === assignmentId)!.color;
+      expect(pendingField.value).toBe("#112233");
+      expect(pendingField.provenance).toBe("USER_SELECTED");
+      expect(pendingField.evidenceStatus).toBe("USER_CONFIRMED");
+      expect(pendingField.validationStatus).toBe("VALID");
+      expect(pendingField.sourceRef).toBe(`brand-profile-color:${colorId}`);
+      expect(pendingField.method).toContain("design intent");
+      expect(pendingField.method).toContain("not verified");
+      expect(pendingField.capturedBy).toBe("Local user");
+      expect(new Date(pendingField.capturedAt!).toISOString()).toBe(pendingField.capturedAt);
+      expect(pendingField.inputRefs).toEqual([]);
+      expect(pendingField.ruleId).toBeNull();
+      expect(pendingField.ruleVersion).toBeNull();
+      expect(pendingField.inheritedFrom).toBeNull();
+      expect(pendingField.unresolvedReason).toBeNull();
+      expect(pendingField.nextAction).toBeNull();
+      expect(pendingField.evidenceRefs).toEqual([]);
+      expect(workflow.snapshot.activeStyle.techPack.revisionNumber).toBe(initialRevision);
+      expect(workflow.snapshot.activeStyle.techPack.colorways.flatMap((entry) => entry.assignments).find((entry) => entry.id === assignmentId)?.color.value).toBeUndefined();
+
+      const saveRevision = host.querySelector<HTMLButtonElement>('[data-project-action="save-tech-pack"]')!;
+      expect(saveRevision.disabled).toBe(false);
+      saveRevision.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.revisionNumber).toBeGreaterThan(initialRevision));
+      const committedField = workflow.snapshot.activeStyle.techPack.colorways.flatMap((entry) => entry.assignments)
+        .find((entry) => entry.id === assignmentId)!.color;
+      expect(committedField.value).toBe("#112233");
+      expect(committedField.sourceRef).toBe(`brand-profile-color:${colorId}`);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("renders the collection matrix and saved scenario comparison without mutating sources", async () => {
+    const state = await techPackHarness();
+    try {
+      const { host, workflow } = state;
+      const firstRevisionId = workflow.snapshot.activeStyle.revisionHeadId!;
+      await workflow.saveActiveDesign({ ...workflow.snapshot.activeStyle.design, fabric: "#204060" });
+      const currentRevisionId = workflow.snapshot.activeStyle.revisionHeadId!;
+      const rows = [
+        { id: "44000000-0000-4000-8000-000000000002", sizePlanId: "44000000-0000-4000-8000-000000000003", styleRevisionId: firstRevisionId, code: "TEE-OLD" },
+        { id: "44000000-0000-4000-8000-000000000004", sizePlanId: "44000000-0000-4000-8000-000000000005", styleRevisionId: currentRevisionId, code: "TEE-CURRENT" },
+      ];
+      const collection = {
+        schemaVersion: 1 as const,
+        id: "44000000-0000-4000-8000-000000000001",
+        projectId: workflow.snapshot.project.id,
+        name: "Spring line",
+        createdAt: TIME,
+        updatedAt: TIME,
+        revision: 1,
+        skus: rows.map((row) => ({
+          id: row.id,
+          code: row.code,
+          name: row.code,
+          styleId: workflow.snapshot.activeStyle.id,
+          styleRevisionId: row.styleRevisionId,
+          sizePlan: { id: row.sizePlanId, name: "Core sizes", sizeIds: ["m"] },
+          colorways: [],
+          variants: [],
+        })),
+        sharedMaterialGroups: [],
+      };
+      await workflow.saveCollections([collection]);
+      await workflow.saveScenarios([
+        {
+          schemaVersion: 1,
+          id: "44000000-0000-4000-8000-000000000006",
+          projectId: workflow.snapshot.project.id,
+          collectionId: collection.id,
+          name: "Spring baseline",
+          revision: 1,
+          createdAt: TIME,
+          updatedAt: TIME,
+          evaluationDate: "2026-10-24",
+          currencyCode: "USD",
+          units: [], prices: [], costs: [], moqs: [], capacityDelivery: [],
+        },
+        {
+          schemaVersion: 1,
+          id: "44000000-0000-4000-8000-000000000007",
+          projectId: workflow.snapshot.project.id,
+          collectionId: collection.id,
+          name: "Summer comparison",
+          revision: 1,
+          createdAt: TIME,
+          updatedAt: TIME,
+          evaluationDate: "2026-10-24",
+          currencyCode: "EUR",
+          units: [], prices: [], costs: [], moqs: [], capacityDelivery: [],
+        },
+      ]);
+      const savedProject = structuredClone(workflow.snapshot.project);
+      const savedRevisions = structuredClone(workflow.snapshot.styleRevisions);
+      host.querySelector<HTMLButtonElement>("[data-project-action='reload']")!.click();
+      await vi.waitFor(() => expect(host.textContent).toContain("Collection and SKU matrix"));
+      expect(host.textContent).toContain("Stale pin — still uses saved revision r1; current style head is r2.");
+      expect(host.textContent).toContain("Current pin — saved revision r2 is the current style head.");
+      expect(host.textContent).toContain("Stale pins stay on their saved revision.");
+      expect(host.textContent).toContain("TEE-OLD · TEE-OLD");
+      expect(host.textContent).toContain("Core sizes · m");
+      expect(host.querySelector("[data-scenario-comparison='true']")).not.toBeNull();
+      expect(host.querySelectorAll(".scenario-comparison thead th[scope='col']")).toHaveLength(3);
+      expect(host.textContent).toContain("Spring baseline");
+      expect(host.textContent).toContain("Summer comparison");
+      expect(host.textContent).toContain("stale");
+      expect(host.textContent).toContain("current");
+      expect(host.querySelector("[data-collection-action='repin']")).toBeNull();
+      expect(host.querySelector("[data-collection-action='edit']")).toBeNull();
+      expect(workflow.snapshot.project).toEqual(savedProject);
+      expect(workflow.snapshot.styleRevisions).toEqual(savedRevisions);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("edits collection drafts, advances metadata only on successful changed saves, and confirms reload discard", async () => {
+    let allowDiscard = false;
+    const confirm = vi.fn(() => allowDiscard);
+    const state = await techPackHarness({ confirm });
+    try {
+      const { host, workflow } = state;
+      expect(host.querySelector(".project-collection-editor")).not.toBeNull();
+      clickCollectionAction(host, "add-collection");
+      editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Spring edit");
+      expect(host.querySelector<HTMLButtonElement>('[data-collection-action="save"]')?.disabled).toBe(false);
+      expect(workflow.snapshot.project.schemaVersion).not.toBe(4);
+
+      clickCollectionAction(host, "save");
+      await vi.waitFor(() => expect(workflow.snapshot.project.schemaVersion).toBe(4));
+      const firstProject = workflow.snapshot.project;
+      if (firstProject.schemaVersion !== 4) throw new Error("Collection save did not upgrade to schema v4.");
+      expect(firstProject.collections).toHaveLength(1);
+      const firstSaved = firstProject.collections[0]!;
+      expect(firstSaved).toMatchObject({ name: "Spring edit", revision: 1 });
+      expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Spring edit");
+
+      editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Summer edit");
+      clickCollectionAction(host, "save");
+      await vi.waitFor(() => {
+        const current = workflow.snapshot.project;
+        return expect(current.schemaVersion === 4 && current.collections[0]?.revision).toBe(2);
+      });
+      const secondProject = workflow.snapshot.project;
+      if (secondProject.schemaVersion !== 4) throw new Error("Changed collection save did not retain schema v4.");
+      const secondSaved = secondProject.collections[0]!;
+      expect(Date.parse(secondSaved.updatedAt)).toBeGreaterThan(Date.parse(firstSaved.updatedAt));
+
+      editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Discarded draft");
+      clickCollectionAction(host, "discard");
+      expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Summer edit");
+
+      const savedProject = structuredClone(workflow.snapshot.project);
+      const saveSpy = vi.spyOn(workflow, "saveCollections").mockRejectedValueOnce(new Error("Simulated compare-and-swap conflict."));
+      editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Rejected draft");
+      clickCollectionAction(host, "save");
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Simulated compare-and-swap conflict"));
+      expect(workflow.snapshot.project).toEqual(savedProject);
+      expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Rejected draft");
+
+      const reloadSpy = vi.spyOn(workflow, "reload");
+      host.querySelector<HTMLButtonElement>("[data-project-action='reload']")!.click();
+      expect(confirm).toHaveBeenCalledWith(expect.stringContaining("discard unsaved collection edits"));
+      expect(reloadSpy).not.toHaveBeenCalled();
+      expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Rejected draft");
+
+      allowDiscard = true;
+      host.querySelector<HTMLButtonElement>("[data-project-action='reload']")!.click();
+      await vi.waitFor(() => expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Summer edit"));
+      expect(reloadSpy).toHaveBeenCalledOnce();
+      expect(workflow.snapshot.project).toEqual(savedProject);
+      saveSpy.mockRestore();
+    } finally {
+      state.close();
+    }
+  });
+
+  it("edits, saves, reloads, and repairs a two-variant scenario while guarding dirty project navigation", async () => {
+    let allowDiscard = false;
+    const confirm = vi.fn(() => allowDiscard);
+    let idSerial = 200;
+    const idFactory = () => `77000000-0000-4000-8000-${String(idSerial++).padStart(12, "0")}`;
+    const state = await techPackHarness({ confirm, techPackIdFactory: idFactory });
+    try {
+      const { host, workflow } = state;
+      clickT01Action(host, "add-colorway");
+      const sourceColorwayId = host.querySelector<HTMLElement>("[data-t01-colorway]")!.dataset.t01Colorway!;
+      const oldRevisionId = workflow.snapshot.activeStyle.revisionHeadId;
+      host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(oldRevisionId));
+      const collectionId = idFactory();
+      const skuId = idFactory();
+      const sizePlanId = idFactory();
+      const localColorwayId = idFactory();
+      const firstVariantId = idFactory();
+      const secondVariantId = idFactory();
+      const collection = {
+        schemaVersion: 1 as const,
+        id: collectionId,
+        projectId: workflow.snapshot.project.id,
+        name: "Two-size tee",
+        createdAt: TIME,
+        updatedAt: TIME,
+        revision: 1,
+        skus: [{
+          id: skuId,
+          code: "TEE-CORE",
+          name: "Core tee",
+          styleId: workflow.snapshot.activeStyle.id,
+          styleRevisionId: workflow.snapshot.activeStyle.revisionHeadId!,
+          sizePlan: { id: sizePlanId, name: "Core sizes", sizeIds: ["M", "L"] },
+          colorways: [{ id: localColorwayId, name: "Ink", sourceColorwayId }],
+          variants: [
+            { id: firstVariantId, skuCode: "TEE-M-INK", sizeId: "M", colorwayId: localColorwayId },
+            { id: secondVariantId, skuCode: "TEE-L-INK", sizeId: "L", colorwayId: localColorwayId },
+          ],
+        }],
+        sharedMaterialGroups: [],
+      };
+      await workflow.saveCollections([collection]);
+      state.manager.refresh();
+      expect(host.textContent).toContain("Scenario planner");
+      expect(host.querySelectorAll("[data-scenario-action='create']")).toHaveLength(1);
+      host.querySelector<HTMLButtonElement>("[data-scenario-action='create']")!.click();
+      expect(host.querySelectorAll('[data-se-row-kind="units"][data-se-field="units"]')).toHaveLength(2);
+      expect(host.querySelectorAll('[data-se-row-kind="prices"][data-se-field="amount"]')).toHaveLength(2);
+      expect(host.querySelectorAll('[data-se-row-kind="costs"][data-se-field="amount"]')).toHaveLength(2);
+
+      const draftScenarioId = host.querySelector<HTMLInputElement>('[data-se-row-kind="units"][data-se-field="units"]')?.dataset.seScenario;
+      if (!draftScenarioId) throw new Error("Created scenario draft does not expose its ID.");
+      editScenarioField(host, `[data-se-scenario="${draftScenarioId}"][data-se-field="name"]`, "Live draft comparison");
+      expect(host.querySelector(".scenario-comparison")?.textContent).toContain("Live draft comparison");
+
+      editScenarioField(host, '[data-se-row-kind="units"][data-se-field="units"]', "not-an-integer");
+      expect(host.textContent).toContain("PLANNED_UNITS_INVALID");
+      expect(host.querySelector<HTMLElement>("[data-scenario-result]")?.textContent).toContain("Calculation state: blocked");
+      expect(host.querySelector(".scenario-comparison")?.textContent).toContain("PLANNED_UNITS_INVALID");
+      host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.project.schemaVersion).toBe(5));
+      await vi.waitFor(() => expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent).toContain("Saved scenario drafts"));
+      if (workflow.snapshot.project.schemaVersion !== 5) throw new Error("Scenario save did not create schema v5.");
+      const scenarioId = workflow.snapshot.project.scenarios[0]!.id;
+      expect(workflow.snapshot.project.scenarios[0]!.units[0]!.units).toBe("not-an-integer");
+
+      const reload = vi.spyOn(workflow, "reload");
+      host.querySelector<HTMLButtonElement>("[data-project-action='reload']")!.click();
+      await vi.waitFor(() => expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent).toContain("Reloaded"));
+      await vi.waitFor(() => expect(host.querySelector<HTMLInputElement>(
+        `[data-se-scenario="${scenarioId}"][data-se-row-kind="units"][data-se-field="units"]`,
+      )?.value).toBe("not-an-integer"));
+      expect(reload).toHaveBeenCalledOnce();
+
+      editScenarioField(host, `[data-se-scenario="${scenarioId}"][data-se-field="evaluationDate"]`, "2026-09-24");
+      editScenarioField(host, `[data-se-scenario="${scenarioId}"][data-se-field="currencyCode"]`, "USD");
+      const unitRows = [...host.querySelectorAll<HTMLInputElement>(`[data-se-scenario="${scenarioId}"][data-se-row-kind="units"][data-se-field="units"]`)];
+      unitRows.forEach((control, index) => {
+        control.value = index === 0 ? "10" : "5";
+        control.dispatchEvent(new Event("input", { bubbles: true }));
+      });
+      for (const kind of ["prices", "costs"] as const) {
+        const amounts = [...host.querySelectorAll<HTMLInputElement>(`[data-se-scenario="${scenarioId}"][data-se-row-kind="${kind}"][data-se-field="amount"]`)];
+        amounts.forEach((control) => {
+          control.value = kind === "prices" ? "12.50" : "4.00";
+          control.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+        for (const control of host.querySelectorAll<HTMLInputElement>(`[data-se-scenario="${scenarioId}"][data-se-row-kind="${kind}"][data-se-field="currencyCode"]`)) {
+          control.value = "USD";
+          control.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+      }
+      for (const rowKind of ["units", "prices", "costs"] as const) {
+        const rowIds = new Set([...host.querySelectorAll<HTMLInputElement>(`[data-se-scenario="${scenarioId}"][data-se-row-kind="${rowKind}"][data-se-nested="provenance"][data-se-field="kind"]`)]
+          .map((control) => control.dataset.seRowId!));
+        for (const rowId of rowIds) {
+          for (const [field, value] of [["kind", "user-input"], ["sourceLabel", "Plan"], ["asOf", "2026-09-01"], ["validThrough", "2026-10-01"]]) {
+            editScenarioField(host, `[data-se-scenario="${scenarioId}"][data-se-row-kind="${rowKind}"][data-se-row-id="${rowId}"][data-se-nested="provenance"][data-se-field="${field}"]`, value);
+          }
+        }
+      }
+      expect(host.querySelector<HTMLElement>(`[data-scenario-result="${scenarioId}"]`)?.textContent).toContain("Calculation state: partial");
+      expect(host.querySelector<HTMLElement>(`[data-scenario-result="${scenarioId}"]`)?.textContent).toContain("Total margin");
+      host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.project.schemaVersion === 5
+        && workflow.snapshot.project.scenarios[0]?.units[0]?.units).toBe("10"));
+      await vi.waitFor(() => expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent).toContain("Saved scenario drafts"));
+
+      editScenarioField(host, `[data-se-scenario="${scenarioId}"][data-se-row-kind="units"][data-se-field="units"]`, "98");
+      host.querySelector<HTMLButtonElement>("[data-scenario-action='discard']")!.click();
+      expect(host.querySelector<HTMLInputElement>(`[data-se-scenario="${scenarioId}"][data-se-row-kind="units"][data-se-field="units"]`)?.value).toBe("10");
+
+      editScenarioField(host, `[data-se-scenario="${scenarioId}"][data-se-row-kind="units"][data-se-field="units"]`, "99");
+      reload.mockClear();
+      const beforeCancelledReload = reload;
+      host.querySelector<HTMLButtonElement>("[data-project-action='reload']")!.click();
+      expect(confirm).toHaveBeenCalledWith(expect.stringContaining("only unsaved scenario editor edits"));
+      expect(beforeCancelledReload).not.toHaveBeenCalled();
+      expect(host.querySelector<HTMLInputElement>(`[data-se-scenario="${scenarioId}"][data-se-row-kind="units"][data-se-field="units"]`)?.value).toBe("99");
+      allowDiscard = true;
+      host.querySelector<HTMLButtonElement>("[data-project-action='reload']")!.click();
+      await vi.waitFor(() => expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent).toContain("Reloaded"));
+      await vi.waitFor(() => expect(host.querySelector<HTMLInputElement>(`[data-se-scenario="${scenarioId}"][data-se-row-kind="units"][data-se-field="units"]`)?.value).toBe("10"));
+
+      allowDiscard = false;
+      editScenarioField(host, `[data-se-scenario="${scenarioId}"][data-se-row-kind="units"][data-se-field="units"]`, "77");
+      const projectSelect = host.querySelector<HTMLSelectElement>("#project-select")!;
+      const otherProject = document.createElement("option");
+      otherProject.value = "88000000-0000-4000-8000-000000000001";
+      otherProject.textContent = "Other local project";
+      projectSelect.add(otherProject);
+      projectSelect.value = otherProject.value;
+      const switchProject = vi.spyOn(workflow, "switchProject").mockResolvedValue(workflow.snapshot);
+      host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
+      expect(confirm).toHaveBeenCalledWith(expect.stringContaining("only unsaved scenario editor edits"));
+      expect(switchProject).not.toHaveBeenCalled();
+      expect(host.querySelector<HTMLInputElement>(`[data-se-scenario="${scenarioId}"][data-se-row-kind="units"][data-se-field="units"]`)?.value).toBe("77");
+      allowDiscard = true;
+      host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
+      await vi.waitFor(() => expect(switchProject).toHaveBeenCalledOnce());
+      await vi.waitFor(() => expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent).toContain("Opened"));
+      expect(host.querySelector<HTMLInputElement>(`[data-se-scenario="${scenarioId}"][data-se-row-kind="units"][data-se-field="units"]`)?.value).toBe("10");
+      switchProject.mockRestore();
+      reload.mockRestore();
+      beforeCancelledReload.mockRestore();
+    } finally {
+      state.close();
+    }
+  });
+
+  it("keeps an over-cap Add-missing action atomic and shows the row recovery guidance", async () => {
+    let idSerial = 30_000;
+    const idFactory = () => `77000000-0000-4000-8000-${String(idSerial++).padStart(12, "0")}`;
+    const state = await techPackHarness({ techPackIdFactory: idFactory });
+    try {
+      const { host, workflow } = state;
+      clickT01Action(host, "add-colorway");
+      const sourceColorwayId = host.querySelector<HTMLElement>("[data-t01-colorway]")!.dataset.t01Colorway!;
+      const oldRevisionId = workflow.snapshot.activeStyle.revisionHeadId;
+      host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(oldRevisionId));
+
+      const collectionId = idFactory();
+      const localColorwayId = idFactory();
+      const variantId = idFactory();
+      const collection = {
+        schemaVersion: 1 as const,
+        id: collectionId,
+        projectId: workflow.snapshot.project.id,
+        name: "Boundary collection",
+        createdAt: TIME,
+        updatedAt: TIME,
+        revision: 1,
+        skus: [{
+          id: idFactory(),
+          code: "TEE-CORE",
+          name: "Core tee",
+          styleId: workflow.snapshot.activeStyle.id,
+          styleRevisionId: workflow.snapshot.activeStyle.revisionHeadId!,
+          sizePlan: { id: idFactory(), name: "Core sizes", sizeIds: ["M"] },
+          colorways: [{ id: localColorwayId, name: "Ink", sourceColorwayId }],
+          variants: [{ id: variantId, skuCode: "TEE-M-INK", sizeId: "M", colorwayId: localColorwayId }],
+        }],
+        sharedMaterialGroups: [],
+      };
+      await workflow.saveCollections([collection]);
+      const blankProvenance = { kind: "", sourceLabel: "", asOf: "", validThrough: "" };
+      const scenario: ScenarioRecord = {
+        schemaVersion: 1,
+        id: idFactory(),
+        projectId: workflow.snapshot.project.id,
+        collectionId,
+        name: "Near-capacity draft",
+        revision: 1,
+        createdAt: TIME,
+        updatedAt: TIME,
+        evaluationDate: "",
+        currencyCode: "",
+        units: Array.from({ length: 498 }, (_, index) => ({
+          id: idFactory(), variantId: `unresolved-${index}`, units: "", provenance: blankProvenance,
+        })),
+        prices: [],
+        costs: [],
+        moqs: [],
+        capacityDelivery: [],
+      };
+      await workflow.saveScenarios([scenario]);
+      state.manager.refresh();
+      const savedBefore = JSON.stringify(projectScenarios(workflow.snapshot.project));
+      expect(host.querySelectorAll(`[data-se-scenario="${scenario.id}"][data-se-row-kind="units"][data-se-field="units"]`)).toHaveLength(498);
+
+      host.querySelector<HTMLButtonElement>(`[data-scenario-action="add-missing"][data-se-scenario="${scenario.id}"]`)!.click();
+
+      const status = host.querySelector<HTMLElement>("#project-manager-status")?.textContent ?? "";
+      expect(status).toContain("needs 3 rows; 2 rows are available");
+      expect(status).toContain("Reduce or split the collection");
+      expect(JSON.stringify(projectScenarios(workflow.snapshot.project))).toBe(savedBefore);
+      expect(host.querySelectorAll(`[data-se-scenario="${scenario.id}"][data-se-row-kind="units"][data-se-field="units"]`)).toHaveLength(498);
+      expect(host.querySelectorAll(`[data-se-scenario="${scenario.id}"][data-se-row-kind="prices"][data-se-field="amount"]`)).toHaveLength(0);
+      expect(host.querySelectorAll(`[data-se-scenario="${scenario.id}"][data-se-row-kind="costs"][data-se-field="amount"]`)).toHaveLength(0);
+      expect(host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")?.disabled).toBe(true);
+      expect(host.querySelector<HTMLButtonElement>("[data-scenario-action='discard']")?.disabled).toBe(true);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("confirms graph deletion consequences and keeps SKU material references repairable", async () => {
+    let allowDelete = false;
+    const confirm = vi.fn(() => allowDelete);
+    const state = await techPackHarness({ confirm });
+    try {
+      const { host, workflow } = state;
+
+      clickT01Action(host, "add-colorway");
+      clickT01Action(host, "add-fabric");
+      const frozenColorwayId = host.querySelector<HTMLElement>("[data-t01-colorway]")!.dataset.t01Colorway!;
+      const frozenMaterialId = host.querySelector<HTMLElement>("[data-t01-material]")!.dataset.t01Material!;
+      const initialHeadId = workflow.snapshot.activeStyle.revisionHeadId;
+      host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(initialHeadId));
+      const frozenRevision = workflow.snapshot.styleRevisions.find(
+        (revision) => revision.revisionId === workflow.snapshot.activeStyle.revisionHeadId,
+      )!;
+      expect(frozenRevision.payload.payloadVersion).toBe(2);
+      if (frozenRevision.payload.payloadVersion !== 2) throw new Error("Fixture requires a frozen T01 v2 source revision.");
+      expect(frozenRevision.payload.techPack.colorways.map((entry) => entry.id)).toContain(frozenColorwayId);
+      expect(frozenRevision.payload.techPack.materials.map((entry) => entry.id)).toContain(frozenMaterialId);
+
+      const sourceStyles = structuredClone(workflow.snapshot.styles);
+      clickCollectionAction(host, "add-collection");
+      editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Capsule");
+      const addSku = (): string => {
+        clickCollectionAction(host, "add-sku");
+        const inputs = host.querySelectorAll<HTMLInputElement>('[data-ce-scope="sku"][data-ce-field="code"]');
+        return inputs.item(inputs.length - 1)!.dataset.ceSkuId!;
+      };
+      const fillSku = (skuId: string, code: string): void => {
+        editCollectionField(host, `[data-ce-scope="sku"][data-ce-sku-id="${skuId}"][data-ce-field="code"]`, code);
+        editCollectionField(host, `[data-ce-scope="sku"][data-ce-sku-id="${skuId}"][data-ce-field="name"]`, `${code} name`);
+        editCollectionField(host, `[data-ce-scope="sku"][data-ce-sku-id="${skuId}"][data-ce-field="styleId"]`, workflow.snapshot.activeStyle.id);
+        editCollectionField(host, `[data-ce-scope="sku"][data-ce-sku-id="${skuId}"][data-ce-field="styleRevisionId"]`, workflow.snapshot.activeStyle.revisionHeadId!);
+        editCollectionField(host, `[data-ce-scope="sizePlan"][data-ce-sku-id="${skuId}"][data-ce-field="name"]`, "Core sizes");
+        editCollectionField(host, `[data-ce-scope="sizePlan"][data-ce-sku-id="${skuId}"][data-ce-field="sizeIds"]`, "M");
+      };
+      const skuOne = addSku();
+      fillSku(skuOne, "CAP-A");
+      const skuTwo = addSku();
+      fillSku(skuTwo, "CAP-B");
+
+      clickCollectionAction(host, "add-colorway", `[data-ce-sku-id="${skuOne}"]`);
+      const colorwayName = host.querySelector<HTMLInputElement>(
+        `[data-ce-scope="colorway"][data-ce-sku-id="${skuOne}"][data-ce-field="name"]`,
+      )!;
+      const colorwayId = colorwayName.dataset.ceRecordId!;
+      editCollectionField(host,
+        `[data-ce-scope="colorway"][data-ce-sku-id="${skuOne}"][data-ce-record-id="${colorwayId}"][data-ce-field="name"]`,
+        "Ink",
+      );
+      editCollectionField(host,
+        `[data-ce-scope="colorway"][data-ce-sku-id="${skuOne}"][data-ce-record-id="${colorwayId}"][data-ce-field="sourceColorwayId"]`,
+        frozenColorwayId,
+      );
+      clickCollectionAction(host, "add-variant", `[data-ce-sku-id="${skuOne}"]`);
+      const variantCode = host.querySelector<HTMLInputElement>(
+        `[data-ce-scope="variant"][data-ce-sku-id="${skuOne}"][data-ce-field="skuCode"]`,
+      )!;
+      const variantId = variantCode.dataset.ceRecordId!;
+      editCollectionField(host,
+        `[data-ce-scope="variant"][data-ce-sku-id="${skuOne}"][data-ce-record-id="${variantId}"][data-ce-field="skuCode"]`,
+        "CAP-A-M-INK",
+      );
+      editCollectionField(host,
+        `[data-ce-scope="variant"][data-ce-sku-id="${skuOne}"][data-ce-record-id="${variantId}"][data-ce-field="sizeId"]`,
+        "M",
+      );
+      editCollectionField(host,
+        `[data-ce-scope="variant"][data-ce-sku-id="${skuOne}"][data-ce-record-id="${variantId}"][data-ce-field="colorwayId"]`,
+        colorwayId,
+      );
+
+      clickCollectionAction(host, "add-group");
+      const firstGroupAdd = host.querySelector<HTMLButtonElement>('[data-collection-action="add-member"]')!;
+      const group = firstGroupAdd.dataset.ceRecordId!;
+      editCollectionField(host, `[data-ce-scope="group"][data-ce-record-id="${group}"][data-ce-field="name"]`, "Shared fabric");
+      clickCollectionAction(host, "add-group");
+      const groupIds = host.querySelectorAll<HTMLButtonElement>('[data-collection-action="add-member"]');
+      const unusedGroup = groupIds.item(1)!.dataset.ceRecordId!;
+      clickCollectionAction(host, "delete-group", `[data-ce-record-id="${unusedGroup}"]`);
+      clickCollectionAction(host, "add-member", `[data-ce-record-id="${group}"]`);
+      clickCollectionAction(host, "add-member", `[data-ce-record-id="${group}"]`);
+      clickCollectionAction(host, "add-member", `[data-ce-record-id="${group}"]`);
+      editCollectionField(host, `[data-ce-scope="member"][data-ce-record-id="${group}"][data-ce-index="0"][data-ce-field="skuId"]`, skuOne);
+      editCollectionField(host, `[data-ce-scope="member"][data-ce-record-id="${group}"][data-ce-index="1"][data-ce-field="skuId"]`, skuTwo);
+      editCollectionField(host, `[data-ce-scope="member"][data-ce-record-id="${group}"][data-ce-index="0"][data-ce-field="materialId"]`, frozenMaterialId);
+      editCollectionField(host, `[data-ce-scope="member"][data-ce-record-id="${group}"][data-ce-index="1"][data-ce-field="materialId"]`, frozenMaterialId);
+      clickCollectionAction(host, "delete-member", `[data-ce-record-id="${group}"][data-ce-index="2"]`);
+
+      clickCollectionAction(host, "delete-sku", `[data-ce-sku-id="${skuOne}"]`);
+      expect(confirm).toHaveBeenLastCalledWith(expect.stringContaining("removes 1 nested variant(s)"));
+      expect(host.querySelectorAll(".project-collection-editor-sku")).toHaveLength(2);
+      expect(host.querySelector(`[data-ce-scope="variant"][data-ce-record-id="${variantId}"]`)).not.toBeNull();
+
+      allowDelete = true;
+      clickCollectionAction(host, "delete-sku", `[data-ce-sku-id="${skuOne}"]`);
+      expect(host.querySelectorAll(".project-collection-editor-sku")).toHaveLength(1);
+      expect(host.querySelector(`[data-ce-scope="variant"][data-ce-record-id="${variantId}"]`)).toBeNull();
+      expect(host.textContent).toContain("collection.sharedMaterialGroups[0].members[0].skuId: reference a SKU in this collection.");
+      expect(host.textContent).toContain(`Unresolved saved ID · ${skuOne}`);
+      expect(confirm).toHaveBeenLastCalledWith(expect.stringContaining("Shared-material member references will remain in the draft"));
+
+      allowDelete = false;
+      clickCollectionAction(host, "delete-collection");
+      expect(confirm).toHaveBeenLastCalledWith(expect.stringContaining("1 SKU row(s), 0 nested variant(s), and 1 shared-material group(s)"));
+      expect(host.querySelectorAll(".project-collection-editor-card")).toHaveLength(1);
+      expect(host.querySelectorAll(".project-collection-editor-sku")).toHaveLength(1);
+      expect(host.querySelectorAll('[data-ce-scope="member"][data-ce-field="skuId"]')).toHaveLength(2);
+      expect(host.querySelector<HTMLInputElement>(
+        `[data-ce-scope="member"][data-ce-record-id="${group}"][data-ce-index="0"][data-ce-field="skuId"]`,
+      )?.value).toBe(skuOne);
+      expect(host.querySelector<HTMLInputElement>(
+        `[data-ce-scope="member"][data-ce-record-id="${group}"][data-ce-index="1"][data-ce-field="materialId"]`,
+      )?.value).toBe(frozenMaterialId);
+      expect(host.textContent).toContain("collection.sharedMaterialGroups[0].members[0].skuId: reference a SKU in this collection.");
+
+      allowDelete = true;
+      clickCollectionAction(host, "delete-collection");
+      expect(host.querySelectorAll(".project-collection-editor-card")).toHaveLength(0);
+      expect(workflow.snapshot.styles).toEqual(sourceStyles);
+      expect(workflow.snapshot.project.schemaVersion).not.toBe(4);
+    } finally {
+      state.close();
+    }
+  });
 });
