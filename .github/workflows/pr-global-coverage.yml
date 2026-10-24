@@ -44,4 +44,6 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run full suite with global coverage
-        run: npm run coverage -- --maxWorkers=2 --minWorkers=2
+        # Follow vitest.config.ts: output-heavy coverage fixtures exceed the
+        # hosted Node heap when two workers run concurrently.
+        run: npm run coverage
