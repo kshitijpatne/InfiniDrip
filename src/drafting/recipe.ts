@@ -557,6 +557,27 @@ export const FITTED: GarmentRecipe = {
         ],
       };
     }
+    if (options.capSleeveUnderarmTrimCm !== undefined) {
+      const trim = options.capSleeveUnderarmTrimCm;
+      const validTrim = Number.isFinite(trim) && trim >= 0 && trim <= 1.5
+        && Math.abs(trim / 0.1 - Math.round(trim / 0.1)) <= 1e-8;
+      if (!validTrim) {
+        return {
+          ...this.techPack,
+          constructionNotice: "Fitted Cap-Sleeve Tee construction details are unavailable while the underarm taper is invalid. Correct the value to 0–1.5 cm per side in 0.1 cm steps; the app will not clamp it.",
+        };
+      }
+      return {
+        ...this.techPack,
+        constructionNotice: "F06 is an InfiniDrip digital construction choice. Its sleeve cap is solved to the actual Fitted armhole; sleeve length and underarm taper are editable software values. No sewn fit, comfort, wear, material, grading, or production result is represented.",
+        construction: [
+          ...this.techPack.construction.slice(0, 4),
+          "Set in the short F06 sleeves flat, matching each solved cap to the actual Fitted armhole and easing the cap to the armhole.",
+          `Close the side and underarm seams; taper each sleeve side by ${trim.toFixed(1)} cm from cap base to hem.`,
+          this.techPack.construction[this.techPack.construction.length - 1]!,
+        ],
+      };
+    }
     const fittedTechPack = options.waistDartIntake === undefined
       ? this.techPack
       : {

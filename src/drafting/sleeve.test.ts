@@ -31,6 +31,23 @@ describe("sleeve — the Component contract", () => {
     expect(capLen).toBeGreaterThan(50);
     expect(capLen).toBeLessThan(53); // 50 + ease, not by much
   });
+
+  it("adds an underarm taper below the cap without moving the fitted cap seam", () => {
+    const ordinary = sleeve(STANDARD_M, { targetArmhole: 50 }).pieces.sleeve;
+    const trimmed = sleeve(STANDARD_M, { targetArmhole: 50, sideTaperAddCm: 0.6 }).pieces.sleeve;
+    const ordinarySide = pieceEdge(ordinary, "sideRight");
+    const trimmedSide = pieceEdge(trimmed, "sideRight");
+    expect(pieceEdge(trimmed, "capLeft")).toEqual(pieceEdge(ordinary, "capLeft"));
+    expect(pieceEdge(trimmed, "capRight")).toEqual(pieceEdge(ordinary, "capRight"));
+    expect(ordinarySide.kind).toBe("line");
+    expect(trimmedSide.kind).toBe("line");
+    const ordinaryLine = ordinarySide as Extract<typeof ordinarySide, { kind: "line" }>;
+    const trimmedLine = trimmedSide as Extract<typeof trimmedSide, { kind: "line" }>;
+    expect(trimmedLine.start).toEqual(ordinaryLine.start);
+    expect(trimmedLine.end.x).toBeCloseTo(ordinaryLine.end.x - 0.6, 8);
+    expect(trimmedLine.end.y).toBe(ordinaryLine.end.y);
+    expect(edgeLength(pieceEdge(trimmed, "hem"))).toBeCloseTo(edgeLength(pieceEdge(ordinary, "hem")) - 1.2, 8);
+  });
 });
 
 describe("sleeve reproduces draftSleeve exactly, given the same target (Phase B3 byte-identity)", () => {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS } from "../drafting";
+import { FITTED_CAP_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { getFieldDefinitions } from "./field-provenance";
 import { MEASUREMENT_HELP, measurementHelpFor } from "./measurement-help";
 
@@ -338,5 +339,19 @@ describe("measurement help catalog", () => {
         expect(Object.isFrozen(entry.sources)).toBe(true);
       }
     }
+  });
+
+  it("uses cap-base sleeve-length meaning for F06 without changing legacy fitted wording", () => {
+    const generic = measurementHelpFor("fitted", "target.sleeve-cap-to-hem")!;
+    const f06 = measurementHelpFor("fitted", "target.sleeve-cap-to-hem", FITTED_CAP_SLEEVE_ENTRY_ID)!;
+
+    expect(generic.label).toBe("Sleeve length (cap to hem target)");
+    expect(generic.limits).toContain("D-01");
+    expect(f06.label).toBe("Sleeve length below modeled cap base");
+    expect(f06.meaning).toContain("modeled cap base to the hem");
+    expect(f06.draftUse).toContain("separate sleeve-length POM adds the solved cap height");
+    expect(f06.guardrailNote).toContain("8–10 cm in 1 cm steps");
+    expect(f06.limits).not.toContain("D-01");
+    expect(f06.limits).toContain("physical fit is unvalidated");
   });
 });
