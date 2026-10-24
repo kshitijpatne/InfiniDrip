@@ -10,6 +10,16 @@ describe("FITTED_STYLES", () => {
   });
 });
 
+describe("FITTED_STYLES crop classification", () => {
+  it("classifies the cropped profile inside its separate digital length envelope", () => {
+    expect(currentStyles({ ...STANDARD_M, length: 40 }, FITTED_STYLES)).toEqual(["Cropped fitted tee"]);
+    expect(currentStyles({ ...STANDARD_M, length: 53 }, FITTED_STYLES)).toEqual(["Cropped fitted tee"]);
+    expect(currentStyles({ ...STANDARD_M, length: 57 }, FITTED_STYLES)).toEqual(["Cropped fitted tee"]);
+    expect(currentStyles({ ...STANDARD_M, length: 58 }, FITTED_STYLES)).toEqual([]);
+    expect(currentStyles({ ...STANDARD_M, length: 59 }, FITTED_STYLES)).toEqual(["Fitted tee"]);
+  });
+});
+
 describe("currentStyles", () => {
   it("classifies the standard block as a Classic tee", () => {
     expect(currentStyles(STANDARD_M, TEE_STYLES)).toEqual(["Classic tee"]);
