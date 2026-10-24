@@ -172,6 +172,42 @@ describe("measurement-first capture session", () => {
     expect(parseMeasurementCaptureSession(accepted).ok).toBe(true);
   });
 
+  it("accepts a finite entry-specific preset value while retaining preset provenance", () => {
+    const session = createMeasurementCaptureSession(SESSION_ID, "fitted", TIME);
+    const sleeve = session.fields.find((field) => field.inputKey === "sleeveLength")!;
+    const accepted = acceptCapturePreset(
+      session,
+      sleeve.fieldId,
+      READING_2,
+      "2026-09-26T08:00:01.000Z",
+      "F07 sleeve software preset; not measured wearer data",
+      38,
+    );
+    const reading = accepted.fields.find((field) => field.fieldId === sleeve.fieldId)!.readings[0]!;
+    expect(reading).toMatchObject({
+      rawValue: "38",
+      canonicalValue: 38,
+      provenance: "PRESET",
+      evidenceStatus: "UNCONFIRMED",
+      sourceLabel: "F07 sleeve software preset; not measured wearer data",
+    });
+    expect(assessCaptureField(accepted.fields.find((field) => field.fieldId === sleeve.fieldId)!, "fitted").state)
+      .toBe("resolved");
+  });
+
+  it("rejects a non-finite entry-specific preset override", () => {
+    const session = createMeasurementCaptureSession(SESSION_ID, "fitted", TIME);
+    const sleeve = session.fields.find((field) => field.inputKey === "sleeveLength")!;
+    expect(() => acceptCapturePreset(
+      session,
+      sleeve.fieldId,
+      READING_2,
+      "2026-09-26T08:00:01.000Z",
+      "F07 sleeve software preset",
+      Number.NaN,
+    )).toThrow("Digital preset value must be a finite number.");
+  });
+
   it("attaches a session to one saved style and rejects changing its owner", () => {
     const session = teeSession();
     const attached = attachCaptureSessionToStyle(session, STYLE_ID, "2026-09-26T08:00:01.000Z");
