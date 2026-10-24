@@ -2,7 +2,8 @@ import { describe, it, expect } from "vitest";
 import { derive, STANDARD_M } from "./measurements";
 import { draftFront, draftBack, draftSleeve, TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { draftFittedFront, draftFitted, fittedGuidance, fittedGeometryPair, reopenFittedReference, FITTED_DART_OPTIONS,
-  FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID, FITTED_SCOOP_ENTRY_ID, FITTED_VNECK_ENTRY_ID, sideBoundaryAtY, draftFittedPrincessFronts } from "./fitted";
+  FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID, FITTED_SCOOP_ENTRY_ID, FITTED_VNECK_ENTRY_ID, FITTED_CAP_SLEEVE_ENTRY_ID,
+  sideBoundaryAtY, draftFittedPrincessFronts } from "./fitted";
 import { Edge, Piece, pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 import { dartIntake, dartOf, edgesMeet, seamKink } from "./dart";
 import { rolePiece } from "./block";
@@ -598,5 +599,50 @@ describe("fittedGuidance", () => {
     expect(notes.find((note) => note.field === "option-waistDartWaistlineFromHps")?.text)
       .toContain("outside the bust-dart opening");
     expect(notes.find((note) => note.text.includes("too close to the bust-dart apex"))).toBeUndefined();
+  });
+
+  it("scopes the F06 cap-sleeve shape to its entry and preserves the fitted armhole cap", () => {
+    const f01Options = defaultGarmentOptions(FITTED_OPTIONS, "fitted-tee-digital-v1");
+    const f06Options = defaultGarmentOptions(FITTED_OPTIONS, FITTED_CAP_SLEEVE_ENTRY_ID);
+    const measurements = { ...STANDARD_M, bicep: 38, ease: 7, sleeveLength: 8 };
+    const f01 = draftFitted(measurements, f01Options);
+    const f06 = draftFitted(measurements, f06Options);
+    const f01Sleeve = rolePiece(f01, "sleeve");
+    const f06Sleeve = rolePiece(f06, "sleeve");
+    const armhole = edgeLength(pieceEdge(rolePiece(f06, "front"), "armhole"))
+      + edgeLength(pieceEdge(rolePiece(f06, "back"), "armhole"));
+    const capLength = edgeLength(pieceEdge(f06Sleeve, "capLeft")) + edgeLength(pieceEdge(f06Sleeve, "capRight"));
+
+    expect(f01Options).not.toHaveProperty("capSleeveUnderarmTrimCm");
+    expect(f06Options.capSleeveUnderarmTrimCm).toBe(0.6);
+    expect(pieceEdge(f06Sleeve, "capLeft")).toEqual(pieceEdge(f01Sleeve, "capLeft"));
+    expect(pieceEdge(f06Sleeve, "capRight")).toEqual(pieceEdge(f01Sleeve, "capRight"));
+    expect(capLength).toBeCloseTo(armhole + 1.5, 5);
+    expect(edgeLength(pieceEdge(f06Sleeve, "hem")))
+      .toBeCloseTo(edgeLength(pieceEdge(f01Sleeve, "hem")) - 1.2, 8);
+    expect(fittedGuidance(f06, measurements, f06Options).filter((note) => note.level === "warn")).toEqual([]);
+  });
+
+  it("keeps the F06 hem positive at the supported body/trim boundaries and reports invalid inputs", () => {
+    const f06Options = { ...defaultGarmentOptions(FITTED_OPTIONS, FITTED_CAP_SLEEVE_ENTRY_ID),
+      capSleeveUnderarmTrimCm: 1.5 };
+    const smallest = { ...STANDARD_M, bicep: 20, ease: 7, sleeveLength: 10 };
+    const block = draftFitted(smallest, f06Options);
+    expect(edgeLength(pieceEdge(rolePiece(block, "sleeve"), "hem"))).toBeGreaterThan(0);
+    expect(fittedGuidance(block, smallest, f06Options).filter((note) => note.level === "warn")).toEqual([]);
+
+    const zeroHemOptions = { ...f06Options, capSleeveUnderarmTrimCm: 8.75 };
+    const zeroHemBlock = draftFitted(smallest, zeroHemOptions);
+    expect(edgeLength(pieceEdge(rolePiece(zeroHemBlock, "sleeve"), "hem"))).toBe(0);
+    expect(fittedGuidance(zeroHemBlock, smallest, zeroHemOptions)
+      .some((note) => note.text.includes("positive, finite width"))).toBe(true);
+
+    const invalidMeasurements = { ...smallest, sleeveLength: 11 };
+    const invalidOptions = { ...f06Options, capSleeveUnderarmTrimCm: 1.6 };
+    const notes = fittedGuidance(draftFitted(invalidMeasurements, invalidOptions), invalidMeasurements, invalidOptions);
+    expect(notes.find((note) => note.field === "sleeveLength")?.text).toContain("8–10 cm in 1 cm steps");
+    expect(notes.find((note) => note.field === "option-capSleeveUnderarmTrimCm")?.text).toContain("0–1.5 cm per side");
+    expect(invalidMeasurements.sleeveLength).toBe(11);
+    expect(invalidOptions.capSleeveUnderarmTrimCm).toBe(1.6);
   });
 });

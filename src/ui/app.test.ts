@@ -11738,6 +11738,128 @@ describe("EPIC-19 L02 starter binding", () => {
     root.remove(); reopened.remove(); localStorage.clear();
   });
 
+  it("selects, edits, saves, reopens, and exports the F06 Cap-Sleeve fitted Tee", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const files = new Map<string, string>();
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename: string, content: string) => {
+        files.set(filename, content);
+        return { saved: true, filePath: filename };
+      }),
+    };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-fitted-cap-sleeve-tee-digital-v1");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Fitted Cap-Sleeve Tee");
+      root.querySelector<HTMLSelectElement>("#style-target")!.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Fitted Cap-Sleeve Tee");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Fitted Cap-Sleeve Tee · software defaults");
+      const sleeveLength = root.querySelector<HTMLInputElement>('input[data-field="sleeveLength"]')!;
+      expect(root.querySelector<HTMLElement>('label[data-dim-row="sleeveLength"]')!.textContent)
+        .toContain("Sleeve length below modeled cap base");
+      expect([sleeveLength.min, sleeveLength.max, sleeveLength.step, sleeveLength.value]).toEqual(["8", "10", "1", "8"]);
+      const trim = root.querySelector<HTMLInputElement>('input[data-option="capSleeveUnderarmTrimCm"]')!;
+      expect([trim.min, trim.max, trim.step, trim.value]).toEqual(["0", "1.5", "0.1", "0.6"]);
+
+      sleeveLength.value = "11";
+      sleeveLength.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(sleeveLength.value).toBe("11");
+      expect(root.querySelector<HTMLElement>('[data-input-error="sleeveLength"]')!.textContent).toContain("8–10 cm");
+      sleeveLength.value = "10";
+      sleeveLength.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>('[data-input-error="sleeveLength"]')!.textContent).toBe("");
+      trim.value = "1.2";
+      trim.dispatchEvent(new Event("input", { bubbles: true }));
+      root.querySelector<HTMLButtonElement>("#undo-pattern")!.click();
+      expect(root.querySelector<HTMLElement>('label[data-dim-row="sleeveLength"]')!.textContent)
+        .toContain("Sleeve length below modeled cap base");
+      root.querySelector<HTMLButtonElement>("#redo-pattern")!.click();
+      expect(root.querySelector<HTMLElement>('label[data-dim-row="sleeveLength"]')!.textContent)
+        .toContain("Sleeve length below modeled cap base");
+      clickId(root, "view-pattern");
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: "fitted-cap-sleeve-tee-digital-v1", entryRevision: "2026-10-24.1",
+        recipeId: "fitted", recipeRevision: "fitted-cap-sleeve-v1",
+        configurationSnapshot: {
+          targetStyle: "Fitted tee",
+          measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 8, ease: 7 },
+          options: { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28, capSleeveUnderarmTrimCm: 0.6 },
+        },
+      });
+      expect(saved.measurements.sleeveLength).toBe(10);
+      expect(saved.garmentOptions.fitted.capSleeveUnderarmTrimCm).toBe(1.2);
+
+      root.remove();
+      reopened = mount();
+      expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="fitted-cap-sleeve-tee-digital-v1"]')!.getAttribute("aria-pressed"))
+        .toBe("true");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="sleeveLength"]')!.value).toBe("10");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="capSleeveUnderarmTrimCm"]')!.value).toBe("1.2");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(editedSvg);
+
+      reachExportStage(reopened);
+      clickId(reopened, "export-techpack");
+      await vi.waitFor(() => expect([...files.keys()].some((filename) => filename.endsWith("-techpack.pdf"))).toBe(true),
+        { timeout: 20_000 });
+      const techPack = [...files.entries()].find(([filename]) => filename.endsWith("-techpack.pdf"))![1];
+      expect(techPack).toContain("Fitted Cap-Sleeve Tee - Pattern Piece Overview");
+      expect(techPack).toContain("short F06 sleeves flat");
+      expect(techPack).toContain("taper each sleeve side by 1.2 cm from cap base to hem");
+      expect(techPack).toContain("No sewn fit, comfort, wear, material,");
+      expect(techPack).toContain("grading, or production result is represented.");
+    } finally {
+      root?.remove();
+      reopened?.remove();
+      vi.unstubAllGlobals();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("shows F06 sleeve context in guided capture and value history", async () => {
+    localStorage.clear();
+    const root = mount();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-fitted-cap-sleeve-tee-digital-v1");
+      clickId(root, "journey-guided");
+      const fieldSelector = '[data-field-id="target.sleeve-cap-to-hem"]';
+      await vi.waitFor(() => expect(root.querySelector(fieldSelector)).not.toBeNull());
+      const field = root.querySelector<HTMLElement>(fieldSelector)!;
+      expect(field.textContent).toContain("Sleeve length below modeled cap base");
+      expect(field.textContent).toContain("F06 digital sleeve-length target from the modeled cap base to the hem");
+
+      root.querySelector<HTMLButtonElement>('button[data-open-field-history="target.sleeve-cap-to-hem"]')!.click();
+      expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.textContent)
+        .toContain("Sleeve length below modeled cap base — value source and history");
+
+      const unknownField = document.createElement("button");
+      unknownField.dataset.openFieldHistory = "target.unknown-field";
+      unknownField.dataset.fieldHistoryRecipe = "fitted";
+      unknownField.dataset.fieldHistoryKind = "measurement";
+      unknownField.dataset.fieldHistoryKey = "unknownField";
+      root.append(unknownField);
+      unknownField.click();
+      expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.textContent)
+        .toContain("This field is not defined for the selected recipe.");
+      unknownField.remove();
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
   it("selects, renders, exports, saves, and reopens the F02 waist-darted Fitted Tee", async () => {
     localStorage.clear();
     const files = new Map<string, string>();

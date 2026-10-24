@@ -61,6 +61,8 @@ export interface SleeveParams {
    *  is being set into — measured off the actual assembled pieces, not
    *  re-derived from a generic one. */
   readonly targetArmhole: number;
+  /** Additional per-side underarm taper for the F06 cap-sleeve entry only. */
+  readonly sideTaperAddCm?: number;
 }
 
 /** The Sleeve component. No exposed interfaces yet: nothing downstream
@@ -70,7 +72,7 @@ export interface SleeveParams {
 export const sleeve: Component<SleeveParams> = (m, params) => {
   const width = m.bicep + m.ease * 0.5;
   const capHeight = solveCapHeight(width, params.targetArmhole + CAP_EASE);
-  const taper = 3;
+  const taper = 3 + (params.sideTaperAddCm ?? 0);
   const hemY = capHeight + m.sleeveLength;
   const [capLeft, capRight] = capCurves(width, capHeight);
   const rightHem = point(width - taper, hemY);

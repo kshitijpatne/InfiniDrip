@@ -23,11 +23,12 @@ const fittedWaistDartEntry = STARTER_REGISTRY.entries.find((candidate) => candid
 const fittedPrincessEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "fitted-princess-tee-digital-v1")!;
 const fittedVneckEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "fitted-vneck-tee-digital-v1")!;
 const fittedScoopEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "fitted-scoop-tee-digital-v1")!;
+const fittedCapSleeveEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "fitted-cap-sleeve-tee-digital-v1")!;
 const validOrigin = starterOriginForEntry(entry);
 
 describe("Tee Classic starter registry", () => {
   it("preserves the bounded existing custom-measurement candidate and its claim limits", () => {
-    expect(STARTER_REGISTRY.entries).toHaveLength(14);
+    expect(STARTER_REGISTRY.entries).toHaveLength(15);
     expect(entry).toMatchObject({
       entryId: "tee-classic-custom-v1",
       entryRevision: "2026-10-19.3",
@@ -67,7 +68,7 @@ describe("Tee Classic starter registry", () => {
   });
 
   it("defines one complete editable T01 blank with explicit software-only defaults and gates", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v7");
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v8");
     expect(blankEntry).toMatchObject({
       entryId: "tee-classic-digital-v1",
       entryRevision: "2026-10-20.1",
@@ -94,7 +95,7 @@ describe("Tee Classic starter registry", () => {
     }
     expect(blankEntry.supportedControls.find((control) => control.fieldId === "shoulderWidth"))
       .toMatchObject({ kind: "measurement", min: 30, max: 70, step: 0.1, defaultValue: 45 });
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(13);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(14);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -240,6 +241,38 @@ describe("Tee Classic starter registry", () => {
     expect(starterOriginError(starterOriginForEntry(fittedScoopEntry))).toBeNull();
   });
 
+  it("defines F06 with a bounded short sleeve and entry-scoped underarm taper", () => {
+    expect(fittedCapSleeveEntry).toMatchObject({
+      entryId: "fitted-cap-sleeve-tee-digital-v1",
+      entryRevision: "2026-10-24.1",
+      recipeId: "fitted",
+      recipeRevision: "fitted-cap-sleeve-v1",
+      catalogKind: "blank",
+      label: "Fitted Cap-Sleeve Tee · software defaults",
+      configuration: {
+        targetStyle: "Fitted tee",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 8, ease: 7 },
+        options: { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28, capSleeveUnderarmTrimCm: 0.6 },
+      },
+      gates: { b1: "pending", physical: "not-validated" },
+    });
+    expect(fittedCapSleeveEntry.supportedControls).toHaveLength(11);
+    expect(fittedCapSleeveEntry.supportedControls.find((control) => control.fieldId === "sleeveLength"))
+      .toMatchObject({ label: "Sleeve length below modeled cap base", min: 8, max: 10, step: 1, defaultValue: 8 });
+    expect(fittedCapSleeveEntry.supportedControls.find((control) => control.fieldId === "capSleeveUnderarmTrimCm"))
+      .toMatchObject({ kind: "option", min: 0, max: 1.5, step: 0.1, defaultValue: 0.6 });
+    expect(fittedCapSleeveEntry.intent.construction).toContain("actual assembled armhole");
+    expect(fittedCapSleeveEntry.intent.construction).toContain("separate sleeve-length POM includes cap height");
+    expect(fittedCapSleeveEntry.limits.join(" ")).toContain("No physical-fit, comfort, wear");
+    expect(starterControlError(fittedCapSleeveEntry.entryId, "sleeveLength", 7)).toContain("8–10 cm");
+    expect(starterControlError(fittedCapSleeveEntry.entryId, "sleeveLength", 8.5)).toContain("1 cm increments");
+    expect(starterControlError(fittedCapSleeveEntry.entryId, "sleeveLength", 8)).toBeNull();
+    expect(starterControlError(fittedCapSleeveEntry.entryId, "capSleeveUnderarmTrimCm", 1.6)).toContain("0–1.5 cm");
+    expect(starterControlError(fittedCapSleeveEntry.entryId, "capSleeveUnderarmTrimCm", 0.65)).toContain("0.1 cm increments");
+    expect(starterControlError(fittedCapSleeveEntry.entryId, "capSleeveUnderarmTrimCm", 1.5)).toBeNull();
+    expect(starterOriginError(starterOriginForEntry(fittedCapSleeveEntry))).toBeNull();
+  });
+
   it("defines T02 as a complete editable Relaxed Tee blank with a code-aligned software default", () => {
     expect(relaxedEntry).toMatchObject({
       entryId: "tee-relaxed-digital-v1",
@@ -266,7 +299,7 @@ describe("Tee Classic starter registry", () => {
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "ease"))
       .toMatchObject({ kind: "design", min: 13, max: 18, step: 1, defaultValue: 13 });
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "chestEase")).toBeUndefined();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(13);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(14);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 

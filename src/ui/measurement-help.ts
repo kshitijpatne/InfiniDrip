@@ -11,7 +11,9 @@
  * digital rule only.
  */
 import { GARMENTS } from "../drafting";
+import { FITTED_CAP_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { getFieldDefinitions } from "./field-provenance";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL } from "./starter-registry";
 
 export interface MeasurementHelpSource {
   readonly id: string;
@@ -373,8 +375,21 @@ function buildCatalog(): Readonly<Record<string, Readonly<Record<string, Measure
 export const MEASUREMENT_HELP: Readonly<Record<string, Readonly<Record<string, MeasurementHelpEntry>>>> =
   buildCatalog();
 
-export function measurementHelpFor(recipeId: string, fieldId: string): MeasurementHelpEntry | null {
+export function measurementHelpFor(recipeId: string, fieldId: string, starterEntryId?: string | null): MeasurementHelpEntry | null {
   const byRecipe = MEASUREMENT_HELP[recipeId];
   if (!byRecipe) return null;
-  return byRecipe[fieldId] ?? null;
+  const entry = byRecipe[fieldId];
+  if (!entry) return null;
+  if (recipeId === "fitted" && starterEntryId === FITTED_CAP_SLEEVE_ENTRY_ID
+    && entry.inputKey === "sleeveLength") {
+    return Object.freeze({
+      ...entry,
+      label: FITTED_CAP_SLEEVE_LENGTH_LABEL,
+      meaning: "F06 digital sleeve-length target from the modeled cap base to the hem. The separately reported sleeve-length POM includes the modeled cap height.",
+      draftUse: "The fitted draft places the sleeve hem at modeled cap base plus this value. The separate sleeve-length POM adds the solved cap height.",
+      limits: "This F06 value is a software target, not a body arm path or sewn measurement. The 8–10 cm range is an entry-specific digital guardrail, not a fit range or industry standard; physical fit is unvalidated.",
+      guardrailNote: "F06 software guardrail 8–10 cm in 1 cm steps; not an industry standard or fit range. Invalid values stay visible and are not clamped.",
+    });
+  }
+  return entry;
 }
