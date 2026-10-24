@@ -698,10 +698,44 @@ const FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const FITTED_CROPPED_TEE_BLANK_ENTRY: StarterEntry = {
+  entryId: "fitted-cropped-tee-digital-v1",
+  entryRevision: "2026-10-24.1",
+  recipeId: "fitted",
+  recipeRevision: "fitted-cropped-v1",
+  catalogKind: "blank",
+  label: "Cropped fitted Tee · software defaults",
+  configuration: {
+    targetStyle: "Cropped fitted tee",
+    measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 53, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+    options: { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28 },
+  },
+  supportedControls: FITTED_TEE_BLANK_ENTRY.supportedControls.map((control) => control.fieldId === "length"
+    ? { ...control, min: 40, max: 57, step: 1, defaultValue: 53 }
+    : control),
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured cropped fitted bust-dart Tee draft; measurements and bust-dart controls remain editable.",
+    fit: "Cropped fitted is a digital style label; 7 cm ease and 53 cm body length are software defaults, not validated fit targets or a physical crop landmark.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Uses the existing Fitted recipe with one retained bust dart and shared back and set-in sleeves. The F01 dart-closed side and level-hem reference remains a digital construction check, not a sewn-garment simulation.",
+    sizeScope: "One software-default profile based on the existing F01 measurement vector; not a population chart, validated size profile, or validated Fitted grade run.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The seven measurements, three bust-dart controls, 53 cm length default and 40–57 cm range are editable software values, not sourced fit, crop-landmark, or population standards.",
+    "The length input is a modeled HPS-to-hem value and does not locate a physical crop endpoint on any wearer.",
+    "The retained open bust dart and dart-closed side/hem checks are digital geometry, not evidence of sewn fit.",
+    "Generic Tee grading is software output and has not been independently validated for this Fitted construction.",
+    "B1 technical-design review is pending. No physical-fit, comfort, wear, material-performance, supplier, manufacturing, or production claim.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v9",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v10",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;
