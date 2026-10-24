@@ -11827,6 +11827,102 @@ describe("EPIC-19 L02 starter binding", () => {
     }
   });
 
+  it("uses F07's valid guided sleeve preset and completes capture without manual correction", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const root = mount();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-fitted-three-quarter-sleeve-tee-digital-v1");
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+
+      const stalePreset = document.createElement("button");
+      stalePreset.dataset.action = "capture-accept-preset";
+      stalePreset.dataset.fieldId = "unsupported.capture.field";
+      root.append(stalePreset);
+      stalePreset.click();
+      expect(root.querySelector<HTMLElement>("#g03-measurement-capture-status")!.textContent)
+        .toContain("Measurement capture field is not defined by the active recipe.");
+      stalePreset.remove();
+
+      const definitions = getCaptureFieldDefinitions("fitted");
+      const sleeve = definitions.find((definition) => definition.inputKey === "sleeveLength")!;
+      for (const definition of definitions) {
+        const field = root.querySelector<HTMLElement>(`[data-field-id="${definition.id}"]`)!;
+        const presetDetails = field.querySelector<HTMLElement>(".measurement-capture-panel__preset-details")!;
+        const preset = field.querySelector<HTMLButtonElement>('[data-action="capture-accept-preset"]')!;
+        if (definition.inputKey === "sleeveLength") {
+          expect(presetDetails.textContent).toContain("F07 sleeve digital preset");
+          expect(presetDetails.textContent).toContain("38 cm below the modeled cap base");
+        } else {
+          expect(presetDetails.textContent).toContain("Standard M digital preset");
+        }
+        preset.click();
+        if (definition.inputKey === "sleeveLength") {
+          const updatedField = root.querySelector<HTMLElement>(`[data-field-id="${sleeve.id}"]`)!;
+          expect(updatedField.querySelector(".measurement-capture-panel__reading-summary")?.textContent)
+            .toContain("“38” cm");
+          expect(updatedField.querySelector(".measurement-capture-panel__reading-details")?.textContent)
+            .toContain("F07 sleeve software preset; not measured wearer data");
+          expect(updatedField.textContent).toContain("Digital preset — not a measurement of the wearer");
+        }
+      }
+
+      expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(false);
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("fit"));
+      const sleeveControl = root.querySelector<HTMLInputElement>('input[data-field="sleeveLength"]')!;
+      expect(sleeveControl.value).toBe("38");
+      expect(root.querySelector<HTMLElement>('[data-input-error="sleeveLength"]')?.textContent).toBe("");
+    } finally {
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  });
+
+  it("keeps the generic Fitted sleeve preset at Standard M 22 cm without an F07 starter", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const root = mount();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "garment-fitted");
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+
+      const sleeve = getCaptureFieldDefinitions("fitted").find((definition) => definition.inputKey === "sleeveLength")!;
+      const field = root.querySelector<HTMLElement>(`[data-field-id="${sleeve.id}"]`)!;
+      expect(field.querySelector(".measurement-capture-panel__preset-details")?.textContent)
+        .toContain("Standard M digital preset: 22 cm");
+      field.querySelector<HTMLButtonElement>('[data-action="capture-accept-preset"]')!.click();
+      expect(root.querySelector<HTMLInputElement>('input[data-field="sleeveLength"]')!.value).toBe("22");
+    } finally {
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  });
+
+  it("keeps a manually entered 22 cm F07 sleeve value visible with its entry-specific correction", () => {
+    localStorage.clear();
+    const root = mount();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-fitted-three-quarter-sleeve-tee-digital-v1");
+      const sleeveLength = root.querySelector<HTMLInputElement>('input[data-field="sleeveLength"]')!;
+      sleeveLength.value = "22";
+      sleeveLength.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(sleeveLength.value).toBe("22");
+      expect(root.querySelector<HTMLElement>('[data-input-error="sleeveLength"]')?.textContent)
+        .toContain("34–44 cm");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
   it("selects, edits, saves, reopens, and exports the F07 three-quarter-sleeve fitted Tee", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
