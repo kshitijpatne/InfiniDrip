@@ -619,7 +619,7 @@ export const FITTED: GarmentRecipe = {
         ...fittedTechPack,
         bom: [
           ...noBandBom,
-          { material: "User-selected band material", placement: "Provisional Scoop neckband", qty: "1 strip; see selected-size neckband SVG" },
+          { material: "User-selected band material", placement: "Provisional Scoop neckband", qty: "1 strip" },
         ],
         constructionNotice: "Provisional digital Scoop neckband construction. The rectangular cut template and allowances are software choices; physical fit, comfort, wear, fabric behavior, and recovery are unvalidated.",
         construction,

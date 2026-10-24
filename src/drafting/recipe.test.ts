@@ -594,9 +594,10 @@ describe("recipe callbacks", () => {
     expect(selectedSize.constructionNotice).toContain("Provisional digital Scoop neckband construction");
     expect(selectedSize.construction.join(" ")).toContain("Sew the bust darts; press them toward the hem.");
     expect(selectedSize.construction.join(" ")).toContain("Measured selected-size body neckline");
+    expect(selectedSize.construction.join(" ")).toContain("follow the separate selected-size neckband SVG");
     expect(selectedSize.construction.join(" ")).toContain("no graded-size band output is supplied");
     expect(selectedSize.bom.find((row) => row.placement === "Provisional Scoop neckband")?.qty)
-      .toBe("1 strip; see selected-size neckband SVG");
+      .toBe("1 strip");
     expect(invalidSettings.constructionNotice).toContain("length or finished-width setting is invalid");
     expect(invalidSettings.bom.some((row) => row.placement === "Provisional Scoop neckband")).toBe(false);
     expect(invalidSettings.construction.some((step) => step.startsWith("Attach the band"))).toBe(false);
