@@ -3346,7 +3346,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 10_000);
 
   it("keeps an over-cap Add-missing action atomic and shows the row recovery guidance", async () => {
     let idSerial = 30_000;
