@@ -2799,6 +2799,18 @@ describe("accessible project and style manager", () => {
       expect(store.put).toHaveBeenCalledTimes(1);
       expect(assets.size).toBe(1);
 
+      const revisionBeforeRuleRemoval = workflow.snapshot.project.revision;
+      host.querySelector<HTMLButtonElement>(`[data-brand-profile-action="remove-rule"][data-rule-id="${ruleId}"]`)!.click();
+      expect(host.querySelector(`[data-brand-profile-rule-row="${ruleId}"]`)).toBeNull();
+      expect(workflow.snapshot.project.revision).toBe(revisionBeforeRuleRemoval);
+      expect("brandProfile" in workflow.snapshot.project && workflow.snapshot.project.brandProfile.rules)
+        .toEqual([{ id: ruleId, scope: "supplier", kind: "supplier-constraint", description: "Use the approved Indigo palette token." }]);
+
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!.click();
+      await vi.waitFor(() => expect("brandProfile" in workflow.snapshot.project
+        && workflow.snapshot.project.brandProfile.rules).toEqual([]));
+      expect(workflow.snapshot.project.revision).toBe(revisionBeforeRuleRemoval + 1);
+
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-color"]')!.click();
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="discard-profile"]')!.click();
       const reloaded = "brandProfile" in workflow.snapshot.project ? workflow.snapshot.project.brandProfile : null;
@@ -2967,6 +2979,28 @@ describe("accessible project and style manager", () => {
         .toContain("brandProfile.colors[0].hex: enter a six-digit hex color such as #2A4B6C.");
       expect(saveProfile).not.toHaveBeenCalled();
       expect(workflow.snapshot.project.revision).toBe(revisionBefore);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("ignores unsupported delegated Brand Profile actions without rerendering or changing project state", async () => {
+    const state = await techPackHarness();
+    try {
+      const { host, workflow } = state;
+      const revisionBefore = workflow.snapshot.project.revision;
+      const statusBefore = host.querySelector("#project-manager-status")?.textContent;
+      const unsupportedAction = document.createElement("button");
+      unsupportedAction.type = "button";
+      unsupportedAction.dataset.brandProfileAction = "unsupported";
+      host.append(unsupportedAction);
+
+      unsupportedAction.click();
+
+      expect(unsupportedAction.isConnected).toBe(true);
+      expect(host.querySelector("#project-manager-status")?.textContent).toBe(statusBefore);
+      expect(workflow.snapshot.project.revision).toBe(revisionBefore);
+      expect("brandProfile" in workflow.snapshot.project).toBe(false);
     } finally {
       state.close();
     }
