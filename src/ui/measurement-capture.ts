@@ -202,13 +202,17 @@ export function acceptCapturePreset(
   readingId: string,
   now: string,
   presetName = "Standard M digital preset; not measured wearer data",
+  presetValue?: number,
 ): MeasurementCaptureSession {
   const field = fieldFor(session, fieldId);
   const definition = getCaptureFieldDefinitions(session.recipeId).find((candidate) => candidate.id === fieldId);
   if (!field || !definition) throw new Error("Measurement capture field is not defined by the active recipe.");
+  if (presetValue !== undefined && !Number.isFinite(presetValue)) {
+    throw new Error("Digital preset value must be a finite number.");
+  }
   return addCaptureReadingForField(session, fieldId, {
     id: readingId,
-    rawValue: String(definition.defaultValue),
+    rawValue: String(presetValue ?? definition.defaultValue),
     enteredUnit: definition.unit,
     provenance: "PRESET",
     evidenceStatus: "UNCONFIRMED",

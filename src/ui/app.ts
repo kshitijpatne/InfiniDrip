@@ -59,6 +59,7 @@ import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspe
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
+import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
 import { EMPTY_TRANSFORM, placementError, type ArtworkPlacement } from "../surface/placement";
@@ -2145,6 +2146,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         announcement: captureAnnouncement,
         fields: session.fields.map((captureField) => {
           const definition = definitions.find((candidate) => candidate.id === captureField.fieldId)!;
+          const preset = guidedCapturePresetForEntry(starterOrigin?.entryId, definition);
           const help = measurementHelp.measurementHelpFor(recipe.name, captureField.fieldId, starterOrigin?.entryId);
           const assessment = assessCaptureField(captureField, recipe.name);
           const draft = captureDrafts.get(captureField.fieldId);
@@ -2171,8 +2173,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             readings: captureField.readings,
             selectedReadingId: captureField.selectedReadingId,
             preset: {
-              label: "Standard M digital preset",
-              valueText: `${definition.defaultValue} ${definition.unit}`,
+              label: preset.label,
+              valueText: preset.valueText,
             },
             state: assessment.state,
             correction: assessment.correction,
@@ -3855,8 +3857,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           captureValueForField(fieldId);
           scheduleCaptureSave();
         } else if (target.dataset.action === "capture-accept-preset") {
+          const definition = getFieldDefinitions(recipe.name).find((candidate) => candidate.id === fieldId);
+          if (!definition) throw new Error("Measurement capture field is not defined by the active recipe.");
+          const preset = guidedCapturePresetForEntry(starterOrigin?.entryId, definition);
           measurementCapture = acceptCapturePreset(
-            session, fieldId, captureUuid(), captureNow(), "Standard M digital preset; not measured wearer data",
+            session, fieldId, captureUuid(), captureNow(), preset.sourceLabel, preset.value,
           );
           // acceptCapturePreset validates the requested field before returning.
           const captureField = measurementCapture.fields.find((field) => field.fieldId === fieldId)!;
@@ -3866,7 +3871,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             const previous = captureDrafts.get(fieldId) ?? emptyCaptureDraft(captureField.unit);
             captureDrafts.set(fieldId, emptyCaptureDraft(previous.unit));
             measurementCapture = selectCaptureReading(measurementCapture, fieldId, selected.id, captureNow());
-            captureAnnouncement = "Standard M digital preset selected. It remains labeled as a preset.";
+            captureAnnouncement = preset.announcement;
             captureValueForField(fieldId);
             scheduleCaptureSave();
           }
