@@ -11,7 +11,7 @@
  * digital rule only.
  */
 import { GARMENTS } from "../drafting";
-import { FITTED_CAP_SLEEVE_ENTRY_ID } from "../drafting/fitted";
+import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { getFieldDefinitions } from "./field-provenance";
 import { FITTED_CAP_SLEEVE_LENGTH_LABEL } from "./starter-registry";
 
@@ -380,6 +380,17 @@ export function measurementHelpFor(recipeId: string, fieldId: string, starterEnt
   if (!byRecipe) return null;
   const entry = byRecipe[fieldId];
   if (!entry) return null;
+  if (recipeId === "fitted" && starterEntryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
+    && entry.inputKey === "sleeveLength") {
+    return Object.freeze({
+      ...entry,
+      label: "Sleeve length below modeled cap base",
+      meaning: "F07 digital sleeve-length target below the modeled cap base. The separately reported cap-crown-to-hem sleeve POM includes solved cap height.",
+      draftUse: "The fitted draft places the sleeve hem below the modeled cap base by this value; the separate sleeve-length POM also includes solved cap height.",
+      limits: "The 38 cm default and 34–44 cm range are software design choices, not a body-arm measurement or fit range. The three-quarter style label does not guarantee an elbow-to-wrist endpoint; physical fit is unvalidated.",
+      guardrailNote: "F07 software guardrail: 34–44 cm in 1 cm steps. This does not locate the wearer's elbow or wrist. Invalid values remain visible and are not clamped.",
+    });
+  }
   if (recipeId === "fitted" && starterEntryId === FITTED_CAP_SLEEVE_ENTRY_ID
     && entry.inputKey === "sleeveLength") {
     return Object.freeze({

@@ -57,8 +57,8 @@ import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObserva
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
-import { FITTED_CAP_SLEEVE_ENTRY_ID } from "../drafting/fitted";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
 import { EMPTY_TRANSFORM, placementError, type ArtworkPlacement } from "../surface/placement";
@@ -313,8 +313,11 @@ const correctionStepForField = (field: string): JourneyStep =>
   field.startsWith("surface-") ? "fit" : field.startsWith("nesting-") ? "output" : "measure";
 
 function starterFieldLabelOverrides(entryId: string | null | undefined): Readonly<Record<string, string>> {
-  if (entryId !== FITTED_CAP_SLEEVE_ENTRY_ID) return {};
-  return { sleeveLength: FITTED_CAP_SLEEVE_LENGTH_LABEL };
+  if (entryId === FITTED_CAP_SLEEVE_ENTRY_ID) return { sleeveLength: FITTED_CAP_SLEEVE_LENGTH_LABEL };
+  if (entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID) {
+    return { sleeveLength: FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL };
+  }
+  return {};
 }
 
 export function stageBlockerFromNote(note: Note | undefined): StageBlocker {
@@ -1576,7 +1579,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === FITTED_CAP_SLEEVE_ENTRY_ID
+    starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
+      && forRecipe.name === "fitted"
+      ? "Fitted Three-Quarter-Sleeve Tee"
+      : starterOrigin?.entryId === FITTED_CAP_SLEEVE_ENTRY_ID
       && forRecipe.name === "fitted"
       ? "Fitted Cap-Sleeve Tee"
       : forRecipe.name === "fitted" && options.princessSeamShaping !== undefined
@@ -1585,6 +1591,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? "Fitted V-neck Tee"
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
+  const starterOutputStatusNote = (): string | undefined =>
+    starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
+      ? "Digital draft only; physical fit unvalidated. No elbow-to-wrist endpoint is guaranteed."
+      : undefined;
   const styleMatchMeasurements = (): Measurements => {
     const overrides = Object.fromEntries(activeOptionDefinitions()
       .filter((option) => option.fallbackMeasurement !== undefined && recipeOptions()[option.id] !== undefined)
@@ -6111,8 +6121,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         options: vNeckActive ? { ...size.options!, ...currentTeeNeckbandOptions() } : size.options!,
         block: size.block!,
       })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
-        pomExceptionRows(planRun))
-      : exportTechPackV2(recipeForCurrentOutputs(), measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle);
+        pomExceptionRows(planRun), starterOutputStatusNote())
+      : exportTechPackV2(recipeForCurrentOutputs(), measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle,
+        starterOutputStatusNote());
     download(`${exportRecipeName()}-techpack.pdf`, output, "application/pdf");
   }, canExportRun, true);
   // The projector file carries EVERY graded size as a toggleable layer, so it too
@@ -6584,8 +6595,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             options: vNeckActive && !vNeckConflict ? { ...size.options!, ...liveBandOptions } : size.options!,
             block: size.block!,
           })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
-            pomExceptionRows(customRun))
-          : exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle);
+            pomExceptionRows(customRun), starterOutputStatusNote())
+          : exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle,
+            starterOutputStatusNote());
         const artifacts = [
           { artifactId: "selected-size-svg", extension: "svg", displayName: `${recipe.name}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, notchesForRecipeOptions(currentRecipe, recipeOptions(currentRecipe))) },
           { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${recipe.name}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },

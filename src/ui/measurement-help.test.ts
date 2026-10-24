@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS } from "../drafting";
-import { FITTED_CAP_SLEEVE_ENTRY_ID } from "../drafting/fitted";
+import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { getFieldDefinitions } from "./field-provenance";
 import { MEASUREMENT_HELP, measurementHelpFor } from "./measurement-help";
 
@@ -353,5 +353,18 @@ describe("measurement help catalog", () => {
     expect(f06.guardrailNote).toContain("8–10 cm in 1 cm steps");
     expect(f06.limits).not.toContain("D-01");
     expect(f06.limits).toContain("physical fit is unvalidated");
+  });
+
+  it("uses the F07 digital style boundary without implying anatomical sleeve placement", () => {
+    const generic = measurementHelpFor("fitted", "target.sleeve-cap-to-hem")!;
+    const f07 = measurementHelpFor("fitted", "target.sleeve-cap-to-hem", FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID)!;
+
+    expect(f07.label).toBe("Sleeve length below modeled cap base");
+    expect(f07.meaning).toContain("F07 digital sleeve-length target below the modeled cap base");
+    expect(f07.draftUse).toContain("separate sleeve-length POM also includes solved cap height");
+    expect(f07.limits).toContain("does not guarantee an elbow-to-wrist endpoint");
+    expect(f07.guardrailNote).toContain("34–44 cm in 1 cm steps");
+    expect(f07.limits).not.toContain("D-01");
+    expect(generic.label).toBe("Sleeve length (cap to hem target)");
   });
 });
