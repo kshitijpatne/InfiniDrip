@@ -359,6 +359,26 @@ export function teeNeckbandTemplateSvg(
 }
 
 /**
+ * Build the selected-size Fitted Scoop rectangle by adapting the shared Tee
+ * resolver to the Fitted front-piece name. The underlying Tee output remains
+ * byte-identical for its established callers.
+ */
+export function fittedScoopNeckbandTemplateSvg(
+  pieces: readonly Piece[],
+  lengthPercent: number,
+  finishedWidthCm: number,
+): string {
+  const fittedFront = pieces.find((piece) => piece.name.trim().toLowerCase() === "fitted front");
+  if (!fittedFront) throw new Error("The selected Fitted Scoop Tee pattern must include a fitted front piece.");
+  const teeNamedPieces = pieces.map((piece) => piece === fittedFront ? { ...piece, name: "front" } : piece);
+  return teeNeckbandTemplateSvg(teeNamedPieces, lengthPercent, finishedWidthCm)
+    .replace("<svg xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"", "<svg xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" data-pattern-family=\"fitted-scoop-tee\"")
+    .replace("<title>Tee neckband provisional cutting template</title>", "<title>Fitted Scoop-neck Tee neckband provisional cutting template</title>")
+    .replace("selected Tee front and back neckline curves", "selected Fitted Scoop-neck Tee front and back neckline curves")
+    .replace("TEE NECKBAND — PROVISIONAL TEMPLATE · SELECTED SIZE", "FITTED SCOOP-NECK TEE NECKBAND — PROVISIONAL TEMPLATE · SELECTED SIZE");
+}
+
+/**
  * Build the selected-size T06 V-band strip. This is a product-defined digital
  * construction: the full included V angle comes from mirroring the active
  * front neckline line, and the strip end join is mitered by half of that
