@@ -252,6 +252,33 @@ async function testRevision(
   }, webcrypto);
 }
 
+function unresolvedSourceCollection(projectId: string, styleId: string, revisionId: string, seed: number) {
+  return {
+    schemaVersion: 1,
+    id: testUuid(seed),
+    projectId,
+    name: "Unresolved source pin",
+    createdAt: TIME,
+    updatedAt: TIME,
+    revision: 1,
+    skus: [{
+      id: testUuid(seed + 1),
+      code: "TEE-A",
+      name: "Tee",
+      styleId,
+      styleRevisionId: revisionId,
+      sizePlan: { id: testUuid(seed + 2), name: "Core", sizeIds: ["m"] },
+      colorways: [{
+        id: testUuid(seed + 3),
+        name: "Missing source",
+        sourceColorwayId: "ffffffff-ffff-4fff-8fff-ffffffffffff",
+      }],
+      variants: [],
+    }],
+    sharedMaterialGroups: [],
+  };
+}
+
 async function testFrozenManifest(
   revision: StyleRevisionRecord,
   manifestId: string,
@@ -546,6 +573,10 @@ describe("collection immutable source resolution", () => {
     };
     expect(resolveCollectionSourceStatuses(materialOnlyReference, [currentStyle], [oldRevision])).toMatchObject({
       ok: false, error: expect.stringContaining("collections[0].sharedMaterialGroups[0].members[0].materialId"),
+    });
+    expect(resolveCollectionSourceStatuses(materialOnlyReference, [currentStyle], [revision(revisionOneId, 1, 1)])).toMatchObject({
+      ok: false,
+      error: expect.stringContaining("collections[0].sharedMaterialGroups[0].members[0].materialId: source references require frozen T01 payload version 2"),
     });
     const withoutSourceRefs = { ...project, collections: [collection(revisionOneId, false)] };
     expect(resolveCollectionSourceStatuses(withoutSourceRefs, [currentStyle], [revision(revisionOneId, 1, 1)])).toMatchObject({ ok: true });
@@ -919,6 +950,22 @@ describe("transactional project repository", () => {
     repository.close();
   });
 
+  it("rejects a malformed stored project before saving a Brand Profile", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const source = newBundle();
+    await repository.saveProjectBundle({ project: source.project, styles: [source.style], expectedProjectRevision: null });
+    const malformed = { ...source.project, name: " " };
+    await rawPut(factory, name, PROJECT_STORES.projects, malformed);
+    const profile = { schemaVersion: 1 as const, colors: [], artworkAssetIds: [], rules: [] };
+
+    await expect(repository.saveBrandProfile(PROJECT_ID, profile, source.project.revision, NEXT_TIME))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    expect(await rawGet(factory, name, PROJECT_STORES.projects, PROJECT_ID)).toEqual(malformed);
+    repository.close();
+  });
+
   it("preserves schema-v5 scenarios when the repository saves a Brand Profile", async () => {
     const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
     const source = newBundle();
@@ -992,6 +1039,36 @@ describe("transactional project repository", () => {
       code: "invalid-data", message: expect.stringContaining("Stored collection source history is malformed"),
     });
     expect(await rawGet(factory, name, PROJECT_STORES.projects, PROJECT_ID)).toEqual(source.project);
+    repository.close();
+  });
+
+  it("rejects an unresolved pinned collection source before writing the project bundle", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const source = newBundle();
+    const observations = fieldHistory(source.style);
+    const revisionId = testUuid(982);
+    const revision = await testRevision(source.style, observations, revisionId);
+    const style = { ...source.style, revisionHeadId: revisionId };
+    const project = {
+      ...source.project,
+      schemaVersion: COLLECTION_PROJECT_RECORD_VERSION as 4,
+      brandProfile: null,
+      collections: [unresolvedSourceCollection(source.project.id, style.id, revisionId, 983)],
+    };
+
+    await expect(repository.saveProjectBundle({
+      project,
+      styles: [style],
+      fieldObservations: [observations],
+      styleRevisions: [revision],
+      expectedProjectRevision: null,
+    })).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("not present in the pinned revision's frozen T01 colorways"),
+    });
+    await expect(repository.readProjectBundle(source.project.id)).resolves.toBeNull();
     repository.close();
   });
 
@@ -2015,6 +2092,22 @@ describe("transactional project repository", () => {
         recoveries: [],
         fieldObservations: [observations],
       } as const;
+
+      await expect(repository.importProjectBundle({
+        ...base,
+        project: {
+          ...bundle.project,
+          schemaVersion: COLLECTION_PROJECT_RECORD_VERSION as 4,
+          brandProfile: null,
+          collections: [unresolvedSourceCollection(bundle.project.id, style.id, revisionId, 710)],
+        },
+        styleRevisions: [revision],
+        receipt: receipt(8),
+      })).rejects.toMatchObject({
+        code: "invalid-data",
+        message: expect.stringContaining("not present in the pinned revision's frozen T01 colorways"),
+      });
+      await expect(repository.readProjectBundle(bundle.project.id)).resolves.toBeNull();
 
       await expect(repository.importProjectBundle({ ...base, receipt: receipt(1) }))
         .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("missing its immutable revision head") });

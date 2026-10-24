@@ -2989,9 +2989,35 @@ describe("accessible project and style manager", () => {
 
       const privateManager = manager as unknown as {
         applyBrandProfileColor(): Promise<void>;
+        brandProfileDraft: BrandProfileRecord;
         missingBrandProfileAssets(profile: BrandProfileRecord): Promise<string[]>;
+        selectedBrandProfileAssignmentId: string;
         techPackDraft: TechPackRecord | null;
       };
+      const savedProfileDraft = privateManager.brandProfileDraft;
+      const pendingBeforeGuards = privateManager.techPackDraft;
+      const savedTechPackBeforeGuards = workflow.snapshot.activeStyle.techPack;
+      const projectRevisionBeforeGuards = workflow.snapshot.project.revision;
+      privateManager.brandProfileDraft = {
+        ...savedProfileDraft,
+        colors: savedProfileDraft.colors.map((color) => ({ ...color, name: `${color.name} edit` })),
+      };
+      await privateManager.applyBrandProfileColor();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Save or discard Brand Profile edits");
+      expect(privateManager.techPackDraft).toEqual(pendingBeforeGuards);
+      expect(workflow.snapshot.activeStyle.techPack).toEqual(savedTechPackBeforeGuards);
+      expect(workflow.snapshot.project.revision).toBe(projectRevisionBeforeGuards);
+      privateManager.brandProfileDraft = savedProfileDraft;
+
+      const selectedAssignmentId = privateManager.selectedBrandProfileAssignmentId;
+      privateManager.selectedBrandProfileAssignmentId = "80000000-0000-4000-8000-ffffffffffff";
+      await privateManager.applyBrandProfileColor();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose an available saved profile color and Tech Pack assignment");
+      expect(privateManager.techPackDraft).toEqual(pendingBeforeGuards);
+      expect(workflow.snapshot.activeStyle.techPack).toEqual(savedTechPackBeforeGuards);
+      expect(workflow.snapshot.project.revision).toBe(projectRevisionBeforeGuards);
+      privateManager.selectedBrandProfileAssignmentId = selectedAssignmentId;
+
       await privateManager.applyBrandProfileColor();
       expect(host.querySelector("#project-manager-status")?.textContent).toContain("already matches");
       const originalMissingAssets = privateManager.missingBrandProfileAssets.bind(manager);

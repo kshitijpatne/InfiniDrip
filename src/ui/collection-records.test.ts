@@ -181,6 +181,18 @@ describe("Collection record contract", () => {
     expectError({ ...validCollection(), [field]: value }, expected);
   });
 
+  it("rechecks the shared-material list at the nested validation boundary", () => {
+    const input = mutableCollection();
+    let reads = 0;
+    Object.defineProperty(input, "sharedMaterialGroups", {
+      configurable: true,
+      enumerable: true,
+      get: () => ++reads <= 3 ? [] : null,
+    });
+    expectError(input, "collection.sharedMaterialGroups: expected a list.");
+    expect(reads).toBe(4);
+  });
+
   it("rejects an oversized top-level graph before traversing rows", () => {
     expectError(
       { ...validCollection(), skus: Array.from({ length: COLLECTION_GRAPH_ENTRY_LIMIT }, () => null), sharedMaterialGroups: [] },
@@ -198,6 +210,15 @@ describe("Collection record contract", () => {
       sizeIds: Array.from({ length: COLLECTION_GRAPH_ENTRY_LIMIT }, (_, index) => `SIZE-${index}`),
     };
     expectError(input, `collection.skus[0].sizePlan: collection graph exceeds ${COLLECTION_GRAPH_ENTRY_LIMIT} entries.`);
+  });
+
+  it.each(["colorways", "variants"] as const)("bounds nested %s before traversing entries", (field) => {
+    const input = mutableCollection();
+    const rows = input.skus as Record<string, unknown>[];
+    rows.splice(1);
+    input.sharedMaterialGroups = [];
+    sku(input)[field] = Array.from({ length: COLLECTION_GRAPH_ENTRY_LIMIT }, () => null);
+    expectError(input, `collection.skus[0].${field}: collection graph exceeds ${COLLECTION_GRAPH_ENTRY_LIMIT} entries.`);
   });
 
   it.each([
