@@ -45,7 +45,7 @@ import { JOGGER as BARREL_JOGGER } from "./index";
 import { JOGGER_DEFAULT_OPTIONS, JOGGER_FIELDS, JOGGER_OPTION_DEFINITIONS, JOGGER_STYLES } from "./jogger-contract";
 import { HOODIE_DEFAULT_OPTIONS, HOODIE_FIELDS, HOODIE_OPTION_DEFINITIONS, HOODIE_STYLES } from "./hoodie-contract";
 import { HOODIE_ROLE_ORDER } from "./hoodie";
-import { FITTED_SCOOP_ENTRY_ID } from "./fitted";
+import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_SCOOP_ENTRY_ID } from "./fitted";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
@@ -281,6 +281,25 @@ describe("F02 waist-darted Fitted Tee Tech Pack", () => {
     expect(f01.construction).not.toContain(waistStep);
     expect(f02.construction).toContain(waistStep);
     expect(f02.construction.indexOf(waistStep)).toBe(f02.construction.indexOf("Sew the bust darts; press them toward the hem.") + 1);
+  });
+});
+
+describe("F06 cap-sleeve Fitted Tee Tech Pack", () => {
+  it("describes the short set-in sleeve and editable underarm taper only for F06", () => {
+    const f06Options = defaultGarmentOptions(FITTED.options ?? [], FITTED_CAP_SLEEVE_ENTRY_ID);
+    const f06 = FITTED.techPackForOptions!(f06Options);
+    const f01 = FITTED.techPackForOptions!(defaultGarmentOptions(FITTED.options ?? [], "fitted-tee-digital-v1"));
+
+    expect(f06Options.capSleeveUnderarmTrimCm).toBe(0.6);
+    expect(f06.constructionNotice).toContain("cap is solved to the actual Fitted armhole");
+    expect(f06.construction.some((step) => step.includes("short F06 sleeves flat"))).toBe(true);
+    expect(f06.construction.join(" ")).toContain("taper each sleeve side by 0.6 cm from cap base to hem");
+    expect(f06.constructionNotice).toContain("No sewn fit, comfort, wear, material, grading, or production result");
+    expect(f01).toBe(FITTED.techPack);
+
+    const invalid = FITTED.techPackForOptions!({ ...f06Options, capSleeveUnderarmTrimCm: 1.6 });
+    expect(invalid.constructionNotice).toContain("unavailable while the underarm taper is invalid");
+    expect(invalid.construction.join(" ")).not.toContain("taper each sleeve side by 1.6 cm");
   });
 });
 

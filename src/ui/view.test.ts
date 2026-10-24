@@ -22,6 +22,13 @@ describe("controlsMarkup", () => {
     expect(html).toContain('data-field="ease"');
   });
 
+  it("allows the active starter to clarify a shared sleeve-length control", () => {
+    const html = controlsMarkup(STANDARD_M, ["sleeveLength"], [], {}, "fitted", undefined,
+      { sleeveLength: "Sleeve length below modeled cap base" });
+    expect(html).toContain("Sleeve length below modeled cap base");
+    expect(html).not.toContain("Sleeve length (cap to hem target)");
+  });
+
   it("labels the Tee chest calculation as a modeled draft estimate", () => {
     const html = controlsMarkup(STANDARD_M, TEE.fields, [], {}, "tee");
     expect(html).toContain("Ease");
@@ -103,6 +110,17 @@ describe("controlsMarkup", () => {
       .toContain("This field is not defined for the selected recipe.");
     expect(fieldHistoryDialogContent("tee", "measurement", "chest", undefined))
       .toContain("No value history is recorded for this field yet.");
+  });
+
+  it("shows starter-specific measurement meaning in field history", () => {
+    const html = fieldHistoryDialogContent("fitted", "measurement", "sleeveLength", undefined, 0, 25, {
+      label: "Sleeve length below modeled cap base",
+      meaning: "F06 target from cap base to hem.",
+      captureBoundary: "Digital target only; no physical-fit claim.",
+    });
+    expect(html).toContain("Sleeve length below modeled cap base — value source and history");
+    expect(html).toContain("F06 target from cap base to hem.");
+    expect(html).toContain("Digital target only; no physical-fit claim.");
   });
 
   it("summarizes a matching source observation", () => {

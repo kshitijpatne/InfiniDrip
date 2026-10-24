@@ -31,6 +31,7 @@ import { fittedPrincessLineReferences } from "./fitted-reference";
 export const FITTED_PRINCESS_ENTRY_ID = "fitted-princess-tee-digital-v1";
 export const FITTED_VNECK_ENTRY_ID = "fitted-vneck-tee-digital-v1";
 export const FITTED_SCOOP_ENTRY_ID = "fitted-scoop-tee-digital-v1";
+export const FITTED_CAP_SLEEVE_ENTRY_ID = "fitted-cap-sleeve-tee-digital-v1";
 
 const DART_INTAKE_OPTION: GarmentOption = {
   id: "dartIntake",
@@ -212,11 +213,25 @@ const FITTED_SCOOP_OPTION: GarmentOption = {
   appliesToStarterEntryId: FITTED_SCOOP_ENTRY_ID,
 };
 
+const FITTED_CAP_SLEEVE_TRIM_OPTION: GarmentOption = {
+  id: "capSleeveUnderarmTrimCm",
+  label: "Underarm taper per side",
+  unit: "cm",
+  group: "Sleeve shape",
+  help: "Adds this digital taper from the sleeve cap base to the hem. The 0.6 cm default and 0–1.5 cm range are software geometry choices, not fit standards; invalid values remain visible.",
+  defaultValue: 0.6,
+  min: 0,
+  max: 1.5,
+  step: 0.1,
+  appliesToStarterEntryId: FITTED_CAP_SLEEVE_ENTRY_ID,
+};
+
 export const FITTED_OPTIONS: readonly GarmentOption[] = [
   ...FITTED_DART_OPTIONS,
   ...FITTED_PRINCESS_OPTIONS,
   FITTED_VNECK_OPTION,
   FITTED_SCOOP_OPTION,
+  FITTED_CAP_SLEEVE_TRIM_OPTION,
 ];
 
 export function usesFittedPrincessSeam(options: GarmentOptions): boolean {
@@ -369,6 +384,7 @@ export const FITTED_GRAMMAR = garmentGrammar(
         targetArmhole:
           context.interfaceLength("front", "armhole") +
           context.interfaceLength("back", "armhole"),
+        sideTaperAddCm: context.options.capSleeveUnderarmTrimCm ?? 0,
       }),
       ["front", "back"],
     ),
@@ -605,10 +621,31 @@ export function draftFitted(m: Measurements, options: GarmentOptions = {}): Bloc
 /** Reuse the shared tee notes and reject dart openings that cross panel edges. */
 export function fittedGuidance(block: Block, m: Measurements, options: GarmentOptions = {}): Note[] {
   const princess = usesFittedPrincessSeam(options);
+  const capSleeveTrim = options.capSleeveUnderarmTrimCm;
   const notes = [
     ...sleevedTopGuidance(block, m, princess ? "frontSide" : "front"),
     ...teeNecklineNotes(m, options),
   ];
+  if (capSleeveTrim !== undefined) {
+    const invalidLength = !Number.isFinite(m.sleeveLength) || m.sleeveLength < 8 || m.sleeveLength > 10
+      || Math.abs(m.sleeveLength - Math.round(m.sleeveLength)) > 1e-8;
+    if (invalidLength) {
+      notes.push({ level: "warn", field: "sleeveLength",
+        text: "Fitted Cap-Sleeve Tee sleeve length must be 8–10 cm in 1 cm steps below the modeled cap base. Adjust the value; the app will not clamp it." });
+    }
+    const invalidTrim = !Number.isFinite(capSleeveTrim) || capSleeveTrim < 0 || capSleeveTrim > 1.5
+      || Math.abs(capSleeveTrim / 0.1 - Math.round(capSleeveTrim / 0.1)) > 1e-8;
+    if (invalidTrim) {
+      notes.push({ level: "warn", field: "option-capSleeveUnderarmTrimCm",
+        text: "Underarm taper must be 0–1.5 cm per side in 0.1 cm steps. Correct the value; the app will not clamp it." });
+    }
+    const hem = pieceEdge(rolePiece(block, "sleeve"), "hem");
+    const hemWidth = edgeLength(hem);
+    if (!Number.isFinite(hemWidth) || hemWidth <= 0) {
+      notes.push({ level: "warn", field: "option-capSleeveUnderarmTrimCm",
+        text: "The sleeve hem must remain a positive, finite width. Reduce the underarm taper or review the bicep and ease inputs; the app will not change them automatically." });
+    }
+  }
   if (princess) {
     const shaping = options.princessSeamShaping!;
     const horizontal = options.princessApexHorizontal ?? 55;

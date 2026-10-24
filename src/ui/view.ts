@@ -32,6 +32,7 @@ import type { SemanticEditIssue } from "../edit/semantic-edit";
 import {
   currentFieldObservation,
   getFieldDefinition,
+  type FieldDefinition,
   type FieldInputKind,
   type FieldObservationRecord,
 } from "./field-provenance";
@@ -203,9 +204,11 @@ export function fieldHistoryDialogContent(
   record: FieldObservationRecord | undefined,
   page = 0,
   pageSize = 25,
+  displayOverrides?: Partial<Pick<FieldDefinition, "label" | "meaning" | "captureBoundary">>,
 ): string {
-  const definition = getFieldDefinition(recipeId, inputKey, inputKind);
-  if (!definition) return `<p role="status">This field is not defined for the selected recipe.</p>`;
+  const baseDefinition = getFieldDefinition(recipeId, inputKey, inputKind);
+  if (!baseDefinition) return `<p role="status">This field is not defined for the selected recipe.</p>`;
+  const definition = { ...baseDefinition, ...displayOverrides };
   const history = (record?.observations.filter((observation) =>
     observation.fieldId === definition.id && observation.recipeId === definition.recipeId) ?? []);
   const safePageSize = Number.isSafeInteger(pageSize) && pageSize > 0 ? Math.min(pageSize, 100) : 25;
@@ -250,6 +253,7 @@ export function controlsMarkup(
   m: Measurements, fields: readonly (keyof Measurements)[],
   options: readonly GarmentOption[] = [], values: GarmentOptions = {},
   recipeId = "tee", fieldObservations?: FieldObservationRecord,
+  fieldLabelOverrides: Readonly<Record<string, string>> = {},
 ): string {
   const measurementFields = fields
     .map((id) => FIELDS.find((f) => f.id === id))
@@ -309,7 +313,7 @@ export function controlsMarkup(
       label, option: false, stage: label === "Fit allowance" ? "fit" : "measure",
       body: groupFields.map((f) => {
         const definition = getFieldDefinition(recipeId, f.id, "measurement");
-        return field(f.id, definition?.label ?? f.label, m[f.id], f.min, f.max, f.step, {},
+        return field(f.id, fieldLabelOverrides[f.id] ?? definition?.label ?? f.label, m[f.id], f.min, f.max, f.step, {},
           fieldSourceMarkup(recipeId, "measurement", f.id, fieldObservations), measurementRoleTag(recipeId, f.id));
       }).join("") +
         (label === "Fit allowance" ? finished : ""),
@@ -1489,6 +1493,7 @@ export function appShellMarkup(
   teeNeckbandOptions: GarmentOptions = {},
   activeStarterId: string | null = null,
   teeConstruction: TeeConstruction = "set-in",
+  fieldLabelOverrides: Readonly<Record<string, string>> = {},
 ): string {
   const activeGarmentLabel = GARMENTS.find((g) => g.name === activeGarment)?.label ?? activeGarment;
   return `<main id="infini-shell" aria-labelledby="product-title">` +
@@ -1518,7 +1523,7 @@ export function appShellMarkup(
     (uiqMaterialEnabled
       ? `<details id="material-clarity-details"><summary>Material and screen appearance guidance</summary><div id="material-clarity-host"></div></details>`
       : "") +
-    `${controlsMarkup(m, fields, [], {}, activeGarment, fieldObservations)}` +
+    `${controlsMarkup(m, fields, [], {}, activeGarment, fieldObservations, fieldLabelOverrides)}` +
     `<details id="guidance-details"><summary>Guidance & corrections</summary><div id="guidance-host"></div></details>` +
     `${exportButtonsMarkup(sizes, activeGarment, teeNeckbandOptions)}</aside>` +
     `<div id="infini-workspace"><div id="canvas-tools">${viewToggleMarkup("pattern")}` +

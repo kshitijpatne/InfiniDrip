@@ -57,7 +57,8 @@ import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObserva
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { FITTED_CAP_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
 import { EMPTY_TRANSFORM, placementError, type ArtworkPlacement } from "../surface/placement";
@@ -150,7 +151,7 @@ import {
   type CaptureMeasurer,
   type MeasurementCaptureSession,
 } from "./measurement-capture";
-import { getFieldDefinitions, type FieldDefinition } from "./field-provenance";
+import { getFieldDefinition, getFieldDefinitions, type FieldDefinition } from "./field-provenance";
 import * as measurementHelp from "./measurement-help";
 import {
   renderMeasurementCapturePanel,
@@ -310,6 +311,11 @@ function nextSemanticOperationId(): string {
 const correctionStepForField = (field: string): JourneyStep =>
   field === "ease" || field === "stretchFabric" || field.startsWith("option-") ||
   field.startsWith("surface-") ? "fit" : field.startsWith("nesting-") ? "output" : "measure";
+
+function starterFieldLabelOverrides(entryId: string | null | undefined): Readonly<Record<string, string>> {
+  if (entryId !== FITTED_CAP_SLEEVE_ENTRY_ID) return {};
+  return { sleeveLength: FITTED_CAP_SLEEVE_LENGTH_LABEL };
+}
 
 export function stageBlockerFromNote(note: Note | undefined): StageBlocker {
   if (!note) return { message: "Review the flagged digital checks.", step: "refine" };
@@ -618,7 +624,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let appearanceOpen = false;
   root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields,
     initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations(), uiqMaterialEnabled,
-    uiqOperationalClarityEnabled, initialTeeNeckbandOptions, starterOrigin?.entryId ?? null, teeConstruction);
+    uiqOperationalClarityEnabled, initialTeeNeckbandOptions, starterOrigin?.entryId ?? null, teeConstruction,
+    starterFieldLabelOverrides(starterOrigin?.entryId));
   root.querySelector<HTMLElement>("#export-host")!.append(createDxfInterchangePanel({
     audit: (sourcePackage, returnedDxf) => auditDxfInterchangeRoundTrip(sourcePackage as never, returnedDxf),
     readFile: (file) => file.text(),
@@ -1569,7 +1576,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    forRecipe.name === "fitted" && options.princessSeamShaping !== undefined
+    starterOrigin?.entryId === FITTED_CAP_SLEEVE_ENTRY_ID
+      && forRecipe.name === "fitted"
+      ? "Fitted Cap-Sleeve Tee"
+      : forRecipe.name === "fitted" && options.princessSeamShaping !== undefined
       ? "Princess-seam fitted Tee"
       : forRecipe.name === "fitted" && hasActiveVBand(forRecipe, options)
         ? "Fitted V-neck Tee"
@@ -2125,12 +2135,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         announcement: captureAnnouncement,
         fields: session.fields.map((captureField) => {
           const definition = definitions.find((candidate) => candidate.id === captureField.fieldId)!;
-          const help = measurementHelp.measurementHelpFor(recipe.name, captureField.fieldId);
+          const help = measurementHelp.measurementHelpFor(recipe.name, captureField.fieldId, starterOrigin?.entryId);
           const assessment = assessCaptureField(captureField, recipe.name);
           const draft = captureDrafts.get(captureField.fieldId);
           return {
             fieldId: captureField.fieldId,
-            label: definition.label,
+            label: help?.label ?? definition.label,
             semanticKind: captureField.semanticKind,
             referenceFrame: definition.referenceFrame,
             unit: definition.unit,
@@ -4234,12 +4244,18 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // Every caller first selects a field or checks that a selection exists.
     const selection = fieldHistorySelection!;
     const record = activeFieldObservations();
+    const definition = getFieldDefinition(selection.recipeId, selection.inputKey, selection.inputKind);
+    const help = definition
+      ? measurementHelp.measurementHelpFor(selection.recipeId, definition.id, starterOrigin?.entryId)
+      : null;
     fieldHistoryDialog.innerHTML = fieldHistoryDialogContent(
       selection.recipeId,
       selection.inputKind,
       selection.inputKey,
       record,
       selection.page,
+      25,
+      help ? { label: help.label, meaning: help.meaning, captureBoundary: help.limits } : undefined,
     );
     fieldHistoryDialog.setAttribute("aria-labelledby", "field-history-title");
   };
@@ -4638,7 +4654,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // Re-render the measurement panel to this garment's fields (a skirt shows
     // waist/hip, not chest/sleeve), then re-attach its listeners.
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
+      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
+      starterFieldLabelOverrides(starterOrigin?.entryId));
     wireMeasurementInputs();
     const constructionSelect = root.querySelector<HTMLSelectElement>("#tee-construction");
     const constructionControls = root.querySelector<HTMLElement>("#tee-construction-controls");
@@ -5165,7 +5182,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (sel.id === "style-target") {
       targetStyle = sel.value;
       root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-        measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
+        measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
+        starterFieldLabelOverrides(starterOrigin?.entryId));
       wireMeasurementInputs();
       markOutputDirty();
       draw();
@@ -6253,7 +6271,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     hoveredDim = null;
     focusedDim = null;
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
+      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
+      starterFieldLabelOverrides(starterOrigin?.entryId));
     wireMeasurementInputs();
     GARMENTS.forEach((g) => {
       const button = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
@@ -6377,7 +6396,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       button.setAttribute("aria-pressed", String(selected));
     });
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations());
+      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
+      starterFieldLabelOverrides(starterOrigin?.entryId));
     wireMeasurementInputs();
     syncGarmentChoices();
     syncExportSizes();
