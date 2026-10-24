@@ -3231,6 +3231,13 @@ describe("accessible project and style manager", () => {
 
       await privateManager.applyBrandProfileColor();
       expect(host.querySelector("#project-manager-status")?.textContent).toContain("already matches");
+      const stableTechPackInput = host.querySelector<HTMLInputElement>(
+        '[data-t01-input="true"][data-t01-field-id="cover.styleCode"]',
+      );
+      if (!stableTechPackInput) throw new Error("The current Tech Pack style-code input is not rendered.");
+      stableTechPackInput.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(host.querySelector("[data-brand-profile-conflict]")?.textContent).toContain("already matches");
+      expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')?.disabled).toBe(true);
       const originalMissingAssets = privateManager.missingBrandProfileAssets.bind(manager);
       privateManager.techPackDraft = {
         ...pending,
@@ -3386,12 +3393,28 @@ describe("accessible project and style manager", () => {
       clickCollectionAction(host, "discard");
       expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Summer edit");
 
-      const savedProject = structuredClone(workflow.snapshot.project);
+      const savedBeforeConflict = structuredClone(workflow.snapshot.project);
       const saveSpy = vi.spyOn(workflow, "saveCollections").mockRejectedValueOnce(new Error("Simulated compare-and-swap conflict."));
       editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Rejected draft");
       clickCollectionAction(host, "save");
       await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Simulated compare-and-swap conflict"));
-      expect(workflow.snapshot.project).toEqual(savedProject);
+      expect(workflow.snapshot.project).toEqual(savedBeforeConflict);
+      expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Rejected draft");
+
+      const externallyChanged = {
+        ...secondSaved,
+        name: "Saved outside the open draft",
+        revision: secondSaved.revision + 1,
+        updatedAt: new Date(Date.parse(secondSaved.updatedAt) + 1_000).toISOString(),
+      };
+      await workflow.saveCollections([externallyChanged]);
+      const externallySavedProject = structuredClone(workflow.snapshot.project);
+      const saveCallsBeforeStaleDraft = saveSpy.mock.calls.length;
+      clickCollectionAction(host, "save");
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("Saved collections changed after this draft opened"));
+      expect(saveSpy).toHaveBeenCalledTimes(saveCallsBeforeStaleDraft);
+      expect(workflow.snapshot.project).toEqual(externallySavedProject);
       expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Rejected draft");
 
       const reloadSpy = vi.spyOn(workflow, "reload");
@@ -3402,9 +3425,10 @@ describe("accessible project and style manager", () => {
 
       allowDiscard = true;
       host.querySelector<HTMLButtonElement>("[data-project-action='reload']")!.click();
-      await vi.waitFor(() => expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Summer edit"));
+      await vi.waitFor(() => expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value)
+        .toBe("Saved outside the open draft"));
       expect(reloadSpy).toHaveBeenCalledOnce();
-      expect(workflow.snapshot.project).toEqual(savedProject);
+      expect(workflow.snapshot.project).toEqual(externallySavedProject);
       saveSpy.mockRestore();
     } finally {
       state.close();
