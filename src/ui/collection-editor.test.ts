@@ -14,7 +14,7 @@ import {
 } from "./collection-editor";
 import type { CollectionSourceStatus } from "./collection-source-validation";
 import type { CollectionDraftAction, CollectionFieldUpdate } from "./collection-editor";
-import type { ProjectRecord, StyleRecord } from "./project-records";
+import { SCENARIO_PROJECT_RECORD_VERSION, type ProjectRecord, type StyleRecord } from "./project-records";
 import type { StyleRevisionRecord } from "./style-revisions";
 
 const TIME = "2026-10-01T12:00:00.000Z";
@@ -297,12 +297,24 @@ describe("collection editor rendering", () => {
     expect(html).toContain("Size IDs · one per line");
     expect(html).toContain("Save collection changes");
     expect(html).toContain("data-collection-action=\"save\"  disabled");
+    expect(html).not.toContain("Invalid source references remain in this draft until deliberately repaired.");
 
     const stale = renderCollectionEditor(editorInput({
       styles: [style(REVISION_TWO)],
       styleRevisions: [revision(REVISION), revision(REVISION_TWO, 2)],
     }));
     expect(stale).toContain("Stale pin — saved r1; current style head r2.");
+    expect(stale).not.toContain("Invalid source references remain in this draft until deliberately repaired.");
+
+    const scenarioInput = editorInput();
+    const scenarioProject = {
+      ...scenarioInput.project,
+      schemaVersion: SCENARIO_PROJECT_RECORD_VERSION,
+      scenarios: [],
+    } as unknown as ProjectRecord;
+    const scenarioHtml = renderCollectionEditor({ ...scenarioInput, project: scenarioProject });
+    expect(scenarioHtml).toContain("Current pin — saved r1 is the current style head.");
+    expect(scenarioHtml).not.toContain("Invalid source references remain in this draft until deliberately repaired.");
   });
 
   it("keeps invalid source IDs visible and marks unresolved or archived references", () => {
@@ -324,6 +336,7 @@ describe("collection editor rendering", () => {
     })] }));
     expect(unresolved).toContain("Unresolved — choose a project style and one of its immutable revisions.");
     expect(unresolved).toContain("collections[0].skus[0].colorways[0].sourceColorwayId: not present in the pinned revision");
+    expect(unresolved).toContain("Invalid source references remain in this draft until deliberately repaired.");
 
     const archived = renderCollectionEditor(editorInput({ styles: [style(REVISION, TIME)] }));
     expect(archived).toContain("Source style is archived; the saved revision remains available.");

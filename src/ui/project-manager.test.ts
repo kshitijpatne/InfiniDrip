@@ -2693,6 +2693,55 @@ describe("accessible project and style manager", () => {
     }
   }, 20_000);
 
+  it("keeps Brand Profile saving blocked until local artwork references finish checking", async () => {
+    const assetId = `local-${"a".repeat(32)}-png`;
+    const storedAsset: StoredArtworkAsset = {
+      assetId,
+      name: "brand-mark.png",
+      mimeType: "image/png",
+      blob: new NodeBlob(["image"], { type: "image/png" }) as unknown as Blob,
+    };
+    const { store } = memoryArtworkStore([storedAsset]);
+    const initialBrandProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: "a4444444-4444-4444-8444-000000000004", name: "Indigo", hex: "#112233" }],
+      artworkAssetIds: [assetId],
+      rules: [],
+    };
+    const state = await techPackHarness({ artworkStore: store, initialBrandProfile });
+    let resolveAsset!: (asset: StoredArtworkAsset | null) => void;
+    const pendingAsset = new Promise<StoredArtworkAsset | null>((resolve) => { resolveAsset = resolve; });
+    const getSpy = vi.spyOn(store, "get").mockReturnValue(pendingAsset);
+    try {
+      const { host, workflow, manager } = state;
+      manager.refresh();
+      expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent)
+        .toContain("Checking existing artwork references");
+      const saveProfile = vi.spyOn(workflow, "saveBrandProfile");
+      const colorName = host.querySelector<HTMLInputElement>("[data-brand-profile-color-field='name']")!;
+      colorName.value = "Indigo revised";
+      colorName.dispatchEvent(new Event("input", { bubbles: true }));
+      const save = host.querySelector<HTMLButtonElement>("[data-brand-profile-action='save-profile']")!;
+      expect(save.disabled).toBe(true);
+      expect(getSpy).toHaveBeenCalledWith(assetId);
+
+      save.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+      await Promise.resolve();
+      expect(saveProfile).not.toHaveBeenCalled();
+      expect(store.put).not.toHaveBeenCalled();
+      manager.refresh();
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("Wait for local artwork references to finish checking before saving.");
+    } finally {
+      resolveAsset(storedAsset);
+      getSpy.mockRestore();
+      await pendingAsset;
+      await Promise.resolve();
+      await Promise.resolve();
+      state.close();
+    }
+  });
+
   it("edits and saves a local Brand Profile only after explicit save, including staged artwork and text guidance", async () => {
     const { store, assets } = memoryArtworkStore();
     let nextId = 0;
@@ -3215,6 +3264,9 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector(".project-collection-editor")).not.toBeNull();
       clickCollectionAction(host, "add-collection");
       editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Spring edit");
+      host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')!
+        .dispatchEvent(new Event("change", { bubbles: true }));
+      expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Spring edit");
       expect(host.querySelector<HTMLButtonElement>('[data-collection-action="save"]')?.disabled).toBe(false);
       expect(workflow.snapshot.project.schemaVersion).not.toBe(4);
 
@@ -3321,6 +3373,10 @@ describe("accessible project and style manager", () => {
       const draftScenarioId = host.querySelector<HTMLInputElement>('[data-se-row-kind="units"][data-se-field="units"]')?.dataset.seScenario;
       if (!draftScenarioId) throw new Error("Created scenario draft does not expose its ID.");
       editScenarioField(host, `[data-se-scenario="${draftScenarioId}"][data-se-field="name"]`, "Live draft comparison");
+      host.querySelector<HTMLInputElement>(`[data-se-scenario="${draftScenarioId}"][data-se-field="name"]`)!
+        .dispatchEvent(new Event("change", { bubbles: true }));
+      expect(host.querySelector<HTMLInputElement>(`[data-se-scenario="${draftScenarioId}"][data-se-field="name"]`)?.value)
+        .toBe("Live draft comparison");
       expect(host.querySelector(".scenario-comparison")?.textContent).toContain("Live draft comparison");
 
       editScenarioField(host, '[data-se-row-kind="units"][data-se-field="units"]', "not-an-integer");

@@ -500,6 +500,9 @@ function renderCollection(input: CollectionEditorInput, collection: CollectionRe
   const variantCount = collection.skus.reduce((sum, sku) => sum + sku.variants.length, 0);
   const validation = parsed.ok ? "" : parsed.error;
   const sourceError = pinView.error ? `<p class="project-collection-editor-error" role="alert">${escapeHtml(pinView.error)}</p>` : "";
+  const referenceWarning = pinView.error
+    ? " Invalid source references remain in this draft until deliberately repaired."
+    : "";
   return `<article class="project-collection-editor-card" aria-label="Edit collection ${escapeHtml(collection.name || collection.id.slice(0, 8))}">` +
     `<div class="project-collection-editor-heading"><h4>Collection · ${escapeHtml(collection.name || "Unnamed")}</h4>` +
     `${actionButton("delete-collection", "Delete collection", `data-ce-collection-id="${escapeHtml(collection.id)}"`, disabled)}</div>` +
@@ -513,7 +516,7 @@ function renderCollection(input: CollectionEditorInput, collection: CollectionRe
     `<section class="project-collection-editor-subsection"><div class="project-collection-editor-heading"><h5>Shared-material groups · ${collection.sharedMaterialGroups.length}</h5>` +
     `${actionButton("add-group", "Add group", `data-ce-collection-id="${escapeHtml(collection.id)}"`, disabled)}</div>` +
     `${groups || `<p>No shared-material groups in this draft.</p>`}</section>` +
-    `<p class="project-collection-editor-count">${variantCount} nested variant(s). Invalid references remain in this draft until deliberately repaired.</p>` +
+    `<p class="project-collection-editor-count">${variantCount} nested variant(s).${referenceWarning}</p>` +
     `</article>`;
 }
 

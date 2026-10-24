@@ -254,7 +254,7 @@ async function testRevision(
 
 function unresolvedSourceCollection(projectId: string, styleId: string, revisionId: string, seed: number) {
   return {
-    schemaVersion: 1,
+    schemaVersion: 1 as const,
     id: testUuid(seed),
     projectId,
     name: "Unresolved source pin",
