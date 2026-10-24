@@ -643,7 +643,8 @@ export function exportTechPackV2(
   fabric?: StretchFabric,
   options: GarmentOptions = {},
   surface: readonly ArtworkPlacement[] = [],
-  styleLabel = ""
+  styleLabel = "",
+  statusNote?: string,
 ): string {
   const poms = pomsForRecipeOptions(recipe, options);
   const block = recipe.draft(m, options);
@@ -663,7 +664,7 @@ export function exportTechPackV2(
         recipe.label,
         page,
       ),
-      fitRecordStream(sampleSpec(recipe, m, options), recipe.label, page),
+      fitRecordStream(sampleSpec(recipe, m, options), recipe.label, page, false, statusNote),
       ...surfaceSpecStreams(surface, styleLabel, page),
     ],
     page

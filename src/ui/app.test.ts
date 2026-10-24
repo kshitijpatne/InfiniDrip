@@ -11827,6 +11827,131 @@ describe("EPIC-19 L02 starter binding", () => {
     }
   });
 
+  it("selects, edits, saves, reopens, and exports the F07 three-quarter-sleeve fitted Tee", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const files = new Map<string, string>();
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename: string, content: string) => {
+        files.set(filename, content);
+        return { saved: true, filePath: filename };
+      }),
+    };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-fitted-three-quarter-sleeve-tee-digital-v1");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Fitted Three-Quarter-Sleeve Tee");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Fitted Three-Quarter-Sleeve Tee · software defaults");
+      const sleeveLength = root.querySelector<HTMLInputElement>('input[data-field="sleeveLength"]')!;
+      expect(root.querySelector<HTMLElement>('label[data-dim-row="sleeveLength"]')!.textContent)
+        .toContain("Sleeve length below modeled cap base");
+      expect([sleeveLength.min, sleeveLength.max, sleeveLength.step, sleeveLength.value]).toEqual(["34", "44", "1", "38"]);
+      expect(root.querySelector<HTMLInputElement>('input[data-option="capSleeveUnderarmTrimCm"]')).toBeNull();
+
+      sleeveLength.value = "45";
+      sleeveLength.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(sleeveLength.value).toBe("45");
+      expect(root.querySelector<HTMLElement>('[data-input-error="sleeveLength"]')!.textContent).toContain("34–44 cm");
+      sleeveLength.value = "40";
+      sleeveLength.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>('[data-input-error="sleeveLength"]')!.textContent).toBe("");
+
+      clickId(root, "view-pattern");
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: "fitted-three-quarter-sleeve-tee-digital-v1", entryRevision: "2026-10-24.1",
+        recipeId: "fitted", recipeRevision: "fitted-three-quarter-sleeve-v1",
+        configurationSnapshot: {
+          targetStyle: "Fitted tee",
+          measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 38, ease: 7 },
+          options: { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28 },
+        },
+      });
+      expect(saved.measurements.sleeveLength).toBe(40);
+
+      root.remove();
+      reopened = mount();
+      expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="fitted-three-quarter-sleeve-tee-digital-v1"]')!
+        .getAttribute("aria-pressed")).toBe("true");
+      expect(reopened.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Fitted Three-Quarter-Sleeve Tee");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="sleeveLength"]')!.value).toBe("40");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(editedSvg);
+
+      reachExportStage(reopened);
+      clickId(reopened, "export-svg");
+      clickId(reopened, "export-techpack");
+      await vi.waitFor(() => expect(files.size).toBe(2), { timeout: 20_000 });
+      const svg = [...files.entries()].find(([filename]) => filename.endsWith(".svg"))![1];
+      const techPack = [...files.entries()].find(([filename]) => filename.endsWith("-techpack.pdf"))![1];
+      const fittedRecipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+      const fittedNotches = notchesForRecipeOptions(fittedRecipe, saved.garmentOptions.fitted);
+      const expectedPieces = blockPieces(fittedRecipe.draft(saved.measurements, saved.garmentOptions.fitted));
+      expect(svg).toBe(exportSvg(expectedPieces, fittedRecipe.allowances, fittedNotches));
+      expect(svg).toContain(">SLEEVE</text>");
+      expect(techPack).toContain("Fitted Three-Quarter-Sleeve Tee - Pattern Piece Overview");
+      expect(techPack).toContain("Sleeve length \\(cap-hem\\)");
+      expect(techPack).toContain("Digital draft only; physical fit unvalidated. No elbow-to-wrist endpoint is guaranteed.");
+    } finally {
+      root?.remove();
+      reopened?.remove();
+      vi.unstubAllGlobals();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 20_000);
+
+  it("freezes the F07 whole-run Tech Pack with its digital-only sleeve endpoint limit", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-f07-freeze-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-10-24T12:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-fitted-three-quarter-sleeve-tee-digital-v1");
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("saved"),
+        { timeout: 10_000 });
+      reachExportStage(root);
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+      freeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      const manifest = workflow.snapshot.exportManifests[0]!;
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("whole-run-tech-pack-pdf");
+      const frozenTechPack = await workflow.readFrozenArtifact(manifest.manifestId, "whole-run-tech-pack-pdf");
+      expect(await frozenTechPack.artifact.bytes.text())
+        .toContain("Digital draft only; physical fit unvalidated. No elbow-to-wrist endpoint is guaranteed.");
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
+
   it("shows F06 sleeve context in guided capture and value history", async () => {
     localStorage.clear();
     const root = mount();

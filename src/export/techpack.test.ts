@@ -205,6 +205,9 @@ describe("exportTechPackV2ForGradePlan", () => {
       { label: "M", measurements: STANDARD_M, options: {}, block: tankBlock },
     ], undefined, STRETCH_FABRICS.find((fabric) => fabric.family === "woven"), [], "", "M");
     expect(wovenTank).toContain("Self-fabric binding");
+    const baseOnlyRecipe = { ...TEE, techPackForFabric: undefined, techPackForOptions: undefined };
+    const baseOnly = exportTechPackV2ForGradePlan(baseOnlyRecipe, [size], undefined, undefined, [], "", "M");
+    expect(baseOnly).toContain("(Tee - M - Pattern Piece Overview");
   });
 
   it("prints each approved not-applicable POM reason in the whole-run document", () => {
@@ -477,6 +480,14 @@ describe("exportTechPackV2ForSelectedSize", () => {
 });
 
 describe("readable draft tech pack", () => {
+  it("adds an optional starter status note to the whole-style Fit Record", () => {
+    const note = "Digital draft only; physical fit unvalidated. No elbow-to-wrist endpoint is guaranteed.";
+    const output = exportTechPackV2(FITTED, STANDARD_M, undefined, undefined, {}, [], "Fitted Three-Quarter-Sleeve Tee", note);
+
+    expect(output).toContain(note);
+    expect(exportTechPackV2(FITTED, STANDARD_M)).not.toContain(note);
+  });
+
   it("states that V-band construction is limited to selected-size output in the whole-run Tech Pack", () => {
     const output = exportTechPackV2(TEE, STANDARD_M, undefined, undefined, { teeVNeckDropCm: 5 });
     const constructionPage = pageStreams(output).find((stream) =>
