@@ -1,5 +1,11 @@
 import type { TeeConstruction } from "../drafting/tshirt";
-import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_PRINCESS_ENTRY_ID, FITTED_SCOOP_ENTRY_ID, FITTED_VNECK_ENTRY_ID } from "../drafting/fitted";
+import {
+  FITTED_CAP_SLEEVE_ENTRY_ID,
+  FITTED_PRINCESS_ENTRY_ID,
+  FITTED_SCOOP_ENTRY_ID,
+  FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID,
+  FITTED_VNECK_ENTRY_ID,
+} from "../drafting/fitted";
 
 export interface StarterControl {
   readonly fieldId: string;
@@ -617,6 +623,7 @@ const FITTED_SCOOP_TEE_BLANK_ENTRY: StarterEntry = {
 };
 
 export const FITTED_CAP_SLEEVE_LENGTH_LABEL = "Sleeve length below modeled cap base";
+export const FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL = FITTED_CAP_SLEEVE_LENGTH_LABEL;
 
 const FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY: StarterEntry = {
   entryId: FITTED_CAP_SLEEVE_ENTRY_ID,
@@ -656,10 +663,45 @@ const FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY: StarterEntry = {
+  entryId: FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID,
+  entryRevision: "2026-10-24.1",
+  recipeId: "fitted",
+  recipeRevision: "fitted-three-quarter-sleeve-v1",
+  catalogKind: "blank",
+  label: "Fitted Three-Quarter-Sleeve Tee · software defaults",
+  configuration: {
+    targetStyle: "Fitted tee",
+    measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 70, armholeDepth: 24, sleeveLength: 38, ease: 7 },
+    options: { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28 },
+  },
+  supportedControls: FITTED_TEE_BLANK_ENTRY.supportedControls.map((control) => control.fieldId === "sleeveLength"
+    ? { ...control, label: FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, min: 34, max: 44, step: 1, defaultValue: 38 }
+    : control),
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured fitted three-quarter-sleeve Tee draft; measurements and bust-dart controls remain editable.",
+    fit: "Fitted and three-quarter-sleeve are style labels; 7 cm ease and 38 cm below-cap-base sleeve length are software choices, not validated fit targets or anatomical guarantees.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Keeps the Fitted bust-dart front, shared back, and set-in sleeve cap solved to the actual assembled armhole. Sleeve length is measured below the modeled cap base; the separate sleeve-length POM includes cap height. The three-quarter label identifies a digital style profile and does not guarantee an elbow-to-wrist endpoint. This is digital construction geometry, not sewn fit.",
+    sizeScope: "One software-default profile based on the existing Fitted measurement vector; not a population chart, validated size profile, or validated Fitted grade run.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The seven body measurements, three bust-dart controls, 38 cm sleeve-length default and 34–44 cm sleeve range are software choices, not sourced fit or population standards.",
+    "The three-quarter style label does not locate the wearer's elbow or wrist; the profile has no wearer arm-length or elbow/wrist inputs and does not guarantee an anatomical endpoint.",
+    "Sleeve length is measured in this draft below the solved cap base; the sleeve-length POM also includes modeled cap height.",
+    "Generic Tee grading is software output and has not been independently validated for this Fitted construction.",
+    "B1 technical-design review is pending. No physical-fit, comfort, mobility, wear, material-performance, supplier, manufacturing, or production claim.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v8",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v9",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

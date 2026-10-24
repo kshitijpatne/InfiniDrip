@@ -32,6 +32,7 @@ export const FITTED_PRINCESS_ENTRY_ID = "fitted-princess-tee-digital-v1";
 export const FITTED_VNECK_ENTRY_ID = "fitted-vneck-tee-digital-v1";
 export const FITTED_SCOOP_ENTRY_ID = "fitted-scoop-tee-digital-v1";
 export const FITTED_CAP_SLEEVE_ENTRY_ID = "fitted-cap-sleeve-tee-digital-v1";
+export const FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID = "fitted-three-quarter-sleeve-tee-digital-v1";
 
 const DART_INTAKE_OPTION: GarmentOption = {
   id: "dartIntake",
