@@ -11738,6 +11738,88 @@ describe("EPIC-19 L02 starter binding", () => {
     root.remove(); reopened.remove(); localStorage.clear();
   });
 
+  it("selects, edits, saves, and reopens the F08 Cropped fitted Tee starter", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "starter-fitted-tee-digital-v1");
+    clickId(root, "view-pattern");
+    const fittedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+
+    clickId(root, "starter-fitted-cropped-tee-digital-v1");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Cropped fitted tee");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Cropped fitted Tee · software defaults");
+    expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("B1 technical review pending; physical validation not performed");
+    const defaults: Record<string, string> = {
+      chest: "100", shoulderWidth: "45", bicep: "38", length: "53",
+      armholeDepth: "24", sleeveLength: "22", ease: "7",
+    };
+    for (const [field, value] of Object.entries(defaults)) {
+      expect(root.querySelector<HTMLInputElement>('input[data-field="' + field + '"]')!.value).toBe(value);
+    }
+    const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+    expect([length.min, length.max, length.step, length.value]).toEqual(["40", "57", "1", "53"]);
+    expect(root.querySelector<HTMLInputElement>('input[data-option="chestEase"]')).toBeNull();
+    for (const [field, value] of Object.entries({ dartIntake: "4", bustApexHorizontal: "55", bustApexVertical: "28" })) {
+      expect(root.querySelector<HTMLInputElement>('input[data-option="' + field + '"]')!.value).toBe(value);
+    }
+
+    clickId(root, "journey-next");
+    expect(root.querySelector<HTMLElement>("#style-host")!.textContent).toContain("You're making a Cropped fitted tee.");
+    expect(root.querySelector<HTMLElement>("#style-host")!.textContent)
+      .not.toContain("flagged inputs or digital checks need review");
+    clickId(root, "view-pattern");
+    const croppedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(croppedSvg).not.toBe(fittedSvg);
+    expect(croppedSvg).toContain("pattern-block-control");
+
+    length.value = "58";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(length.value).toBe("58");
+    expect(root.querySelector<HTMLElement>("#error-length")!.textContent).toContain("40–57 cm");
+    length.value = "54";
+    length.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#error-length")!.textContent).toBe("");
+    const dartIntake = root.querySelector<HTMLInputElement>('input[data-option="dartIntake"]')!;
+    dartIntake.value = "6";
+    dartIntake.dispatchEvent(new Event("input", { bubbles: true }));
+    const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+    expect(editedSvg).not.toBe(croppedSvg);
+
+    clickId(root, "view-spec");
+    expect(root.querySelector<HTMLElement>("#canvas-host")!.textContent).toContain("Side seam (dart closed)");
+    clickId(root, "save-pattern");
+    const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    expect(saved.workspace.starterOrigin).toMatchObject({
+      entryId: "fitted-cropped-tee-digital-v1",
+      entryRevision: "2026-10-24.1",
+      recipeId: "fitted",
+      recipeRevision: "fitted-cropped-v1",
+      configurationSnapshot: {
+        targetStyle: "Cropped fitted tee",
+        measurements: { chest: 100, shoulderWidth: 45, bicep: 38, length: 53, armholeDepth: 24, sleeveLength: 22, ease: 7 },
+        options: { dartIntake: 4, bustApexHorizontal: 55, bustApexVertical: 28 },
+      },
+    });
+    expect(saved.garmentOptions.fitted).toMatchObject({ dartIntake: 6 });
+
+    const reopened = mount();
+    expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Cropped fitted tee");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("54");
+    expect(reopened.querySelector<HTMLInputElement>('input[data-option="dartIntake"]')!.value).toBe("6");
+    expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="fitted-cropped-tee-digital-v1"]')!.getAttribute("aria-pressed"))
+      .toBe("true");
+    expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+      .toContain("Starting design: Cropped fitted Tee · software defaults");
+    clickId(reopened, "view-pattern");
+    expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+    root.remove();
+    reopened.remove();
+    localStorage.clear();
+  });
   it("selects, edits, saves, reopens, and exports the F06 Cap-Sleeve fitted Tee", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
