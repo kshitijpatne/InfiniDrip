@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { GARMENTS } from "../drafting/recipe";
+import { CREWNECK, GARMENTS } from "../drafting/recipe";
 import type { Block } from "../drafting/block";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { FITTED_PRINCESS_ENTRY_ID } from "../drafting/fitted";
+import { draftJogger } from "../drafting/jogger";
 import {
   G04_TECHNICAL_FLAT_MAPPINGS,
   type TechnicalFlatRecipeMapping,
@@ -11,6 +12,8 @@ import {
   validateFlatRoleMapping,
   technicalFlatMappingForBlock,
 } from "./technical-flat-mapping";
+
+const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
 
 const draft = (name: string) => {
   const recipe = GARMENTS.find((candidate) => candidate.name === name)!;
@@ -34,8 +37,44 @@ describe("mapTechnicalFlatSources", () => {
     expect(technicalFlatMappingForBlock("unknown", princessBlock)).toBeUndefined();
   });
 
+  it("maps all seven hidden Jogger roles to source-aware front and back faces", () => {
+    const block = draftJogger(STANDARD_M);
+    const mapping = mapTechnicalFlatSources("jogger", block);
+    expect(mapping.issues).toEqual([]);
+    expect(mapping.faces.map((candidate) => candidate.kind)).toEqual(["FRONT_FLAT", "BACK_FLAT"]);
+    expect(mapping.faces[0]?.roles.map((role) => role.roleId)).toEqual([
+      "frontLeft", "frontRight", "waistband", "pocketBagLeft", "pocketBagRight",
+    ]);
+    expect(mapping.faces[1]?.roles.map((role) => role.roleId)).toEqual([
+      "backLeft", "backRight", "waistband",
+    ]);
+    expect(mapping.faces[0]?.roles.find((role) => role.roleId === "pocketBagLeft"))
+      .toEqual({ roleId: "pocketBagLeft", treatment: "INTERIOR_HIDDEN", behindRoleId: "frontLeft" });
+    expect(mapping.sources.filter((source) => source.kind === "component").map((source) => source.sourceId))
+      .toEqual(expect.arrayContaining(Object.keys(block.roles).map((roleId) => `pattern:jogger:role:${roleId}`)));
+    expect(mapping.sources.filter((source) => source.kind === "stitch").every((source) =>
+      source.layer === "SEAM" && source.treatment === "VISIBILITY_UNRESOLVED")).toBe(true);
+  });
+
+  it("maps all crewneck roles while keeping bands explicitly detached from assembly", () => {
+    const block = CREWNECK.draft(STANDARD_M, defaultGarmentOptions(CREWNECK.options ?? []));
+    const mapping = mapTechnicalFlatSources(CREWNECK.name, block, CREWNECK.poms);
+    expect(mapping.issues).toEqual([]);
+    expect(mapping.faces[0]?.roles.map((role) => [role.roleId, role.treatment])).toEqual([
+      ["front", "SHELL"], ["sleeveLeft", "SHELL"], ["neckband", "DETACHED_DETAIL"],
+      ["cuffLeft", "DETACHED_DETAIL"], ["cuffRight", "DETACHED_DETAIL"], ["hemBand", "DETACHED_DETAIL"],
+    ]);
+    expect(mapping.faces[1]?.roles.map((role) => [role.roleId, role.treatment])).toEqual([
+      ["back", "SHELL"], ["sleeveRight", "SHELL"], ["neckband", "DETACHED_DETAIL"],
+      ["cuffLeft", "DETACHED_DETAIL"], ["cuffRight", "DETACHED_DETAIL"], ["hemBand", "DETACHED_DETAIL"],
+    ]);
+    expect(mapping.sources.filter((source) => source.kind === "component")).toHaveLength(12);
+    expect(new Set(mapping.sources.filter((source) => source.kind === "component").map((source) => source.sourceId)))
+      .toEqual(new Set(Object.keys(block.roles).map((roleId) => `pattern:crewneck:role:${roleId}`)));
+  });
+
   it("maps every supported recipe's drafted roles, construction sources and POMs", () => {
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
       const mapping = mapTechnicalFlatSources(recipe.name, block, recipe.poms);
       expect(mapping.issues, recipe.name).toEqual([]);
@@ -54,7 +93,7 @@ describe("mapTechnicalFlatSources", () => {
       }
       const backAnchors = mapping.sources.filter((source) => source.kind === "pom"
         && source.treatment === "ANCHORED" && source.viewKinds.includes("BACK_FLAT"));
-      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" ? 2
+      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" || recipe.name === "shorts" ? 2
         : recipe.name === "tank" || recipe.name === "tee" ? 4 : recipe.name === "polo" ? 11 : recipe.name === "woven-shirt" ? 1 : 0);
       if (recipe.name === "tank" || recipe.name === "tee") {
         expect(G04_TECHNICAL_FLAT_MAPPINGS[recipe.name].pomAnchorRole).toBe("front");
@@ -140,6 +179,29 @@ describe("mapTechnicalFlatSources", () => {
           anchorPoint: { x: 0, y: expect.any(Number) },
         });
       }
+      if (recipe.name === "shorts") {
+        expect(G04_TECHNICAL_FLAT_MAPPINGS.shorts.faces[0].roles).toContainEqual({
+          roleId: "flyUnderlap", treatment: "INTERIOR_HIDDEN", behindRoleId: "frontLeft",
+        });
+        expect(G04_TECHNICAL_FLAT_MAPPINGS.shorts.faces[0].roles.map((role) => role.roleId)).toEqual([
+          "frontLeft", "frontRight", "waistband", "flyUnderlap", "flyShield", "pocketBagLeft", "pocketBagRight",
+        ]);
+        expect(G04_TECHNICAL_FLAT_MAPPINGS.shorts.faces[1].roles.map((role) => role.roleId)).toEqual([
+          "backLeft", "backRight", "waistband",
+        ]);
+        expect(backAnchors.map((source) => source.sourceId).sort()).toEqual([
+          "pom:shorts:back-rise-finished-incl-waistband", "pom:shorts:waistband-depth-finished",
+        ]);
+        expect(mapping.sources.find((source) => source.sourceId === "pom:shorts:left-pocket-opening-finished"))
+          .toMatchObject({ targetGeometryId: "flat:shorts:FRONT_FLAT:mark:frontLeft:pocketOpening",
+            relatedIds: ["mark:frontLeft:pocketOpening"], treatment: "ANCHORED" });
+        for (const sourceId of ["pom:shorts:pocket-bag-depth-finished", "pom:shorts:pocket-bag-width-finished"]) {
+          expect(mapping.notices).toContainEqual(expect.objectContaining({
+            sourceId, reason: "SOURCE_REFERENCE_MISSING",
+            message: expect.stringContaining("table-only on the front view"),
+          }));
+        }
+      }
     }
   });
 
@@ -206,7 +268,7 @@ describe("mapTechnicalFlatSources", () => {
   });
 
   it("keeps every declared numeric option endpoint inside its recipe's mapped topology", () => {
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       for (const option of recipe.options ?? []) {
         for (const value of [option.min, option.max]) {
           const options = { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: value };
@@ -235,6 +297,10 @@ describe("mapTechnicalFlatSources", () => {
     const result = mapTechnicalFlatSources("dress", draft("tee").block);
     expect(result.issues).toEqual([expect.objectContaining({ code: "UNSUPPORTED_RECIPE" })]);
     expect(result.sources).toEqual([]);
+    const jeans = GARMENTS.find((recipe) => recipe.name === "jeans")!;
+    const jeansResult = mapTechnicalFlatSources("jeans", jeans.draft(STANDARD_M, defaultGarmentOptions(jeans.options ?? [])));
+    expect(jeansResult.issues).toEqual([expect.objectContaining({ code: "UNSUPPORTED_RECIPE" })]);
+    expect(jeansResult.sources).toEqual([]);
   });
 
   it("reports missing and newly added roles against the exact mapped topology", () => {

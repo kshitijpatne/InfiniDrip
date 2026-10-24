@@ -23,22 +23,16 @@ import {
   TrouserOptions,
 } from "./trouser-contract";
 import { Measurements } from "./measurements";
+import { lowerBodyUpperMetrics } from "./lower-body-upper";
+import type { LowerBodyUpperMetrics } from "./lower-body-upper";
 import type { AllowanceSpec } from "./allowance";
 import type { PieceNotches } from "./tshirt-notches";
 import type { Note } from "../guidance/note";
 
-export interface TrouserDraftMetrics {
-  readonly finishedWaist: number;
-  readonly finishedSeat: number;
-  readonly finishedThigh: number;
+export interface TrouserDraftMetrics extends LowerBodyUpperMetrics {
   readonly finishedKnee: number;
-  readonly frontRise: number;
-  readonly backRise: number;
-  readonly frontCrotchY: number;
-  readonly backCrotchY: number;
   readonly hemY: number;
   readonly kneeY: number;
-  readonly thighY: number;
 }
 
 /** One source-of-truth conversion from the contract to drafted stations. */
@@ -46,25 +40,22 @@ export function trouserMetrics(
   m: Measurements, rawOptions: Partial<TrouserOptions> = {}
 ): TrouserDraftMetrics {
   const options = resolveTrouserOptions(rawOptions);
-  const frontRise = m.crotchDepth + options.frontRiseEase;
-  const backRise = m.crotchDepth + options.backRiseEase;
-  const frontCrotchY = frontRise - options.waistbandDepth;
-  const backCrotchY = backRise - options.waistbandDepth;
+  const upper = lowerBodyUpperMetrics(m, options, m.thigh + options.thighEase);
   // The common inner crotch station keeps the front/back inseams sewable while
   // the center-front/center-back endpoints still expose separate rise values.
-  const hemY = backCrotchY + m.inseam;
+  const hemY = upper.backCrotchY + m.inseam;
   return {
-    finishedWaist: m.waist + m.ease,
-    finishedSeat: m.hip + m.ease,
-    finishedThigh: m.thigh + options.thighEase,
+    finishedWaist: upper.finishedWaist,
+    finishedSeat: upper.finishedSeat,
+    finishedThigh: upper.finishedThigh,
     finishedKnee: m.knee + options.kneeEase,
-    frontRise,
-    backRise,
-    frontCrotchY,
-    backCrotchY,
+    frontRise: upper.frontRise,
+    backRise: upper.backRise,
+    frontCrotchY: upper.frontCrotchY,
+    backCrotchY: upper.backCrotchY,
     hemY,
-    kneeY: backCrotchY + m.inseam * 0.52,
-    thighY: backCrotchY + 2.5,
+    kneeY: upper.backCrotchY + m.inseam * 0.52,
+    thighY: upper.thighY,
   };
 }
 

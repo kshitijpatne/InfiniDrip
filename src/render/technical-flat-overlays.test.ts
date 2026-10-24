@@ -10,6 +10,7 @@ import { validateTechnicalFlatOptions } from "./technical-flat-options";
 
 const revisionId = "revision-g04";
 const validColorway = { color: "#3669a4", texture: "woven", shine: 24 } as const;
+const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
 
 function placement(overrides: Partial<ArtworkPlacement> = {}): ArtworkPlacement {
   return {
@@ -21,7 +22,7 @@ function placement(overrides: Partial<ArtworkPlacement> = {}): ArtworkPlacement 
 
 describe("technical-flat colorway and artwork overlays", () => {
   it("carries selected presentation and maps visible artwork for every supported recipe", () => {
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipe.name];
       if (!mapping) throw new Error(`Missing G04 map for ${recipe.name}`);
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));

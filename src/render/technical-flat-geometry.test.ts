@@ -1,17 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { GARMENTS } from "../drafting/recipe";
+import { CREWNECK, GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { lineMark, pointMark } from "../drafting/pattern-mark";
 import { cubicPoint } from "../geometry/curve";
 import type { Block } from "../drafting/block";
 import { compileTechnicalFlatSourceGeometry, parameterForLandmark, projectedCommands } from "./technical-flat-geometry";
-import { technicalFlatMappingForBlock } from "./technical-flat-mapping";
+import { G04_TECHNICAL_FLAT_MAPPINGS, technicalFlatMappingForBlock } from "./technical-flat-mapping";
 import { createG04TechnicalFlatProjectionMap, edgeParameterAtArclengthFraction, resolveFlatProjectionLandmark,
   type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 import { TECHNICAL_FLAT_SCHEMA_VERSION, validateTechnicalFlat } from "./technical-flat";
 
 const revisionId = "style-revision-17";
+const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
 
 /** The Polo face is production-held for its sleeve view. This test-only map
  * clears that hold solely to exercise the independent collar fill compiler. */
@@ -21,9 +22,9 @@ function poloColorwayDiagnosticMap(block: Block): TechnicalFlatProjectionMap {
 
 function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionMap {
   const base = technicalFlatMappingForBlock(recipeId, block)!;
-  const authored = ["woven-shirt", "tee", "fitted", "polo"].includes(recipeId)
+  const authored = ["woven-shirt", "tee", "fitted", "polo", "crewneck"].includes(recipeId)
     ? createG04TechnicalFlatProjectionMap(recipeId, block, revisionId)! : undefined;
-  if (recipeId === "polo" || recipeId === "woven-shirt") return authored!;
+  if (recipeId === "polo" || recipeId === "woven-shirt" || recipeId === "crewneck") return authored!;
   return {
     version: 1, recipeId, revisionId,
     faces: base.faces.map((face) => ({
@@ -71,6 +72,41 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
 }
 
 describe("technical-flat source geometry", () => {
+  it("projects crewneck sleeve caps to the source armhole and retains all four detached rib details on both faces", () => {
+    const block = CREWNECK.draft(STANDARD_M, defaultGarmentOptions(CREWNECK.options ?? []));
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const map = createG04TechnicalFlatProjectionMap("crewneck", block, revisionId)!;
+      const output = compileTechnicalFlatSourceGeometry("crewneck", block, revisionId, kind, map);
+      expect(output.issues, kind).toEqual([]);
+      const sleeveRoleId = kind === "FRONT_FLAT" ? "sleeveLeft" : "sleeveRight";
+      const bodyRoleId = kind === "FRONT_FLAT" ? "front" : "back";
+      const capEdgeId = kind === "FRONT_FLAT" ? "capLeft" : "capRight";
+      const sleeveOutline = output.primitives.find((primitive) => primitive.id ===
+        `flat:crewneck:${kind}:component:${sleeveRoleId}:outline`);
+      const bodyOutline = output.primitives.find((primitive) => primitive.id ===
+        `flat:crewneck:${kind}:component:${bodyRoleId}:outline`);
+      expect(sleeveOutline?.kind).toBe("path");
+      expect(sleeveOutline?.kind === "path" ? sleeveOutline.sourceEdgeIds : []).not.toContain(
+        `pattern:crewneck:role:${sleeveRoleId}:edge:${capEdgeId}`);
+      expect(bodyOutline?.kind === "path" ? bodyOutline.sourceEdgeIds : []).not.toContain(
+        `pattern:crewneck:role:${bodyRoleId}:edge:armhole`);
+      expect(output.primitives.some((primitive) => primitive.kind === "path" && primitive.layer === "SEAM"
+        && primitive.source.sourceId === `pattern:crewneck:role:${bodyRoleId}:edge:armhole`
+        && primitive.source.revisionId === revisionId)).toBe(true);
+      for (const roleId of ["neckband", "cuffLeft", "cuffRight", "hemBand"] as const) {
+        expect(output.primitives.some((primitive) => primitive.kind === "path"
+          && primitive.id === `flat:crewneck:${kind}:component:${roleId}:outline`
+          && primitive.source.sourceId === `pattern:crewneck:role:${roleId}`
+          && primitive.source.revisionId === revisionId
+          && JSON.stringify(primitive.sourceEdgeIds) === JSON.stringify(["join", "sideRight", "joinLayer", "sideLeft"]
+            .map((edgeId) => `pattern:crewneck:role:${roleId}:edge:${edgeId}`)))).toBe(true);
+      }
+      expect(validateTechnicalFlat({ schemaVersion: TECHNICAL_FLAT_SCHEMA_VERSION,
+        viewId: `crewneck:${kind}`, revisionId, recipeId: "crewneck", kind, units: "cm",
+        primitives: output.primitives, notices: output.notices })).toEqual([]);
+    }
+  });
+
   it("replaces Polo cap strokes with the exact receiving armhole seam across all supported option endpoints", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max]
@@ -312,8 +348,8 @@ describe("technical-flat source geometry", () => {
     }
   });
 
-  it("compiles exact mapped role outlines, marks and darts for every recipe and option endpoint", () => {
-    for (const recipe of GARMENTS) {
+  it("compiles exact mapped role outlines, marks and darts for every G04-admitted recipe and option endpoint", () => {
+    for (const recipe of G04_RECIPES) {
       const optionSets = [defaultGarmentOptions(recipe.options ?? [])];
       for (const option of recipe.options ?? []) {
         optionSets.push({ ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min });
@@ -484,7 +520,7 @@ describe("technical-flat source geometry", () => {
     const lineStartMap = { ...map, faces: [{ ...face, roles: face.roles.map((candidate) => candidate.roleId === role.roleId ? lineStartRole : candidate) }, map.faces[1]] } as unknown as TechnicalFlatProjectionMap;
     expect(compileTechnicalFlatSourceGeometry("tee", markedBlock, revisionId, "FRONT_FLAT", lineStartMap).issues).toEqual([]);
 
-    for (const recipe of GARMENTS) {
+    for (const recipe of G04_RECIPES) {
       const optionSets = [defaultGarmentOptions(recipe.options ?? [])];
       for (const option of recipe.options ?? []) {
         optionSets.push({ ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min });
@@ -646,6 +682,10 @@ describe("technical-flat source geometry", () => {
     const unsupported = compileTechnicalFlatSourceGeometry("dress", block, revisionId, "FRONT_FLAT");
     expect(unsupported.primitives).toEqual([]);
     expect(unsupported.issues).toContainEqual(expect.objectContaining({ code: "UNSUPPORTED_RECIPE" }));
+    const jeans = GARMENTS.find((recipe) => recipe.name === "jeans")!;
+    const jeansBlock = jeans.draft(STANDARD_M, defaultGarmentOptions(jeans.options ?? []));
+    expect(compileTechnicalFlatSourceGeometry("jeans", jeansBlock, revisionId, "FRONT_FLAT").issues)
+      .toContainEqual(expect.objectContaining({ code: "UNSUPPORTED_RECIPE" }));
     const points = compileTechnicalFlatSourceGeometry("woven-shirt",
       GARMENTS.find((recipe) => recipe.name === "woven-shirt")!.draft(STANDARD_M, defaultGarmentOptions([])),
       revisionId, "FRONT_FLAT").primitives.filter((primitive) => primitive.kind === "mark");

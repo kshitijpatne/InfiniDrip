@@ -36,6 +36,12 @@ describe("renderBody", () => {
     expect(svg).toContain("Bicep 38");
   });
 
+  it("keeps the longest left-side dimension label inside the viewBox", () => {
+    const viewBoxMinX = viewBoxOf(svg)[0];
+    const labelX = Number(svg.match(/<text x="(-?[\d.]+)"[^>]*text-anchor="end">Armhole depth 24<\/text>/)![1]);
+    expect(labelX - viewBoxMinX).toBeGreaterThanOrEqual(34);
+  });
+
   it("marks only the girth inputs (chest, bicep) as '(circ)', not the linear ones", () => {
     expect(svg).toContain("Chest 100 (circ)");
     expect(svg).toContain("Bicep 38 (circ)");
@@ -362,5 +368,26 @@ describe("renderBody — woven-shirt independent neck", () => {
     expect(changed).toContain("Waist 96 (circ)");
     expect(changed).toContain("Hip 124 (circ)");
     expect(changed).toContain("Hip depth 24");
+  });
+});
+
+
+describe("sleeved recipe neckline measurement targets", () => {
+  it("highlights adjustable Crewneck neckline fields on the live front and back edges", () => {
+    const neckline = {
+      shape: "crew" as const,
+      widthEase: STANDARD_M.neckWidthEase,
+      frontDrop: STANDARD_M.neckDrop,
+    };
+    const front = renderBody(STANDARD_M, true, neckline);
+    const back = renderBody(STANDARD_M, true, neckline, undefined, "back");
+
+    expect(front).toContain('data-dim="neckDrop"');
+    expect(front).toContain('data-edge="neckDrop"');
+    expect(front).toContain('data-dim="neckWidthEase"');
+    expect(front).toContain('data-edge="neckWidthEase"');
+    expect(back).not.toContain('data-dim="neckDrop"');
+    expect(back).toContain('data-dim="neckWidthEase"');
+    expect(back).toContain('data-edge="neckWidthEase"');
   });
 });

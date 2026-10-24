@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   STRETCH_FABRICS,
+  CREWNECK_STABLE_KNIT_PRESET,
   suggestedEase,
   fabricEaseNote,
   StretchFabric,
@@ -13,6 +14,13 @@ describe("STRETCH_FABRICS", () => {
   it("includes at least one woven and one knit", () => {
     expect(STRETCH_FABRICS.some((f) => f.family === "woven")).toBe(true);
     expect(STRETCH_FABRICS.some((f) => f.family === "knit")).toBe(true);
+  });
+
+  it("exposes the stable sweatshirt width seed without presenting it as measured performance", () => {
+    expect(STRETCH_FABRICS).toContain(CREWNECK_STABLE_KNIT_PRESET);
+    expect(CREWNECK_STABLE_KNIT_PRESET).toEqual({
+      name: "Stable sweatshirt knit (10% width seed)", family: "knit", stretchPercent: 10,
+    });
   });
 });
 

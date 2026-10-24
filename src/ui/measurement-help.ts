@@ -122,6 +122,55 @@ const DRAFT_USE_BASE: Readonly<Record<string, string>> = Object.freeze({
   neckWidthEase: "The current tank draft widens each side of the front and back neckline by this value.",
 });
 
+const DRAFT_USE_OVERRIDE: Readonly<Record<string, Readonly<Record<string, string>>>> = Object.freeze({
+  jeans: Object.freeze({
+    waist: "The Jeans draft combines waist with shared ease and divides that finished digital circumference across the waist edges.",
+    hip: "The Jeans draft combines hip with shared ease to set the digital seat geometry; the result does not qualify a body level or fit.",
+    hipDepth: "The Jeans draft places its digital seat station this vertical distance below the wear-line reference; reference endpoints remain unreviewed.",
+    crotchDepth: "The Jeans draft uses this seated-depth input with separate rise controls to locate front and back digital crotch stations; it is not a qualified capture method.",
+    thigh: "The Jeans draft uses this as a finished digital girth target at its internal thigh station. It is not a wearer thigh measurement or a qualified body landmark.",
+    knee: "The Jeans draft uses this as a finished digital girth target at its internal knee-transition station. That transition has no reviewed anatomical mapping and is not a body knee landmark.",
+    inseam: "The Jeans draft uses this as a vertical crotch-to-hem target. Its finished inseam POM follows the sloped digital seam and may differ; this is not a wearer body inseam.",
+    ease: "The Jeans draft applies shared ease at waist and seat; thigh and knee-transition girths have separate Jeans options.",
+  }),
+  shorts: Object.freeze({
+    waist: "The shorts draft sets each quarter waist edge from (waist plus shared ease) divided by four.",
+    hip: "The shorts draft sets each quarter seat edge from (hip plus shared ease) divided by four.",
+    hipDepth: "The shorts draft places its seat station this vertical distance below the waist reference.",
+    crotchDepth: "The shorts draft combines this input with front and back rise controls, then offsets the crotch station by the waistband depth. This inherited digital coordinate seed is not a physical-fit method.",
+    thigh: "The shorts draft uses this finished target directly: each leg panel is one quarter of the target at the upper-thigh station. The POM reports four times one panel span; the station is 2.5 cm below the back-crotch station and has no reviewed anatomical mapping.",
+    ease: "The shorts draft adds the shared value at waist and seat only. The finished thigh target already includes its intended room and receives no extra ease.",
+    shortsInseam: "Sets the vertical distance from the back-crotch station to the finished hem. It is not a sewn inseam or wearer body inseam. The shorts draft has no knee station.",
+    hemOpening: "Sets the finished circumference at one leg opening, represented across the four panel hem edges.",
+    frontRiseEase: "Adds to the crotch-depth input to place the finished front-rise station before waistband depth is applied.",
+    backRiseEase: "Adds to the crotch-depth input to place the finished back-rise station before waistband depth is applied.",
+    waistbandDepth: "Sets the separate waistband pattern depth; guidance warns when it reaches either finished rise.",
+    flyLength: "Sets the front fly component length; guidance checks its space against the front rise and hem turn.",
+    pocketOpening: "Sets each angled front pocket opening length; guidance checks panel clearance and rise clearance.",
+    pocketAngle: "Sets the angle of each front pocket opening; guidance checks the resulting line against the front panel.",
+    pocketBagDepth: "Sets pocket-bag depth; guidance checks that the bag stays inside the front panel and above the hem turn.",
+    pocketDrop: "Moves the pocket opening below the waist seam; guidance checks its clearance from the front rise.",
+  }),
+  crewneck: Object.freeze({
+    neckDrop: "The crewneck draft adds this value to the derived front neckline depth; the back neckline keeps its derived depth.",
+    neckWidthEase: "The crewneck draft adds this value per side to the derived width of both front and back necklines.",
+    ease: "The crewneck draft uses this shared ease in the body panels and solves the sleeves from the resulting armholes; band circumferences stay separate user controls.",
+  }),
+  hoodie: Object.freeze({
+    ease: "The Hoodie draft uses this shared ease in the body and sleeve blocks; cuff and hem-band lengths remain separate Hoodie options, and selected material does not change geometry.",
+  }),
+  jogger: Object.freeze({
+    waist: "The Jogger draft adds shared ease to waist before dividing the four-panel waist; its separate casing is attached to that drafted opening. Elastic cut length is never calculated.",
+    hip: "The Jogger draft adds shared ease to hip before deriving the four-panel seat width.",
+    hipDepth: "The Jogger draft places its seat station this vertical distance below the waist reference; its capture endpoints and physical fit remain unreviewed.",
+    crotchDepth: "The Jogger draft combines this existing lower-body input with separate front and back rise controls and casing depth; this is inherited digital geometry, not a physical-fit method.",
+    thigh: "The Jogger draft adds its separate thigh-ease option to this input at an inherited digital station 2.5 cm below the back-crotch reference. That station has no reviewed anatomical mapping; do not treat the finished POM as a body-thigh capture.",
+    knee: "The Jogger draft adds its separate knee-ease option at an inherited digital station 52% of inseam below the back-crotch reference. The station has no reviewed anatomical mapping; do not treat it as a physical knee landmark or fit result.",
+    inseam: "The Jogger draft uses this value for its digital vertical crotch-to-hem target. The finished inseam POM follows the sloped sewn seam and may differ; this does not qualify a body-capture method.",
+    ease: "Jogger shared ease affects waist and seat; thigh and knee have separate recipe-owned ease controls. Material stretch does not change this geometry.",
+  }),
+});
+
 const DRAFT_USE_FALLBACK =
   "Digital construction choice for this recipe. The entered value is kept verbatim in the draft; an out-of-range value stays visible and blocks dependent actions without automatic changes.";
 
@@ -186,6 +235,19 @@ const LIMITS_ADDITION: Readonly<Record<string, string>> = Object.freeze({
   neckWidthEase: "Design control, not a body value or sourced default. Per-side adjustment applied to front and back. Confidence stays NOT_ASSESSED.",
 });
 
+const LIMITS_ADDITION_BY_RECIPE: Readonly<Record<string, Readonly<Record<string, string>>>> = Object.freeze({
+  jeans: Object.freeze({
+    waist: "Jeans wear-line capture remains unresolved; entered values are unconfirmed. Confidence stays NOT_ASSESSED; no fit claim.",
+    hip: "Jeans hip/seat level and capture path remain unresolved. Confidence stays NOT_ASSESSED; no fit claim.",
+    hipDepth: "Jeans reference endpoints and vertical method remain unresolved; the pattern station is calculated, not observed. Confidence stays NOT_ASSESSED.",
+    crotchDepth: "Jeans seated-depth posture and reference remain unresolved. Confidence stays NOT_ASSESSED; no fit claim.",
+    thigh: "Finished digital target only; the internal thigh station has no reviewed anatomical mapping and is not a body capture. Confidence stays NOT_ASSESSED.",
+    knee: "Finished digital target at an internal pattern transition only; no anatomical mapping or body-knee capture is established. Confidence stays NOT_ASSESSED.",
+    inseam: "Vertical crotch-to-hem pattern target only; the finished POM follows the sloped digital seam. This is not a body inseam. Confidence stays NOT_ASSESSED.",
+    ease: "Digital Jeans design control, not a validated standard. Review affected regions and material choice. Confidence stays NOT_ASSESSED.",
+  }),
+});
+
 const TEE_METHOD_LIMITS: Readonly<Record<string, string>> = Object.freeze({
   chest: "Size Korea 8th Survey, No. 041: axilla-level Chest Circumference, not nipple-level Bust; standing, horizontal path, level back line, midpoint of the natural breathing cycle. Examiner-survey only; no qualified home/self capture. Girth omits torso shape; neckline is formula-derived, not measured. Value unconfirmed; repeatability/fit unvalidated. Confidence NOT_ASSESSED. Credit: Korean Agency for Technology and Standards (KATS); KATRI report. Results: https://sizekorea.kr/human-info/meas-report?measDegree=8; protocol: https://sizekorea.kr/support/pds/view?bbsCntntsSeq=725&currentPageNo=1",
   bicep: "Size Korea 8th Survey, No. 036: relaxed right upper-arm circumference at axillary level; tape perpendicular to arm axis, arm hanging at side, midpoint of the natural breathing cycle. Examiner-survey only; no qualified home/self capture. App records no capture side or posture; sleeve fit unvalidated. Value unconfirmed; repeatability/fit unvalidated. Confidence NOT_ASSESSED. Credit: Korean Agency for Technology and Standards (KATS); KATRI report. Results: https://sizekorea.kr/human-info/meas-report?measDegree=8; protocol: https://sizekorea.kr/support/pds/view?bbsCntntsSeq=725&currentPageNo=1",
@@ -200,6 +262,10 @@ const LIMITS_SUFFIX: Readonly<Record<string, Readonly<Record<string, string>>>> 
   }),
   "woven-shirt": Object.freeze({
     length: "D-07: guidance checks the current woven-shirt geometry and blocks continuation when the hip station falls below the hem; increase top length or reduce underarm drop or hip depth. Values are not changed automatically.",
+  }),
+  shorts: Object.freeze({
+    thigh: "This is a finished target at the shorts block's fixed upper-thigh station, not a wearer thigh value; its anatomical mapping is not reviewed.",
+    shortsInseam: "The accepted 45 cm product cap permits lengths that cross the knee. The draft contains no anatomical knee station, mark, or POM. This vertical target is not a sewn inseam or fit-qualified measurement.",
   }),
 });
 
@@ -220,17 +286,18 @@ const TEE_METHOD_SOURCES: Readonly<Record<string, readonly MeasurementHelpSource
 });
 
 function draftUseFor(recipeId: string, inputKey: string): string {
+  const override = DRAFT_USE_OVERRIDE[recipeId]?.[inputKey];
+  if (override !== undefined) return override;
   const base = DRAFT_USE_BASE[inputKey] ?? DRAFT_USE_FALLBACK;
-  const suffix = (DRAFT_USE_SUFFIX[recipeId] as Readonly<Record<string, string>>)[inputKey] as
-    | string
-    | undefined;
+  const suffix = DRAFT_USE_SUFFIX[recipeId]?.[inputKey];
   return suffix === undefined ? base : `${base} ${suffix}`;
 }
 
 function limitsFor(recipeId: string, inputKey: string, captureBoundary: string): string {
   const teeMethod = recipeId === "tee" ? TEE_METHOD_LIMITS[inputKey] : undefined;
   if (teeMethod !== undefined) return teeMethod;
-  const base = LIMITS_ADDITION[inputKey] ?? LIMITS_FALLBACK;
+  const base = LIMITS_ADDITION_BY_RECIPE[recipeId]?.[inputKey]
+    ?? LIMITS_ADDITION[inputKey] ?? LIMITS_FALLBACK;
   const suffix = LIMITS_SUFFIX[recipeId]?.[inputKey];
   const extra = suffix ? ` ${suffix}` : "";
   return `${captureBoundary} ${base}${extra}`;

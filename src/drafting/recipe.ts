@@ -13,10 +13,10 @@ import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
-import { StyleDef, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES } from "../style";
+import { StyleDef, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES, JEANS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
-import { GradeRule, SizeStep } from "./grading";
+import { draftAtSize, gradeRun, type GradeOptionResolver, type GradeRule, type SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
 import { TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION } from "./vneck-band-output";
 import {
@@ -72,7 +72,51 @@ import {
   TROUSER_TECH_PACK,
 } from "./trouser-tables";
 import { trouserGuidance } from "./trouser-guidance";
+import { draftShortsWithComponents, SHORTS_GRAMMAR, shortsComponentGuidance } from "./shorts-components";
+import type { ShortsOptions } from "./shorts-contract";
+import { SHORTS_FIELDS, SHORTS_OPTION_DEFINITIONS } from "./shorts-contract";
+import {
+  SHORTS_ALLOWANCES,
+  SHORTS_GRADE,
+  SHORTS_NOTCHES,
+  SHORTS_POMS,
+  SHORTS_SIZES,
+  SHORTS_TECH_PACK,
+} from "./shorts-tables";
 import type { GarmentGrammar } from "./grammar";
+import { draftCrewneck, CREWNECK_GRAMMAR } from "./crewneck";
+import { resolveCrewneckOptionsForSize } from "./crewneck-components";
+import { CREWNECK_FIELDS, CREWNECK_OPTION_DEFINITIONS, CREWNECK_DEFAULT_OPTIONS, CREWNECK_STYLES } from "./crewneck-contract";
+import { CREWNECK_ALLOWANCES, CREWNECK_GRADE, CREWNECK_NOTCHES, CREWNECK_POMS, CREWNECK_SIZES, CREWNECK_TECH_PACK, crewneckGuidance } from "./crewneck-tables";
+import { draftJogger, JOGGER_GRAMMAR } from "./jogger";
+import type { JoggerOptions } from "./jogger-contract";
+import { JOGGER_FIELDS, JOGGER_OPTION_DEFINITIONS, JOGGER_DEFAULT_OPTIONS, JOGGER_STYLES } from "./jogger-contract";
+import { JOGGER_ALLOWANCES, JOGGER_GRADE, JOGGER_NOTCHES, JOGGER_POMS, JOGGER_SIZES, JOGGER_TECH_PACK, joggerTechPackForOptions } from "./jogger-tables";
+import { joggerGuidance } from "./jogger-guidance";
+import { draftHoodie, HOODIE_GRAMMAR } from "./hoodie";
+import type { HoodieOptions } from "./hoodie-contract";
+import {
+  HOODIE_FIELDS,
+  HOODIE_OPTION_DEFINITIONS,
+  HOODIE_DEFAULT_OPTIONS,
+  HOODIE_STYLES,
+  resolveHoodieOptions,
+} from "./hoodie-contract";
+import {
+  HOODIE_ALLOWANCES,
+  HOODIE_GRADE,
+  HOODIE_NOTCHES,
+  HOODIE_POMS,
+  HOODIE_SIZES,
+  HOODIE_TECH_PACK,
+  hoodieTechPackForOptions,
+  resolveHoodieOptionsForSize,
+} from "./hoodie-tables";
+import { hoodieGuidance } from "./hoodie-guidance";
+import { draftJeansCore, JEANS_GRAMMAR } from "./jeans";
+import { JEANS_FIELDS, JEANS_OPTION_DEFINITIONS, type JeansOptions } from "./jeans-contract";
+import { draftJeansWithGuidance, reviewJeansDraft } from "./jeans-guidance";
+import { JEANS_ALLOWANCES, JEANS_GRADE, JEANS_NOTCHES, JEANS_POMS, JEANS_SIZES, JEANS_TECH_PACK } from "./jeans-tables";
 
 /**
  * How a garment declares its production-readiness checks, so the checker never
@@ -104,6 +148,13 @@ export interface TechPack {
   readonly constructionNotice?: string;
 }
 
+/** A recipe may preflight inputs and withhold its block when relationships or
+ * construction geometry cannot be represented safely. */
+export interface RecipeDraftReview {
+  readonly block: Block | null;
+  readonly notes: readonly Note[];
+}
+
 export interface GarmentRecipe {
   readonly name: string;  // stable id, e.g. "tee"
   readonly label: string; // what the UI shows, e.g. "Tee"
@@ -118,6 +169,8 @@ export interface GarmentRecipe {
   readonly fields: readonly (keyof Measurements)[]; // which measurements this garment uses (drives the UI, in order)
   readonly styles: readonly StyleDef[];             // the target-fit presets this garment offers
   readonly draft: (m: Measurements, options?: GarmentOptions) => Block;
+  /** Optional fail-closed draft review for recipes with cross-field geometry constraints. */
+  readonly draftReview?: (m: Measurements, options?: GarmentOptions) => RecipeDraftReview;
   readonly notches: readonly PieceNotches[];
   /** Optional option-aware construction marks for recipes with alternate panel roles. */
   readonly notchesForOptions?: (options: GarmentOptions) => readonly PieceNotches[];
@@ -134,6 +187,8 @@ export interface GarmentRecipe {
   readonly techPack: TechPack;
   /** Recipe-owned design controls; absent means this garment has no such options. */
   readonly options?: readonly GarmentOption[];
+  /** Derive non-base-size numeric options from the explicit base inputs. */
+  readonly resolveOptionsForSize?: GradeOptionResolver;
   /** Option-aware production notes/BOM; absent keeps the static tech pack. */
   readonly techPackForOptions?: (this: GarmentRecipe, options: GarmentOptions) => TechPack;
   /** Optional material variant selected from the live fabric family. */
@@ -193,6 +248,26 @@ export function piecesForRecipeBlock(
       name: `${piece.name} (${index + 1} of ${quantity})`,
     }));
   });
+}
+
+/** Draft one registered recipe size through its optional recipe-owned resolver. */
+export function draftRecipeAtSize(
+  recipe: GarmentRecipe,
+  base: Measurements,
+  step: number,
+  options: GarmentOptions = {},
+): Block {
+  return draftAtSize(base, recipe.grade, step, recipe.draft, options, recipe.resolveOptionsForSize);
+}
+
+/** Draft a registered recipe's whole size run through one shared resolver. */
+export function gradeRecipeRun(
+  recipe: GarmentRecipe,
+  base: Measurements,
+  sizes: readonly SizeStep[] = recipe.sizes,
+  options: GarmentOptions = {},
+): ReturnType<typeof gradeRun> {
+  return gradeRun(base, recipe.grade, sizes, recipe.draft, options, recipe.resolveOptionsForSize);
 }
 
 /**
@@ -764,7 +839,133 @@ export const TROUSER: GarmentRecipe = {
   allowances: TROUSER_ALLOWANCES,
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER];
+export const JEANS: GarmentRecipe = {
+  name: "jeans",
+  label: "Jeans",
+  region: "lower",
+  editRole: "frontLeft",
+  a0Overflow: true,
+  tiledPdfLocalCoordinates: true,
+  fields: JEANS_FIELDS,
+  styles: JEANS_STYLES,
+  draft: (m, options = {}) => draftJeansCore(m, options as Partial<JeansOptions>),
+  grammar: JEANS_GRAMMAR,
+  draftReview: (m, options = {}) => {
+    const review = draftJeansWithGuidance(m, options as Partial<JeansOptions>);
+    return { block: review.block, notes: review.notes };
+  },
+  notches: JEANS_NOTCHES,
+  poms: JEANS_POMS,
+  grade: JEANS_GRADE,
+  sizes: JEANS_SIZES,
+  checks: () => [],
+  guidance: (block) => [...reviewJeansDraft(block).notes],
+  sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "frontLeft"), "waist")),
+  techPack: JEANS_TECH_PACK,
+  options: JEANS_OPTION_DEFINITIONS,
+  allowances: JEANS_ALLOWANCES,
+};
+
+export const SHORTS: GarmentRecipe = {
+  name: "shorts",
+  label: "Shorts",
+  region: "lower",
+  editRole: "frontLeft",
+  fields: SHORTS_FIELDS,
+  styles: SHORTS_STYLES,
+  draft: (m, options = {}) => draftShortsWithComponents(m, options as Partial<ShortsOptions>),
+  grammar: SHORTS_GRAMMAR,
+  notches: SHORTS_NOTCHES,
+  poms: SHORTS_POMS,
+  grade: SHORTS_GRADE,
+  sizes: SHORTS_SIZES,
+  checks: () => [],
+  guidance: (block, m, options = {}) =>
+    shortsComponentGuidance(block, m, options as Partial<ShortsOptions>),
+  sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "frontLeft"), "waist")),
+  techPack: SHORTS_TECH_PACK,
+  options: SHORTS_OPTION_DEFINITIONS,
+  allowances: SHORTS_ALLOWANCES,
+  tiledPdfLocalCoordinates: true,
+};
+
+export const CREWNECK: GarmentRecipe = {
+  name: "crewneck",
+  label: "Crewneck sweatshirt",
+  region: "upper",
+  editRole: "front",
+  fields: CREWNECK_FIELDS,
+  styles: CREWNECK_STYLES,
+  draft: (m, options = CREWNECK_DEFAULT_OPTIONS) => draftCrewneck(m, options),
+  grammar: CREWNECK_GRAMMAR,
+  notches: CREWNECK_NOTCHES,
+  poms: CREWNECK_POMS,
+  grade: CREWNECK_GRADE,
+  sizes: CREWNECK_SIZES,
+  checks: sleevedTopPanelChecks(true),
+  guidance: (block, m, options = CREWNECK_DEFAULT_OPTIONS) => crewneckGuidance(block, m, options),
+  sizeMetric: frontHemWidth,
+  techPack: CREWNECK_TECH_PACK,
+  options: CREWNECK_OPTION_DEFINITIONS,
+  resolveOptionsForSize: resolveCrewneckOptionsForSize,
+  allowances: CREWNECK_ALLOWANCES,
+  frontNeckline: (m) => ({ shape: "crew", widthEase: m.neckWidthEase, frontDrop: m.neckDrop }),
+  backNeckline: (m) => ({ shape: "crew", widthEase: m.neckWidthEase, frontDrop: m.neckDrop }),
+};
+
+export const JOGGER: GarmentRecipe = {
+  name: "jogger",
+  label: "Jogger",
+  region: "lower",
+  editRole: "frontLeft",
+  a0Overflow: true,
+  tiledPdfLocalCoordinates: true,
+  fields: JOGGER_FIELDS,
+  styles: JOGGER_STYLES,
+  draft: (m, options = JOGGER_DEFAULT_OPTIONS) => draftJogger(m, options as Partial<JoggerOptions>),
+  grammar: JOGGER_GRAMMAR,
+  notches: JOGGER_NOTCHES,
+  poms: JOGGER_POMS,
+  grade: JOGGER_GRADE,
+  sizes: JOGGER_SIZES,
+  checks: () => [],
+  guidance: (block, m, options = JOGGER_DEFAULT_OPTIONS) =>
+    joggerGuidance(block, m, options as Partial<JoggerOptions>),
+  sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "frontLeft"), "waist")),
+  techPack: JOGGER_TECH_PACK,
+  techPackForOptions: joggerTechPackForOptions,
+  options: JOGGER_OPTION_DEFINITIONS,
+  allowances: JOGGER_ALLOWANCES,
+};
+
+export const HOODIE: GarmentRecipe = {
+  name: "hoodie",
+  label: "Pullover hoodie",
+  region: "upper",
+  editRole: "front",
+  fields: HOODIE_FIELDS,
+  styles: HOODIE_STYLES,
+  draft: (m, options = HOODIE_DEFAULT_OPTIONS) =>
+    draftHoodie(m, resolveHoodieOptions(options as Partial<HoodieOptions>)),
+  grammar: HOODIE_GRAMMAR,
+  notches: HOODIE_NOTCHES,
+  poms: HOODIE_POMS,
+  grade: HOODIE_GRADE,
+  sizes: HOODIE_SIZES,
+  checks: sleevedTopPanelChecks(true),
+  guidance: (block, m, options = HOODIE_DEFAULT_OPTIONS) =>
+    hoodieGuidance(block, m, options as Partial<HoodieOptions>),
+  sizeMetric: frontHemWidth,
+  techPack: HOODIE_TECH_PACK,
+  techPackForOptions: hoodieTechPackForOptions,
+  options: HOODIE_OPTION_DEFINITIONS,
+  resolveOptionsForSize: resolveHoodieOptionsForSize,
+  allowances: HOODIE_ALLOWANCES,
+  a0Overflow: true,
+  tiledPdfLocalCoordinates: true,
+};
+
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, JEANS, SHORTS, CREWNECK, JOGGER, HOODIE];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {

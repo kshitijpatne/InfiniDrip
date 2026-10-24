@@ -31,6 +31,22 @@ export interface GradedSize {
   readonly block: Block;
 }
 
+/** Context for resolving recipe-owned numeric options at a graded size. */
+export interface GradeOptionResolutionContext {
+  readonly baseMeasurements: Measurements;
+  readonly sizeMeasurements: Measurements;
+  readonly step: number;
+  readonly draft: (m: Measurements, options?: GarmentOptions) => Block;
+  readonly baseOptions: GarmentOptions;
+}
+
+/**
+ * Optional recipe rule for deriving non-base-size options from the explicit
+ * base-size options. The callback receives the original draft so it can use
+ * real recipe geometry; it owns validation and actionable error reporting.
+ */
+export type GradeOptionResolver = (context: GradeOptionResolutionContext) => GarmentOptions;
+
 /** Apply a grade rule to the base at a given step (step 0 returns the base as-is). */
 export function gradeMeasurements(
   base: Measurements,
@@ -55,9 +71,20 @@ export function draftAtSize(
   rule: GradeRule,
   step: number,
   draft: (m: Measurements, options?: GarmentOptions) => Block,
-  options: GarmentOptions = {}
+  options: GarmentOptions = {},
+  resolveOptionsForSize?: GradeOptionResolver,
 ): Block {
-  return draft(gradeMeasurements(base, rule, step), options);
+  const measurements = gradeMeasurements(base, rule, step);
+  const resolvedOptions = resolveOptionsForSize && step !== 0
+    ? resolveOptionsForSize({
+      baseMeasurements: base,
+      sizeMeasurements: measurements,
+      step,
+      draft,
+      baseOptions: options,
+    })
+    : options;
+  return draft(measurements, resolvedOptions);
 }
 
 /**
@@ -69,10 +96,16 @@ export function gradeRun(
   rule: GradeRule,
   sizes: readonly SizeStep[],
   draft: (m: Measurements, options?: GarmentOptions) => Block,
-  options: GarmentOptions = {}
+  options: GarmentOptions = {},
+  resolveOptionsForSize?: GradeOptionResolver,
 ): GradedSize[] {
   return sizes.map((s) => {
     const measurements = gradeMeasurements(base, rule, s.step);
-    return { label: s.label, step: s.step, measurements, block: draftAtSize(base, rule, s.step, draft, options) };
+    return {
+      label: s.label,
+      step: s.step,
+      measurements,
+      block: draftAtSize(base, rule, s.step, draft, options, resolveOptionsForSize),
+    };
   });
 }

@@ -26,6 +26,7 @@ import { resolveNotch, resolveGrainline } from "../render/notch";
 import { calibrationPdfOps, CALIBRATION_CM } from "./calibration";
 import { FOLD_EPS } from "./unfold";
 import { patternMarksPdfOps, translatePatternMarks } from "./pattern-mark";
+import { patternLabelPose } from "./pattern-label-layout";
 
 export const PAGE_A0: PageSize = { width: 84.1, height: 118.9 };
 /** Landscape A0, for layouts that run wide instead of tall. */
@@ -117,10 +118,21 @@ function overflowPieceStream(
 
   const cx = bounds.minX + bounds.width / 2;
   const cy = bounds.minY + bounds.height / 2;
-  lines.push(
-    `BT /F1 14 Tf ${Math.max(pt(OVERFLOW_MARGIN), pt(cx) - original.name.length * 4)} ${pt(page.height - cy)} Td ` +
-      `(${original.name.toUpperCase()}) Tj ET`
-  );
+  const overflowLabel = original.name.toLowerCase().startsWith("shorts ")
+    ? patternLabelPose(original.name, original.name.toUpperCase(), bounds, 14 / pt(1)) : undefined;
+  if (overflowLabel?.rotation === 90) {
+    const labelLength = original.name.length * overflowLabel.fontSize * 0.58;
+    lines.push(`BT /F1 ${pt(overflowLabel.fontSize)} Tf 0 1 -1 0 ${pt(overflowLabel.x)} ` +
+      `${pt(page.height - overflowLabel.y - labelLength / 2)} Tm (${original.name.toUpperCase()}) Tj ET`);
+  } else if (overflowLabel) {
+    lines.push(`BT /F1 ${pt(overflowLabel.fontSize)} Tf ${pt(overflowLabel.x) - original.name.length * 4} ` +
+      `${pt(page.height - overflowLabel.y)} Td (${original.name.toUpperCase()}) Tj ET`);
+  } else {
+    lines.push(
+      `BT /F1 14 Tf ${Math.max(pt(OVERFLOW_MARGIN), pt(cx) - original.name.length * 4)} ${pt(page.height - cy)} Td ` +
+        `(${original.name.toUpperCase()}) Tj ET`
+    );
+  }
 
   const table = notches.find((r) => r.pieceName === original.name);
   if (table) {
@@ -232,13 +244,27 @@ export function exportA0Pdf(
     lines.push("0 0 0 RG 0.5 w");
     lines.push(patternMarksPdfOps(translatePatternMarks(original.marks, dx, dy), ph));
 
-    // Piece label at the cut-line centre.
+    // Piece label at the cut-line centre, with shorts-specific clearance.
     const cx = placedB.minX + placedB.width / 2;
     const cy = placedB.minY + placedB.height / 2;
-    lines.push(
-      `BT /F1 14 Tf ${pt(cx) - placed.name.length * 4} ${pt(ph - cy)} Td ` +
-        `(${placed.name.toUpperCase()}) Tj ET`
-    );
+    if (placed.name.toLowerCase().startsWith("shorts ")) {
+      const labelPose = patternLabelPose(placed.name, placed.name.toUpperCase(), placedB, 14 / pt(1));
+      const labelFont = pt(labelPose.fontSize);
+      if (labelPose.rotation === 90) {
+        const labelLength = placed.name.length * labelPose.fontSize * 0.58;
+        lines.push(`BT /F1 ${labelFont} Tf 0 1 -1 0 ${pt(labelPose.x)} ` +
+          `${pt(ph - labelPose.y - labelLength / 2)} Tm (${placed.name.toUpperCase()}) Tj ET`);
+      } else {
+        const textX = pt(labelPose.x) - placed.name.length * (labelFont * 4 / 14);
+        lines.push(`BT /F1 ${labelFont} Tf ${textX} ${pt(ph - labelPose.y)} Td ` +
+          `(${placed.name.toUpperCase()}) Tj ET`);
+      }
+    } else {
+      lines.push(
+        `BT /F1 14 Tf ${pt(cx) - placed.name.length * 4} ${pt(ph - cy)} Td ` +
+          `(${placed.name.toUpperCase()}) Tj ET`
+      );
+    }
 
     // Notches and grainline, re-resolved from the live piece (they never drift).
     const table = notches.find((r) => r.pieceName === original.name);

@@ -14,6 +14,7 @@ import { BLUEPRINT as T } from "./theme";
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
 const CAPTION_H = 10; // cm of space under the sheet for the read-out
+const WARNING_H = 8; // cm reserved above the sheet when the bolt is too narrow
 const FABRIC = "#1B2A3D"; // the cloth: a shade up from the canvas background
 const EDGE = "#2E496B"; // the selvage edges
 
@@ -47,14 +48,15 @@ export function renderFabricNest(
   utilization: number,
   fits: boolean
 ): string {
-  const height = fabricLength + CAPTION_H;
+  const warningHeight = fits ? 0 : WARNING_H;
+  const height = fabricLength + CAPTION_H + warningHeight;
 
   const sheet =
-    `<rect x="0" y="0" width="${round(fabricWidth)}" height="${round(fabricLength)}" ` +
+    `<rect x="0" y="${round(warningHeight)}" width="${round(fabricWidth)}" height="${round(fabricLength)}" ` +
     `fill="${FABRIC}"/>` +
-    `<line x1="0" y1="0" x2="0" y2="${round(fabricLength)}" stroke="${EDGE}" stroke-width="0.4"/>` +
-    `<line x1="${round(fabricWidth)}" y1="0" x2="${round(fabricWidth)}" ` +
-    `y2="${round(fabricLength)}" stroke="${EDGE}" stroke-width="0.4"/>`;
+    `<line x1="0" y1="${round(warningHeight)}" x2="0" y2="${round(warningHeight + fabricLength)}" stroke="${EDGE}" stroke-width="0.4"/>` +
+    `<line x1="${round(fabricWidth)}" y1="${round(warningHeight)}" x2="${round(fabricWidth)}" ` +
+    `y2="${round(warningHeight + fabricLength)}" stroke="${EDGE}" stroke-width="0.4"/>`;
 
   const shapes = placed
     .map((p) => {
@@ -68,14 +70,25 @@ export function renderFabricNest(
 
   const pct = (utilization * 100).toFixed(0);
   const cap = `${fabricWidth} cm wide  ·  needs ${fabricLength.toFixed(1)} cm of length  ·  ${pct}% used`;
-  const warn = fits ? "" : "  ·  ⚠ a piece is wider than this fabric";
-  const caption =
-    `<text x="0" y="${round(fabricLength + 5)}" fill="${T.label}" font-size="3" ` +
-    `font-family="system-ui,sans-serif">${cap}${warn}</text>`;
+  const warning = fits ? "" :
+    `<g role="alert" aria-label="A piece is wider than this fabric. Increase fabric width or revise the garment.">` +
+    `<text x="0" y="3" fill="${T.patternInstruction}" font-size="1.1" font-weight="bold" ` +
+    `font-family="system-ui,sans-serif">WARNING · a piece is wider than this fabric</text>` +
+    `<text x="0" y="5.3" fill="${T.patternInstruction}" font-size="1.1" ` +
+    `font-family="system-ui,sans-serif">Increase fabric width or revise the garment.</text></g>`;
+  const shapesOnSheet = warningHeight === 0 ? shapes
+    : `<g transform="translate(0 ${round(warningHeight)})">${shapes}</g>`;
+  const caption = fits
+    ? `<text x="0" y="${round(warningHeight + fabricLength + 5)}" fill="${T.label}" font-size="3" ` +
+      `font-family="system-ui,sans-serif">${cap}</text>`
+    : `<text x="0" y="${round(warningHeight + fabricLength + 3)}" fill="${T.label}" font-size="1.1" ` +
+      `font-family="system-ui,sans-serif">${fabricWidth} cm wide · needs ${fabricLength.toFixed(1)} cm of length</text>` +
+      `<text x="0" y="${round(warningHeight + fabricLength + 5.2)}" fill="${T.label}" font-size="1.1" ` +
+      `font-family="system-ui,sans-serif">${pct}% used</text>`;
 
   return `<svg viewBox="0 0 ${round(fabricWidth)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(fabricWidth)}" height="${round(height)}" ` +
     `fill="${T.background}"/>` +
-    sheet + shapes + caption + `</svg>`;
+    warning + sheet + shapesOnSheet + caption + `</svg>`;
 }

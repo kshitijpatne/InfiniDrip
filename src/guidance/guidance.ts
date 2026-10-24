@@ -16,12 +16,14 @@ import { Note } from "./note";
 /** Run every check for a garment: its own guidance, then the sanity tiers. Garment-
  *  agnostic — it never names a seam, so a sleeveless garment runs through it. */
 export function guide(recipe: GarmentRecipe, m: Measurements, options: GarmentOptions = {}): Note[] {
-  const block = recipe.draft(m, options);
+  const review = recipe.draftReview?.(m, options);
+  const block = review?.block ?? (review ? null : recipe.draft(m, options));
   // Garment-specific first (does it sew as this garment?), then the number-sanity
   // tiers (are the inputs real?). The sanity tiers warn only — they never change a
   // measurement.
   return [
-    ...recipe.guidance(block, m, options),
+    ...(review?.notes ?? []),
+    ...(block ? recipe.guidance(block, m, options) : []),
     ...plausibilityChecks(m, recipe.fields),
     ...coherenceChecks(m, recipe.fields),
   ];

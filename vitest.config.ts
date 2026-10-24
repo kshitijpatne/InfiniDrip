@@ -8,6 +8,11 @@ if (coverageEnabled) process.env.INFINIDRIP_COVERAGE = "1";
 
 export default defineConfig({
   test: {
+    // The full coverage suite runs across many output-heavy app fixtures.
+    // Keep one worker after the S1156 resource profile showed equivalent wall
+    // time with substantially lower peak process memory.
+    maxWorkers: 1,
+    minWorkers: 1,
     // Operational Control Center and delivery-proof tests use Node's built-in
     // runner and are invoked explicitly by their own gate. Keep Vitest's
     // application suite focused on the TypeScript product tests.

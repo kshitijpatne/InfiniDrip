@@ -13,6 +13,7 @@ import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { compileTechnicalFlatPomCallouts, technicalFlatLeaderCrossesBox, technicalFlatLeaderSegmentsCross } from "./technical-flat-poms";
 
 const revisionId = "revision-g04-pom";
+const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
 
 function faceGeometry(recipeId: string, block: Block, kind: "FRONT_FLAT" | "BACK_FLAT", revision = revisionId): TechnicalFlatPrimitive[] {
   return [...compileTechnicalFlatSourceGeometry(recipeId, block, revision, kind).primitives];
@@ -44,8 +45,8 @@ describe("technical-flat POM callouts", () => {
       { minX: 4, minY: 4, maxX: 6, maxY: 6 })).toBe(false);
   });
 
-  it("binds every anchored POM to an exact same-revision front outline vertex across seven recipes", () => {
-    for (const recipe of GARMENTS) {
+  it("binds every anchored POM to an exact same-revision front outline vertex across G04-admitted recipes", () => {
+    for (const recipe of G04_RECIPES) {
       const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipe.name];
       if (!mapping) throw new Error(`Missing G04 map for ${recipe.name}`);
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
@@ -93,6 +94,11 @@ describe("technical-flat POM callouts", () => {
           ]);
           expect(back.notices.some((notice) => notice.sourceId === "pom:woven-shirt:back-yoke-depth"
             && notice.reason === "SOURCE_NOT_REPRESENTED")).toBe(false);
+        } else if (recipe.name === "shorts") {
+          expect(back.callouts?.map((callout) => [callout.source.sourceId, callout.anchor.primitiveId])).toEqual([
+            ["pom:shorts:waistband-depth-finished", "flat:shorts:BACK_FLAT:mark:waistband:centerBack"],
+            ["pom:shorts:back-rise-finished-incl-waistband", "flat:shorts:BACK_FLAT:component:backLeft:outline"],
+          ]);
         } else if (recipe.name !== "polo") {
           expect(back.callouts?.every((callout) => callout.anchor.primitiveId
             === `flat:${recipe.name}:BACK_FLAT:component:${mapping.backPomAnchorRole}:outline`)).toBe(true);

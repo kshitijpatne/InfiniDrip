@@ -26,9 +26,17 @@ export type PatternMark =
 export const lineMark = (
   kind: "cutLine" | "foldLine" | "placementLine", name: string,
   start: Point, end: Point, label?: string, labelRole?: PatternAnnotationRole
-): PatternMark => ({ kind, name, start, end, label, ...(labelRole ? { labelRole } : {}) });
+): PatternMark => ({
+  kind, name, start, end,
+  ...(label === undefined ? {} : { label }),
+  ...(labelRole ? { labelRole } : {}),
+});
 
 export const pointMark = (
   kind: "button" | "buttonhole" | "placementPoint", name: string,
   at: Point, label?: string, labelRole?: PatternAnnotationRole
-): PatternMark => ({ kind, name, at, label, ...(labelRole ? { labelRole } : {}) });
+): PatternMark => ({
+  kind, name, at,
+  ...(label === undefined ? {} : { label }),
+  ...(labelRole ? { labelRole } : {}),
+});

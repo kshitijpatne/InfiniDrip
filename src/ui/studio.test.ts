@@ -75,6 +75,15 @@ describe("bounded measurement groups", () => {
       expect(bodyTargets.length + assembledTargets.length, `${recipe.name}/${field} has a truthful diagram target`)
         .toBeGreaterThan(0);
       expect([...bodyTargets, ...assembledTargets].every((target) => target.style.opacity === "1")).toBe(true);
+      if (recipe.name === "shorts" && field === "ease") {
+        for (const target of [...bodyTargets, ...assembledTargets]) {
+          let ancestor = target.parentElement;
+          while (ancestor && ancestor !== root.querySelector("#analysis-host") && ancestor !== root.querySelector("#garment-host")) {
+            expect(ancestor.style.opacity).not.toBe("0.15");
+            ancestor = ancestor.parentElement;
+          }
+        }
+      }
       const cue = root.querySelector<HTMLElement>("#spatial-cue")!;
       if (bodyTargets.length > 0) {
         expect(cue.hidden).toBe(true);

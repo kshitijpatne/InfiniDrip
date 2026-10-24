@@ -64,9 +64,10 @@ export interface FlatProjectionViewPairReflection {
   readonly axisRoleId: "front" | "back";
   readonly edgeId: "centerFront" | "centerBack";
   readonly axis: "ASSEMBLED_BODY_CENTER";
-  readonly source: "MAINTAINER_VIEW_DECISION" | "WOVEN_SHIRT_PHYSICAL_ROLES" | "FITTED_PRINCESS_PHYSICAL_ROLES";
+  readonly source: "MAINTAINER_VIEW_DECISION" | "WOVEN_SHIRT_PHYSICAL_ROLES" | "FITTED_PRINCESS_PHYSICAL_ROLES" | "CODEX_VIEW_CONVENTION";
   readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR"
-    | "G04-S333-POLO-SLEEVE-VIEW-MAP" | "G18-S1170-F03-PRINCESS-SIDE-FRONT-PAIR";
+    | "G04-S333-POLO-SLEEVE-VIEW-MAP" | "G18-S1170-F03-PRINCESS-SIDE-FRONT-PAIR"
+    | "G07-S1113-CREWNECK-SLEEVE-VIEW-PAIR";
   readonly quantity: 2;
 }
 
@@ -86,18 +87,20 @@ export interface FlatProjectionViewBoundary {
   readonly from: FlatProjectionLandmark;
   readonly to: FlatProjectionLandmark;
   readonly fillOnlyColorway?: {
-    readonly source: "MAINTAINER_VIEW_DECISION";
+    readonly source: "MAINTAINER_VIEW_DECISION" | "CODEX_VIEW_CONVENTION";
     readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-COLLAR-EXTERIOR-ARCLENGTH"
       | "G04-S333-POLO-SLEEVE-VIEW-MAP" | "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" | "G04-S321-WOVEN-CLOSURE-A"
-      | "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH" | "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH";
+      | "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH" | "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH"
+      | "G07-S1113-CREWNECK-SLEEVE-CAP-VIEW";
   };
 }
 
 /** Face-local traversal correction for a sewn interface. This affects only
  * rigid placement correspondence; the drafted stitch references stay intact. */
 export interface FlatProjectionReversedStitchEdge {
-  readonly stitchLabel: "Sleeve-cap ease" | "Woven sleeve-cap ease" | "Yoke seam (yoke ↔ back lower)" | "Outer stand ↔ woven neckline";
-  readonly pieceId: "front" | "frontSide" | "back" | "yoke";
+  readonly stitchLabel: "Sleeve-cap ease" | "Woven sleeve-cap ease" | "Yoke seam (yoke ↔ back lower)" | "Outer stand ↔ woven neckline"
+    | "Crewneck set-in sleeve cap: sleeveLeft";
+  readonly pieceId: "front" | "frontSide" | "back" | "yoke" | "sleeveLeft";
   readonly edgeId: "armhole" | "yokeSeam" | "neckline";
   readonly source: "SOURCE_ENDPOINT_ORDER";
 }
@@ -108,7 +111,7 @@ export interface FlatProjectionLocalYReflection {
   readonly axis: "LOCAL_Y";
   readonly basis: "APPROVED_VIEW_CONVENTION";
   readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S333-POLO-SLEEVE-VIEW-MAP"
-    | "G04-S457-WOVEN-BACK-LOCAL-Y-REFLECTION";
+    | "G04-S457-WOVEN-BACK-LOCAL-Y-REFLECTION" | "G07-S1113-CREWNECK-SLEEVE-VIEW-PAIR";
 }
 
 /** Maintainer-approved display of the Woven stand/body base interface. The
@@ -154,6 +157,34 @@ export interface FlatProjectionPoloSleeveCapRepresentation {
   readonly transfer: "NORMALIZED_ARCLENGTH";
   readonly stations: readonly ["UNDERARM", "SHOULDER"];
   readonly layer: "SEAM";
+}
+
+/** Same-revision display correspondence for the existing crewneck cap ease.
+ * The source curves remain unchanged; the assembled view uses the receiving
+ * body armhole for its visible seam line. */
+export interface FlatProjectionCrewneckSleeveCapRepresentation {
+  readonly decisionId: "G07-S1113-CREWNECK-SLEEVE-CAP-VIEW";
+  readonly stitchLabel: "Crewneck set-in sleeve cap: sleeveLeft" | "Crewneck set-in sleeve cap: sleeveRight";
+  readonly sleeveRoleId: "sleeveLeft" | "sleeveRight";
+  readonly capEdgeId: "capLeft" | "capRight";
+  readonly visibleBodyRole: "front" | "back";
+  readonly visibleBodyEdge: "armhole";
+  readonly transfer: "NORMALIZED_ARCLENGTH";
+  readonly sourceEaseCm: number;
+  readonly stations: readonly ["UNDERARM", "SHOULDER"];
+  readonly layer: "SEAM";
+}
+
+/** Labeled source-scale placement of a crewneck rib component with no drafted
+ * body-attachment stitch. It is detail-only and carries no join inference. */
+export interface FlatProjectionCrewneckDetachedBandDetailRepresentation {
+  readonly source: "CODEX_VIEW_CONVENTION";
+  readonly decisionId: "G07-S1113-CREWNECK-DETACHED-BAND-DETAILS";
+  readonly sourceRoleId: "neckband" | "cuffLeft" | "cuffRight" | "hemBand";
+  readonly outlineEdgeIds: readonly ["join", "sideRight", "joinLayer", "sideLeft"];
+  readonly marks: readonly ["bandFold", "greatestStretchDirection"];
+  readonly placement: "SOURCE_SCALE_BELOW_VIEW";
+  readonly minimumClearanceCm: 3;
 }
 
 /** Approved, same-revision view mapping for Woven collar pieces. The map uses
@@ -212,6 +243,8 @@ export interface FlatProjectionRole {
   readonly viewSeamRepresentation?: FlatProjectionViewSeamRepresentation;
   readonly wovenSleeveCapRepresentation?: FlatProjectionWovenSleeveCapRepresentation;
   readonly poloSleeveCapRepresentation?: FlatProjectionPoloSleeveCapRepresentation;
+  readonly crewneckSleeveCapRepresentation?: FlatProjectionCrewneckSleeveCapRepresentation;
+  readonly crewneckDetachedBandDetailRepresentation?: FlatProjectionCrewneckDetachedBandDetailRepresentation;
   readonly wovenFullCollarRepresentation?: FlatProjectionWovenFullCollarRepresentation;
   readonly wovenDetachedBandDetailRepresentation?: FlatProjectionWovenDetachedBandDetailRepresentation;
   /** View-only closure for a face segment; it is not a drafted cut or seam edge. */
@@ -240,6 +273,7 @@ export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<R
   fitted: {},
   polo: {},
   "woven-shirt": {},
+  crewneck: {},
 };
 
 const FOLD_AXIS_EDGE_NAME = /^center(?:Front|Back)?$/i;
@@ -295,6 +329,129 @@ function poloSleeveCapRepresentation(
   return { decisionId: "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH", stitchLabel: "Sleeve-cap ease",
     capEdgeId, visibleBodyRole: bodyRole, visibleBodyEdge: "armhole", transfer: "NORMALIZED_ARCLENGTH",
     stations: ["UNDERARM", "SHOULDER"], layer: "SEAM" };
+}
+
+function crewneckSleeveProjection(
+  kind: TechnicalFlatViewKind, block: Block,
+): FlatProjectionRole | undefined {
+  const front = kind === "FRONT_FLAT";
+  const sleeveRoleId = front ? "sleeveLeft" : "sleeveRight";
+  const bodyRoleId = front ? "front" : "back";
+  const capEdgeId = front ? "capLeft" : "capRight";
+  const stitchLabel = `Crewneck set-in sleeve cap: ${sleeveRoleId}` as const;
+  const matches = block.stitches.filter((stitch) => stitch.label === stitchLabel);
+  const stitch = matches[0];
+  const sleeve = block.roles[sleeveRoleId];
+  const capLeft = sleeve?.edges.find((edge) => edge.name === "capLeft");
+  const capRight = sleeve?.edges.find((edge) => edge.name === "capRight");
+  const sideLeft = sleeve?.edges.find((edge) => edge.name === "sideLeft");
+  const sideRight = sleeve?.edges.find((edge) => edge.name === "sideRight");
+  const hem = sleeve?.edges.find((edge) => edge.name === "hem");
+  const bodyArmhole = block.roles[bodyRoleId]?.edges.find((edge) => edge.name === "armhole");
+  const frontArmhole = block.roles.front?.edges.find((edge) => edge.name === "armhole");
+  const backArmhole = block.roles.back?.edges.find((edge) => edge.name === "armhole");
+  const expected = (refs: readonly InterfaceRef[] | undefined, roles: readonly (readonly [string, string])[]) =>
+    refs?.length === roles.length && refs.every((ref, index) => "edge" in ref
+      && ref.piece === roles[index]?.[0] && ref.edge === roles[index]?.[1] && !ref.reversed);
+  const bodyRefs = [
+    ["front", "armhole"], ["back", "armhole"],
+  ] as const;
+  const capRefs = [
+    [sleeveRoleId, "capLeft"], [sleeveRoleId, "capRight"],
+  ] as const;
+  const ease = stitch?.ease;
+  const sourceEaseCm = capLeft && capRight && frontArmhole && backArmhole
+    ? edgeLength(capLeft) + edgeLength(capRight)
+      - edgeLength(frontArmhole) - edgeLength(backArmhole)
+    : Number.NaN;
+  const valid = matches.length === 1 && !!stitch && expected(stitch.a.edges, capRefs)
+    && expected(stitch.b.edges, bodyRefs) && ease?.lo === -1 && ease.hi === 4
+    && capLeft?.kind === "curve" && capRight?.kind === "curve"
+    && sideLeft?.kind === "line" && sideRight?.kind === "line" && hem?.kind === "line"
+    && bodyArmhole?.kind === "curve" && Number.isFinite(sourceEaseCm)
+    && samePoint(capLeft.curve.start, sideLeft.end) && samePoint(capLeft.curve.end, capRight.curve.start)
+    && samePoint(capRight.curve.end, sideRight.start);
+  const endpoint = (edgeId: string, endpointName: "start" | "end"): FlatProjectionLandmark => ({
+    kind: "edge-endpoint", edgeId, endpoint: endpointName,
+  });
+  const midpoint: FlatProjectionLandmark = { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 };
+  const reason = "The crewneck sleeve view requires the exact sleeve cap, side, hem, body armhole and same-revision cap stitch topology.";
+  const runs: FlatProjectionEdgeRun[] = front
+    ? [
+      { edgeId: "capLeft", from: endpoint("capLeft", "start"), to: endpoint("capLeft", "end") },
+      { edgeId: "sideLeft", from: endpoint("sideLeft", "end"), to: endpoint("sideLeft", "start") },
+      { edgeId: "hem", from: endpoint("hem", "end"), to: midpoint },
+    ]
+    : [
+      { edgeId: "capRight", from: endpoint("capRight", "start"), to: endpoint("capRight", "end") },
+      { edgeId: "sideRight", from: endpoint("sideRight", "start"), to: endpoint("sideRight", "end") },
+      { edgeId: "hem", from: endpoint("hem", "start"), to: midpoint },
+    ];
+  const capRepresentation: FlatProjectionCrewneckSleeveCapRepresentation = {
+    decisionId: "G07-S1113-CREWNECK-SLEEVE-CAP-VIEW", stitchLabel, sleeveRoleId,
+    capEdgeId, visibleBodyRole: bodyRoleId, visibleBodyEdge: "armhole",
+    transfer: "NORMALIZED_ARCLENGTH", sourceEaseCm, stations: ["UNDERARM", "SHOULDER"], layer: "SEAM",
+  };
+  return {
+    roleId: sleeveRoleId, instanceId: sleeveRoleId, treatment: "SHELL",
+    runs: valid ? runs : [],
+    heldEdges: valid ? [] : sleeve!.edges.map((edge) => ({ edgeId: edge.name, reason })),
+    faceExcludedEdges: valid
+      ? (front
+        ? [{ edgeId: "capRight", reason: "The opposite sleeve-cap half belongs to the back view." },
+          { edgeId: "sideRight", reason: "The opposite sleeve side belongs to the back view." }]
+        : [{ edgeId: "capLeft", reason: "The opposite sleeve-cap half belongs to the front view." },
+          { edgeId: "sideLeft", reason: "The opposite sleeve side belongs to the front view." }])
+      : [],
+    ...(valid ? {
+      viewBoundaries: [{ id: "crewneck-approved-sleeve-area-closure", from: midpoint,
+        to: endpoint(capEdgeId, front ? "end" : "start"), fillOnlyColorway: {
+          source: "CODEX_VIEW_CONVENTION" as const, decisionId: "G07-S1113-CREWNECK-SLEEVE-CAP-VIEW" as const,
+        } }],
+      viewPairReflection: {
+        axisRoleId: bodyRoleId, edgeId: front ? "centerFront" as const : "centerBack" as const,
+        axis: "ASSEMBLED_BODY_CENTER" as const, source: "CODEX_VIEW_CONVENTION" as const,
+        decisionId: "G07-S1113-CREWNECK-SLEEVE-VIEW-PAIR" as const, quantity: 2 as const,
+      },
+      crewneckSleeveCapRepresentation: capRepresentation,
+      ...(!front ? { localYReflection: {
+        axis: "LOCAL_Y" as const, basis: "APPROVED_VIEW_CONVENTION" as const,
+        decisionId: "G07-S1113-CREWNECK-SLEEVE-VIEW-PAIR" as const,
+      } } : {}),
+      ...(front ? { reversedStitchEdges: [{ stitchLabel: "Crewneck set-in sleeve cap: sleeveLeft" as const, pieceId: "front" as const,
+        edgeId: "armhole" as const, source: "SOURCE_ENDPOINT_ORDER" as const }] } : {}),
+    } : {}),
+  };
+}
+
+function crewneckDetachedBandProjection(
+  roleId: "neckband" | "cuffLeft" | "cuffRight" | "hemBand", piece: Piece, treatment: FlatRoleTreatment,
+): FlatProjectionRole {
+  const outlineEdgeIds = ["join", "sideRight", "joinLayer", "sideLeft"] as const;
+  const markNames = ["bandFold", "greatestStretchDirection"] as const;
+  const expectedEdges = piece.edges.map((edge) => edge.name);
+  const expectedMarks = (piece.marks ?? []).map((mark) => mark.name);
+  const valid = JSON.stringify(expectedEdges) === JSON.stringify(outlineEdgeIds)
+    && JSON.stringify(expectedMarks) === JSON.stringify(markNames)
+    && piece.edges.every((edge) => {
+      const start = edgeStart(edge); const end = edgeEnd(edge);
+      return Number.isFinite(start.x) && Number.isFinite(start.y) && Number.isFinite(end.x) && Number.isFinite(end.y)
+        && (start.x !== end.x || start.y !== end.y);
+    });
+  const reason = "The crewneck detail must retain the exact four source outline edges and both authored marks.";
+  return {
+    roleId, instanceId: roleId, treatment,
+    runs: valid ? piece.edges.map((edge) => ({ edgeId: edge.name,
+      from: { kind: "edge-endpoint", edgeId: edge.name, endpoint: "start" },
+      to: { kind: "edge-endpoint", edgeId: edge.name, endpoint: "end" } })) : [],
+    heldEdges: valid ? [] : piece.edges.map((edge) => ({ edgeId: edge.name, reason })),
+    ...(valid ? { crewneckDetachedBandDetailRepresentation: {
+      source: "CODEX_VIEW_CONVENTION" as const,
+      decisionId: "G07-S1113-CREWNECK-DETACHED-BAND-DETAILS" as const,
+      sourceRoleId: roleId, outlineEdgeIds, marks: markNames,
+      placement: "SOURCE_SCALE_BELOW_VIEW" as const, minimumClearanceCm: 3 as const,
+    } } : {}),
+  };
 }
 
 function pairedSleeveProjection(
@@ -893,6 +1050,17 @@ export function createG04TechnicalFlatProjectionMap(
         const piece = block.roles[role.roleId];
         if (!piece) {
           return { roleId: role.roleId, instanceId: role.roleId, treatment: role.treatment, runs: [], heldEdges: [] };
+        }
+        if (recipeId === "crewneck" && role.roleId === "sleeveLeft" && face.kind === "FRONT_FLAT") {
+          return crewneckSleeveProjection(face.kind, block)!;
+        }
+        if (recipeId === "crewneck" && role.roleId === "sleeveRight" && face.kind === "BACK_FLAT") {
+          return crewneckSleeveProjection(face.kind, block)!;
+        }
+        if (recipeId === "crewneck" && role.treatment === "DETACHED_DETAIL"
+          && ["neckband", "cuffLeft", "cuffRight", "hemBand"].includes(role.roleId)) {
+          return crewneckDetachedBandProjection(role.roleId as "neckband" | "cuffLeft" | "cuffRight" | "hemBand", piece,
+            role.treatment);
         }
         if (recipeId === "polo" && role.roleId === "outerStand") {
           return poloOuterStandProjection(face.kind, piece, role.treatment);
@@ -1517,10 +1685,75 @@ function validateRole(
     if (!valid) issues.push({ code: "INVALID_DETACHED_BAND_DETAIL", sourceId,
       message: "The BACK_FLAT detached band detail requires the approved exact outline, fold mark, full band-to-sleeve stitch, half-hem receiver annotation and source-declared back center axis." });
   }
+  const crewneckDetail = mappingRole.crewneckDetachedBandDetailRepresentation;
+  const requiresCrewneckDetail = recipeId === "crewneck"
+    && ["neckband", "cuffLeft", "cuffRight", "hemBand"].includes(roleId);
+  if (crewneckDetail !== undefined || requiresCrewneckDetail) {
+    const edgeNames = ["join", "sideRight", "joinLayer", "sideLeft"];
+    const markNames = ["bandFold", "greatestStretchDirection"];
+    const closureMatches = block.stitches.filter((stitch) => stitch.label === `Crewneck band end closure: ${roleId}`);
+    const closure = closureMatches[0];
+    const hasExternalJoin = block.stitches.some((stitch) => {
+      const refs = [...stitch.a.edges, ...stitch.b.edges];
+      return refs.some((ref) => ref.piece === roleId) && refs.some((ref) => ref.piece !== roleId);
+    });
+    const exactClosure = closureMatches.length === 1 && !!closure && closure.ease === undefined
+      && closure.a.edges.length === 1 && closure.b.edges.length === 1
+      && "edge" in closure.a.edges[0]! && closure.a.edges[0]!.piece === roleId
+      && closure.a.edges[0]!.edge === "sideRight"
+      && "edge" in closure.b.edges[0]! && closure.b.edges[0]!.piece === roleId
+      && closure.b.edges[0]!.edge === "sideLeft";
+    const exactRepresentation = isRecord(crewneckDetail) && Object.keys(crewneckDetail).length === 7
+      && crewneckDetail.source === "CODEX_VIEW_CONVENTION"
+      && crewneckDetail.decisionId === "G07-S1113-CREWNECK-DETACHED-BAND-DETAILS"
+      && crewneckDetail.sourceRoleId === roleId
+      && JSON.stringify(crewneckDetail.outlineEdgeIds) === JSON.stringify(edgeNames)
+      && JSON.stringify(crewneckDetail.marks) === JSON.stringify(markNames)
+      && crewneckDetail.placement === "SOURCE_SCALE_BELOW_VIEW"
+      && crewneckDetail.minimumClearanceCm === 3;
+    const exactMarks = JSON.stringify((piece.marks ?? []).map((mark) => mark.name)) === JSON.stringify(markNames);
+    const exactEdges = JSON.stringify(piece.edges.map((edge) => edge.name)) === JSON.stringify(edgeNames)
+      && piece.edges.every((edge) => {
+        const start = edgeStart(edge); const end = edgeEnd(edge);
+        return edge.kind === "line" && Number.isFinite(start.x) && Number.isFinite(start.y)
+          && Number.isFinite(end.x) && Number.isFinite(end.y) && !samePoint(start, end);
+      });
+    if (!requiresCrewneckDetail || !exactRepresentation || !exactMarks || !exactEdges || !exactClosure || hasExternalJoin) {
+      issues.push({ code: "INVALID_DETACHED_BAND_DETAIL", sourceId,
+        message: "Crewneck rib details require the exact same-revision source outline/marks, end-closure stitch, and no inferred body attachment." });
+    }
+  }
   const reversedStitchEdges = mappingRole.reversedStitchEdges;
   const requiresSleeveEndpointOrder = (recipeId === "tee" || recipeId === "fitted" || recipeId === "polo")
     && faceKind === "FRONT_FLAT" && roleId === "sleeve";
-  if ((reversedStitchEdges !== undefined && recipeId !== "woven-shirt") || requiresSleeveEndpointOrder) {
+  const requiresCrewneckSleeveEndpointOrder = recipeId === "crewneck"
+    && faceKind === "FRONT_FLAT" && roleId === "sleeveLeft";
+  if (recipeId === "crewneck" && (reversedStitchEdges !== undefined || requiresCrewneckSleeveEndpointOrder)) {
+    const entries = Array.isArray(reversedStitchEdges) ? reversedStitchEdges : [];
+    const stitchLabel = "Crewneck set-in sleeve cap: sleeveLeft";
+    const matches = block.stitches.filter((stitch) => stitch.label === stitchLabel);
+    const stitch = matches[0];
+    const sleeve = block.roles.sleeveLeft;
+    const capLeft = sleeve?.edges.find((edge) => edge.name === "capLeft");
+    const capRight = sleeve?.edges.find((edge) => edge.name === "capRight");
+    const sideLeft = sleeve?.edges.find((edge) => edge.name === "sideLeft");
+    const armhole = block.roles.front?.edges.find((edge) => edge.name === "armhole");
+    const expectedRefs = (refs: readonly InterfaceRef[] | undefined, expected: readonly (readonly [string, string])[]) =>
+      refs?.length === expected.length && refs.every((ref, index) => "edge" in ref
+        && ref.piece === expected[index]?.[0] && ref.edge === expected[index]?.[1] && !ref.reversed);
+    const topologyMatches = matches.length === 1 && !!stitch && stitch.ease?.lo === -1 && stitch.ease.hi === 4
+      && expectedRefs(stitch.a.edges, [["sleeveLeft", "capLeft"], ["sleeveLeft", "capRight"]])
+      && expectedRefs(stitch.b.edges, [["front", "armhole"], ["back", "armhole"]])
+      && capLeft?.kind === "curve" && capRight?.kind === "curve" && sideLeft?.kind === "line"
+      && armhole?.kind === "curve" && samePoint(capLeft.curve.start, sideLeft.end);
+    const exactRule = entries.length === 1 && isRecord(entries[0]) && Object.keys(entries[0]).length === 4
+      && entries[0].stitchLabel === stitchLabel && entries[0].pieceId === "front"
+      && entries[0].edgeId === "armhole" && entries[0].source === "SOURCE_ENDPOINT_ORDER";
+    if (!requiresCrewneckSleeveEndpointOrder || !topologyMatches || !exactRule) {
+      issues.push({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION", sourceId,
+        message: "Crewneck front cap placement requires the exact sleeveLeft/front armhole source endpoint order." });
+    }
+  } else if ((reversedStitchEdges !== undefined && recipeId !== "woven-shirt") || requiresSleeveEndpointOrder) {
     const entries = Array.isArray(reversedStitchEdges) ? reversedStitchEdges : [];
     const matches = block.stitches.filter((stitch) => stitch.label === "Sleeve-cap ease");
     const stitch = matches[0];
@@ -1649,6 +1882,59 @@ function validateRole(
         message: "The approved Polo cap projection requires the exact same-revision Sleeve-cap ease stitch, cap half, receiving armhole, normalized underarm-to-shoulder transfer, and SEAM layer." });
     }
   }
+  const requiresCrewneckSleeveCapRepresentation = recipeId === "crewneck"
+    && ((faceKind === "FRONT_FLAT" && roleId === "sleeveLeft")
+      || (faceKind === "BACK_FLAT" && roleId === "sleeveRight"));
+  const crewneckCapRepresentation = mappingRole.crewneckSleeveCapRepresentation;
+  if (requiresCrewneckSleeveCapRepresentation || crewneckCapRepresentation !== undefined) {
+    const front = faceKind === "FRONT_FLAT";
+    const sleeveRoleId = front ? "sleeveLeft" : "sleeveRight";
+    const bodyRoleId = front ? "front" : "back";
+    const stitchLabel = `Crewneck set-in sleeve cap: ${sleeveRoleId}`;
+    const matches = block.stitches.filter((stitch) => stitch.label === stitchLabel);
+    const stitch = matches[0];
+    const capLeft = block.roles[sleeveRoleId]?.edges.find((edge) => edge.name === "capLeft");
+    const capRight = block.roles[sleeveRoleId]?.edges.find((edge) => edge.name === "capRight");
+    const sideLeft = block.roles[sleeveRoleId]?.edges.find((edge) => edge.name === "sideLeft");
+    const sideRight = block.roles[sleeveRoleId]?.edges.find((edge) => edge.name === "sideRight");
+    const frontArmhole = block.roles.front?.edges.find((edge) => edge.name === "armhole");
+    const backArmhole = block.roles.back?.edges.find((edge) => edge.name === "armhole");
+    const visibleArmhole = block.roles[bodyRoleId]?.edges.find((edge) => edge.name === "armhole");
+    const exactRefs = (refs: readonly InterfaceRef[] | undefined, expected: readonly (readonly [string, string])[]) =>
+      refs?.length === expected.length && refs.every((ref, index) => "edge" in ref
+        && ref.piece === expected[index]?.[0] && ref.edge === expected[index]?.[1] && !ref.reversed);
+    const expectedEase = capLeft && capRight && frontArmhole && backArmhole
+      ? edgeLength(capLeft) + edgeLength(capRight) - edgeLength(frontArmhole) - edgeLength(backArmhole)
+      : Number.NaN;
+    const exactTopology = matches.length === 1 && !!stitch && stitch.ease?.lo === -1 && stitch.ease.hi === 4
+      && exactRefs(stitch.a.edges, [[sleeveRoleId, "capLeft"], [sleeveRoleId, "capRight"]])
+      && exactRefs(stitch.b.edges, [["front", "armhole"], ["back", "armhole"]])
+      && capLeft?.kind === "curve" && capRight?.kind === "curve"
+      && sideLeft?.kind === "line" && sideRight?.kind === "line"
+      && frontArmhole?.kind === "curve" && backArmhole?.kind === "curve"
+      && visibleArmhole?.kind === "curve"
+      && samePoint(capLeft.curve.start, sideLeft.end) && samePoint(capLeft.curve.end, capRight.curve.start)
+      && samePoint(capRight.curve.end, sideRight.start);
+    const exactRepresentation = isRecord(crewneckCapRepresentation) && Object.keys(crewneckCapRepresentation).length === 10
+      && crewneckCapRepresentation.decisionId === "G07-S1113-CREWNECK-SLEEVE-CAP-VIEW"
+      && crewneckCapRepresentation.stitchLabel === stitchLabel
+      && crewneckCapRepresentation.sleeveRoleId === sleeveRoleId
+      && crewneckCapRepresentation.capEdgeId === (front ? "capLeft" : "capRight")
+      && crewneckCapRepresentation.visibleBodyRole === bodyRoleId
+      && crewneckCapRepresentation.visibleBodyEdge === "armhole"
+      && crewneckCapRepresentation.transfer === "NORMALIZED_ARCLENGTH"
+      && Number.isFinite(crewneckCapRepresentation.sourceEaseCm)
+      && crewneckCapRepresentation.sourceEaseCm === expectedEase
+      && crewneckCapRepresentation.sourceEaseCm >= (stitch?.ease?.lo ?? Infinity)
+      && crewneckCapRepresentation.sourceEaseCm <= (stitch?.ease?.hi ?? -Infinity)
+      && Array.isArray(crewneckCapRepresentation.stations) && crewneckCapRepresentation.stations.length === 2
+      && crewneckCapRepresentation.stations[0] === "UNDERARM" && crewneckCapRepresentation.stations[1] === "SHOULDER"
+      && crewneckCapRepresentation.layer === "SEAM";
+    if (!requiresCrewneckSleeveCapRepresentation || !exactTopology || !exactRepresentation) {
+      issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId,
+        message: "The crewneck cap view requires the exact same-revision cap stitch, receiving armhole, measured ease, normalized stations and SEAM layer." });
+    }
+  }
   const requiresWovenSleeveCapRepresentation = recipeId === "woven-shirt" && roleId === "sleeve";
   if (requiresWovenSleeveCapRepresentation || mappingRole.wovenSleeveCapRepresentation !== undefined) {
     const actual = mappingRole.wovenSleeveCapRepresentation;
@@ -1679,20 +1965,23 @@ function validateRole(
     }
   }
   const localYReflection = mappingRole.localYReflection;
+  const requiresCrewneckBackSleeveReflection = recipeId === "crewneck"
+    && faceKind === "BACK_FLAT" && roleId === "sleeveRight";
   const requiresBackSleeveReflection = (recipeId === "tee" || recipeId === "fitted" || recipeId === "polo" || recipeId === "woven-shirt")
-    && faceKind === "BACK_FLAT" && roleId === "sleeve";
+    && faceKind === "BACK_FLAT" && roleId === "sleeve" || requiresCrewneckBackSleeveReflection;
   if (localYReflection !== undefined || requiresBackSleeveReflection) {
-    const capLeft = block.roles.sleeve?.edges.find((edge) => edge.name === "capLeft");
-    const capRight = block.roles.sleeve?.edges.find((edge) => edge.name === "capRight");
-    const sideRight = block.roles.sleeve?.edges.find((edge) => edge.name === "sideRight");
+    const sleeveRoleId = recipeId === "crewneck" ? "sleeveRight" : "sleeve";
+    const capLeft = block.roles[sleeveRoleId]?.edges.find((edge) => edge.name === "capLeft");
+    const capRight = block.roles[sleeveRoleId]?.edges.find((edge) => edge.name === "capRight");
+    const sideRight = block.roles[sleeveRoleId]?.edges.find((edge) => edge.name === "sideRight");
     const validSourceJoin = !!capLeft && capLeft.kind === "curve" && !!capRight && capRight.kind === "curve"
       && !!sideRight && sideRight.kind === "line"
       && samePoint(capLeft.curve.end, capRight.curve.start)
       && samePoint(capRight.curve.end, sideRight.start);
     const exactReflection = isRecord(localYReflection) && localYReflection.axis === "LOCAL_Y"
       && localYReflection.basis === "APPROVED_VIEW_CONVENTION"
-      && localYReflection.decisionId === (recipeId === "polo"
-        ? "G04-S333-POLO-SLEEVE-VIEW-MAP" : recipeId === "woven-shirt"
+      && localYReflection.decisionId === (recipeId === "crewneck" ? "G07-S1113-CREWNECK-SLEEVE-VIEW-PAIR"
+        : recipeId === "polo" ? "G04-S333-POLO-SLEEVE-VIEW-MAP" : recipeId === "woven-shirt"
           ? "G04-S457-WOVEN-BACK-LOCAL-Y-REFLECTION" : "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR");
     if (!requiresBackSleeveReflection || !validSourceJoin || !exactReflection) {
       issues.push({ code: "INVALID_LOCAL_Y_REFLECTION", sourceId,
@@ -1767,6 +2056,11 @@ function validateRole(
     const poloPair = recipeId === "polo" && roleId === "sleeve" && isRecord(reflection)
       && reflection.source === "MAINTAINER_VIEW_DECISION"
       && reflection.decisionId === "G04-S333-POLO-SLEEVE-VIEW-MAP";
+    const crewneckPair = recipeId === "crewneck"
+      && ((faceKind === "FRONT_FLAT" && roleId === "sleeveLeft")
+        || (faceKind === "BACK_FLAT" && roleId === "sleeveRight"))
+      && isRecord(reflection) && reflection.source === "CODEX_VIEW_CONVENTION"
+      && reflection.decisionId === "G07-S1113-CREWNECK-SLEEVE-VIEW-PAIR";
     const wovenRole = roleId === "sleeve" || roleId === "sleeveBand";
     const physicalRole = WOVEN_SHIRT_PHYSICAL_ROLES.find((candidate) => candidate.id === roleId);
     const exactAxis = recipeId === "woven-shirt" && axisRoleId === "front" && axisPiece
@@ -1776,7 +2070,7 @@ function validateRole(
       && reflection.source === "WOVEN_SHIRT_PHYSICAL_ROLES"
       && reflection.decisionId === "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR"
       && physicalRole?.quantity === 2 && !physicalRole.onFold;
-    if ((!teeFittedPair && !fittedPrincessPair && !poloPair && !wovenPair) || !isRecord(reflection)
+    if ((!teeFittedPair && !fittedPrincessPair && !poloPair && !crewneckPair && !wovenPair) || !isRecord(reflection)
       || reflection.axisRoleId !== axisRoleId || reflection.edgeId !== expectedAxisId
       || reflection.axis !== "ASSEMBLED_BODY_CENTER" || reflection.quantity !== 2
       || !exactAxis) {
@@ -1795,6 +2089,11 @@ function validateRole(
   } else if (recipeId === "polo" && roleId === "sleeve") {
     issues.push({ code: "INVALID_VIEW_PAIR_REFLECTION", sourceId,
       message: "The approved Polo sleeve mapping requires two explicit mirrored view instances." });
+  } else if (recipeId === "crewneck"
+    && ((faceKind === "FRONT_FLAT" && roleId === "sleeveLeft")
+      || (faceKind === "BACK_FLAT" && roleId === "sleeveRight"))) {
+    issues.push({ code: "INVALID_VIEW_PAIR_REFLECTION", sourceId,
+      message: "The crewneck sleeve view requires two explicit instances across the exact body center axis." });
   }
   const oppositeSide = mappingRole.oppositeSideReflection;
   if (oppositeSide !== undefined || (recipeId === "woven-shirt" && faceKind === "FRONT_FLAT" && roleId === "buttonholePlacket")) {
@@ -1932,6 +2231,17 @@ function validateRole(
             && isRecord(boundary.to) && boundary.to.kind === "edge-endpoint"
             && boundary.to.edgeId === expectedCap
             && boundary.to.endpoint === (faceKind === "FRONT_FLAT" ? "end" : "start");
+          const crewneckSleeveBoundary = recipeId === "crewneck"
+            && ((faceKind === "FRONT_FLAT" && roleId === "sleeveLeft")
+              || (faceKind === "BACK_FLAT" && roleId === "sleeveRight"))
+            && boundary.id === "crewneck-approved-sleeve-area-closure" && isRecord(fillOnly)
+            && Object.keys(fillOnly).length === 2 && fillOnly.source === "CODEX_VIEW_CONVENTION"
+            && fillOnly.decisionId === "G07-S1113-CREWNECK-SLEEVE-CAP-VIEW"
+            && isRecord(boundary.from) && boundary.from.kind === "edge-arclength"
+            && boundary.from.edgeId === "hem" && boundary.from.fraction === 0.5
+            && isRecord(boundary.to) && boundary.to.kind === "edge-endpoint"
+            && boundary.to.edgeId === expectedCap
+            && boundary.to.endpoint === (faceKind === "FRONT_FLAT" ? "end" : "start");
           const poloExpected = recipeId === "polo" ? expectedPoloColorwayBoundary(roleId, faceKind, block) : undefined;
           const poloCollarBoundary = !!poloExpected && isRecord(fillOnly)
             && Object.keys(fillOnly).length === 2 && fillOnly.source === "MAINTAINER_VIEW_DECISION"
@@ -1951,7 +2261,8 @@ function validateRole(
             && boundary.id === "approved-woven-collar-center-back-fill-closure"
             && exactProjectionLandmark(boundary.from, endpointLandmark("centerBack", "start"))
             && exactProjectionLandmark(boundary.to, endpointLandmark("centerBack", "end"));
-          if (!teeSleeveBoundary && !poloSleeveBoundary && !poloCollarBoundary && !wovenBoundary && !wovenFoldBoundary) {
+          if (!teeSleeveBoundary && !poloSleeveBoundary && !crewneckSleeveBoundary
+            && !poloCollarBoundary && !wovenBoundary && !wovenFoldBoundary) {
             issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId,
               message: "A colorway-only closure requires an admitted decision and its exact same-revision source landmarks." });
           }
