@@ -1711,6 +1711,9 @@ describe("collection persistence through the project workflow", () => {
       sharedMaterialGroups: [],
     };
 
+    await expect(workflow.saveCollections([{ ...collection, id: "invalid-id" }])).rejects.toMatchObject({
+      code: "invalid-data", message: expect.stringContaining("collections[0]: collection.id: expected a UUID."),
+    });
     const saved = await workflow.saveCollections([collection]);
     expect(saved.project).toMatchObject({
       schemaVersion: 4,

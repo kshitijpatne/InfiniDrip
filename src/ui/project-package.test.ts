@@ -3612,6 +3612,30 @@ describe("G03 capture sessions in project backups", () => {
         collections: [collection],
       };
       const capture = packageCapture();
+      await expect(createProjectPackage({
+        ...snapshot,
+        project: { ...project, collections: [{ ...collection, projectId: "66000000-0000-4000-8000-000000000001" }] },
+        styles: [currentStyle],
+        fieldObservations: [observations],
+        styleRevisions: [pinnedRevision, currentRevision],
+        measurementCaptures: [capture],
+      }, assets, { crypto, revisionIdFactory: () => sourceRevisionId })).rejects.toMatchObject({
+        code: "invalid-package", message: expect.stringContaining("collection must belong to this project"),
+      });
+      const missingProfileAssetId = "local-00000000000040008000000000000000-png";
+      await expect(createProjectPackage({
+        ...snapshot,
+        project: {
+          ...project,
+          brandProfile: { ...profile, artworkAssetIds: [missingProfileAssetId] },
+        },
+        styles: [currentStyle],
+        fieldObservations: [observations],
+        styleRevisions: [pinnedRevision, currentRevision],
+        measurementCaptures: [capture],
+      }, assets, { crypto, revisionIdFactory: () => sourceRevisionId })).rejects.toMatchObject({
+        code: "missing-asset", message: expect.stringContaining("brandProfile.artworkAssetIds[0]"),
+      });
       const packed = await createProjectPackage({
         ...snapshot,
         project,
@@ -3667,6 +3691,20 @@ describe("G03 capture sessions in project backups", () => {
       }, assets, { crypto, revisionIdFactory: () => sourceRevisionId });
       expect((await readProjectPackage(withoutProfile, { crypto })).manifest.project)
         .toMatchObject({ schemaVersion: 4, brandProfile: null, collections: [collection] });
+      const withoutProfileArchive = await readProjectPackage(withoutProfile, { crypto });
+      const noProfileCopyTarget = await repository();
+      const noProfileCopyAssets = memoryAssets();
+      const noProfileCopy = await importProjectPackage(noProfileCopyTarget, noProfileCopyAssets, withoutProfileArchive, true, {
+        crypto, now: () => "2026-09-24T16:00:02.000Z", idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+      });
+      if (noProfileCopy.status !== "imported") throw new Error("Profileless collection package copy did not import.");
+      expect(await noProfileCopyTarget.readProjectBundle(noProfileCopy.projectId)).toMatchObject({
+        project: {
+          schemaVersion: 4,
+          brandProfile: null,
+          collections: [expect.objectContaining({ name: collection.name })],
+        },
+      });
 
       const directTarget = await repository();
       const directAssets = memoryAssets();
@@ -3811,6 +3849,18 @@ describe("G03 capture sessions in project backups", () => {
         collections: [collection],
         scenarios: [scenario],
       };
+      const missingProfileAssetId = "56000000-0000-4000-8000-000000000099";
+      await expect(createProjectPackage({
+        ...snapshot,
+        project: {
+          ...project,
+          brandProfile: { schemaVersion: 1 as const, colors: [], artworkAssetIds: [missingProfileAssetId], rules: [] },
+        },
+        styles: [style],
+      }, assets, { crypto, revisionIdFactory: deterministicUuidFactory() })).rejects.toMatchObject({
+        code: "missing-asset",
+        message: expect.stringContaining("brandProfile.artworkAssetIds[0]"),
+      });
       const packed = await createProjectPackage({ ...snapshot, project, styles: [style] }, assets, {
         crypto, revisionIdFactory: deterministicUuidFactory(),
       });

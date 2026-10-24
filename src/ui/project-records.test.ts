@@ -292,11 +292,17 @@ describe("strict project and style records", () => {
     expect(parseProjectRecord({ ...base, brandProfile: profile })).toMatchObject({
       ok: true, value: { schemaVersion: 4, brandProfile: profile },
     });
+    expect(parseProjectRecord({ ...base, brandProfile: { ...profile, extra: true } })).toMatchObject({
+      ok: false, error: expect.stringContaining("brandProfile"),
+    });
     expect(parseProjectRecord({ ...base, collections: {} })).toMatchObject({
       ok: false, error: expect.stringContaining("collections must be a list"),
     });
     expect(parseProjectRecord({ ...base, collections: [collection(recordId(5), OTHER_PROJECT_ID)] })).toMatchObject({
       ok: false, error: expect.stringContaining("collection must belong to this project"),
+    });
+    expect(parseProjectRecord({ ...base, collections: [{ ...collection(), extra: true }] })).toMatchObject({
+      ok: false, error: expect.stringContaining("collections[0]"),
     });
     expect(parseProjectRecord({ ...base, collections: [collection(), collection(recordId(1))] })).toMatchObject({
       ok: false, error: expect.stringContaining("duplicate project collection ID"),

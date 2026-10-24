@@ -203,6 +203,7 @@ describe("Collection record contract", () => {
   it.each([
     [null, "collection.skus[0]: fields are incomplete or unknown."],
     [{ ...validCollection().skus[0], unknown: true }, "collection.skus[0]: fields are incomplete or unknown."],
+    [{ ...validCollection().skus[0], id: "bad" }, "collection.skus[0].id: expected a UUID."],
     [{ ...validCollection().skus[0], styleId: "bad" }, "collection.skus[0].styleId: expected a stable style UUID."],
     [{ ...validCollection().skus[0], styleRevisionId: "bad" }, "collection.skus[0].styleRevisionId: expected an immutable style revision UUID."],
     [{ ...validCollection().skus[0], code: " " }, "collection.skus[0].code: enter a SKU row code of at most 80 characters."],
@@ -337,6 +338,8 @@ describe("Collection record contract", () => {
     [[{ ...validCollection().sharedMaterialGroups[0], id: "bad" }], "collection.sharedMaterialGroups[0].id: expected a UUID."],
     [[{ ...validCollection().sharedMaterialGroups[0], name: " " }], "collection.sharedMaterialGroups[0].name: enter a name of at most 80 characters."],
     [[{ ...validCollection().sharedMaterialGroups[0], members: null }], "collection.sharedMaterialGroups[0].members: expected a list."],
+    [[{ ...validCollection().sharedMaterialGroups[0], members: [null, { skuId: ID.skuTwo, materialId: ID.materialTwo }] }],
+      "collection.sharedMaterialGroups[0].members[0]: fields are incomplete or unknown."],
     [[{ ...validCollection().sharedMaterialGroups[0], members: [{ skuId: ID.skuOne, materialId: ID.materialOne }] }], "collection.sharedMaterialGroups[0].members: link at least two distinct SKU rows."],
   ])("rejects malformed shared-material groups", (groups, expected) => {
     expectError({ ...validCollection(), sharedMaterialGroups: groups }, expected as string);

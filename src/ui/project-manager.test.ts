@@ -2987,6 +2987,32 @@ describe("accessible project and style manager", () => {
       expect(workflow.snapshot.activeStyle.techPack.revisionNumber).toBe(initialRevision);
       expect(workflow.snapshot.activeStyle.techPack.colorways.flatMap((entry) => entry.assignments).find((entry) => entry.id === assignmentId)?.color.value).toBeUndefined();
 
+      const privateManager = manager as unknown as {
+        applyBrandProfileColor(): Promise<void>;
+        missingBrandProfileAssets(profile: BrandProfileRecord): Promise<string[]>;
+        techPackDraft: TechPackRecord | null;
+      };
+      await privateManager.applyBrandProfileColor();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("already matches");
+      const originalMissingAssets = privateManager.missingBrandProfileAssets.bind(manager);
+      privateManager.techPackDraft = {
+        ...pending,
+        colorways: pending.colorways.map((colorway) => ({
+          ...colorway,
+          assignments: colorway.assignments.map((item) => item.id === assignmentId
+            ? { ...item, color: { ...item.color, value: null } }
+            : item),
+        })),
+      };
+      privateManager.missingBrandProfileAssets = async () => {
+        privateManager.techPackDraft = pending;
+        return [];
+      };
+      await privateManager.applyBrandProfileColor();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("already matches");
+      privateManager.missingBrandProfileAssets = originalMissingAssets;
+      privateManager.techPackDraft = pending;
+
       const saveRevision = host.querySelector<HTMLButtonElement>('[data-project-action="save-tech-pack"]')!;
       expect(saveRevision.disabled).toBe(false);
       saveRevision.click();
@@ -2998,7 +3024,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 10_000);
 
   it("renders the collection matrix and saved scenario comparison without mutating sources", async () => {
     const state = await techPackHarness();
