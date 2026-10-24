@@ -5,6 +5,8 @@ import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import {
+  COLLECTION_PROJECT_RECORD_VERSION,
+  SCENARIO_PROJECT_RECORD_VERSION,
   CUSTOM_STYLE_RECORD_VERSION,
   MEASUREMENT_CAPTURE_RECORD_VERSION,
   STYLE_RECORD_VERSION,
@@ -18,6 +20,7 @@ import {
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
+import * as projectRecordsModule from "./project-records";
 import {
   addCaptureReadingForField,
   createMeasurementCaptureSession,
@@ -38,6 +41,7 @@ import {
 import { openProjectWorkflow, type ProjectWorkflow } from "./project-workflow";
 import { createFieldObservationRecord, type FieldObservationRecord } from "./field-provenance";
 import { bindTechPackToRevision, parseTechPackRecord } from "./tech-pack-records";
+import { resolveCollectionSourceStatuses } from "./collection-source-validation";
 import { TECH_PACK_SHARE_ARTIFACTS } from "./tech-pack-sharing";
 import {
   createFrozenOutputManifest,
@@ -248,6 +252,33 @@ async function testRevision(
   }, webcrypto);
 }
 
+function unresolvedSourceCollection(projectId: string, styleId: string, revisionId: string, seed: number) {
+  return {
+    schemaVersion: 1 as const,
+    id: testUuid(seed),
+    projectId,
+    name: "Unresolved source pin",
+    createdAt: TIME,
+    updatedAt: TIME,
+    revision: 1,
+    skus: [{
+      id: testUuid(seed + 1),
+      code: "TEE-A",
+      name: "Tee",
+      styleId,
+      styleRevisionId: revisionId,
+      sizePlan: { id: testUuid(seed + 2), name: "Core", sizeIds: ["m"] },
+      colorways: [{
+        id: testUuid(seed + 3),
+        name: "Missing source",
+        sourceColorwayId: "ffffffff-ffff-4fff-8fff-ffffffffffff",
+      }],
+      variants: [],
+    }],
+    sharedMaterialGroups: [],
+  };
+}
+
 async function testFrozenManifest(
   revision: StyleRevisionRecord,
   manifestId: string,
@@ -399,6 +430,170 @@ function controlledFactory(run: (request: OpenHarness) => void): IDBFactory {
 async function rejectionCode(promise: Promise<unknown>, code: string): Promise<void> {
   await expect(promise).rejects.toMatchObject({ code });
 }
+
+describe("collection immutable source resolution", () => {
+  const collectionId = "11000000-0000-4000-8000-000000000001";
+  const firstSkuId = "11000000-0000-4000-8000-000000000002";
+  const secondSkuId = "11000000-0000-4000-8000-000000000003";
+  const firstColorwayId = "11000000-0000-4000-8000-000000000004";
+  const secondColorwayId = "11000000-0000-4000-8000-000000000005";
+  const sourceColorwayId = "11000000-0000-4000-8000-000000000006";
+  const sourceMaterialId = "11000000-0000-4000-8000-000000000007";
+  const groupId = "11000000-0000-4000-8000-000000000008";
+  const revisionOneId = "22000000-0000-4000-8000-000000000001";
+  const revisionTwoId = "22000000-0000-4000-8000-000000000002";
+
+  function collection(styleRevisionId: string, source = true) {
+    const sku = (id: string, sizePlanId: string, colorwayId: string, code: string) => ({
+      id,
+      code,
+      name: `${code} style`,
+      styleId: STYLE_ID,
+      styleRevisionId,
+      sizePlan: { id: sizePlanId, name: "Core sizes", sizeIds: ["m"] },
+      colorways: source ? [{ id: colorwayId, name: "Ink", sourceColorwayId }] : [],
+      variants: [],
+    });
+    return {
+      schemaVersion: 1 as const,
+      id: collectionId,
+      projectId: PROJECT_ID,
+      name: "Spring line",
+      createdAt: TIME,
+      updatedAt: TIME,
+      revision: 1,
+      skus: [
+        sku(firstSkuId, "11000000-0000-4000-8000-000000000009", firstColorwayId, "TEE-A"),
+        sku(secondSkuId, "11000000-0000-4000-8000-000000000010", secondColorwayId, "TEE-B"),
+      ],
+      sharedMaterialGroups: source ? [{
+        id: groupId,
+        name: "Shared shell material",
+        members: [
+          { skuId: firstSkuId, materialId: sourceMaterialId },
+          { skuId: secondSkuId, materialId: sourceMaterialId },
+        ],
+      }] : [],
+    };
+  }
+
+  function revision(revisionId: string, revisionNumber: number, payloadVersion: 1 | 2 = 2, styleId = STYLE_ID): StyleRevisionRecord {
+    return {
+      revisionId,
+      styleId,
+      revisionNumber,
+      payload: payloadVersion === 2 ? {
+        payloadVersion,
+        techPack: {
+          colorways: [{ id: sourceColorwayId }],
+          materials: [{ id: sourceMaterialId }],
+        },
+      } : { payloadVersion },
+    } as unknown as StyleRevisionRecord;
+  }
+
+  it("resolves only the exact frozen revision and keeps archive and stale status independent", () => {
+    const source = newBundle();
+    const savedCollection = collection(revisionOneId);
+    const project = {
+      ...source.project,
+      schemaVersion: COLLECTION_PROJECT_RECORD_VERSION as 4,
+      brandProfile: null,
+      collections: [savedCollection],
+    };
+    const oldRevision = revision(revisionOneId, 1);
+    const currentRevision = revision(revisionTwoId, 2);
+    const currentStyle = { ...source.style, revisionHeadId: revisionOneId, archivedAt: null };
+    const current = resolveCollectionSourceStatuses(project, [currentStyle], [oldRevision]);
+    expect(current).toMatchObject({ ok: true, value: [
+      { skuId: firstSkuId, pinnedRevisionNumber: 1, headRevisionNumber: 1, isStale: false, isArchived: false },
+      { skuId: secondSkuId, isStale: false, isArchived: false },
+    ] });
+
+    const staleStyle = { ...currentStyle, revisionHeadId: revisionTwoId };
+    const stale = resolveCollectionSourceStatuses(project, [staleStyle], [oldRevision, currentRevision]);
+    expect(stale).toMatchObject({ ok: true, value: [
+      { styleRevisionId: revisionOneId, isStale: true, isArchived: false },
+      { styleRevisionId: revisionOneId, isStale: true, isArchived: false },
+    ] });
+    expect(savedCollection.skus[0]?.styleRevisionId).toBe(revisionOneId);
+
+    const archived = resolveCollectionSourceStatuses(project, [{ ...currentStyle, archivedAt: TIME }], [oldRevision]);
+    expect(archived).toMatchObject({ ok: true, value: [
+      { isStale: false, isArchived: true },
+      { isStale: false, isArchived: true },
+    ] });
+
+    const missingColorway = {
+      ...project,
+      collections: [{ ...savedCollection, skus: savedCollection.skus.map((sku, index) => index === 0
+        ? { ...sku, colorways: [{ id: firstColorwayId, name: "Ink", sourceColorwayId: revisionTwoId }] }
+        : sku) }],
+    };
+    expect(resolveCollectionSourceStatuses(missingColorway, [currentStyle], [oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("collections[0].skus[0].colorways[0].sourceColorwayId"),
+    });
+
+    const missingMaterial = {
+      ...project,
+      collections: [{ ...savedCollection, sharedMaterialGroups: [{
+        ...savedCollection.sharedMaterialGroups[0]!,
+        members: [{ skuId: firstSkuId, materialId: revisionTwoId }, { skuId: secondSkuId, materialId: sourceMaterialId }],
+      }] }],
+    };
+    expect(resolveCollectionSourceStatuses(missingMaterial, [currentStyle], [oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("collections[0].sharedMaterialGroups[0].members[0].materialId"),
+    });
+
+    expect(resolveCollectionSourceStatuses(project, [currentStyle], [revision(revisionOneId, 1, 1)])).toMatchObject({
+      ok: false, error: expect.stringContaining("frozen T01 payload version 2"),
+    });
+    expect(resolveCollectionSourceStatuses({
+      ...project,
+      collections: [{ ...savedCollection, projectId: OTHER_PROJECT_ID }],
+    }, [currentStyle], [oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("collection must belong to this project"),
+    });
+    expect(resolveCollectionSourceStatuses(project, [{ ...currentStyle, revisionHeadId: revisionTwoId }], [oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("missing its current immutable revision head"),
+    });
+    expect(resolveCollectionSourceStatuses(project, [currentStyle, currentStyle], [oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("duplicate project style ID"),
+    });
+    expect(resolveCollectionSourceStatuses(project, [currentStyle], [oldRevision, oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("duplicate immutable revision ID"),
+    });
+    expect(resolveCollectionSourceStatuses(project, [{ ...currentStyle, revisionHeadId: null }], [oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("missing its current immutable revision head"),
+    });
+    const materialOnlyReference = {
+      ...project,
+      collections: [{
+        ...savedCollection,
+        skus: savedCollection.skus.map((sku, index) => index === 0 ? { ...sku, colorways: [] } : sku),
+        sharedMaterialGroups: [{
+          ...savedCollection.sharedMaterialGroups[0]!,
+          members: [
+            { skuId: firstSkuId, materialId: revisionTwoId },
+            { skuId: secondSkuId, materialId: sourceMaterialId },
+          ],
+        }],
+      }],
+    };
+    expect(resolveCollectionSourceStatuses(materialOnlyReference, [currentStyle], [oldRevision])).toMatchObject({
+      ok: false, error: expect.stringContaining("collections[0].sharedMaterialGroups[0].members[0].materialId"),
+    });
+    expect(resolveCollectionSourceStatuses(materialOnlyReference, [currentStyle], [revision(revisionOneId, 1, 1)])).toMatchObject({
+      ok: false,
+      error: expect.stringContaining("collections[0].sharedMaterialGroups[0].members[0].materialId: source references require frozen T01 payload version 2"),
+    });
+    const withoutSourceRefs = { ...project, collections: [collection(revisionOneId, false)] };
+    expect(resolveCollectionSourceStatuses(withoutSourceRefs, [currentStyle], [revision(revisionOneId, 1, 1)])).toMatchObject({ ok: true });
+    expect(resolveCollectionSourceStatuses(project, [currentStyle], [revision(revisionOneId, 1, 2, OTHER_STYLE_ID)])).toMatchObject({
+      ok: false, error: expect.stringContaining("immutable revision belonging to the linked style"),
+    });
+  });
+});
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -699,6 +894,231 @@ describe("transactional project repository", () => {
     const reopened = await openProjectRepository({ name, factory, crypto: webcrypto });
     expect(await reopened.loadProject(PROJECT_ID)).toMatchObject({ activeStyle: bundle.style });
     reopened.close();
+  });
+
+  it("saves a Brand Profile with project CAS while leaving style and history rows untouched", async () => {
+    const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    const source = newBundle();
+    await repository.saveProjectBundle({ project: source.project, styles: [source.style], expectedProjectRevision: null });
+    const before = await repository.readProjectBundle(PROJECT_ID);
+    const profile = {
+      schemaVersion: 1 as const,
+      colors: [],
+      artworkAssetIds: [],
+      rules: [{
+        id: "11111111-1111-4111-8111-111111111111",
+        scope: "materials" as const,
+        kind: "block" as const,
+        description: "Avoid metallic coated materials.",
+      }],
+    };
+
+    const saved = await repository.saveBrandProfile(PROJECT_ID, profile, 1, NEXT_TIME);
+    const after = await repository.readProjectBundle(PROJECT_ID);
+    expect(saved).toMatchObject({ schemaVersion: 3, revision: 2, brandProfile: profile });
+    expect(after?.styles).toEqual(before?.styles);
+    expect(after?.fieldObservations).toEqual(before?.fieldObservations);
+    expect(after?.styleRevisions).toEqual(before?.styleRevisions);
+    expect(after?.exportManifests).toEqual(before?.exportManifests);
+    await expect(repository.saveBrandProfile(PROJECT_ID, profile, 1, "2026-09-24T16:00:02.000Z"))
+      .rejects.toMatchObject({ code: "conflict" });
+    await expect(repository.saveBrandProfile(PROJECT_ID, { ...profile, unexpected: true }, 2, "2026-09-24T16:00:02.000Z"))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    await expect(repository.saveBrandProfile(PROJECT_ID, profile, 0, "2026-09-24T16:00:02.000Z"))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    await expect(repository.saveBrandProfile(PROJECT_ID, profile, 2, "not-a-time"))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    await expect(repository.saveBrandProfile(PROJECT_ID, profile, 2, "2026-09-24T15:59:59.000Z"))
+      .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("updatedAt precedes createdAt") });
+    await expect(repository.saveBrandProfile(OTHER_PROJECT_ID, profile, 1, "2026-09-24T16:00:02.000Z"))
+      .rejects.toMatchObject({ code: "not-found" });
+    repository.close();
+  });
+
+  it("refuses to write when project validation does not retain the saved Brand Profile", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const source = newBundle();
+    await repository.saveProjectBundle({ project: source.project, styles: [source.style], expectedProjectRevision: null });
+    let parseCount = 0;
+    const originalParser = projectRecordsModule.parseProjectRecord;
+    const parserSpy = vi.spyOn(projectRecordsModule, "parseProjectRecord").mockImplementation((input) => {
+      const parsed = originalParser(input);
+      parseCount += 1;
+      return parseCount === 2 && parsed.ok
+        ? { ok: true, value: { ...parsed.value, brandProfile: null } } as ReturnType<typeof originalParser>
+        : parsed;
+    });
+    const profile = { schemaVersion: 1 as const, colors: [], artworkAssetIds: [], rules: [] };
+    await expect(repository.saveBrandProfile(PROJECT_ID, profile, 1, NEXT_TIME)).rejects.toMatchObject({
+      code: "invalid-data", message: "Saved Brand Profile project did not retain its profile.",
+    });
+    expect(parserSpy).toHaveBeenCalledTimes(2);
+    expect(await rawGet(factory, name, PROJECT_STORES.projects, PROJECT_ID)).toEqual(source.project);
+    repository.close();
+  });
+
+  it("rejects a malformed stored project before saving a Brand Profile", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const source = newBundle();
+    await repository.saveProjectBundle({ project: source.project, styles: [source.style], expectedProjectRevision: null });
+    const malformed = { ...source.project, name: " " };
+    await rawPut(factory, name, PROJECT_STORES.projects, malformed);
+    const profile = { schemaVersion: 1 as const, colors: [], artworkAssetIds: [], rules: [] };
+
+    await expect(repository.saveBrandProfile(PROJECT_ID, profile, source.project.revision, NEXT_TIME))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    expect(await rawGet(factory, name, PROJECT_STORES.projects, PROJECT_ID)).toEqual(malformed);
+    repository.close();
+  });
+
+  it("preserves schema-v5 scenarios when the repository saves a Brand Profile", async () => {
+    const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    const source = newBundle();
+    const scenario = {
+      schemaVersion: 1 as const,
+      id: "66000000-0000-4000-8000-000000000001",
+      projectId: PROJECT_ID,
+      collectionId: "66000000-0000-4000-8000-000000000002",
+      name: "Draft",
+      revision: 1,
+      createdAt: TIME,
+      updatedAt: TIME,
+      evaluationDate: "bad-date",
+      currencyCode: "",
+      units: [{
+        id: "66000000-0000-4000-8000-000000000003",
+        variantId: "removed-variant",
+        units: "raw",
+        provenance: { kind: "", sourceLabel: "", asOf: "", validThrough: "" },
+      }],
+      prices: [], costs: [], moqs: [], capacityDelivery: [],
+    };
+    const project = {
+      ...source.project,
+      schemaVersion: SCENARIO_PROJECT_RECORD_VERSION as 5,
+      brandProfile: null,
+      collections: [],
+      scenarios: [scenario],
+    };
+    await repository.saveProjectBundle({ project, styles: [source.style], expectedProjectRevision: null });
+    const profile = { schemaVersion: 1 as const, colors: [], artworkAssetIds: [], rules: [] };
+    const saved = await repository.saveBrandProfile(PROJECT_ID, profile, 1, NEXT_TIME);
+    expect(saved).toMatchObject({ schemaVersion: 5, brandProfile: profile, scenarios: [scenario] });
+    repository.close();
+  });
+
+  it("rejects malformed stored collection source history before committing a project bundle", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const source = newBundle();
+    await repository.saveProjectBundle({ project: source.project, styles: [source.style], expectedProjectRevision: null });
+    await rawPut(factory, name, PROJECT_STORES.styleRevisions, {
+      revisionId: testUuid(980),
+      styleId: source.style.id,
+    });
+    const collection = {
+      schemaVersion: 1 as const,
+      id: testUuid(981),
+      projectId: source.project.id,
+      name: "Spring line",
+      createdAt: TIME,
+      updatedAt: TIME,
+      revision: 1,
+      skus: [],
+      sharedMaterialGroups: [],
+    };
+    const project = {
+      ...source.project,
+      schemaVersion: COLLECTION_PROJECT_RECORD_VERSION as 4,
+      brandProfile: null,
+      collections: [collection],
+      revision: source.project.revision + 1,
+      updatedAt: NEXT_TIME,
+    };
+    await expect(repository.saveProjectBundle({
+      project,
+      styles: [source.style],
+      expectedProjectRevision: source.project.revision,
+    })).rejects.toMatchObject({
+      code: "invalid-data", message: expect.stringContaining("Stored collection source history is malformed"),
+    });
+    expect(await rawGet(factory, name, PROJECT_STORES.projects, PROJECT_ID)).toEqual(source.project);
+    repository.close();
+  });
+
+  it("rejects an unresolved pinned collection source before writing the project bundle", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const source = newBundle();
+    const observations = fieldHistory(source.style);
+    const revisionId = testUuid(982);
+    const revision = await testRevision(source.style, observations, revisionId);
+    const style = { ...source.style, revisionHeadId: revisionId };
+    const project = {
+      ...source.project,
+      schemaVersion: COLLECTION_PROJECT_RECORD_VERSION as 4,
+      brandProfile: null,
+      collections: [unresolvedSourceCollection(source.project.id, style.id, revisionId, 983)],
+    };
+
+    await expect(repository.saveProjectBundle({
+      project,
+      styles: [style],
+      fieldObservations: [observations],
+      styleRevisions: [revision],
+      expectedProjectRevision: null,
+    })).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("not present in the pinned revision's frozen T01 colorways"),
+    });
+    await expect(repository.readProjectBundle(source.project.id)).resolves.toBeNull();
+    repository.close();
+  });
+
+  it("rejects a persisted collection pin that no longer resolves when loading a project", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    try {
+      const source = newBundle();
+      const observations = fieldHistory(source.style);
+      const revisionId = testUuid(984);
+      const revision = await testRevision(source.style, observations, revisionId);
+      const style = { ...source.style, revisionHeadId: revisionId };
+      const project = {
+        ...source.project,
+        schemaVersion: COLLECTION_PROJECT_RECORD_VERSION as 4,
+        brandProfile: null,
+        collections: [],
+      };
+      await repository.saveProjectBundle({
+        project,
+        styles: [style],
+        fieldObservations: [observations],
+        styleRevisions: [revision],
+        expectedProjectRevision: null,
+      });
+
+      const collection = unresolvedSourceCollection(project.id, style.id, testUuid(985), 986);
+      await rawPut(factory, name, PROJECT_STORES.projects, {
+        ...project,
+        collections: [collection],
+        revision: project.revision + 1,
+        updatedAt: NEXT_TIME,
+      });
+      await expect(repository.loadProject(project.id)).rejects.toMatchObject({
+        code: "invalid-data",
+        message: expect.stringContaining("reference an immutable revision belonging to the linked style"),
+      });
+    } finally {
+      repository.close();
+    }
   });
 
   it("returns no active project before a project has been selected", async () => {
@@ -1721,6 +2141,22 @@ describe("transactional project repository", () => {
         recoveries: [],
         fieldObservations: [observations],
       } as const;
+
+      await expect(repository.importProjectBundle({
+        ...base,
+        project: {
+          ...bundle.project,
+          schemaVersion: COLLECTION_PROJECT_RECORD_VERSION as 4,
+          brandProfile: null,
+          collections: [unresolvedSourceCollection(bundle.project.id, style.id, revisionId, 710)],
+        },
+        styleRevisions: [revision],
+        receipt: receipt(8),
+      })).rejects.toMatchObject({
+        code: "invalid-data",
+        message: expect.stringContaining("not present in the pinned revision's frozen T01 colorways"),
+      });
+      await expect(repository.readProjectBundle(bundle.project.id)).resolves.toBeNull();
 
       await expect(repository.importProjectBundle({ ...base, receipt: receipt(1) }))
         .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("missing its immutable revision head") });

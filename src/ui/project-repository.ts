@@ -7,6 +7,9 @@ import {
 import { DEFAULT_FABRIC } from "../render";
 import { STANDARD_M } from "../drafting";
 import {
+  BRAND_PROFILE_PROJECT_RECORD_VERSION,
+  COLLECTION_PROJECT_RECORD_VERSION,
+  SCENARIO_PROJECT_RECORD_VERSION,
   MIGRATION_RECORD_VERSION,
   isCustomOneSizeStyle,
   LEGACY_STYLE_RECORD_KEYS,
@@ -21,11 +24,14 @@ import {
   parseStyleRecord,
   validateProjectBundle,
   type MeasurementCaptureRecord,
+  type BrandProfiledProjectRecord,
   type MigrationRecord,
   type ProjectRecord,
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
+import { parseBrandProfileRecord } from "./brand-profile-records";
+import { resolveCollectionSourceStatuses, type CollectionSourceStatus } from "./collection-source-validation";
 import {
   parseGradePlanRecord,
   type GradePlanRecord,
@@ -125,6 +131,8 @@ export interface LoadedProject {
   readonly fieldObservations: readonly FieldObservationRecord[];
   readonly styleRevisions: readonly StyleRevisionRecord[];
   readonly exportManifests: readonly FrozenOutputManifestRecord[];
+  /** Derived from the project graph and its exact immutable source history. */
+  readonly collectionSourceStatuses?: readonly CollectionSourceStatus[];
   /** Present only when at least one style has a stored G03 grade plan. */
   readonly gradePlans?: readonly GradePlanRecord[];
 }
@@ -843,6 +851,8 @@ async function bundleInTransaction(
     }
   }
   styleRevisions.sort((left, right) => left.styleId.localeCompare(right.styleId) || left.revisionNumber - right.revisionNumber);
+  const collectionSources = resolveCollectionSourceStatuses(bundle.value.project, bundle.value.styles, styleRevisions);
+  if (!collectionSources.ok) throw new ProjectRepositoryError("invalid-data", collectionSources.error);
   exportManifests.sort((left, right) => left.styleId.localeCompare(right.styleId)
     || left.capturedAt.localeCompare(right.capturedAt) || left.manifestId.localeCompare(right.manifestId));
   return {
@@ -853,6 +863,7 @@ async function bundleInTransaction(
     fieldObservations,
     styleRevisions,
     exportManifests,
+    collectionSourceStatuses: collectionSources.value,
     ...(gradePlans.length > 0 ? { gradePlans } : {}),
   };
 }
@@ -1245,6 +1256,8 @@ export class ProjectRepository {
       || exportManifests.some((manifest) => !bundle.value.project.styleIds.includes(manifest.styleId))) {
       throw new ProjectRepositoryError("invalid-data", "Imported immutable history must belong to a style in the imported project.");
     }
+    const collectionSources = resolveCollectionSourceStatuses(bundle.value.project, bundle.value.styles, styleRevisions);
+    if (!collectionSources.ok) throw new ProjectRepositoryError("invalid-data", collectionSources.error);
     const measurementCaptures = parseMeasurementCaptureInputs(
       input.measurementCaptures, bundle.value.project.id, bundle.value.project.styleIds,
     );
@@ -1324,6 +1337,57 @@ export class ProjectRepository {
 
   async saveProjectBundle(input: SaveProjectBundleInput): Promise<ProjectRecord> {
     return this.writeProjectBundle(input, false);
+  }
+
+  async saveBrandProfile(
+    projectId: string,
+    profileInput: unknown,
+    expectedProjectRevision: number,
+    updatedAt: string,
+  ): Promise<BrandProfiledProjectRecord> {
+    this.ensureOpen();
+    const profile = parseBrandProfileRecord(profileInput);
+    if (!profile.ok) throw new ProjectRepositoryError("invalid-data", profile.error);
+    if (!Number.isSafeInteger(expectedProjectRevision) || expectedProjectRevision < 1) {
+      throw new ProjectRepositoryError("invalid-data", "Expected project revision is invalid.");
+    }
+    const timestamp = Date.parse(updatedAt);
+    if (!Number.isFinite(timestamp) || new Date(timestamp).toISOString() !== updatedAt) {
+      throw new ProjectRepositoryError("invalid-data", "Updated timestamp must be canonical UTC ISO time.");
+    }
+    return inTransaction(this.database, [PROJECT_STORES.projects], "readwrite", async (transaction) => {
+      const projects = transaction.objectStore(PROJECT_STORES.projects);
+      const input = await requestValue<ProjectRecord | undefined>(projects.get(projectId));
+      if (input === undefined) throw new ProjectRepositoryError("not-found", "Project does not exist.");
+      const current = parseProjectRecord(input);
+      if (!current.ok) throw new ProjectRepositoryError("invalid-data", current.error);
+      if (current.value.revision !== expectedProjectRevision) {
+        throw new ProjectRepositoryError("conflict", "Project changed in another tab; reload before saving its Brand Profile.");
+      }
+      const candidate: BrandProfiledProjectRecord = current.value.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION
+        || current.value.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION
+        ? {
+          ...current.value,
+          brandProfile: profile.value,
+          revision: current.value.revision + 1,
+          updatedAt,
+        }
+        : {
+          ...current.value,
+          schemaVersion: BRAND_PROFILE_PROJECT_RECORD_VERSION,
+          brandProfile: profile.value,
+          revision: current.value.revision + 1,
+          updatedAt,
+        };
+      const updated = parseProjectRecord(candidate);
+      if (!updated.ok) throw new ProjectRepositoryError("invalid-data", updated.error);
+      if (updated.value.schemaVersion === 2 || updated.value.brandProfile === null) {
+        throw new ProjectRepositoryError("invalid-data", "Saved Brand Profile project did not retain its profile.");
+      }
+      const saved = updated.value;
+      projects.put(saved);
+      return saved;
+    });
   }
 
   private async writeProjectBundle(input: SaveProjectBundleInput, requireEmptyRepository: boolean): Promise<ProjectRecord> {
@@ -1578,6 +1642,24 @@ export class ProjectRepository {
             ?? createFieldObservationRecord(style, style.updatedAt, "existing-local-style"));
         }
         if (incoming && priorInput !== undefined) nextObservations.push(incoming);
+      }
+      if ((bundle.value.project.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION
+        || bundle.value.project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION)
+        && bundle.value.project.collections.length > 0) {
+        const sourceHistory: StyleRevisionRecord[] = [];
+        const sourceRevisionIndex = revisionStore.index("styleId");
+        for (const style of bundle.value.styles) {
+          for (const revisionInput of await requestValue<unknown[]>(sourceRevisionIndex.getAll(style.id))) {
+            const revision = parseStyleRevisionRecord(revisionInput);
+            if (!revision || revision.styleId !== style.id) {
+              throw new ProjectRepositoryError("invalid-data", "Stored collection source history is malformed or belongs to another style.");
+            }
+            sourceHistory.push(revision);
+          }
+        }
+        sourceHistory.push(...styleRevisions);
+        const collectionSources = resolveCollectionSourceStatuses(bundle.value.project, bundle.value.styles, sourceHistory);
+        if (!collectionSources.ok) throw new ProjectRepositoryError("invalid-data", collectionSources.error);
       }
       projects.put(bundle.value.project);
       for (const style of bundle.value.styles) styles.put(style);

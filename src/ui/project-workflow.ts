@@ -7,18 +7,34 @@ import {
   type ProjectRepositoryOptions,
 } from "./project-repository";
 import {
+  type BrandProfileRecord,
+  parseBrandProfileRecord,
+} from "./brand-profile-records";
+import { parseCollectionRecord, type CollectionRecord } from "./collection-records";
+import {
+  BRAND_PROFILE_PROJECT_RECORD_VERSION,
+  COLLECTION_PROJECT_RECORD_VERSION,
+  SCENARIO_PROJECT_RECORD_VERSION,
+  type BrandProfiledProjectRecord,
   MEASUREMENT_CAPTURE_RECORD_VERSION,
   isCustomOneSizeStyle,
   CUSTOM_ONE_SIZE_MODE,
   CUSTOM_STYLE_RECORD_VERSION,
   RECOVERY_RECORD_VERSION,
   STYLE_RECORD_VERSION,
+  projectScenarios,
   type MeasurementCaptureDraft,
   type MeasurementCaptureRecord,
   type RecoveryPayload,
   type SavedDesign,
+  type ProjectRecord,
   type StyleRecord,
 } from "./project-records";
+import {
+  parseScenarioRecord,
+  prepareScenarioRecordsForSave,
+  type ScenarioRecord,
+} from "./scenario-records";
 import type { MeasurementCaptureSession } from "./measurement-capture";
 import type { GradePlanRecord } from "./grade-plan";
 import { LEGACY_RECOVERY_STORAGE_KEY, LEGACY_SAVE_STORAGE_KEY } from "./persist";
@@ -360,6 +376,107 @@ export class ProjectWorkflow {
         monotonicTimestamp(this.now(), current.project.updatedAt),
       );
       await this.reloadLoaded();
+    });
+  }
+
+  async saveBrandProfile(profileInput: BrandProfileRecord): Promise<BrandProfiledProjectRecord> {
+    return this.enqueue(async () => {
+      const profile = parseBrandProfileRecord(profileInput);
+      if (!profile.ok) throw new ProjectRepositoryError("invalid-data", profile.error);
+      for (const [index, assetId] of profile.value.artworkAssetIds.entries()) {
+        const asset = await this.artworkStore?.get(assetId);
+        if (!asset) {
+          throw new ProjectRepositoryError(
+            "invalid-data",
+            `brandProfile.artworkAssetIds[${index}]: ${assetId} is missing from local artwork storage; import the file or remove this reference.`,
+          );
+        }
+      }
+      const current = this.loaded;
+      const saved = await this.repository.saveBrandProfile(
+        current.project.id,
+        profile.value,
+        current.project.revision,
+        monotonicTimestamp(this.now(), current.project.updatedAt),
+      );
+      this.loaded = { ...current, project: saved };
+      return saved;
+    });
+  }
+
+  /** Saves user-authored collection graphs with the existing project CAS and source-history validation. */
+  async saveCollections(collectionInputs: readonly CollectionRecord[]): Promise<LoadedProject> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      const collections: CollectionRecord[] = [];
+      for (const [index, input] of collectionInputs.entries()) {
+        const parsed = parseCollectionRecord(input);
+        if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", `collections[${index}]: ${parsed.error}`);
+        collections.push(parsed.value);
+      }
+      if (collections.length === 0 && current.project.schemaVersion !== COLLECTION_PROJECT_RECORD_VERSION
+        && current.project.schemaVersion !== SCENARIO_PROJECT_RECORD_VERSION) {
+        throw new ProjectRepositoryError("invalid-data", "Save at least one collection before creating the collection project record.");
+      }
+      const metadata = {
+        revision: current.project.revision + 1,
+        updatedAt: monotonicTimestamp(this.now(), current.project.updatedAt),
+      };
+      const candidate: ProjectRecord = current.project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION
+        ? { ...current.project, collections, ...metadata }
+        : {
+          ...current.project,
+          schemaVersion: COLLECTION_PROJECT_RECORD_VERSION,
+          brandProfile: current.project.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION
+            || current.project.schemaVersion === BRAND_PROFILE_PROJECT_RECORD_VERSION ? current.project.brandProfile : null,
+          collections,
+          ...metadata,
+        };
+      await this.repository.saveProjectBundle({
+        project: candidate,
+        styles: current.styles,
+        expectedProjectRevision: current.project.revision,
+      });
+      return this.reloadLoaded();
+    });
+  }
+
+  /** Saves scenario drafts through the existing project transaction and revision CAS. */
+  async saveScenarios(scenarioInputs: readonly ScenarioRecord[]): Promise<LoadedProject> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      const savedScenarios = projectScenarios(current.project);
+      const parsedInputs: ScenarioRecord[] = [];
+      for (const [index, input] of scenarioInputs.entries()) {
+        const parsed = parseScenarioRecord(input, current.project.id);
+        if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", `scenarios[${index}]: ${parsed.error}`);
+        parsedInputs.push(parsed.value);
+      }
+      const now = monotonicTimestamp(this.now(), current.project.updatedAt);
+      const prepared = prepareScenarioRecordsForSave(parsedInputs, savedScenarios, now, current.project.id);
+      if (!prepared.ok) throw new ProjectRepositoryError("invalid-data", prepared.error);
+      if (JSON.stringify(prepared.value) === JSON.stringify(savedScenarios)) return current;
+      const metadata = {
+        scenarios: prepared.value,
+        revision: current.project.revision + 1,
+        updatedAt: now,
+      };
+      const candidate: ProjectRecord = current.project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION
+        ? { ...current.project, ...metadata }
+        : {
+          ...current.project,
+          schemaVersion: SCENARIO_PROJECT_RECORD_VERSION,
+          brandProfile: current.project.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION
+            || current.project.schemaVersion === BRAND_PROFILE_PROJECT_RECORD_VERSION ? current.project.brandProfile : null,
+          collections: current.project.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION ? current.project.collections : [],
+          ...metadata,
+        };
+      await this.repository.saveProjectBundle({
+        project: candidate,
+        styles: current.styles,
+        expectedProjectRevision: current.project.revision,
+      });
+      return this.reloadLoaded();
     });
   }
 
