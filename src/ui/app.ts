@@ -5,14 +5,16 @@
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, JeansOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, optionalOptionStatusMessage, optionalOptionActionLabel, draftJeansWithGuidance, jeansSizeRunWithGuidance } from "../drafting";
 import { gradeRecipeRun, gradeMeasurements, draftRecipeAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName, garmentForConstruction } from "../drafting";
 import { block, blockPieces } from "../drafting";
-import { teeVBandTechPackOptions } from "../drafting/vneck-band-output";
+import { teeNeckbandTechPackOptions, teeVBandTechPackOptions } from "../drafting/vneck-band-output";
 import {
   TEE_NECKBAND_OPTIONS,
   TEE_SCOOP_NECK_DROP_OPTION_ID,
   TEE_V_NECK_DROP_OPTION_ID,
   hasConflictingTeeNecklineOptions,
+  isTeeScoopNeckActive,
   isTeeVNeckActive,
   teeNeckbandSettings,
+  fittedScoopNeckbandTemplateSvg,
   teeNeckbandTemplateSvg,
   teeVNeckbandTemplateSvg,
   type TeeConstruction,
@@ -1555,17 +1557,24 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe),
   ): boolean => supportsTeeVBand(forRecipe) && isTeeVNeckActive(options);
+  const hasActiveFittedScoopNeckband = (
+    forRecipe: GarmentRecipe = recipe,
+    options: GarmentOptions = recipeOptions(forRecipe),
+  ): boolean => forRecipe.name === "fitted" && isTeeScoopNeckActive(options);
   const hasSelectedSizeVBandControls = (
     forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe),
   ): boolean => forRecipe.name === "tee"
-    || (forRecipe.name === "fitted" && hasActiveVBand(forRecipe, options));
+    || (forRecipe.name === "fitted" && (hasActiveVBand(forRecipe, options)
+      || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
     forRecipe.name === "fitted" && options.princessSeamShaping !== undefined
       ? "Princess-seam fitted Tee"
       : forRecipe.name === "fitted" && hasActiveVBand(forRecipe, options)
-        ? "Fitted V-neck Tee" : forRecipe.label;
+        ? "Fitted V-neck Tee"
+        : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
+          ? "Fitted Scoop-neck Tee" : forRecipe.label;
   const styleMatchMeasurements = (): Measurements => {
     const overrides = Object.fromEntries(activeOptionDefinitions()
       .filter((option) => option.fallbackMeasurement !== undefined && recipeOptions()[option.id] !== undefined)
@@ -3118,25 +3127,35 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     teeNeckbandExportScope.hidden = !selectedSizeVBandControlsVisible;
     const currentTeeOptions = recipeOptions();
     const teeVNeckActive = hasActiveVBand(recipe, currentTeeOptions);
-    const teeNecklineConflict = teeVNeckActive && hasConflictingTeeNecklineOptions(currentTeeOptions);
+    const fittedScoopActive = hasActiveFittedScoopNeckband(recipe, currentTeeOptions);
+    const neckbandOutputActive = teeVNeckActive || fittedScoopActive;
+    const teeNecklineConflict = neckbandOutputActive && hasConflictingTeeNecklineOptions(currentTeeOptions);
     const neckbandHeading = teeNeckbandExportScope.querySelector<HTMLElement>(".export-scope-heading strong");
-    if (neckbandHeading) neckbandHeading.textContent = recipe.name === "fitted" ? "Fitted Tee V-band" : "Tee neckband";
+    if (neckbandHeading) neckbandHeading.textContent = fittedScoopActive
+      ? "Fitted Scoop neckband" : recipe.name === "fitted" ? "Fitted Tee V-band" : "Tee neckband";
     const neckbandExportButton = root.querySelector<HTMLButtonElement>("#export-tee-neckband");
-    if (neckbandExportButton && recipe.name === "fitted") neckbandExportButton.textContent = "Fitted V-band SVG";
+    if (neckbandExportButton && fittedScoopActive) neckbandExportButton.textContent = "Fitted Scoop neckband SVG";
+    else if (neckbandExportButton && recipe.name === "fitted") neckbandExportButton.textContent = "Fitted V-band SVG";
     else if (neckbandExportButton) neckbandExportButton.textContent = "Neckband SVG";
-    teeVBandOutputError = teeVNeckActive && !teeNecklineConflict ? currentTeeVBandOutputError() : "";
+    teeVBandOutputError = neckbandOutputActive && !teeNecklineConflict ? currentTeeVBandOutputError() : "";
     teeNeckbandControls.disabled = teeNecklineConflict;
-    teeNeckbandVLimitation.hidden = !teeVNeckActive;
-    teeNeckbandHelp.textContent = teeVNeckActive
-      ? `${recipe.name === "fitted" ? "Fitted Tee" : "Tee"} V-band length and width are product-software drafting choices. They do not recommend fabric or predict material recovery, physical fit, comfort, or wear.`
-      : "These provisional drafting settings affect the neckband SVG only. They do not validate fabric recovery or physical fit.";
-    teeNeckbandDescription.textContent = teeVNeckActive
-      ? `One-piece ${recipe.name === "fitted" ? "Fitted Tee" : "Tee"} band strip with V-forming center-front join and CF, shoulder, and CB registrations. Selected-size digital output; check the 10 cm calibration mark.`
-      : "Cuttable rectangle calculated from the selected Tee neckline. Adjust the provisional ratio and width; verify the 10 cm scale line.";
-    if (teeVNeckActive) {
+    teeNeckbandVLimitation.hidden = !neckbandOutputActive;
+    teeNeckbandHelp.textContent = fittedScoopActive
+      ? "Fitted Scoop neckband length and width are product-software drafting choices. The selected-size rectangle does not validate fabric recovery, physical fit, comfort, or wear."
+      : teeVNeckActive
+        ? (recipe.name === "fitted" ? "Fitted Tee" : "Tee") + " V-band length and width are product-software drafting choices. They do not recommend fabric or predict material recovery, physical fit, comfort, or wear."
+        : "These provisional drafting settings affect the neckband SVG only. They do not validate fabric recovery or physical fit.";
+    teeNeckbandDescription.textContent = fittedScoopActive
+      ? "Selected-size rectangle calculated from the active Fitted Scoop neckline. Check the 10 cm scale line; no graded-size band template is supplied."
+      : teeVNeckActive
+        ? (recipe.name === "fitted" ? "Fitted Tee" : "Tee") + " band strip with V-forming center-front join and CF, shoulder, and CB registrations. Selected-size digital output; check the 10 cm calibration mark."
+        : "Cuttable rectangle calculated from the selected Tee neckline. Adjust the provisional ratio and width; verify the 10 cm scale line.";
+    if (neckbandOutputActive) {
       teeNeckbandVLimitation.textContent = teeNecklineConflict
         ? "Both V and Scoop options are active. Reset one before generating neckband output; the preview uses crew while the conflict remains."
-        : teeVBandOutputError || "V-specific provisional band output is available. This selected-size digital draft does not validate physical fit or material behavior.";
+        : fittedScoopActive
+          ? teeVBandOutputError || "Selected-size Fitted Scoop neckband output is available; no graded-size template is supplied. Physical fit and material behavior are unvalidated."
+          : teeVBandOutputError || "V-specific provisional band output is available. This selected-size digital draft does not validate physical fit or material behavior.";
     }
     try {
       drawCurrentView();
@@ -3199,13 +3218,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : button.id === "export-surface-sheet"
           ? styleReviewed && checkReviewed && baseDesignValid()
           : canExport());
-      const vBandUnavailable = button.id === "export-tee-neckband" && hasActiveVBand()
-        && isTeeVNeckActive(recipeOptions())
-        && (hasConflictingTeeNecklineOptions(recipeOptions()) || teeVBandOutputError !== "");
-      const vBandTechPackUnavailable = button.id === "export-tee-selected-techpack" && hasSelectedSizeVBandControls()
+      const fittedScoopActive = hasActiveFittedScoopNeckband(recipe, recipeOptions());
+      const necklineOutputActive = hasActiveVBand() || fittedScoopActive;
+      const neckbandOutputUnavailable = button.id === "export-tee-neckband" && hasSelectedSizeVBandControls()
         && (hasConflictingTeeNecklineOptions(recipeOptions())
-          || (isTeeVNeckActive(recipeOptions()) && teeVBandOutputError !== ""));
-      button.disabled = !allowed || needsArtwork || vBandUnavailable || vBandTechPackUnavailable;
+          || (necklineOutputActive && teeVBandOutputError !== ""));
+      const neckbandTechPackUnavailable = button.id === "export-tee-selected-techpack" && hasSelectedSizeVBandControls()
+        && (hasConflictingTeeNecklineOptions(recipeOptions())
+          || (necklineOutputActive && teeVBandOutputError !== ""));
+      button.disabled = !allowed || needsArtwork || neckbandOutputUnavailable || neckbandTechPackUnavailable;
       button.title = !allowed
         ? packageSizeUnsupported
           ? "CAD exchange packages currently support registered recipe sizes, not custom one-size styles."
@@ -3220,14 +3241,17 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             ? selectedGradePlanSize()?.issues[0] ?? "The selected grade-plan size is no longer available. Refresh the plan or choose another size."
           : "Review Style and the current digital checks before exporting."
         : needsArtwork ? "Add artwork on the Style panel first." : "";
-      if (button.id === "export-tee-neckband" && hasActiveVBand()) {
+      if (button.id === "export-tee-neckband" && hasSelectedSizeVBandControls()
+        && (hasActiveVBand() || fittedScoopActive)) {
         button.title = hasConflictingTeeNecklineOptions(recipeOptions())
           ? "Unavailable while V and Scoop options conflict. Reset one option; the preview uses crew while the conflict remains."
-          : teeVBandOutputError || "Export the selected-size V-band strip with its center-front join and registration marks.";
+          : teeVBandOutputError || (fittedScoopActive
+            ? "Export the selected-size Fitted Scoop rectangle; no graded-size band template is supplied."
+            : "Export the selected-size V-band strip with its center-front join and registration marks.");
       }
       if (button.id === "export-tee-selected-techpack" && hasSelectedSizeVBandControls()
         && (hasConflictingTeeNecklineOptions(recipeOptions())
-          || (isTeeVNeckActive(recipeOptions()) && teeVBandOutputError !== ""))) {
+          || ((isTeeVNeckActive(recipeOptions()) || fittedScoopActive) && teeVBandOutputError !== ""))) {
         button.title = hasConflictingTeeNecklineOptions(recipeOptions())
           ? "Reset either V or Scoop before exporting the selected-size neckline Tech Pack."
           : teeVBandOutputError;
@@ -5935,12 +5959,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (!canExport()) return "";
     try {
       const settings = teeNeckbandSettings(selectedGradePlanSize(), currentTeeNeckbandOptions());
-      teeVNeckbandTemplateSvg(
-        exportPieces(), settings.lengthPercent, settings.finishedWidthCm, teeVBandFamilyLabel(),
-      );
+      if (hasActiveFittedScoopNeckband(recipe, recipeOptions())) {
+        fittedScoopNeckbandTemplateSvg(exportPieces(), settings.lengthPercent, settings.finishedWidthCm);
+      } else {
+        teeVNeckbandTemplateSvg(
+          exportPieces(), settings.lengthPercent, settings.finishedWidthCm, teeVBandFamilyLabel(),
+        );
+      }
       return "";
     } catch (error) {
-      return error instanceof Error ? error.message : "The selected V-band geometry could not be generated.";
+      return error instanceof Error ? error.message
+        : hasActiveFittedScoopNeckband(recipe, recipeOptions())
+          ? "The selected Fitted Scoop neckband geometry could not be generated."
+          : "The selected V-band geometry could not be generated.";
     }
   };
   const syncTeeNeckbandInputsFromState = (): void => {
@@ -5975,17 +6006,23 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       if (inputError !== "") throw new Error(inputError);
       const settings = teeNeckbandSettings(selectedGradePlanSize(), currentTeeNeckbandOptions());
       const vNeck = hasActiveVBand(recipe, recipeOptions());
+      const fittedScoop = hasActiveFittedScoopNeckband(recipe, recipeOptions());
+      const suffix = fittedScoop ? "scoop-neckband" : vNeck ? "vneck-band" : "neckband";
       const output = vNeck
         ? teeVNeckbandTemplateSvg(
           exportPieces(), settings.lengthPercent, settings.finishedWidthCm, teeVBandFamilyLabel(),
         )
-        : teeNeckbandTemplateSvg(exportPieces(), settings.lengthPercent, settings.finishedWidthCm);
-      download(`${exportRecipeName()}-${exportSizeLabel()}-${vNeck ? "vneck-band" : "neckband"}.svg`, output, "image/svg+xml");
+        : fittedScoop
+          ? fittedScoopNeckbandTemplateSvg(exportPieces(), settings.lengthPercent, settings.finishedWidthCm)
+          : teeNeckbandTemplateSvg(exportPieces(), settings.lengthPercent, settings.finishedWidthCm);
+      download(`${exportRecipeName()}-${exportSizeLabel()}-${suffix}.svg`, output, "image/svg+xml");
     } catch (error) {
       flash(error instanceof Error ? error.message : "The neckband template could not be generated.", BLUEPRINT.lineActive);
     }
-  }, () => supportsTeeVBand(recipe) && !hasConflictingTeeNecklineOptions(recipeOptions())
-    && (!hasActiveVBand(recipe, recipeOptions()) || teeVBandOutputError === "") && canExport());
+  }, () => supportsTeeVBand(recipe) && (recipe.name === "tee" || hasActiveVBand(recipe, recipeOptions())
+    || hasActiveFittedScoopNeckband(recipe, recipeOptions())) && !hasConflictingTeeNecklineOptions(recipeOptions())
+    && (!(hasActiveVBand(recipe, recipeOptions()) || hasActiveFittedScoopNeckband(recipe, recipeOptions()))
+      || teeVBandOutputError === "") && canExport());
   onExport("#export-dxf", () => {
     download(`${exportRecipeName()}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
   });
@@ -6023,15 +6060,24 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           teeNeckbandSettings(planSize, currentTeeNeckbandOptions()),
           recipe.name === "fitted" ? "Fitted Tee" : "Tee",
         )
-        : planSize?.options ?? recipeOptions(),
+        : hasActiveFittedScoopNeckband(recipe, recipeOptions())
+          ? teeNeckbandTechPackOptions(
+            recipeOptions(),
+            blockPieces(blockAtSize!),
+            teeNeckbandSettings(planSize, currentTeeNeckbandOptions()),
+            "Fitted Scoop-neck Tee",
+          )
+          : planSize?.options ?? recipeOptions(),
       block: blockAtSize!,
     };
     const output = exportTechPackV2ForSelectedSize(
       recipeForCurrentOutputs(), size, undefined, stretchFabric, surfacePlacementsNow(), targetStyle, planSize !== null,
     );
     download(`${exportRecipeName()}-${size.label}-selected-techpack.pdf`, output, "application/pdf");
-  }, () => supportsTeeVBand(recipe) && !hasConflictingTeeNecklineOptions(recipeOptions())
-    && (!hasActiveVBand(recipe, recipeOptions()) || teeVBandOutputError === "") && canExport());
+  }, () => supportsTeeVBand(recipe) && (recipe.name === "tee" || hasActiveVBand(recipe, recipeOptions())
+    || hasActiveFittedScoopNeckband(recipe, recipeOptions())) && !hasConflictingTeeNecklineOptions(recipeOptions())
+    && (!(hasActiveVBand(recipe, recipeOptions()) || hasActiveFittedScoopNeckband(recipe, recipeOptions()))
+      || teeVBandOutputError === "") && canExport());
   // The draft tech pack is a whole-style document (paginated piece overview +
   // graded table), so it uses live measurements and ignores the size picker.
   // The overview is explicitly not to scale; cutting files remain separate.

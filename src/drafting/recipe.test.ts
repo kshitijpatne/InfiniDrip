@@ -6,7 +6,7 @@ import { TEE, TEE_RAGLAN, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, JEANS
   piecesForRecipeBlock, pomsForRecipeOptions, notchesForRecipeOptions } from "./recipe";
 import { raglanNecklineLength, raglanTeeGuidance, TEE_RAGLAN_GRAMMAR, TEE_RAGLAN_STITCHES } from "./tshirt-raglan";
 import { TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
-import { TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION } from "./vneck-band-output";
+import { TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION, TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION, teeNeckbandTechPackOptions } from "./vneck-band-output";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -45,6 +45,7 @@ import { JOGGER as BARREL_JOGGER } from "./index";
 import { JOGGER_DEFAULT_OPTIONS, JOGGER_FIELDS, JOGGER_OPTION_DEFINITIONS, JOGGER_STYLES } from "./jogger-contract";
 import { HOODIE_DEFAULT_OPTIONS, HOODIE_FIELDS, HOODIE_OPTION_DEFINITIONS, HOODIE_STYLES } from "./hoodie-contract";
 import { HOODIE_ROLE_ORDER } from "./hoodie";
+import { FITTED_SCOOP_ENTRY_ID } from "./fitted";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
@@ -549,6 +550,79 @@ describe("recipe callbacks", () => {
     expect(svg).toContain("Fitted Tee V-NECK BAND");
     expect(fittedPieces.some((piece) => piece.name === "fitted front")).toBe(true);
     expect(FITTED_VNECK_ENTRY_ID).toBe("fitted-vneck-tee-digital-v1");
+  });
+
+  it("adds selected-size rectangle neckband instructions to F05 without graded output claims", () => {
+    const scoopOptions = {
+      [TEE_SCOOP_NECK_DROP_OPTION_ID]: 5,
+      dartIntake: 4,
+      bustApexHorizontal: 55,
+      bustApexVertical: 28,
+    };
+    const fittedBlock = FITTED.draft(STANDARD_M, scoopOptions);
+    const bandOptions = teeNeckbandTechPackOptions(
+      scoopOptions,
+      blockPieces(fittedBlock),
+      { lengthPercent: 84, finishedWidthCm: 2.4 },
+      "Fitted Scoop-neck Tee",
+    );
+    const wholeRun = FITTED.techPackForOptions!(scoopOptions);
+    const selectedSize = FITTED.techPackForOptions!(bandOptions);
+    const invalidSettings = FITTED.techPackForOptions!({
+      ...bandOptions,
+      teeNeckbandFinishedWidthCm: 1.45,
+    });
+    const selectedDefaultsWithoutGeometryMetadata = FITTED.techPackForOptions!({
+      ...scoopOptions,
+      [TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION]: 1,
+    });
+    const conflict = FITTED.techPackForOptions!({
+      ...scoopOptions,
+      [TEE_V_NECK_DROP_OPTION_ID]: 6,
+    });
+
+    expect(FITTED_SCOOP_ENTRY_ID).toBe("fitted-scoop-tee-digital-v1");
+    expect(bandOptions).toMatchObject({
+      teeNeckbandLengthPercent: 84,
+      teeNeckbandFinishedWidthCm: 2.4,
+      [TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION]: 1,
+    });
+    expect(bandOptions.teeNecklineCircumferenceCm).toBeGreaterThan(0);
+    expect(wholeRun.constructionNotice).toContain("whole-run Tech Packs do not include graded-size neckband");
+    expect(wholeRun.bom.some((row) => row.placement === "Neckband")).toBe(false);
+    expect(wholeRun.construction.some((step) => step.startsWith("Attach the neckband"))).toBe(false);
+    expect(selectedSize.constructionNotice).toContain("Provisional digital Scoop neckband construction");
+    expect(selectedSize.construction.join(" ")).toContain("Sew the bust darts; press them toward the hem.");
+    expect(selectedSize.construction.join(" ")).toContain("Measured selected-size body neckline");
+    expect(selectedSize.construction.join(" ")).toContain("no graded-size band output is supplied");
+    expect(selectedSize.bom.find((row) => row.placement === "Provisional Scoop neckband")?.qty)
+      .toBe("1 strip; see selected-size neckband SVG");
+    expect(invalidSettings.constructionNotice).toContain("length or finished-width setting is invalid");
+    expect(invalidSettings.bom.some((row) => row.placement === "Provisional Scoop neckband")).toBe(false);
+    expect(invalidSettings.construction.some((step) => step.startsWith("Attach the band"))).toBe(false);
+    expect(selectedDefaultsWithoutGeometryMetadata.construction.join(" "))
+      .toContain("Selected band target 75% of the measured neckline");
+    expect(selectedDefaultsWithoutGeometryMetadata.construction.join(" ")).toContain("Finished width 2.0 cm");
+    expect(conflict.constructionNotice).toContain("Both V and Scoop neckline options are active");
+    expect(conflict.bom.some((row) => row.placement === "Neckband")).toBe(false);
+  });
+
+  it("rejects selected-size Fitted Scoop neckband metadata when neckline geometry is zero", () => {
+    const zeroNeckline = {
+      kind: "line" as const,
+      name: "neckline",
+      start: { x: 0, y: 0 },
+      end: { x: 0, y: 0 },
+    };
+    expect(() => teeNeckbandTechPackOptions(
+      {},
+      [
+        { name: "front", onFold: true, edges: [zeroNeckline] },
+        { name: "back", onFold: true, edges: [zeroNeckline] },
+      ],
+      { lengthPercent: 84, finishedWidthCm: 2.4 },
+      "Fitted Scoop-neck Tee",
+    )).toThrow("The selected Fitted Scoop-neck Tee neckline geometry is not usable for a neckband Tech Pack.");
   });
 
   it("uses default V band parameters when omitted and withholds band steps for invalid settings", () => {

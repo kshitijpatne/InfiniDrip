@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { derive, STANDARD_M } from "./measurements";
-import { draftFront, draftBack, draftSleeve, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
+import { draftFront, draftBack, draftSleeve, TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { draftFittedFront, draftFitted, fittedGuidance, fittedGeometryPair, reopenFittedReference, FITTED_DART_OPTIONS,
-  FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID, FITTED_VNECK_ENTRY_ID, sideBoundaryAtY, draftFittedPrincessFronts } from "./fitted";
+  FITTED_OPTIONS, FITTED_PRINCESS_ENTRY_ID, FITTED_SCOOP_ENTRY_ID, FITTED_VNECK_ENTRY_ID, sideBoundaryAtY, draftFittedPrincessFronts } from "./fitted";
 import { Edge, Piece, pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 import { dartIntake, dartOf, edgesMeet, seamKink } from "./dart";
 import { rolePiece } from "./block";
@@ -118,6 +118,32 @@ describe("draftFittedFront", () => {
     expect(fittedGuidance(draftFitted(STANDARD_M, invalid), STANDARD_M, invalid)
       .find((note) => note.field === `option-${TEE_V_NECK_DROP_OPTION_ID}`)?.text).toContain("reduce the V drop or increase armhole depth");
     expect(invalid[TEE_V_NECK_DROP_OPTION_ID]).toBe(20);
+  });
+
+  it("adds an entry-scoped rounded Scoop while retaining the F05 bust dart and crew back", () => {
+    const f01Options = defaultGarmentOptions(FITTED_OPTIONS, "fitted-tee-digital-v1");
+    const f04Options = defaultGarmentOptions(FITTED_OPTIONS, FITTED_VNECK_ENTRY_ID);
+    const f05Options = defaultGarmentOptions(FITTED_OPTIONS, FITTED_SCOOP_ENTRY_ID);
+    const crew = draftFitted(STANDARD_M, f01Options);
+    const scoop = draftFitted(STANDARD_M, f05Options);
+    const crewFront = rolePiece(crew, "front");
+    const scoopFront = rolePiece(scoop, "front");
+
+    expect(f05Options[TEE_SCOOP_NECK_DROP_OPTION_ID]).toBe(5);
+    expect(f05Options).not.toHaveProperty(TEE_V_NECK_DROP_OPTION_ID);
+    expect(f04Options).not.toHaveProperty(TEE_SCOOP_NECK_DROP_OPTION_ID);
+    expect(pieceEdge(scoopFront, "neckline")).not.toEqual(pieceEdge(crewFront, "neckline"));
+    expect(rolePiece(scoop, "back")).toEqual(rolePiece(crew, "back"));
+    expect(scoopFront.dart).toEqual({ legs: ["bustDartUpper", "bustDartLower"] });
+    expect(pieceEdge(scoopFront, "bustDartUpper")).toEqual(pieceEdge(crewFront, "bustDartUpper"));
+    expect(fittedGuidance(scoop, STANDARD_M, f05Options).filter((note) => note.level === "warn")).toEqual([]);
+
+    const invalid = { ...f05Options, [TEE_SCOOP_NECK_DROP_OPTION_ID]: 15 };
+    const riskyMeasurements = { ...STANDARD_M, armholeDepth: 12, shoulderWidth: 14 };
+    expect(fittedGuidance(draftFitted(riskyMeasurements, invalid), riskyMeasurements, invalid)
+      .find((note) => note.field === "option-teeScoopNeckDropCm")?.text)
+      .toContain("reduce its extra depth or increase armhole depth");
+    expect(invalid[TEE_SCOOP_NECK_DROP_OPTION_ID]).toBe(15);
   });
 });
 

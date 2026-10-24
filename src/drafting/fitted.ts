@@ -23,13 +23,14 @@ import { necklineEdge } from "./neckline";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import { GarmentOption, GarmentOptions } from "./options";
 import { Note } from "../guidance/note";
-import { teeFrontNecklineParams, teeNecklineNotes, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
+import { teeFrontNecklineParams, teeNecklineNotes, TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { lineMark } from "./pattern-mark";
 import { fittedPrincessLineReferences } from "./fitted-reference";
 
 export const FITTED_PRINCESS_ENTRY_ID = "fitted-princess-tee-digital-v1";
 export const FITTED_VNECK_ENTRY_ID = "fitted-vneck-tee-digital-v1";
+export const FITTED_SCOOP_ENTRY_ID = "fitted-scoop-tee-digital-v1";
 
 const DART_INTAKE_OPTION: GarmentOption = {
   id: "dartIntake",
@@ -198,10 +199,24 @@ const FITTED_VNECK_OPTION: GarmentOption = {
   appliesToStarterEntryId: FITTED_VNECK_ENTRY_ID,
 };
 
+const FITTED_SCOOP_OPTION: GarmentOption = {
+  id: TEE_SCOOP_NECK_DROP_OPTION_ID,
+  label: "Front Scoop extra depth",
+  unit: "cm",
+  group: "Neckline",
+  help: "The 5 cm starting depth is a software geometry choice, not a fit target. Reduce the extra depth or review armhole depth when guidance appears; the app keeps invalid input visible.",
+  defaultValue: 5,
+  min: 0,
+  max: 15,
+  step: 0.5,
+  appliesToStarterEntryId: FITTED_SCOOP_ENTRY_ID,
+};
+
 export const FITTED_OPTIONS: readonly GarmentOption[] = [
   ...FITTED_DART_OPTIONS,
   ...FITTED_PRINCESS_OPTIONS,
   FITTED_VNECK_OPTION,
+  FITTED_SCOOP_OPTION,
 ];
 
 export function usesFittedPrincessSeam(options: GarmentOptions): boolean {

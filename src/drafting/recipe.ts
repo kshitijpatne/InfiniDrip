@@ -18,13 +18,14 @@ import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { draftAtSize, gradeRun, type GradeOptionResolver, type GradeRule, type SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
-import { TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION } from "./vneck-band-output";
+import { TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION, TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION } from "./vneck-band-output";
 import {
   draftTshirt,
   TEE_GRAMMAR,
   TEE_NECKBAND_OPTIONS,
   hasConflictingTeeNecklineOptions,
   hasTeeNecklineOverride,
+  isTeeScoopNeckActive,
   isTeeVNeckActive,
   teeFrontNecklineParams,
   teeNecklineNotes,
@@ -566,6 +567,64 @@ export const FITTED: GarmentRecipe = {
             ...this.techPack.construction.slice(2),
           ],
         };
+    if (hasConflictingTeeNecklineOptions(options)) {
+      return TEE.techPackForOptions!.call({ ...this, techPack: fittedTechPack }, options);
+    }
+    if (isTeeScoopNeckActive(options)) {
+      const withoutNeckband = fittedTechPack.construction.filter((step) => !step.startsWith("Attach the neckband"));
+      const noBandBom = fittedTechPack.bom.filter((row) => row.placement !== "Neckband");
+      if (options[TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION] !== 1) {
+        return {
+          ...fittedTechPack,
+          bom: noBandBom,
+          constructionNotice: "Fitted Scoop neckband output is available only for a selected size; whole-run Tech Packs do not include graded-size neckband instructions or pattern output.",
+          construction: withoutNeckband,
+        };
+      }
+
+      const lengthOption = TEE_NECKBAND_OPTIONS[0]!;
+      const widthOption = TEE_NECKBAND_OPTIONS[1]!;
+      const lengthPercent = options[lengthOption.id] ?? lengthOption.defaultValue;
+      const finishedWidthCm = options[widthOption.id] ?? widthOption.defaultValue;
+      const validSetting = (value: number, option: GarmentOption): boolean => Number.isFinite(value)
+        && value >= option.min
+        && value <= option.max
+        && Math.abs((value - option.min) / option.step - Math.round((value - option.min) / option.step)) <= 1e-7;
+      if (!validSetting(lengthPercent, lengthOption) || !validSetting(finishedWidthCm, widthOption)) {
+        return {
+          ...fittedTechPack,
+          bom: noBandBom,
+          constructionNotice: "Fitted Scoop neckband output is unavailable while its length or finished-width setting is invalid. Correct the band settings before generating the selected-size SVG and Tech Pack.",
+          construction: withoutNeckband,
+        };
+      }
+
+      const necklineCm = options.teeNecklineCircumferenceCm;
+      const bandTargetCm = options.teeNeckbandTargetLengthCm;
+      const geometrySummary = Number.isFinite(necklineCm) && necklineCm! > 0
+        && Number.isFinite(bandTargetCm) && bandTargetCm! > 0
+        ? "Measured selected-size body neckline " + necklineCm!.toFixed(1) + " cm; selected band target "
+          + bandTargetCm!.toFixed(1) + " cm at " + lengthPercent + "% of that measured length."
+        : "Selected band target " + lengthPercent + "% of the measured neckline; the selected-size SVG reports both measured neckline and target lengths.";
+      const attachIndex = fittedTechPack.construction.findIndex((step) => step.startsWith("Attach the neckband"));
+      const construction = [
+        ...fittedTechPack.construction.slice(0, attachIndex),
+        "Join the neckband short ends into a loop and align its quarter marks to the garment center front, shoulder seams, and center back.",
+        "Attach the band to the selected-size neckline, distributing the quarter sections evenly; follow the separate selected-size neckband SVG.",
+        "Neckband settings: " + geometrySummary + " Finished width " + finishedWidthCm.toFixed(1)
+          + " cm; these are product-software choices, not fabric or fit recommendations. The band SVG and these measurements apply to the selected size only; no graded-size band output is supplied.",
+        ...fittedTechPack.construction.slice(attachIndex + 1),
+      ];
+      return {
+        ...fittedTechPack,
+        bom: [
+          ...noBandBom,
+          { material: "User-selected band material", placement: "Provisional Scoop neckband", qty: "1 strip; see selected-size neckband SVG" },
+        ],
+        constructionNotice: "Provisional digital Scoop neckband construction. The rectangular cut template and allowances are software choices; physical fit, comfort, wear, fabric behavior, and recovery are unvalidated.",
+        construction,
+      };
+    }
     if (!isTeeVNeckActive(options)) return fittedTechPack;
     const vBandTechPack = TEE.techPackForOptions!.call({ ...this, techPack: fittedTechPack }, options);
     return {

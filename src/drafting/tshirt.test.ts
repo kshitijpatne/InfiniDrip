@@ -15,12 +15,14 @@ import {
   teeNecklineNotes,
   teeScoopNeckNotes,
   teeVNeckNotes,
+  fittedScoopNeckbandTemplateSvg,
+  teeNeckbandTemplateSvg,
   teeVNeckbandTemplateSvg,
   TEE_SCOOP_NECK_DROP_OPTION_ID,
   TEE_V_NECK_DROP_OPTION_ID,
 } from "./tshirt";
 import { rolePiece } from "./block";
-import { draftFitted, FITTED_VNECK_ENTRY_ID } from "./fitted";
+import { draftFitted, FITTED_SCOOP_ENTRY_ID, FITTED_VNECK_ENTRY_ID } from "./fitted";
 
 describe("draftFront", () => {
   const front = draftFront(STANDARD_M);
@@ -223,6 +225,35 @@ describe("Tee V-neck band template", () => {
     expect(svg).toContain("Fitted Tee V-neck band provisional cutting template");
     expect(svg).toContain("Fitted Tee V-NECK BAND — PROVISIONAL TEMPLATE · SELECTED SIZE");
     expect(svg).toContain("FITTED TEE FRONT V REFERENCE · SCHEMATIC");
+  });
+
+  it("builds a Fitted Scoop rectangle from the renamed front and preserves Tee output", () => {
+    const fittedBlock = draftFitted(STANDARD_M, {
+      [TEE_SCOOP_NECK_DROP_OPTION_ID]: 5,
+      dartIntake: 4,
+      bustApexHorizontal: 55,
+      bustApexVertical: 28,
+    });
+    const fittedPieces = [rolePiece(fittedBlock, "front"), rolePiece(fittedBlock, "back")];
+    const teeNamedPieces = fittedPieces.map((piece) => piece.name === "fitted front"
+      ? { ...piece, name: "front" }
+      : piece);
+    const teeOutput = teeNeckbandTemplateSvg(teeNamedPieces, 75, 2);
+    const fittedOutput = fittedScoopNeckbandTemplateSvg(fittedPieces, 75, 2);
+
+    expect(FITTED_SCOOP_ENTRY_ID).toBe("fitted-scoop-tee-digital-v1");
+    expect(fittedPieces[0]!.name).toBe("fitted front");
+    expect(fittedOutput).toContain('data-pattern-family="fitted-scoop-tee"');
+    expect(fittedOutput).toContain("Fitted Scoop-neck Tee neckband provisional cutting template");
+    expect(fittedOutput).toContain("FITTED SCOOP-NECK TEE NECKBAND — PROVISIONAL TEMPLATE · SELECTED SIZE");
+    expect(fittedOutput).toContain('data-calibration-length-cm="10"');
+    expect(fittedOutput).toContain("fit/recovery not validated");
+    expect(fittedOutput.match(/data-neckline-circumference-cm="([^"]+)"/)?.[1])
+      .toBe(teeOutput.match(/data-neckline-circumference-cm="([^"]+)"/)?.[1]);
+    expect(teeOutput).toContain("<title>Tee neckband provisional cutting template</title>");
+    expect(teeOutput).not.toContain("fitted-scoop-tee");
+    expect(() => fittedScoopNeckbandTemplateSvg([fittedPieces[1]!], 75, 2))
+      .toThrow("must include a fitted front piece");
   });
 
   it("accepts both range boundaries and uses the same center-front point when the edge direction is reversed", () => {
