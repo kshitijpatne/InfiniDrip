@@ -3097,13 +3097,21 @@ describe("accessible project and style manager", () => {
       rules: [],
     };
     const state = await techPackHarness({ artworkStore: store, initialBrandProfile });
+    const getSpy = vi.spyOn(store, "get");
     try {
       const { host, manager, workflow } = state;
       assets.delete(assetId);
       manager.refresh();
       await vi.waitFor(() => expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent).toContain("1 artwork reference(s) are missing"));
+      expect(getSpy).toHaveBeenCalledWith(assetId);
       expect(host.querySelector("[data-brand-profile-asset-row]")?.textContent).toContain("Missing from local storage");
       expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="remove-artwork"]')?.textContent).toContain("Remove missing reference");
+
+      getSpy.mockRejectedValueOnce(new Error("simulated local artwork read failure"));
+      manager.refresh();
+      expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent).toContain("Checking existing artwork references");
+      await vi.waitFor(() => expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent).toContain("1 artwork reference(s) are missing"));
+      expect(getSpy).toHaveBeenCalledTimes(2);
 
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-color"]')!.click();
       const saveButton = host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!;
@@ -3119,6 +3127,7 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent).toContain("resolve locally");
       expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')?.disabled).toBe(false);
     } finally {
+      getSpy.mockRestore();
       state.close();
     }
   });
@@ -3175,6 +3184,10 @@ describe("accessible project and style manager", () => {
       expect(pendingField.method).toContain("not verified");
       expect(pendingField.capturedBy).toBe("Local user");
       expect(new Date(pendingField.capturedAt!).toISOString()).toBe(pendingField.capturedAt);
+      const refreshedAssignment = host.querySelector<HTMLSelectElement>("[data-brand-profile-assignment-selection]")!;
+      refreshedAssignment.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(host.querySelector("[data-brand-profile-conflict]")?.textContent).toContain("already matches");
+      expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')?.disabled).toBe(true);
       expect(pendingField.inputRefs).toEqual([]);
       expect(pendingField.ruleId).toBeNull();
       expect(pendingField.ruleVersion).toBeNull();
