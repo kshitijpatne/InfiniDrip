@@ -3435,6 +3435,41 @@ describe("accessible project and style manager", () => {
     }
   });
 
+  it("removes nested colorway and variant drafts through their rendered actions without changing saved data", async () => {
+    const state = await techPackHarness();
+    try {
+      const { host, workflow } = state;
+      const savedProject = structuredClone(workflow.snapshot.project);
+      clickCollectionAction(host, "add-collection");
+      const collectionId = host.querySelector<HTMLButtonElement>("[data-collection-action='delete-collection']")?.dataset.ceCollectionId;
+      if (!collectionId) throw new Error("Added collection does not expose its ID.");
+
+      clickCollectionAction(host, "add-sku", `[data-ce-collection-id="${collectionId}"]`);
+      const skuId = host.querySelector<HTMLButtonElement>(`[data-collection-action='delete-sku'][data-ce-collection-id="${collectionId}"]`)?.dataset.ceSkuId;
+      if (!skuId) throw new Error("Added SKU does not expose its ID.");
+      const skuSelector = `[data-ce-collection-id="${collectionId}"][data-ce-sku-id="${skuId}"]`;
+
+      clickCollectionAction(host, "add-colorway", skuSelector);
+      const colorwayId = host.querySelector<HTMLButtonElement>(`[data-collection-action='delete-colorway']${skuSelector}`)?.dataset.ceRecordId;
+      if (!colorwayId) throw new Error("Added colorway does not expose its ID.");
+
+      clickCollectionAction(host, "add-variant", skuSelector);
+      const variantId = host.querySelector<HTMLButtonElement>(`[data-collection-action='delete-variant']${skuSelector}`)?.dataset.ceRecordId;
+      if (!variantId) throw new Error("Added variant does not expose its ID.");
+
+      clickCollectionAction(host, "delete-variant", `[data-ce-record-id="${variantId}"]`);
+      expect(host.querySelector(`[data-collection-action='delete-variant'][data-ce-record-id="${variantId}"]`)).toBeNull();
+      expect(host.querySelector(`[data-collection-action='delete-colorway'][data-ce-record-id="${colorwayId}"]`)).not.toBeNull();
+
+      clickCollectionAction(host, "delete-colorway", `[data-ce-record-id="${colorwayId}"]`);
+      expect(host.querySelector(`[data-collection-action='delete-colorway'][data-ce-record-id="${colorwayId}"]`)).toBeNull();
+      expect(host.querySelector(`[data-collection-action='delete-sku'][data-ce-sku-id="${skuId}"]`)).not.toBeNull();
+      expect(workflow.snapshot.project).toEqual(savedProject);
+    } finally {
+      state.close();
+    }
+  });
+
   it("edits, saves, reloads, and repairs a two-variant scenario while guarding dirty project navigation", async () => {
     let allowDiscard = false;
     const confirm = vi.fn(() => allowDiscard);
