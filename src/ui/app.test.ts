@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { Blob as NodeBlob } from "node:buffer";
-import { webcrypto } from "node:crypto";
+import { createHash, webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
 import { strFromU8, strToU8, unzipSync, zipSync } from "fflate";
 import {
@@ -25,6 +25,8 @@ import {
   semanticSizeStepFor,
   stageBlockerFromNote,
   withSemanticEditorPiece,
+  n01TankTechPackForOutput,
+  n01TankRecipeForOutput,
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
 import { customOneSizeSpecMarkup, inspectionMarkup } from "./view";
@@ -67,6 +69,13 @@ import * as productionPackOutput from "./tech-pack-output";
 
 const mutablePatternMeasurementMap = PATTERN_MEASUREMENT_MAP as unknown as
   Record<string, Record<string, PatternMeasurementDefinition>>;
+
+function visiblePdfText(pdf: string): string {
+  const streams = [...pdf.matchAll(/>>\nstream\n([\s\S]*?)\nendstream/g)].map((match) => match[1]!);
+  return streams.flatMap((stream) =>
+    [...stream.matchAll(/\(((?:[^()\\]|\\.)*)\) Tj/g)].map((match) => match[1]!.replace(/\\(.)/g, "$1")),
+  ).join(" ");
+}
 
 function mount(options: Parameters<typeof mountApp>[1] = {}): HTMLDivElement {
   const root = document.createElement("div");
@@ -10856,6 +10865,66 @@ describe("bundled local artwork library (Slice 203)", () => {
 });
 
 describe("EPIC-19 L02 starter binding", () => {
+  it("rewrites only N01 Tank BOM placements and avoids inventing binding consumption", () => {
+    const construction = ["Bind the neckline and both armholes with self-fabric or rib binding."];
+    const knitTechPack: GarmentRecipe["techPack"] = {
+      bom: [
+        { material: "Cotton jersey, main", placement: "Body & sleeves", qty: "1.2 m" },
+        { material: "Rib knit", placement: "Neckband", qty: "0.1 m" },
+        { material: "Woven brand label", placement: "Centre back neck", qty: "1" },
+      ],
+      construction,
+    };
+    const wovenTechPack: GarmentRecipe["techPack"] = {
+      bom: [
+        { material: "Cotton woven, main", placement: "Front & back panels", qty: "1.2 m" },
+        { material: "Self-fabric binding", placement: "Neckline & armholes", qty: "0.2 m" },
+      ],
+      construction,
+    };
+
+    expect(n01TankTechPackForOutput(knitTechPack)).toEqual({
+      bom: [
+        { material: "Cotton jersey, main", placement: "Front & back panels", qty: "1.2 m" },
+        {
+          material: "Binding (self-fabric or rib)",
+          placement: "Neckline & armholes",
+          qty: "Not estimated; no binding template",
+        },
+        { material: "Woven brand label", placement: "Centre back neck", qty: "1" },
+      ],
+      construction,
+    });
+    expect(n01TankTechPackForOutput(wovenTechPack).bom[1]).toEqual({
+      material: "Binding (self-fabric or rib)",
+      placement: "Neckline & armholes",
+      qty: "Not estimated; no binding template",
+    });
+    expect(knitTechPack.bom[0]!.placement).toBe("Body & sleeves");
+    expect(wovenTechPack.bom[1]!.qty).toBe("0.2 m");
+  });
+
+  it("resolves and freezes fabric-specific N01 Tech Pack content for export", () => {
+    const tankRecipe = GARMENTS.find((candidate) => candidate.name === "tank")!;
+    const knit = STRETCH_FABRICS.find((candidate) => candidate.name === "Cotton jersey")!;
+    const woven = STRETCH_FABRICS.find((candidate) => candidate.name === "Cotton woven")!;
+    const knitOutput = n01TankRecipeForOutput(tankRecipe, knit);
+    const wovenOutput = n01TankRecipeForOutput(tankRecipe, woven);
+    const fallbackOutput = n01TankRecipeForOutput({ ...tankRecipe, techPackForFabric: undefined }, knit);
+
+    expect(knitOutput.techPack.bom.find((row) => row.material === "Cotton jersey, main")?.placement)
+      .toBe("Front & back panels");
+    expect(wovenOutput.techPack.bom.find((row) => row.material === "Cotton woven, main")?.placement)
+      .toBe("Front & back panels");
+    expect(wovenOutput.techPack.bom.find((row) => row.placement === "Neckline & armholes")?.qty)
+      .toBe("Not estimated; no binding template");
+    expect(fallbackOutput.techPack.bom.find((row) => row.material === "Cotton jersey, main")?.placement)
+      .toBe("Front & back panels");
+    expect(knitOutput.techPackForFabric).toBeUndefined();
+    expect(wovenOutput.techPackForFabric).toBeUndefined();
+    expect(fallbackOutput.techPackForFabric).toBeUndefined();
+  });
+
   it("opens editable Tee measurements and preserves starter identity and rendered output through save and reopen", () => {
     localStorage.clear();
     const root = mount();
@@ -11819,6 +11888,166 @@ describe("EPIC-19 L02 starter binding", () => {
     root.remove();
     reopened.remove();
     localStorage.clear();
+  });
+  it("preserves the generic Tank Tech Pack bytes outside N01", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename: string, content: string) => {
+        files.set(filename, content);
+        return { saved: true, filePath: filename };
+      }),
+    };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "garment-tank");
+      reachExportStage(root);
+      clickId(root, "export-techpack");
+      await vi.waitFor(() => expect(files.has("tank-techpack.pdf")).toBe(true));
+      const pdf = files.get("tank-techpack.pdf")!;
+      const text = visiblePdfText(pdf);
+      expect(text).toContain("Body & sleeves");
+      expect(text).toContain("Neckband");
+      expect(text).not.toContain("not a validated grade for the N01 Classic scoop Tank starter");
+      expect(createHash("sha256").update(pdf).digest("hex")).toBe("4f3cb090354df0e99c9d0d1661ad2630383b903ab0b075088a0c9eb77f36593f");
+    } finally {
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("selects, edits, saves, reopens, and exports the N01 Classic scoop Tank starter", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const starterId = "tank-classic-scoop-digital-v1";
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${starterId}`)!;
+      expect(card.textContent).toContain("Classic scoop Tank · software defaults");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      clickId(root, `starter-${starterId}`);
+
+      expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Tank");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Classic tank");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Classic scoop Tank · software defaults");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("B1 technical review pending; physical validation not performed");
+      const defaultControls: Record<string, { value: string; min: string; max: string; step: string }> = {
+        chest: { value: "100", min: "60", max: "160", step: "1" },
+        shoulderWidth: { value: "45", min: "30", max: "70", step: "0.1" },
+        length: { value: "70", min: "59", max: "74", step: "1" },
+        armholeDepth: { value: "24", min: "12", max: "40", step: "1" },
+        strapWidth: { value: "8", min: "0", max: "15", step: "0.5" },
+        neckDrop: { value: "5", min: "0", max: "18", step: "0.5" },
+        neckWidthEase: { value: "0", min: "-4", max: "12", step: "0.5" },
+        ease: { value: "10", min: "5", max: "10", step: "1" },
+      };
+      for (const [field, expected] of Object.entries(defaultControls)) {
+        const input = root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!;
+        expect({ value: input.value, min: input.min, max: input.max, step: input.step }, field).toEqual(expected);
+      }
+      const limits = root.querySelector<HTMLElement>(`#starter-limits-${starterId}`)!;
+      expect(limits.textContent).toContain("Armhole depth (design input)");
+      expect(limits.textContent).toContain("not a sourced physical wide/narrow standard");
+      expect(limits.textContent).toContain("not a validated N01 grade");
+
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLElement>("#style-host")!.textContent).toContain("You're making a Classic tank.");
+      expect(root.querySelector<HTMLElement>("#style-host")!.textContent)
+        .not.toContain("flagged inputs or digital checks need review");
+      clickId(root, "view-pattern");
+      const originalSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      const pieceNames = [...root.querySelectorAll<HTMLButtonElement>("#pattern-annotation-key [data-pattern-piece-name]")]
+        .map((button) => button.dataset.patternPieceName);
+      expect(pieceNames).toHaveLength(2);
+      expect(pieceNames).toEqual(expect.arrayContaining(["front", "back"]));
+
+      const strapWidth = root.querySelector<HTMLInputElement>('input[data-field="strapWidth"]')!;
+      strapWidth.value = "16";
+      strapWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(strapWidth.value).toBe("16");
+      expect(root.querySelector<HTMLElement>("#error-strapWidth")!.textContent).toContain("0–15 cm");
+      strapWidth.value = "10";
+      strapWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(strapWidth.value).toBe("10");
+      expect(root.querySelector<HTMLElement>("#error-strapWidth")!.textContent).toBe("");
+      const neckDrop = root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!;
+      neckDrop.value = "6";
+      neckDrop.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(editedSvg).not.toBe(originalSvg);
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: starterId,
+        entryRevision: "2026-10-24.1",
+        recipeId: "tank",
+        recipeRevision: "tank-classic-scoop-v1",
+        configurationSnapshot: {
+          targetStyle: "Classic tank",
+          measurements: {
+            chest: 100, shoulderWidth: 45, length: 70, armholeDepth: 24,
+            strapWidth: 8, neckDrop: 5, neckWidthEase: 0, ease: 10,
+          },
+          options: {},
+        },
+      });
+      expect(saved.measurements).toMatchObject({ strapWidth: 10, neckDrop: 6 });
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Classic tank");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="strapWidth"]')!.value).toBe("10");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.value).toBe("6");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${starterId}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(editedSvg);
+
+      reachExportStage(reopened);
+      const selectedSize = reopened.querySelector<HTMLSelectElement>("#export-size")!;
+      expect(selectedSize.options[selectedSize.selectedIndex]!.textContent!.trim()).toBe("M");
+      reopened.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
+      expect([...files.keys()]).toEqual(["tank-M.svg"]);
+      const svgOutput = files.get("tank-M.svg")!;
+      expect(svgOutput).toContain("<svg");
+      expect(svgOutput.toLowerCase()).toContain("front");
+      expect(svgOutput.toLowerCase()).toContain("back");
+
+      reopened.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      const [techPackName, techPack] = saveFile.mock.calls[1]!;
+      expect(techPackName).toBe("tank-techpack.pdf");
+      const techPackText = visiblePdfText(techPack);
+      expect(techPackText).toContain("Tank - Pattern Piece Overview (1/1)");
+      expect(techPackText).toContain("Digital draft only; this generic Tank size run is not a validated grade for the N01 Classic scoop Tank starter.");
+      expect(techPackText).toContain("Front & back panels");
+      expect(techPackText).toContain("Neckline & armholes");
+      expect(techPackText).toContain("Not estimated; no binding template");
+      expect(techPackText).not.toContain("Body & sleeves");
+      expect(techPackText).not.toContain("Neckband");
+      expect(techPackText).not.toContain("Strap width (finished)");
+
+    } finally {
+      if (root) root.remove();
+      if (reopened) reopened.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
   });
   it("selects, edits, saves, reopens, and exports the F06 Cap-Sleeve fitted Tee", async () => {
     localStorage.clear();
