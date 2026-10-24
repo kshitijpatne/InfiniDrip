@@ -35,7 +35,15 @@ jobs:
       - name: Install Chromium for browser tests
         run: npx playwright install --with-deps chromium
 
+      - name: Verify hosted test heap limit
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
+        run: |
+          node -e 'const v8=require("node:v8"); const limit=v8.getHeapStatistics().heap_size_limit; console.log(`V8 heap limit: ${(limit/1024**3).toFixed(2)} GiB`); if (limit < 6*1024**3) throw new Error("V8 heap limit below 6 GiB");'
+
       - name: Run full test suite
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
         run: npm test
 
       - name: Build production artifact
