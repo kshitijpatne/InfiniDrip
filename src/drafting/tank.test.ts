@@ -85,6 +85,21 @@ describe("draftTank", () => {
     }
   });
 
+  it("places the N02 software profile 5 cm higher at front center than N01 with Tank joins intact", () => {
+    const n01 = draftTank({ ...STANDARD_M, neckDrop: 5, neckWidthEase: 0 });
+    const n02 = draftTank({ ...STANDARD_M, neckDrop: 0, neckWidthEase: 0 });
+    const n01Front = pieceEdge(rolePiece(n01, "front"), "neckline");
+    const n02Front = pieceEdge(rolePiece(n02, "front"), "neckline");
+    expect(n01Front.kind).toBe("curve");
+    expect(n02Front.kind).toBe("curve");
+    if (n01Front.kind === "curve" && n02Front.kind === "curve") {
+      expect(n01Front.curve.start.y - n02Front.curve.start.y).toBeCloseTo(5, 8);
+    }
+    expect(pieceEdge(rolePiece(n01, "back"), "neckline"))
+      .toEqual(pieceEdge(rolePiece(n02, "back"), "neckline"));
+    expect(stitchChecks(n01, n01.stitches).map((check) => check.ok)).toEqual([true, true]);
+    expect(stitchChecks(n02, n02.stitches).map((check) => check.ok)).toEqual([true, true]);
+  });
   it("never lets neckDrop move the BACK neckline — only the front carries frontDrop", () => {
     const shallow = draftTank({ ...STANDARD_M, neckDrop: 2 });
     const deep = draftTank({ ...STANDARD_M, neckDrop: 9 });

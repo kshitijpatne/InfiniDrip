@@ -367,4 +367,24 @@ describe("measurement help catalog", () => {
     expect(f07.limits).not.toContain("D-01");
     expect(generic.label).toBe("Sleeve length (cap to hem target)");
   });
+
+  it("uses N02 neckline meaning only for the High-neck Tank starter", () => {
+    const generic = measurementHelpFor("tank", "style.tank-neck-drop")!;
+    const n01 = measurementHelpFor("tank", "style.tank-neck-drop", "tank-classic-scoop-digital-v1")!;
+    const n02 = measurementHelpFor("tank", "style.tank-neck-drop", "tank-high-neck-digital-v1")!;
+
+    expect(n02.label).toBe("Additional front neckline drop");
+    expect(n02.meaning).toContain("higher round front-neckline Tank profile relative to N01");
+    expect(n02.meaning).toContain("0 cm is the N02 software default, not a physical target");
+    expect(n02.draftUse).toContain("Only the front neckline changes");
+    expect(n02.limits).toContain("0–18 cm range in 0.5 cm steps");
+    expect(n02.limits).toContain("5 cm higher than N01's 5 cm default");
+    expect(n02.limits).toContain("No qualified capture procedure or physical fit validation exists");
+    expect(n02.guardrailNote).toContain("Invalid values remain visible and are not clamped");
+    expect(n02.techniqueQualified).toBe(false);
+    expect(n02.qualificationNote).toContain("claims no fit");
+    expect(n02).not.toBe(generic);
+    expect(n01).toBe(generic);
+    expect(n01.label).toBe("Neck scoop depth");
+  });
 });
