@@ -392,8 +392,9 @@ function observationKeys(value: Record<string, unknown>): boolean {
   return Object.keys(value).length === keys.length && keys.every((key) => Object.prototype.hasOwnProperty.call(value, key));
 }
 
-export function getFieldDefinitions(recipeId: string): readonly FieldDefinition[] {
-  const cached = definitionsByRecipe.get(recipeId);
+export function getFieldDefinitions(recipeId: string, starterEntryId?: string | null): readonly FieldDefinition[] {
+  const cacheKey = [recipeId, starterEntryId === undefined ? "all" : starterEntryId ?? "none"].join("|");
+  const cached = definitionsByRecipe.get(cacheKey);
   if (cached) return cached;
   const recipe = GARMENTS.find((item) => item.name === recipeId);
   if (!recipe) return [];
@@ -437,6 +438,8 @@ export function getFieldDefinitions(recipeId: string): readonly FieldDefinition[
     });
   }
   for (const option of recipe.options ?? []) {
+    if (option.appliesToStarterEntryId !== undefined && starterEntryId !== undefined
+      && option.appliesToStarterEntryId !== starterEntryId) continue;
     const slug = option.id.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
     definitions.push({
       id: `style.${recipe.name}.${slug}`,
@@ -460,7 +463,7 @@ export function getFieldDefinitions(recipeId: string): readonly FieldDefinition[
     });
   }
   const result = Object.freeze(definitions.map((definition) => Object.freeze(definition)));
-  definitionsByRecipe.set(recipeId, result);
+  definitionsByRecipe.set(cacheKey, result);
   return result;
 }
 
@@ -481,8 +484,8 @@ export function getCaptureFieldDefinitions(recipeId: string): readonly FieldDefi
     && !(definition.inputKind === "option" && starterBoundOptions.has(definition.inputKey)));
 }
 
-export function getFieldDefinition(recipeId: string, inputKey: string, inputKind?: FieldInputKind): FieldDefinition | undefined {
-  return getFieldDefinitions(recipeId).find((definition) => definition.inputKey === inputKey
+export function getFieldDefinition(recipeId: string, inputKey: string, inputKind?: FieldInputKind, starterEntryId?: string | null): FieldDefinition | undefined {
+  return getFieldDefinitions(recipeId, starterEntryId).find((definition) => definition.inputKey === inputKey
     && (inputKind === undefined || definition.inputKind === inputKind));
 }
 
@@ -492,7 +495,8 @@ export function createFieldObservationRecord(
   origin: InitialObservationOrigin,
 ): FieldObservationRecord {
   if (!validTimestamp(recordedAt)) throw new Error("Field observation timestamp must be canonical UTC ISO time.");
-  const observations = getFieldDefinitions(style.recipeId).map((definition, index) => {
+  const starterEntryId = style.design.workspace.starterOrigin?.entryId ?? null;
+  const observations = getFieldDefinitions(style.recipeId, starterEntryId).map((definition, index) => {
     const value = currentValue(style.design, definition);
     const raw = String(value);
     const inherited = isInheritedOptional(style.design, definition);
@@ -709,12 +713,13 @@ export function appendRecoveryFieldObservations(
   if (record.styleId !== style.id || !validTimestamp(recordedAt)) {
     throw new Error("Field observations must match the style and use a canonical UTC timestamp.");
   }
+  const starterEntryId = payload.workspace.starterOrigin?.entryId ?? null;
   if (changedInput && (changedInput.recipeId !== payload.workspace.garment
-    || !getFieldDefinition(changedInput.recipeId, changedInput.inputKey, changedInput.inputKind))) {
+    || !getFieldDefinition(changedInput.recipeId, changedInput.inputKey, changedInput.inputKind, starterEntryId))) {
     throw new Error("The changed input must be defined by the active recipe.");
   }
   let next = record;
-  for (const definition of getFieldDefinitions(payload.workspace.garment)) {
+  for (const definition of getFieldDefinitions(payload.workspace.garment, starterEntryId)) {
     const { raw, value, inherited } = recoveryRawValue(payload, definition);
     const current = currentFieldObservation(next, definition);
     const directlyChanged = changedInput?.recipeId === definition.recipeId
@@ -750,7 +755,8 @@ export function reconcileDesignFieldObservations(
     throw new Error("Field observations must match the style and use a canonical UTC timestamp.");
   }
   let next = record;
-  for (const definition of getFieldDefinitions(design.workspace.garment)) {
+  const starterEntryId = design.workspace.starterOrigin?.entryId ?? null;
+  for (const definition of getFieldDefinitions(design.workspace.garment, starterEntryId)) {
     const value = currentValue(design, definition);
     const current = currentFieldObservation(next, definition);
     const unsetOptional = isUnsetOptional(design, definition);

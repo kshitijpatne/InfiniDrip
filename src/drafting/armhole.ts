@@ -51,7 +51,8 @@ export function sleevelessArmhole(
   shoulderHalf: number,
   shoulderSlope: number,
   chestWidthHalf: number,
-  armholeDepth: number
+  armholeDepth: number,
+  armholeCutInCm = 0
 ): { readonly strap: Point; readonly underarm: Point; readonly edge: Edge; readonly notes: readonly Note[] } {
   const notes: Note[] = [];
   if (strapWidth <= neckWidthHalf) {
@@ -72,8 +73,8 @@ export function sleevelessArmhole(
   const edge: Edge = {
     kind: "curve", name: "armhole", curve: {
       start: strap,
-      control1: point(strap.x + dx * 0.25 - dx * SCOOP_PULL, strap.y + dy * 0.25),
-      control2: point(strap.x + dx * 0.75 - dx * SCOOP_PULL, strap.y + dy * 0.75),
+      control1: point(strap.x + dx * 0.25 - dx * SCOOP_PULL - armholeCutInCm, strap.y + dy * 0.25),
+      control2: point(strap.x + dx * 0.75 - dx * SCOOP_PULL - armholeCutInCm, strap.y + dy * 0.75),
       end: underarm,
     },
   };

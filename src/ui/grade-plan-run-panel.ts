@@ -1,5 +1,6 @@
 import type { GradePlanRunEvaluation, GradePlanRunSize } from "./grade-plan-run";
 import { getFieldDefinitions } from "./field-provenance";
+import { GARMENTS } from "../drafting";
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (character) => ({
@@ -18,11 +19,15 @@ function raw(value: number | null): string {
  * unit. Values fall back to their raw key only when the recipe has no shared
  * definition (an unknown recipe id), so nothing is buried or mislabelled.
  */
-function sizeInputsMarkup(recipeId: string, size: GradePlanRunSize): string {
+function sizeInputsMarkup(recipeId: string, size: GradePlanRunSize, starterEntryId?: string | null): string {
   if (size.measurements === null || size.options === null) {
     return "<p>Generated inputs are unavailable until the listed input blockers resolve.</p>";
   }
-  const definitions = getFieldDefinitions(recipeId);
+  const definitions = getFieldDefinitions(recipeId, starterEntryId);
+  const starterScopedOptionIds = new Set((GARMENTS.find((recipe) => recipe.name === recipeId)?.options ?? [])
+    .filter((option) => option.appliesToStarterEntryId !== undefined
+      && starterEntryId !== undefined && option.appliesToStarterEntryId !== starterEntryId)
+    .map((option) => option.id));
   const measurements = size.measurements as unknown as Readonly<Record<string, number>>;
   const options = size.options as unknown as Readonly<Record<string, number>>;
   const knownMeasurements = new Set(
@@ -51,7 +56,7 @@ function sizeInputsMarkup(recipeId: string, size: GradePlanRunSize): string {
         return `<tr><th scope="row">${escapeHtml(definition.label)}</th><td>Design option</td><td>${escapeHtml(shown)}</td></tr>`;
       }),
     ...Object.entries(options)
-      .filter(([key]) => !knownOptions.has(key))
+      .filter(([key]) => !knownOptions.has(key) && !starterScopedOptionIds.has(key))
       .map(([key, value]) =>
         `<tr><th scope="row">${escapeHtml(key)}</th><td>Design option</td><td>${escapeHtml(String(value))}</td></tr>`),
   ];
@@ -69,6 +74,7 @@ export function gradePlanRunMarkup(
   evaluation: GradePlanRunEvaluation,
   outputBaseSaved = true,
   gradePlanExists = true,
+  starterEntryId?: string | null,
 ): string {
   const headline = !gradePlanExists
     ? "Create and approve a grade plan to review graded-size and whole-run readiness."
@@ -103,7 +109,7 @@ export function gradePlanRunMarkup(
         `<tbody>${rows}</tbody></table></div>`
       : "<p>No applicable POM rows.</p>";
     const status = ready ? "ready" : !outputBaseSaved ? "blocked — save the current style first" : "blocked";
-    return `<details class="grade-plan-run-size"${ready ? "" : " open"}><summary>${escapeHtml(size.label)} — ${status}</summary>${issues}${sizeInputsMarkup(evaluation.recipeId, size)}${table}</details>`;
+    return `<details class="grade-plan-run-size"${ready ? "" : " open"}><summary>${escapeHtml(size.label)} — ${status}</summary>${issues}${sizeInputsMarkup(evaluation.recipeId, size, starterEntryId)}${table}</details>`;
   }).join("");
   return `<section class="grade-plan-run-review" aria-label="Approved grade-plan output checks">` +
     `<h3>Declared size run</h3><p>${headline}</p>` +

@@ -103,7 +103,8 @@ function seg(x1: number, y1: number, x2: number, y2: number, width: number): str
 export function renderBody(
   m: Measurements, hasSleeve = true, frontNeckline: NecklineParams = NECKLINE_DEFAULT,
   strapWidth?: number, position: "front" | "back" = "front", polo?: PoloBodyVisual,
-  necklineVisual?: BodyNecklineVisual, lowerShape?: UpperCroquisLowerShape
+  necklineVisual?: BodyNecklineVisual, lowerShape?: UpperCroquisLowerShape,
+  backArmholeControlOffsetCm?: number,
 ): string {
   const d = derive(m);
   const adjustableNeckline = frontNeckline !== NECKLINE_DEFAULT;
@@ -121,6 +122,7 @@ export function renderBody(
       d.shoulderHalf, m.armholeDepth, frontNeckline);
   const croquis = upperCroquisFigure(m, position, {
     hasSleeve, strapWidth, neckline: { cNeck, hps, edge: neckEdge }, lowerShape,
+    armholeControlOffsetCm: position === "back" ? backArmholeControlOffsetCm : undefined,
     lengthOverride: poloV2 ? m.length + poloDrop : undefined,
     ventDepth: poloV2 ? poloVentDepth : undefined,
     ventBaseLength: poloV2 ? m.length : undefined,
@@ -269,12 +271,12 @@ export function renderBodyPair(
   frontNeckline: NecklineParams = NECKLINE_DEFAULT,
   backNeckline: NecklineParams = NECKLINE_DEFAULT,
   strapWidth?: number, polo?: PoloBodyVisual, necklineVisual?: BodyNecklineVisual,
-  lowerShape?: UpperCroquisLowerShape
+  lowerShape?: UpperCroquisLowerShape, backArmholeControlOffsetCm?: number,
 ): string {
   const pairPolo = polo ? { ...polo, frontNeckline, backNeckline } : polo;
   return `<div style="display:flex;gap:8px;width:100%">` +
     `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Front</div>` +
     renderBody(m, hasSleeve, frontNeckline, strapWidth, "front", pairPolo, necklineVisual, lowerShape) + `</div>` +
     `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Back</div>` +
-    renderBody(m, hasSleeve, backNeckline, strapWidth, "back", pairPolo, necklineVisual, lowerShape) + `</div></div>`;
+    renderBody(m, hasSleeve, backNeckline, strapWidth, "back", pairPolo, necklineVisual, lowerShape, backArmholeControlOffsetCm) + `</div></div>`;
 }

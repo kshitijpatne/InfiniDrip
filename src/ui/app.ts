@@ -59,6 +59,7 @@ import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspe
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
+import { TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, tankRacerbackControlOffsetCm } from "../drafting/tank";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -504,6 +505,47 @@ export function n01TankRecipeForOutput(
   fabric: (typeof STRETCH_FABRICS)[number],
 ): GarmentRecipe {
   return tankStarterRecipeForOutput(recipe, fabric);
+}
+
+/** Keep N03's Tech Pack option-aware without estimating binding consumption. */
+export function racerbackTankTechPackForOutput(
+  techPack: GarmentRecipe["techPack"],
+  options: GarmentOptions,
+): GarmentRecipe["techPack"] {
+  const tankPack = tankStarterTechPackForOutput(techPack);
+  const cutIn = options[TANK_RACERBACK_BACK_CUT_IN_OPTION_ID];
+  const setting = Number.isFinite(cutIn) ? `${cutIn} cm` : "unresolved";
+  return {
+    ...tankPack,
+    measurementSpecNote: "Generic Tank size values are not a validated N03 grade. No sewn tolerance is specified or validated.",
+    measurementSpecToleranceColumn: false,
+    fitRecordStatusNote: "Digital N03 back-armhole cut-in is an InfiniDrip software setting. Physical fit has not been validated.",
+    fitRecordPassColumn: false,
+    fitRecordToleranceColumn: false,
+    fitRecordTitle: "Measurement Worksheet",
+    construction: [
+      ...tankPack.construction,
+      "Digital N03 back-armhole cut-in: " + setting + ". Binding consumption is not estimated; no sewn tolerance is specified or validated.",
+    ],
+  };
+}
+
+export function racerbackTankRecipeForOutput(
+  recipe: GarmentRecipe,
+  fabric: (typeof STRETCH_FABRICS)[number],
+  options: GarmentOptions = {},
+): GarmentRecipe {
+  const fabricPack = recipe.techPackForFabric?.(fabric) ?? recipe.techPack;
+  const techPackForOptions = (activeOptions: GarmentOptions): GarmentRecipe["techPack"] =>
+    racerbackTankTechPackForOutput(fabricPack, activeOptions);
+  return {
+    ...recipe,
+    label: "Racerback Tank",
+    poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
+    techPack: techPackForOptions(options),
+    techPackForOptions,
+    techPackForFabric: undefined,
+  };
 }
 
 /** Keep output routing exact: an unknown measurement set cannot borrow a nearby size. */
@@ -1466,7 +1508,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    recipe.name === "tee" && teeConstruction === "raglan" ? "tee-raglan" : recipe.name;
+    starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && recipe.name === "tank" ? "racerback-tank"
+      : recipe.name === "tee" && teeConstruction === "raglan" ? "tee-raglan" : recipe.name;
   const currentSavedDesign = (): SavedDesign | null => {
     const result = deserialize(serialize(measurements, fabric, garmentOptions, currentWorkspace(), appearance, surfaceBook, {
       bufferPct: nestBufferRaw.trim() === "" ? NaN : Number(nestBufferRaw),
@@ -1605,6 +1648,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => garmentOptionsForStyle(
     forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle, true, starterOrigin?.entryId,
   );
+  const racerbackBodyControlOffsetCm = (): number | undefined =>
+    starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && recipe.name === "tank"
+      ? tankRacerbackControlOffsetCm(recipeOptions()[TANK_RACERBACK_BACK_CUT_IN_OPTION_ID] ?? 0)
+      : undefined;
   const supportsTeeVBand = (forRecipe: GarmentRecipe = recipe): boolean =>
     forRecipe.name === "tee" || forRecipe.name === "fitted";
   const teeVBandFamilyLabel = (forRecipe: GarmentRecipe = recipe): string =>
@@ -1625,7 +1672,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
+    starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && forRecipe.name === "tank"
+      ? "Racerback Tank"
+      : starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
       && forRecipe.name === "fitted"
       ? "Fitted Three-Quarter-Sleeve Tee"
       : starterOrigin?.entryId === FITTED_CAP_SLEEVE_ENTRY_ID
@@ -1640,6 +1689,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const starterOutputStatusNote = (): string | undefined =>
     starterOrigin?.entryId === "tank-high-neck-digital-v1"
       ? "Digital draft only; N02 is a higher round front neckline relative to N01. No built-up neck, collar, facing or modeled stabilization is included; physical fit has not been validated. The generic Tank size run is not a validated N02 grade."
+      : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID
+        ? "Digital draft only; the N03 back-armhole cut-in is an InfiniDrip software setting. The generic Tank size run is not a validated N03 grade; no sewn tolerance is specified and physical fit has not been validated."
       : starterOrigin?.entryId === "tank-classic-scoop-digital-v1"
         ? "Digital draft only; this generic Tank size run is not a validated grade for the N01 Classic scoop Tank starter."
         : starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
@@ -1764,10 +1815,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : recipe.allowances;
     const poms = pomsForRecipeOptions(recipe, options);
     const withStarterTechPack = (outputRecipe: GarmentRecipe): GarmentRecipe =>
-      starterOrigin?.entryId === "tank-classic-scoop-digital-v1"
-        || starterOrigin?.entryId === "tank-high-neck-digital-v1"
-        ? tankStarterRecipeForOutput(outputRecipe, stretchFabric)
-        : outputRecipe;
+      starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID
+        ? racerbackTankRecipeForOutput(outputRecipe, stretchFabric, recipeOptions())
+        : starterOrigin?.entryId === "tank-classic-scoop-digital-v1"
+          || starterOrigin?.entryId === "tank-high-neck-digital-v1"
+          ? tankStarterRecipeForOutput(outputRecipe, stretchFabric)
+          : outputRecipe;
     if (!semanticEdits) return withStarterTechPack({ ...recipe, allowances, poms, label });
     const evaluation = requireSemanticEditEvaluation(currentSemanticState()?.evaluation);
     return withStarterTechPack({
@@ -2177,9 +2230,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     const visibleTarget = hasTarget(analysisHost);
     const assembledTarget = hasTarget(assembledHost);
-    const label = field.startsWith("option-")
+    const optionLabel = field.startsWith("option-")
+      ? recipe.options?.find((option) => option.id === field.slice("option-".length))?.label
+      : undefined;
+    const label = optionLabel ?? (field.startsWith("option-")
       ? field.slice("option-".length).replace(/([A-Z])/g, " $1").toLowerCase()
-      : FIELDS.find((candidate) => candidate.id === field)?.label ?? field;
+      : FIELDS.find((candidate) => candidate.id === field)?.label ?? field);
     cue.hidden = visibleTarget;
     text.textContent = assembledTarget
       ? `${label} is highlighted in Assembled.`
@@ -3516,7 +3572,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       canvasContent = semanticSizeReady(0)
         ? checkMarkup(currentCheckReport(), valid, dismissedGuidance,
           customOneSizeStyle(), gradePlanApproved(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan)
-          + (customOneSizeStyle() ? gradePlanRunMarkup(currentGradePlanRun(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan) : "")
+          + (customOneSizeStyle() ? gradePlanRunMarkup(currentGradePlanRun(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan, starterOrigin?.entryId ?? null) : "")
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
@@ -3648,9 +3704,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       } else if (bodyCroquisView === "front") {
         canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements, recipeOptions()), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       } else if (bodyCroquisView === "back") {
-        canvasContent = renderBody(measurements, hasSleeve, recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), "back", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
+        canvasContent = renderBody(measurements, hasSleeve, recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), "back", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape(), racerbackBodyControlOffsetCm());
       } else {
-        canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements, recipeOptions()), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
+        canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements, recipeOptions()), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape(), racerbackBodyControlOffsetCm());
       }
     } else {
       const block = semanticSizeBlock(selectedOutputStep());
@@ -6658,13 +6714,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           : exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle,
             starterOutputStatusNote());
         const artifacts = [
-          { artifactId: "selected-size-svg", extension: "svg", displayName: `${recipe.name}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, notchesForRecipeOptions(currentRecipe, recipeOptions(currentRecipe))) },
-          { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${recipe.name}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
-          { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${recipe.name}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true) },
-          { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${recipe.name}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, notchesForRecipeOptions(currentRecipe, recipeOptions(currentRecipe)), undefined, recipe.a0Overflow === true) },
-          { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
-          { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${recipe.name}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : []) },
-          { artifactId: "whole-run-surface-sheet-svg", extension: "svg", displayName: `${recipe.name}-surface-sheet.svg`, mediaType: "image/svg+xml", content: exportSurfaceSheet(surfacePlacementsNow(), targetStyle) },
+          { artifactId: "selected-size-svg", extension: "svg", displayName: `${exportRecipeName()}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, notchesForRecipeOptions(currentRecipe, recipeOptions(currentRecipe))) },
+          { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${exportRecipeName()}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
+          { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true) },
+          { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, notchesForRecipeOptions(currentRecipe, recipeOptions(currentRecipe)), undefined, recipe.a0Overflow === true) },
+          { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${exportRecipeName()}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
+          { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${exportRecipeName()}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : []) },
+          { artifactId: "whole-run-surface-sheet-svg", extension: "svg", displayName: `${exportRecipeName()}-surface-sheet.svg`, mediaType: "image/svg+xml", content: exportSurfaceSheet(surfacePlacementsNow(), targetStyle) },
         ];
         if (canFreezeVBand && frozenBandSettings) {
           const selectedBandOptions = teeVBandTechPackOptions(
@@ -6678,8 +6734,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             block: selectedBlock,
           }, undefined, stretchFabric, surfacePlacementsNow(), targetStyle, selectedPlanSize !== null);
           artifacts.push(
-            { artifactId: "selected-size-vneck-band-svg", extension: "svg", displayName: `${recipe.name}-${label}-vneck-band.svg`, mediaType: "image/svg+xml", content: teeVNeckbandTemplateSvg(pieces, frozenBandSettings.lengthPercent, frozenBandSettings.finishedWidthCm, teeVBandFamilyLabel(currentRecipe)) },
-            { artifactId: "selected-size-vneck-band-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-${label}-vneck-band-techpack.pdf`, mediaType: "application/pdf", content: selectedBandTechPack },
+            { artifactId: "selected-size-vneck-band-svg", extension: "svg", displayName: `${exportRecipeName()}-${label}-vneck-band.svg`, mediaType: "image/svg+xml", content: teeVNeckbandTemplateSvg(pieces, frozenBandSettings.lengthPercent, frozenBandSettings.finishedWidthCm, teeVBandFamilyLabel(currentRecipe)) },
+            { artifactId: "selected-size-vneck-band-tech-pack-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}-vneck-band-techpack.pdf`, mediaType: "application/pdf", content: selectedBandTechPack },
           );
         }
         const approvalRefs = customRun && gradePlanState?.plan

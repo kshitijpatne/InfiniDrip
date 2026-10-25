@@ -1,7 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
-import { draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS } from "./tank";
+import {
+  draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS,
+  TANK_RACERBACK_BACK_CUT_IN_OPTION, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
+  tankRacerbackControlOffsetCm,
+} from "./tank";
 import { TANK, gradeRun, specSheet } from "./index";
+import { defaultGarmentOptions } from "./options";
 import { rolePiece, blockPieces } from "./block";
 import { edgeEnd, edgeStart, pieceEdge } from "./piece";
 import { stitchChecks } from "./stitch";
@@ -114,6 +119,57 @@ describe("draftTank", () => {
     const n = pieceEdge(rolePiece(narrow, "front"), "neckline");
     const w = pieceEdge(rolePiece(wide, "front"), "neckline");
     if (n.kind === "curve" && w.kind === "curve") expect(w.curve.end.x).toBeGreaterThan(n.curve.end.x);
+  });
+});
+
+describe("N03 racerback Tank geometry", () => {
+  it("converts the displayed maximum contour movement to the matching Bezier control offset", () => {
+    expect(tankRacerbackControlOffsetCm(0)).toBe(0);
+    expect(tankRacerbackControlOffsetCm(3)).toBe(4);
+    expect(tankRacerbackControlOffsetCm(6)).toBe(8);
+  });
+
+  it("changes only the back armhole curve across 0/default/6 cm and keeps endpoints and joins", () => {
+    const n01 = draftTank(STANDARD_M);
+    expect(TANK.options).toEqual([TANK_RACERBACK_BACK_CUT_IN_OPTION]);
+    const defaultOptions = defaultGarmentOptions([TANK_RACERBACK_BACK_CUT_IN_OPTION], TANK_RACERBACK_ENTRY_ID);
+    expect(defaultOptions).toEqual({ [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 3 });
+    const draft = (cutIn: number) => draftTank(STANDARD_M, { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: cutIn });
+    const zero = draft(0);
+    const three = draft(defaultOptions[TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]!);
+    const six = draft(6);
+    const backCurve = (block: ReturnType<typeof draftTank>) => pieceEdge(rolePiece(block, "back"), "armhole");
+    const zeroEdge = backCurve(zero);
+    const threeEdge = backCurve(three);
+    const sixEdge = backCurve(six);
+    expect([zeroEdge.kind, threeEdge.kind, sixEdge.kind]).toEqual(["curve", "curve", "curve"]);
+    if (zeroEdge.kind !== "curve" || threeEdge.kind !== "curve" || sixEdge.kind !== "curve") {
+      throw new Error("expected back armhole curves");
+    }
+
+    expect(zeroEdge).toEqual(pieceEdge(rolePiece(n01, "back"), "armhole"));
+    expect(threeEdge).not.toEqual(zeroEdge);
+    expect(sixEdge).not.toEqual(threeEdge);
+    const cubicMidpointX = (edge: Extract<typeof zeroEdge, { kind: "curve" }>): number =>
+      (edge.curve.start.x + 3 * edge.curve.control1.x + 3 * edge.curve.control2.x + edge.curve.end.x) / 8;
+    expect(cubicMidpointX(zeroEdge) - cubicMidpointX(threeEdge)).toBeCloseTo(3, 10);
+    expect(cubicMidpointX(zeroEdge) - cubicMidpointX(sixEdge)).toBeCloseTo(6, 10);
+    for (const edge of [zeroEdge, threeEdge, sixEdge]) {
+      expect(edge.curve.start).toEqual(zeroEdge.curve.start);
+      expect(edge.curve.end).toEqual(zeroEdge.curve.end);
+      for (const point of [edge.curve.start, edge.curve.control1, edge.curve.control2, edge.curve.end]) {
+        expect(Number.isFinite(point.x) && Number.isFinite(point.y)).toBe(true);
+      }
+    }
+
+    const n01Front = pieceEdge(rolePiece(n01, "front"), "armhole");
+    for (const candidate of [zero, three, six]) {
+      expect(pieceEdge(rolePiece(candidate, "front"), "armhole")).toEqual(n01Front);
+      expect(pieceEdge(rolePiece(candidate, "back"), "neckline"))
+        .toEqual(pieceEdge(rolePiece(n01, "back"), "neckline"));
+      expect(candidate.stitches.map((stitch) => stitch.label)).toEqual(n01.stitches.map((stitch) => stitch.label));
+      expect(stitchChecks(candidate, candidate.stitches).map((check) => check.ok)).toEqual([true, true]);
+    }
   });
 });
 
