@@ -2945,6 +2945,95 @@ describe("accessible project and style manager", () => {
     }
   });
 
+  it("preserves other Brand Profile rules while editing the selected rule", async () => {
+    const state = await techPackHarness();
+    try {
+      const { host, workflow } = state;
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-rule"]')!.click();
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-rule"]')!.click();
+      const [firstRule, secondRule] = Array.from(host.querySelectorAll<HTMLElement>("[data-brand-profile-rule-row]"));
+      const firstRuleId = firstRule.dataset.brandProfileRuleRow!;
+      const secondRuleId = secondRule.dataset.brandProfileRuleRow!;
+      const secondDescription = secondRule.querySelector<HTMLTextAreaElement>(
+        '[data-brand-profile-rule-field="description"]',
+      )!.value;
+
+      const firstDescription = host.querySelector<HTMLTextAreaElement>(
+        `[data-brand-profile-rule-row="${firstRuleId}"] [data-brand-profile-rule-field="description"]`,
+      )!;
+      firstDescription.value = "Keep the selected rule updated.";
+      firstDescription.dispatchEvent(new Event("input", { bubbles: true }));
+
+      expect(host.querySelector<HTMLTextAreaElement>(
+        `[data-brand-profile-rule-row="${secondRuleId}"] [data-brand-profile-rule-field="description"]`,
+      )!.value).toBe(secondDescription);
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!.click();
+      await vi.waitFor(() => expect("brandProfile" in workflow.snapshot.project
+        && workflow.snapshot.project.brandProfile?.rules.map((rule) => rule.description)).toEqual([
+        "Keep the selected rule updated.",
+        secondDescription,
+      ]));
+    } finally {
+      state.close();
+    }
+  });
+
+  it("discards a new Brand Profile draft to an empty unsaved profile", async () => {
+    const state = await techPackHarness();
+    try {
+      const { host, workflow } = state;
+      const revisionBefore = workflow.snapshot.project.revision;
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-color"]')!.click();
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-rule"]')!.click();
+      expect(host.querySelectorAll("[data-brand-profile-color-row]")).toHaveLength(1);
+      expect(host.querySelectorAll("[data-brand-profile-rule-row]")).toHaveLength(1);
+
+      host.querySelector<HTMLButtonElement>('[data-brand-profile-action="discard-profile"]')!.click();
+
+      expect(host.querySelectorAll("[data-brand-profile-color-row]")).toHaveLength(0);
+      expect(host.querySelectorAll("[data-brand-profile-rule-row]")).toHaveLength(0);
+      expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!.disabled).toBe(true);
+      expect("brandProfile" in workflow.snapshot.project).toBe(false);
+      expect(workflow.snapshot.project.revision).toBe(revisionBefore);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("rejects duplicate generated Brand Profile artwork IDs and cleans up staged assets", async () => {
+    const { store, assets } = memoryArtworkStore();
+    const inspectAsset = vi.fn(async (file: File): Promise<InspectedArtworkFile> => ({
+      name: file.name,
+      mimeType: "image/png",
+      blob: new NodeBlob([file.name], { type: "image/png" }) as unknown as Blob,
+    }));
+    const state = await techPackHarness({ artworkStore: store, inspectAsset });
+    const assetId = "90000000-0000-4000-8000-000000000001";
+    const revisionBefore = state.workflow.snapshot.project.revision;
+    const saveProfile = vi.spyOn(state.workflow, "saveBrandProfile");
+    try {
+      selectArtworkFiles(state.host.querySelector<HTMLInputElement>("#brand-profile-artwork-files")!, [
+        new NodeFile(["first"], "first.png", { type: "image/png" }) as unknown as File,
+        new NodeFile(["second"], "second.png", { type: "image/png" }) as unknown as File,
+      ]);
+      vi.stubGlobal("crypto", { randomUUID: () => assetId });
+      state.host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!.click();
+
+      await vi.waitFor(() => expect(state.host.querySelector("#project-manager-status")?.textContent)
+        .toContain("duplicate artwork asset ID"));
+      expect(inspectAsset).toHaveBeenCalledTimes(2);
+      expect(store.put).toHaveBeenCalledTimes(2);
+      expect(store.remove).toHaveBeenCalledTimes(2);
+      expect(assets.size).toBe(0);
+      expect(saveProfile).not.toHaveBeenCalled();
+      expect("brandProfile" in state.workflow.snapshot.project).toBe(false);
+      expect(state.workflow.snapshot.project.revision).toBe(revisionBefore);
+    } finally {
+      vi.unstubAllGlobals();
+      state.close();
+    }
+  });
+
   it("confirms discarding a dirty profile on reload and replaces it with the latest same-project profile", async () => {
     const initialBrandProfile: BrandProfileRecord = {
       schemaVersion: BRAND_PROFILE_RECORD_VERSION,
