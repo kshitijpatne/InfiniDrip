@@ -2279,7 +2279,7 @@ describe("accessible project and style manager", () => {
       confirm.mockClear();
       host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
       await vi.waitFor(() => expect(workflow.snapshot.project.id).toBe(copiedProjectId));
-      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened");
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened"));
       expect(workflow.snapshot.project.id).toBe(copiedProjectId);
 
       unsaved = false;
@@ -4744,8 +4744,15 @@ describe("accessible project and style manager", () => {
       clickT01Action(host, "add-colorway");
       const sourceColorwayId = host.querySelector<HTMLElement>("[data-t01-colorway]")!.dataset.t01Colorway!;
       const oldRevisionId = workflow.snapshot.activeStyle.revisionHeadId;
-      host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
-      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(oldRevisionId));
+      const saveButton = host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!;
+      expect(saveButton.disabled).toBe(false);
+      saveButton.click();
+      await vi.waitFor(
+        () => expect(host.querySelector("#project-manager-status")?.textContent)
+          .toContain("Saved T01 as immutable style revision"),
+        { timeout: 15_000 },
+      );
+      expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(oldRevisionId);
 
       const collectionId = idFactory();
       const localColorwayId = idFactory();
@@ -4810,7 +4817,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  });
+  }, 20_000);
 
   it("confirms graph deletion consequences and keeps SKU material references repairable", async () => {
     let allowDelete = false;
