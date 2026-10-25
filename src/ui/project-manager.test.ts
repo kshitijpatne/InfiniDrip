@@ -3383,7 +3383,8 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector("[data-brand-profile-asset-row]")).toBeNull();
       expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent)
         .toBe("All existing artwork references resolve locally.");
-      expect(workflow.snapshot.project.brandProfile?.artworkAssetIds).toEqual([assetId]);
+      expect("brandProfile" in workflow.snapshot.project
+        && workflow.snapshot.project.brandProfile?.artworkAssetIds).toEqual([assetId]);
 
       resolveAsset(null);
       await pendingAsset;
