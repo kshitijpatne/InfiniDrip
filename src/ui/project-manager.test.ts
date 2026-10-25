@@ -3347,6 +3347,55 @@ describe("accessible project and style manager", () => {
     }
   });
 
+  it("renders T01 assignment labels from names, component refs, and placements with ID fallbacks", async () => {
+    const colorId = "a5555555-5555-4555-8555-000000000005";
+    const colorwayId = "80000000-0000-4000-8000-000000000001";
+    const materialId = "80000000-0000-4000-8000-000000000002";
+    const rowId = "80000000-0000-4000-8000-000000000003";
+    const assignmentId = "80000000-0000-4000-8000-000000000004";
+    const generatedIds = [colorwayId, materialId, rowId, assignmentId];
+    const initialBrandProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: colorId, name: "Indigo", hex: "#112233" }],
+      artworkAssetIds: [],
+      rules: [],
+    };
+    const state = await techPackHarness({ initialBrandProfile, techPackIdFactory: () => generatedIds.shift()! });
+    try {
+      const { host } = state;
+      clickT01Action(host, "add-colorway");
+      clickT01Action(host, "add-fabric");
+      host.querySelector<HTMLSelectElement>("[data-t01-new-bom-material]")!.value = materialId;
+      clickT01Action(host, "add-bom-row");
+      const colorway = host.querySelector<HTMLElement>(`[data-t01-colorway="${colorwayId}"]`)!;
+      colorway.querySelector<HTMLSelectElement>("[data-t01-new-assignment-row]")!.value = rowId;
+      colorway.querySelector<HTMLSelectElement>("[data-t01-new-assignment-material]")!.value = materialId;
+      clickT01Action(host, "add-assignment");
+
+      const assignmentSelector = "[data-brand-profile-assignment-selection]";
+      const assignmentOption = () => host.querySelector<HTMLSelectElement>(assignmentSelector)
+        ?.querySelector<HTMLOptionElement>(`option[value="${assignmentId}"]`)?.textContent;
+      expect(assignmentOption()).toContain(`${colorwayId} · ${rowId} · ${materialId}`);
+
+      editT01Field(host, `colorway.${colorwayId}.name`, "value", "Forest");
+      editT01Field(host, `material.${materialId}.name`, "value", "Organic cotton");
+      editT01Field(host, `bom.${rowId}.componentRef`, "value", "Main shell");
+      const colorSelect = host.querySelector<HTMLSelectElement>("[data-brand-profile-color-selection]")!;
+      colorSelect.value = colorId;
+      colorSelect.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(assignmentOption()).toContain("Forest · Main shell · Organic cotton");
+
+      editT01Field(host, `bom.${rowId}.componentRef`, "value", "");
+      editT01Field(host, `bom.${rowId}.placement`, "value", "Left sleeve");
+      const assignmentSelect = host.querySelector<HTMLSelectElement>(assignmentSelector)!;
+      assignmentSelect.value = assignmentId;
+      assignmentSelect.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(assignmentOption()).toContain("Forest · Left sleeve · Organic cotton");
+    } finally {
+      state.close();
+    }
+  });
+
   it("applies one selected palette color to the pending colorway field with truthful provenance, then saves the revision explicitly", async () => {
     const colorId = "a5555555-5555-4555-8555-000000000005";
     const colorwayId = "80000000-0000-4000-8000-000000000001";
