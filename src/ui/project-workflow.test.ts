@@ -26,6 +26,7 @@ import { createFieldObservationRecord, currentFieldObservation, getCaptureFieldD
 import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
+import type { BrandProfileRecord } from "./brand-profile-records";
 import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex, verifyFrozenOutputManifest } from "./style-revisions";
 import { parseTechPackRecord, type TechPackRecord } from "./tech-pack-records";
 import { TECH_PACK_SHARE_ARTIFACTS } from "./tech-pack-sharing";
@@ -1624,6 +1625,249 @@ describe("local project/style workflow", () => {
     const duplicateId = new ProjectWorkflow(workflow.repository, workflow.snapshot, () => STYLE_ID, () => NEXT_TIME);
     await expect(duplicateId.createStyle("Second", workflow.snapshot.activeStyle.design)).rejects.toMatchObject({ code: "invalid-data" });
     expect((await workflow.reload()).activeStyle.id).toBe(STYLE_ID);
+  });
+});
+
+describe("Brand Profile persistence through the project workflow", () => {
+  it("resolves profile artwork before the project CAS and updates only the project snapshot", async () => {
+    const assetId = "local-abcdef1234567890abcdef1234567890-png";
+    const missingAssetId = "local-fedcba0987654321fedcba0987654321-png";
+    const profile: BrandProfileRecord = {
+      schemaVersion: 1,
+      colors: [],
+      artworkAssetIds: [assetId],
+      rules: [],
+    };
+    await expect(open().then((workflow) => workflow.saveBrandProfile({
+      ...profile,
+      rules: [{ id: "bad", scope: "design", kind: "preference", description: "Invalid" }],
+    } as unknown as BrandProfileRecord))).rejects.toMatchObject({ code: "invalid-data" });
+    const withoutStore = await open();
+    const withoutStoreRevision = withoutStore.snapshot.project.revision;
+    await expect(withoutStore.saveBrandProfile(profile)).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("brandProfile.artworkAssetIds[0]"),
+    });
+    expect(withoutStore.snapshot.project.revision).toBe(withoutStoreRevision);
+
+    const storedAsset: StoredArtworkAsset = {
+      assetId,
+      name: "brand-mark.png",
+      mimeType: "image/png",
+      blob: new Blob([new Uint8Array([1, 2, 3])], { type: "image/png" }),
+    };
+    const artworkStore: ArtworkAssetStore = {
+      put: vi.fn(async () => undefined),
+      get: vi.fn(async (id) => id === assetId ? storedAsset : null),
+      remove: vi.fn(async () => undefined),
+    };
+    const workflow = await open({}, { artworkStore });
+    const before = workflow.snapshot;
+    const saved = await workflow.saveBrandProfile(profile);
+    expect(saved).toMatchObject({ schemaVersion: 3, revision: before.project.revision + 1, brandProfile: profile });
+    expect(workflow.snapshot.styles).toBe(before.styles);
+    expect(workflow.snapshot.fieldObservations).toBe(before.fieldObservations);
+    await expect(workflow.saveBrandProfile({ ...profile, artworkAssetIds: [missingAssetId] })).rejects.toMatchObject({
+      code: "invalid-data",
+      message: expect.stringContaining("brandProfile.artworkAssetIds[0]"),
+    });
+    expect(workflow.snapshot.project.revision).toBe(saved.revision);
+  });
+});
+
+describe("collection persistence through the project workflow", () => {
+  it("saves schema v4 with CAS, preserves the profile in both directions, and keeps old pins stale", async () => {
+    let now = TIME;
+    const workflow = await open({}, { now: () => now });
+    await expect(workflow.saveCollections([])).rejects.toMatchObject({
+      code: "invalid-data", message: expect.stringContaining("Save at least one collection"),
+    });
+    const profile: BrandProfileRecord = { schemaVersion: 1, colors: [], artworkAssetIds: [], rules: [] };
+    await workflow.saveBrandProfile(profile);
+    const profileRevision = workflow.snapshot.project.revision;
+    const pinnedRevisionId = workflow.snapshot.activeStyle.revisionHeadId!;
+    const collection = {
+      schemaVersion: 1 as const,
+      id: "33000000-0000-4000-8000-000000000001",
+      projectId: workflow.snapshot.project.id,
+      name: "Spring line",
+      createdAt: TIME,
+      updatedAt: TIME,
+      revision: 1,
+      skus: [{
+        id: "33000000-0000-4000-8000-000000000002",
+        code: "TEE-CORE",
+        name: "Core tee",
+        styleId: workflow.snapshot.activeStyle.id,
+        styleRevisionId: pinnedRevisionId,
+        sizePlan: {
+          id: "33000000-0000-4000-8000-000000000003",
+          name: "Core sizes",
+          sizeIds: ["m"],
+        },
+        colorways: [],
+        variants: [],
+      }],
+      sharedMaterialGroups: [],
+    };
+
+    await expect(workflow.saveCollections([{ ...collection, id: "invalid-id" }])).rejects.toMatchObject({
+      code: "invalid-data", message: expect.stringContaining("collections[0]: collection.id: expected a UUID."),
+    });
+    const saved = await workflow.saveCollections([collection]);
+    expect(saved.project).toMatchObject({
+      schemaVersion: 4,
+      revision: profileRevision + 1,
+      brandProfile: profile,
+      collections: [collection],
+    });
+    expect(saved.collectionSourceStatuses).toMatchObject([{
+      collectionId: collection.id,
+      skuId: collection.skus[0]!.id,
+      styleRevisionId: pinnedRevisionId,
+      isStale: false,
+      isArchived: false,
+    }]);
+
+    const updatedProfile = { ...profile, rules: [{
+      id: "33000000-0000-4000-8000-000000000004",
+      scope: "design" as const,
+      kind: "preference" as const,
+      description: "Keep contrast quiet.",
+    }] };
+    const profiled = await workflow.saveBrandProfile(updatedProfile);
+    expect(profiled).toMatchObject({ schemaVersion: 4, brandProfile: updatedProfile, collections: [collection] });
+
+    now = NEXT_TIME;
+    await workflow.saveActiveDesign({ ...workflow.snapshot.activeStyle.design, fabric: "#204060" });
+    expect(workflow.snapshot.collectionSourceStatuses).toMatchObject([{
+      styleRevisionId: pinnedRevisionId,
+      isStale: true,
+      isArchived: false,
+    }]);
+    expect(workflow.snapshot.project.schemaVersion === 4
+      && workflow.snapshot.project.collections[0]?.skus[0]?.styleRevisionId).toBe(pinnedRevisionId);
+
+    const latest = workflow.snapshot;
+    const concurrentProject = {
+      ...latest.project,
+      revision: latest.project.revision + 1,
+      updatedAt: AFTER_TIME,
+    };
+    await workflow.repository.saveProjectBundle({
+      project: concurrentProject,
+      styles: latest.styles,
+      expectedProjectRevision: latest.project.revision,
+    });
+    await expect(workflow.saveCollections([collection])).rejects.toMatchObject({ code: "conflict" });
+    const persisted = await workflow.repository.loadProject(latest.project.id);
+    expect(persisted?.project.revision).toBe(concurrentProject.revision);
+    expect(persisted?.project.schemaVersion === 4 && persisted.project.collections).toEqual([collection]);
+  });
+
+  it("preserves raw scenarios through collection/profile saves, advances metadata once, and retains deleted-collection orphans", async () => {
+    let now = TIME;
+    const workflow = await open({}, { now: () => now });
+    const collectionId = "44000000-0000-4000-8000-000000000001";
+    const collection = {
+      schemaVersion: 1 as const,
+      id: collectionId,
+      projectId: workflow.snapshot.project.id,
+      name: "Spring line",
+      createdAt: TIME,
+      updatedAt: TIME,
+      revision: 1,
+      skus: [],
+      sharedMaterialGroups: [],
+    };
+    await workflow.saveCollections([collection]);
+    const scenario = {
+      schemaVersion: 1 as const,
+      id: "44000000-0000-4000-8000-000000000002",
+      projectId: workflow.snapshot.project.id,
+      collectionId,
+      name: "Raw draft",
+      revision: 1,
+      createdAt: TIME,
+      updatedAt: TIME,
+      evaluationDate: "not a date",
+      currencyCode: "",
+      units: [{
+        id: "44000000-0000-4000-8000-000000000003",
+        variantId: "removed-variant",
+        units: "not an integer",
+        provenance: { kind: "unknown", sourceLabel: "", asOf: "bad", validThrough: "" },
+      }],
+      prices: [], costs: [], moqs: [], capacityDelivery: [],
+    };
+    const first = await workflow.saveScenarios([scenario]);
+    expect(first.project).toMatchObject({ schemaVersion: 5, collections: [collection] });
+    const firstScenario = first.project.schemaVersion === 5 ? first.project.scenarios[0]! : undefined;
+    if (!firstScenario) throw new Error("Scenario save did not promote the project to schema v5.");
+    expect(firstScenario).toMatchObject({ id: scenario.id, units: [{ units: "not an integer", variantId: "removed-variant" }] });
+    const projectRevision = first.project.revision;
+    await expect(workflow.saveScenarios([{ ...firstScenario, revision: 0 }])).rejects.toMatchObject({ code: "invalid-data" });
+    const overflowScenario = (id: string, start: number, count: number) => ({
+      ...firstScenario,
+      id,
+      units: Array.from({ length: count }, (_, index) => ({
+        id: `55000000-0000-4000-8000-${(start + index).toString(16).padStart(12, "0")}`,
+        variantId: "removed-variant",
+        units: "",
+        provenance: { kind: "unknown", sourceLabel: "", asOf: "", validThrough: "" },
+      })),
+      prices: [], costs: [], moqs: [], capacityDelivery: [],
+    });
+    await expect(workflow.saveScenarios([
+      overflowScenario("44000000-0000-4000-8000-000000000004", 1, 500),
+      overflowScenario("44000000-0000-4000-8000-000000000005", 501, 500),
+      overflowScenario("44000000-0000-4000-8000-000000000006", 1001, 1),
+    ])).rejects.toMatchObject({ code: "invalid-data" });
+    expect(workflow.snapshot.project.schemaVersion === 5 && workflow.snapshot.project.scenarios).toEqual([firstScenario]);
+
+    const noOp = await workflow.saveScenarios([firstScenario]);
+    expect(noOp.project.revision).toBe(projectRevision);
+    now = NEXT_TIME;
+    const changedScenario = { ...firstScenario, units: [{ ...firstScenario.units[0]!, units: "12" }] };
+    const changed = await workflow.saveScenarios([changedScenario]);
+    expect(changed.project.revision).toBe(projectRevision + 1);
+    if (changed.project.schemaVersion !== 5) throw new Error("Changed scenario lost schema v5.");
+    expect(changed.project.scenarios[0]).toMatchObject({ revision: 2, units: [{ units: "12" }] });
+    const savedScenario = changed.project.scenarios[0]!;
+
+    const renamedCollection = { ...collection, name: "Summer line", revision: 2, updatedAt: "2026-09-24T16:00:02.000Z" };
+    const edited = await workflow.saveCollections([renamedCollection]);
+    expect(edited.project.schemaVersion === 5 && edited.project.scenarios[0]).toEqual(savedScenario);
+    const orphaned = await workflow.saveCollections([]);
+    expect(orphaned.project).toMatchObject({ schemaVersion: 5, collections: [], scenarios: [savedScenario] });
+    const profile: BrandProfileRecord = { schemaVersion: 1, colors: [], artworkAssetIds: [], rules: [] };
+    const profiled = await workflow.saveBrandProfile(profile);
+    expect(profiled).toMatchObject({ schemaVersion: 5, brandProfile: profile, collections: [], scenarios: [savedScenario] });
+
+    const concurrent = {
+      ...workflow.snapshot.project,
+      revision: workflow.snapshot.project.revision + 1,
+      updatedAt: "2026-09-24T16:00:03.000Z",
+    };
+    await workflow.repository.saveProjectBundle({
+      project: concurrent,
+      styles: workflow.snapshot.styles,
+      expectedProjectRevision: workflow.snapshot.project.revision,
+    });
+    await expect(workflow.saveScenarios([{ ...savedScenario, name: "stale" }])).rejects.toMatchObject({ code: "conflict" });
+    const persisted = await workflow.repository.loadProject(workflow.snapshot.project.id);
+    expect(persisted?.project.schemaVersion === 5 && persisted.project.scenarios).toEqual([savedScenario]);
+
+    const legacyWorkflow = await open({}, { now: () => TIME });
+    const legacyScenario = {
+      ...scenario,
+      id: "44000000-0000-4000-8000-000000000007",
+      projectId: legacyWorkflow.snapshot.project.id,
+      collectionId: "44000000-0000-4000-8000-000000000008",
+      units: [], prices: [], costs: [], moqs: [], capacityDelivery: [],
+    };
+    const upgraded = await legacyWorkflow.saveScenarios([legacyScenario]);
+    expect(upgraded.project).toMatchObject({ schemaVersion: 5, brandProfile: null, collections: [], scenarios: [legacyScenario] });
   });
 });
 

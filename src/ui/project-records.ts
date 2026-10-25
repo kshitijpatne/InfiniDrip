@@ -20,8 +20,24 @@ import {
   parseTechPackRecord,
   type TechPackRecord,
 } from "./tech-pack-records";
+import {
+  parseBrandProfileRecord,
+  type BrandProfileRecord,
+} from "./brand-profile-records";
+import {
+  collectionGraphEntryCount,
+  parseCollectionRecord,
+  type CollectionRecord,
+} from "./collection-records";
+import { parseScenarioRecords, type ScenarioRecord } from "./scenario-records";
 
 export const PROJECT_RECORD_VERSION = 2;
+export const BRAND_PROFILE_PROJECT_RECORD_VERSION = 3;
+export const COLLECTION_PROJECT_RECORD_VERSION = 4;
+export const SCENARIO_PROJECT_RECORD_VERSION = 5;
+/** Internal malformed-input bounds, not a product capacity claim. */
+export const PROJECT_COLLECTION_RECORD_LIMIT = 100;
+export const PROJECT_COLLECTION_GRAPH_ENTRY_LIMIT = 100_000;
 /** Every regular style; prior regular schemas v1–v4 normalize to this shape. */
 export const STYLE_RECORD_VERSION = 6;
 /** Prior G03 custom schema v5 and newly created custom styles normalize to v7. */
@@ -33,8 +49,7 @@ export const RECOVERY_RECORD_VERSION = 2;
 export const MIGRATION_RECORD_VERSION = 1;
 export const MEASUREMENT_CAPTURE_RECORD_VERSION = 1;
 
-export interface ProjectRecord {
-  readonly schemaVersion: typeof PROJECT_RECORD_VERSION;
+interface ProjectRecordFields {
   readonly id: string;
   readonly name: string;
   readonly createdAt: string;
@@ -44,6 +59,43 @@ export interface ProjectRecord {
   readonly activeStyleId: string;
   /** Source IDs and verified source-package digest when a project was imported as a copy. */
   readonly importedFrom: ImportedFrom | null;
+}
+
+export interface ProjectRecordV2 extends ProjectRecordFields {
+  readonly schemaVersion: typeof PROJECT_RECORD_VERSION;
+}
+
+export interface BrandProfileProjectRecord extends ProjectRecordFields {
+  readonly schemaVersion: typeof BRAND_PROFILE_PROJECT_RECORD_VERSION;
+  readonly brandProfile: BrandProfileRecord;
+}
+
+export interface CollectionProjectRecord extends ProjectRecordFields {
+  readonly schemaVersion: typeof COLLECTION_PROJECT_RECORD_VERSION;
+  readonly brandProfile: BrandProfileRecord | null;
+  readonly collections: readonly CollectionRecord[];
+}
+
+export interface ScenarioProjectRecord extends ProjectRecordFields {
+  readonly schemaVersion: typeof SCENARIO_PROJECT_RECORD_VERSION;
+  readonly brandProfile: BrandProfileRecord | null;
+  readonly collections: readonly CollectionRecord[];
+  readonly scenarios: readonly ScenarioRecord[];
+}
+
+export type CollectionProjectRecordWithScenarios = CollectionProjectRecord | ScenarioProjectRecord;
+export type BrandProfiledProjectRecord = BrandProfileProjectRecord | CollectionProjectRecordWithScenarios;
+export type ProjectRecord = ProjectRecordV2 | BrandProfileProjectRecord | CollectionProjectRecordWithScenarios;
+
+/** Shared collection access avoids repeating schema-version checks in consumers. */
+export function projectCollections(project: ProjectRecord): readonly CollectionRecord[] {
+  return project.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION || project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION
+    ? project.collections
+    : [];
+}
+
+export function projectScenarios(project: ProjectRecord): readonly ScenarioRecord[] {
+  return project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION ? project.scenarios : [];
 }
 
 export interface ImportedFrom {
@@ -148,6 +200,9 @@ export interface LegacySaveMigration {
 }
 
 const PROJECT_KEYS = ["schemaVersion", "id", "name", "createdAt", "updatedAt", "revision", "styleIds", "activeStyleId", "importedFrom"];
+const BRAND_PROFILE_PROJECT_KEYS = [...PROJECT_KEYS, "brandProfile"];
+const COLLECTION_PROJECT_KEYS = [...PROJECT_KEYS, "brandProfile", "collections"];
+const SCENARIO_PROJECT_KEYS = [...PROJECT_KEYS, "brandProfile", "collections", "scenarios"];
 export const LEGACY_PROJECT_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "name", "createdAt", "updatedAt", "revision", "styleIds", "activeStyleId"]);
 const STYLE_V3_KEYS = ["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "archivedAt", "design"];
 const STYLE_KEYS = [...STYLE_V3_KEYS, "revisionHeadId"];
@@ -241,8 +296,29 @@ export function parseSavedDesignRecord(value: unknown): RecordResult<SavedDesign
 }
 
 export function parseProjectRecord(value: unknown): RecordResult<ProjectRecord> {
-  if (!hasExactKeys(value, PROJECT_KEYS)) return fail("Project record fields are incomplete or unknown.");
-  if (value.schemaVersion !== PROJECT_RECORD_VERSION) return fail("Unsupported project record schema version.");
+  if (!object(value)) return fail("Project record fields are incomplete or unknown.");
+  const version = value.schemaVersion;
+  if (version === PROJECT_RECORD_VERSION) {
+    if (!hasExactKeys(value, PROJECT_KEYS)) return fail("Project record fields are incomplete or unknown.");
+  } else if (version === BRAND_PROFILE_PROJECT_RECORD_VERSION) {
+    if (!hasExactKeys(value, BRAND_PROFILE_PROJECT_KEYS)) return fail("Project record fields are incomplete or unknown.");
+    const profile = parseBrandProfileRecord(value.brandProfile);
+    if (!profile.ok) return fail(profile.error);
+  } else if (version === COLLECTION_PROJECT_RECORD_VERSION) {
+    if (!hasExactKeys(value, COLLECTION_PROJECT_KEYS)) return fail("Project record fields are incomplete or unknown.");
+    if (value.brandProfile !== null) {
+      const profile = parseBrandProfileRecord(value.brandProfile);
+      if (!profile.ok) return fail(profile.error);
+    }
+  } else if (version === SCENARIO_PROJECT_RECORD_VERSION) {
+    if (!hasExactKeys(value, SCENARIO_PROJECT_KEYS)) return fail("Project record fields are incomplete or unknown.");
+    if (value.brandProfile !== null) {
+      const profile = parseBrandProfileRecord(value.brandProfile);
+      if (!profile.ok) return fail(profile.error);
+    }
+  } else {
+    return fail("Unsupported project record schema version.");
+  }
   if (!validUuid(value.id) || !validName(value.name) || !validTimestamp(value.createdAt)
     || !validTimestamp(value.updatedAt) || !validRevision(value.revision)) {
     return fail("Project identity, name, timestamps, or revision are invalid.");
@@ -266,6 +342,35 @@ export function parseProjectRecord(value: unknown): RecordResult<ProjectRecord> 
       || typeof importedFrom.packageSha256 !== "string" || !SHA256.test(importedFrom.packageSha256)) {
       return fail("Project import lineage is malformed.");
     }
+  }
+  if (version === COLLECTION_PROJECT_RECORD_VERSION || version === SCENARIO_PROJECT_RECORD_VERSION) {
+    if (!Array.isArray(value.collections)) return fail("Project collections must be a list.");
+    if (value.collections.length > PROJECT_COLLECTION_RECORD_LIMIT) {
+      return fail(`Project collections exceed the internal limit of ${PROJECT_COLLECTION_RECORD_LIMIT} records.`);
+    }
+    const collectionIds = new Set<string>();
+    let graphEntries = 0;
+    const collections: CollectionRecord[] = [];
+    for (const [index, input] of value.collections.entries()) {
+      const parsed = parseCollectionRecord(input);
+      if (!parsed.ok) return fail(`collections[${index}]: ${parsed.error}`);
+      const collection = parsed.value;
+      if (collection.projectId !== value.id) {
+        return fail(`collections[${index}].projectId: collection must belong to this project.`);
+      }
+      const id = collection.id.toLowerCase();
+      if (collectionIds.has(id)) return fail(`collections[${index}].id: duplicate project collection ID.`);
+      collectionIds.add(id);
+      graphEntries += collectionGraphEntryCount(collection);
+      if (graphEntries > PROJECT_COLLECTION_GRAPH_ENTRY_LIMIT) {
+        return fail(`Project collections exceed the internal aggregate limit of ${PROJECT_COLLECTION_GRAPH_ENTRY_LIMIT} graph entries.`);
+      }
+      collections.push(collection);
+    }
+  }
+  if (version === SCENARIO_PROJECT_RECORD_VERSION) {
+    const scenarios = parseScenarioRecords(value.scenarios, value.id);
+    if (!scenarios.ok) return fail(scenarios.error);
   }
   return { ok: true, value: value as unknown as ProjectRecord };
 }

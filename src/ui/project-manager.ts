@@ -1,14 +1,16 @@
 import type { LoadedProject, ProjectRepositoryError } from "./project-repository";
-import { isCustomOneSizeStyle } from "./project-records";
+import { projectCollections, projectScenarios, isCustomOneSizeStyle } from "./project-records";
 import type { RecoveryPayload, SavedDesign, StyleRecord } from "./project-records";
 import { GARMENTS, garmentForConstruction, garmentOptionsForStyle } from "../drafting";
 import { ProjectWorkflow, type TechPackShareFreezeInput } from "./project-workflow";
-import type { ArtworkAssetStore } from "../surface/artwork-store";
+import { storeArtworkFile, type ArtworkAssetStore } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import {
   createProjectPackage,
   importProjectPackage,
   ProjectPackageError,
+  PROJECT_PACKAGE_MAX_ASSETS,
+  projectPackageReferencedAssetCount,
   readProjectPackage,
   type ProjectPackageOptions,
   type ProjectPackageProgress,
@@ -52,6 +54,42 @@ import {
 } from "./tech-pack-operation-records";
 import { TECH_PACK_POM_RECIPE_IDS, TECH_PACK_POM_UNITS, type TechPackPomDefinition, type TechPackPomRecipeId } from "./tech-pack-pom-records";
 import { techPackShareScopeGroups } from "./tech-pack-sharing";
+import { BRAND_PROFILE_RECORD_VERSION, parseBrandProfileRecord } from "./brand-profile-records";
+import type { BrandProfileColor, BrandProfileRecord, BrandProfileRule } from "./brand-profile-records";
+import { renderBrandProfileEditor, type BrandProfileAssignmentChoice } from "./brand-profile-editor";
+import { renderCollectionMatrix } from "./collection-matrix";
+import {
+  collectionDraftsAreDirty,
+  emptyCollectionColorway,
+  emptyCollectionRecord,
+  emptyCollectionSku,
+  emptyCollectionVariant,
+  emptySharedMaterialGroup,
+  prepareCollectionRecordsForSave,
+  reduceCollectionDrafts,
+  renderCollectionEditor,
+  updateCollectionDraftField,
+  type CollectionEditorScope,
+} from "./collection-editor";
+import { parseCollectionRecord, type CollectionRecord } from "./collection-records";
+import {
+  PROJECT_SCENARIO_INPUT_ROW_LIMIT,
+  SCENARIO_INPUT_ROW_LIMIT,
+  addMissingScenarioVariantRows,
+  createBlankScenarioRecord,
+  createScenarioWithinProjectLimits,
+  scenarioDraftsAreDirty,
+  scenarioInputRowCount,
+  type ScenarioDraftScope,
+  type ScenarioRecord,
+  type ScenarioRowKind,
+} from "./scenario-records";
+import {
+  reduceScenarioDrafts,
+  renderScenarioEditor,
+  updateScenarioEditorControls,
+} from "./scenario-editor";
+import { renderScenarioComparison } from "./scenario-comparison";
 import {
   emptyTechPackPomRecordSet,
   parseTechPackPomRecordSet,
@@ -283,6 +321,51 @@ function updateTechPackField(
   return found ? { ...record, cover, materials, bomRows, colorways } : null;
 }
 
+function updateTechPackColorwayAssignment(
+  record: TechPackRecord,
+  targetAssignment: TechPackColorwayAssignment,
+  update: (assignment: TechPackColorwayAssignment) => TechPackColorwayAssignment,
+): TechPackRecord {
+  const colorways = record.colorways.map((colorway) => ({
+    ...colorway,
+    assignments: colorway.assignments.map((assignment) => {
+      if (assignment.id !== targetAssignment.id) return assignment;
+      return update(assignment);
+    }),
+  }));
+  return { ...record, colorways };
+}
+
+function appliedBrandProfileColor(
+  field: TechPackField<string | null>,
+  color: BrandProfileColor,
+  selectedAt: string,
+): TechPackField<string | null> {
+  return {
+    ...field,
+    value: color.hex,
+    unit: null,
+    provenance: "USER_SELECTED",
+    evidenceStatus: "USER_CONFIRMED",
+    validationStatus: "VALID",
+    sourceRef: `brand-profile-color:${color.id}`,
+    method: "Selected as Brand Profile design intent; physical material is not verified.",
+    capturedBy: "Local user",
+    capturedAt: selectedAt,
+    inputRefs: [],
+    ruleId: null,
+    ruleVersion: null,
+    inheritedFrom: null,
+    unresolvedReason: null,
+    nextAction: null,
+    evidenceRefs: [],
+  };
+}
+
+function emptyBrandProfile(): BrandProfileRecord {
+  return { schemaVersion: BRAND_PROFILE_RECORD_VERSION, colors: [], artworkAssetIds: [], rules: [] };
+}
+
 function techPackControlValue(target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement, property: string): unknown {
   if (property === "inputRefs" || property === "evidenceRefs") {
     return target.value.split(/\r?\n/).filter((entry) => entry.length > 0);
@@ -330,6 +413,19 @@ export class ProjectManager {
   private techPackDefinitionsJsonDraft: string | null = null;
   private techPackOperationsJsonDraft: string | null = null;
   private techPackInputError = "";
+  private brandProfileProjectId = "";
+  private brandProfileDraft = emptyBrandProfile();
+  private brandProfileFiles: File[] = [];
+  private brandProfileAssetStatusKey = "";
+  private brandProfileMissingIds: readonly string[] | null = null;
+  private selectedBrandProfileColorId = "";
+  private selectedBrandProfileAssignmentId = "";
+  private collectionDraftProjectId = "";
+  private collectionDrafts: readonly CollectionRecord[] = [];
+  private collectionDraftBase: readonly CollectionRecord[] = [];
+  private scenarioDraftProjectId = "";
+  private scenarioDrafts: readonly ScenarioRecord[] = [];
+  private scenarioDraftBase: readonly ScenarioRecord[] = [];
   private projectManagerOpen = false;
   private projects: readonly LoadedProject[];
   private readonly cancelPortal: HTMLDivElement;
@@ -364,13 +460,40 @@ export class ProjectManager {
         this.styleNameDraft = target.value;
         return;
       }
-      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
-        if (target.dataset.t01Input === "true") this.updateTechPackFromControl(target);
+      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement) {
+        if (this.updateScenarioFieldDraft(target)) {
+          this.updateScenarioEditorControls();
+          this.updateScenarioComparison();
+        }
+        else if (this.updateCollectionFieldDraft(target)) this.updateCollectionEditorControls();
+        else if (this.updateBrandProfileFieldDraft(target)) this.updateBrandProfileControls();
+        else if (target.dataset.t01Input === "true") this.updateTechPackFromControl(target);
         else if (target.dataset.t02Input) this.updateT02TechPackFromControl(target);
         else if (target.dataset.t03Input === "operations" && target instanceof HTMLTextAreaElement) this.updateT03TechPackFromControl(target);
       }
     });
     options.host.addEventListener("click", (event) => {
+      const scenarioTarget = event.target instanceof Element
+        ? event.target.closest<HTMLElement>("[data-scenario-action]") : null;
+      if (scenarioTarget && !this.busy) {
+        event.preventDefault();
+        this.handleScenarioEditorAction(scenarioTarget);
+        return;
+      }
+      const collectionTarget = event.target instanceof Element
+        ? event.target.closest<HTMLElement>("[data-collection-action]") : null;
+      if (collectionTarget && !this.busy) {
+        event.preventDefault();
+        this.handleCollectionEditorAction(collectionTarget);
+        return;
+      }
+      const brandProfileTarget = event.target instanceof Element
+        ? event.target.closest<HTMLElement>("[data-brand-profile-action]") : null;
+      if (brandProfileTarget && !this.busy) {
+        event.preventDefault();
+        void this.handleBrandProfileAction(brandProfileTarget);
+        return;
+      }
       const t03Target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-t03-action]") : null;
       if (t03Target && !this.busy) {
         event.preventDefault();
@@ -406,6 +529,36 @@ export class ProjectManager {
     });
     options.host.addEventListener("change", (event) => {
       const target = event.target;
+      if ((target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLTextAreaElement)
+        && this.updateScenarioFieldDraft(target)) {
+        this.render();
+        return;
+      }
+      if ((target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLTextAreaElement)
+        && this.updateCollectionFieldDraft(target)) {
+        this.render();
+        return;
+      }
+      if (target instanceof HTMLInputElement && target.id === "brand-profile-artwork-files") {
+        this.brandProfileFiles = Array.from(target.files!);
+        target.value = "";
+        this.render();
+        return;
+      }
+      if (target instanceof HTMLSelectElement && target.dataset.brandProfileColorSelection === "true") {
+        this.selectedBrandProfileColorId = target.value;
+        this.render();
+        return;
+      }
+      if (target instanceof HTMLSelectElement && target.dataset.brandProfileAssignmentSelection === "true") {
+        this.selectedBrandProfileAssignmentId = target.value;
+        this.render();
+        return;
+      }
+      if (target instanceof HTMLSelectElement && this.updateBrandProfileFieldDraft(target)) {
+        this.render();
+        return;
+      }
       if (target instanceof HTMLInputElement && target.dataset.techPackShareScope) {
         const groups = techPackShareScopeGroups(this.options.workflow.snapshot.activeStyle.techPack);
         const chosenIds = new Set([...this.options.host.querySelectorAll<HTMLInputElement>("[data-tech-pack-share-scope]:checked")]
@@ -454,6 +607,8 @@ export class ProjectManager {
 
   refresh(message?: string): void {
     if (message !== undefined) this.message = message;
+    this.brandProfileAssetStatusKey = "";
+    this.brandProfileMissingIds = null;
     this.render();
   }
 
@@ -461,6 +616,660 @@ export class ProjectManager {
     const active = this.options.workflow.snapshot.activeStyle;
     if (this.techPackDraft && this.techPackDraft.styleId !== active.id) return null;
     return this.techPackDraft ?? active.techPack;
+  }
+
+  private savedBrandProfile(): BrandProfileRecord | null {
+    const project = this.options.workflow.snapshot.project;
+    return "brandProfile" in project ? project.brandProfile : null;
+  }
+
+  private syncBrandProfileProject(force = false): void {
+    const loaded = this.options.workflow.snapshot;
+    if (!force && this.brandProfileProjectId === loaded.project.id) return;
+    this.brandProfileProjectId = loaded.project.id;
+    this.brandProfileDraft = this.savedBrandProfile() ?? emptyBrandProfile();
+    this.brandProfileFiles = [];
+    this.brandProfileAssetStatusKey = "";
+    this.brandProfileMissingIds = null;
+    this.selectedBrandProfileColorId = "";
+    this.selectedBrandProfileAssignmentId = "";
+  }
+
+  private savedCollections(): readonly CollectionRecord[] {
+    return projectCollections(this.options.workflow.snapshot.project);
+  }
+
+  private savedScenarios(): readonly ScenarioRecord[] {
+    return projectScenarios(this.options.workflow.snapshot.project);
+  }
+
+  private syncScenarioProject(force = false): void {
+    const loaded = this.options.workflow.snapshot;
+    const saved = this.savedScenarios();
+    const sameProject = this.scenarioDraftProjectId === loaded.project.id;
+    const draftChanged = scenarioDraftsAreDirty(this.scenarioDrafts, this.scenarioDraftBase);
+    if (!force && sameProject && draftChanged) return;
+    if (!force && sameProject && !scenarioDraftsAreDirty(saved, this.scenarioDraftBase)) return;
+    this.scenarioDraftProjectId = loaded.project.id;
+    this.scenarioDraftBase = saved;
+    this.scenarioDrafts = saved;
+  }
+
+  private scenarioDraftIsDirty(): boolean {
+    return scenarioDraftsAreDirty(this.scenarioDrafts, this.scenarioDraftBase);
+  }
+
+  private updateScenarioFieldDraft(
+    target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
+  ): boolean {
+    const scenarioId = target.dataset.seScenario;
+    const field = target.dataset.seField;
+    if (!scenarioId || !field) return false;
+    const rowKind = target.dataset.seRowKind as ScenarioRowKind | undefined;
+    const rowId = target.dataset.seRowId;
+    const nested = target.dataset.seNested;
+    if (rowKind && rowId) {
+      this.scenarioDrafts = reduceScenarioDrafts(this.scenarioDrafts, {
+        type: "update-row", scenarioId, rowKind, rowId, field, value: target.value,
+        ...(nested === "scope" || nested === "provenance" ? { nested } : {}),
+      });
+    } else {
+      this.scenarioDrafts = reduceScenarioDrafts(this.scenarioDrafts, { type: "update", scenarioId, field, value: target.value });
+    }
+    return true;
+  }
+
+  private updateScenarioEditorControls(): void {
+    updateScenarioEditorControls(
+      this.options.host,
+      this.scenarioDrafts,
+      this.savedCollections(),
+      this.savedScenarios(),
+      this.busy,
+    );
+  }
+
+  private handleScenarioEditorAction(target: HTMLElement): void {
+    const action = target.dataset.scenarioAction;
+    const scenarioId = target.dataset.seScenario!;
+    const nextId = (): string => techPackRecordId(this.options.techPackIdFactory);
+    const now = (): string => this.options.packageOptions?.now?.() ?? new Date().toISOString();
+    if (action === "create") {
+      if (this.collectionDraftIsDirty()) {
+        this.message = "Save collection edits before creating a scenario so its blank rows match the saved variants.";
+        this.render();
+        return;
+      }
+      const collectionId = this.options.host.querySelector<HTMLSelectElement>("#scenario-create-collection")?.value;
+      const collection = this.savedCollections().find((item) => item.id.toLowerCase() === collectionId?.toLowerCase());
+      if (!collection) {
+        this.message = "Choose a saved collection before creating a scenario.";
+        this.render();
+        return;
+      }
+      const candidate = createBlankScenarioRecord({
+        id: nextId(), projectId: this.options.workflow.snapshot.project.id, collection, name: "", now: now(), uuid: nextId,
+      });
+      if (!candidate.ok) {
+        this.message = candidate.error;
+        this.render();
+        return;
+      }
+      const limited = createScenarioWithinProjectLimits(candidate.value, this.scenarioDrafts);
+      if (!limited.ok) {
+        this.message = limited.error;
+        this.render();
+        return;
+      }
+      this.scenarioDrafts = [...this.scenarioDrafts, limited.value];
+      this.message = "Created a blank scenario draft. No quantities, prices, costs, dates or sources were assumed.";
+      this.render();
+      return;
+    }
+    if (action === "save") {
+      void this.saveScenarioDrafts();
+      return;
+    }
+    if (action === "discard") {
+      this.syncScenarioProject(true);
+      this.message = "Unsaved scenario edits were discarded; saved scenario records are unchanged.";
+      this.render();
+      return;
+    }
+    const scenario = this.scenarioDrafts.find((item) => item.id.toLowerCase() === scenarioId.toLowerCase())!;
+    if (action === "delete") {
+      if (this.confirm(`Delete scenario “${scenario.name || "Untitled scenario"}” from this draft? Saved scenario data remains until you save this change.`)) {
+        this.scenarioDrafts = reduceScenarioDrafts(this.scenarioDrafts, { type: "delete", scenarioId });
+        this.render();
+      }
+      return;
+    }
+    if (action === "add-moq" || action === "add-capacity-delivery") {
+      const rowCount = scenarioInputRowCount(scenario);
+      const projectRows = this.scenarioDrafts.reduce((sum, item) => sum + scenarioInputRowCount(item), 0);
+      const scenarioAvailable = SCENARIO_INPUT_ROW_LIMIT - rowCount;
+      const projectAvailable = PROJECT_SCENARIO_INPUT_ROW_LIMIT - projectRows;
+      if (scenarioAvailable < 1 || projectAvailable < 1) {
+        const availableRows = Math.max(0, Math.min(scenarioAvailable, projectAvailable));
+        this.message = `Adding this constraint needs 1 row; ${availableRows} rows are available. Reduce or split the collection/scenario first.`;
+        this.render();
+        return;
+      }
+      const scope: ScenarioDraftScope = { kind: "", styleId: "", skuId: "", colorwayId: "", variantId: "" };
+      const provenance = { kind: "", sourceLabel: "", asOf: "", validThrough: "" };
+      this.scenarioDrafts = action === "add-moq"
+        ? reduceScenarioDrafts(this.scenarioDrafts, { type: "add-moq", scenarioId, row: {
+          id: nextId(), scope, unit: "", minimumUnits: "", provenance,
+        } })
+        : reduceScenarioDrafts(this.scenarioDrafts, { type: "add-capacity-delivery", scenarioId, row: {
+          id: nextId(), scope, unitsPerPeriod: "", periodUnit: "", minimumPeriods: "", maximumPeriods: "", provenance,
+        } });
+      this.render();
+      return;
+    }
+    if (action === "delete-row") {
+      const rowId = target.dataset.seRowId;
+      const rowKind = target.dataset.seRowKind;
+      if (rowId && (rowKind === "moqs" || rowKind === "capacityDelivery")) {
+        this.scenarioDrafts = reduceScenarioDrafts(this.scenarioDrafts, { type: "delete-row", scenarioId, rowKind, rowId });
+        this.render();
+      }
+      return;
+    }
+    if (action === "add-missing") {
+      const collection = this.savedCollections().find((item) => item.id.toLowerCase() === scenario.collectionId.toLowerCase());
+      if (!collection) {
+        this.message = "Choose a saved collection to add rows for its new variants.";
+        this.render();
+        return;
+      }
+      const updated = addMissingScenarioVariantRows(scenario, collection, this.scenarioDrafts, nextId);
+      if (!updated.ok) {
+        this.message = updated.error;
+        this.render();
+        return;
+      }
+      const count = scenarioInputRowCount(updated.value) - scenarioInputRowCount(scenario);
+      this.scenarioDrafts = this.scenarioDrafts.map((item) => item.id.toLowerCase() === scenarioId.toLowerCase() ? updated.value : item);
+      this.message = count === 0 ? "Every saved collection variant already has a scenario row." : `Added ${count} blank rows for new collection variants.`;
+      this.render();
+      return;
+    }
+  }
+
+  private async saveScenarioDrafts(): Promise<void> {
+    await this.run(async () => {
+      if (scenarioDraftsAreDirty(this.scenarioDraftBase, this.savedScenarios())) {
+        throw new Error("Saved scenarios changed after this draft opened. Reload the project before saving these edits.");
+      }
+      const loaded = await this.options.workflow.saveScenarios(this.scenarioDrafts);
+      this.syncScenarioProject(true);
+      this.message = `Saved scenario drafts in ${loaded.project.name}. Raw inputs remain editable and local to this project.`;
+    }, "Saving scenario drafts…");
+  }
+
+  private syncCollectionProject(force = false): void {
+    const loaded = this.options.workflow.snapshot;
+    const saved = this.savedCollections();
+    const sameProject = this.collectionDraftProjectId === loaded.project.id;
+    const draftChanged = collectionDraftsAreDirty(this.collectionDrafts, this.collectionDraftBase);
+    if (!force && sameProject && draftChanged) return;
+    if (!force && sameProject && !collectionDraftsAreDirty(saved, this.collectionDraftBase)) return;
+    this.collectionDraftProjectId = loaded.project.id;
+    this.collectionDraftBase = saved;
+    this.collectionDrafts = saved;
+  }
+
+  private collectionDraftIsDirty(): boolean {
+    return collectionDraftsAreDirty(this.collectionDrafts, this.collectionDraftBase);
+  }
+
+  private updateCollectionFieldDraft(
+    target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
+  ): boolean {
+    const scope = target.dataset.ceScope as CollectionEditorScope | undefined;
+    const collectionId = target.dataset.ceCollectionId;
+    const fieldName = target.dataset.ceField;
+    if (!scope || !collectionId || !fieldName) return false;
+    const indexValue = target.dataset.ceIndex;
+    this.collectionDrafts = updateCollectionDraftField(this.collectionDrafts, {
+      scope,
+      collectionId,
+      field: fieldName,
+      value: target.value,
+      ...(target.dataset.ceSkuId ? { skuId: target.dataset.ceSkuId } : {}),
+      ...(target.dataset.ceRecordId ? { recordId: target.dataset.ceRecordId } : {}),
+      ...(indexValue !== undefined ? { index: Number(indexValue) } : {}),
+    });
+    return true;
+  }
+
+  private updateCollectionEditorControls(): void {
+    for (const collection of this.collectionDrafts) {
+      const validation = this.options.host.querySelector<HTMLElement>(`[data-ce-validation-for="${collection.id}"]`)!;
+      const parsed = parseCollectionRecord(collection);
+      validation.textContent = parsed.ok ? "" : parsed.error;
+    }
+    const dirty = this.collectionDraftIsDirty();
+    const invalid = this.collectionDrafts.some((collection) => !parseCollectionRecord(collection).ok);
+    const save = this.options.host.querySelector<HTMLButtonElement>("[data-collection-action='save']");
+    if (save) save.disabled = this.busy || !dirty || invalid;
+    const discard = this.options.host.querySelector<HTMLButtonElement>("[data-collection-action='discard']");
+    if (discard) discard.disabled = this.busy || !dirty;
+  }
+
+  private handleCollectionEditorAction(target: HTMLElement): void {
+    const action = target.dataset.collectionAction;
+    const collectionId = target.dataset.ceCollectionId;
+    const skuId = target.dataset.ceSkuId;
+    const recordId = target.dataset.ceRecordId;
+    const nextId = (): string => techPackRecordId(this.options.techPackIdFactory);
+    const update = (draftAction: Parameters<typeof reduceCollectionDrafts>[1]): void => {
+      this.collectionDrafts = reduceCollectionDrafts(this.collectionDrafts, draftAction);
+      this.render();
+    };
+    if (action === "add-collection") {
+      const now = this.options.packageOptions?.now?.() ?? new Date().toISOString();
+      update({ type: "add-collection", collection: emptyCollectionRecord(this.options.workflow.snapshot.project.id, nextId(), now) });
+      return;
+    }
+    if (action === "delete-collection" && collectionId) {
+      const collection = this.collectionDrafts.find((item) => item.id === collectionId)!;
+      const variants = collection.skus.reduce((count, sku) => count + sku.variants.length, 0);
+      const confirmed = this.confirm(
+        `Delete collection “${collection.name || "Unnamed collection"}”? This removes ${collection.skus.length} SKU row(s), ${variants} nested variant(s), and ${collection.sharedMaterialGroups.length} shared-material group(s) from the draft. Linked source styles remain unchanged.`,
+      );
+      if (confirmed) update({ type: "delete-collection", collectionId });
+      return;
+    }
+    if (action === "add-sku" && collectionId) {
+      update({ type: "add-sku", collectionId, sku: emptyCollectionSku(nextId(), nextId()) });
+      return;
+    }
+    if (action === "delete-sku" && collectionId && skuId) {
+      const collection = this.collectionDrafts.find((item) => item.id === collectionId)!;
+      const sku = collection.skus.find((item) => item.id === skuId)!;
+      const confirmed = this.confirm(
+        `Delete SKU “${sku.code || sku.name || sku.id.slice(0, 8)}”? This removes ${sku.variants.length} nested variant(s). Shared-material member references will remain in the draft and need deliberate repair before saving.`,
+      );
+      if (confirmed) update({ type: "delete-sku", collectionId, skuId });
+      return;
+    }
+    if (action === "add-colorway" && collectionId && skuId) {
+      update({ type: "add-colorway", collectionId, skuId, colorway: emptyCollectionColorway(nextId()) });
+      return;
+    }
+    if (action === "delete-colorway" && collectionId && skuId && recordId) {
+      update({ type: "delete-colorway", collectionId, skuId, colorwayId: recordId });
+      return;
+    }
+    if (action === "add-variant" && collectionId && skuId) {
+      update({ type: "add-variant", collectionId, skuId, variant: emptyCollectionVariant(nextId()) });
+      return;
+    }
+    if (action === "delete-variant" && collectionId && skuId && recordId) {
+      update({ type: "delete-variant", collectionId, skuId, variantId: recordId });
+      return;
+    }
+    if (action === "add-group" && collectionId) {
+      update({ type: "add-group", collectionId, group: emptySharedMaterialGroup(nextId()) });
+      return;
+    }
+    if (action === "delete-group" && collectionId && recordId) {
+      update({ type: "delete-group", collectionId, groupId: recordId });
+      return;
+    }
+    if (action === "add-member" && collectionId && recordId) {
+      update({ type: "add-member", collectionId, groupId: recordId });
+      return;
+    }
+    if (action === "delete-member" && collectionId && recordId && target.dataset.ceIndex !== undefined) {
+      update({ type: "delete-member", collectionId, groupId: recordId, index: Number(target.dataset.ceIndex) });
+      return;
+    }
+    if (action === "discard") {
+      this.syncCollectionProject(true);
+      this.message = "Unsaved collection edits were discarded; saved collection data is unchanged.";
+      this.render();
+      return;
+    }
+    if (action === "save") void this.saveCollectionDrafts();
+  }
+
+  private async saveCollectionDrafts(): Promise<void> {
+    await this.run(async () => {
+      if (collectionDraftsAreDirty(this.collectionDraftBase, this.savedCollections())) {
+        throw new Error("Saved collections changed after this draft opened. Reload the project before saving these edits.");
+      }
+      const now = this.options.packageOptions?.now?.() ?? new Date().toISOString();
+      const candidate = prepareCollectionRecordsForSave(this.collectionDrafts, this.savedCollections(), now);
+      const loaded = await this.options.workflow.saveCollections(candidate);
+      this.syncCollectionProject(true);
+      this.message = `Saved collection changes in ${loaded.project.name}. Linked styles and their revisions were unchanged.`;
+    }, "Saving collection changes…");
+  }
+
+  private brandProfileIsDirty(): boolean {
+    return this.brandProfileFiles.length > 0
+      || JSON.stringify(this.brandProfileDraft) !== JSON.stringify(this.savedBrandProfile() ?? emptyBrandProfile());
+  }
+
+  private async missingBrandProfileAssets(profile: BrandProfileRecord): Promise<string[]> {
+    const ids = profile.artworkAssetIds;
+    const exists = await Promise.all(ids.map(async (assetId) => {
+      try {
+        return Boolean(await this.options.artworkStore?.get(assetId));
+      } catch {
+        return false;
+      }
+    }));
+    return ids.filter((_, index) => !exists[index]);
+  }
+
+  private refreshBrandProfileAssetStatus(): void {
+    const ids = this.brandProfileDraft.artworkAssetIds;
+    const key = JSON.stringify(ids);
+    if (key === this.brandProfileAssetStatusKey) return;
+    this.brandProfileAssetStatusKey = key;
+    if (ids.length === 0) {
+      this.brandProfileMissingIds = [];
+      return;
+    }
+    this.brandProfileMissingIds = null;
+    const projectId = this.brandProfileProjectId;
+    void this.missingBrandProfileAssets(this.brandProfileDraft).then((missingIds) => {
+      if (this.brandProfileProjectId !== projectId || this.brandProfileAssetStatusKey !== key) return;
+      this.brandProfileMissingIds = missingIds;
+      this.updateBrandProfileAssetRows(missingIds);
+    });
+  }
+
+  private brandProfileAssignmentChoices(record: TechPackRecord | null): BrandProfileAssignmentChoice[] {
+    if (!record) return [];
+    const materialNames = new Map(record.materials.map((material) => [
+      material.id,
+      material.name.value?.trim() || material.id,
+    ]));
+    const bomNames = new Map(record.bomRows.map((row) => [
+      row.id,
+      row.componentRef.value?.trim() || row.placement.value?.trim() || row.id,
+    ]));
+    return record.colorways.flatMap((colorway) => colorway.assignments.map((assignment) => ({
+      id: assignment.id,
+      label: `${colorway.name.value?.trim() || colorway.id} · ${bomNames.get(assignment.bomRowId)!} · ${materialNames.get(assignment.materialId)!}`,
+      fieldId: assignment.color.fieldId,
+      color: assignment.color.value,
+    })));
+  }
+
+  private brandProfileApplyBlockedReason(): string | null {
+    if (this.brandProfileIsDirty()) return "Save or discard Brand Profile edits before applying a saved palette color.";
+    const assetKey = JSON.stringify(this.brandProfileDraft.artworkAssetIds);
+    if (assetKey !== this.brandProfileAssetStatusKey || this.brandProfileMissingIds === null) {
+      return "Wait for local artwork references to finish checking.";
+    }
+    if (this.brandProfileMissingIds.length > 0) return "Resolve or remove missing local artwork references before applying a color.";
+    if (!this.savedBrandProfile()) return "Save a Brand Profile color before applying it to Tech Pack.";
+    return null;
+  }
+
+  private brandProfileConflictMessage(): string {
+    const blocked = this.brandProfileApplyBlockedReason();
+    if (blocked) return blocked;
+    const color = this.savedBrandProfile()?.colors.find((item) => item.id === this.selectedBrandProfileColorId);
+    const assignment = this.brandProfileAssignmentChoices(this.currentTechPackRecord())
+      .find((item) => item.id === this.selectedBrandProfileAssignmentId);
+    if (!color || !assignment) return "Choose a saved Brand Profile color and an existing Tech Pack colorway assignment to compare.";
+    if (assignment.color?.trim().toLowerCase() === color.hex.toLowerCase()) {
+      return `${color.name} already matches ${assignment.fieldId}.`;
+    }
+    return `${color.name} (${color.hex}) differs from ${assignment.fieldId} (${assignment.color ?? "empty"}). Apply will update this pending field only.`;
+  }
+
+  private updateBrandProfileControls(): void {
+    const profile = this.brandProfileDraft;
+    const parsed = parseBrandProfileRecord(profile);
+    const dirty = this.brandProfileIsDirty();
+    const key = JSON.stringify(profile.artworkAssetIds);
+    const statusReady = key === this.brandProfileAssetStatusKey && this.brandProfileMissingIds !== null;
+    const assetsValid = statusReady && this.brandProfileMissingIds!.length === 0;
+    const validation = this.options.host.querySelector<HTMLElement>("[data-brand-profile-validation]");
+    if (validation) validation.textContent = parsed.ok ? "" : parsed.error;
+    const save = this.options.host.querySelector<HTMLButtonElement>("[data-brand-profile-action='save-profile']");
+    if (save) save.disabled = this.busy || !dirty || !parsed.ok || !assetsValid;
+    const discard = this.options.host.querySelector<HTMLButtonElement>("[data-brand-profile-action='discard-profile']");
+    if (discard) discard.disabled = this.busy || !dirty;
+    const color = this.savedBrandProfile()?.colors.find((item) => item.id === this.selectedBrandProfileColorId);
+    const assignment = this.brandProfileAssignmentChoices(this.currentTechPackRecord())
+      .find((item) => item.id === this.selectedBrandProfileAssignmentId);
+    const matches = color && assignment?.color?.trim().toLowerCase() === color.hex.toLowerCase();
+    const apply = this.options.host.querySelector<HTMLButtonElement>("[data-brand-profile-action='apply-color']");
+    if (apply) apply.disabled = this.busy || Boolean(this.brandProfileApplyBlockedReason()) || !color || !assignment || Boolean(matches);
+    const conflict = this.options.host.querySelector<HTMLElement>("[data-brand-profile-conflict]");
+    if (conflict) conflict.textContent = this.brandProfileConflictMessage();
+  }
+
+  private updateBrandProfileAssetRows(missing: readonly string[]): void {
+    const status = this.options.host.querySelector<HTMLElement>("[data-brand-profile-assets-status]");
+    if (status) status.textContent = missing.length === 0
+      ? "All existing artwork references resolve locally."
+      : `${missing.length} artwork reference(s) are missing. Remove each missing reference or restore its file before saving.`;
+    for (const row of this.options.host.querySelectorAll<HTMLElement>("[data-brand-profile-asset-row]")) {
+      const assetId = row.dataset.brandProfileAssetRow!;
+      const unresolved = missing.includes(assetId);
+      const state = row.querySelector<HTMLElement>("[data-brand-profile-asset-state]");
+      if (state) state.textContent = unresolved ? "Missing from local storage" : "Stored locally";
+      const remove = row.querySelector<HTMLButtonElement>("[data-brand-profile-action='remove-artwork']");
+      if (remove) remove.textContent = unresolved ? "Remove missing reference" : "Remove reference";
+    }
+    this.updateBrandProfileControls();
+  }
+
+  private renderBrandProfile(techPack: TechPackRecord | null): string {
+    this.syncBrandProfileProject();
+    this.refreshBrandProfileAssetStatus();
+    const savedColors = this.savedBrandProfile()?.colors ?? [];
+    if (!savedColors.some((color) => color.id === this.selectedBrandProfileColorId)) this.selectedBrandProfileColorId = "";
+    const assignments = this.brandProfileAssignmentChoices(techPack);
+    if (!assignments.some((assignment) => assignment.id === this.selectedBrandProfileAssignmentId)) this.selectedBrandProfileAssignmentId = "";
+    const validation = parseBrandProfileRecord(this.brandProfileDraft);
+    return renderBrandProfileEditor({
+      profile: this.brandProfileDraft,
+      savedColors,
+      assignments,
+      missingArtworkIds: this.brandProfileMissingIds,
+      stagedArtworkNames: this.brandProfileFiles.map((file) => file.name),
+      selectedColorId: this.selectedBrandProfileColorId,
+      selectedAssignmentId: this.selectedBrandProfileAssignmentId,
+      validationError: validation.ok ? null : validation.error,
+      applyBlockedReason: this.brandProfileApplyBlockedReason(),
+      artworkAvailable: Boolean(this.options.artworkStore && this.options.inspectAsset),
+      disabled: this.busy,
+      dirty: this.brandProfileIsDirty(),
+    });
+  }
+
+  private updateBrandProfileFieldDraft(target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): boolean {
+    const colorId = target.dataset.brandProfileColorId;
+    const colorField = target.dataset.brandProfileColorField;
+    if (colorId && (colorField === "name" || colorField === "hex")) {
+      this.brandProfileDraft = {
+        ...this.brandProfileDraft,
+        colors: this.brandProfileDraft.colors.map((color) => color.id === colorId
+          ? { ...color, [colorField]: target.value }
+          : color),
+      };
+      return true;
+    }
+    const ruleId = target.dataset.brandProfileRuleId;
+    const ruleField = target.dataset.brandProfileRuleField;
+    if (ruleId && (ruleField === "scope" || ruleField === "kind" || ruleField === "description")) {
+      this.brandProfileDraft = {
+        ...this.brandProfileDraft,
+        rules: this.brandProfileDraft.rules.map((rule) => rule.id === ruleId
+          ? { ...rule, [ruleField]: target.value }
+          : rule),
+      };
+      return true;
+    }
+    return false;
+  }
+
+  private async handleBrandProfileAction(target: HTMLElement): Promise<void> {
+    const action = target.dataset.brandProfileAction;
+    if (action === "add-color") {
+      const color: BrandProfileColor = { id: techPackRecordId(this.options.techPackIdFactory), name: "New color", hex: "#000000" };
+      this.brandProfileDraft = { ...this.brandProfileDraft, colors: [...this.brandProfileDraft.colors, color] };
+    } else if (action === "remove-color") {
+      const colorId = target.dataset.colorId;
+      this.brandProfileDraft = { ...this.brandProfileDraft, colors: this.brandProfileDraft.colors.filter((color) => color.id !== colorId) };
+    } else if (action === "add-rule") {
+      const rule: BrandProfileRule = {
+        id: techPackRecordId(this.options.techPackIdFactory),
+        scope: "design",
+        kind: "preference",
+        description: "Add user-authored guidance",
+      };
+      this.brandProfileDraft = { ...this.brandProfileDraft, rules: [...this.brandProfileDraft.rules, rule] };
+    } else if (action === "remove-rule") {
+      const ruleId = target.dataset.ruleId;
+      this.brandProfileDraft = { ...this.brandProfileDraft, rules: this.brandProfileDraft.rules.filter((rule) => rule.id !== ruleId) };
+    } else if (action === "remove-artwork") {
+      const assetId = target.dataset.assetId;
+      this.brandProfileDraft = { ...this.brandProfileDraft, artworkAssetIds: this.brandProfileDraft.artworkAssetIds.filter((id) => id !== assetId) };
+    } else if (action === "discard-files") {
+      this.brandProfileFiles = [];
+    } else if (action === "discard-profile") {
+      this.brandProfileDraft = this.savedBrandProfile() ?? emptyBrandProfile();
+      this.brandProfileFiles = [];
+      this.selectedBrandProfileColorId = "";
+      this.selectedBrandProfileAssignmentId = "";
+    } else if (action === "save-profile") {
+      await this.saveBrandProfile();
+      return;
+    } else if (action === "apply-color") {
+      await this.applyBrandProfileColor();
+      return;
+    } else {
+      return;
+    }
+    this.message = action === "discard-files"
+      ? "Staged artwork files were discarded; nothing was written to local storage."
+      : action === "discard-profile"
+        ? "Unsaved Brand Profile edits and staged artwork files were discarded; nothing was written to local storage."
+        : this.message;
+    this.render();
+  }
+
+  private async saveBrandProfile(): Promise<void> {
+    const parsed = parseBrandProfileRecord(this.brandProfileDraft);
+    if (!parsed.ok) {
+      this.message = parsed.error;
+      this.render();
+      return;
+    }
+    const assetKey = JSON.stringify(parsed.value.artworkAssetIds);
+    if (assetKey !== this.brandProfileAssetStatusKey || this.brandProfileMissingIds === null) {
+      this.message = "Wait for local artwork references to finish checking before saving.";
+      return;
+    }
+    if (this.brandProfileMissingIds.length > 0) {
+      this.message = "Remove or restore every missing local artwork reference before saving the Brand Profile.";
+      this.render();
+      return;
+    }
+    return this.run(async () => {
+      const storedIds: string[] = [];
+      try {
+        const snapshot = this.options.workflow.snapshot;
+        const projectedAssetCount = projectPackageReferencedAssetCount(
+          snapshot.project,
+          snapshot.styles,
+          snapshot.styleRevisions,
+          parsed.value,
+        ) + this.brandProfileFiles.length;
+        if (projectedAssetCount > PROJECT_PACKAGE_MAX_ASSETS) {
+          throw new ProjectPackageError(
+            "limit-exceeded",
+            `Brand Profile cannot be saved because project backup supports at most ${PROJECT_PACKAGE_MAX_ASSETS} referenced artwork files. Remove another artwork reference before adding more.`,
+          );
+        }
+        for (const file of this.brandProfileFiles) {
+          if (!this.options.artworkStore || !this.options.inspectAsset) {
+            throw new Error("Local artwork storage is unavailable; no Brand Profile files were saved.");
+          }
+          const inspected = await this.options.inspectAsset(file);
+          storedIds.push(await storeArtworkFile(inspected, this.options.artworkStore));
+        }
+        const candidate = parseBrandProfileRecord({
+          ...parsed.value,
+          artworkAssetIds: [...parsed.value.artworkAssetIds, ...storedIds],
+        });
+        if (!candidate.ok) throw new Error(candidate.error);
+        await this.options.workflow.saveBrandProfile(candidate.value);
+        this.brandProfileDraft = candidate.value;
+        this.brandProfileFiles = [];
+        this.message = "Brand Profile saved to this local project.";
+      } catch (error) {
+        this.brandProfileAssetStatusKey = "";
+        this.brandProfileMissingIds = null;
+        const cleanup = this.options.artworkStore
+          ? await Promise.allSettled(storedIds.map((assetId) => this.options.artworkStore!.remove(assetId)))
+          : [];
+        const cleanupFailed = cleanup.some((result) => result.status === "rejected");
+        if (cleanupFailed) {
+          throw new Error(`${errorMessage(error)} A newly stored artwork file could not be removed during cleanup.`);
+        }
+        throw error;
+      }
+    }, "Saving the Brand Profile…");
+  }
+
+  private async applyBrandProfileColor(): Promise<void> {
+    const blocked = this.brandProfileApplyBlockedReason();
+    if (blocked) {
+      this.message = blocked;
+      this.render();
+      return;
+    }
+    const profile = this.savedBrandProfile();
+    const color = profile?.colors.find((item) => item.id === this.selectedBrandProfileColorId);
+    const before = this.currentTechPackRecord();
+    const assignment = this.brandProfileAssignmentChoices(before).find((item) => item.id === this.selectedBrandProfileAssignmentId);
+    if (!profile || !color || !before || !assignment) {
+      this.message = "Choose an available saved profile color and Tech Pack assignment before applying.";
+      this.render();
+      return;
+    }
+    if (assignment.color?.trim().toLowerCase() === color.hex.toLowerCase()) {
+      this.message = `${color.name} already matches ${assignment.fieldId}; the Tech Pack draft is unchanged.`;
+      this.render();
+      return;
+    }
+    return this.run(async () => {
+      const missingIds = await this.missingBrandProfileAssets(profile);
+      this.brandProfileAssetStatusKey = JSON.stringify(profile.artworkAssetIds);
+      this.brandProfileMissingIds = missingIds;
+      if (missingIds.length > 0) throw new Error("Resolve or remove missing local artwork references before applying a color.");
+      const latest = this.currentTechPackRecord();
+      if (!latest) throw new Error("The active Tech Pack changed before the color could be applied.");
+      const latestAssignment = latest.colorways.flatMap((colorway) => colorway.assignments)
+        .find((item) => item.id === assignment.id);
+      if (!latestAssignment) throw new Error("The selected Tech Pack colorway assignment no longer exists.");
+      if (latestAssignment.color.value?.trim().toLowerCase() === color.hex.toLowerCase()) {
+        this.message = `${color.name} already matches ${latestAssignment.color.fieldId}; the Tech Pack draft is unchanged.`;
+        return;
+      }
+      const updated = updateTechPackColorwayAssignment(latest, latestAssignment, (item) => ({
+        ...item,
+        color: appliedBrandProfileColor(item.color, color, new Date().toISOString()),
+      }));
+      const validationError = this.pendingTechPackJsonError(updated);
+      if (validationError) throw new Error(validationError);
+      this.techPackDraft = updated;
+      this.techPackInputError = "";
+      this.message = `Applied ${color.name} to ${latestAssignment.color.fieldId} in the pending Tech Pack draft. Save the Tech Pack revision to commit this design value.`;
+    }, "Applying the Brand Profile color to the pending Tech Pack draft…");
   }
 
   private updateTechPackStatus(message: string): void {
@@ -486,6 +1295,7 @@ export class ProjectManager {
         : freezeBlocker ?? (outputsReady ? "" : "Review Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.");
     const freezeGuidance = this.options.host.querySelector<HTMLElement>("#project-freeze-guidance");
     if (freezeGuidance) freezeGuidance.textContent = guidance;
+    this.updateBrandProfileControls();
   }
 
   private updateTechPackFromControl(target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): void {
@@ -538,15 +1348,14 @@ export class ProjectManager {
         this.updateTechPackStatus(this.techPackInputError);
         return;
       }
-      updated = {
-        ...record,
-        colorways: record.colorways.map((colorway) => ({
-          ...colorway,
-          assignments: colorway.assignments.map((assignment) => assignment.id === assignmentId
-            ? { ...assignment, [propertyName]: target.value }
-            : assignment),
-        })),
-      };
+      const assignment = record.colorways.flatMap((colorway) => colorway.assignments)
+        .find((candidate) => candidate.id === assignmentId);
+      updated = assignment
+        ? updateTechPackColorwayAssignment(record, assignment, (candidate) => ({
+          ...candidate,
+          [propertyName]: target.value,
+        }))
+        : null;
     }
     if (!updated) {
       this.techPackInputError = "The edited T01 control is not connected to a record field.";
@@ -1215,11 +2024,62 @@ export class ProjectManager {
       `<h4>Frozen output captures</h4>${frozenRows}</section>`;
   }
 
+  private renderCollectionMatrix(loaded: LoadedProject): string {
+    const collections = projectCollections(loaded.project);
+    if (collections.length === 0) return "";
+    return renderCollectionMatrix({
+      collections,
+      sourceStatuses: loaded.collectionSourceStatuses,
+      styleRevisions: loaded.styleRevisions,
+    });
+  }
+
+  private renderCollectionEditorPanel(loaded: LoadedProject): string {
+    this.syncCollectionProject();
+    return renderCollectionEditor({
+      project: loaded.project,
+      collections: this.collectionDrafts,
+      savedCollections: this.savedCollections(),
+      styles: loaded.styles,
+      styleRevisions: loaded.styleRevisions,
+      sourceStatuses: loaded.collectionSourceStatuses,
+      disabled: this.busy,
+    });
+  }
+
+  private renderScenarioEditorPanel(loaded: LoadedProject): string {
+    this.syncScenarioProject();
+    const collections = projectCollections(loaded.project);
+    return renderScenarioEditor({
+      scenarios: this.scenarioDrafts,
+      savedScenarios: this.savedScenarios(),
+      collections,
+      disabled: this.busy,
+    }) + this.scenarioComparisonMarkup(loaded);
+  }
+
+  private scenarioComparisonMarkup(loaded: LoadedProject): string {
+    return renderScenarioComparison({
+      scenarios: this.scenarioDrafts,
+      collections: projectCollections(loaded.project),
+      collectionSourceStatuses: loaded.collectionSourceStatuses ?? [],
+    });
+  }
+
+  private updateScenarioComparison(): void {
+    const comparison = this.options.host.querySelector<HTMLElement>("[data-scenario-comparison='true']");
+    if (comparison) comparison.outerHTML = this.scenarioComparisonMarkup(this.options.workflow.snapshot);
+  }
+
   private render(): void {
     const loaded = this.options.workflow.snapshot;
     const open = this.options.host.querySelector<HTMLDetailsElement>(".project-manager-details")?.open ?? false;
     this.projectManagerOpen = open;
     const activeTechPackRecord = open ? this.currentTechPackRecord() ?? loaded.activeStyle.techPack : null;
+    const brandProfileEditor = open ? this.renderBrandProfile(activeTechPackRecord) : "";
+    const collectionMatrix = open ? this.renderCollectionMatrix(loaded) : "";
+    const collectionEditor = open ? this.renderCollectionEditorPanel(loaded) : "";
+    const scenarioEditor = open ? this.renderScenarioEditorPanel(loaded) : "";
     const pendingT02 = activeTechPackRecord ? this.t02DataWithPendingDefinitionDraft(activeTechPackRecord) : null;
     const t02Recipe = activeTechPackRecord && GARMENTS.some((recipe) => recipe.name === activeTechPackRecord.recipeId)
       ? garmentForConstruction(activeTechPackRecord.recipeId, loaded.activeStyle.design.workspace.teeConstruction)
@@ -1305,7 +2165,7 @@ export class ProjectManager {
       `<button type="button" data-project-action="duplicate"${this.busy ? " disabled" : ""}>Duplicate current design</button>` +
       `<button type="button" data-project-action="rename"${this.busy ? " disabled" : ""}>Rename current style</button>` +
       `<button type="button" data-project-action="reload"${this.busy ? " disabled" : ""}>Reload project</button>` +
-      `</div>` + this.renderStyles(loaded.styles, loaded.activeStyle.id) + techPackEditor +
+      `</div>` + this.renderStyles(loaded.styles, loaded.activeStyle.id) + brandProfileEditor + collectionMatrix + collectionEditor + scenarioEditor + techPackEditor +
       this.renderRevisionHistory(loaded) + `</div></details>`;
     this.cancelPortal.hidden = !(this.busy && this.controller);
     if (this.busy && this.controller) {
@@ -1455,11 +2315,17 @@ export class ProjectManager {
         this.render();
         return;
       }
+      if (this.collectionDraftIsDirty() && !this.confirm(
+        "Switching projects will discard unsaved collection edits from this draft. The saved collection graph remains unchanged. Continue?")) return;
+      if (this.scenarioDraftIsDirty() && !this.confirm(
+        "Switching projects will discard only unsaved scenario editor edits. Saved scenario records remain unchanged. Continue?")) return;
       if (this.options.hasUnsavedChanges() && !this.confirm(
         "This design has unsaved edits. Switch projects and keep the current project's last saved version?")) return;
       return this.run(async () => {
         const loaded = await this.options.workflow.switchProject(selectedId);
         this.options.onStyleLoaded(loaded, recoveryPayloadOrNull(loaded));
+        this.syncCollectionProject(true);
+        this.syncScenarioProject(true);
         this.discardTechPackDraft();
         this.projects = await this.options.workflow.repository.listProjects();
         this.message = `Opened ${loaded.project.name}.`;
@@ -1500,9 +2366,18 @@ export class ProjectManager {
       });
     }
     if (action === "reload") {
+      if (this.collectionDraftIsDirty() && !this.confirm(
+        "Reloading the project will discard unsaved collection edits from this draft. The saved collection graph remains unchanged. Continue?")) return;
+      if (this.scenarioDraftIsDirty() && !this.confirm(
+        "Reloading the project will discard only unsaved scenario editor edits. Saved scenario records remain unchanged. Continue?")) return;
+      if (this.brandProfileIsDirty() && !this.confirm(
+        "Reloading the project will discard unsaved Brand Profile edits and staged artwork files. Continue?")) return;
       const hadUnsaved = this.options.hasUnsavedChanges();
       return this.run(async () => {
         const loaded = await this.options.workflow.reload();
+        this.syncBrandProfileProject(true);
+        this.syncCollectionProject(true);
+        this.syncScenarioProject(true);
         this.options.onStyleLoaded(loaded, loaded.activeRecovery?.payload ?? null);
         this.discardTechPackDraft();
         this.message = hadUnsaved

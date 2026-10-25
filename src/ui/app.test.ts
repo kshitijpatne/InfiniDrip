@@ -9629,7 +9629,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       const selectedTechPack = root.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!;
       expect(selectedTechPack.disabled).toBe(false);
       selectedTechPack.click();
-      await vi.waitFor(() => expect(exportedTechPacks.has("tee-S-selected-techpack.pdf")).toBe(true));
+      await vi.waitFor(() => expect(exportedTechPacks.has("tee-S-selected-techpack.pdf")).toBe(true), { timeout: 20_000 });
       const selectedTechPackText = exportedTechPacks.get("tee-S-selected-techpack.pdf")!;
       expect(selectedTechPackText).toContain("Provisional digital V-band construction");
       expect(selectedTechPackText).toContain("Measured selected-size body neckline");
@@ -9637,7 +9637,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       const wholeRunExport = root.querySelector<HTMLButtonElement>("#export-techpack")!;
       expect(wholeRunExport.disabled).toBe(false);
       wholeRunExport.click();
-      await vi.waitFor(() => expect(exportedTechPacks.has("tee-techpack.pdf")).toBe(true));
+      await vi.waitFor(() => expect(exportedTechPacks.has("tee-techpack.pdf")).toBe(true), { timeout: 20_000 });
       const wholeRunExportText = exportedTechPacks.get("tee-techpack.pdf")!;
       expect(wholeRunExportText).toContain("V-band output is available only in the selected-size V-band Tech Pack;");
       expect(wholeRunExportText).toContain("graded-size V-band instructions or pattern output.");

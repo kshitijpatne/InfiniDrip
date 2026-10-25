@@ -36,18 +36,25 @@ import {
 } from "./style-revisions";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import {
+  BRAND_PROFILE_PROJECT_RECORD_VERSION,
+  COLLECTION_PROJECT_RECORD_VERSION,
+  SCENARIO_PROJECT_RECORD_VERSION,
   CUSTOM_STYLE_RECORD_VERSION,
   isCustomOneSizeStyle,
   parseMeasurementCaptureRecord,
   parseProjectRecord,
   parseRecoveryRecord,
   parseStyleRecord,
+  projectCollections,
   validateProjectBundle,
   type MeasurementCaptureRecord,
   type ProjectRecord,
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
+import { resolveCollectionSourceStatuses } from "./collection-source-validation";
+import type { BrandProfileRecord } from "./brand-profile-records";
+import type { ScenarioDraftScope } from "./scenario-records";
 import { bindTechPackToRevision, techPackRevisionContent, type TechPackRecord } from "./tech-pack-records";
 import { sampleRoundsMatchStyleHistory } from "./tech-pack-sample-qa-records";
 import {
@@ -69,6 +76,12 @@ export const PROJECT_PACKAGE_CUSTOM_STYLE_VERSION = 5;
  * It has the v5 key set plus an exact gradePlans list; its capture list is always
  * present and non-empty because every plan requires its matching capture. */
 export const PROJECT_PACKAGE_GRADE_PLAN_VERSION = 6;
+/** Written for every package containing a project Brand Profile. */
+export const PROJECT_PACKAGE_BRAND_PROFILE_VERSION = 7;
+/** Written for every project carrying the persisted collection graph. */
+export const PROJECT_PACKAGE_COLLECTION_VERSION = 8;
+/** Written for project schema v5, which adds editable user scenarios. */
+export const PROJECT_PACKAGE_SCENARIO_VERSION = 9;
 export const PROJECT_PACKAGE_MAX_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_CONTENT_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_ASSETS = 128;
@@ -140,7 +153,9 @@ export interface ProjectPackageAssetRecord {
 export interface ProjectPackageManifest {
   readonly format: typeof PROJECT_PACKAGE_FORMAT;
   readonly packageVersion: 1 | 2 | typeof PROJECT_PACKAGE_VERSION | typeof PROJECT_PACKAGE_CAPTURE_VERSION
-    | typeof PROJECT_PACKAGE_CUSTOM_STYLE_VERSION | typeof PROJECT_PACKAGE_GRADE_PLAN_VERSION;
+    | typeof PROJECT_PACKAGE_CUSTOM_STYLE_VERSION | typeof PROJECT_PACKAGE_GRADE_PLAN_VERSION
+    | typeof PROJECT_PACKAGE_BRAND_PROFILE_VERSION | typeof PROJECT_PACKAGE_COLLECTION_VERSION
+    | typeof PROJECT_PACKAGE_SCENARIO_VERSION;
   readonly packageSha256: string;
   readonly project: ProjectRecord;
   readonly styles: readonly StyleRecord[];
@@ -149,9 +164,9 @@ export interface ProjectPackageManifest {
   readonly styleRevisions: readonly StyleRevisionRecord[];
   readonly exportManifests: readonly ProjectPackageFrozenManifest[];
   readonly assets: readonly ProjectPackageAssetRecord[];
-  /** Present and non-empty in v4; required with each custom style's matching capture in v5. */
+  /** Present in v4–v8; required with each custom style's matching capture in v5+. */
   readonly measurementCaptures?: readonly MeasurementCaptureRecord[];
-  /** Present and non-empty only in v6; every entry names a custom one-size style in this project. */
+  /** Present in v6–v8; every entry names a custom one-size style in this project. */
   readonly gradePlans?: readonly GradePlanRecord[];
 }
 
@@ -275,6 +290,38 @@ function historyAssetRefs(styles: readonly StyleRecord[], revisions: readonly St
   return refs;
 }
 
+function projectAssetRefs(
+  project: ProjectRecord,
+  styles: readonly StyleRecord[],
+  revisions: readonly StyleRevisionRecord[],
+): Map<string, Set<string>> {
+  const refs = historyAssetRefs(styles, revisions);
+  const brandProfile = project.schemaVersion === BRAND_PROFILE_PROJECT_RECORD_VERSION
+    ? project.brandProfile
+    : project.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION || project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION
+      ? project.brandProfile : null;
+  if (brandProfile) {
+    for (const assetId of brandProfile.artworkAssetIds) {
+      if (!refs.has(assetId)) refs.set(assetId, new Set());
+    }
+  }
+  return refs;
+}
+
+export function projectPackageReferencedAssetCount(
+  project: ProjectRecord,
+  styles: readonly StyleRecord[],
+  revisions: readonly StyleRevisionRecord[],
+  brandProfile: BrandProfileRecord,
+): number {
+  const projectedProject: ProjectRecord = {
+    ...project,
+    schemaVersion: BRAND_PROFILE_PROJECT_RECORD_VERSION,
+    brandProfile,
+  } as ProjectRecord;
+  return projectAssetRefs(projectedProject, styles, revisions).size;
+}
+
 function frozenArchivePath(manifestId: string, artifactPath: string): string {
   const filename = artifactPath.slice("artifacts/".length);
   if (!/^[a-z0-9][a-z0-9-]{0,63}\.[a-z0-9]{1,8}$/.test(filename)) {
@@ -306,7 +353,7 @@ async function normalizeSnapshotHistory(
   for (const id of [snapshot.project.id, ...styles.map((style) => style.id)]) usedIds.add(id.toLowerCase());
   const observations = new Map((snapshot.fieldObservations ?? styles.map((style) =>
     createFieldObservationRecord(style, style.updatedAt, "existing-local-style"))).map((record) => [record.styleId, record]));
-  if (historyAssetRefs(styles, revisions).size > PROJECT_PACKAGE_MAX_ASSETS) {
+  if (projectAssetRefs(snapshot.project, styles, revisions).size > PROJECT_PACKAGE_MAX_ASSETS) {
     throw new ProjectPackageError("limit-exceeded", `A package can contain at most ${PROJECT_PACKAGE_MAX_ASSETS} referenced artwork files.`);
   }
   subtleCrypto(options);
@@ -540,13 +587,23 @@ export async function createProjectPackage(
 ): Promise<Blob> {
   const customStyles = snapshotHasCustomStyles(snapshot.styles);
   const history = await normalizeSnapshotHistory(snapshot, artworkStore, options);
+  const collectionSources = resolveCollectionSourceStatuses(snapshot.project, history.styles, history.revisions);
+  if (!collectionSources.ok) throw new ProjectPackageError("invalid-package", collectionSources.error);
   const measurementCaptures = packageMeasurementCaptures(snapshot.measurementCaptures ?? [], snapshot.project);
   const gradePlans = packageGradePlans(snapshot.gradePlans ?? [], snapshot.project, history.styles, measurementCaptures);
   requireCustomStyleCaptures(history.styles, measurementCaptures);
-  const packageVersion = gradePlans.length > 0 ? PROJECT_PACKAGE_GRADE_PLAN_VERSION
+  const hasCollections = snapshot.project.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION
+    || snapshot.project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION;
+  const hasScenarios = snapshot.project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION;
+  const hasBrandProfile = snapshot.project.schemaVersion === BRAND_PROFILE_PROJECT_RECORD_VERSION
+    || (hasCollections && snapshot.project.brandProfile !== null);
+  const packageVersion = hasScenarios ? PROJECT_PACKAGE_SCENARIO_VERSION
+    : hasCollections ? PROJECT_PACKAGE_COLLECTION_VERSION
+    : hasBrandProfile ? PROJECT_PACKAGE_BRAND_PROFILE_VERSION
+    : gradePlans.length > 0 ? PROJECT_PACKAGE_GRADE_PLAN_VERSION
     : customStyles ? PROJECT_PACKAGE_CUSTOM_STYLE_VERSION
     : measurementCaptures.length > 0 ? PROJECT_PACKAGE_CAPTURE_VERSION : PROJECT_PACKAGE_VERSION;
-  const refs = historyAssetRefs(history.styles, history.revisions);
+  const refs = projectAssetRefs(snapshot.project, history.styles, history.revisions);
   const assetRecords: ProjectPackageAssetRecord[] = [];
   const sourceAssets: StoredArtworkAsset[] = [];
   let assetBytes = 0;
@@ -554,7 +611,15 @@ export async function createProjectPackage(
   for (const assetId of referenced) {
     checkCancelled(options.signal);
     const asset = await artworkStore.get(assetId);
-    if (!asset) throw new ProjectPackageError("missing-asset", `Project backup is blocked because artwork ${assetId} disappeared from local storage during backup creation.`);
+    if (!asset) {
+      const profile = snapshot.project.schemaVersion === BRAND_PROFILE_PROJECT_RECORD_VERSION
+        ? snapshot.project.brandProfile
+        : snapshot.project.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION
+          || snapshot.project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION ? snapshot.project.brandProfile : null;
+      const profileIndex = profile?.artworkAssetIds.indexOf(assetId) ?? -1;
+      const reference = profileIndex >= 0 ? `brandProfile.artworkAssetIds[${profileIndex}] (${assetId})` : `artwork ${assetId}`;
+      throw new ProjectPackageError("missing-asset", `Project backup is blocked because ${reference} disappeared from local storage during backup creation.`);
+    }
     safeAssetMetadata(asset);
     assetBytes += asset.blob.size;
     if (assetBytes > PROJECT_PACKAGE_MAX_CONTENT_BYTES) {
@@ -605,9 +670,8 @@ export async function createProjectPackage(
       throw new ProjectPackageError("limit-exceeded", "Project records, artwork and frozen outputs exceed the 256 MiB uncompressed package limit.");
     }
   }
-  // A package without captures or custom styles keeps the exact v3 body, key
-  // order and digest; a capture-only package keeps the exact v4 body; a custom
-  // package without plans keeps the exact v5 body. Only v6 adds gradePlans.
+  // Versions 1–6 retain their established exact key sets and digest inputs.
+  // Versions 7–9 carry both optional-feature arrays; v9's scenarios are inside project.
   const body: Omit<ProjectPackageManifest, "packageSha256"> = {
     format: PROJECT_PACKAGE_FORMAT,
     packageVersion,
@@ -620,7 +684,10 @@ export async function createProjectPackage(
     exportManifests: packageManifests,
     assets: assetRecords,
     ...(packageVersion !== PROJECT_PACKAGE_VERSION ? { measurementCaptures } : {}),
-    ...(packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION ? { gradePlans } : {}),
+    ...(packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION
+      || packageVersion === PROJECT_PACKAGE_BRAND_PROFILE_VERSION
+      || packageVersion === PROJECT_PACKAGE_COLLECTION_VERSION
+      || packageVersion === PROJECT_PACKAGE_SCENARIO_VERSION ? { gradePlans } : {}),
   };
   const packageSha256 = await sha256(new TextEncoder().encode(canonical(body)), options);
   const manifest: ProjectPackageManifest = { ...body, packageSha256 };
@@ -987,24 +1054,43 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
       : version === PROJECT_PACKAGE_CAPTURE_VERSION || version === PROJECT_PACKAGE_CUSTOM_STYLE_VERSION
         ? [...historyKeys, "measurementCaptures"]
         : version === PROJECT_PACKAGE_GRADE_PLAN_VERSION
-          ? [...historyKeys, "measurementCaptures", "gradePlans"] : historyKeys;
+          ? [...historyKeys, "measurementCaptures", "gradePlans"]
+          : version === PROJECT_PACKAGE_BRAND_PROFILE_VERSION || version === PROJECT_PACKAGE_COLLECTION_VERSION
+            || version === PROJECT_PACKAGE_SCENARIO_VERSION
+            ? [...historyKeys, "measurementCaptures", "gradePlans"] : historyKeys;
   if (!exactObject(value, expectedKeys)
     || value.format !== PROJECT_PACKAGE_FORMAT
     || (value.packageVersion !== 1 && value.packageVersion !== 2 && value.packageVersion !== PROJECT_PACKAGE_VERSION
       && value.packageVersion !== PROJECT_PACKAGE_CAPTURE_VERSION && value.packageVersion !== PROJECT_PACKAGE_CUSTOM_STYLE_VERSION
-      && value.packageVersion !== PROJECT_PACKAGE_GRADE_PLAN_VERSION)
+      && value.packageVersion !== PROJECT_PACKAGE_GRADE_PLAN_VERSION
+      && value.packageVersion !== PROJECT_PACKAGE_BRAND_PROFILE_VERSION
+      && value.packageVersion !== PROJECT_PACKAGE_COLLECTION_VERSION
+      && value.packageVersion !== PROJECT_PACKAGE_SCENARIO_VERSION)
     || typeof value.packageSha256 !== "string" || !/^[0-9a-f]{64}$/.test(value.packageSha256)
     || !Array.isArray(value.styles) || !Array.isArray(value.recoveries) || !Array.isArray(value.assets)
     || (value.packageVersion >= 2 && !Array.isArray(value.fieldObservations))
     || (value.packageVersion >= PROJECT_PACKAGE_VERSION && (!Array.isArray(value.styleRevisions) || !Array.isArray(value.exportManifests)))
     || (value.packageVersion >= PROJECT_PACKAGE_CAPTURE_VERSION && !Array.isArray(value.measurementCaptures))
     || (value.packageVersion === PROJECT_PACKAGE_CAPTURE_VERSION && (value.measurementCaptures as unknown[]).length === 0)
-    || (value.packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION
-      && (!Array.isArray(value.gradePlans) || (value.gradePlans as unknown[]).length === 0))) {
+    || (value.packageVersion >= PROJECT_PACKAGE_GRADE_PLAN_VERSION && !Array.isArray(value.gradePlans))
+    || (value.packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION && (value.gradePlans as unknown[]).length === 0)) {
     throw new ProjectPackageError("invalid-package", "Project package manifest is incomplete, unknown, or unsupported.");
   }
   const project = parseProjectRecord(value.project);
   if (!project.ok) throw new ProjectPackageError("invalid-package", project.error);
+  const expectedProjectVersion = value.packageVersion === PROJECT_PACKAGE_BRAND_PROFILE_VERSION
+    ? BRAND_PROFILE_PROJECT_RECORD_VERSION
+    : value.packageVersion === PROJECT_PACKAGE_COLLECTION_VERSION ? COLLECTION_PROJECT_RECORD_VERSION
+      : value.packageVersion === PROJECT_PACKAGE_SCENARIO_VERSION ? SCENARIO_PROJECT_RECORD_VERSION : 2;
+  if (project.value.schemaVersion !== expectedProjectVersion) {
+    throw new ProjectPackageError("invalid-package", value.packageVersion === PROJECT_PACKAGE_SCENARIO_VERSION
+      ? "Package v9 requires a schema-v5 scenario project record."
+      : value.packageVersion === PROJECT_PACKAGE_COLLECTION_VERSION
+        ? "Package v8 requires a collection project record; older package versions cannot carry one."
+      : value.packageVersion === PROJECT_PACKAGE_BRAND_PROFILE_VERSION
+        ? "Package v7 requires a Brand Profile project record; profileless package versions cannot carry one."
+        : "Profileless package versions require a schema-v2 project record.");
+  }
   const styles = value.styles.map((style) => {
     // Package v1 predates semantic edit documents. Its style record used the
     // prior v2 design shape even when its style schema marker was 3, so map
@@ -1027,8 +1113,11 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
   // Package v6 exists only to carry grade plans for those custom styles.
   const customStyles = bundle.value.styles.some(isCustomOneSizeStyle);
   if (customStyles && value.packageVersion !== PROJECT_PACKAGE_CUSTOM_STYLE_VERSION
-    && value.packageVersion !== PROJECT_PACKAGE_GRADE_PLAN_VERSION) {
-    throw new ProjectPackageError("invalid-package", "Custom one-size styles require project package version 5 or 6.");
+    && value.packageVersion !== PROJECT_PACKAGE_GRADE_PLAN_VERSION
+    && value.packageVersion !== PROJECT_PACKAGE_BRAND_PROFILE_VERSION
+    && value.packageVersion !== PROJECT_PACKAGE_COLLECTION_VERSION
+    && value.packageVersion !== PROJECT_PACKAGE_SCENARIO_VERSION) {
+    throw new ProjectPackageError("invalid-package", "Custom one-size styles require project package version 5 or later.");
   }
   if (!customStyles && value.packageVersion === PROJECT_PACKAGE_CUSTOM_STYLE_VERSION) {
     throw new ProjectPackageError("invalid-package", "Project package version 5 must contain a custom one-size style.");
@@ -1117,6 +1206,8 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
       throw new ProjectPackageError("invalid-package", `Style ${style.id} does not match its payload-v2 revision head.`);
     }
   }
+  const collectionSources = resolveCollectionSourceStatuses(project.value, bundle.value.styles, styleRevisions);
+  if (!collectionSources.ok) throw new ProjectPackageError("invalid-package", collectionSources.error);
   const suppliedManifests = Array.isArray(value.exportManifests) ? value.exportManifests : [];
   const exportManifests: ProjectPackageFrozenManifest[] = value.packageVersion < 3 ? [] : suppliedManifests.map(parsePackageFrozenManifest);
   if (exportManifests.length > PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS) {
@@ -1151,7 +1242,18 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
   if (new Set(assets.map((asset) => asset.assetId)).size !== assets.length) {
     throw new ProjectPackageError("invalid-package", "Project package asset IDs are duplicated.");
   }
-  const refs = historyAssetRefs(styles, styleRevisions);
+  const refs = projectAssetRefs(project.value, styles, styleRevisions);
+  const brandProfile = project.value.schemaVersion === BRAND_PROFILE_PROJECT_RECORD_VERSION
+    ? project.value.brandProfile
+    : project.value.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION
+      || project.value.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION ? project.value.brandProfile : null;
+  if (brandProfile) {
+    for (const [index, assetId] of brandProfile.artworkAssetIds.entries()) {
+      if (!assets.some((asset) => asset.assetId === assetId)) {
+        throw new ProjectPackageError("invalid-package", `brandProfile.artworkAssetIds[${index}] references artwork missing from the package.`);
+      }
+    }
+  }
   if (refs.size !== assets.length) throw new ProjectPackageError("invalid-package", "Manifest artwork does not exactly match the current and historical local artwork references.");
   for (const asset of assets) {
     const labels = [...(refs.get(asset.assetId) ?? [])].sort();
@@ -1162,7 +1264,7 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
   const measurementCaptures = value.packageVersion >= PROJECT_PACKAGE_CAPTURE_VERSION
     ? packageMeasurementCaptures(value.measurementCaptures as unknown[], project.value)
     : [];
-  const gradePlans = value.packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION
+  const gradePlans = value.packageVersion >= PROJECT_PACKAGE_GRADE_PLAN_VERSION
     ? packageGradePlans(value.gradePlans as unknown[], project.value, bundle.value.styles, measurementCaptures)
     : [];
   requireCustomStyleCaptures(bundle.value.styles, measurementCaptures);
@@ -1178,7 +1280,7 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
     exportManifests,
     assets,
     ...(value.packageVersion >= PROJECT_PACKAGE_CAPTURE_VERSION ? { measurementCaptures } : {}),
-    ...(value.packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION ? { gradePlans } : {}),
+    ...(value.packageVersion >= PROJECT_PACKAGE_GRADE_PLAN_VERSION ? { gradePlans } : {}),
   };
 }
 
@@ -1312,7 +1414,7 @@ function remapTechPackFields<T extends object>(fields: T, revisionIds: ReadonlyM
     if (typeof value !== "object" || value === null || !("inheritedFrom" in value)) continue;
     const field = value as { readonly inheritedFrom: { readonly revisionId: string } | null };
     if (field.inheritedFrom === null) continue;
-    const revisionId = revisionIds.get(field.inheritedFrom.revisionId);
+    const revisionId = revisionIds.get(field.inheritedFrom.revisionId.toLowerCase());
     if (revisionId === undefined) continue;
     remapped[key] = {
       ...(value as object),
@@ -1329,7 +1431,7 @@ function remapTechPackForCopy(
 ): TechPackRecord {
   let revisionId: string | null = null;
   if (techPack.revisionId !== null) {
-    const remappedRevision = revisionIds.get(techPack.revisionId);
+    const remappedRevision = revisionIds.get(techPack.revisionId.toLowerCase());
     if (!remappedRevision) {
       throw new ProjectPackageError("invalid-package", "A copied tech pack references a revision outside the copied style history.");
     }
@@ -1338,7 +1440,7 @@ function remapTechPackForCopy(
   const pomData = techPack.pomData === undefined ? undefined : {
     ...techPack.pomData,
     sampleQaRounds: techPack.pomData.sampleQaRounds.map((round) => {
-      const targetRevisionId = revisionIds.get(round.targetRevisionId);
+      const targetRevisionId = revisionIds.get(round.targetRevisionId.toLowerCase());
       if (!targetRevisionId) {
         throw new ProjectPackageError("invalid-package", "A copied sample/QA round references a revision outside the copied style history.");
       }
@@ -1410,55 +1512,190 @@ async function makeCopy(
 }> {
   const sourceCaptures = manifest.measurementCaptures ?? [];
   const sourcePlans = manifest.gradePlans ?? [];
+  const sourceCollections = projectCollections(manifest.project);
+  const sourceScenarios = manifest.project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION
+    ? manifest.project.scenarios : [];
+  const collectionOwnedIds = sourceCollections.flatMap((collection) => [
+    collection.id,
+    ...collection.skus.flatMap((sku) => [
+      sku.id,
+      sku.sizePlan.id,
+      ...sku.colorways.map((colorway) => colorway.id),
+      ...sku.variants.map((variant) => variant.id),
+    ]),
+    ...collection.sharedMaterialGroups.map((group) => group.id),
+  ]);
   const usedIds = new Set([
     manifest.project.id,
     ...manifest.project.styleIds,
     ...manifest.styleRevisions.map((revision) => revision.revisionId),
     ...frozenManifests.map((record) => record.manifestId),
     ...sourceCaptures.map((record) => record.session.id),
+    ...collectionOwnedIds,
+    ...sourceScenarios.flatMap((scenario) => [
+      scenario.id,
+      ...scenario.units.map((row) => row.id),
+      ...scenario.prices.map((row) => row.id),
+      ...scenario.costs.map((row) => row.id),
+      ...scenario.moqs.map((row) => row.id),
+      ...scenario.capacityDelivery.map((row) => row.id),
+    ]),
   ].map((id) => id.toLowerCase()));
   const projectId = uniqueUuid(idFactory, usedIds);
-  const styleIds = new Map(manifest.styles.map((style) => [style.id, uniqueUuid(idFactory, usedIds)]));
-  const revisionIds = new Map(manifest.styleRevisions.map((revision) => [revision.revisionId, uniqueUuid(idFactory, usedIds)]));
+  const styleIds = new Map(manifest.styles.map((style) => [style.id.toLowerCase(), uniqueUuid(idFactory, usedIds)]));
+  const revisionIds = new Map(manifest.styleRevisions.map((revision) => [revision.revisionId.toLowerCase(), uniqueUuid(idFactory, usedIds)]));
   const manifestIds = new Map(frozenManifests.map((record) => [record.manifestId, uniqueUuid(idFactory, usedIds)]));
-  const project: ProjectRecord = {
+  const collectionIds = new Map(sourceCollections.map((collection) => [collection.id.toLowerCase(), uniqueUuid(idFactory, usedIds)]));
+  const skuIdsByCollection = new Map(sourceCollections.map((collection) => [collection.id.toLowerCase(), new Map(collection.skus.map((sku) =>
+    [sku.id.toLowerCase(), uniqueUuid(idFactory, usedIds)] as const))] as const));
+  const colorwayIdsByCollection = new Map(sourceCollections.map((collection) => [collection.id.toLowerCase(), new Map(collection.skus.flatMap((sku) => sku.colorways.map((colorway) =>
+    [colorway.id.toLowerCase(), uniqueUuid(idFactory, usedIds)] as const)))] as const));
+  const variantIdsByCollection = new Map(sourceCollections.map((collection) => [collection.id.toLowerCase(), new Map(collection.skus.flatMap((sku) => sku.variants.map((variant) =>
+    [variant.id.toLowerCase(), uniqueUuid(idFactory, usedIds)] as const)))] as const));
+  const sourceProfile = manifest.project.schemaVersion === BRAND_PROFILE_PROJECT_RECORD_VERSION
+    ? manifest.project.brandProfile
+    : manifest.project.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION
+      || manifest.project.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION ? manifest.project.brandProfile : null;
+  const brandProfile = sourceProfile
+    ? {
+      ...sourceProfile,
+      // Manifest validation ensures each profile ID has an asset entry; import
+      // maps every package asset before makeCopy runs.
+      artworkAssetIds: sourceProfile.artworkAssetIds.map((assetId) => assetMap.get(assetId)!),
+    }
+    : undefined;
+  const copiedCollections = sourceCollections.map((collection) => {
+    const collectionKey = collection.id.toLowerCase();
+    const skuIds = skuIdsByCollection.get(collectionKey)!;
+    const colorwayIds = colorwayIdsByCollection.get(collectionKey)!;
+    const variantIds = variantIdsByCollection.get(collectionKey)!;
+    return {
+      ...collection,
+      id: collectionIds.get(collection.id.toLowerCase())!,
+      projectId,
+      createdAt: now,
+      updatedAt: now,
+      revision: 1,
+      skus: collection.skus.map((sku) => ({
+        ...sku,
+        id: skuIds.get(sku.id.toLowerCase())!,
+        styleId: styleIds.get(sku.styleId.toLowerCase())!,
+        styleRevisionId: revisionIds.get(sku.styleRevisionId.toLowerCase())!,
+        sizePlan: { ...sku.sizePlan, id: uniqueUuid(idFactory, usedIds) },
+        colorways: sku.colorways.map((colorway) => ({
+          ...colorway,
+          id: colorwayIds.get(colorway.id.toLowerCase())!,
+        })),
+        variants: sku.variants.map((variant) => ({
+          ...variant,
+          id: variantIds.get(variant.id.toLowerCase())!,
+          colorwayId: colorwayIds.get(variant.colorwayId.toLowerCase())!,
+        })),
+      })),
+      sharedMaterialGroups: collection.sharedMaterialGroups.map((group) => ({
+        ...group,
+        id: uniqueUuid(idFactory, usedIds),
+        members: group.members.map((member) => ({
+          ...member,
+          skuId: skuIds.get(member.skuId.toLowerCase())!,
+        })),
+      })),
+    };
+  });
+  const remapKnown = (value: string, mapping: ReadonlyMap<string, string>): string =>
+    mapping.get(value.toLowerCase()) ?? value;
+  const copiedScenarios = sourceScenarios.map((scenario) => {
+    const collectionKey = scenario.collectionId.toLowerCase();
+    const skuIds = skuIdsByCollection.get(collectionKey) ?? new Map<string, string>();
+    const colorwayIds = colorwayIdsByCollection.get(collectionKey) ?? new Map<string, string>();
+    const variantIds = variantIdsByCollection.get(collectionKey) ?? new Map<string, string>();
+    const mapScope = (scope: ScenarioDraftScope): ScenarioDraftScope => ({
+      ...scope,
+      styleId: remapKnown(scope.styleId, styleIds),
+      skuId: remapKnown(scope.skuId, skuIds),
+      colorwayId: remapKnown(scope.colorwayId, colorwayIds),
+      variantId: remapKnown(scope.variantId, variantIds),
+    });
+    return {
+      ...scenario,
+      id: uniqueUuid(idFactory, usedIds),
+      projectId,
+      collectionId: remapKnown(scenario.collectionId, collectionIds),
+      revision: 1,
+      createdAt: now,
+      updatedAt: now,
+      units: scenario.units.map((row) => ({
+        ...row,
+        id: uniqueUuid(idFactory, usedIds),
+        variantId: remapKnown(row.variantId, variantIds),
+      })),
+      prices: scenario.prices.map((row) => ({
+        ...row,
+        id: uniqueUuid(idFactory, usedIds),
+        variantId: remapKnown(row.variantId, variantIds),
+      })),
+      costs: scenario.costs.map((row) => ({
+        ...row,
+        id: uniqueUuid(idFactory, usedIds),
+        variantId: remapKnown(row.variantId, variantIds),
+      })),
+      moqs: scenario.moqs.map((row) => ({
+        ...row,
+        id: uniqueUuid(idFactory, usedIds),
+        scope: mapScope(row.scope),
+      })),
+      capacityDelivery: scenario.capacityDelivery.map((row) => ({
+        ...row,
+        id: uniqueUuid(idFactory, usedIds),
+        scope: mapScope(row.scope),
+      })),
+    };
+  });
+  const copiedBase: ProjectRecord = {
     ...manifest.project,
     id: projectId,
     name: copyName(manifest.project.name),
     createdAt: now,
     updatedAt: now,
     revision: 1,
-    styleIds: manifest.project.styleIds.map((id) => styleIds.get(id)!),
-    activeStyleId: styleIds.get(manifest.project.activeStyleId)!,
+    styleIds: manifest.project.styleIds.map((id) => styleIds.get(id.toLowerCase())!),
+    activeStyleId: styleIds.get(manifest.project.activeStyleId.toLowerCase())!,
     importedFrom: {
       projectId: manifest.project.id,
       styleIds: [...manifest.project.styleIds],
       packageSha256,
     },
   };
+  const project: ProjectRecord = copiedBase.schemaVersion === SCENARIO_PROJECT_RECORD_VERSION
+    ? { ...copiedBase, brandProfile: brandProfile ?? null, collections: copiedCollections, scenarios: copiedScenarios }
+    : copiedBase.schemaVersion === COLLECTION_PROJECT_RECORD_VERSION
+      ? { ...copiedBase, brandProfile: brandProfile ?? null, collections: copiedCollections }
+    : copiedBase.schemaVersion === BRAND_PROFILE_PROJECT_RECORD_VERSION
+      ? { ...copiedBase, brandProfile: brandProfile! }
+      : copiedBase;
   const styles = manifest.styles.map((style) => ({
     ...style,
-    id: styleIds.get(style.id)!,
+    id: styleIds.get(style.id.toLowerCase())!,
     projectId,
     createdAt: now,
     updatedAt: now,
     revision: 1,
-    revisionHeadId: style.revisionHeadId === null ? null : revisionIds.get(style.revisionHeadId)!,
+    revisionHeadId: style.revisionHeadId === null ? null : revisionIds.get(style.revisionHeadId.toLowerCase())!,
     archivedAt: style.archivedAt === null ? null : now,
     design: remapDesign(style, assetMap),
-    techPack: remapTechPackForCopy(style.techPack, styleIds.get(style.id)!, revisionIds),
+    techPack: remapTechPackForCopy(style.techPack, styleIds.get(style.id.toLowerCase())!, revisionIds),
   }));
   const recoveries = manifest.recoveries.map((recovery) => ({
     ...recovery,
-    styleId: styleIds.get(recovery.styleId)!,
+    styleId: styleIds.get(recovery.styleId.toLowerCase())!,
   }));
   const fieldObservations = manifest.fieldObservations.map((record) =>
-    remapFieldObservationStyleId(record, styleIds.get(record.styleId)!));
+    remapFieldObservationStyleId(record, styleIds.get(record.styleId.toLowerCase())!));
   const styleRevisions: StyleRevisionRecord[] = [];
   for (const revision of manifest.styleRevisions) {
-    const styleId = styleIds.get(revision.styleId)!;
-    const revisionId = revisionIds.get(revision.revisionId)!;
-    const parentRevisionId = revision.parentRevisionId === null ? null : revisionIds.get(revision.parentRevisionId)!;
+    const styleId = styleIds.get(revision.styleId.toLowerCase())!;
+    const revisionId = revisionIds.get(revision.revisionId.toLowerCase())!;
+    const parentRevisionId = revision.parentRevisionId === null ? null : revisionIds.get(revision.parentRevisionId.toLowerCase())!;
     const techPack = revision.payload.payloadVersion === 2
       ? remapTechPackForCopy(revision.payload.techPack, styleId, revisionIds)
       : undefined;
@@ -1480,8 +1717,8 @@ async function makeCopy(
   const revisionById = new Map(styleRevisions.map((revision) => [revision.revisionId, revision]));
   const exportManifests: FrozenOutputManifestRecord[] = [];
   for (const frozen of frozenManifests) {
-    const styleId = styleIds.get(frozen.styleId)!;
-    const revisionId = revisionIds.get(frozen.revisionId)!;
+    const styleId = styleIds.get(frozen.styleId.toLowerCase())!;
+    const revisionId = revisionIds.get(frozen.revisionId.toLowerCase())!;
     const revision = revisionById.get(revisionId);
     if (!revision) throw new ProjectPackageError("invalid-package", `Frozen output ${frozen.manifestId} points to a missing copied revision.`);
     const payload = {
@@ -1507,7 +1744,7 @@ async function makeCopy(
   // Copied sessions belong only to the copied styles: every style, project and
   // session identity is replaced, while readings, raw text and drafts stay exact.
   const measurementCaptures: MeasurementCaptureRecord[] = sourceCaptures.map((record) => {
-    const styleId = styleIds.get(record.styleId)!;
+    const styleId = styleIds.get(record.styleId.toLowerCase())!;
     return {
       ...record,
       styleId,
@@ -1524,8 +1761,8 @@ async function makeCopy(
   const stylesByNewId = new Map(styles.map((style) => [style.id, style]));
   const capturesByNewKey = new Map(measurementCaptures.map((record) => [`${record.styleId}\0${record.recipeId}`, record]));
   const gradePlans: GradePlanRecord[] = sourcePlans.map((plan) => {
-    const styleId = styleIds.get(plan.styleId);
-    const revisionHeadId = revisionIds.get(plan.revisionHeadId);
+    const styleId = styleIds.get(plan.styleId.toLowerCase());
+    const revisionHeadId = revisionIds.get(plan.revisionHeadId.toLowerCase());
     if (!styleId || !revisionHeadId) {
       throw new ProjectPackageError("invalid-package", "A copied grade plan cannot establish a safe rebased identity.");
     }
