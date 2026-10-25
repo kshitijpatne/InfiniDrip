@@ -71,7 +71,7 @@ describe("Tee Classic starter registry", () => {
   });
 
   it("defines one complete editable T01 blank with explicit software-only defaults and gates", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v11");
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v12");
     expect(blankEntry).toMatchObject({
       entryId: "tee-classic-digital-v1",
       entryRevision: "2026-10-20.1",
@@ -118,8 +118,9 @@ describe("Tee Classic starter registry", () => {
         },
         options: {},
       },
-      gates: { b1: "pending", physical: "not-validated" },
+      gates: { b1: "approved for digital scope", physical: "not-validated" },
     });
+    expect(tankEntry.limits).toContain("Independent B1 review passes only the stated digital-design scope. Physical validation, fit, comfort, wear, material performance, supplier suitability, manufacturing, and production remain not-validated.");
     expect(tankEntry.supportedControls).toEqual([
       { fieldId: "chest", label: "Chest", kind: "measurement", unit: "cm", min: 60, max: 160, step: 1, defaultValue: 100 },
       { fieldId: "shoulderWidth", label: "Shoulder width (biacromial breadth)", kind: "measurement", unit: "cm", min: 30, max: 70, step: 0.1, defaultValue: 45 },
@@ -137,7 +138,7 @@ describe("Tee Classic starter registry", () => {
     expect(tankEntry.intent.sizeScope).toContain("not a validated N01 grade");
     expect(tankEntry.limits.join(" ")).toContain("not a sourced physical wide/narrow standard");
     expect(tankEntry.limits.join(" ")).toContain("generic Tank size run and Tech Pack");
-    expect(tankEntry.limits.join(" ")).toContain("No physical-fit, comfort, wear, material-performance");
+    expect(tankEntry.limits.join(" ")).toContain("Independent B1 review passes only the stated digital-design scope.");
     for (const [fieldId, defaultValue] of Object.entries(tankEntry.configuration.measurements)) {
       expect(tankEntry.supportedControls.find((control) => control.fieldId === fieldId)?.defaultValue).toBe(defaultValue);
     }

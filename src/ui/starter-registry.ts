@@ -773,20 +773,20 @@ const TANK_CLASSIC_SCOOP_BLANK_ENTRY: StarterEntry = {
     construction: "Uses the existing Tank root: two body panels, scoop front, crew back, sleeveless armholes, and shoulder and side joins. This is digital construction only; no separate strap-width POM or sewn-construction validation is provided.",
     sizeScope: "One software-default profile seeded from STANDARD_M; not a population chart or validated size-M profile. The existing generic Tank size run is not a validated N01 grade.",
   },
-  gates: { b1: "pending", physical: "not-validated" },
+  gates: { b1: "approved for digital scope", physical: "not-validated" },
   limits: [
     "STANDARD_M values are editable software starting values only; they are not population-derived or validated size-M measurements.",
     "The 8 cm strap span is a modeled design value from neckline edge to armhole start, not a sourced physical wide/narrow standard. No physical strap-width, coverage, support, comfort, or fit claim.",
     "The modeled Tank geometry and POMs are digital outputs, not sewn measurements or physical-fit evidence.",
     "The generic Tank size run and Tech Pack are not a validated size profile or grading contract for N01.",
-    "B1 technical-design review is pending. No physical-fit, comfort, wear, material-performance, supplier, manufacturing, or production claim.",
+    "Independent B1 review passes only the stated digital-design scope. Physical validation, fit, comfort, wear, material performance, supplier suitability, manufacturing, and production remain not-validated.",
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
 
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v11",
+  catalogRevision: "g18-catalog-v12",
   entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY],
 };
 
