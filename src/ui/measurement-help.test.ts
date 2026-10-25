@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS } from "../drafting";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
+import { TANK_N05_ENTRY_ID } from "../drafting/tank";
 import { getFieldDefinitions } from "./field-provenance";
 import { MEASUREMENT_HELP, measurementHelpFor } from "./measurement-help";
 
@@ -386,5 +387,21 @@ describe("measurement help catalog", () => {
     expect(n02).not.toBe(generic);
     expect(n01).toBe(generic);
     expect(n01.label).toBe("Neck scoop depth");
+  });
+
+  it("explains N05 front-drop help without turning the software value into a physical target", () => {
+    const n05 = measurementHelpFor("tank", "style.tank-neck-drop", TANK_N05_ENTRY_ID)!;
+
+    expect(n05.label).toBe("Front neckline drop");
+    expect(n05.meaning).toContain("V-shaped front neckline");
+    expect(n05.meaning).toContain("not a physical target");
+    expect(n05.draftUse).toContain("shared neckline-width adjustment");
+    expect(n05.draftUse).toContain("back neckline remains crew");
+    expect(n05.limits).toContain("software choices");
+    expect(n05.limits).toContain("No sewn neckline finish");
+    expect(n05.guardrailNote).toContain("invalid values remain visible and are not clamped");
+    expect(n05.guardrailNote).toContain("not a validated N05 grade");
+    expect(n05.techniqueQualified).toBe(false);
+    expect(n05).not.toBe(measurementHelpFor("tank", "style.tank-neck-drop"));
   });
 });

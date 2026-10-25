@@ -3,7 +3,8 @@ import { STANDARD_M } from "./measurements";
 import {
   draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS,
   TANK_RACERBACK_BACK_CUT_IN_OPTION, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
-  TANK_N04_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID,
+  TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY,
+  TANK_SQUARE_NECK_CORNER_RADIUS_OPTION, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID,
   tankRacerbackControlOffsetCm,
 } from "./tank";
 import { TANK, gradeRun, specSheet } from "./index";
@@ -238,6 +239,27 @@ describe("tankGuidance", () => {
     }));
     const front = rolePiece(draftTank(m, options), "front");
     expect(pieceEdge(front, "neckline").kind).toBe("line");
+  });
+
+  it("routes only the N05 front through the existing V neckline and renames its guardrail", () => {
+    const options = { [TANK_N05_PROFILE_ROUTE_KEY]: 1 };
+    const vTank = draftTank(STANDARD_M, options);
+    const front = pieceEdge(rolePiece(vTank, "front"), "neckline");
+    const back = pieceEdge(rolePiece(vTank, "back"), "neckline");
+
+    expect(front.kind).toBe("line");
+    expect(back.kind).toBe("curve");
+    expect(pieceEdge(rolePiece(draftTank(STANDARD_M), "front"), "neckline").kind).toBe("curve");
+    expect(TANK_N05_ENTRY_ID).toBe("tank-v-neck-digital-v1");
+
+    const invalid = { ...STANDARD_M, neckDrop: 60, neckWidthEase: 100 };
+    const notes = tankGuidance(draftTank(invalid, options), invalid, options);
+    expect(notes).toContainEqual(expect.objectContaining({
+      field: "neckDrop",
+      text: expect.stringContaining("front neckline drop"),
+    }));
+    expect(notes.find((note) => note.field === "neckDrop")?.text).not.toContain("neck scoop depth");
+    expect(notes).toContainEqual(expect.objectContaining({ field: "neckWidthEase", level: "warn" }));
   });
 });
 
