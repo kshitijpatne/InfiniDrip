@@ -22,6 +22,19 @@ describe("sleevelessArmhole — points", () => {
     const { edge } = sleevelessArmhole(15, NECK_WIDTH_HALF, SHOULDER_HALF, d.shoulderSlope, CHEST_WIDTH_HALF, ARMHOLE_DEPTH);
     expect(edge.kind).toBe("curve");
   });
+
+  it("applies a requested inward cut-in to both control points while preserving endpoints", () => {
+    const base = sleevelessArmhole(15, NECK_WIDTH_HALF, SHOULDER_HALF, d.shoulderSlope, CHEST_WIDTH_HALF, ARMHOLE_DEPTH);
+    const cutIn = sleevelessArmhole(15, NECK_WIDTH_HALF, SHOULDER_HALF, d.shoulderSlope, CHEST_WIDTH_HALF, ARMHOLE_DEPTH, 3);
+    if (base.edge.kind !== "curve" || cutIn.edge.kind !== "curve") throw new Error("expected curves");
+
+    expect(cutIn.edge.curve.start).toEqual(base.edge.curve.start);
+    expect(cutIn.edge.curve.end).toEqual(base.edge.curve.end);
+    expect(cutIn.edge.curve.control1.x).toBe(base.edge.curve.control1.x - 3);
+    expect(cutIn.edge.curve.control2.x).toBe(base.edge.curve.control2.x - 3);
+    expect(cutIn.edge.curve.control1.y).toBe(base.edge.curve.control1.y);
+    expect(cutIn.edge.curve.control2.y).toBe(base.edge.curve.control2.y);
+  });
 });
 
 describe("sleevelessArmhole — cuts further in than the sleeved curve (TANK-RESEARCH.md Finding 2)", () => {

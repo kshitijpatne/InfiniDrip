@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { STANDARD_M, type Measurements } from "../drafting";
+import { TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID } from "../drafting/tank";
 import { gradePlanRunMarkup } from "./grade-plan-run-panel";
 import type { GradePlanRunEvaluation } from "./grade-plan-run";
 
@@ -8,6 +9,24 @@ const base: GradePlanRunEvaluation = {
 };
 
 describe("gradePlanRunMarkup", () => {
+  it("keeps the N03-only option out of a generic Tank input panel and labels it for N03", () => {
+    const evaluation: GradePlanRunEvaluation = {
+      ...base,
+      recipeId: "tank",
+      issues: [],
+      sizes: [{ label: "M", position: 0, measurements: { ...STANDARD_M },
+        options: { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 3 }, block: null,
+        issues: [], ready: true, poms: [] }],
+    };
+    const generic = gradePlanRunMarkup(evaluation, true, true, null);
+    expect(generic).not.toContain("Back armhole cut-in (digital)");
+    expect(generic).not.toContain(TANK_RACERBACK_BACK_CUT_IN_OPTION_ID);
+
+    const racerback = gradePlanRunMarkup(evaluation, true, true, TANK_RACERBACK_ENTRY_ID);
+    expect(racerback).toContain("Back armhole cut-in (digital)");
+    expect(racerback).toContain("3 cm");
+  });
+
   it("escapes blockers and reports no applicable POMs when a declared size has none", () => {
     const blocked = gradePlanRunMarkup(base);
     expect(blocked).toContain("No approved run &lt;yet&gt;.");

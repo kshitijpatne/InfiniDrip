@@ -27,6 +27,7 @@ import {
   withSemanticEditorPiece,
   tankStarterTechPackForOutput,
   tankStarterRecipeForOutput,
+  racerbackTankRecipeForOutput,
   n01TankTechPackForOutput,
   n01TankRecipeForOutput,
 } from "./app";
@@ -39,7 +40,8 @@ import * as gradePlan from "./grade-plan";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { GARMENTS, STANDARD_M, STRETCH_FABRICS, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
+import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
+import { TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID } from "../drafting/tank";
 import { blockPieces } from "../drafting/block";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
 import { exportA0Pdf, exportDxf, exportPdf, exportSvg } from "../export";
@@ -1924,7 +1926,7 @@ describe("mountApp", () => {
     });
 
     const tankCaptureTime = "2026-09-26T00:00:00.000Z";
-    const tankWithOnlyNeckDropMissing = getFieldDefinitions("tank")
+    const tankWithOnlyNeckDropMissing = getCaptureFieldDefinitions("tank")
       .filter((definition) => definition.inputKey !== "neckDrop")
       .reduce((session, definition, index) => addCaptureReadingForField(session, definition.id, {
         id: `00000000-0000-4000-8000-${String(index + 240).padStart(12, "0")}`,
@@ -5648,6 +5650,105 @@ describe("nesting scope toggle", () => {
 });
 
 describe("body-view measurement linking", () => {
+  it("renders the N03 cut-in in the Body back view while leaving the front unchanged", () => {
+    const root = mount();
+    const originalTankOptions = TANK.options;
+    const mutableTank = TANK as unknown as { options?: typeof TANK.options };
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${TANK_RACERBACK_ENTRY_ID}`);
+      clickId(root, "view-body");
+      clickId(root, "body-back");
+      const backAtDefault = root.querySelector("#canvas-host svg")!.outerHTML;
+      const armholeGeometry = (svg: string): string[] => [...svg.matchAll(/<g data-edge="armholeDepth"[^>]*>[\s\S]*?<\/g>/g)]
+        .map((match) => match[0]!.replace(/\sstyle="[^"]*"/g, ""));
+      const defaultBackArmhole = armholeGeometry(backAtDefault);
+      const setCutIn = (value: string): void => {
+        const option = root.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!;
+        option.value = value;
+        option.dispatchEvent(new Event("input", { bubbles: true }));
+      };
+      setCutIn("6");
+      const backAtMaximum = root.querySelector("#canvas-host svg")!.outerHTML;
+      expect(armholeGeometry(backAtMaximum)).not.toEqual(defaultBackArmhole);
+
+      clickId(root, "body-back");
+      setCutIn("0");
+      const backAtZero = armholeGeometry(root.querySelector("#canvas-host svg")!.outerHTML);
+      clickId(root, "body-front");
+      const frontAtMaximum = armholeGeometry(root.querySelector("#canvas-host svg")!.outerHTML);
+      setCutIn("0");
+      expect(armholeGeometry(root.querySelector("#canvas-host svg")!.outerHTML)).toEqual(frontAtMaximum);
+
+      // If a saved recipe is missing the N03-only option definition, the Body
+      // view keeps rendering with the documented zero-shift fallback.
+      mutableTank.options = [];
+      clickId(root, "body-back");
+      expect(armholeGeometry(root.querySelector("#canvas-host svg")!.outerHTML)).toEqual(backAtZero);
+    } finally {
+      mutableTank.options = originalTankOptions;
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("keeps Edit source initialization usable when a recipe has no option definitions", () => {
+    const root = mount();
+    const originalTankOptions = TANK.options;
+    const mutableTank = TANK as unknown as { options?: typeof TANK.options };
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${TANK_RACERBACK_ENTRY_ID}`);
+      mutableTank.options = undefined;
+      clickId(root, "view-edit");
+      expect(root.querySelector("#editor-role")).not.toBeNull();
+      expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+    } finally {
+      mutableTank.options = originalTankOptions;
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("uses the registered N03 option label in its spatial cue", () => {
+    const root = mount();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${TANK_RACERBACK_ENTRY_ID}`);
+      clickId(root, "view-body");
+      const row = root.querySelector<HTMLElement>(`[data-dim-row="option-${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!;
+      row.dispatchEvent(new Event("mouseenter"));
+      const cue = root.querySelector<HTMLElement>("#spatial-cue-text")!.textContent!;
+      expect(cue).toContain("Back armhole cut-in (digital)");
+      expect(cue).not.toContain("tank racerback back cut in");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("uses a readable fallback when the N03 option label is unavailable", () => {
+    const root = mount();
+    const definition = TANK.options?.find((option) => option.id === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID);
+    expect(definition).toBeDefined();
+    const originalLabel = definition!.label;
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${TANK_RACERBACK_ENTRY_ID}`);
+      clickId(root, "view-body");
+      (definition as { label?: string }).label = undefined;
+      const row = root.querySelector<HTMLElement>(`[data-dim-row="option-${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!;
+      row.dispatchEvent(new Event("mouseenter"));
+      const cue = root.querySelector<HTMLElement>("#spatial-cue-text")!.textContent!;
+      expect(cue).toContain("tank racerback back cut in cm");
+      expect(cue).not.toContain(TANK_RACERBACK_BACK_CUT_IN_OPTION_ID);
+    } finally {
+      (definition as { label: string }).label = originalLabel;
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
   it("maps Tank-specific controls to their schematic dimensions and edges", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-tank")!.dispatchEvent(new Event("click"));
@@ -9704,7 +9805,13 @@ describe("bundled local artwork library (Slice 203)", () => {
       }
       await workflow.saveMeasurementCapture(session, []);
       const customDesign = materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session);
-      await workflow.createCustomSizeStyle("Grade Plan Test", customDesign);
+      const teeStarter = STARTER_REGISTRY.entries.find((entry) => entry.entryId === "tee-classic-digital-v1")!;
+      const customDesignWithStarterOrigin = {
+        ...customDesign,
+        workspace: { ...customDesign.workspace, starterOrigin: starterOriginForEntry(teeStarter) },
+      };
+      await workflow.createCustomSizeStyle("Grade Plan Test", customDesignWithStarterOrigin);
+      expect(workflow.snapshot.activeStyle.design.workspace.starterOrigin?.entryId).toBe(teeStarter.entryId);
       const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
       const options = customDesign.garmentOptions.tee ?? {};
       const sourceInputs = {
@@ -9728,6 +9835,8 @@ describe("bundled local artwork library (Slice 203)", () => {
         root.querySelector(".grade-plan-panel")?.textContent ?? root.textContent,
       ).toBe(false), { timeout: 20_000 });
 
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(false);
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")?.textContent).toContain("Starting design:");
       const action = (name: string): HTMLButtonElement => root.querySelector<HTMLButtonElement>(`[data-grade-plan-action="${name}"]`)!;
       const edit = (selector: string, value: string): void => {
         const input = root.querySelector<HTMLInputElement | HTMLTextAreaElement>(selector)!;
@@ -10174,6 +10283,7 @@ describe("bundled local artwork library (Slice 203)", () => {
         .toBe("Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files.");
 
       clickId(root, "view-check");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(false);
       expect(root.querySelector<HTMLElement>("[data-grade-plan-required]")?.textContent)
         .toContain("Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files.");
       expect(root.querySelector(".grade-plan-run-review")?.textContent)
@@ -10213,6 +10323,16 @@ describe("bundled local artwork library (Slice 203)", () => {
       expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+
+      const genericDesign = customDesign;
+      await workflow.createCustomSizeStyle("Generic grade-plan fallback", {
+        ...genericDesign,
+        workspace: { ...genericDesign.workspace, starterOrigin: null },
+      });
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "view-check");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(true);
+      expect(root.querySelector(".grade-plan-run-review")).not.toBeNull();
     } finally {
       delete window.electronAPI;
       workflow.close();
@@ -10932,6 +11052,24 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(n01TankTechPackForOutput(knitTechPack)).toEqual(tankStarterTechPackForOutput(knitTechPack));
     expect(knitTechPack.bom[0]!.placement).toBe("Body & sleeves");
     expect(wovenTechPack.bom[1]!.qty).toBe("0.2 m");
+  });
+
+  it("adds the selected N03 cut-in to the Tank Tech Pack without estimating binding", () => {
+    const knit = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton jersey")!;
+    const options = { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 4.5 };
+    const output = racerbackTankRecipeForOutput(TANK, knit, options);
+    const binding = output.techPack.bom.find((row) => row.placement === "Neckline & armholes");
+
+    expect(binding?.qty).toBe("Not estimated; no binding template");
+    expect(output.techPack.construction.join(" "))
+      .toContain("Digital N03 back-armhole cut-in: 4.5 cm. Binding consumption is not estimated; no sewn tolerance is specified or validated.");
+    expect(output.techPackForOptions!(options).construction.join(" "))
+      .toContain("Digital N03 back-armhole cut-in: 4.5 cm.");
+    expect(output.techPackForOptions!({}).construction.join(" ")).toContain("cut-in: unresolved.");
+    expect(output.techPackForFabric).toBeUndefined();
+    expect(racerbackTankRecipeForOutput({ ...TANK, techPackForFabric: undefined }, knit, options)
+      .techPack.construction.join(" ")).toContain("Digital N03 back-armhole cut-in: 4.5 cm.");
+    expect(TANK.techPackForFabric).toBeDefined();
   });
 
   it("resolves and freezes fabric-specific N01 Tech Pack content for export", () => {
@@ -11972,6 +12110,7 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(root.querySelector<HTMLElement>(`#starter-limits-${starterId}`)!.textContent)
         .toContain("No built-up neck, collar, neckband, facing, zipper");
       clickId(root, `starter-${starterId}`);
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)).toBeNull();
       expect(root.querySelector<HTMLElement>('[data-dim-row="neckDrop"] > span')?.textContent)
         .toContain("Additional front neckline drop");
       expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.getAttribute("aria-label"))
@@ -12099,6 +12238,7 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(card.textContent).toContain("Classic scoop Tank · software defaults");
       expect(card.textContent).toContain("B1 technical review approved for digital scope · physical validation not-validated");
       clickId(root, `starter-${starterId}`);
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)).toBeNull();
       expect(root.querySelector<HTMLElement>('[data-dim-row="neckDrop"] > span')?.textContent)
         .toContain("Neck scoop depth");
       expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.getAttribute("aria-label"))
@@ -12221,6 +12361,142 @@ describe("EPIC-19 L02 starter binding", () => {
       localStorage.clear();
     }
   });
+  it("selects, edits, saves, reopens, and exports the N03 Racerback Tank software blank", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${TANK_RACERBACK_ENTRY_ID}`)!;
+      expect(card.textContent).toContain("Racerback Tank · software defaults");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)).toBeNull();
+      const limits = root.querySelector<HTMLElement>(`#starter-limits-${TANK_RACERBACK_ENTRY_ID}`)!.textContent;
+      expect(limits).toContain("0–6 cm");
+      expect(limits).toContain("not validated grading for N03");
+
+      clickId(root, `starter-${TANK_RACERBACK_ENTRY_ID}`);
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Racerback Tank · software defaults");
+      const option = root.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!;
+      expect([option.getAttribute("aria-label"), option.min, option.max, option.step, option.value])
+        .toEqual(["Back armhole cut-in (digital)", "0", "6", "0.5", "3"]);
+      expect(root.querySelector<HTMLElement>(`[data-option-help="option-${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!.textContent)
+        .toContain("not a sewn tolerance or fit result");
+      const optionPage = option.closest<HTMLElement>("fieldset[data-control-page]")!;
+      expect(optionPage.dataset.controlStage).toBe("fit");
+      expect(optionPage.hidden).toBe(true);
+      clickId(root, "journey-next");
+      const activeOption = root.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!;
+      const pageSelect = root.querySelector<HTMLSelectElement>("#control-page-select")!;
+      pageSelect.value = activeOption.closest<HTMLElement>("fieldset[data-control-page]")!.dataset.controlPage!;
+      pageSelect.dispatchEvent(new Event("change", { bubbles: true }));
+      const visibleOption = root.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!;
+      expect(visibleOption.closest<HTMLElement>("fieldset[data-control-page]")!.hidden).toBe(false);
+      clickId(root, "view-pattern");
+      const defaultSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      const optionForEdit = root.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!;
+      optionForEdit.value = "5.25";
+      optionForEdit.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!.value).toBe("5.25");
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!.textContent)
+        .toContain("0.5 cm increments");
+      const correctedOption = root.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!;
+      correctedOption.value = "4.5";
+      correctedOption.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!.textContent).toBe("");
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(editedSvg).not.toBe(defaultSvg);
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.garmentOptions.tank[TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]).toBe(4.5);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TANK_RACERBACK_ENTRY_ID,
+        entryRevision: "2026-10-25.1",
+        recipeId: "tank",
+        recipeRevision: "tank-racerback-v1",
+        configurationSnapshot: {
+          targetStyle: "Classic tank",
+          options: { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 3 },
+        },
+      });
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!.value).toBe("4.5");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${TANK_RACERBACK_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("B1 technical review pending; physical validation not performed");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(editedSvg);
+
+      reachExportStage(reopened);
+      const selectedSize = reopened.querySelector<HTMLSelectElement>("#export-size")!;
+      expect(selectedSize.options[selectedSize.selectedIndex]!.textContent!.trim()).toBe("M");
+      const reopenedOption = reopened.querySelector<HTMLInputElement>(`input[data-option="${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!;
+      reopenedOption.value = "6.5";
+      reopenedOption.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(reopenedOption.value).toBe("6.5");
+      expect(reopened.querySelector<HTMLElement>(`[data-input-error="option-${TANK_RACERBACK_BACK_CUT_IN_OPTION_ID}"]`)!.textContent)
+        .toContain("0–6 cm");
+      expect(reopened.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+      reopenedOption.value = "4.5";
+      reopenedOption.dispatchEvent(new Event("input", { bubbles: true }));
+      reachExportStage(reopened);
+      expect(reopened.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(false);
+      reopened.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
+      const svgOutput = files.get("racerback-tank-M.svg")!;
+      const chosenOptions = { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 4.5 };
+      const expectedSvg = exportSvg(
+        blockPieces(TANK.draft(saved.measurements, chosenOptions)),
+        TANK.allowances,
+        notchesForRecipeOptions(TANK, chosenOptions),
+      );
+      const defaultOutputSvg = exportSvg(
+        blockPieces(TANK.draft(saved.measurements, { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 3 })),
+        TANK.allowances,
+        notchesForRecipeOptions(TANK, { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 3 }),
+      );
+      expect(svgOutput).toBe(expectedSvg);
+      expect(svgOutput).not.toBe(defaultOutputSvg);
+
+      reopened.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      const techPackName = [...files.keys()].find((name) => name.endsWith("-techpack.pdf"))!;
+      expect(techPackName).toBe("racerback-tank-techpack.pdf");
+      const techPack = files.get(techPackName)!;
+      const techPackText = visiblePdfText(techPack).replace(/\s+/g, " ");
+      expect(techPackText).toContain("Racerback Tank - Pattern Piece Overview");
+      expect(techPackText).toContain("Racerback Tank - Measurement Worksheet");
+      expect(techPackText).toContain("Digital N03 back-armhole cut-in: 4.5 cm.");
+      expect(techPackText).toContain("Binding consumption is not estimated");
+      expect(techPackText).toContain("no sewn tolerance is specified or validated");
+      expect(techPackText).toContain("The generic Tank size run is not a validated N03 grade");
+      expect(techPackText).toContain("Generic Tank size values are not a validated N03 grade.");
+      expect(techPackText).toContain("physical fit has not been validated");
+      expect(techPackText).toContain("Not estimated; no binding template");
+      expect(techPackText).toContain("Measurement-only worksheet");
+      expect(techPackText).not.toContain("Pass?");
+      expect(techPackText).not.toContain("Tol +/-");
+      expect(techPack).not.toContain("(1.3)");
+      expect(techPackText).not.toContain("validated N03 grading");
+    } finally {
+      if (root) root.remove();
+      if (reopened) reopened.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
   it("selects, edits, saves, reopens, and exports the F06 Cap-Sleeve fitted Tee", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);

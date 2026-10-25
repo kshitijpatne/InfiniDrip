@@ -6,6 +6,10 @@ import {
   FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID,
   FITTED_VNECK_ENTRY_ID,
 } from "../drafting/fitted";
+import {
+  TANK_RACERBACK_BACK_CUT_IN_OPTION,
+  TANK_RACERBACK_ENTRY_ID,
+} from "../drafting/tank";
 
 export interface StarterControl {
   readonly fieldId: string;
@@ -828,10 +832,55 @@ const TANK_HIGH_NECK_BLANK_ENTRY: StarterEntry = {
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
+
+const TANK_RACERBACK_BLANK_ENTRY: StarterEntry = {
+  entryId: TANK_RACERBACK_ENTRY_ID,
+  entryRevision: "2026-10-25.1",
+  recipeId: "tank",
+  recipeRevision: "tank-racerback-v1",
+  catalogKind: "blank",
+  label: "Racerback Tank · software defaults",
+  configuration: {
+    targetStyle: "Classic tank",
+    measurements: { ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.configuration.measurements },
+    options: { [TANK_RACERBACK_BACK_CUT_IN_OPTION.id]: TANK_RACERBACK_BACK_CUT_IN_OPTION.defaultValue },
+  },
+  supportedControls: [
+    ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.supportedControls,
+    {
+      fieldId: TANK_RACERBACK_BACK_CUT_IN_OPTION.id,
+      label: TANK_RACERBACK_BACK_CUT_IN_OPTION.label,
+      kind: "option",
+      unit: "cm",
+      min: TANK_RACERBACK_BACK_CUT_IN_OPTION.min,
+      max: TANK_RACERBACK_BACK_CUT_IN_OPTION.max,
+      step: TANK_RACERBACK_BACK_CUT_IN_OPTION.step,
+      defaultValue: TANK_RACERBACK_BACK_CUT_IN_OPTION.defaultValue,
+    },
+  ],
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured Racerback Tank draft with an editable back-armhole cut-in software control.",
+    fit: "N01-based software profile; values are editable defaults, not validated fit targets or physical standards.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Uses the existing two-panel Tank root with a distinct inward-cut back armhole curve; no separate yoke, lining, shelf bra, elastic, hardware, or extra body piece is implied. Digital construction only.",
+    sizeScope: "One software-default profile seeded from the N01 Tank values; not a population chart or validated size-M profile. The generic Tank size run is not validated grading for N03.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The 3 cm default and 0–6 cm range are InfiniDrip software choices, not sourced physical dimensions, fit targets, or sewn tolerances.",
+    "Only the N03 back armhole curve changes; shoulder and underarm endpoints and the existing Tank shoulder/side joins remain fixed.",
+    "The modeled geometry and POMs are digital outputs, not sewn measurements or evidence of fit, coverage, comfort, or wear.",
+    "Binding consumption, N03 grading, fabric/material performance, supplier suitability, manufacturing, and production remain unvalidated.",
+    "B1 technical-design review is pending. Physical validation remains not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v13",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v14",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

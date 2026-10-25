@@ -477,9 +477,105 @@ describe("exportTechPackV2ForSelectedSize", () => {
     expect(positioned.filter((entry) => Math.abs(entry.x - passX) < 0.001).map((entry) => entry.text))
       .toEqual(["Pass?"]);
   });
+
+  it("uses fabric-specific, option-specific, and base Tech Pack data for one selected size", () => {
+    const size = {
+      label: "M", measurements: STANDARD_M, options: {}, block: TANK.draft(STANDARD_M, {}),
+    };
+    const woven = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton woven")!;
+    const wovenOutput = exportTechPackV2ForSelectedSize(TANK, size, undefined, woven);
+    const wovenBom = pageStreams(wovenOutput).find((stream) =>
+      shownText(stream).some((line) => line.startsWith("Bill of Materials - M")))!;
+    expect(shownText(wovenBom).join(" ")).toContain("Cotton woven, main");
+
+    const baseOnlyTank = { ...TANK, techPackForFabric: undefined, techPackForOptions: undefined };
+    const baseOutput = exportTechPackV2ForSelectedSize(baseOnlyTank, size);
+    const baseBom = pageStreams(baseOutput).find((stream) =>
+      shownText(stream).some((line) => line.startsWith("Bill of Materials - M")))!;
+    expect(shownText(baseBom).join(" ")).toContain(TANK.techPack.bom[0]!.qty);
+  });
 });
 
 describe("readable draft tech pack", () => {
+  it("prints the N03 size qualifier and measurement-only worksheet without inherited tolerances", () => {
+    const note = "Generic Tank size values are not a validated N03 grade. No sewn tolerance is specified or validated.";
+    const n03TechPack = {
+      ...TANK.techPack,
+      measurementSpecNote: note,
+      measurementSpecToleranceColumn: false,
+      fitRecordStatusNote: "Digital N03 back-armhole cut-in is an InfiniDrip software setting. Physical fit has not been validated.",
+      fitRecordPassColumn: false,
+      fitRecordToleranceColumn: false,
+      fitRecordTitle: "Measurement Worksheet",
+    };
+    const n03Recipe = {
+      ...TANK,
+      label: "Racerback Tank",
+      poms: TANK.poms.map((pom) => ({ ...pom, tolerance: undefined })),
+      techPack: n03TechPack,
+      techPackForOptions: () => n03TechPack,
+      techPackForFabric: undefined,
+    };
+    const size = {
+      label: "M",
+      measurements: STANDARD_M,
+      options: {},
+      block: TANK.draft(STANDARD_M, {}),
+    };
+    const outputs = [
+      exportTechPack(n03Recipe, STANDARD_M),
+      exportTechPackV2(n03Recipe, STANDARD_M),
+      exportTechPackV2ForSelectedSize(n03Recipe, size),
+    ];
+
+    for (const output of outputs) {
+      const streams = pageStreams(output);
+      const spec = shownText(streams[1]!).join(" ");
+      const worksheet = streams.find((stream) => stream.includes("Measurement Worksheet"))!;
+      const worksheetText = shownText(worksheet).join(" ");
+      expect(spec).toContain(note);
+      expect(spec).not.toContain("Tol +/-");
+      expect(output).not.toContain("(1.3)");
+      expect(worksheetText).toContain("Measurement-only worksheet");
+      expect(worksheetText).toContain("no sewn tolerance");
+      expect(worksheetText).not.toContain("Pass?");
+      expect(worksheetText).not.toContain("Tol +/-");
+    }
+  });
+
+  it("spaces grade-plan measurement notes with and without an approved N/A POM", () => {
+    const note = "Generic Tank size values are not a validated N03 grade. No sewn tolerance is specified or validated.";
+    const n03TechPack = {
+      ...TANK.techPack,
+      measurementSpecNote: note,
+      measurementSpecToleranceColumn: false,
+    };
+    const n03Recipe = {
+      ...TANK,
+      label: "Racerback Tank",
+      techPack: n03TechPack,
+      techPackForOptions: () => n03TechPack,
+      techPackForFabric: undefined,
+    };
+    const m = { label: "M", measurements: STANDARD_M, options: {}, block: TANK.draft(STANDARD_M, {}) };
+    const l = { label: "L", measurements: STANDARD_M, options: {}, block: TANK.draft(STANDARD_M, {}) };
+    const withoutNa = exportTechPackV2ForGradePlan(n03Recipe, [m], undefined, undefined, [], "", "M");
+    const withNa = exportTechPackV2ForGradePlan(n03Recipe, [m, l], undefined, undefined, [], "", "M", [
+      { sizeLabel: "L", pomLabel: TANK.poms[0]!.label, reason: "Not applicable under this digital size relationship." },
+    ]);
+    const specText = (output: string): string => {
+      const spec = pageStreams(output).find((stream) =>
+        shownText(stream).some((line) => line.startsWith("Measurement Spec")))!;
+      return shownText(spec).join(" ");
+    };
+
+    expect(specText(withoutNa)).toContain(note);
+    expect(specText(withoutNa)).not.toContain("Tol +/-");
+    expect(specText(withNa)).toContain(note);
+    expect(specText(withNa)).toContain("N/A = approved not-applicable POM");
+    expect(specText(withNa)).not.toContain("Tol +/-");
+  });
+
   it("adds an optional starter status note to the whole-style Fit Record", () => {
     const note = "Digital draft only; physical fit unvalidated. No elbow-to-wrist endpoint is guaranteed.";
     const output = exportTechPackV2(FITTED, STANDARD_M, undefined, undefined, {}, [], "Fitted Three-Quarter-Sleeve Tee", note);

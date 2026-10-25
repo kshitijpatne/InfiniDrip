@@ -219,23 +219,31 @@ function overviewSketchStreams(block: Block, label: string, page: PageSize): str
 
 // ── Page 2: the graded spec table ─────────────────────────────────────────────
 
-function tableStream(sizes: readonly string[], rows: readonly SpecRow[], page: PageSize): string {
+function tableStream(
+  sizes: readonly string[],
+  rows: readonly SpecRow[],
+  page: PageSize,
+  measurementSpecNote?: string,
+  toleranceColumn = true,
+): string {
   const labelW = 7.5; // cm reserved for the POM label column
-  const tolW = 2.0; // cm reserved for the tolerance column
+  const tolW = toleranceColumn ? 2.0 : 0; // cm reserved for the tolerance column
   const colW = (page.width - 2 * M - labelW - tolW) / sizes.length;
   const tolX = M + labelW;
   const colX = (i: number): number => M + labelW + tolW + i * colW;
 
   const lines: string[] = [text(M, M + 1, 13, "Measurement Spec (cm)", page)];
-  let y = M + 2.4;
-  lines.push(text(tolX, y, 9, "Tol +/-", page));
+  const noteLines = measurementSpecNote === undefined ? [] : wrapPackText(measurementSpecNote, page.width - 2 * M, 7.5);
+  noteLines.forEach((line, index) => lines.push(text(M, M + 1.65 + index * 0.34, 7.5, line, page)));
+  let y = M + 2.4 + noteLines.length * 0.34;
+  if (toleranceColumn) lines.push(text(tolX, y, 9, "Tol +/-", page));
   sizes.forEach((sz, i) => lines.push(text(colX(i), y, 9, sz, page)));
   y += 0.5;
   lines.push(rule(y, page));
   y += 0.6;
   for (const row of rows) {
     lines.push(text(M, y, 9, row.label, page));
-    lines.push(text(tolX, y, 9, row.tolerance === undefined ? "-" : row.tolerance.toFixed(1), page));
+    if (toleranceColumn) lines.push(text(tolX, y, 9, row.tolerance === undefined ? "-" : row.tolerance.toFixed(1), page));
     row.values.forEach((v, i) => lines.push(text(colX(i), y, 9, v.toFixed(1), page)));
     y += 0.62;
   }
@@ -305,14 +313,23 @@ interface GradePlanSpecRow {
 const NOT_APPLICABLE_NOTE = "N/A = approved not-applicable POM; its full reason is on the Point-of-measure exceptions page.";
 
 /** Paginated plan spec; exact-value mode preserves authored cm values. */
-function gradePlanTableStreams(sizes: readonly string[], rows: readonly GradePlanSpecRow[], page: PageSize, exactValues = true): string[] {
+function gradePlanTableStreams(
+  sizes: readonly string[],
+  rows: readonly GradePlanSpecRow[],
+  page: PageSize,
+  exactValues = true,
+  measurementSpecNote?: string,
+  toleranceColumn = true,
+): string[] {
   const labelW = 7.5;
-  const tolW = 2;
+  const tolW = toleranceColumn ? 2 : 0;
   // Three size columns (~2.8 cm on A4) keep a full-precision raw value such as
   // 16.00781059358212 (~2.6 cm at 8 pt) inside its own column; four overlapped.
   const sizesPerPage = 3;
-  const maxRows = Math.max(1, Math.floor((page.height - 2 * M - 5) / 0.62));
   const hasNotApplicable = rows.some((row) => row.values.includes(null));
+  const measurementNoteLines = measurementSpecNote === undefined ? [] : wrapPackText(measurementSpecNote, page.width - 2 * M, 8);
+  const noteHeight = measurementNoteLines.length * 0.34 + (measurementNoteLines.length > 0 && hasNotApplicable ? 0.34 : 0);
+  const maxRows = Math.max(1, Math.floor((page.height - 2 * M - 5 - noteHeight) / 0.62));
   const pages: string[] = [];
   for (let sizeStart = 0; sizeStart < sizes.length; sizeStart += sizesPerPage) {
     const labels = sizes.slice(sizeStart, sizeStart + sizesPerPage);
@@ -325,8 +342,12 @@ function gradePlanTableStreams(sizes: readonly string[], rows: readonly GradePla
       const lines = [text(M, M + 1, 13,
         `Measurement Spec (cm) - size columns ${sizeStart + 1}-${sizeStart + labels.length}${pageRows.length > 1 ? ` - ${rowPage + 1}/${pageRows.length}` : ""}`, page)];
       if (hasNotApplicable) lines.push(text(M, M + 1.75, 8, NOT_APPLICABLE_NOTE, page));
-      let y = M + 2.4;
-      lines.push(text(M + labelW, y, 8, "Tol +/-", page));
+      const measurementNoteTop = M + (hasNotApplicable ? 2.1 : 1.75);
+      measurementNoteLines.forEach((line, index) => lines.push(text(M, measurementNoteTop + index * 0.34, 8, line, page)));
+      let y = M + 2.4 + (measurementNoteLines.length > 0
+        ? measurementNoteLines.length * 0.34 + (hasNotApplicable ? 0.34 : 0)
+        : 0);
+      if (toleranceColumn) lines.push(text(M + labelW, y, 8, "Tol +/-", page));
       labelsWrapped.forEach((wrapped, index) => wrapped.forEach((line, lineIndex) =>
         lines.push(text(M + labelW + tolW + index * colW, y + lineIndex * 0.34, 8, line, page))));
       y += Math.max(0.55, headLines * 0.36);
@@ -334,7 +355,7 @@ function gradePlanTableStreams(sizes: readonly string[], rows: readonly GradePla
       y += 0.6;
       for (const row of rowGroup) {
         lines.push(text(M, y, 8, row.label, page));
-        lines.push(text(M + labelW, y, 8, row.tolerance === undefined ? "-" : row.tolerance.toFixed(1), page));
+        if (toleranceColumn) lines.push(text(M + labelW, y, 8, row.tolerance === undefined ? "-" : row.tolerance.toFixed(1), page));
         labels.forEach((_, index) => {
           const value = row.values[sizeStart + index];
           const rawValue = value === null ? "N/A" : exactValues ? String(value) : value.toFixed(1);
@@ -478,9 +499,12 @@ function fitRecordStream(
   page: PageSize,
   exactValues = false,
   statusNote?: string,
+  passColumn = true,
+  recordTitle = "Fit Record",
+  toleranceColumn = true,
 ): string {
   const labelW = 7.5; // cm — matches tableStream's column, same table reads twice
-  const tolW = 2.0;
+  const tolW = toleranceColumn ? 2.0 : 0;
   const predW = exactValues ? 4.2 : 2.4;
   const actualX = M + labelW + tolW + predW;
   const actualW = exactValues ? 2.4 : 3.2;
@@ -488,12 +512,14 @@ function fitRecordStream(
   const passW = exactValues ? 1.2 : 1.6;
 
   const lines: string[] = [
-    text(M, M + 1, 13, `${label} - Fit Record`, page),
+    text(M, M + 1, 13, label + " - " + recordTitle, page),
     text(
       M,
       M + 1.9,
       8,
-      "Sew the sample size, measure the finished garment, write the actual value in cm.",
+      passColumn
+        ? "Sew the sample size, measure the finished garment, write the actual value in cm."
+        : "Measurement-only worksheet; no sewn tolerance or pass/fail fit criterion is specified or validated.",
       page
     ),
   ];
@@ -525,17 +551,17 @@ function fitRecordStream(
   y += 0.6;
 
   lines.push(text(M, y, 9, "Point of measure", page));
-  lines.push(text(M + labelW, y, 9, "Tol +/-", page));
+  if (toleranceColumn) lines.push(text(M + labelW, y, 9, "Tol +/-", page));
   lines.push(text(M + labelW + tolW, y, 9, "Predicted", page));
   lines.push(text(actualX, y, 9, "Actual", page));
-  lines.push(text(passX, y, 9, "Pass?", page));
+  if (passColumn) lines.push(text(passX, y, 9, "Pass?", page));
   y += 0.5;
   lines.push(rule(y, page));
   y += 0.65;
 
   for (const p of predicted) {
     lines.push(text(M, y, 9, p.label, page));
-    lines.push(text(M + labelW, y, 9, p.tolerance === undefined ? "-" : p.tolerance.toFixed(1), page));
+    if (toleranceColumn) lines.push(text(M + labelW, y, 9, p.tolerance === undefined ? "-" : p.tolerance.toFixed(1), page));
     if (p.value === null) {
       lines.push(text(M + labelW + tolW, y, 9, "N/A", page));
       lines.push(text(actualX, y, 8, "Not applicable", page));
@@ -545,7 +571,7 @@ function fitRecordStream(
       // invented, matching the tolerance column's own "don't guess" rule.
       const ruleY = pt(page.height - y + 0.15);
       lines.push(`0 0 0 RG 0.4 w ${pt(actualX)} ${ruleY} m ${pt(actualX + actualW)} ${ruleY} l S`);
-      lines.push(`0 0 0 RG 0.4 w ${pt(passX)} ${ruleY} m ${pt(passX + passW)} ${ruleY} l S`);
+      if (passColumn) lines.push(`0 0 0 RG 0.4 w ${pt(passX)} ${ruleY} m ${pt(passX + passW)} ${ruleY} l S`);
     }
     y += 0.7;
   }
@@ -613,6 +639,9 @@ export function exportTechPack(
   surface: readonly ArtworkPlacement[] = [],
   styleLabel = ""
 ): string {
+  const outputTechPack = fabric && recipe.techPackForFabric
+    ? recipe.techPackForFabric(fabric)
+    : recipe.techPackForOptions ? recipe.techPackForOptions(options) : recipe.techPack;
   const poms = pomsForRecipeOptions(recipe, options);
   const graded = gradeRecipeRun(recipe, m, recipe.sizes, options);
   const rows = specSheet(graded, poms);
@@ -620,16 +649,12 @@ export function exportTechPack(
   return assemblePdf(
     [
       sketchStream(recipe.draft(m, options), poms, recipe.label, page, recipe.name === "trouser"),
-      tableStream(sizes, rows, page),
-      bomStream(
-        fabric && recipe.techPackForFabric
-          ? recipe.techPackForFabric(fabric)
-          : recipe.techPackForOptions
-            ? recipe.techPackForOptions(options)
-            : recipe.techPack,
-        page
-      ),
-      fitRecordStream(sampleSpec(recipe, m, options), recipe.label, page),
+      tableStream(sizes, rows, page, outputTechPack.measurementSpecNote,
+        outputTechPack.measurementSpecToleranceColumn !== false),
+      bomStream(outputTechPack, page),
+      fitRecordStream(sampleSpec(recipe, m, options), recipe.label, page, false,
+        outputTechPack.fitRecordStatusNote, outputTechPack.fitRecordPassColumn !== false,
+        outputTechPack.fitRecordTitle, outputTechPack.fitRecordToleranceColumn !== false),
       ...surfaceSpecStreams(surface, styleLabel, page),
     ],
     page
@@ -652,6 +677,9 @@ export function exportTechPackV2(
   styleLabel = "",
   statusNote?: string,
 ): string {
+  const outputTechPack = fabric && recipe.techPackForFabric
+    ? recipe.techPackForFabric(fabric)
+    : recipe.techPackForOptions ? recipe.techPackForOptions(options) : recipe.techPack;
   const poms = pomsForRecipeOptions(recipe, options);
   const block = recipe.draft(m, options);
   const graded = gradeRecipeRun(recipe, m, recipe.sizes, options);
@@ -660,17 +688,13 @@ export function exportTechPackV2(
   return assemblePdf(
     [
       ...overviewSketchStreams(block, recipe.label, page),
-      tableStream(sizes, rows, page),
-      ...bomStreamsV2(
-        fabric && recipe.techPackForFabric
-          ? recipe.techPackForFabric(fabric)
-          : recipe.techPackForOptions
-            ? recipe.techPackForOptions(options)
-            : recipe.techPack,
-        recipe.label,
-        page,
-      ),
-      fitRecordStream(sampleSpec(recipe, m, options), recipe.label, page, false, statusNote),
+      tableStream(sizes, rows, page, outputTechPack.measurementSpecNote,
+        outputTechPack.measurementSpecToleranceColumn !== false),
+      ...bomStreamsV2(outputTechPack, recipe.label, page),
+      fitRecordStream(sampleSpec(recipe, m, options), recipe.label, page, false,
+        statusNote ?? outputTechPack.fitRecordStatusNote,
+        outputTechPack.fitRecordPassColumn !== false, outputTechPack.fitRecordTitle,
+        outputTechPack.fitRecordToleranceColumn !== false),
       ...surfaceSpecStreams(surface, styleLabel, page),
     ],
     page
@@ -702,6 +726,9 @@ export function exportTechPackV2ForGradePlan(
   const baseIndex = run.findIndex((size) => size.label.toLocaleLowerCase("en-US") === baseSizeLabel.toLocaleLowerCase("en-US"));
   if (baseIndex < 0) throw new Error("The approved base size is missing from the Tech Pack run.");
   const base = run[baseIndex];
+  const outputTechPack = fabric && recipe.techPackForFabric
+    ? recipe.techPackForFabric(fabric)
+    : recipe.techPackForOptions ? recipe.techPackForOptions(base.options) : recipe.techPack;
   const poms = pomsForRecipeOptions(recipe, base.options);
   for (const exception of pomExceptions) {
     if (!run.some((size) => size.label === exception.sizeLabel) || !poms.some((pom) => pom.label === exception.pomLabel)) {
@@ -739,7 +766,8 @@ export function exportTechPackV2ForGradePlan(
   return assemblePdf(
     [
       ...run.flatMap((size) => overviewSketchStreams(size.block, `${recipe.label} — ${size.label}`, page)),
-      ...gradePlanTableStreams(run.map((size) => size.label), rows, page, exactValues),
+      ...gradePlanTableStreams(run.map((size) => size.label), rows, page, exactValues,
+        outputTechPack.measurementSpecNote, outputTechPack.measurementSpecToleranceColumn !== false),
       ...run.flatMap((size) => {
         const techPack = fabric && recipe.techPackForFabric
           ? recipe.techPackForFabric(fabric)
@@ -748,7 +776,10 @@ export function exportTechPackV2ForGradePlan(
             : recipe.techPack;
         return bomStreamsV2(techPack, `${recipe.label} — ${size.label}`, page, size.label);
       }),
-      fitRecordStream(fitRecord, `${recipe.label} — ${base.label}`, page, exactValues, statusNote),
+      fitRecordStream(fitRecord, `${recipe.label} — ${base.label}`, page, exactValues,
+        statusNote ?? outputTechPack.fitRecordStatusNote,
+        outputTechPack.fitRecordPassColumn !== false, outputTechPack.fitRecordTitle,
+        outputTechPack.fitRecordToleranceColumn !== false),
       ...exceptionPages,
       ...surfaceSpecStreams(surface, styleLabel, page),
     ],
@@ -771,6 +802,9 @@ export function exportTechPackV2ForSelectedSize(
   styleLabel = "",
   exactValues = false,
 ): string {
+  const outputTechPack = fabric && recipe.techPackForFabric
+    ? recipe.techPackForFabric(fabric)
+    : recipe.techPackForOptions ? recipe.techPackForOptions(size.options) : recipe.techPack;
   return exportTechPackV2ForGradePlan(
     recipe,
     [size],
@@ -780,7 +814,7 @@ export function exportTechPackV2ForSelectedSize(
     styleLabel,
     size.label,
     [],
-    "Digital draft only; physical fit has not been validated.",
+    outputTechPack.fitRecordStatusNote ?? "Digital draft only; physical fit has not been validated.",
     exactValues,
   );
 }

@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_APPEARANCE } from "./appearance";
-import { FITTED_PRINCESS_ENTRY_ID, GARMENTS, HOODIE_FIELDS, HOODIE_OPTION_DEFINITIONS, JEANS_FIELDS, STANDARD_M, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
+import { FITTED_PRINCESS_ENTRY_ID, GARMENTS, HOODIE_FIELDS, HOODIE_OPTION_DEFINITIONS, JEANS_FIELDS, STANDARD_M, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
 import { DEFAULT_WORKSPACE, deserializeRecovery, serialize, serializeRecovery } from "./persist";
 import { migrateLegacySaveFile, type RecoveryPayload, type StyleRecord } from "./project-records";
+import { starterEntryById, starterOriginForEntry } from "./starter-registry";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
 import {
   appendRecoveryFieldObservations,
@@ -79,6 +80,50 @@ describe("C03 field definitions and append-only observations", () => {
       expect(new Set(definitions.map(({ inputKind, inputKey }) => `${inputKind}/${inputKey}`)).size).toBe(definitions.length);
       expect(definitions.every((definition) => definition.recipeId === recipe.name)).toBe(true);
     }
+  });
+
+  it("keeps starter-bound definitions and observations scoped to the active Tank starter", () => {
+    const option = getFieldDefinition("tank", TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, "option", TANK_RACERBACK_ENTRY_ID);
+    expect(option?.defaultValue).toBe(3);
+    expect(getFieldDefinition("tank", TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, "option", null)).toBeUndefined();
+    expect(getFieldDefinition("tank", TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, "option")).toBeDefined();
+
+    const plainTank = styleFor("tank");
+    const entry = starterEntryById(TANK_RACERBACK_ENTRY_ID)!;
+    const racerback: StyleRecord = {
+      ...plainTank,
+      design: {
+        ...plainTank.design,
+        workspace: {
+          ...plainTank.design.workspace,
+          starterOrigin: starterOriginForEntry(entry),
+        },
+        garmentOptions: {
+          ...plainTank.design.garmentOptions,
+          tank: { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 4.5 },
+        },
+      },
+    };
+    const plainRecord = createFieldObservationRecord(plainTank, TIME, "existing-local-style");
+    const racerbackRecord = createFieldObservationRecord(racerback, TIME, "existing-local-style");
+    expect(plainRecord.observations.some((observation) => observation.inputKey === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID)).toBe(false);
+    expect(racerbackRecord.observations.find((observation) => observation.inputKey === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID))
+      .toMatchObject({ rawValue: "4.5", canonicalValue: 4.5 });
+
+    const plainRecovery = recoveryFor(plainTank);
+    const recoveredPlain = appendRecoveryFieldObservations(
+      plainRecord, plainTank, plainRecovery, "2026-09-24T16:00:01.000Z",
+    );
+    const reconciledPlain = reconcileDesignFieldObservations(
+      plainRecord, plainTank, plainTank.design, "2026-09-24T16:00:02.000Z",
+    );
+    const racerbackRecovery = recoveryFor(racerback);
+    const recoveredRacerback = appendRecoveryFieldObservations(
+      racerbackRecord, racerback, racerbackRecovery, "2026-09-24T16:00:03.000Z",
+    );
+    expect(recoveredPlain.observations.some((observation) => observation.inputKey === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID)).toBe(false);
+    expect(reconciledPlain.observations.some((observation) => observation.inputKey === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID)).toBe(false);
+    expect(recoveredRacerback.observations.some((observation) => observation.inputKey === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID)).toBe(true);
   });
 
   it("builds Hoodie measurement and option provenance from its recipe-owned contract", () => {

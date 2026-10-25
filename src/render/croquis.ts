@@ -36,6 +36,8 @@ export interface UpperCroquisOptions {
   readonly hasSleeve?: boolean;
   readonly neckline?: UpperCroquisNeckline;
   readonly strapWidth?: number;
+  /** Optional inward control-point offset for the back armhole, in cm. */
+  readonly armholeControlOffsetCm?: number;
   readonly lowerShape?: UpperCroquisLowerShape;
   /** Optional finished-garment length used by a presentation overlay. */
   readonly lengthOverride?: number;
@@ -115,7 +117,8 @@ export function upperCroquisFigure(
     // schematic fall, while the drafted tank armhole starts from the draft's
     // shoulder slope. The path pen reaches the schematic corner first, exactly
     // as the pre-contract Body renderer did.
-    ? sleevelessArmhole(strapX, neckHalf, shoulder, d.shoulderSlope, half, ad).edge
+    ? sleevelessArmhole(strapX, neckHalf, shoulder, d.shoulderSlope, half, ad,
+      view === "back" ? options.armholeControlOffsetCm ?? 0 : 0).edge
     : null;
 
   const headR = m.shoulderWidth * 0.17;
