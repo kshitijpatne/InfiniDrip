@@ -873,7 +873,7 @@ describe("Fit Record status-note wrapping", () => {
           .toBeLessThanOrEqual(0.0011);
       }
       const fabric = entries.find((entry) => entry.text === "Fabric:")!;
-      expect(fabric.y).toBeLessThan(noteLines.at(-1)!.y);
+      expect(fabric.y).toBeLessThan(noteLines[noteLines.length - 1]!.y);
     }
   });
 
