@@ -498,14 +498,20 @@ function fitRecordStream(
     ),
   ];
   if (predicted.some((p) => p.value === null)) lines.push(text(M, M + 2.4, 8, NOT_APPLICABLE_NOTE, page));
-  if (statusNote !== undefined) lines.push(text(M, M + 2.9, 8, statusNote, page));
+  const statusNoteLines = statusNote === undefined
+    ? []
+    : wrapPackText(statusNote, page.width - 2 * M, 8);
+  statusNoteLines.forEach((line, index) => {
+    lines.push(text(M, M + 2.9 + index * 0.34, 8, line, page));
+  });
 
   // A blank-fill header: fabric / who sewed it / when. Free text, ruled to write
   // on. Three EQUAL columns across the actual printable width (page.width, not a
   // hardcoded cm offset) — a fixed offset here is exactly the bug the sketch's
   // scale-to-fit logic above already avoids, and it broke on first render: the
   // Date column ran off the page, and Sewn-by's rule struck through Date's label.
-  let y = M + (statusNote === undefined ? 3.0 : 3.6);
+  const statusNoteHeight = statusNoteLines.length * 0.34;
+  let y = M + (statusNote === undefined ? 3.0 : 2.9 + statusNoteHeight + 0.36);
   const colW = (page.width - 2 * M) / 3;
   const meta: [string, number, number][] = [["Fabric", 0, 1.6], ["Sewn by", 1, 1.9], ["Date", 2, 1.3]];
   for (const [fieldLabel, col, labelW2] of meta) {
