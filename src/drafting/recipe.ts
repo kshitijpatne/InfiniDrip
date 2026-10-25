@@ -34,7 +34,7 @@ import {
 } from "./tshirt";
 import { draftFitted, FITTED_GRAMMAR, FITTED_OPTIONS, FITTED_PRINCESS_PHYSICAL_ROLES,
   usesFittedPrincessSeam, fittedGuidance } from "./fitted";
-import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline, TANK_RACERBACK_BACK_CUT_IN_OPTION } from "./tank";
+import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline, TANK_RACERBACK_BACK_CUT_IN_OPTION, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import { TEE_POMS } from "./tshirt-pom";
@@ -296,6 +296,8 @@ const KNIT_ALLOWANCES: AllowanceSpec = {
     centerBack: 0,  // fold
     hem: 2,         // body + sleeve turn-up
     neckline: 0.6,  // narrow, for the rib band
+    necklineCorner: 0.6,
+    necklineSide: 0.6,
     princessUpper: 1,
     princessLower: 1,
   },
@@ -693,7 +695,7 @@ export const TANK: GarmentRecipe = {
   sizes: TSHIRT_SIZES,
   checks: sleevedTopPanelChecks(true), // NOT sleeve-specific — a hem-square check, reused verbatim
   guidance: tankGuidance,
-  options: [TANK_RACERBACK_BACK_CUT_IN_OPTION],
+  options: [TANK_RACERBACK_BACK_CUT_IN_OPTION, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION],
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
   // The EXACT same live neckline functions draftTank() passes to bodice() —

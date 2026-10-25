@@ -50,6 +50,23 @@ describe("garment options", () => {
     expect(restoreGarmentOptions(DEFINITIONS, { standHeight: Number.NaN })).toEqual({ standHeight: 2, leafDepth: 5 });
   });
 
+  it("preserves invalid values only for controls whose starter contract requires correction instead of reset", () => {
+    const squareNeckRadius: GarmentOption = {
+      id: "tankSquareNeckCornerRadiusCm", label: "Square-corner easing", defaultValue: 0,
+      min: 0, max: 1.5, step: 0.5, preserveInvalidWhenRestored: true,
+    };
+    expect(restoreGarmentOptions([squareNeckRadius], {}).tankSquareNeckCornerRadiusCm).toBe(0);
+    expect(restoreGarmentOptions([squareNeckRadius], { tankSquareNeckCornerRadiusCm: 1 })
+      .tankSquareNeckCornerRadiusCm).toBe(1);
+    expect(restoreGarmentOptions([squareNeckRadius], { tankSquareNeckCornerRadiusCm: 2 })
+      .tankSquareNeckCornerRadiusCm).toBe(2);
+    expect(Number.isNaN(restoreGarmentOptions([squareNeckRadius], { tankSquareNeckCornerRadiusCm: "bad" })
+      .tankSquareNeckCornerRadiusCm)).toBe(true);
+    const ordinary: GarmentOption = { ...squareNeckRadius, preserveInvalidWhenRestored: false };
+    expect(restoreGarmentOptions([ordinary], { tankSquareNeckCornerRadiusCm: 2 }).tankSquareNeckCornerRadiusCm)
+      .toBe(0);
+  });
+
   it("keeps optional controls absent until explicitly selected and preserves invalid choices for guidance", () => {
     expect(restoreGarmentOptions(DEFINITIONS, { standHeight: 2, leafDepth: 5 }))
       .toEqual({ standHeight: 2, leafDepth: 5 });

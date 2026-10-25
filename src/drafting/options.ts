@@ -22,6 +22,8 @@ export interface GarmentOption {
   readonly appliesToStarterEntryId?: string;
   /** Starter entries where this control is not part of the design contract. */
   readonly excludedForStarterEntryIds?: readonly string[];
+  /** Preserve invalid persisted values for this option so the owning starter can show a correction error. */
+  readonly preserveInvalidWhenRestored?: boolean;
   /** Optional-control copy for features whose inactive state is not an inherited measurement. */
   readonly optionalSetLabel?: string;
   readonly optionalResetLabel?: string;
@@ -123,6 +125,9 @@ export function restoreGarmentOptions(
       // Preserve an explicitly saved invalid optional value so the UI can show
       // actionable correction guidance instead of silently choosing a value.
       return [[d.id, typeof value === "number" ? value : Number.NaN]];
+    }
+    if (d.preserveInvalidWhenRestored && Object.prototype.hasOwnProperty.call(raw, d.id)) {
+      return [[d.id, typeof value === "number" && Number.isFinite(value) ? value : Number.NaN]];
     }
     return [[d.id, typeof value === "number" && Number.isFinite(value) &&
       value >= d.min && value <= d.max ? value : d.defaultValue]];

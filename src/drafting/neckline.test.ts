@@ -3,7 +3,7 @@ import { STANDARD_M, derive } from "./measurements";
 import { necklineEdge, NECKLINE_DEFAULT } from "./neckline";
 import { draftFront, draftBack } from "./tshirt";
 import { draftFittedFront } from "./fitted";
-import { pieceEdge } from "./piece";
+import { edgeEnd, edgeStart, pieceEdge } from "./piece";
 
 const d = derive(STANDARD_M);
 const SHOULDER_HALF = d.shoulderHalf;      // 22.5
@@ -59,6 +59,66 @@ describe("necklineEdge — v (Phase B4 part 2, Slice 56)", () => {
     const deep = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, SHOULDER_HALF, ARMHOLE_DEPTH,
       { shape: "v", widthEase: 0, frontDrop: 3 });
     expect(deep.cNeck.y).toBeCloseTo(shallow.cNeck.y + 3, 6);
+  });
+});
+
+describe("necklineEdge — square digital front", () => {
+  const square = (radius: number) => necklineEdge("front", 7, 8, 22.5, 24,
+    { shape: "square", widthEase: 0, frontDrop: 0, squareCornerRadiusCm: radius });
+
+  it("defaults an omitted corner control to a sharp zero-radius square", () => {
+    const result = necklineEdge("front", 7, 8, 22.5, 24,
+      { shape: "square", widthEase: 0, frontDrop: 0 });
+    expect(result.edges.map((edge) => edge.name)).toEqual(["neckline", "necklineSide"]);
+    expect(result.notes).toEqual([]);
+  });
+  it("uses a horizontal base and vertical side at zero corner easing", () => {
+    const result = square(0);
+    expect(result.edges).toHaveLength(2);
+    expect(result.edges[0]).toEqual({ kind: "line", name: "neckline", start: result.cNeck, end: { x: 7, y: 8 } });
+    expect(result.edges[1]).toEqual({ kind: "line", name: "necklineSide", start: { x: 7, y: 8 }, end: result.hps });
+    expect(result.edge).toBe(result.edges[0]);
+    expect(result.notes).toEqual([]);
+  });
+
+  it("rounds only the local corner while retaining endpoints and ordered continuity", () => {
+    const result = square(1);
+    expect(result.edges).toHaveLength(3);
+    expect(result.edges.map((edge) => edge.name)).toEqual(["neckline", "necklineCorner", "necklineSide"]);
+    expect(result.edges[1]?.kind).toBe("curve");
+    expect(edgeEnd(result.edges[0]!)).toEqual(edgeStart(result.edges[1]!));
+    expect(edgeEnd(result.edges[1]!)).toEqual(edgeStart(result.edges[2]!));
+    expect(edgeStart(result.edges[0]!)).toEqual(result.cNeck);
+    expect(edgeEnd(result.edges[2]!)).toEqual(result.hps);
+  });
+
+  it.each([
+    { label: "negative", radius: -1 },
+    { label: "non-finite", radius: Number.NaN },
+  ])("keeps a $label corner-easing value invalid without clamping it", ({ radius }) => {
+    const result = square(radius);
+    expect(result.notes).toContainEqual(expect.objectContaining({
+      field: "option-tankSquareNeckCornerRadiusCm", level: "warn",
+    }));
+  });
+
+  it("rejects a positive radius equal to the shorter leg because it removes one straight segment", () => {
+    const result = square(7);
+    expect(result.edges[0]).toEqual({
+      kind: "line", name: "neckline", start: { x: 0, y: 8 }, end: { x: 0, y: 8 },
+    });
+    expect(result.notes).toContainEqual(expect.objectContaining({
+      field: "option-tankSquareNeckCornerRadiusCm", level: "warn",
+    }));
+  });
+  it("warns for a corner larger than the available neckline leg without changing the value", () => {
+    const result = necklineEdge("front", 1, 0.5, 22.5, 24,
+      { shape: "square", widthEase: 0, frontDrop: 0, squareCornerRadiusCm: 1 });
+    expect(result.edges[0]?.kind).toBe("line");
+    expect(result.edges[0]?.kind === "line" ? result.edges[0].end.x : 0).toBe(0);
+    expect(result.notes).toContainEqual(expect.objectContaining({
+      field: "option-tankSquareNeckCornerRadiusCm", level: "warn",
+    }));
   });
 });
 

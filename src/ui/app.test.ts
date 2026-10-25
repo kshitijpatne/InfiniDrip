@@ -30,6 +30,7 @@ import {
   racerbackTankRecipeForOutput,
   n01TankTechPackForOutput,
   n01TankRecipeForOutput,
+  squareNeckTankRecipeForOutput,
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
 import { customOneSizeSpecMarkup, inspectionMarkup } from "./view";
@@ -41,7 +42,8 @@ import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-s
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
-import { TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID } from "../drafting/tank";
+import { TANK_N04_ENTRY_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
+  TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 import { blockPieces } from "../drafting/block";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
 import { exportA0Pdf, exportDxf, exportPdf, exportSvg } from "../export";
@@ -11072,6 +11074,31 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(TANK.techPackForFabric).toBeDefined();
   });
 
+  it("keeps N04 Tech Pack materials and neckline finish unspecified while reflecting its software corner value", () => {
+    const knit = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton jersey")!;
+    const woven = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton woven")!;
+    const options = { [TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID]: 1 };
+    const output = squareNeckTankRecipeForOutput(TANK, knit, options);
+    const pack = output.techPackForOptions!(options);
+
+    expect(output.label).toBe("Square-neck Tank");
+    expect(pack.bom).toEqual([{
+      material: "Not specified", placement: "Materials and trim", qty: "No sourcing or consumption estimate",
+    }]);
+    expect(pack.construction.join(" ")).toContain("Digital N04 square-corner easing: 1 cm.");
+    expect(pack.construction.join(" ")).not.toMatch(/neckline|neckband|binding/i);
+    expect(pack.constructionNotice).toContain("no facing or binding template");
+    expect(pack.measurementSpecToleranceColumn).toBe(false);
+    expect(pack.fitRecordPassColumn).toBe(false);
+    expect(pack.fitRecordToleranceColumn).toBe(false);
+    expect(output.techPackForOptions!({})?.construction.join(" ")).toContain("easing: unresolved");
+    expect(squareNeckTankRecipeForOutput(TANK, woven, options).techPack.bom[0]?.qty)
+      .toBe("No sourcing or consumption estimate");
+    expect(squareNeckTankRecipeForOutput({ ...TANK, techPackForFabric: undefined }, knit, options)
+      .techPack.construction.join(" ")).toContain("easing: 1 cm");
+    expect(TANK.techPackForFabric).toBeDefined();
+  });
+
   it("resolves and freezes fabric-specific N01 Tech Pack content for export", () => {
     const tankRecipe = GARMENTS.find((candidate) => candidate.name === "tank")!;
     const knit = STRETCH_FABRICS.find((candidate) => candidate.name === "Cotton jersey")!;
@@ -14001,5 +14028,132 @@ describe("switching to Jeans (S1154)", () => {
     expect(root.querySelector("#canvas-host [data-jeans-body-paused]")).not.toBeNull();
     clickId(root, "assembled-preview-toggle");
     expect(root.querySelector("#canvas-host [data-jeans-assembled-paused]")).not.toBeNull();
+  });
+});
+
+describe("S1203 N04 Square-neck Tank", () => {
+  it("selects, edits, saves, reopens, rejects a restored invalid corner, and exports the digital shell", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    let invalidRestored: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${TANK_N04_ENTRY_ID}`)!;
+      expect(card.textContent).toContain("Square-neck Tank · software defaults");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}"]`)).toBeNull();
+      clickId(root, `starter-${TANK_N04_ENTRY_ID}`);
+
+      const radius = root.querySelector<HTMLInputElement>(`input[data-option="${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}"]`)!;
+      expect([radius.getAttribute("aria-label"), radius.min, radius.max, radius.step, radius.value])
+        .toEqual(["Square-corner easing (digital)", "0", "1.5", "0.5", "0"]);
+      expect(root.querySelector<HTMLElement>(`[data-option-help="option-${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}"]`)!.textContent)
+        .toContain("not a sewing radius or finish specification");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Square-neck Tank · software defaults");
+
+      clickId(root, "journey-next");
+      const optionPage = radius.closest<HTMLElement>("fieldset[data-control-page]")!;
+      const pageSelect = root.querySelector<HTMLSelectElement>("#control-page-select")!;
+      pageSelect.value = optionPage.dataset.controlPage!;
+      pageSelect.dispatchEvent(new Event("change", { bubbles: true }));
+      clickId(root, "view-pattern");
+      const sharpCornerSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      radius.value = "1";
+      radius.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}"]`)!.textContent).toBe("");
+      const easedCornerSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(easedCornerSvg).not.toBe(sharpCornerSvg);
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.garmentOptions.tank[TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID]).toBe(1);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TANK_N04_ENTRY_ID,
+        recipeId: "tank",
+        recipeRevision: "tank-square-neck-v1",
+        configurationSnapshot: {
+          targetStyle: "Classic tank",
+          options: { [TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID]: 0 },
+        },
+      });
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}"]`)!.value)
+        .toBe("1");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${TANK_N04_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(easedCornerSvg);
+
+      const invalidEdit = reopened.querySelector<HTMLInputElement>(`input[data-option="${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}"]`)!;
+      invalidEdit.value = "2";
+      invalidEdit.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(reopened.querySelector<HTMLElement>(`[data-input-error="option-${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}"]`)!.textContent)
+        .toContain("0–1.5 cm");
+      await vi.waitFor(() => expect(localStorage.getItem("patternworks_recovery_v1")).not.toBeNull());
+      unmountApp();
+      root.remove();
+      reopened.remove();
+      invalidRestored = mount();
+      expect(invalidRestored.querySelector("#recovery-accept")).not.toBeNull();
+      clickId(invalidRestored, "recovery-accept");
+      const restoredRadius = invalidRestored.querySelector<HTMLInputElement>(`input[data-option="${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}"]`)!;
+      expect(restoredRadius.value).toBe("2");
+      expect(invalidRestored.querySelector<HTMLElement>(`[data-input-error="option-${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}"]`)!.textContent)
+        .toContain("0–1.5 cm");
+      expect(invalidRestored.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+      restoredRadius.value = "1";
+      restoredRadius.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(invalidRestored.querySelector<HTMLElement>(`[data-input-error="option-${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}"]`)!.textContent).toBe("");
+
+      reachExportStage(invalidRestored);
+      invalidRestored.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
+      const svgEntry = [...files.entries()].find(([filename]) => filename.endsWith("-M.svg"))!;
+      expect(svgEntry[0]).toBe("square-neck-tank-M.svg");
+      const svgOutput = svgEntry[1];
+      expect([...files.keys()]).toEqual(["square-neck-tank-M.svg"]);
+      const chosenOptions = { [TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID]: 1 };
+      const expectedSvg = exportSvg(
+        blockPieces(TANK.draft(saved.measurements, chosenOptions)),
+        TANK.allowances,
+        notchesForRecipeOptions(TANK, chosenOptions),
+      );
+      const defaultSvg = exportSvg(
+        blockPieces(TANK.draft(saved.measurements, { [TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID]: 0 })),
+        TANK.allowances,
+        notchesForRecipeOptions(TANK, { [TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID]: 0 }),
+      );
+      expect(svgOutput).toContain("<svg");
+      expect(svgOutput).toBe(expectedSvg);
+      expect(svgOutput).not.toBe(defaultSvg);
+
+      invalidRestored.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      expect([...files.keys()]).toEqual(["square-neck-tank-M.svg", "square-neck-tank-techpack.pdf"]);
+      const techPack = [...files.entries()].find(([filename]) => filename.endsWith("techpack.pdf"))?.[1];
+      expect(techPack).toBeDefined();
+      const techPackText = visiblePdfText(techPack!);
+      expect(techPackText).toContain("Square-neck Tank");
+      expect(techPackText).toContain("Digital N04 square-corner easing: 1 cm.");
+      expect(techPackText).toContain("No sourcing or consumption estimate");
+      expect(techPackText).toContain("no facing or binding template");
+      expect(techPackText).not.toContain("Cotton jersey");
+      expect(techPackText).not.toContain("Neckband");
+    } finally {
+      root?.remove();
+      reopened?.remove();
+      invalidRestored?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
   });
 });

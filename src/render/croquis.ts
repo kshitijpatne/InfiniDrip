@@ -17,6 +17,8 @@ export interface UpperCroquisNeckline {
   readonly cNeck: { readonly x: number; readonly y: number };
   readonly hps: { readonly x: number; readonly y: number };
   readonly edge: Edge;
+  /** Ordered center-fold to shoulder segments for N04; omitted on legacy callers. */
+  readonly edges?: readonly Edge[];
 }
 
 /** Optional lower torso shaping for an upper-body garment whose measured
@@ -84,9 +86,9 @@ function defaultUpperNeckline(
   m: Measurements, view: "front" | "back", d: ReturnType<typeof derive>
 ): UpperCroquisNeckline {
   const baseDepth = view === "front" ? d.frontNeckDepth : d.backNeckDepth;
-  const { cNeck, hps, edge } = necklineEdge(
+  const { cNeck, hps, edge, edges } = necklineEdge(
     view, d.neckWidthHalf, baseDepth, d.shoulderHalf, m.armholeDepth, NECKLINE_DEFAULT);
-  return { cNeck, hps, edge };
+  return { cNeck, hps, edge, edges };
 }
 
 /** Build the upper-body figure geometry consumed by the annotated Body view.
@@ -170,7 +172,7 @@ export function upperCroquisFigure(
     ...leftLowerTorso,
     armhole ? armholePathCommand(armhole, true) : `L ${round(-strapX)} ${round(slope)}`,
     `L ${round(-neckHalf)} 0`,
-    necklinePathCommand(neckline.cNeck, neckline.hps, neckline.edge),
+    necklinePathCommand(neckline.cNeck, neckline.hps, neckline.edges ?? neckline.edge),
     "Z",
   ].join(" ");
 

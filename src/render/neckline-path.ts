@@ -27,17 +27,32 @@ const round = (n: number): number => Math.round(n * 1000) / 1000;
 /** `cNeck`/`hps`/`edge` are exactly `necklineEdge()`'s own return values —
  *  this function only re-expresses them as path commands, it computes
  *  nothing new. Assumes the pen is already at the LEFT hps (-hps.x, 0). */
-export function necklinePathCommand(cNeck: Point, hps: Point, edge: Edge): string {
-  if (edge.kind === "line") {
-    // A real V: two straight seams meeting at the point, mirrored either side.
-    return `L ${round(cNeck.x)} ${round(cNeck.y)} L ${round(hps.x)} ${round(hps.y)}`;
+export function necklinePathCommand(cNeck: Point, hps: Point, edgeOrEdges: Edge | readonly Edge[]): string {
+  const edges = Array.isArray(edgeOrEdges) ? edgeOrEdges : [edgeOrEdges];
+  const left = [...edges].reverse().map((edge) => {
+    if (edge.kind === "line") {
+      return `L ${round(-edge.start.x)} ${round(edge.start.y)}`;
+    }
+    const c = edge.curve;
+    return `C ${round(-c.control2.x)} ${round(c.control2.y)} ` +
+      `${round(-c.control1.x)} ${round(c.control1.y)} ${round(-c.start.x)} ${round(c.start.y)}`;
+  });
+  const right = edges.map((edge) => {
+    if (edge.kind === "line") return `L ${round(edge.end.x)} ${round(edge.end.y)}`;
+    const c = edge.curve;
+    return `C ${round(c.control1.x)} ${round(c.control1.y)} ` +
+      `${round(c.control2.x)} ${round(c.control2.y)} ${round(c.end.x)} ${round(c.end.y)}`;
+  });
+  // Keep the established one-edge contract byte-for-byte, including its
+  // caller-supplied center and shoulder endpoints.
+  if (edges.length === 1) {
+    const edge = edges[0]!;
+    if (edge.kind === "line") {
+      return `L ${round(cNeck.x)} ${round(cNeck.y)} L ${round(hps.x)} ${round(hps.y)}`;
+    }
+    return `${left[0]} ${right[0]}`;
   }
-  const c = edge.curve;
-  const left = `C ${round(-c.control2.x)} ${round(c.control2.y)} ` +
-    `${round(-c.control1.x)} ${round(c.control1.y)} ${round(cNeck.x)} ${round(cNeck.y)}`;
-  const right = `C ${round(c.control1.x)} ${round(c.control1.y)} ` +
-    `${round(c.control2.x)} ${round(c.control2.y)} ${round(hps.x)} ${round(hps.y)}`;
-  return `${left} ${right}`;
+  return [...left, ...right].join(" ");
 }
 
 /** Render one drafted armhole edge. `mirrored` traverses the mirrored edge

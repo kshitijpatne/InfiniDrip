@@ -82,7 +82,7 @@ function silhouettePath(
   const baseDepth = shirt
     ? (position === "front" ? shirt.frontNeckDepth : shirt.backNeckDepth)
     : (position === "front" ? d.frontNeckDepth : d.backNeckDepth);
-  const { cNeck, hps, edge: neckEdge } =
+  const { cNeck, hps, edges: neckEdges } =
     necklineEdge(position, neckWidthHalf, baseDepth, sh, ad, neckline);
   const nh = hps.x; // where the collar meets the shoulder — real, not the raw derived default
   const strapX = strapWidth === undefined ? sh : nh + strapWidth;
@@ -123,7 +123,7 @@ function silhouettePath(
     ...sleeveIn,                                  // left sleeve (if any)
     tankArmhole ? armholePathCommand(tankArmhole, true) : `L ${round(-strapX)} ${round(slope)}`, // mirrored tank armhole
     `L ${round(-nh)} 0`,                          // left neck point
-    necklinePathCommand(cNeck, hps, neckEdge),    // the real collar: crew, v, or scoop
+    necklinePathCommand(cNeck, hps, neckEdges),    // the real collar: crew, v, scoop, or N04 square front
     "Z",
   ].join(" ");
 }

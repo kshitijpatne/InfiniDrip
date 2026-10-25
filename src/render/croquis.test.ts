@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { derive, necklineEdge, NECKLINE_DEFAULT, skirtWidths, STANDARD_M } from "../drafting";
 import { tankFrontNeckline } from "../drafting/tank";
 import { croquisPath, lowerCroquisFigure, lowerCroquisPath, upperCroquisFigure, upperCroquisPath } from "./croquis";
+import { necklinePathCommand } from "./neckline-path";
 
 describe("croquis library", () => {
   it.each(["front", "side", "back"] as const)("provides an upper %s figure", (view) => {
@@ -42,6 +43,13 @@ describe("croquis library", () => {
       .toBe([figure.torsoPath, ...figure.armPaths].join(" "));
   });
 
+  it("keeps the legacy single-edge path for supplied necklines without an edge list", () => {
+    const d = derive(STANDARD_M);
+    const { cNeck, hps, edge } = necklineEdge(
+      "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, STANDARD_M.armholeDepth, NECKLINE_DEFAULT);
+    const figure = upperCroquisFigure(STANDARD_M, "front", { neckline: { cNeck, hps, edge } });
+    expect(figure.torsoPath).toContain(necklinePathCommand(cNeck, hps, edge));
+  });
   it("builds a sleeveless figure with the real strap and armhole geometry", () => {
     const d = derive(STANDARD_M);
     const neckline = necklineEdge(

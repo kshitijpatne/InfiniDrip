@@ -3,6 +3,7 @@ import { STANDARD_M } from "./measurements";
 import {
   draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS,
   TANK_RACERBACK_BACK_CUT_IN_OPTION, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
+  TANK_N04_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID,
   tankRacerbackControlOffsetCm,
 } from "./tank";
 import { TANK, gradeRun, specSheet } from "./index";
@@ -131,7 +132,7 @@ describe("N03 racerback Tank geometry", () => {
 
   it("changes only the back armhole curve across 0/default/6 cm and keeps endpoints and joins", () => {
     const n01 = draftTank(STANDARD_M);
-    expect(TANK.options).toEqual([TANK_RACERBACK_BACK_CUT_IN_OPTION]);
+    expect(TANK.options).toEqual([TANK_RACERBACK_BACK_CUT_IN_OPTION, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION]);
     const defaultOptions = defaultGarmentOptions([TANK_RACERBACK_BACK_CUT_IN_OPTION], TANK_RACERBACK_ENTRY_ID);
     expect(defaultOptions).toEqual({ [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 3 });
     const draft = (cutIn: number) => draftTank(STANDARD_M, { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: cutIn });
@@ -214,6 +215,29 @@ describe("tankGuidance", () => {
   it("is silent on strap/neckline guardrails for the default measurements", () => {
     const notes = tankGuidance(draftTank(STANDARD_M), STANDARD_M);
     expect(notes.some((n) => n.text.includes("narrow") || n.text.includes("underarm"))).toBe(false);
+  });
+
+  it("uses the N04 option only when explicitly present and holds geometry/guidance to the same radius", () => {
+    const options = { [TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID]: 1 };
+    const square = draftTank(STANDARD_M, options);
+    const front = rolePiece(square, "front");
+    expect(front.edges.slice(0, 3).map((edge) => edge.name))
+      .toEqual(["neckline", "necklineCorner", "necklineSide"]);
+    expect(tankGuidance(square, STANDARD_M, options).some((note) => note.field === TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID)).toBe(false);
+    expect(rolePiece(draftTank(STANDARD_M), "front").edges.slice(0, 1).map((edge) => edge.name)).toEqual(["neckline"]);
+    expect(TANK_SQUARE_NECK_CORNER_RADIUS_OPTION.appliesToStarterEntryId).toBe(TANK_N04_ENTRY_ID);
+  });
+
+  it("surfaces an N04 radius that cannot fit the available legs and does not clamp it", () => {
+    const m = { ...STANDARD_M, neckWidthEase: -20, neckDrop: 0 };
+    const radius = TANK_SQUARE_NECK_CORNER_RADIUS_OPTION.max;
+    const options = { [TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID]: radius };
+    const notes = tankGuidance(draftTank(m, options), m, options);
+    expect(notes).toContainEqual(expect.objectContaining({
+      field: `option-${TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID}`, level: "warn",
+    }));
+    const front = rolePiece(draftTank(m, options), "front");
+    expect(pieceEdge(front, "neckline").kind).toBe("line");
   });
 });
 

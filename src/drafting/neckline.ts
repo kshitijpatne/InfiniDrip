@@ -60,9 +60,11 @@ import { Edge } from "./piece";
 import type { Note } from "../guidance/note";
 
 export interface NecklineParams {
-  readonly shape: "crew" | "v" | "scoop" | "boat";
+  readonly shape: "crew" | "v" | "scoop" | "square" | "boat";
   readonly widthEase: number;  // cm added per side to the derived default; 0 = today
   readonly frontDrop: number;  // cm added to the derived front depth; 0 = today
+  /** N04-only software control; ignored by all other neckline shapes. */
+  readonly squareCornerRadiusCm?: number;
 }
 
 export const NECKLINE_DEFAULT: NecklineParams = { shape: "crew", widthEase: 0, frontDrop: 0 };
@@ -89,9 +91,10 @@ export function necklineEdge(
   shoulderHalf: number,
   armholeDepth: number,
   params: NecklineParams = NECKLINE_DEFAULT
-): { readonly cNeck: Point; readonly hps: Point; readonly edge: Edge; readonly notes: readonly Note[] } {
-  if (params.shape !== "crew" && params.shape !== "v" && params.shape !== "scoop") {
-    throw new Error(`Neckline shape "${params.shape}" not yet implemented (crew, v, and scoop only)`);
+): { readonly cNeck: Point; readonly hps: Point; readonly edge: Edge; readonly edges: readonly Edge[]; readonly notes: readonly Note[] } {
+  if (params.shape !== "crew" && params.shape !== "v" && params.shape !== "scoop"
+    && params.shape !== "square") {
+    throw new Error(`Neckline shape "${params.shape}" not yet implemented (crew, v, scoop, and square only)`);
   }
 
   const effectiveWidthHalf = neckWidthHalf + params.widthEase;
@@ -112,8 +115,35 @@ export function necklineEdge(
   const hps = point(effectiveWidthHalf, 0);
 
   let edge: Edge;
-  if (params.shape === "v") {
+  let edges: readonly Edge[];
+  if (params.shape === "square") {
+    const radius = params.squareCornerRadiusCm ?? 0;
+    if (!Number.isFinite(radius) || radius < 0 || radius >= Math.min(effectiveWidthHalf, depth)) {
+      notes.push({
+        field: "option-tankSquareNeckCornerRadiusCm",
+        level: "warn",
+        text: "Square-corner easing must be finite, non-negative, and leave a straight portion on both neckline legs. Reduce the digital corner value or adjust neckline width/depth; no value was changed.",
+      });
+    }
+    const horizontalEnd = point(effectiveWidthHalf - radius, depth);
+    const base: Edge = { kind: "line", name: "neckline", start: cNeck, end: horizontalEnd };
+    const verticalStart = point(effectiveWidthHalf, depth - radius);
+    const side: Edge = { kind: "line", name: "necklineSide", start: verticalStart, end: hps };
+    if (radius === 0) {
+      edges = [base, side];
+    } else {
+      const corner: Edge = { kind: "curve", name: "necklineCorner", curve: {
+        start: horizontalEnd,
+        control1: point(effectiveWidthHalf - radius + radius * QUARTER_ELLIPSE_K, depth),
+        control2: point(effectiveWidthHalf, depth - radius + radius * QUARTER_ELLIPSE_K),
+        end: verticalStart,
+      } };
+      edges = [base, corner, side];
+    }
+    edge = edges[0]!;
+  } else if (params.shape === "v") {
     edge = { kind: "line", name: "neckline", start: cNeck, end: hps }; // a real V: two straight seams meeting at a point, no curve
+    edges = [edge];
   } else {
     // A true quarter-ellipse from cNeck to hps: control1 leans ACROSS (its y
     // is pinned at the full depth), giving a HORIZONTAL tangent at cNeck —
@@ -126,7 +156,8 @@ export function necklineEdge(
         control2: point(effectiveWidthHalf, depth * QUARTER_ELLIPSE_K),
         end: hps,
       } };
+    edges = [edge];
   }
 
-  return { cNeck, hps, edge, notes };
+  return { cNeck, hps, edge, edges, notes };
 }
