@@ -5692,6 +5692,24 @@ describe("body-view measurement linking", () => {
     }
   });
 
+  it("keeps Edit source initialization usable when a recipe has no option definitions", () => {
+    const root = mount();
+    const originalTankOptions = TANK.options;
+    const mutableTank = TANK as unknown as { options?: typeof TANK.options };
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${TANK_RACERBACK_ENTRY_ID}`);
+      mutableTank.options = undefined;
+      clickId(root, "view-edit");
+      expect(root.querySelector("#editor-role")).not.toBeNull();
+      expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+    } finally {
+      mutableTank.options = originalTankOptions;
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
   it("uses the registered N03 option label in its spatial cue", () => {
     const root = mount();
     try {
