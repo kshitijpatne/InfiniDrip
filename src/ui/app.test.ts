@@ -11935,7 +11935,7 @@ describe("EPIC-19 L02 starter binding", () => {
       const starterId = "tank-classic-scoop-digital-v1";
       const card = root.querySelector<HTMLButtonElement>(`#starter-${starterId}`)!;
       expect(card.textContent).toContain("Classic scoop Tank · software defaults");
-      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      expect(card.textContent).toContain("B1 technical review approved for digital scope · physical validation not-validated");
       clickId(root, `starter-${starterId}`);
 
       expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
@@ -11944,7 +11944,7 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
         .toContain("Starting design: Classic scoop Tank · software defaults");
       expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
-        .toContain("B1 technical review pending; physical validation not performed");
+        .toContain("B1 technical review approved for digital scope; physical validation not performed");
       const defaultControls: Record<string, { value: string; min: string; max: string; step: string }> = {
         chest: { value: "100", min: "60", max: "160", step: "1" },
         shoulderWidth: { value: "45", min: "30", max: "70", step: "0.1" },
@@ -12010,6 +12010,8 @@ describe("EPIC-19 L02 starter binding", () => {
 
       reopened = mount();
       expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Classic tank");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("B1 technical review approved for digital scope; physical validation not performed");
       expect(reopened.querySelector<HTMLInputElement>('input[data-field="strapWidth"]')!.value).toBe("10");
       expect(reopened.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.value).toBe("6");
       expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${starterId}"]`)!.getAttribute("aria-pressed"))
