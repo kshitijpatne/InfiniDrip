@@ -1214,8 +1214,8 @@ export class ProjectManager {
           artworkAssetIds: [...parsed.value.artworkAssetIds, ...storedIds],
         });
         if (!candidate.ok) throw new Error(candidate.error);
-        const saved = await this.options.workflow.saveBrandProfile(candidate.value);
-        this.brandProfileDraft = saved.brandProfile ?? emptyBrandProfile();
+        await this.options.workflow.saveBrandProfile(candidate.value);
+        this.brandProfileDraft = candidate.value;
         this.brandProfileFiles = [];
         this.message = "Brand Profile saved to this local project.";
       } catch (error) {

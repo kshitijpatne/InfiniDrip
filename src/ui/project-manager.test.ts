@@ -278,6 +278,37 @@ function memoryArtworkStore(initial: readonly StoredArtworkAsset[] = []): {
   };
 }
 
+async function prepareSavedPaletteAssignment(
+  state: Awaited<ReturnType<typeof techPackHarness>>,
+  colorId: string,
+  assignmentId: string,
+): Promise<HTMLButtonElement> {
+  const { host, workflow } = state;
+  clickT01Action(host, "add-colorway");
+  clickT01Action(host, "add-fabric");
+  host.querySelector<HTMLSelectElement>("[data-t01-new-bom-material]")!.value = "80000000-0000-4000-8000-000000000002";
+  clickT01Action(host, "add-bom-row");
+  const colorway = host.querySelector<HTMLElement>('[data-t01-colorway="80000000-0000-4000-8000-000000000001"]')!;
+  colorway.querySelector<HTMLSelectElement>("[data-t01-new-assignment-row]")!.value = "80000000-0000-4000-8000-000000000003";
+  colorway.querySelector<HTMLSelectElement>("[data-t01-new-assignment-material]")!.value = "80000000-0000-4000-8000-000000000002";
+  clickT01Action(host, "add-assignment");
+  const initialRevision = workflow.snapshot.activeStyle.techPack.revisionNumber;
+  host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
+  await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.revisionNumber).toBeGreaterThan(initialRevision));
+  expect(workflow.snapshot.activeStyle.techPack.colorways.flatMap((entry) => entry.assignments)
+    .some((entry) => entry.id === assignmentId)).toBe(true);
+
+  const colorSelect = host.querySelector<HTMLSelectElement>("[data-brand-profile-color-selection]")!;
+  colorSelect.value = colorId;
+  colorSelect.dispatchEvent(new Event("change", { bubbles: true }));
+  const assignmentSelect = host.querySelector<HTMLSelectElement>("[data-brand-profile-assignment-selection]")!;
+  assignmentSelect.value = assignmentId;
+  assignmentSelect.dispatchEvent(new Event("change", { bubbles: true }));
+  const apply = host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')!;
+  await vi.waitFor(() => expect(apply.disabled).toBe(false));
+  return apply;
+}
+
 function selectArtworkFiles(input: HTMLInputElement, files: readonly File[]): void {
   Object.defineProperty(input, "files", { configurable: true, value: files });
   input.dispatchEvent(new Event("change", { bubbles: true }));
@@ -3445,6 +3476,130 @@ describe("accessible project and style manager", () => {
         .some((entry) => entry.id === assignmentId)).toBe(false);
       privateManager.missingBrandProfileAssets = originalMissingAssets;
     } finally {
+      state.close();
+    }
+  }, 10_000);
+
+  it("rejects a palette apply when referenced artwork disappears after its UI check", async () => {
+    const colorId = "a5555555-5555-4555-8555-000000000005";
+    const assetId = "local-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-png";
+    const asset: StoredArtworkAsset = {
+      assetId,
+      name: "brand-mark.png",
+      mimeType: "image/png",
+      blob: new NodeBlob(["image"], { type: "image/png" }) as unknown as Blob,
+    };
+    const { store, assets } = memoryArtworkStore([asset]);
+    const initialBrandProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: colorId, name: "Indigo", hex: "#112233" }],
+      artworkAssetIds: [assetId],
+      rules: [],
+    };
+    const ids = [
+      "80000000-0000-4000-8000-000000000001",
+      "80000000-0000-4000-8000-000000000002",
+      "80000000-0000-4000-8000-000000000003",
+      "80000000-0000-4000-8000-000000000004",
+    ];
+    const state = await techPackHarness({
+      initialBrandProfile,
+      artworkStore: store,
+      techPackIdFactory: () => ids.shift()!,
+    });
+    try {
+      const { host, manager, workflow } = state;
+      const apply = await prepareSavedPaletteAssignment(state, colorId, "80000000-0000-4000-8000-000000000004");
+      await vi.waitFor(() => expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent)
+        .toContain("All existing artwork references resolve locally."));
+      const savedTechPackBefore = workflow.snapshot.activeStyle.techPack;
+      const projectRevisionBefore = workflow.snapshot.project.revision;
+      const privateManager = manager as unknown as { techPackDraft: TechPackRecord | null };
+      const draftBefore = privateManager.techPackDraft;
+
+      assets.delete(assetId);
+      apply.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("Resolve or remove missing local artwork references before applying a color."));
+
+      expect(privateManager.techPackDraft).toEqual(draftBefore);
+      expect(workflow.snapshot.activeStyle.techPack).toEqual(savedTechPackBefore);
+      expect(workflow.snapshot.project.revision).toBe(projectRevisionBefore);
+      expect(workflow.snapshot.activeStyle.techPack.colorways.flatMap((entry) => entry.assignments)
+        .find((entry) => entry.id === "80000000-0000-4000-8000-000000000004")?.color.value).toBeNull();
+    } finally {
+      state.close();
+    }
+  }, 10_000);
+
+  it("rejects a palette apply when the active style changes during artwork verification", async () => {
+    const colorId = "a5555555-5555-4555-8555-000000000005";
+    const assetId = "local-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-png";
+    const asset: StoredArtworkAsset = {
+      assetId,
+      name: "brand-mark.png",
+      mimeType: "image/png",
+      blob: new NodeBlob(["image"], { type: "image/png" }) as unknown as Blob,
+    };
+    const { store } = memoryArtworkStore([asset]);
+    const initialBrandProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: colorId, name: "Indigo", hex: "#112233" }],
+      artworkAssetIds: [assetId],
+      rules: [],
+    };
+    const ids = [
+      "80000000-0000-4000-8000-000000000001",
+      "80000000-0000-4000-8000-000000000002",
+      "80000000-0000-4000-8000-000000000003",
+      "80000000-0000-4000-8000-000000000004",
+    ];
+    const state = await techPackHarness({
+      initialBrandProfile,
+      artworkStore: store,
+      techPackIdFactory: () => ids.shift()!,
+    });
+    let releaseArtworkCheck: ((stored: StoredArtworkAsset | null) => void) | undefined;
+    let restoreArtworkSpy: () => void = () => {};
+    try {
+      const { host, manager, workflow } = state;
+      const originalStyleId = workflow.snapshot.activeStyle.id;
+      const created = await workflow.createStyle("Other style", workflow.snapshot.activeStyle.design);
+      const otherStyleId = created.activeStyle.id;
+      await workflow.switchStyle(originalStyleId);
+      manager.refresh();
+
+      const apply = await prepareSavedPaletteAssignment(state, colorId, "80000000-0000-4000-8000-000000000004");
+      editT01Field(host, "cover.styleCode", "value", "ORIGINAL-STYLE-PENDING");
+      const privateManager = manager as unknown as { techPackDraft: TechPackRecord | null };
+      const pendingDraft = privateManager.techPackDraft;
+      expect(pendingDraft?.styleId).toBe(originalStyleId);
+      await vi.waitFor(() => expect(apply.disabled).toBe(false));
+
+      let artworkCheckStarted = false;
+      const delayedArtworkCheck = new Promise<StoredArtworkAsset | null>((resolve) => { releaseArtworkCheck = resolve; });
+      const getSpy = vi.spyOn(store, "get").mockImplementationOnce(() => {
+        artworkCheckStarted = true;
+        return delayedArtworkCheck;
+      });
+      restoreArtworkSpy = () => getSpy.mockRestore();
+      apply.click();
+      await vi.waitFor(() => expect(artworkCheckStarted).toBe(true));
+
+      const otherStyleTechPackBefore = workflow.snapshot.styles.find((style) => style.id === otherStyleId)!.techPack;
+      await workflow.switchStyle(otherStyleId);
+      releaseArtworkCheck(asset);
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("The active Tech Pack changed before the color could be applied."));
+
+      expect(workflow.snapshot.activeStyle.id).toBe(otherStyleId);
+      expect(workflow.snapshot.activeStyle.techPack).toEqual(otherStyleTechPackBefore);
+      expect(privateManager.techPackDraft).toEqual(pendingDraft);
+      expect(privateManager.techPackDraft?.colorways.flatMap((entry) => entry.assignments)
+        .find((entry) => entry.id === "80000000-0000-4000-8000-000000000004")?.color.value).toBeNull();
+    } finally {
+      releaseArtworkCheck?.(asset);
+      restoreArtworkSpy();
       state.close();
     }
   }, 10_000);
