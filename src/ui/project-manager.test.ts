@@ -4228,6 +4228,55 @@ describe("accessible project and style manager", () => {
     }
   });
 
+  it("saves a changed scenario collection from its select input using the configured creation clock", async () => {
+    const packageNow = vi.fn(() => TIME);
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId, packageNow });
+    try {
+      const { host, workflow } = state;
+      const firstCollection = await saveScenarioFixtureCollection(state);
+      const secondCollection = {
+        ...(await saveScenarioFixtureCollection(state)),
+        name: "Second scenario fixture collection",
+      };
+      await workflow.saveCollections([firstCollection, secondCollection]);
+      state.manager.refresh();
+
+      const createCollection = host.querySelector<HTMLSelectElement>("#scenario-create-collection")!;
+      createCollection.value = firstCollection.id;
+      host.querySelector<HTMLButtonElement>("[data-scenario-action='create']")!.click();
+
+      const scenarioCollection = host.querySelector<HTMLSelectElement>('[data-se-field="collectionId"]')!;
+      scenarioCollection.value = secondCollection.id;
+      scenarioCollection.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(scenarioCollection.value).toBe(secondCollection.id);
+      expect(projectScenarios(workflow.snapshot.project)).toEqual([]);
+
+      const saveScenarios = vi.spyOn(workflow, "saveScenarios");
+      const saveButton = host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")!;
+      expect(saveButton.disabled).toBe(false);
+      saveButton.click();
+      await vi.waitFor(() => expect(saveScenarios).toHaveBeenCalledOnce());
+
+      const [drafts] = saveScenarios.mock.calls[0]!;
+      expect(drafts).toHaveLength(1);
+      expect(drafts[0]).toMatchObject({
+        collectionId: secondCollection.id,
+        createdAt: TIME,
+        updatedAt: TIME,
+      });
+      expect(packageNow).toHaveBeenCalledOnce();
+
+      await vi.waitFor(() => expect(projectScenarios(workflow.snapshot.project)).toHaveLength(1));
+      expect(projectScenarios(workflow.snapshot.project)[0]).toMatchObject({
+        collectionId: secondCollection.id,
+        createdAt: TIME,
+        updatedAt: TIME,
+      });
+    } finally {
+      state.close();
+    }
+  });
+
   it("rejects a stale scenario-create action after its saved collection disappears", async () => {
     const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
     try {

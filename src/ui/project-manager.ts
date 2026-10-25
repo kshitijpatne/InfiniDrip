@@ -540,7 +540,7 @@ export class ProjectManager {
         return;
       }
       if (target instanceof HTMLInputElement && target.id === "brand-profile-artwork-files") {
-        this.brandProfileFiles = Array.from(target.files ?? []);
+        this.brandProfileFiles = Array.from(target.files!);
         target.value = "";
         this.render();
         return;
@@ -691,7 +691,7 @@ export class ProjectManager {
 
   private handleScenarioEditorAction(target: HTMLElement): void {
     const action = target.dataset.scenarioAction;
-    const scenarioId = target.dataset.seScenario;
+    const scenarioId = target.dataset.seScenario!;
     const nextId = (): string => techPackRecordId(this.options.techPackIdFactory);
     const now = (): string => this.options.packageOptions?.now?.() ?? new Date().toISOString();
     if (action === "create") {
@@ -736,7 +736,6 @@ export class ProjectManager {
       this.render();
       return;
     }
-    if (!scenarioId) return;
     const scenario = this.scenarioDrafts.find((item) => item.id.toLowerCase() === scenarioId.toLowerCase())!;
     if (action === "delete") {
       if (this.confirm(`Delete scenario “${scenario.name || "Untitled scenario"}” from this draft? Saved scenario data remains until you save this change.`)) {
