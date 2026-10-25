@@ -4325,26 +4325,44 @@ describe("accessible project and style manager", () => {
         prices: [{ ...seeded.value.prices[0]!, amount: "22.50" }],
         costs: [{ ...seeded.value.costs[0]!, amount: "9.25" }],
       };
-      await workflow.saveScenarios([scenario]);
+      const secondSeeded = createBlankScenarioRecord({
+        id: scenarioFixtureId(),
+        projectId: workflow.snapshot.project.id,
+        collection,
+        name: "Independent variant plan",
+        now: TIME,
+        uuid: scenarioFixtureId,
+      });
+      if (!secondSeeded.ok) throw new Error(secondSeeded.error);
+      const secondScenario = secondSeeded.value;
+      await workflow.saveScenarios([scenario, secondScenario]);
       state.manager.refresh();
       const savedBefore = structuredClone(projectScenarios(workflow.snapshot.project));
       const selector = `[data-scenario-action="add-missing"][data-se-scenario="${scenario.id}"]`;
 
-      host.querySelector<HTMLButtonElement>(selector)!.click();
-
-      const rowValues = (kind: "units" | "prices" | "costs", field: "units" | "amount"): string[] =>
-        [...host.querySelectorAll<HTMLInputElement>(`[data-se-scenario="${scenario.id}"][data-se-row-kind="${kind}"][data-se-field="${field}"]`)]
+      const rowValues = (scenarioId: string, kind: "units" | "prices" | "costs", field: "units" | "amount"): string[] =>
+        [...host.querySelectorAll<HTMLInputElement>(`[data-se-scenario="${scenarioId}"][data-se-row-kind="${kind}"][data-se-field="${field}"]`)]
           .map((control) => control.value);
       const variantValues = (kind: "units" | "prices" | "costs"): string[] =>
         [...host.querySelectorAll<HTMLSelectElement>(`[data-se-scenario="${scenario.id}"][data-se-row-kind="${kind}"][data-se-field="variantId"]`)]
           .map((control) => control.value);
       const variantIds = collection.skus[0]!.variants.map((variant) => variant.id);
+      const secondScenarioRows = {
+        units: rowValues(secondScenario.id, "units", "units"),
+        prices: rowValues(secondScenario.id, "prices", "amount"),
+        costs: rowValues(secondScenario.id, "costs", "amount"),
+      };
+
+      host.querySelector<HTMLButtonElement>(selector)!.click();
 
       expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
         .toContain("Added 3 blank rows for new collection variants.");
-      expect(rowValues("units", "units")).toEqual(["48", ""]);
-      expect(rowValues("prices", "amount")).toEqual(["22.50", ""]);
-      expect(rowValues("costs", "amount")).toEqual(["9.25", ""]);
+      expect(rowValues(scenario.id, "units", "units")).toEqual(["48", ""]);
+      expect(rowValues(scenario.id, "prices", "amount")).toEqual(["22.50", ""]);
+      expect(rowValues(scenario.id, "costs", "amount")).toEqual(["9.25", ""]);
+      expect(rowValues(secondScenario.id, "units", "units")).toEqual(secondScenarioRows.units);
+      expect(rowValues(secondScenario.id, "prices", "amount")).toEqual(secondScenarioRows.prices);
+      expect(rowValues(secondScenario.id, "costs", "amount")).toEqual(secondScenarioRows.costs);
       for (const kind of ["units", "prices", "costs"] as const) expect(variantValues(kind)).toEqual(variantIds);
       expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBefore);
       expect(host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")?.disabled).toBe(false);
@@ -4353,7 +4371,8 @@ describe("accessible project and style manager", () => {
 
       expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
         .toContain("Every saved collection variant already has a scenario row.");
-      expect(rowValues("units", "units")).toEqual(["48", ""]);
+      expect(rowValues(scenario.id, "units", "units")).toEqual(["48", ""]);
+      expect(rowValues(secondScenario.id, "units", "units")).toEqual(secondScenarioRows.units);
       expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBefore);
     } finally {
       state.close();

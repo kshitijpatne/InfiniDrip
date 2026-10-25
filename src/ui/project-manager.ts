@@ -78,7 +78,6 @@ import {
   addMissingScenarioVariantRows,
   createBlankScenarioRecord,
   createScenarioWithinProjectLimits,
-  parseScenarioRecord,
   scenarioDraftsAreDirty,
   scenarioInputRowCount,
   type ScenarioDraftScope,
@@ -738,8 +737,7 @@ export class ProjectManager {
       return;
     }
     if (!scenarioId) return;
-    const scenario = this.scenarioDrafts.find((item) => item.id.toLowerCase() === scenarioId.toLowerCase());
-    if (!scenario) return;
+    const scenario = this.scenarioDrafts.find((item) => item.id.toLowerCase() === scenarioId.toLowerCase())!;
     if (action === "delete") {
       if (this.confirm(`Delete scenario “${scenario.name || "Untitled scenario"}” from this draft? Saved scenario data remains until you save this change.`)) {
         this.scenarioDrafts = reduceScenarioDrafts(this.scenarioDrafts, { type: "delete", scenarioId });
@@ -801,7 +799,6 @@ export class ProjectManager {
   }
 
   private async saveScenarioDrafts(): Promise<void> {
-    if (!this.scenarioDraftIsDirty() || this.scenarioDrafts.some((scenario) => !parseScenarioRecord(scenario).ok)) return;
     await this.run(async () => {
       if (scenarioDraftsAreDirty(this.scenarioDraftBase, this.savedScenarios())) {
         throw new Error("Saved scenarios changed after this draft opened. Reload the project before saving these edits.");
@@ -850,8 +847,7 @@ export class ProjectManager {
 
   private updateCollectionEditorControls(): void {
     for (const collection of this.collectionDrafts) {
-      const validation = this.options.host.querySelector<HTMLElement>(`[data-ce-validation-for="${collection.id}"]`);
-      if (!validation) continue;
+      const validation = this.options.host.querySelector<HTMLElement>(`[data-ce-validation-for="${collection.id}"]`)!;
       const parsed = parseCollectionRecord(collection);
       validation.textContent = parsed.ok ? "" : parsed.error;
     }
