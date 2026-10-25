@@ -33,7 +33,8 @@ import {
 } from "./tech-pack-operation-records";
 import { TECH_PACK_SHARE_ARTIFACTS } from "./tech-pack-sharing";
 import { bindTechPackToRevision, createEmptyTechPackRecord, type TechPackRecord } from "./tech-pack-records";
-import type { ScenarioRecord } from "./scenario-records";
+import type { CollectionRecord } from "./collection-records";
+import { createBlankScenarioRecord, type ScenarioRecord } from "./scenario-records";
 
 const TIME = "2026-09-24T16:00:00.000Z";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
@@ -148,6 +149,54 @@ function clickCollectionAction(host: HTMLElement, action: string, selector = "")
   const button = host.querySelector<HTMLButtonElement>(`[data-collection-action="${action}"]${selector}`);
   if (!button) throw new Error(`Missing collection action ${action}${selector}`);
   button.click();
+}
+
+let scenarioFixtureSerial = 0;
+
+function scenarioFixtureId(): string {
+  return `79000000-0000-4000-8000-${String(++scenarioFixtureSerial).padStart(12, "0")}`;
+}
+
+async function saveScenarioFixtureCollection(state: Awaited<ReturnType<typeof techPackHarness>>): Promise<CollectionRecord> {
+  const { host, workflow } = state;
+  clickT01Action(host, "add-colorway");
+  const sourceColorwayId = host.querySelector<HTMLElement>("[data-t01-colorway]")?.dataset.t01Colorway;
+  if (!sourceColorwayId) throw new Error("The saved Tech Pack does not expose a colorway for the scenario fixture.");
+  const previousRevisionId = workflow.snapshot.activeStyle.revisionHeadId;
+  host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
+  await vi.waitFor(() => expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(previousRevisionId));
+
+  const style = workflow.snapshot.activeStyle;
+  const colorwayId = scenarioFixtureId();
+  const variants = ["M", "L"].map((sizeId) => ({
+    id: scenarioFixtureId(),
+    skuCode: `TEE-${sizeId}-INK`,
+    sizeId,
+    colorwayId,
+  }));
+  const collection: CollectionRecord = {
+    schemaVersion: 1,
+    id: scenarioFixtureId(),
+    projectId: workflow.snapshot.project.id,
+    name: "Scenario fixture collection",
+    createdAt: TIME,
+    updatedAt: TIME,
+    revision: 1,
+    skus: [{
+      id: scenarioFixtureId(),
+      code: "TEE-CORE",
+      name: "Core tee",
+      styleId: style.id,
+      styleRevisionId: style.revisionHeadId!,
+      sizePlan: { id: scenarioFixtureId(), name: "Core sizes", sizeIds: ["M", "L"] },
+      colorways: [{ id: colorwayId, name: "Ink", sourceColorwayId }],
+      variants,
+    }],
+    sharedMaterialGroups: [],
+  };
+  await workflow.saveCollections([collection]);
+  state.manager.refresh();
+  return collection;
 }
 
 function clickT02Action(host: HTMLElement, action: string, roundId?: string): void {
@@ -3624,6 +3673,99 @@ describe("accessible project and style manager", () => {
       state.close();
     }
   }, 10_000);
+
+  it("adds missing collection variants to the scenario draft without changing saved inputs", async () => {
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
+    try {
+      const { host, workflow } = state;
+      const collection = await saveScenarioFixtureCollection(state);
+      const seeded = createBlankScenarioRecord({
+        id: scenarioFixtureId(),
+        projectId: workflow.snapshot.project.id,
+        collection,
+        name: "Partial variant plan",
+        now: TIME,
+        uuid: scenarioFixtureId,
+      });
+      if (!seeded.ok) throw new Error(seeded.error);
+      const scenario: ScenarioRecord = {
+        ...seeded.value,
+        units: [{ ...seeded.value.units[0]!, units: "48" }],
+        prices: [{ ...seeded.value.prices[0]!, amount: "22.50" }],
+        costs: [{ ...seeded.value.costs[0]!, amount: "9.25" }],
+      };
+      await workflow.saveScenarios([scenario]);
+      state.manager.refresh();
+      const savedBefore = structuredClone(projectScenarios(workflow.snapshot.project));
+      const selector = `[data-scenario-action="add-missing"][data-se-scenario="${scenario.id}"]`;
+
+      host.querySelector<HTMLButtonElement>(selector)!.click();
+
+      const rowValues = (kind: "units" | "prices" | "costs", field: "units" | "amount"): string[] =>
+        [...host.querySelectorAll<HTMLInputElement>(`[data-se-scenario="${scenario.id}"][data-se-row-kind="${kind}"][data-se-field="${field}"]`)]
+          .map((control) => control.value);
+      const variantValues = (kind: "units" | "prices" | "costs"): string[] =>
+        [...host.querySelectorAll<HTMLSelectElement>(`[data-se-scenario="${scenario.id}"][data-se-row-kind="${kind}"][data-se-field="variantId"]`)]
+          .map((control) => control.value);
+      const variantIds = collection.skus[0]!.variants.map((variant) => variant.id);
+
+      expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toContain("Added 3 blank rows for new collection variants.");
+      expect(rowValues("units", "units")).toEqual(["48", ""]);
+      expect(rowValues("prices", "amount")).toEqual(["22.50", ""]);
+      expect(rowValues("costs", "amount")).toEqual(["9.25", ""]);
+      for (const kind of ["units", "prices", "costs"] as const) expect(variantValues(kind)).toEqual(variantIds);
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBefore);
+      expect(host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")?.disabled).toBe(false);
+
+      host.querySelector<HTMLButtonElement>(selector)!.click();
+
+      expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toContain("Every saved collection variant already has a scenario row.");
+      expect(rowValues("units", "units")).toEqual(["48", ""]);
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBefore);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("refuses to overwrite a saved scenario changed after its draft opened", async () => {
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
+    try {
+      const { host, workflow } = state;
+      const collection = await saveScenarioFixtureCollection(state);
+      const seeded = createBlankScenarioRecord({
+        id: scenarioFixtureId(),
+        projectId: workflow.snapshot.project.id,
+        collection,
+        name: "Concurrent scenario",
+        now: TIME,
+        uuid: scenarioFixtureId,
+      });
+      if (!seeded.ok) throw new Error(seeded.error);
+      await workflow.saveScenarios([seeded.value]);
+      state.manager.refresh();
+      editScenarioField(host, `[data-se-scenario="${seeded.value.id}"][data-se-field="name"]`, "Local draft edit");
+
+      const saveSpy = vi.spyOn(workflow, "saveScenarios");
+      try {
+        await workflow.saveScenarios([{ ...seeded.value, name: "External saved revision" }]);
+        const externalRecord = structuredClone(projectScenarios(workflow.snapshot.project));
+        host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")!.click();
+        await vi.waitFor(() => expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+          .toContain("Saved scenarios changed after this draft opened. Reload the project before saving these edits."));
+
+        expect(saveSpy).toHaveBeenCalledOnce();
+        expect(projectScenarios(workflow.snapshot.project)).toEqual(externalRecord);
+        expect(host.querySelector<HTMLInputElement>(`[data-se-scenario="${seeded.value.id}"][data-se-field="name"]`)?.value)
+          .toBe("Local draft edit");
+      } finally {
+        saveSpy.mockRestore();
+      }
+    } finally {
+      state.close();
+    }
+  });
 
   it("keeps an over-cap Add-missing action atomic and shows the row recovery guidance", async () => {
     let idSerial = 30_000;
