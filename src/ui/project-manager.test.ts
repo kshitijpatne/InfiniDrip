@@ -2279,7 +2279,7 @@ describe("accessible project and style manager", () => {
       confirm.mockClear();
       host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
       await vi.waitFor(() => expect(workflow.snapshot.project.id).toBe(copiedProjectId));
-      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened");
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened"));
       expect(workflow.snapshot.project.id).toBe(copiedProjectId);
 
       unsaved = false;
