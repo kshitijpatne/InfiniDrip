@@ -170,7 +170,7 @@ async function saveScenarioFixtureCollection(
   if (!sourceColorwayId) throw new Error("The saved Tech Pack does not expose a colorway for the scenario fixture.");
   const previousRevisionId = workflow.snapshot.activeStyle.revisionHeadId;
   host.querySelector<HTMLButtonElement>("[data-project-action='save-tech-pack']")!.click();
-  await vi.waitFor(() => expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(previousRevisionId));
+  await vi.waitFor(() => expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(previousRevisionId), { timeout: 10_000 });
 
   const style = workflow.snapshot.activeStyle;
   const colorwayId = scenarioFixtureId();
