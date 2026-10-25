@@ -2226,7 +2226,7 @@ describe("accessible project and style manager", () => {
       confirm.mockClear();
       host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
       await vi.waitFor(() => expect(workflow.snapshot.project.id).toBe(localProjectId));
-      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened My designs");
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened My designs"));
       expect(workflow.snapshot.project.id).toBe(localProjectId);
       expect(host.querySelector('[data-ce-scope="collection"][data-ce-field="name"]')).toBeNull();
 
