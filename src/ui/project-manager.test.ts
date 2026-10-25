@@ -2915,24 +2915,24 @@ describe("accessible project and style manager", () => {
       host.querySelector<HTMLButtonElement>(`[data-brand-profile-action="remove-rule"][data-rule-id="${ruleId}"]`)!.click();
       expect(host.querySelector(`[data-brand-profile-rule-row="${ruleId}"]`)).toBeNull();
       expect(workflow.snapshot.project.revision).toBe(revisionBeforeRuleRemoval);
-      expect("brandProfile" in workflow.snapshot.project && workflow.snapshot.project.brandProfile.rules)
+      expect("brandProfile" in workflow.snapshot.project && workflow.snapshot.project.brandProfile?.rules)
         .toEqual([{ id: ruleId, scope: "supplier", kind: "supplier-constraint", description: "Use the approved Indigo palette token." }]);
 
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!.click();
       await vi.waitFor(() => expect("brandProfile" in workflow.snapshot.project
-        && workflow.snapshot.project.brandProfile.rules).toEqual([]));
+        && workflow.snapshot.project.brandProfile?.rules).toEqual([]));
       expect(workflow.snapshot.project.revision).toBe(revisionBeforeRuleRemoval + 1);
 
       const revisionBeforeColorRemoval = workflow.snapshot.project.revision;
       host.querySelector<HTMLButtonElement>(`[data-brand-profile-action="remove-color"][data-color-id="${colorId}"]`)!.click();
       expect(host.querySelector(`[data-brand-profile-color-row="${colorId}"]`)).toBeNull();
       expect(workflow.snapshot.project.revision).toBe(revisionBeforeColorRemoval);
-      expect("brandProfile" in workflow.snapshot.project && workflow.snapshot.project.brandProfile.colors)
+      expect("brandProfile" in workflow.snapshot.project && workflow.snapshot.project.brandProfile?.colors)
         .toEqual([{ id: colorId, name: "Indigo", hex: "#112233" }]);
 
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="save-profile"]')!.click();
       await vi.waitFor(() => expect("brandProfile" in workflow.snapshot.project
-        && workflow.snapshot.project.brandProfile.colors).toEqual([]));
+        && workflow.snapshot.project.brandProfile?.colors).toEqual([]));
       expect(workflow.snapshot.project.revision).toBe(revisionBeforeColorRemoval + 1);
 
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="add-color"]')!.click();
@@ -3559,7 +3559,7 @@ describe("accessible project and style manager", () => {
       artworkStore: store,
       techPackIdFactory: () => ids.shift()!,
     });
-    let releaseArtworkCheck: ((stored: StoredArtworkAsset | null) => void) | undefined;
+    let releaseArtworkCheck!: (stored: StoredArtworkAsset | null) => void;
     let restoreArtworkSpy: () => void = () => {};
     try {
       const { host, manager, workflow } = state;
@@ -3974,7 +3974,7 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
         .toContain("Save collection edits before creating a scenario so its blank rows match the saved variants.");
       expect(host.querySelectorAll('[data-se-row-kind="units"][data-se-field="units"]')).toHaveLength(0);
-      expect(workflow.snapshot.project.scenarios ?? []).toHaveLength(0);
+      expect(projectScenarios(workflow.snapshot.project)).toHaveLength(0);
       expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value)
         .toBe("Unsaved scenario source edit");
     } finally {
@@ -3999,7 +3999,7 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
         .toContain("Choose a saved collection before creating a scenario.");
       expect(host.querySelectorAll('[data-se-row-kind="units"][data-se-field="units"]')).toHaveLength(0);
-      expect(workflow.snapshot.project.scenarios ?? []).toHaveLength(0);
+      expect(projectScenarios(workflow.snapshot.project)).toHaveLength(0);
     } finally {
       state.close();
     }
@@ -4020,7 +4020,7 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
         .toContain("Creating this scenario needs 501 input rows, above the 500-row scenario limit. Reduce or split the collection.");
       expect(host.querySelectorAll('[data-se-row-kind="units"][data-se-field="units"]')).toHaveLength(0);
-      expect(workflow.snapshot.project.scenarios ?? []).toHaveLength(0);
+      expect(projectScenarios(workflow.snapshot.project)).toHaveLength(0);
     } finally {
       state.close();
     }
@@ -4053,7 +4053,7 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
         .toContain("Creating this scenario would exceed the 100-scenario project limit.");
       expect(host.querySelectorAll("[data-scenario-card]")).toHaveLength(100);
-      expect(workflow.snapshot.project.scenarios).toHaveLength(100);
+      expect(projectScenarios(workflow.snapshot.project)).toHaveLength(100);
     } finally {
       state.close();
     }
