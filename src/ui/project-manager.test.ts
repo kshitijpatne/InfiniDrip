@@ -157,7 +157,10 @@ function scenarioFixtureId(): string {
   return `79000000-0000-4000-8000-${String(++scenarioFixtureSerial).padStart(12, "0")}`;
 }
 
-async function saveScenarioFixtureCollection(state: Awaited<ReturnType<typeof techPackHarness>>): Promise<CollectionRecord> {
+async function saveScenarioFixtureCollection(
+  state: Awaited<ReturnType<typeof techPackHarness>>,
+  variantCount = 2,
+): Promise<CollectionRecord> {
   const { host, workflow } = state;
   clickT01Action(host, "add-colorway");
   const sourceColorwayId = host.querySelector<HTMLElement>("[data-t01-colorway]")?.dataset.t01Colorway;
@@ -168,7 +171,10 @@ async function saveScenarioFixtureCollection(state: Awaited<ReturnType<typeof te
 
   const style = workflow.snapshot.activeStyle;
   const colorwayId = scenarioFixtureId();
-  const variants = ["M", "L"].map((sizeId) => ({
+  const sizeIds = variantCount === 2
+    ? ["M", "L"]
+    : Array.from({ length: variantCount }, (_, index) => `SIZE-${index + 1}`);
+  const variants = sizeIds.map((sizeId) => ({
     id: scenarioFixtureId(),
     skuCode: `TEE-${sizeId}-INK`,
     sizeId,
@@ -188,7 +194,7 @@ async function saveScenarioFixtureCollection(state: Awaited<ReturnType<typeof te
       name: "Core tee",
       styleId: style.id,
       styleRevisionId: style.revisionHeadId!,
-      sizePlan: { id: scenarioFixtureId(), name: "Core sizes", sizeIds: ["M", "L"] },
+      sizePlan: { id: scenarioFixtureId(), name: "Core sizes", sizeIds },
       colorways: [{ id: colorwayId, name: "Ink", sourceColorwayId }],
       variants,
     }],
@@ -3688,6 +3694,60 @@ describe("accessible project and style manager", () => {
       state.close();
     }
   }, 10_000);
+
+  it("shows the row-limit recovery guidance when a saved collection is too large for a blank scenario", async () => {
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
+    try {
+      const { host, workflow } = state;
+      const collection = await saveScenarioFixtureCollection(state, 167);
+      const collectionSelect = host.querySelector<HTMLSelectElement>("#scenario-create-collection")!;
+      collectionSelect.value = collection.id;
+      const createButton = host.querySelector<HTMLButtonElement>("[data-scenario-action='create']")!;
+      expect(createButton.disabled).toBe(false);
+
+      createButton.click();
+
+      expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toContain("Creating this scenario needs 501 input rows, above the 500-row scenario limit. Reduce or split the collection.");
+      expect(host.querySelectorAll('[data-se-row-kind="units"][data-se-field="units"]')).toHaveLength(0);
+      expect(workflow.snapshot.project.scenarios ?? []).toHaveLength(0);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("shows the project-limit guidance when 100 saved scenarios already exist", async () => {
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
+    try {
+      const { host, workflow } = state;
+      const collection = await saveScenarioFixtureCollection(state);
+      const scenarios = Array.from({ length: 100 }, (_, index) => {
+        const created = createBlankScenarioRecord({
+          id: scenarioFixtureId(),
+          projectId: workflow.snapshot.project.id,
+          collection,
+          name: `Scenario ${index + 1}`,
+          now: TIME,
+          uuid: scenarioFixtureId,
+        });
+        if (!created.ok) throw new Error(created.error);
+        return { ...created.value, units: [], prices: [], costs: [] };
+      });
+      await workflow.saveScenarios(scenarios);
+      state.manager.refresh();
+      const createButton = host.querySelector<HTMLButtonElement>("[data-scenario-action='create']")!;
+      expect(createButton.disabled).toBe(false);
+
+      createButton.click();
+
+      expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toContain("Creating this scenario would exceed the 100-scenario project limit.");
+      expect(host.querySelectorAll("[data-scenario-card]")).toHaveLength(100);
+      expect(workflow.snapshot.project.scenarios).toHaveLength(100);
+    } finally {
+      state.close();
+    }
+  });
 
   it("adds missing collection variants to the scenario draft without changing saved inputs", async () => {
     const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
