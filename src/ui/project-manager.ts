@@ -1004,7 +1004,7 @@ export class ProjectManager {
     ]));
     return record.colorways.flatMap((colorway) => colorway.assignments.map((assignment) => ({
       id: assignment.id,
-      label: `${colorway.name.value?.trim() || colorway.id} · ${bomNames.get(assignment.bomRowId) ?? assignment.bomRowId} · ${materialNames.get(assignment.materialId) ?? assignment.materialId}`,
+      label: `${colorway.name.value?.trim() || colorway.id} · ${bomNames.get(assignment.bomRowId)!} · ${materialNames.get(assignment.materialId)!}`,
       fieldId: assignment.color.fieldId,
       color: assignment.color.value,
     })));
@@ -1063,7 +1063,7 @@ export class ProjectManager {
       ? "All existing artwork references resolve locally."
       : `${missing.length} artwork reference(s) are missing. Remove each missing reference or restore its file before saving.`;
     for (const row of this.options.host.querySelectorAll<HTMLElement>("[data-brand-profile-asset-row]")) {
-      const assetId = row.dataset.brandProfileAssetRow ?? "";
+      const assetId = row.dataset.brandProfileAssetRow!;
       const unresolved = missing.includes(assetId);
       const state = row.querySelector<HTMLElement>("[data-brand-profile-asset-state]");
       if (state) state.textContent = unresolved ? "Missing from local storage" : "Stored locally";

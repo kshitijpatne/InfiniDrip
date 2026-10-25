@@ -3037,13 +3037,19 @@ describe("accessible project and style manager", () => {
   it("confirms discarding a dirty profile on reload and replaces it with the latest same-project profile", async () => {
     const initialBrandProfile: BrandProfileRecord = {
       schemaVersion: BRAND_PROFILE_RECORD_VERSION,
-      colors: [{ id: "a4444444-4444-4444-8444-000000000004", name: "Indigo v1", hex: "#112233" }],
+      colors: [
+        { id: "a4444444-4444-4444-8444-000000000004", name: "Indigo v1", hex: "#112233" },
+        { id: "a4444444-4444-4444-8444-000000000005", name: "Moss", hex: "#334455" },
+      ],
       artworkAssetIds: [],
       rules: [],
     };
     const latestBrandProfile: BrandProfileRecord = {
       ...initialBrandProfile,
-      colors: [{ ...initialBrandProfile.colors[0], name: "Indigo v2", hex: "#445566" }],
+      colors: [
+        { ...initialBrandProfile.colors[0], name: "Indigo v2", hex: "#445566" },
+        initialBrandProfile.colors[1],
+      ],
     };
     const confirm = vi.fn().mockReturnValueOnce(false).mockReturnValueOnce(true);
     const state = await techPackHarness({ initialBrandProfile, confirm });
@@ -3066,6 +3072,10 @@ describe("accessible project and style manager", () => {
       expect(reloadSpy).not.toHaveBeenCalled();
       expect(colorName.value).toBe("Stale local v1");
       expect(saveProfile.disabled).toBe(false);
+      expect(Array.from(host.querySelectorAll<HTMLInputElement>("[data-brand-profile-color-field='name']"))
+        .map((input) => input.value)).toEqual(["Stale local v1", "Moss"]);
+      expect(Array.from(host.querySelectorAll<HTMLInputElement>("[data-brand-profile-color-field='hex']"))
+        .map((input) => input.value)).toEqual(["#112233", "#334455"]);
 
       await clickAndSettle(host, "[data-project-action='reload']");
       expect(reloadSpy).toHaveBeenCalledOnce();
@@ -3073,6 +3083,10 @@ describe("accessible project and style manager", () => {
       const reloadedName = host.querySelector<HTMLInputElement>("[data-brand-profile-color-field='name']")!;
       expect(reloadedName.value).toBe("Indigo v2");
       expect(host.querySelector<HTMLInputElement>("[data-brand-profile-color-field='hex']")?.value).toBe("#445566");
+      const reloadedColors = Array.from(host.querySelectorAll<HTMLInputElement>("[data-brand-profile-color-field='name']"));
+      expect(reloadedColors.map((input) => input.value)).toEqual(["Indigo v2", "Moss"]);
+      expect(Array.from(host.querySelectorAll<HTMLInputElement>("[data-brand-profile-color-field='hex']"))
+        .map((input) => input.value)).toEqual(["#445566", "#334455"]);
       expect(host.querySelector<HTMLButtonElement>("[data-brand-profile-action='save-profile']")?.disabled).toBe(true);
       expect(host.querySelector<HTMLButtonElement>("[data-brand-profile-action='discard-profile']")?.disabled).toBe(true);
       expect("brandProfile" in workflow.snapshot.project && workflow.snapshot.project.brandProfile).toEqual(latestBrandProfile);
