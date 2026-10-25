@@ -3729,6 +3729,110 @@ describe("accessible project and style manager", () => {
     }
   });
 
+  it("removes scenario MOQ and capacity/delivery draft rows through rendered actions without saving until Save", async () => {
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
+    try {
+      const { host, workflow } = state;
+      const collection = await saveScenarioFixtureCollection(state);
+      const seeded = createBlankScenarioRecord({
+        id: scenarioFixtureId(),
+        projectId: workflow.snapshot.project.id,
+        collection,
+        name: "Constraint removal plan",
+        now: TIME,
+        uuid: scenarioFixtureId,
+      });
+      if (!seeded.ok) throw new Error(seeded.error);
+      await workflow.saveScenarios([seeded.value]);
+      state.manager.refresh();
+
+      host.querySelector<HTMLButtonElement>(`[data-scenario-action="add-moq"][data-se-scenario="${seeded.value.id}"]`)!.click();
+      host.querySelector<HTMLButtonElement>(`[data-scenario-action="add-capacity-delivery"][data-se-scenario="${seeded.value.id}"]`)!.click();
+      host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")!.click();
+      await vi.waitFor(() => {
+        const saved = projectScenarios(workflow.snapshot.project).find((item) => item.id === seeded.value.id);
+        expect(saved?.moqs).toHaveLength(1);
+        expect(saved?.capacityDelivery).toHaveLength(1);
+      });
+
+      const savedBaseline = structuredClone(projectScenarios(workflow.snapshot.project));
+      const moqSelector = `[data-scenario-action="delete-row"][data-se-scenario="${seeded.value.id}"][data-se-row-kind="moqs"]`;
+      const capacitySelector = `[data-scenario-action="delete-row"][data-se-scenario="${seeded.value.id}"][data-se-row-kind="capacityDelivery"]`;
+      const moqButton = host.querySelector<HTMLButtonElement>(moqSelector)!;
+      const moqId = moqButton.dataset.seRowId!;
+
+      delete moqButton.dataset.seRowId;
+      moqButton.click();
+      moqButton.dataset.seRowId = moqId;
+      expect(host.querySelector<HTMLButtonElement>(moqSelector)).toBe(moqButton);
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBaseline);
+
+      moqButton.dataset.seRowKind = "unsupported";
+      moqButton.click();
+      moqButton.dataset.seRowKind = "moqs";
+      expect(host.querySelector<HTMLButtonElement>(moqSelector)).toBe(moqButton);
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBaseline);
+
+      moqButton.click();
+      expect(host.querySelector<HTMLButtonElement>(moqSelector)).toBeNull();
+      expect(host.querySelector<HTMLButtonElement>(capacitySelector)).not.toBeNull();
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBaseline);
+
+      host.querySelector<HTMLButtonElement>(capacitySelector)!.click();
+      expect(host.querySelector<HTMLButtonElement>(moqSelector)).toBeNull();
+      expect(host.querySelector<HTMLButtonElement>(capacitySelector)).toBeNull();
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBaseline);
+
+      host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")!.click();
+      await vi.waitFor(() => {
+        const saved = projectScenarios(workflow.snapshot.project).find((item) => item.id === seeded.value.id);
+        expect(saved?.moqs).toHaveLength(0);
+        expect(saved?.capacityDelivery).toHaveLength(0);
+      });
+    } finally {
+      state.close();
+    }
+  });
+
+  it("rejects Add-missing when the linked collection disappears after the UI rendered", async () => {
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
+    try {
+      const { host, workflow } = state;
+      const collection = await saveScenarioFixtureCollection(state);
+      const seeded = createBlankScenarioRecord({
+        id: scenarioFixtureId(),
+        projectId: workflow.snapshot.project.id,
+        collection,
+        name: "Collection removal plan",
+        now: TIME,
+        uuid: scenarioFixtureId,
+      });
+      if (!seeded.ok) throw new Error(seeded.error);
+      await workflow.saveScenarios([seeded.value]);
+      state.manager.refresh();
+
+      const selector = `[data-scenario-action="add-missing"][data-se-scenario="${seeded.value.id}"]`;
+      const staleButton = host.querySelector<HTMLButtonElement>(selector)!;
+      expect(staleButton.disabled).toBe(false);
+      editScenarioField(host, `[data-se-scenario="${seeded.value.id}"][data-se-field="name"]`, "Local edit kept after collection removal");
+      const savedBaseline = structuredClone(projectScenarios(workflow.snapshot.project));
+
+      await workflow.saveCollections([]);
+      expect(staleButton.isConnected).toBe(true);
+      expect(staleButton.disabled).toBe(false);
+      staleButton.click();
+
+      expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toContain("Choose a saved collection to add rows for its new variants.");
+      expect(host.querySelector<HTMLInputElement>(`[data-se-scenario="${seeded.value.id}"][data-se-field="name"]`)?.value)
+        .toBe("Local edit kept after collection removal");
+      expect(host.querySelector<HTMLButtonElement>(selector)?.disabled).toBe(true);
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBaseline);
+    } finally {
+      state.close();
+    }
+  });
+
   it("refuses to overwrite a saved scenario changed after its draft opened", async () => {
     const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
     try {
