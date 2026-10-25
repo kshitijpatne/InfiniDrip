@@ -944,7 +944,6 @@ export class ProjectManager {
   }
 
   private async saveCollectionDrafts(): Promise<void> {
-    if (!this.collectionDraftIsDirty() || this.collectionDrafts.some((collection) => !parseCollectionRecord(collection).ok)) return;
     await this.run(async () => {
       if (collectionDraftsAreDirty(this.collectionDraftBase, this.savedCollections())) {
         throw new Error("Saved collections changed after this draft opened. Reload the project before saving these edits.");

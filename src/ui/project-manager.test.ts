@@ -52,6 +52,7 @@ async function techPackHarness(options: {
   readonly canFreezeOutputs?: () => boolean;
   readonly getFreezeBlocker?: () => string | null;
   readonly getTechPackShareOutput?: (revisionId: string, workflow: ProjectWorkflow) => Promise<TechPackShareFreezeInput | null>;
+  readonly packageNow?: () => string;
   readonly artworkStore?: ArtworkAssetStore;
   readonly inspectAsset?: (file: File) => Promise<InspectedArtworkFile>;
   readonly initialBrandProfile?: BrandProfileRecord;
@@ -94,6 +95,7 @@ async function techPackHarness(options: {
     ...(options.techPackIdFactory ? { techPackIdFactory: options.techPackIdFactory } : {}),
     ...(options.confirm ? { confirm: options.confirm } : {}),
     ...(options.getFreezeBlocker ? { getFreezeBlocker: options.getFreezeBlocker } : {}),
+    ...(options.packageNow ? { packageOptions: { now: options.packageNow } } : {}),
   });
   host.querySelector<HTMLDetailsElement>(".project-manager-details")!.querySelector("summary")!.click();
   await vi.waitFor(() => expect(host.querySelector(".t01-editor")).not.toBeNull());
@@ -3347,6 +3349,58 @@ describe("accessible project and style manager", () => {
     }
   });
 
+  it("ignores a stale artwork check after its reference is removed from the Brand Profile draft", async () => {
+    const assetId = `local-${"b".repeat(32)}-png`;
+    const initialBrandProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: "a4444444-4444-4444-8444-000000000004", name: "Teal", hex: "#167C80" }],
+      artworkAssetIds: [assetId],
+      rules: [],
+    };
+    const artwork: StoredArtworkAsset = {
+      assetId,
+      name: "brand-mark.png",
+      mimeType: "image/png",
+      blob: new NodeBlob(["image"], { type: "image/png" }) as unknown as Blob,
+    };
+    const { store } = memoryArtworkStore([artwork]);
+    const state = await techPackHarness({ artworkStore: store, initialBrandProfile });
+    let resolveAsset!: (asset: StoredArtworkAsset | null) => void;
+    const pendingAsset = new Promise<StoredArtworkAsset | null>((resolve) => { resolveAsset = resolve; });
+    const getSpy = vi.spyOn(store, "get").mockReturnValue(pendingAsset);
+    const privateManager = state.manager as unknown as {
+      updateBrandProfileAssetRows(missingIds: readonly string[]): void;
+    };
+    const updateRows = vi.spyOn(privateManager, "updateBrandProfileAssetRows");
+    try {
+      const { host, manager, workflow } = state;
+      manager.refresh();
+      await vi.waitFor(() => expect(getSpy).toHaveBeenCalledWith(assetId));
+      expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent)
+        .toContain("Checking existing artwork references");
+
+      host.querySelector<HTMLButtonElement>(`[data-brand-profile-action='remove-artwork'][data-asset-id="${assetId}"]`)!.click();
+      expect(host.querySelector("[data-brand-profile-asset-row]")).toBeNull();
+      expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent)
+        .toBe("All existing artwork references resolve locally.");
+      expect(workflow.snapshot.project.brandProfile?.artworkAssetIds).toEqual([assetId]);
+
+      resolveAsset(null);
+      await pendingAsset;
+      await Promise.resolve();
+      await Promise.resolve();
+      expect(updateRows).not.toHaveBeenCalled();
+      expect(host.querySelector("[data-brand-profile-assets-status]")?.textContent)
+        .toBe("All existing artwork references resolve locally.");
+      expect(host.querySelector("[data-brand-profile-asset-row]")).toBeNull();
+    } finally {
+      resolveAsset(null);
+      getSpy.mockRestore();
+      await pendingAsset;
+      state.close();
+    }
+  });
+
   it("renders T01 assignment labels from names, component refs, and placements with ID fallbacks", async () => {
     const colorId = "a5555555-5555-4555-8555-000000000005";
     const colorwayId = "80000000-0000-4000-8000-000000000001";
@@ -3843,11 +3897,19 @@ describe("accessible project and style manager", () => {
   it("edits collection drafts, advances metadata only on successful changed saves, and confirms reload discard", async () => {
     let allowDiscard = false;
     const confirm = vi.fn(() => allowDiscard);
-    const state = await techPackHarness({ confirm });
+    let packageTime = Date.parse(TIME);
+    const packageNow = vi.fn(() => new Date(packageTime += 1_000).toISOString());
+    const state = await techPackHarness({
+      confirm,
+      packageNow,
+    });
     try {
       const { host, workflow } = state;
       expect(host.querySelector(".project-collection-editor")).not.toBeNull();
+      const saveSpy = vi.spyOn(workflow, "saveCollections");
+
       clickCollectionAction(host, "add-collection");
+
       editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Spring edit");
       host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')!
         .dispatchEvent(new Event("change", { bubbles: true }));
@@ -3874,13 +3936,15 @@ describe("accessible project and style manager", () => {
       if (secondProject.schemaVersion !== 4) throw new Error("Changed collection save did not retain schema v4.");
       const secondSaved = secondProject.collections[0]!;
       expect(Date.parse(secondSaved.updatedAt)).toBeGreaterThan(Date.parse(firstSaved.updatedAt));
+      expect(secondSaved.updatedAt).toBe(new Date(Date.parse(TIME) + 3_000).toISOString());
+      expect(packageNow).toHaveBeenCalledTimes(3);
 
       editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Discarded draft");
       clickCollectionAction(host, "discard");
       expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value).toBe("Summer edit");
 
       const savedBeforeConflict = structuredClone(workflow.snapshot.project);
-      const saveSpy = vi.spyOn(workflow, "saveCollections").mockRejectedValueOnce(new Error("Simulated compare-and-swap conflict."));
+      saveSpy.mockRejectedValueOnce(new Error("Simulated compare-and-swap conflict."));
       editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Rejected draft");
       clickCollectionAction(host, "save");
       await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Simulated compare-and-swap conflict"));
@@ -3922,7 +3986,8 @@ describe("accessible project and style manager", () => {
   });
 
   it("removes nested colorway and variant drafts through their rendered actions without changing saved data", async () => {
-    const state = await techPackHarness();
+    const confirm = vi.fn(() => false);
+    const state = await techPackHarness({ confirm });
     try {
       const { host, workflow } = state;
       const savedProject = structuredClone(workflow.snapshot.project);
@@ -3934,6 +3999,13 @@ describe("accessible project and style manager", () => {
       const skuId = host.querySelector<HTMLButtonElement>(`[data-collection-action='delete-sku'][data-ce-collection-id="${collectionId}"]`)?.dataset.ceSkuId;
       if (!skuId) throw new Error("Added SKU does not expose its ID.");
       const skuSelector = `[data-ce-collection-id="${collectionId}"][data-ce-sku-id="${skuId}"]`;
+      clickCollectionAction(host, "delete-sku", `[data-ce-sku-id="${skuId}"]`);
+      expect(confirm).toHaveBeenCalledWith(expect.stringContaining(`“${skuId.slice(0, 8)}”`));
+      expect(host.querySelector(`[data-collection-action='delete-sku'][data-ce-sku-id="${skuId}"]`)).not.toBeNull();
+      editCollectionField(host, `[data-ce-scope="sku"][data-ce-field="name"][data-ce-sku-id="${skuId}"]`, "Sample SKU");
+      clickCollectionAction(host, "delete-sku", `[data-ce-sku-id="${skuId}"]`);
+      expect(confirm).toHaveBeenLastCalledWith(expect.stringContaining("“Sample SKU”"));
+      expect(host.querySelector(`[data-collection-action='delete-sku'][data-ce-sku-id="${skuId}"]`)).not.toBeNull();
 
       clickCollectionAction(host, "add-colorway", skuSelector);
       const colorwayId = host.querySelector<HTMLButtonElement>(`[data-collection-action='delete-colorway']${skuSelector}`)?.dataset.ceRecordId;
