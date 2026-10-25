@@ -114,14 +114,14 @@ export function renderBody(
 
   // The real front collar geometry — the same necklineEdge() the actual
   // bodice draft calls, so this view can't silently diverge from it again.
-  const { cNeck, hps, edge: neckEdge } =
+  const { cNeck, hps, edge: neckEdge, edges: neckEdges } =
     necklineEdge(position, necklineVisual?.widthHalf ?? d.neckWidthHalf,
       necklineVisual
         ? (position === "front" ? necklineVisual.frontDepth : necklineVisual.backDepth)
         : (position === "front" ? d.frontNeckDepth : d.backNeckDepth),
       d.shoulderHalf, m.armholeDepth, frontNeckline);
   const croquis = upperCroquisFigure(m, position, {
-    hasSleeve, strapWidth, neckline: { cNeck, hps, edge: neckEdge }, lowerShape,
+    hasSleeve, strapWidth, neckline: { cNeck, hps, edge: neckEdge, edges: neckEdges }, lowerShape,
     armholeControlOffsetCm: position === "back" ? backArmholeControlOffsetCm : undefined,
     lengthOverride: poloV2 ? m.length + poloDrop : undefined,
     ventDepth: poloV2 ? poloVentDepth : undefined,
@@ -196,7 +196,7 @@ export function renderBody(
   // arrow above the head) is unaffected — the person's real shoulder width
   // hasn't changed, only which edge of the outline it highlights.
   const edge = (field: string, body: string): string => `<g data-edge="${field}">${body}</g>`;
-  const neckHighlight = (): string => `<path d="M ${round(-hps.x)} 0 ${necklinePathCommand(cNeck, hps, neckEdge)}" ` +
+  const neckHighlight = (): string => `<path d="M ${round(-hps.x)} 0 ${necklinePathCommand(cNeck, hps, neckEdges)}" ` +
     `fill="none" stroke="${T.line}" stroke-width="1.4" stroke-linecap="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
   const bothArms = (fn: (sx: number) => string): string => fn(1) + fn(-1);

@@ -44,6 +44,21 @@ export const TANK_RACERBACK_BACK_CUT_IN_OPTION: GarmentOption = {
   appliesToStarterEntryId: TANK_RACERBACK_ENTRY_ID,
 };
 
+export const TANK_N04_ENTRY_ID = "tank-square-neck-digital-v1";
+export const TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID = "tankSquareNeckCornerRadiusCm";
+export const TANK_SQUARE_NECK_CORNER_RADIUS_OPTION: GarmentOption = {
+  id: TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID,
+  label: "Square-corner easing (digital)",
+  unit: "cm",
+  help: "Rounds only the N04 front neckline corner in the digital outline. This is not a sewing radius or finish specification.",
+  defaultValue: 0,
+  min: 0,
+  max: 1.5,
+  step: 0.5,
+  appliesToStarterEntryId: TANK_N04_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+};
+
 /** Convert the displayed maximum contour movement to the shared Bezier control offset. */
 export function tankRacerbackControlOffsetCm(maxContourShiftCm: number): number {
   return maxContourShiftCm / 0.75;
@@ -82,7 +97,15 @@ const TANK_STITCHES: readonly Stitch[] = [
  *  un-widened one and the shoulder seam stops matching. Widening both sides
  *  by the same amount keeps the two shoulder points aligned; only the front
  *  also drops deeper. */
-export function tankFrontNeckline(m: Measurements): NecklineParams {
+export function tankFrontNeckline(m: Measurements, options: GarmentOptions = {}): NecklineParams {
+  if (Object.prototype.hasOwnProperty.call(options, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID)) {
+    return {
+      shape: "square",
+      widthEase: m.neckWidthEase,
+      frontDrop: m.neckDrop,
+      squareCornerRadiusCm: options[TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID],
+    };
+  }
   return { shape: "scoop", widthEase: m.neckWidthEase, frontDrop: m.neckDrop };
 }
 export function tankBackNeckline(m: Measurements): NecklineParams {
@@ -101,7 +124,7 @@ export const TANK_GRAMMAR = garmentGrammar(
   [
     componentNode("front", "bodice", bodice, (context) => ({
       position: "front" as const,
-      necklineParams: tankFrontNeckline(context.measurements),
+      necklineParams: tankFrontNeckline(context.measurements, context.options),
       strapWidth: context.measurements.strapWidth,
     })),
     componentNode("back", "bodice", bodice, (context) => ({
@@ -128,11 +151,11 @@ export const TANK_GRAMMAR = garmentGrammar(
  *  true rather than aspirational). Recomputed here read-only, from the same
  *  functions `draftTank` calls — never a second, independently-derived copy
  *  of the geometry itself. */
-export function tankGuidance(_block: Block, m: Measurements): Note[] {
+export function tankGuidance(_block: Block, m: Measurements, options: GarmentOptions = {}): Note[] {
   const notes: (Note | null)[] = [easeRange(m, "tank"), armholeDepthCheck(m), shoulderCheck(m)];
   const d = derive(m);
   const front = necklineEdge(
-    "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, m.armholeDepth, tankFrontNeckline(m));
+    "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, m.armholeDepth, tankFrontNeckline(m, options));
   const armhole = sleevelessArmhole(
     front.hps.x + m.strapWidth, front.hps.x, d.shoulderHalf, d.shoulderSlope, d.chestWidthHalf, m.armholeDepth);
   return notes.filter((n): n is Note => n !== null).concat(front.notes, armhole.notes);

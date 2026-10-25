@@ -36,6 +36,21 @@ describe("necklinePathCommand", () => {
     expect(leftHalf).toContain(`${round(-edge.curve.control2.x)} ${round(edge.curve.control2.y)}`);
     expect(leftHalf).toContain(`${round(-edge.curve.control1.x)} ${round(edge.curve.control1.y)}`);
   });
+
+  it("renders an ordered multi-edge neckline with reversed mirrored left segments", () => {
+    const { cNeck, hps, edges } = necklineEdge("front", 7, 8, 22.5, 24,
+      { shape: "square", widthEase: 0, frontDrop: 0, squareCornerRadiusCm: 1 });
+    const cmd = necklinePathCommand(cNeck, hps, edges);
+    expect(cmd).toBe("L -7 7 C -7 7.552 -6.552 8 -6 8 L 0 8 L 6 8 C 6.552 8 7 7.552 7 7 L 7 0");
+    expect((cmd.match(/C /g) ?? []).length).toBe(2);
+  });
+
+  it("renders a zero-radius square as four mirrored straight legs without gaps", () => {
+    const { cNeck, hps, edges } = necklineEdge("front", 7, 8, 22.5, 24,
+      { shape: "square", widthEase: 0, frontDrop: 0, squareCornerRadiusCm: 0 });
+    expect(necklinePathCommand(cNeck, hps, edges))
+      .toBe("L -7 8 L 0 8 L 7 8 L 7 0");
+  });
 });
 
 describe("armholePathCommand", () => {

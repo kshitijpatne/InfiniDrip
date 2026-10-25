@@ -9,6 +9,8 @@ import {
 import {
   TANK_RACERBACK_BACK_CUT_IN_OPTION,
   TANK_RACERBACK_ENTRY_ID,
+  TANK_N04_ENTRY_ID,
+  TANK_SQUARE_NECK_CORNER_RADIUS_OPTION,
 } from "../drafting/tank";
 
 export interface StarterControl {
@@ -877,10 +879,55 @@ const TANK_RACERBACK_BLANK_ENTRY: StarterEntry = {
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
+
+const TANK_SQUARE_NECK_BLANK_ENTRY: StarterEntry = {
+  ...TANK_CLASSIC_SCOOP_BLANK_ENTRY,
+  entryId: TANK_N04_ENTRY_ID,
+  entryRevision: "2026-10-25.1",
+  recipeRevision: "tank-square-neck-v1",
+  label: "Square-neck Tank · software defaults",
+  configuration: {
+    targetStyle: TANK_CLASSIC_SCOOP_BLANK_ENTRY.configuration.targetStyle,
+    measurements: { ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.configuration.measurements },
+    options: {
+      [TANK_SQUARE_NECK_CORNER_RADIUS_OPTION.id]: TANK_SQUARE_NECK_CORNER_RADIUS_OPTION.defaultValue,
+    },
+  },
+  supportedControls: [
+    ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.supportedControls.map((control) =>
+      control.fieldId === "neckDrop" ? { ...control, label: "Front neckline drop" } : control),
+    {
+      fieldId: TANK_SQUARE_NECK_CORNER_RADIUS_OPTION.id,
+      label: TANK_SQUARE_NECK_CORNER_RADIUS_OPTION.label,
+      kind: "option",
+      unit: "cm",
+      min: TANK_SQUARE_NECK_CORNER_RADIUS_OPTION.min,
+      max: TANK_SQUARE_NECK_CORNER_RADIUS_OPTION.max,
+      step: TANK_SQUARE_NECK_CORNER_RADIUS_OPTION.step,
+      defaultValue: TANK_SQUARE_NECK_CORNER_RADIUS_OPTION.defaultValue,
+    },
+  ],
+  intent: {
+    ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.intent,
+    use: "Preconfigured Square-neck Tank digital shell; all shared Tank controls and the N04-only corner setting remain editable before saving.",
+    fit: "Square-front digital outline profile; the editable numeric values are software choices, not validated fit targets or physical standards.",
+    construction: "Uses the existing Tank root: two body panels, an editable multi-segment square front neckline, crew back, sleeveless armholes, and shoulder and side joins. The neckline finish is unspecified; no facing or binding template is included. Digital construction only.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; not a population chart or validated size-M profile. The generic Tank size run is not validated grading for N04.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The 0 cm default and 0–1.5 cm square-corner range are provisional InfiniDrip software values, not sourced garment standards, sewing radii, or sewn tolerances.",
+    "The N04 option changes only the digital front corner; it does not specify a neckline finish, facing, binding, sewn tolerance, or construction method.",
+    "The modeled Tank geometry and POMs are digital outputs, not sewn measurements or evidence of fit, coverage, comfort, or wear.",
+    "Materials and consumption are unspecified. The generic Tank size run is not validated grading for N04.",
+    "B1 technical-design review is pending. Physical validation, fit, comfort, wear, material performance, supplier suitability, manufacturing, and production remain not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v14",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v15",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

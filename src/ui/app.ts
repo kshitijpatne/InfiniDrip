@@ -59,7 +59,7 @@ import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspe
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
-import { TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, tankRacerbackControlOffsetCm } from "../drafting/tank";
+import { TANK_N04_ENTRY_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankRacerbackControlOffsetCm } from "../drafting/tank";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -542,6 +542,52 @@ export function racerbackTankRecipeForOutput(
     ...recipe,
     label: "Racerback Tank",
     poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
+    techPack: techPackForOptions(options),
+    techPackForOptions,
+    techPackForFabric: undefined,
+  };
+}
+
+function squareNeckTankCornerSetting(options: GarmentOptions): string {
+  const corner = options[TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID];
+  return Number.isFinite(corner) ? `${corner} cm` : "unresolved";
+}
+
+/** Keep N04's Tech Pack honest about the digital shell's unspecified materials and neck finish. */
+export function squareNeckTankTechPackForOutput(
+  techPack: GarmentRecipe["techPack"],
+  options: GarmentOptions,
+): GarmentRecipe["techPack"] {
+  const setting = squareNeckTankCornerSetting(options);
+  const tankPack = tankStarterTechPackForOutput(techPack);
+  return {
+    ...tankPack,
+    bom: [{ material: "Not specified", placement: "Materials and trim", qty: "No sourcing or consumption estimate" }],
+    construction: [
+      ...tankPack.construction.filter((step) => !/(neckline|neckband|binding)/i.test(step)),
+      `Digital N04 square-corner easing: ${setting}.`,
+    ],
+    constructionNotice: "Digital N04 shell only. The square-neck finish and materials are unspecified; no facing or binding template, sewn tolerance, or production instruction is supplied.",
+    measurementSpecNote: "N04 software geometry only. Values are not a validated size chart, grade, sewn tolerance, or physical-fit result.",
+    measurementSpecToleranceColumn: false,
+    fitRecordStatusNote: "N04 is an editable digital shell. Physical fit, comfort, wear, material performance, and a sewn neckline finish have not been validated.",
+    fitRecordPassColumn: false,
+    fitRecordToleranceColumn: false,
+    fitRecordTitle: "Digital Measurement Worksheet",
+  };
+}
+
+export function squareNeckTankRecipeForOutput(
+  recipe: GarmentRecipe,
+  fabric: (typeof STRETCH_FABRICS)[number],
+  options: GarmentOptions = {},
+): GarmentRecipe {
+  const fabricPack = recipe.techPackForFabric?.(fabric) ?? recipe.techPack;
+  const techPackForOptions = (activeOptions: GarmentOptions): GarmentRecipe["techPack"] =>
+    squareNeckTankTechPackForOutput(fabricPack, activeOptions);
+  return {
+    ...recipe,
+    label: "Square-neck Tank",
     techPack: techPackForOptions(options),
     techPackForOptions,
     techPackForFabric: undefined,
@@ -1508,7 +1554,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && recipe.name === "tank" ? "racerback-tank"
+    starterOrigin?.entryId === TANK_N04_ENTRY_ID && recipe.name === "tank" ? "square-neck-tank"
+      : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && recipe.name === "tank" ? "racerback-tank"
       : recipe.name === "tee" && teeConstruction === "raglan" ? "tee-raglan" : recipe.name;
   const currentSavedDesign = (): SavedDesign | null => {
     const result = deserialize(serialize(measurements, fabric, garmentOptions, currentWorkspace(), appearance, surfaceBook, {
@@ -1672,7 +1719,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && forRecipe.name === "tank"
+    starterOrigin?.entryId === TANK_N04_ENTRY_ID && forRecipe.name === "tank"
+      ? "Square-neck Tank"
+      : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && forRecipe.name === "tank"
       ? "Racerback Tank"
       : starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
       && forRecipe.name === "fitted"
@@ -1687,7 +1736,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
   const starterOutputStatusNote = (): string | undefined =>
-    starterOrigin?.entryId === "tank-high-neck-digital-v1"
+    starterOrigin?.entryId === TANK_N04_ENTRY_ID
+      ? `Digital N04 Square-neck Tank shell. Square-corner easing: ${squareNeckTankCornerSetting(recipeOptions())}. Neckline finish, facing/binding template, sewn tolerance and physical fit are unspecified or unvalidated.`
+      : starterOrigin?.entryId === "tank-high-neck-digital-v1"
       ? "Digital draft only; N02 is a higher round front neckline relative to N01. No built-up neck, collar, facing or modeled stabilization is included; physical fit has not been validated. The generic Tank size run is not a validated N02 grade."
       : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID
         ? "Digital draft only; the N03 back-armhole cut-in is an InfiniDrip software setting. The generic Tank size run is not a validated N03 grade; no sewn tolerance is specified and physical fit has not been validated."
@@ -1815,7 +1866,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : recipe.allowances;
     const poms = pomsForRecipeOptions(recipe, options);
     const withStarterTechPack = (outputRecipe: GarmentRecipe): GarmentRecipe =>
-      starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID
+      starterOrigin?.entryId === TANK_N04_ENTRY_ID
+        ? squareNeckTankRecipeForOutput(outputRecipe, stretchFabric, recipeOptions())
+        : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID
         ? racerbackTankRecipeForOutput(outputRecipe, stretchFabric, recipeOptions())
         : starterOrigin?.entryId === "tank-classic-scoop-digital-v1"
           || starterOrigin?.entryId === "tank-high-neck-digital-v1"

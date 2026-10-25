@@ -68,7 +68,7 @@ function bodicePanel(
   armholeCutInCm: number | undefined
 ): Piece {
   const d = derive(m);
-  const { cNeck, hps, edge: neckline } = necklineEdge(
+  const { cNeck, hps, edges: necklineEdges } = necklineEdge(
     position, d.neckWidthHalf, opts.neckDepth, d.shoulderHalf, m.armholeDepth, necklineParams
   );
   const underarm = point(d.chestWidthHalf, m.armholeDepth);
@@ -106,7 +106,7 @@ function bodicePanel(
         })();
 
   const edges: Edge[] = [
-    neckline,
+    ...necklineEdges,
     ...shoulderEdges,
     { kind: "line", name: "side", start: underarm, end: sideHem },
     { kind: "line", name: "hem", start: sideHem, end: cHem },

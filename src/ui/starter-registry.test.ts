@@ -8,7 +8,8 @@ import {
 } from "./starter-registry";
 import { currentStyles, TEE_STYLES, FITTED_STYLES, TANK_STYLES } from "../style/style";
 import { STANDARD_M } from "../drafting";
-import { TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID } from "../drafting/tank";
+import { TANK_N04_ENTRY_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
+  TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 
 const entry = STARTER_REGISTRY.entries[0]!;
 const blankEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.catalogKind === "blank")!;
@@ -30,11 +31,12 @@ const fittedCropEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.e
 const tankEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tank-classic-scoop-digital-v1")!;
 const tankHighNeckEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tank-high-neck-digital-v1")!;
 const tankRacerbackEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === TANK_RACERBACK_ENTRY_ID)!;
+const tankSquareNeckEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === TANK_N04_ENTRY_ID)!;
 const validOrigin = starterOriginForEntry(entry);
 
 describe("Tee Classic starter registry", () => {
   it("preserves the bounded existing custom-measurement candidate and its claim limits", () => {
-    expect(STARTER_REGISTRY.entries).toHaveLength(20);
+    expect(STARTER_REGISTRY.entries).toHaveLength(21);
     expect(entry).toMatchObject({
       entryId: "tee-classic-custom-v1",
       entryRevision: "2026-10-19.3",
@@ -74,7 +76,7 @@ describe("Tee Classic starter registry", () => {
   });
 
   it("defines one complete editable T01 blank with explicit software-only defaults and gates", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v14");
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v15");
     expect(blankEntry).toMatchObject({
       entryId: "tee-classic-digital-v1",
       entryRevision: "2026-10-20.1",
@@ -101,7 +103,7 @@ describe("Tee Classic starter registry", () => {
     }
     expect(blankEntry.supportedControls.find((control) => control.fieldId === "shoulderWidth"))
       .toMatchObject({ kind: "measurement", min: 30, max: 70, step: 0.1, defaultValue: 45 });
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(20);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -151,8 +153,8 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(tankEntry.entryId, "strapWidth", 8)).toBeNull();
     expect(starterControlError(tankEntry.entryId, "strapWidth", 16)).toContain("0–15 cm");
     expect(starterControlError(tankEntry.entryId, "strapWidth", 8.2)).toContain("0.5 cm increments from 0 cm");
-    expect(STARTER_REGISTRY.entries).toHaveLength(20);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
+    expect(STARTER_REGISTRY.entries).toHaveLength(21);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(20);
   });
 
   it("defines N02 as a distinct editable higher-round Tank profile relative to N01", () => {
@@ -193,8 +195,8 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(tankHighNeckEntry.entryId, "neckDrop", 0.5)).toBeNull();
     expect(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId).length)
       .toBe(new Set(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId)).size);
-    expect(STARTER_REGISTRY.entries).toHaveLength(20);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
+    expect(STARTER_REGISTRY.entries).toHaveLength(21);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(20);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
   it("defines N03 as an editable racerback Tank with a scoped digital back curve", () => {
@@ -226,8 +228,50 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(tankRacerbackEntry.entryId, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, 5.25)).toContain("0.5 cm increments");
     expect(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId).length)
       .toBe(new Set(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId)).size);
-    expect(STARTER_REGISTRY.entries).toHaveLength(20);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
+    expect(STARTER_REGISTRY.entries).toHaveLength(21);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(20);
+  });
+
+  it("defines N04 as a distinct editable Square-neck Tank with an entry-only corner control", () => {
+    expect(tankSquareNeckEntry).toMatchObject({
+      entryId: TANK_N04_ENTRY_ID,
+      entryRevision: "2026-10-25.1",
+      recipeId: "tank",
+      recipeRevision: "tank-square-neck-v1",
+      catalogKind: "blank",
+      label: "Square-neck Tank · software defaults",
+      configuration: {
+        targetStyle: "Classic tank",
+        measurements: {
+          chest: 100, shoulderWidth: 45, length: 70, armholeDepth: 24,
+          strapWidth: 8, neckDrop: 5, neckWidthEase: 0, ease: 10,
+        },
+        options: { [TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID]: 0 },
+      },
+      gates: { b1: "pending", physical: "not-validated" },
+    });
+    expect(tankSquareNeckEntry.supportedControls).toHaveLength(9);
+    expect(tankSquareNeckEntry.supportedControls.find((control) => control.fieldId === TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID))
+      .toMatchObject({ label: "Square-corner easing (digital)", kind: "option", unit: "cm", min: 0, max: 1.5, step: 0.5, defaultValue: 0 });
+    expect(tankSquareNeckEntry.intent.construction).toContain("multi-segment square front neckline");
+    expect(tankSquareNeckEntry.intent.construction).toContain("no facing or binding template");
+    expect(tankSquareNeckEntry.limits.join(" ")).toContain("not sourced garment standards");
+    expect(tankSquareNeckEntry.limits.join(" ")).toContain("Materials and consumption are unspecified");
+    expect(tankSquareNeckEntry.limits.join(" ")).toContain("not validated grading for N04");
+    expect(starterEntryById(TANK_N04_ENTRY_ID)).toBe(tankSquareNeckEntry);
+    expect(starterOriginError(starterOriginForEntry(tankSquareNeckEntry))).toBeNull();
+    for (const value of [0, 0.5, 1.5]) {
+      expect(starterControlError(TANK_N04_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, value)).toBeNull();
+    }
+    expect(starterControlError(TANK_N04_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, -0.5)).toContain("0–1.5 cm");
+    expect(starterControlError(TANK_N04_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, 1.25)).toContain("0.5 cm increments");
+    expect(tankEntry.supportedControls.find((control) => control.fieldId === TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID)).toBeUndefined();
+    expect(tankHighNeckEntry.supportedControls.find((control) => control.fieldId === TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID)).toBeUndefined();
+    expect(tankRacerbackEntry.supportedControls.find((control) => control.fieldId === TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID)).toBeUndefined();
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v15");
+    expect(STARTER_REGISTRY.entries).toHaveLength(21);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(20);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
   it("defines F01 as a complete editable Fitted Tee with software-only controls and limits", () => {
@@ -432,7 +476,7 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(fittedThreeQuarterSleeveEntry.entryId, "sleeveLength", 34.5)).toContain("1 cm increments");
     expect(starterControlError(fittedThreeQuarterSleeveEntry.entryId, "sleeveLength", 44)).toBeNull();
     expect(starterOriginError(starterOriginForEntry(fittedThreeQuarterSleeveEntry))).toBeNull();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(20);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -495,7 +539,7 @@ describe("Tee Classic starter registry", () => {
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "ease"))
       .toMatchObject({ kind: "design", min: 13, max: 18, step: 1, defaultValue: 13 });
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "chestEase")).toBeUndefined();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(20);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
