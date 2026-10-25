@@ -3695,6 +3695,52 @@ describe("accessible project and style manager", () => {
     }
   }, 10_000);
 
+  it("blocks creating a scenario while its collection edits are unsaved", async () => {
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
+    try {
+      const { host, workflow } = state;
+      await saveScenarioFixtureCollection(state);
+      const createButton = host.querySelector<HTMLButtonElement>("[data-scenario-action='create']")!;
+      expect(createButton.disabled).toBe(false);
+
+      editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Unsaved scenario source edit");
+      expect(createButton.disabled).toBe(false);
+      createButton.click();
+
+      expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toContain("Save collection edits before creating a scenario so its blank rows match the saved variants.");
+      expect(host.querySelectorAll('[data-se-row-kind="units"][data-se-field="units"]')).toHaveLength(0);
+      expect(workflow.snapshot.project.scenarios ?? []).toHaveLength(0);
+      expect(host.querySelector<HTMLInputElement>('[data-ce-scope="collection"][data-ce-field="name"]')?.value)
+        .toBe("Unsaved scenario source edit");
+    } finally {
+      state.close();
+    }
+  });
+
+  it("rejects a stale scenario-create action after its saved collection disappears", async () => {
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
+    try {
+      const { host, workflow } = state;
+      const collection = await saveScenarioFixtureCollection(state);
+      const collectionSelect = host.querySelector<HTMLSelectElement>("#scenario-create-collection")!;
+      collectionSelect.value = collection.id;
+      const staleButton = host.querySelector<HTMLButtonElement>("[data-scenario-action='create']")!;
+      expect(staleButton.disabled).toBe(false);
+
+      await workflow.saveCollections([]);
+      expect(staleButton.isConnected).toBe(true);
+      staleButton.click();
+
+      expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toContain("Choose a saved collection before creating a scenario.");
+      expect(host.querySelectorAll('[data-se-row-kind="units"][data-se-field="units"]')).toHaveLength(0);
+      expect(workflow.snapshot.project.scenarios ?? []).toHaveLength(0);
+    } finally {
+      state.close();
+    }
+  });
+
   it("shows the row-limit recovery guidance when a saved collection is too large for a blank scenario", async () => {
     const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
     try {
