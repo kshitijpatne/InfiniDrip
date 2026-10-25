@@ -461,6 +461,36 @@ export function exportablePieces(blockAtSize: Block | null, ready: boolean): Pie
   return [...blockPieces(blockAtSize)];
 }
 
+/** Correct only the N01 Tank Tech Pack's component placements. */
+export function n01TankTechPackForOutput(techPack: GarmentRecipe["techPack"]): GarmentRecipe["techPack"] {
+  return {
+    ...techPack,
+    bom: techPack.bom.map((row) => {
+      if (row.placement === "Body & sleeves") return { ...row, placement: "Front & back panels" };
+      if (row.placement === "Neckband" || /binding/i.test(row.material)) {
+        return {
+          material: "Binding (self-fabric or rib)",
+          placement: "Neckline & armholes",
+          qty: "Not estimated; no binding template",
+        };
+      }
+      return row;
+    }),
+  };
+}
+
+export function n01TankRecipeForOutput(
+  recipe: GarmentRecipe,
+  fabric: (typeof STRETCH_FABRICS)[number],
+): GarmentRecipe {
+  const techPack = recipe.techPackForFabric?.(fabric) ?? recipe.techPack;
+  return {
+    ...recipe,
+    techPack: n01TankTechPackForOutput(techPack),
+    techPackForFabric: undefined,
+  };
+}
+
 /** Keep output routing exact: an unknown measurement set cannot borrow a nearby size. */
 export function semanticSizeStepFor<T extends { readonly step: number }>(
   sizes: readonly T[],
@@ -1593,8 +1623,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
   const starterOutputStatusNote = (): string | undefined =>
-    starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
-      ? "Digital draft only; physical fit unvalidated. No elbow-to-wrist endpoint is guaranteed."
+    starterOrigin?.entryId === "tank-classic-scoop-digital-v1"
+      ? "Digital draft only; this generic Tank size run is not a validated grade for the N01 Classic scoop Tank starter."
+      : starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
+        ? "Digital draft only; physical fit unvalidated. No elbow-to-wrist endpoint is guaranteed."
       : undefined;
   const styleMatchMeasurements = (): Measurements => {
     const overrides = Object.fromEntries(activeOptionDefinitions()
@@ -1714,9 +1746,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? wovenShirtAllowances(options.hemTurn)
       : recipe.allowances;
     const poms = pomsForRecipeOptions(recipe, options);
-    if (!semanticEdits) return { ...recipe, allowances, poms, label };
+    const withStarterTechPack = (outputRecipe: GarmentRecipe): GarmentRecipe =>
+      starterOrigin?.entryId === "tank-classic-scoop-digital-v1"
+        ? n01TankRecipeForOutput(outputRecipe, stretchFabric)
+        : outputRecipe;
+    if (!semanticEdits) return withStarterTechPack({ ...recipe, allowances, poms, label });
     const evaluation = requireSemanticEditEvaluation(currentSemanticState()?.evaluation);
-    return {
+    return withStarterTechPack({
       ...recipe,
       allowances,
       poms,
@@ -1727,7 +1763,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             === semanticMeasurementKey(value));
         return requireSemanticEditSize(evaluation, step);
       },
-    };
+    });
   };
   const allowancesForOptions = (options: GarmentOptions): AllowanceSpec => recipe.name === "woven-shirt"
     ? wovenShirtAllowances(options.hemTurn)

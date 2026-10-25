@@ -732,10 +732,62 @@ const FITTED_CROPPED_TEE_BLANK_ENTRY: StarterEntry = {
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
+
+const TANK_CLASSIC_SCOOP_BLANK_ENTRY: StarterEntry = {
+  entryId: "tank-classic-scoop-digital-v1",
+  entryRevision: "2026-10-24.1",
+  recipeId: "tank",
+  recipeRevision: "tank-classic-scoop-v1",
+  catalogKind: "blank",
+  label: "Classic scoop Tank · software defaults",
+  configuration: {
+    targetStyle: "Classic tank",
+    measurements: {
+      chest: 100,
+      shoulderWidth: 45,
+      length: 70,
+      armholeDepth: 24,
+      strapWidth: 8,
+      neckDrop: 5,
+      neckWidthEase: 0,
+      ease: 10,
+    },
+    options: {},
+  },
+  supportedControls: [
+    { fieldId: "chest", label: "Chest", kind: "measurement", unit: "cm", min: 60, max: 160, step: 1, defaultValue: 100 },
+    { fieldId: "shoulderWidth", label: "Shoulder width (biacromial breadth)", kind: "measurement", unit: "cm", min: 30, max: 70, step: 0.1, defaultValue: 45 },
+    { fieldId: "length", label: "Length", kind: "design", unit: "cm", min: 59, max: 74, step: 1, defaultValue: 70 },
+    { fieldId: "armholeDepth", label: "Armhole depth", kind: "design", unit: "cm", min: 12, max: 40, step: 1, defaultValue: 24 },
+    { fieldId: "strapWidth", label: "Strap width (finished)", kind: "design", unit: "cm", min: 0, max: 15, step: 0.5, defaultValue: 8 },
+    { fieldId: "neckDrop", label: "Neck scoop depth", kind: "design", unit: "cm", min: 0, max: 18, step: 0.5, defaultValue: 5 },
+    { fieldId: "neckWidthEase", label: "Neckline width adjustment", kind: "design", unit: "cm", min: -4, max: 12, step: 0.5, defaultValue: 0 },
+    { fieldId: "ease", label: "Ease", kind: "design", unit: "cm", min: 5, max: 10, step: 1, defaultValue: 10 },
+  ],
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured Classic scoop Tank draft; all existing controls remain editable before saving.",
+    fit: "Classic scoop Tank profile; the numeric values are software choices, not validated fit targets or physical standards.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No trim-material compatibility claim.",
+    construction: "Uses the existing Tank root: two body panels, scoop front, crew back, sleeveless armholes, and shoulder and side joins. This is digital construction only; no separate strap-width POM or sewn-construction validation is provided.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; not a population chart or validated size-M profile. The existing generic Tank size run is not a validated N01 grade.",
+  },
+  gates: { b1: "approved for digital scope", physical: "not-validated" },
+  limits: [
+    "STANDARD_M values are editable software starting values only; they are not population-derived or validated size-M measurements.",
+    "The 8 cm strap span is a modeled design value from neckline edge to armhole start, not a sourced physical wide/narrow standard. No physical strap-width, coverage, support, comfort, or fit claim.",
+    "The modeled Tank geometry and POMs are digital outputs, not sewn measurements or physical-fit evidence.",
+    "The generic Tank size run and Tech Pack are not a validated size profile or grading contract for N01.",
+    "Independent B1 review passes only the stated digital-design scope. Physical validation, fit, comfort, wear, material performance, supplier suitability, manufacturing, and production remain not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v10",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v12",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;
