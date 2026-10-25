@@ -74,7 +74,6 @@ import {
 import { parseCollectionRecord, type CollectionRecord } from "./collection-records";
 import {
   PROJECT_SCENARIO_INPUT_ROW_LIMIT,
-  SCENARIO_INPUT_LIST_LIMIT,
   SCENARIO_INPUT_ROW_LIMIT,
   addMissingScenarioVariantRows,
   createBlankScenarioRecord,
@@ -753,12 +752,11 @@ export class ProjectManager {
     if (action === "add-moq" || action === "add-capacity-delivery") {
       const rowCount = scenarioInputRowCount(scenario);
       const projectRows = this.scenarioDrafts.reduce((sum, item) => sum + scenarioInputRowCount(item), 0);
-      const listCount = action === "add-moq" ? scenario.moqs.length : scenario.capacityDelivery.length;
-      const listAvailable = SCENARIO_INPUT_LIST_LIMIT - listCount;
       const scenarioAvailable = SCENARIO_INPUT_ROW_LIMIT - rowCount;
       const projectAvailable = PROJECT_SCENARIO_INPUT_ROW_LIMIT - projectRows;
-      if (listAvailable < 1 || scenarioAvailable < 1 || projectAvailable < 1) {
-        this.message = `Adding this constraint needs 1 row; ${Math.max(0, Math.min(listAvailable, scenarioAvailable, projectAvailable))} rows are available. Reduce or split the collection/scenario first.`;
+      if (scenarioAvailable < 1 || projectAvailable < 1) {
+        const availableRows = Math.max(0, Math.min(scenarioAvailable, projectAvailable));
+        this.message = `Adding this constraint needs 1 row; ${availableRows} rows are available. Reduce or split the collection/scenario first.`;
         this.render();
         return;
       }

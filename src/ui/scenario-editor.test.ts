@@ -188,6 +188,28 @@ describe("scenario editor and calculation adapter", () => {
     expect(rejectedAdd[0]).toBe(capped);
   });
 
+  it("disables the Add MOQ control at the per-list row limit", () => {
+    const baseline = scenario();
+    const moqTemplate = baseline.moqs[0]!;
+    const capped = {
+      ...baseline,
+      units: [],
+      prices: [],
+      costs: [],
+      capacityDelivery: [],
+      moqs: Array.from({ length: 500 }, () => ({ ...moqTemplate, id: uuid() })),
+    };
+    const root = document.createElement("div");
+    root.innerHTML = renderScenarioEditor({
+      scenarios: [capped],
+      savedScenarios: [capped],
+      collections: [collection()],
+    });
+
+    expect(root.querySelector<HTMLButtonElement>("[data-scenario-action='add-moq']")?.disabled).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>("[data-scenario-action='add-capacity-delivery']")?.disabled).toBe(false);
+  });
+
   it("refreshes only calculation output and save/discard state after raw inputs change", () => {
     const first = scenario();
     const root = document.createElement("div");

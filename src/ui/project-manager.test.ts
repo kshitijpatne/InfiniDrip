@@ -199,6 +199,21 @@ async function saveScenarioFixtureCollection(state: Awaited<ReturnType<typeof te
   return collection;
 }
 
+function scenarioWithInputRowCount(scenario: ScenarioRecord, totalRows: number): ScenarioRecord {
+  const nonUnitRows = scenario.prices.length + scenario.costs.length + scenario.moqs.length + scenario.capacityDelivery.length;
+  const unitCount = totalRows - nonUnitRows;
+  const unitTemplate = scenario.units[0];
+  if (!unitTemplate || unitCount < 0) throw new Error("Scenario fixture cannot reach the requested input-row count.");
+  return {
+    ...scenario,
+    units: Array.from({ length: unitCount }, (_, index) => ({
+      ...unitTemplate,
+      id: scenarioFixtureId(),
+      variantId: "unresolved-" + scenario.id + "-" + index,
+    })),
+  };
+}
+
 function clickT02Action(host: HTMLElement, action: string, roundId?: string): void {
   const suffix = roundId ? `[data-t02-round-id="${roundId}"]` : "";
   const button = host.querySelector<HTMLButtonElement>(`[data-t02-action="${action}"]${suffix}`);
@@ -3789,6 +3804,133 @@ describe("accessible project and style manager", () => {
         expect(saved?.moqs).toHaveLength(0);
         expect(saved?.capacityDelivery).toHaveLength(0);
       });
+    } finally {
+      state.close();
+    }
+  });
+
+  it("keeps scenario deletion in the draft until confirmation and explicit save", async () => {
+    let allowDelete = false;
+    const confirm = vi.fn(() => allowDelete);
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId, confirm });
+    try {
+      const { host, workflow } = state;
+      const collection = await saveScenarioFixtureCollection(state);
+      const namedScenario = createBlankScenarioRecord({
+        id: scenarioFixtureId(),
+        projectId: workflow.snapshot.project.id,
+        collection,
+        name: "Review plan",
+        now: TIME,
+        uuid: scenarioFixtureId,
+      });
+      const unnamedScenario = createBlankScenarioRecord({
+        id: scenarioFixtureId(),
+        projectId: workflow.snapshot.project.id,
+        collection,
+        name: "",
+        now: TIME,
+        uuid: scenarioFixtureId,
+      });
+      if (!namedScenario.ok || !unnamedScenario.ok) throw new Error("Scenario delete fixtures could not be created.");
+      await workflow.saveScenarios([namedScenario.value, unnamedScenario.value]);
+      state.manager.refresh();
+      const savedBaseline = structuredClone(projectScenarios(workflow.snapshot.project));
+
+      host.querySelector<HTMLButtonElement>("[data-scenario-action='delete'][data-se-scenario='" + namedScenario.value.id + "']")!.click();
+      expect(confirm).toHaveBeenLastCalledWith(expect.stringContaining("Delete scenario “Review plan”"));
+      expect(host.querySelector("[data-scenario-card='" + namedScenario.value.id + "']")).not.toBeNull();
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBaseline);
+
+      allowDelete = true;
+      host.querySelector<HTMLButtonElement>("[data-scenario-action='delete'][data-se-scenario='" + unnamedScenario.value.id + "']")!.click();
+      expect(confirm).toHaveBeenLastCalledWith(expect.stringContaining("Delete scenario “Untitled scenario”"));
+      expect(host.querySelector("[data-scenario-card='" + unnamedScenario.value.id + "']")).toBeNull();
+      expect(host.querySelector("[data-scenario-card='" + namedScenario.value.id + "']")).not.toBeNull();
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBaseline);
+      expect(host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")?.disabled).toBe(false);
+
+      host.querySelector<HTMLButtonElement>("[data-scenario-action='save']")!.click();
+      await vi.waitFor(() => {
+        expect(projectScenarios(workflow.snapshot.project).map((item) => item.id)).toEqual([namedScenario.value.id]);
+      });
+    } finally {
+      state.close();
+    }
+  });
+
+  it("rejects an added MOQ row when the scenario already uses its input-row budget", async () => {
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
+    try {
+      const { host, workflow } = state;
+      const collection = await saveScenarioFixtureCollection(state);
+      const seeded = createBlankScenarioRecord({
+        id: scenarioFixtureId(),
+        projectId: workflow.snapshot.project.id,
+        collection,
+        name: "Scenario budget plan",
+        now: TIME,
+        uuid: scenarioFixtureId,
+      });
+      if (!seeded.ok) throw new Error(seeded.error);
+      const capped = scenarioWithInputRowCount(seeded.value, 500);
+      await workflow.saveScenarios([capped]);
+      state.manager.refresh();
+      const savedBaseline = structuredClone(projectScenarios(workflow.snapshot.project));
+
+      const addButton = host.querySelector<HTMLButtonElement>("[data-scenario-action='add-moq'][data-se-scenario='" + capped.id + "']")!;
+      expect(addButton.disabled).toBe(false);
+      addButton.click();
+
+      expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toContain("Adding this constraint needs 1 row; 0 rows are available.");
+      expect(host.querySelectorAll("[data-se-scenario='" + capped.id + "'][data-se-row-kind='moqs']")).toHaveLength(0);
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBaseline);
+    } finally {
+      state.close();
+    }
+  });
+
+  it("rejects an added MOQ row when project scenarios already use the project input-row budget", async () => {
+    const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });
+    try {
+      const { host, workflow } = state;
+      const collection = await saveScenarioFixtureCollection(state);
+      const makeScenario = (name: string): ScenarioRecord => {
+        const created = createBlankScenarioRecord({
+          id: scenarioFixtureId(),
+          projectId: workflow.snapshot.project.id,
+          collection,
+          name,
+          now: TIME,
+          uuid: scenarioFixtureId,
+        });
+        if (!created.ok) throw new Error(created.error);
+        return created.value;
+      };
+      const cappedScenarios = [scenarioWithInputRowCount(makeScenario("Budget plan one"), 500),
+        scenarioWithInputRowCount(makeScenario("Budget plan two"), 500)];
+      const target = makeScenario("Budget target");
+      const emptyTarget = {
+        ...target,
+        units: [],
+        prices: [],
+        costs: [],
+        moqs: [],
+        capacityDelivery: [],
+      };
+      await workflow.saveScenarios([...cappedScenarios, emptyTarget]);
+      state.manager.refresh();
+      const savedBaseline = structuredClone(projectScenarios(workflow.snapshot.project));
+
+      const addButton = host.querySelector<HTMLButtonElement>("[data-scenario-action='add-moq'][data-se-scenario='" + emptyTarget.id + "']")!;
+      expect(addButton.disabled).toBe(false);
+      addButton.click();
+
+      expect(host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toContain("Adding this constraint needs 1 row; 0 rows are available.");
+      expect(host.querySelectorAll("[data-se-scenario='" + emptyTarget.id + "'][data-se-row-kind='moqs']")).toHaveLength(0);
+      expect(projectScenarios(workflow.snapshot.project)).toEqual(savedBaseline);
     } finally {
       state.close();
     }
