@@ -324,19 +324,17 @@ function updateTechPackField(
 
 function updateTechPackColorwayAssignment(
   record: TechPackRecord,
-  assignmentId: string,
+  targetAssignment: TechPackColorwayAssignment,
   update: (assignment: TechPackColorwayAssignment) => TechPackColorwayAssignment,
-): TechPackRecord | null {
-  let found = false;
+): TechPackRecord {
   const colorways = record.colorways.map((colorway) => ({
     ...colorway,
     assignments: colorway.assignments.map((assignment) => {
-      if (assignment.id !== assignmentId) return assignment;
-      found = true;
+      if (assignment.id !== targetAssignment.id) return assignment;
       return update(assignment);
     }),
   }));
-  return found ? { ...record, colorways } : null;
+  return { ...record, colorways };
 }
 
 function appliedBrandProfileColor(
@@ -1270,11 +1268,10 @@ export class ProjectManager {
         this.message = `${color.name} already matches ${latestAssignment.color.fieldId}; the Tech Pack draft is unchanged.`;
         return;
       }
-      const updated = updateTechPackColorwayAssignment(latest, latestAssignment.id, (item) => ({
+      const updated = updateTechPackColorwayAssignment(latest, latestAssignment, (item) => ({
         ...item,
         color: appliedBrandProfileColor(item.color, color, new Date().toISOString()),
       }));
-      if (!updated) throw new Error("The selected Tech Pack colorway assignment no longer exists.");
       const validationError = this.pendingTechPackJsonError(updated);
       if (validationError) throw new Error(validationError);
       this.techPackDraft = updated;
@@ -1359,10 +1356,14 @@ export class ProjectManager {
         this.updateTechPackStatus(this.techPackInputError);
         return;
       }
-      updated = updateTechPackColorwayAssignment(record, assignmentId, (assignment) => ({
-        ...assignment,
-        [propertyName]: target.value,
-      }));
+      const assignment = record.colorways.flatMap((colorway) => colorway.assignments)
+        .find((candidate) => candidate.id === assignmentId);
+      updated = assignment
+        ? updateTechPackColorwayAssignment(record, assignment, (candidate) => ({
+          ...candidate,
+          [propertyName]: target.value,
+        }))
+        : null;
     }
     if (!updated) {
       this.techPackInputError = "The edited T01 control is not connected to a record field.";

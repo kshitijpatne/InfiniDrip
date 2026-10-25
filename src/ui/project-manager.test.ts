@@ -1316,6 +1316,17 @@ describe("accessible project and style manager", () => {
         .toContain("T01 control is not connected to a record field");
       disconnected.remove();
 
+      const missingAssignmentField = document.createElement("select");
+      missingAssignmentField.dataset.t01Input = "true";
+      missingAssignmentField.dataset.t01AssignmentField = "materialId";
+      missingAssignmentField.dataset.t01AssignmentId = "missing-assignment";
+      missingAssignmentField.value = "missing-material";
+      host.append(missingAssignmentField);
+      missingAssignmentField.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("T01 control is not connected to a record field");
+      missingAssignmentField.remove();
+
       const foreignDetails = document.createElement("details");
       host.append(foreignDetails);
       foreignDetails.dispatchEvent(new Event("toggle", { bubbles: true }));
@@ -3238,6 +3249,29 @@ describe("accessible project and style manager", () => {
       expect(host.querySelector("[data-brand-profile-conflict]")?.textContent).toContain("differs from assignment.");
       expect(host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')?.disabled).toBe(false);
 
+      const definitions = host.querySelector<HTMLTextAreaElement>("[data-t02-input='definitions']");
+      if (!definitions) throw new Error("The active recipe does not render its T02 definitions editor.");
+      const pendingManager = manager as unknown as {
+        render(): void;
+        techPackDraft: TechPackRecord | null;
+        techPackDefinitionsJsonDraft: string | null;
+        techPackInputError: string;
+      };
+      const techPackBeforeInvalidApply = pendingManager.techPackDraft;
+      const savedTechPackBeforeInvalidApply = workflow.snapshot.activeStyle.techPack;
+      definitions.value = "{";
+      definitions.dispatchEvent(new Event("input", { bubbles: true }));
+      const applyColor = host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')!;
+      expect(applyColor.disabled).toBe(false);
+      applyColor.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("POM definition needs attention"));
+      expect(pendingManager.techPackDraft).toEqual(techPackBeforeInvalidApply);
+      expect(workflow.snapshot.activeStyle.techPack).toEqual(savedTechPackBeforeInvalidApply);
+      pendingManager.techPackDefinitionsJsonDraft = null;
+      pendingManager.techPackInputError = "";
+      pendingManager.render();
+
       const savedTechPack = workflow.snapshot.activeStyle.techPack;
       expect(savedTechPack.colorways.flatMap((entry) => entry.assignments).find((entry) => entry.id === assignmentId)?.color.value).toBeUndefined();
       host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')!.click();
@@ -3335,6 +3369,81 @@ describe("accessible project and style manager", () => {
         .find((entry) => entry.id === assignmentId)!.color;
       expect(committedField.value).toBe("#112233");
       expect(committedField.sourceRef).toBe(`brand-profile-color:${colorId}`);
+    } finally {
+      state.close();
+    }
+  }, 10_000);
+
+  it("rejects a palette apply when its saved Tech Pack assignment disappears during artwork verification", async () => {
+    const colorId = "a5555555-5555-4555-8555-000000000005";
+    const colorwayId = "80000000-0000-4000-8000-000000000001";
+    const materialId = "80000000-0000-4000-8000-000000000002";
+    const rowId = "80000000-0000-4000-8000-000000000003";
+    const assignmentId = "80000000-0000-4000-8000-000000000004";
+    const generatedIds = [colorwayId, materialId, rowId, assignmentId];
+    const initialBrandProfile: BrandProfileRecord = {
+      schemaVersion: BRAND_PROFILE_RECORD_VERSION,
+      colors: [{ id: colorId, name: "Indigo", hex: "#112233" }],
+      artworkAssetIds: [],
+      rules: [],
+    };
+    const state = await techPackHarness({ initialBrandProfile, techPackIdFactory: () => generatedIds.shift()! });
+    try {
+      const { host, manager, workflow } = state;
+      clickT01Action(host, "add-colorway");
+      clickT01Action(host, "add-fabric");
+      host.querySelector<HTMLSelectElement>("[data-t01-new-bom-material]")!.value = materialId;
+      clickT01Action(host, "add-bom-row");
+      const colorway = host.querySelector<HTMLElement>(`[data-t01-colorway="${colorwayId}"]`)!;
+      colorway.querySelector<HTMLSelectElement>("[data-t01-new-assignment-row]")!.value = rowId;
+      colorway.querySelector<HTMLSelectElement>("[data-t01-new-assignment-material]")!.value = materialId;
+      clickT01Action(host, "add-assignment");
+      const initialRevision = workflow.snapshot.activeStyle.techPack.revisionNumber;
+      host.querySelector<HTMLButtonElement>('[data-project-action="save-tech-pack"]')!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.techPack.revisionNumber).toBeGreaterThan(initialRevision));
+      expect(workflow.snapshot.activeStyle.techPack.colorways.flatMap((entry) => entry.assignments)
+        .some((entry) => entry.id === assignmentId)).toBe(true);
+
+      const colorSelect = host.querySelector<HTMLSelectElement>("[data-brand-profile-color-selection]")!;
+      colorSelect.value = colorId;
+      colorSelect.dispatchEvent(new Event("change", { bubbles: true }));
+      const assignmentSelect = host.querySelector<HTMLSelectElement>("[data-brand-profile-assignment-selection]")!;
+      assignmentSelect.value = assignmentId;
+      assignmentSelect.dispatchEvent(new Event("change", { bubbles: true }));
+      const applyColor = host.querySelector<HTMLButtonElement>('[data-brand-profile-action="apply-color"]')!;
+      await vi.waitFor(() => expect(applyColor.disabled).toBe(false));
+
+      let releaseArtworkCheck!: (missingIds: string[]) => void;
+      let artworkCheckStarted = false;
+      const artworkCheck = new Promise<string[]>((resolve) => { releaseArtworkCheck = resolve; });
+      const privateManager = manager as unknown as {
+        missingBrandProfileAssets(profile: BrandProfileRecord): Promise<string[]>;
+        techPackDraft: TechPackRecord | null;
+      };
+      const originalMissingAssets = privateManager.missingBrandProfileAssets.bind(manager);
+      privateManager.missingBrandProfileAssets = async () => {
+        artworkCheckStarted = true;
+        return artworkCheck;
+      };
+      applyColor.click();
+      await vi.waitFor(() => expect(artworkCheckStarted).toBe(true));
+
+      const saved = workflow.snapshot.activeStyle.techPack;
+      const withoutAssignment: TechPackRecord = {
+        ...saved,
+        colorways: saved.colorways.map((entry) => ({
+          ...entry,
+          assignments: entry.assignments.filter((item) => item.id !== assignmentId),
+        })),
+      };
+      await workflow.saveActiveTechPack(withoutAssignment);
+      releaseArtworkCheck([]);
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent)
+        .toContain("selected Tech Pack colorway assignment no longer exists"));
+      expect(privateManager.techPackDraft).toBeNull();
+      expect(workflow.snapshot.activeStyle.techPack.colorways.flatMap((entry) => entry.assignments)
+        .some((entry) => entry.id === assignmentId)).toBe(false);
+      privateManager.missingBrandProfileAssets = originalMissingAssets;
     } finally {
       state.close();
     }
