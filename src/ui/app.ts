@@ -318,6 +318,7 @@ function starterFieldLabelOverrides(entryId: string | null | undefined): Readonl
   if (entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID) {
     return { sleeveLength: FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL };
   }
+  if (entryId === "tank-high-neck-digital-v1") return { neckDrop: "Additional front neckline drop" };
   return {};
 }
 
@@ -360,13 +361,14 @@ export interface MountAppOptions {
 export function guidedCaptureStageBlocker(
   session: MeasurementCaptureSession | null,
   recipeId: string,
+  starterEntryId?: string | null,
 ): StageBlocker | null {
   if (!session || session.recipeId !== recipeId) {
     return { message: "Start guided capture for the selected garment before continuing.", step: "measure" };
   }
   const firstUnresolved = measurementCaptureReadiness(session).unresolvedFieldIds[0];
   if (firstUnresolved) {
-    const help = measurementHelp.measurementHelpFor(recipeId, firstUnresolved);
+    const help = measurementHelp.measurementHelpFor(recipeId, firstUnresolved, starterEntryId);
     return {
       message: `${help?.label ?? firstUnresolved} needs an explicit value or a selected digital preset.`,
       field: firstUnresolved,
@@ -461,8 +463,8 @@ export function exportablePieces(blockAtSize: Block | null, ready: boolean): Pie
   return [...blockPieces(blockAtSize)];
 }
 
-/** Correct only the N01 Tank Tech Pack's component placements. */
-export function n01TankTechPackForOutput(techPack: GarmentRecipe["techPack"]): GarmentRecipe["techPack"] {
+/** Correct Tank-starter Tech Pack placements without inventing binding consumption. */
+export function tankStarterTechPackForOutput(techPack: GarmentRecipe["techPack"]): GarmentRecipe["techPack"] {
   return {
     ...techPack,
     bom: techPack.bom.map((row) => {
@@ -479,16 +481,29 @@ export function n01TankTechPackForOutput(techPack: GarmentRecipe["techPack"]): G
   };
 }
 
-export function n01TankRecipeForOutput(
+/** Keep the exported N01 helper name for its existing callers and evidence. */
+export function n01TankTechPackForOutput(techPack: GarmentRecipe["techPack"]): GarmentRecipe["techPack"] {
+  return tankStarterTechPackForOutput(techPack);
+}
+
+export function tankStarterRecipeForOutput(
   recipe: GarmentRecipe,
   fabric: (typeof STRETCH_FABRICS)[number],
 ): GarmentRecipe {
   const techPack = recipe.techPackForFabric?.(fabric) ?? recipe.techPack;
   return {
     ...recipe,
-    techPack: n01TankTechPackForOutput(techPack),
+    techPack: tankStarterTechPackForOutput(techPack),
     techPackForFabric: undefined,
   };
+}
+
+/** Keep the exported N01 recipe helper name for its existing callers and evidence. */
+export function n01TankRecipeForOutput(
+  recipe: GarmentRecipe,
+  fabric: (typeof STRETCH_FABRICS)[number],
+): GarmentRecipe {
+  return tankStarterRecipeForOutput(recipe, fabric);
 }
 
 /** Keep output routing exact: an unknown measurement set cannot borrow a nearby size. */
@@ -1623,11 +1638,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
   const starterOutputStatusNote = (): string | undefined =>
-    starterOrigin?.entryId === "tank-classic-scoop-digital-v1"
-      ? "Digital draft only; this generic Tank size run is not a validated grade for the N01 Classic scoop Tank starter."
-      : starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
-        ? "Digital draft only; physical fit unvalidated. No elbow-to-wrist endpoint is guaranteed."
-      : undefined;
+    starterOrigin?.entryId === "tank-high-neck-digital-v1"
+      ? "Digital draft only; N02 is a higher round front neckline relative to N01. No built-up neck, collar, facing or modeled stabilization is included; physical fit has not been validated. The generic Tank size run is not a validated N02 grade."
+      : starterOrigin?.entryId === "tank-classic-scoop-digital-v1"
+        ? "Digital draft only; this generic Tank size run is not a validated grade for the N01 Classic scoop Tank starter."
+        : starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
+          ? "Digital draft only; physical fit unvalidated. No elbow-to-wrist endpoint is guaranteed."
+          : undefined;
   const styleMatchMeasurements = (): Measurements => {
     const overrides = Object.fromEntries(activeOptionDefinitions()
       .filter((option) => option.fallbackMeasurement !== undefined && recipeOptions()[option.id] !== undefined)
@@ -1748,7 +1765,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const poms = pomsForRecipeOptions(recipe, options);
     const withStarterTechPack = (outputRecipe: GarmentRecipe): GarmentRecipe =>
       starterOrigin?.entryId === "tank-classic-scoop-digital-v1"
-        ? n01TankRecipeForOutput(outputRecipe, stretchFabric)
+        || starterOrigin?.entryId === "tank-high-neck-digital-v1"
+        ? tankStarterRecipeForOutput(outputRecipe, stretchFabric)
         : outputRecipe;
     if (!semanticEdits) return withStarterTechPack({ ...recipe, allowances, poms, label });
     const evaluation = requireSemanticEditEvaluation(currentSemanticState()?.evaluation);
@@ -2555,7 +2573,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const stageBlocker = (): StageBlocker | undefined => {
     if (journey.step === "start") return undefined;
     if (journey.step === "measure" && measurementRoute === "guided") {
-      const captureBlocker = guidedCaptureStageBlocker(measurementCapture, recipe.name);
+      const captureBlocker = guidedCaptureStageBlocker(measurementCapture, recipe.name, starterOrigin?.entryId);
       if (captureBlocker) return captureBlocker;
     }
     const error = inputErrors().entries().next().value;

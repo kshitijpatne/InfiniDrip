@@ -25,6 +25,8 @@ import {
   semanticSizeStepFor,
   stageBlockerFromNote,
   withSemanticEditorPiece,
+  tankStarterTechPackForOutput,
+  tankStarterRecipeForOutput,
   n01TankTechPackForOutput,
   n01TankRecipeForOutput,
 } from "./app";
@@ -1920,6 +1922,33 @@ describe("mountApp", () => {
       step: "measure", field: "body.wear-line-to-hip-level",
       message: expect.stringContaining("hip station at y=51.35 cm, below the hem at y=45 cm"),
     });
+
+    const tankCaptureTime = "2026-09-26T00:00:00.000Z";
+    const tankWithOnlyNeckDropMissing = getFieldDefinitions("tank")
+      .filter((definition) => definition.inputKey !== "neckDrop")
+      .reduce((session, definition, index) => addCaptureReadingForField(session, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 240).padStart(12, "0")}`,
+        rawValue: String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: "Explicit test value",
+        captureMethod: null,
+        capturedAt: null,
+        measurer: null,
+      }, tankCaptureTime), createMeasurementCaptureSession(
+        "00000000-0000-4000-8000-000000000004", "tank", tankCaptureTime,
+      ));
+    expect(guidedCaptureStageBlocker(tankWithOnlyNeckDropMissing, "tank", "tank-high-neck-digital-v1"))
+      .toMatchObject({
+        field: "style.tank-neck-drop", step: "measure",
+        message: "Additional front neckline drop needs an explicit value or a selected digital preset.",
+      });
+    expect(guidedCaptureStageBlocker(tankWithOnlyNeckDropMissing, "tank", "tank-classic-scoop-digital-v1"))
+      .toMatchObject({
+        field: "style.tank-neck-drop", step: "measure",
+        message: "Neck scoop depth needs an explicit value or a selected digital preset.",
+      });
   });
 
   it("does not apply a selected reading while its evidence is conflicting", () => {
@@ -10883,7 +10912,7 @@ describe("EPIC-19 L02 starter binding", () => {
       construction,
     };
 
-    expect(n01TankTechPackForOutput(knitTechPack)).toEqual({
+    expect(tankStarterTechPackForOutput(knitTechPack)).toEqual({
       bom: [
         { material: "Cotton jersey, main", placement: "Front & back panels", qty: "1.2 m" },
         {
@@ -10895,11 +10924,12 @@ describe("EPIC-19 L02 starter binding", () => {
       ],
       construction,
     });
-    expect(n01TankTechPackForOutput(wovenTechPack).bom[1]).toEqual({
+    expect(tankStarterTechPackForOutput(wovenTechPack).bom[1]).toEqual({
       material: "Binding (self-fabric or rib)",
       placement: "Neckline & armholes",
       qty: "Not estimated; no binding template",
     });
+    expect(n01TankTechPackForOutput(knitTechPack)).toEqual(tankStarterTechPackForOutput(knitTechPack));
     expect(knitTechPack.bom[0]!.placement).toBe("Body & sleeves");
     expect(wovenTechPack.bom[1]!.qty).toBe("0.2 m");
   });
@@ -10908,7 +10938,9 @@ describe("EPIC-19 L02 starter binding", () => {
     const tankRecipe = GARMENTS.find((candidate) => candidate.name === "tank")!;
     const knit = STRETCH_FABRICS.find((candidate) => candidate.name === "Cotton jersey")!;
     const woven = STRETCH_FABRICS.find((candidate) => candidate.name === "Cotton woven")!;
+    const starterOutput = tankStarterRecipeForOutput(tankRecipe, knit);
     const knitOutput = n01TankRecipeForOutput(tankRecipe, knit);
+    expect(starterOutput.techPack).toEqual(knitOutput.techPack);
     const wovenOutput = n01TankRecipeForOutput(tankRecipe, woven);
     const fallbackOutput = n01TankRecipeForOutput({ ...tankRecipe, techPackForFabric: undefined }, knit);
 
@@ -11919,6 +11951,136 @@ describe("EPIC-19 L02 starter binding", () => {
     }
   });
 
+  it("selects, edits, saves, reopens, and exports the N02 higher-round High-neck Tank profile", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const starterId = "tank-high-neck-digital-v1";
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${starterId}`)!;
+      expect(card.textContent).toContain("High-neck Tank · software defaults");
+      expect(card.textContent).toContain("higher round front-neckline Tank draft relative to N01");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      expect(root.querySelector<HTMLElement>(`#starter-limits-${starterId}`)!.textContent)
+        .toContain("No built-up neck, collar, neckband, facing, zipper");
+      clickId(root, `starter-${starterId}`);
+      expect(root.querySelector<HTMLElement>('[data-dim-row="neckDrop"] > span')?.textContent)
+        .toContain("Additional front neckline drop");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.getAttribute("aria-label"))
+        .toBe("Additional front neckline drop");
+
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Classic tank");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: High-neck Tank · software defaults");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("B1 technical review pending; physical validation not performed");
+      const defaultControls: Record<string, string> = {
+        chest: "100", shoulderWidth: "45", length: "70", armholeDepth: "24",
+        strapWidth: "8", neckDrop: "0", neckWidthEase: "0", ease: "10",
+      };
+      for (const [field, expected] of Object.entries(defaultControls)) {
+        expect(root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!.value, field).toBe(expected);
+      }
+      expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.min).toBe("0");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.max).toBe("18");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.step).toBe("0.5");
+      const controls = root.querySelector<HTMLElement>(`#starter-limits-${starterId}`)!.textContent;
+      expect(controls).toContain("Additional front neckline drop (design input): 0–18 cm");
+      expect(controls).toContain("not-validated");
+
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLElement>("#style-host")!.textContent).toContain("You're making a Classic tank.");
+      clickId(root, "view-pattern");
+      const defaultSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(root.querySelectorAll("#pattern-annotation-key [data-pattern-piece-name]")).toHaveLength(2);
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML.toLowerCase()).toContain("front");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML.toLowerCase()).toContain("back");
+
+      const strapWidth = root.querySelector<HTMLInputElement>('input[data-field="strapWidth"]')!;
+      strapWidth.value = "16";
+      strapWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(strapWidth.value).toBe("16");
+      expect(root.querySelector<HTMLElement>("#error-strapWidth")!.textContent).toContain("0–15 cm");
+      strapWidth.value = "8";
+      strapWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#error-strapWidth")!.textContent).toBe("");
+
+      const neckDrop = root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!;
+      neckDrop.value = "1";
+      neckDrop.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(editedSvg).not.toBe(defaultSvg);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: starterId,
+        entryRevision: "2026-10-25.1",
+        recipeId: "tank",
+        recipeRevision: "tank-high-round-v1",
+        configurationSnapshot: {
+          targetStyle: "Classic tank",
+          measurements: {
+            chest: 100, shoulderWidth: 45, length: 70, armholeDepth: 24,
+            strapWidth: 8, neckDrop: 0, neckWidthEase: 0, ease: 10,
+          },
+          options: {},
+        },
+      });
+      expect(saved.measurements).toMatchObject({ neckDrop: 1, strapWidth: 8 });
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: High-neck Tank · software defaults");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("physical validation not performed");
+      expect(reopened.querySelector<HTMLElement>('[data-dim-row="neckDrop"] > span')?.textContent)
+        .toContain("Additional front neckline drop");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.getAttribute("aria-label"))
+        .toBe("Additional front neckline drop");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.value).toBe("1");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${starterId}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(editedSvg);
+
+      reachExportStage(reopened);
+      expect(reopened.querySelector<HTMLSelectElement>("#export-size")!.options[
+        reopened.querySelector<HTMLSelectElement>("#export-size")!.selectedIndex
+      ]!.textContent!.trim()).toBe("M");
+      reopened.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
+      const svgOutput = files.get("tank-M.svg")!;
+      expect(svgOutput).toContain("<svg");
+      expect(svgOutput.toLowerCase()).toContain("front");
+      expect(svgOutput.toLowerCase()).toContain("back");
+
+      reopened.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      const techPackText = visiblePdfText(files.get("tank-techpack.pdf")!);
+      expect(techPackText).toContain("N02 is a higher round front neckline relative to N01.");
+      expect(techPackText).toContain("No built-up neck, collar, facing or modeled stabilization is included");
+      expect(techPackText).toContain("physical fit has not been validated");
+      expect(techPackText).toContain("Front & back panels");
+      expect(techPackText).toContain("Neckline & armholes");
+      expect(techPackText).toContain("The generic Tank size run is not a validated N02 grade.");
+      expect(techPackText).not.toContain("not a validated grade for the N01 Classic scoop Tank starter");
+      expect(techPackText).not.toContain("Body & sleeves");
+      expect(techPackText).not.toContain("Neckband");
+    } finally {
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
   it("selects, edits, saves, reopens, and exports the N01 Classic scoop Tank starter", async () => {
     localStorage.clear();
     const files = new Map<string, string>();
@@ -11937,6 +12099,10 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(card.textContent).toContain("Classic scoop Tank · software defaults");
       expect(card.textContent).toContain("B1 technical review approved for digital scope · physical validation not-validated");
       clickId(root, `starter-${starterId}`);
+      expect(root.querySelector<HTMLElement>('[data-dim-row="neckDrop"] > span')?.textContent)
+        .toContain("Neck scoop depth");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.getAttribute("aria-label"))
+        .toBe("Neck scoop depth");
 
       expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
       expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Tank");
@@ -12012,6 +12178,10 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Classic tank");
       expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
         .toContain("B1 technical review approved for digital scope; physical validation not performed");
+      expect(reopened.querySelector<HTMLElement>('[data-dim-row="neckDrop"] > span')?.textContent)
+        .toContain("Neck scoop depth");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.getAttribute("aria-label"))
+        .toBe("Neck scoop depth");
       expect(reopened.querySelector<HTMLInputElement>('input[data-field="strapWidth"]')!.value).toBe("10");
       expect(reopened.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.value).toBe("6");
       expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${starterId}"]`)!.getAttribute("aria-pressed"))
@@ -12388,6 +12558,32 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.textContent)
         .toContain("This field is not defined for the selected recipe.");
       unknownField.remove();
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("shows N02 neckline context in guided capture and value history", async () => {
+    localStorage.clear();
+    const root = mount();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-tank-high-neck-digital-v1");
+      clickId(root, "journey-guided");
+      const fieldSelector = '[data-field-id="style.tank-neck-drop"]';
+      await vi.waitFor(() => expect(root.querySelector(fieldSelector)).not.toBeNull());
+      const field = root.querySelector<HTMLElement>(fieldSelector)!;
+      expect(field.textContent).toContain("Additional front neckline drop");
+      expect(field.textContent).toContain("higher round front-neckline Tank profile relative to N01");
+      expect(field.textContent).toContain("No qualified capture procedure or physical fit validation exists");
+      expect(field.textContent).toContain("N02 software guardrail: 0–18 cm in 0.5 cm steps");
+
+      root.querySelector<HTMLButtonElement>('button[data-open-field-history="style.tank-neck-drop"]')!.click();
+      const history = root.querySelector<HTMLDialogElement>("#field-history-dialog")!.textContent!;
+      expect(history).toContain("Additional front neckline drop — value source and history");
+      expect(history).toContain("higher round front-neckline Tank profile relative to N01");
+      expect(history).toContain("physical fit validation exists");
     } finally {
       root.remove();
       localStorage.clear();

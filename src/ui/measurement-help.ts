@@ -402,5 +402,16 @@ export function measurementHelpFor(recipeId: string, fieldId: string, starterEnt
       guardrailNote: "F06 software guardrail 8–10 cm in 1 cm steps; not an industry standard or fit range. Invalid values stay visible and are not clamped.",
     });
   }
+  if (recipeId === "tank" && starterEntryId === "tank-high-neck-digital-v1"
+    && entry.inputKey === "neckDrop") {
+    return Object.freeze({
+      ...entry,
+      label: "Additional front neckline drop",
+      meaning: "N02 is a higher round front-neckline Tank profile relative to N01. This editable software control adds front neckline depth beyond the chest-derived baseline; 0 cm is the N02 software default, not a physical target.",
+      draftUse: "The current Tank draft adds this value to the front neckline depth beyond the chest-derived baseline. Only the front neckline changes; the back neckline stays at its derived depth.",
+      limits: "The 0–18 cm range in 0.5 cm steps is an InfiniDrip software guardrail, not a sourced physical standard or fit range. At identical other inputs, N02's 0 cm default places front center 5 cm higher than N01's 5 cm default. No qualified capture procedure or physical fit validation exists.",
+      guardrailNote: "N02 software guardrail: 0–18 cm in 0.5 cm steps. This is not a sourced physical standard or fit range. Invalid values remain visible and are not clamped.",
+    });
+  }
   return entry;
 }
