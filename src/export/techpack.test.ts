@@ -841,3 +841,59 @@ describe("tech-pack Fit Record page", () => {
     }
   });
 });
+
+describe("Fit Record status-note wrapping", () => {
+  const size = {
+    label: "M",
+    measurements: STANDARD_M,
+    options: {},
+    block: TEE.draft(STANDARD_M, {}),
+  };
+  const n02Note = "Digital draft only; N02 is a higher round front neckline relative to N01. No built-up neck, collar, facing or modeled stabilization is included; physical fit has not been validated. The generic Tank size run is not a validated N02 grade.";
+
+  it("keeps the full long note inside A4 and Letter printable bounds and below it positions the form", () => {
+    for (const page of [PAGE_A4, PAGE_LETTER]) {
+      const pdf = exportTechPackV2ForGradePlan(TEE, [size], page, undefined, [], "", "M", [], n02Note);
+      const fitStream = pageStreams(pdf).find((stream) => stream.includes("(Tee - M - Fit Record)"))!;
+      const entries = positionedText(fitStream);
+      const noteStartY = pt(page.height - (1.5 + 2.9));
+      const noteLines = entries.filter((entry) => entry.fontSize === 8
+        && entry.x === pt(1.5) && entry.y <= noteStartY && entry.y > noteStartY - pt(1));
+
+      expect(noteLines.length).toBeGreaterThan(1);
+      expect(noteLines.map((entry) => entry.text).join(" ")).toBe(n02Note);
+      for (const entry of noteLines) {
+        expect(entry.x).toBe(pt(1.5));
+        expect(entry.x + entry.text.length * entry.fontSize * 0.55).toBeLessThanOrEqual(pt(page.width - 1.5));
+      }
+      for (let index = 1; index < noteLines.length; index++) {
+        // PDF coordinates are emitted to three decimal places, so allow their
+        // maximum accumulated rounding error on the baseline interval.
+        expect(Math.abs((noteLines[index - 1]!.y - noteLines[index]!.y) - pt(0.34)))
+          .toBeLessThanOrEqual(0.0011);
+      }
+      const fabric = entries.find((entry) => entry.text === "Fabric:")!;
+      expect(fabric.y).toBeLessThan(noteLines.at(-1)!.y);
+    }
+  });
+
+  it("keeps no-note and one-line-note form spacing unchanged", () => {
+    for (const page of [PAGE_A4, PAGE_LETTER]) {
+      const noNote = exportTechPackV2ForGradePlan(TEE, [size], page, undefined, [], "", "M");
+      const shortNote = exportTechPackV2ForGradePlan(TEE, [size], page, undefined, [], "", "M", [],
+        "Digital draft only; physical fit has not been validated.");
+      const noNoteFit = pageStreams(noNote).find((stream) => stream.includes("(Tee - M - Fit Record)"))!;
+      const shortNoteFit = pageStreams(shortNote).find((stream) => stream.includes("(Tee - M - Fit Record)"))!;
+      const noNoteEntries = positionedText(noNoteFit);
+      const shortNoteEntries = positionedText(shortNoteFit);
+      const noNoteFabric = noNoteEntries.find((entry) => entry.text === "Fabric:")!;
+      const shortNoteFabric = shortNoteEntries.find((entry) => entry.text === "Fabric:")!;
+      const shortNoteLine = shortNoteEntries.find((entry) => entry.text.startsWith("Digital draft only"))!;
+
+      expect(noNoteFabric.y).toBe(pt(page.height - (1.5 + 3.0)));
+      expect(shortNoteLine.y).toBe(pt(page.height - (1.5 + 2.9)));
+      expect(shortNoteFabric.y).toBe(pt(page.height - (1.5 + 3.6)));
+      expect(shortNoteFabric.y).toBeLessThan(shortNoteLine.y);
+    }
+  });
+});
