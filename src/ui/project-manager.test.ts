@@ -3986,6 +3986,27 @@ describe("accessible project and style manager", () => {
     }
   });
 
+  it("saves collection drafts with the default timestamp", async () => {
+    const beforeSave = Date.now();
+    const state = await techPackHarness();
+    try {
+      const { host, workflow } = state;
+      clickCollectionAction(host, "add-collection");
+      editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Default clock collection");
+      clickCollectionAction(host, "save");
+
+      await vi.waitFor(() => expect(workflow.snapshot.project.schemaVersion).toBe(4));
+      const project = workflow.snapshot.project;
+      if (project.schemaVersion !== 4) throw new Error("Collection save did not upgrade to schema v4.");
+      const updatedAt = project.collections[0]!.updatedAt;
+      expect(new Date(updatedAt).toISOString()).toBe(updatedAt);
+      expect(Date.parse(updatedAt)).toBeGreaterThanOrEqual(beforeSave);
+      expect(Date.parse(updatedAt)).toBeLessThanOrEqual(Date.now());
+    } finally {
+      state.close();
+    }
+  });
+
   it("removes nested colorway and variant drafts through their rendered actions without changing saved data", async () => {
     const confirm = vi.fn(() => false);
     const state = await techPackHarness({ confirm });
@@ -4789,9 +4810,12 @@ describe("accessible project and style manager", () => {
       expect(host.textContent).toContain(`Unresolved saved ID · ${skuOne}`);
       expect(confirm).toHaveBeenLastCalledWith(expect.stringContaining("Shared-material member references will remain in the draft"));
 
+      editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "");
       allowDelete = false;
       clickCollectionAction(host, "delete-collection");
+      expect(confirm).toHaveBeenLastCalledWith(expect.stringContaining("Delete collection “Unnamed collection”"));
       expect(confirm).toHaveBeenLastCalledWith(expect.stringContaining("1 SKU row(s), 0 nested variant(s), and 1 shared-material group(s)"));
+      editCollectionField(host, '[data-ce-scope="collection"][data-ce-field="name"]', "Capsule");
       expect(host.querySelectorAll(".project-collection-editor-card")).toHaveLength(1);
       expect(host.querySelectorAll(".project-collection-editor-sku")).toHaveLength(1);
       expect(host.querySelectorAll('[data-ce-scope="member"][data-ce-field="skuId"]')).toHaveLength(2);

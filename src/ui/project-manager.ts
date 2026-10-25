@@ -879,8 +879,7 @@ export class ProjectManager {
       return;
     }
     if (action === "delete-collection" && collectionId) {
-      const collection = this.collectionDrafts.find((item) => item.id === collectionId);
-      if (!collection) return;
+      const collection = this.collectionDrafts.find((item) => item.id === collectionId)!;
       const variants = collection.skus.reduce((count, sku) => count + sku.variants.length, 0);
       const confirmed = this.confirm(
         `Delete collection “${collection.name || "Unnamed collection"}”? This removes ${collection.skus.length} SKU row(s), ${variants} nested variant(s), and ${collection.sharedMaterialGroups.length} shared-material group(s) from the draft. Linked source styles remain unchanged.`,
@@ -893,9 +892,8 @@ export class ProjectManager {
       return;
     }
     if (action === "delete-sku" && collectionId && skuId) {
-      const collection = this.collectionDrafts.find((item) => item.id === collectionId);
-      const sku = collection?.skus.find((item) => item.id === skuId);
-      if (!sku) return;
+      const collection = this.collectionDrafts.find((item) => item.id === collectionId)!;
+      const sku = collection.skus.find((item) => item.id === skuId)!;
       const confirmed = this.confirm(
         `Delete SKU “${sku.code || sku.name || sku.id.slice(0, 8)}”? This removes ${sku.variants.length} nested variant(s). Shared-material member references will remain in the draft and need deliberate repair before saving.`,
       );
