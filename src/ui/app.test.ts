@@ -31,6 +31,8 @@ import {
   n01TankTechPackForOutput,
   n01TankRecipeForOutput,
   squareNeckTankRecipeForOutput,
+  vNeckTankTechPackForOutput,
+  vNeckTankRecipeForOutput,
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
 import { customOneSizeSpecMarkup, inspectionMarkup } from "./view";
@@ -42,7 +44,8 @@ import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-s
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
-import { TANK_N04_ENTRY_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
+import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY,
+  TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 import { blockPieces } from "../drafting/block";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
@@ -11099,6 +11102,43 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(TANK.techPackForFabric).toBeDefined();
   });
 
+  it("keeps the N05 V outline while withholding neckline finish and material claims", () => {
+    const sourcePack: GarmentRecipe["techPack"] = {
+      ...TANK.techPack,
+      bom: [{ material: "Fabric", placement: "Neckband", qty: "0.3 m" }],
+      construction: ["Join shoulder seams.", "Bind the neckline.", "Turn the hem."],
+    };
+    const sanitized = vNeckTankTechPackForOutput(sourcePack);
+    const knit = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton jersey")!;
+    const woven = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton woven")!;
+    const output = vNeckTankRecipeForOutput(TANK, knit);
+    const fallback = vNeckTankRecipeForOutput({ ...TANK, techPackForFabric: undefined }, woven);
+
+    expect(sanitized.bom).toEqual([{
+      material: "Not specified",
+      placement: "Materials and trim",
+      qty: "No sourcing or consumption estimate",
+    }]);
+    expect(sanitized.construction).toEqual([
+      "Join shoulder seams.",
+      "Turn the hem.",
+      "Digital N05 V-neck front profile; neckline finish unspecified.",
+    ]);
+    expect(sanitized.constructionNotice).toContain("no facing or binding template");
+    expect(sanitized.measurementSpecToleranceColumn).toBe(false);
+    expect(sanitized.fitRecordPassColumn).toBe(false);
+    expect(sanitized.fitRecordToleranceColumn).toBe(false);
+    expect(sanitized.fitRecordTitle).toBe("Digital Measurement Worksheet");
+    expect(output.label).toBe("V-neck Tank");
+    expect(output.poms.every((pom) => pom.tolerance === undefined)).toBe(true);
+    expect(output.techPackForOptions!({})).toEqual(output.techPack);
+    expect(output.techPackForFabric).toBeUndefined();
+    expect(fallback.techPack.bom).toEqual(sanitized.bom);
+    expect(fallback.techPackForFabric).toBeUndefined();
+    expect(TANK_N05_ENTRY_ID).toBe("tank-v-neck-digital-v1");
+    expect(TANK.techPackForFabric).toBeDefined();
+  });
+
   it("resolves and freezes fabric-specific N01 Tech Pack content for export", () => {
     const tankRecipe = GARMENTS.find((candidate) => candidate.name === "tank")!;
     const knit = STRETCH_FABRICS.find((candidate) => candidate.name === "Cotton jersey")!;
@@ -14152,6 +14192,117 @@ describe("S1203 N04 Square-neck Tank", () => {
       root?.remove();
       reopened?.remove();
       invalidRestored?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+});
+
+describe("S1207 N05 V-neck Tank", () => {
+  it("selects, edits, saves, reopens, and exports the V-neck digital shell", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${TANK_N05_ENTRY_ID}`)!;
+      expect(card.textContent).toContain("V-neck Tank · software defaults");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      clickId(root, `starter-${TANK_N05_ENTRY_ID}`);
+
+      const neckDrop = root.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!;
+      expect(neckDrop.getAttribute("aria-label")).toBe("Front neckline drop");
+      expect(root.querySelector<HTMLElement>('[data-dim-row="neckDrop"] > span')!.textContent)
+        .toContain("Front neckline drop");
+      expect(neckDrop.value).toBe("5");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${TANK_N05_PROFILE_ROUTE_KEY}"]`)).toBeNull();
+      expect(root.querySelector<HTMLElement>(`#starter-limits-${TANK_N05_ENTRY_ID}`)!.textContent)
+        .toContain("No facing, binding template, sewn tolerance, or construction method is specified");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: V-neck Tank · software defaults");
+
+      neckDrop.value = "7";
+      neckDrop.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#error-neckDrop")!.textContent).toBe("");
+      clickId(root, "view-pattern");
+      const vPattern = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(vPattern).toContain("<svg");
+      expect(root.querySelectorAll("#pattern-annotation-key [data-pattern-piece-name]")).toHaveLength(2);
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TANK_N05_ENTRY_ID,
+        recipeId: "tank",
+        recipeRevision: "tank-v-neck-v1",
+        configurationSnapshot: {
+          targetStyle: "Classic tank",
+          measurements: { neckDrop: 5 },
+          options: {},
+        },
+      });
+      expect(saved.measurements.neckDrop).toBe(7);
+      expect(saved.garmentOptions.tank).not.toHaveProperty(TANK_N05_PROFILE_ROUTE_KEY);
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: V-neck Tank · software defaults");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("physical validation not performed");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="neckDrop"]')!.value).toBe("7");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${TANK_N05_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(vPattern);
+
+      clickId(reopened, "view-body");
+      const bodyView = reopened.querySelector("#canvas-host svg")!.innerHTML;
+      expect(bodyView).toContain('data-edge="neckDrop"><path d="M -7 0 L 0 15 L 7 0"');
+      expect(bodyView).toContain("Neck depth 7");
+      clickId(reopened, "assembled-preview-toggle");
+      const assembled = reopened.querySelector<SVGSVGElement>("#garment-host svg")!;
+      const assembledPieces = [...assembled.querySelectorAll<SVGPathElement>('path[data-edge="ease"]')];
+      expect(assembled.textContent).toContain("FRONT");
+      expect(assembled.textContent).toContain("BACK");
+      expect(assembledPieces).toHaveLength(2);
+      expect(assembledPieces[0]!.getAttribute("d")).toContain("L -7 0 L 0 15 L 7 0 Z");
+
+      reachExportStage(reopened);
+      reopened.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
+      const svgEntry = [...files.entries()].find(([filename]) => filename.endsWith("-M.svg"))!;
+      expect(svgEntry).toBeDefined();
+      const svgOutput = svgEntry[1];
+      const routeOptions = { [TANK_N05_PROFILE_ROUTE_KEY]: 1 };
+      const expectedSvg = exportSvg(
+        blockPieces(TANK.draft(saved.measurements, routeOptions)),
+        TANK.allowances,
+        notchesForRecipeOptions(TANK, routeOptions),
+      );
+      expect(svgOutput).toBe(expectedSvg);
+
+      reopened.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      const techPackEntry = [...files.entries()].find(([filename]) => filename.endsWith("-techpack.pdf"))!;
+      expect(techPackEntry).toBeDefined();
+      const techPack = visiblePdfText(techPackEntry[1]);
+      expect(techPack).toContain("V-neck Tank");
+      expect(techPack).toContain("No sourcing or consumption estimate");
+      expect(techPack).toContain("neckline finish unspecified");
+      expect(techPack).toContain("no facing or binding template");
+      expect(techPack).toContain("physical fit");
+      expect(techPack).not.toContain("Cotton jersey");
+      expect(techPack).not.toContain("Neckband");
+    } finally {
+      root?.remove();
+      reopened?.remove();
       delete window.electronAPI;
       localStorage.clear();
     }

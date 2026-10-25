@@ -10,6 +10,7 @@ import {
   TANK_RACERBACK_BACK_CUT_IN_OPTION,
   TANK_RACERBACK_ENTRY_ID,
   TANK_N04_ENTRY_ID,
+  TANK_N05_ENTRY_ID,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION,
 } from "../drafting/tank";
 
@@ -924,10 +925,40 @@ const TANK_SQUARE_NECK_BLANK_ENTRY: StarterEntry = {
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
+const TANK_V_NECK_BLANK_ENTRY: StarterEntry = {
+  ...TANK_CLASSIC_SCOOP_BLANK_ENTRY,
+  entryId: TANK_N05_ENTRY_ID,
+  entryRevision: "2026-10-25.1",
+  recipeRevision: "tank-v-neck-v1",
+  label: "V-neck Tank · software defaults",
+  configuration: {
+    targetStyle: TANK_CLASSIC_SCOOP_BLANK_ENTRY.configuration.targetStyle,
+    measurements: { ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.configuration.measurements },
+    options: {},
+  },
+  supportedControls: TANK_CLASSIC_SCOOP_BLANK_ENTRY.supportedControls.map((control) =>
+    control.fieldId === "neckDrop" ? { ...control, label: "Front neckline drop" } : control),
+  intent: {
+    ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.intent,
+    use: "Preconfigured V-neck Tank digital shell; the existing front-drop and neckline-width controls remain editable.",
+    fit: "N01-derived Tank software values with a V front; defaults are not validated fit targets or physical standards.",
+    construction: "Uses the existing Tank root: two body panels, a digital V front, crew back, sleeveless armholes, and shoulder and side joins. Neckline finish is unspecified; no facing or binding template is included. Digital construction only.",
+    sizeScope: "One software-default profile seeded from the N01 Tank values; not a population chart or validated size-M profile. The generic Tank size run is not validated grading for N05.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The shared N01 measurements and controls are InfiniDrip software choices, not sourced physical dimensions, fit targets, or population standards.",
+    "N05 changes only the digital front neckline shape; the shared neckline-width and front-drop controls remain editable. No facing, binding template, sewn tolerance, or construction method is specified.",
+    "The modeled Tank geometry and POMs are digital outputs, not sewn measurements or evidence of fit, coverage, comfort, or wear.",
+    "Materials, consumption, N05-specific grading, supplier suitability, manufacturing, and production remain unvalidated.",
+    "B1 technical-design review is pending. Physical validation, fit, comfort, wear, material performance, and production remain not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v15",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v16",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

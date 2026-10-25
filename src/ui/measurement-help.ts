@@ -12,6 +12,7 @@
  */
 import { GARMENTS } from "../drafting";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
+import { TANK_N05_ENTRY_ID } from "../drafting/tank";
 import { getFieldDefinitions } from "./field-provenance";
 import { FITTED_CAP_SLEEVE_LENGTH_LABEL } from "./starter-registry";
 
@@ -400,6 +401,16 @@ export function measurementHelpFor(recipeId: string, fieldId: string, starterEnt
       draftUse: "The fitted draft places the sleeve hem at modeled cap base plus this value. The separate sleeve-length POM adds the solved cap height.",
       limits: "This F06 value is a software target, not a body arm path or sewn measurement. The 8–10 cm range is an entry-specific digital guardrail, not a fit range or industry standard; physical fit is unvalidated.",
       guardrailNote: "F06 software guardrail 8–10 cm in 1 cm steps; not an industry standard or fit range. Invalid values stay visible and are not clamped.",
+    });
+  }
+  if (recipeId === "tank" && starterEntryId === TANK_N05_ENTRY_ID && entry.inputKey === "neckDrop") {
+    return Object.freeze({
+      ...entry,
+      label: "Front neckline drop",
+      meaning: "N05 uses a V-shaped front neckline. This editable software value adds depth at the front center beyond the chest-derived baseline; it is not a physical target.",
+      draftUse: "The N05 digital Tank draft uses this front-center drop and the shared neckline-width adjustment to form its V. The back neckline remains crew.",
+      limits: "The N01-derived values and control range are InfiniDrip software choices, not sourced physical dimensions or a fit range. No sewn neckline finish or physical fit has been validated.",
+      guardrailNote: "N05 software guardrail: invalid values remain visible and are not clamped. The generic Tank size run is not a validated N05 grade.",
     });
   }
   if (recipeId === "tank" && starterEntryId === "tank-high-neck-digital-v1"

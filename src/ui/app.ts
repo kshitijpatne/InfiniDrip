@@ -59,7 +59,7 @@ import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspe
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
-import { TANK_N04_ENTRY_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankRacerbackControlOffsetCm } from "../drafting/tank";
+import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankRacerbackControlOffsetCm } from "../drafting/tank";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -319,6 +319,7 @@ function starterFieldLabelOverrides(entryId: string | null | undefined): Readonl
   if (entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID) {
     return { sleeveLength: FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL };
   }
+  if (entryId === TANK_N05_ENTRY_ID) return { neckDrop: "Front neckline drop" };
   if (entryId === "tank-high-neck-digital-v1") return { neckDrop: "Additional front neckline drop" };
   return {};
 }
@@ -594,6 +595,41 @@ export function squareNeckTankRecipeForOutput(
   };
 }
 
+/** Keep N05 output explicit about its digital V outline and unspecified finish. */
+export function vNeckTankTechPackForOutput(techPack: GarmentRecipe["techPack"]): GarmentRecipe["techPack"] {
+  const tankPack = tankStarterTechPackForOutput(techPack);
+  return {
+    ...tankPack,
+    bom: [{ material: "Not specified", placement: "Materials and trim", qty: "No sourcing or consumption estimate" }],
+    construction: [
+      ...tankPack.construction.filter((step) => !/(neckline|neckband|binding)/i.test(step)),
+      "Digital N05 V-neck front profile; neckline finish unspecified.",
+    ],
+    constructionNotice: "Digital N05 V-neck Tank shell only. Neckline finish and materials are unspecified; no facing or binding template, sewn tolerance, or production instruction is supplied.",
+    measurementSpecNote: "N05 software geometry only. The generic Tank size run is not a validated N05 grade, size chart, sewn tolerance, or physical-fit result.",
+    measurementSpecToleranceColumn: false,
+    fitRecordStatusNote: "N05 is an editable digital shell. Physical fit, comfort, wear, material performance, and neckline finishing have not been validated.",
+    fitRecordPassColumn: false,
+    fitRecordToleranceColumn: false,
+    fitRecordTitle: "Digital Measurement Worksheet",
+  };
+}
+
+export function vNeckTankRecipeForOutput(
+  recipe: GarmentRecipe,
+  fabric: (typeof STRETCH_FABRICS)[number],
+): GarmentRecipe {
+  const fabricPack = recipe.techPackForFabric?.(fabric) ?? recipe.techPack;
+  const techPack = vNeckTankTechPackForOutput(fabricPack);
+  return {
+    ...recipe,
+    label: "V-neck Tank",
+    poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
+    techPack,
+    techPackForOptions: () => techPack,
+    techPackForFabric: undefined,
+  };
+}
 /** Keep output routing exact: an unknown measurement set cannot borrow a nearby size. */
 export function semanticSizeStepFor<T extends { readonly step: number }>(
   sizes: readonly T[],
@@ -1692,9 +1728,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     (forRecipe.options ?? []).filter((option) =>
       (option.appliesToStyle === undefined || option.appliesToStyle === targetStyle)
         && optionAppliesToStarterEntry(option, starterOrigin?.entryId));
-  const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => garmentOptionsForStyle(
-    forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle, true, starterOrigin?.entryId,
-  );
+  const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => {
+    const options = garmentOptionsForStyle(
+      forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle, true, starterOrigin?.entryId,
+    );
+    return forRecipe.name === "tank" && starterOrigin?.entryId === TANK_N05_ENTRY_ID
+      ? { ...options, [TANK_N05_PROFILE_ROUTE_KEY]: 1 }
+      : options;
+  };
   const racerbackBodyControlOffsetCm = (): number | undefined =>
     starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && recipe.name === "tank"
       ? tankRacerbackControlOffsetCm(recipeOptions()[TANK_RACERBACK_BACK_CUT_IN_OPTION_ID] ?? 0)
@@ -1721,6 +1762,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
     starterOrigin?.entryId === TANK_N04_ENTRY_ID && forRecipe.name === "tank"
       ? "Square-neck Tank"
+      : starterOrigin?.entryId === TANK_N05_ENTRY_ID && forRecipe.name === "tank"
+      ? "V-neck Tank"
       : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && forRecipe.name === "tank"
       ? "Racerback Tank"
       : starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
@@ -1738,6 +1781,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const starterOutputStatusNote = (): string | undefined =>
     starterOrigin?.entryId === TANK_N04_ENTRY_ID
       ? `Digital N04 Square-neck Tank shell. Square-corner easing: ${squareNeckTankCornerSetting(recipeOptions())}. Neckline finish, facing/binding template, sewn tolerance and physical fit are unspecified or unvalidated.`
+      : starterOrigin?.entryId === TANK_N05_ENTRY_ID
+      ? "Digital N05 V-neck Tank shell using software-default geometry. Neckline finish, materials, sewn tolerance, grading and physical fit are unspecified or unvalidated; no facing or binding template is supplied."
       : starterOrigin?.entryId === "tank-high-neck-digital-v1"
       ? "Digital draft only; N02 is a higher round front neckline relative to N01. No built-up neck, collar, facing or modeled stabilization is included; physical fit has not been validated. The generic Tank size run is not a validated N02 grade."
       : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID
@@ -1866,7 +1911,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : recipe.allowances;
     const poms = pomsForRecipeOptions(recipe, options);
     const withStarterTechPack = (outputRecipe: GarmentRecipe): GarmentRecipe =>
-      starterOrigin?.entryId === TANK_N04_ENTRY_ID
+      starterOrigin?.entryId === TANK_N05_ENTRY_ID
+        ? vNeckTankRecipeForOutput(outputRecipe, stretchFabric)
+        : starterOrigin?.entryId === TANK_N04_ENTRY_ID
         ? squareNeckTankRecipeForOutput(outputRecipe, stretchFabric, recipeOptions())
         : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID
         ? racerbackTankRecipeForOutput(outputRecipe, stretchFabric, recipeOptions())
