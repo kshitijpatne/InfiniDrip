@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob, File as NodeFile } from "node:buffer";
 import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
-import { GARMENTS, STANDARD_M, TEE_RAGLAN } from "../drafting";
+import { GARMENTS, STANDARD_M, TANK, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TEE_RAGLAN } from "../drafting";
 import {
   CUSTOM_ONE_SIZE_MODE,
   CUSTOM_STYLE_RECORD_VERSION,
@@ -19,6 +19,7 @@ import { openProjectWorkflow } from "./project-workflow";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import { createProjectPackage, readProjectPackage } from "./project-package";
 import { createFieldObservationRecord } from "./field-provenance";
+import { starterEntryById, starterOriginForEntry } from "./starter-registry";
 import * as techPackT02Validation from "./tech-pack-t02-validation";
 import * as techPackOperationReconciliation from "./tech-pack-operation-reconciliation";
 import { emptyTechPackPomRecordSet } from "./tech-pack-sample-qa-records";
@@ -281,6 +282,43 @@ describe("accessible project and style manager", () => {
       expect(t03).toHaveBeenCalledWith(expect.anything(), recipe, expect.anything(),
         expect.not.objectContaining({ chestEase: 8 }), expect.anything());
       expect(workflow.snapshot.activeStyle.design.garmentOptions.tee?.chestEase).toBe(8);
+    } finally {
+      t02.mockRestore();
+      t03.mockRestore();
+      state.close();
+    }
+  });
+
+  it("passes the active N03 cut-in into both Living Tech Pack T02 and T03 consumers", async () => {
+    const t02 = vi.spyOn(techPackT02Validation, "evaluateTechPackT02");
+    const t03 = vi.spyOn(techPackOperationReconciliation, "buildTechPackReferenceReconciliation");
+    const state = await techPackHarness();
+    try {
+      const entry = starterEntryById(TANK_RACERBACK_ENTRY_ID)!;
+      const design = state.workflow.snapshot.activeStyle.design;
+      await state.workflow.createStyle("N03 Racerback Tank", {
+        ...design,
+        workspace: {
+          ...design.workspace,
+          garment: "tank",
+          targetStyle: entry.configuration.targetStyle,
+          starterOrigin: starterOriginForEntry(entry),
+        },
+        garmentOptions: {
+          ...design.garmentOptions,
+          tank: { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 4.5 },
+        },
+      }, "first-run-default");
+      t02.mockClear();
+      t03.mockClear();
+      state.manager.refresh();
+
+      expect(t02).toHaveBeenCalledWith(expect.objectContaining({
+        recipe: TANK,
+        options: expect.objectContaining({ [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 4.5 }),
+      }));
+      expect(t03).toHaveBeenCalledWith(expect.anything(), TANK, expect.anything(),
+        expect.objectContaining({ [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 4.5 }), expect.anything());
     } finally {
       t02.mockRestore();
       t03.mockRestore();

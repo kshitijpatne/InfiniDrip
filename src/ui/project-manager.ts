@@ -1239,7 +1239,8 @@ export class ProjectManager {
           recipe: t02Recipe,
           measurements: loaded.activeStyle.design.measurements,
           options: garmentOptionsForStyle(t02Recipe.options ?? [],
-            loaded.activeStyle.design.garmentOptions[t02Recipe.name] ?? {}, loaded.activeStyle.design.workspace.targetStyle, false),
+            loaded.activeStyle.design.garmentOptions[t02Recipe.name] ?? {}, loaded.activeStyle.design.workspace.targetStyle, false,
+            loaded.activeStyle.design.workspace.starterOrigin?.entryId),
           sizeSteps: t02SizeSteps,
         })
       : null;
@@ -1251,7 +1252,8 @@ export class ProjectManager {
           t02Recipe ?? null,
           loaded.activeStyle.design.measurements,
           t02Recipe ? garmentOptionsForStyle(t02Recipe.options ?? [],
-            loaded.activeStyle.design.garmentOptions[t02Recipe.name] ?? {}, loaded.activeStyle.design.workspace.targetStyle, false) : {},
+            loaded.activeStyle.design.garmentOptions[t02Recipe.name] ?? {}, loaded.activeStyle.design.workspace.targetStyle, false,
+            loaded.activeStyle.design.workspace.starterOrigin?.entryId) : {},
           pendingT03?.data ?? null,
         )
       : null;

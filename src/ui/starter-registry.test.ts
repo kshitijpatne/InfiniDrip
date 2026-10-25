@@ -8,6 +8,7 @@ import {
 } from "./starter-registry";
 import { currentStyles, TEE_STYLES, FITTED_STYLES, TANK_STYLES } from "../style/style";
 import { STANDARD_M } from "../drafting";
+import { TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID } from "../drafting/tank";
 
 const entry = STARTER_REGISTRY.entries[0]!;
 const blankEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.catalogKind === "blank")!;
@@ -28,11 +29,12 @@ const fittedThreeQuarterSleeveEntry = STARTER_REGISTRY.entries.find((candidate) 
 const fittedCropEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "fitted-cropped-tee-digital-v1")!;
 const tankEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tank-classic-scoop-digital-v1")!;
 const tankHighNeckEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === "tank-high-neck-digital-v1")!;
+const tankRacerbackEntry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === TANK_RACERBACK_ENTRY_ID)!;
 const validOrigin = starterOriginForEntry(entry);
 
 describe("Tee Classic starter registry", () => {
   it("preserves the bounded existing custom-measurement candidate and its claim limits", () => {
-    expect(STARTER_REGISTRY.entries).toHaveLength(19);
+    expect(STARTER_REGISTRY.entries).toHaveLength(20);
     expect(entry).toMatchObject({
       entryId: "tee-classic-custom-v1",
       entryRevision: "2026-10-19.3",
@@ -72,7 +74,7 @@ describe("Tee Classic starter registry", () => {
   });
 
   it("defines one complete editable T01 blank with explicit software-only defaults and gates", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v13");
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v14");
     expect(blankEntry).toMatchObject({
       entryId: "tee-classic-digital-v1",
       entryRevision: "2026-10-20.1",
@@ -99,7 +101,7 @@ describe("Tee Classic starter registry", () => {
     }
     expect(blankEntry.supportedControls.find((control) => control.fieldId === "shoulderWidth"))
       .toMatchObject({ kind: "measurement", min: 30, max: 70, step: 0.1, defaultValue: 45 });
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(18);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -149,8 +151,8 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(tankEntry.entryId, "strapWidth", 8)).toBeNull();
     expect(starterControlError(tankEntry.entryId, "strapWidth", 16)).toContain("0–15 cm");
     expect(starterControlError(tankEntry.entryId, "strapWidth", 8.2)).toContain("0.5 cm increments from 0 cm");
-    expect(STARTER_REGISTRY.entries).toHaveLength(19);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(18);
+    expect(STARTER_REGISTRY.entries).toHaveLength(20);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
   });
 
   it("defines N02 as a distinct editable higher-round Tank profile relative to N01", () => {
@@ -191,10 +193,43 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(tankHighNeckEntry.entryId, "neckDrop", 0.5)).toBeNull();
     expect(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId).length)
       .toBe(new Set(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId)).size);
-    expect(STARTER_REGISTRY.entries).toHaveLength(19);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(18);
+    expect(STARTER_REGISTRY.entries).toHaveLength(20);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
+  it("defines N03 as an editable racerback Tank with a scoped digital back curve", () => {
+    expect(tankRacerbackEntry).toMatchObject({
+      entryId: TANK_RACERBACK_ENTRY_ID,
+      entryRevision: "2026-10-25.1",
+      recipeId: "tank",
+      recipeRevision: "tank-racerback-v1",
+      catalogKind: "blank",
+      label: "Racerback Tank · software defaults",
+      configuration: {
+        targetStyle: "Classic tank",
+        options: { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 3 },
+      },
+      gates: { b1: "pending", physical: "not-validated" },
+    });
+    expect(tankRacerbackEntry.configuration.measurements).toEqual(tankEntry.configuration.measurements);
+    expect(tankRacerbackEntry.supportedControls).toHaveLength(9);
+    expect(tankRacerbackEntry.supportedControls.find((control) => control.fieldId === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID))
+      .toMatchObject({ label: "Back armhole cut-in (digital)", kind: "option", unit: "cm", min: 0, max: 6, step: 0.5, defaultValue: 3 });
+    expect(tankRacerbackEntry.intent.construction).toContain("distinct inward-cut back armhole curve");
+    expect(tankRacerbackEntry.intent.sizeScope).toContain("not validated grading for N03");
+    expect(tankRacerbackEntry.limits.join(" ")).toContain("software choices");
+    expect(tankRacerbackEntry.limits.join(" ")).toContain("Physical validation remains not-validated");
+    expect(starterEntryById(tankRacerbackEntry.entryId)).toBe(tankRacerbackEntry);
+    expect(starterOriginError(starterOriginForEntry(tankRacerbackEntry))).toBeNull();
+    for (const value of [0, 3, 6]) expect(starterControlError(tankRacerbackEntry.entryId, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, value)).toBeNull();
+    expect(starterControlError(tankRacerbackEntry.entryId, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, -0.5)).toContain("0–6 cm");
+    expect(starterControlError(tankRacerbackEntry.entryId, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, 5.25)).toContain("0.5 cm increments");
+    expect(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId).length)
+      .toBe(new Set(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId)).size);
+    expect(STARTER_REGISTRY.entries).toHaveLength(20);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
+  });
+
   it("defines F01 as a complete editable Fitted Tee with software-only controls and limits", () => {
     expect(fittedEntry).toMatchObject({
       entryId: "fitted-tee-digital-v1", entryRevision: "2026-10-22.1",
@@ -397,7 +432,7 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(fittedThreeQuarterSleeveEntry.entryId, "sleeveLength", 34.5)).toContain("1 cm increments");
     expect(starterControlError(fittedThreeQuarterSleeveEntry.entryId, "sleeveLength", 44)).toBeNull();
     expect(starterOriginError(starterOriginForEntry(fittedThreeQuarterSleeveEntry))).toBeNull();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(18);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -460,7 +495,7 @@ describe("Tee Classic starter registry", () => {
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "ease"))
       .toMatchObject({ kind: "design", min: 13, max: 18, step: 1, defaultValue: 13 });
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "chestEase")).toBeUndefined();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(18);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(19);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 

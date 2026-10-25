@@ -34,7 +34,7 @@ import {
 } from "./tshirt";
 import { draftFitted, FITTED_GRAMMAR, FITTED_OPTIONS, FITTED_PRINCESS_PHYSICAL_ROLES,
   usesFittedPrincessSeam, fittedGuidance } from "./fitted";
-import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
+import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline, TANK_RACERBACK_BACK_CUT_IN_OPTION } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import { TEE_POMS } from "./tshirt-pom";
@@ -147,6 +147,18 @@ export interface TechPack {
   readonly construction: readonly string[]; // ordered sew steps
   /** Optional limitation note rendered immediately before construction steps. */
   readonly constructionNotice?: string;
+  /** Optional qualification printed under the measurement table title. */
+  readonly measurementSpecNote?: string;
+  /** Hide the tolerance column when the size values have no validated tolerance. */
+  readonly measurementSpecToleranceColumn?: boolean;
+  /** Optional limitation note rendered on the measurement worksheet. */
+  readonly fitRecordStatusNote?: string;
+  /** Hide the pass/fail column when no sewn tolerance or assessment exists. */
+  readonly fitRecordPassColumn?: boolean;
+  /** Hide the tolerance column when no sewn tolerance is specified or validated. */
+  readonly fitRecordToleranceColumn?: boolean;
+  /** Optional page title override for a measurement-only worksheet. */
+  readonly fitRecordTitle?: string;
 }
 
 /** A recipe may preflight inputs and withhold its block when relationships or
@@ -681,6 +693,7 @@ export const TANK: GarmentRecipe = {
   sizes: TSHIRT_SIZES,
   checks: sleevedTopPanelChecks(true), // NOT sleeve-specific — a hem-square check, reused verbatim
   guidance: tankGuidance,
+  options: [TANK_RACERBACK_BACK_CUT_IN_OPTION],
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
   // The EXACT same live neckline functions draftTank() passes to bodice() —

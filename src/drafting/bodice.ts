@@ -45,6 +45,9 @@ export interface BodiceParams {
    *  TANK-RESEARCH.md for why this needed its own curve rather than
    *  reusing the sleeved one. */
   readonly strapWidth?: number;
+  /** Optional inward control-point offset for a back-only sleeveless curve.
+   * Endpoints remain fixed; ordinary callers leave this undefined. */
+  readonly armholeCutInCm?: number;
 }
 
 interface PanelOptions {
@@ -61,7 +64,8 @@ function bodicePanel(
   position: "front" | "back",
   opts: PanelOptions,
   necklineParams: NecklineParams,
-  strapWidth: number | undefined
+  strapWidth: number | undefined,
+  armholeCutInCm: number | undefined
 ): Piece {
   const d = derive(m);
   const { cNeck, hps, edge: neckline } = necklineEdge(
@@ -93,7 +97,8 @@ function bodicePanel(
       : (() => {
           const strapPoint = d.neckWidthHalf + strapWidth;
           const { strap, edge } = sleevelessArmhole(
-            strapPoint, hps.x, d.shoulderHalf, d.shoulderSlope, d.chestWidthHalf, m.armholeDepth);
+            strapPoint, hps.x, d.shoulderHalf, d.shoulderSlope, d.chestWidthHalf, m.armholeDepth,
+            armholeCutInCm);
           return [
             { kind: "line", name: "shoulder", start: hps, end: strap },
             edge,
@@ -121,7 +126,8 @@ export const bodice: Component<BodiceParams> = (m, params) => {
     params.position === "front"
       ? { neckDepth: d.frontNeckDepth, centerEdgeName: "centerFront", pieceName: "front" }
       : { neckDepth: d.backNeckDepth, centerEdgeName: "centerBack", pieceName: "back" };
-  const piece = bodicePanel(m, params.position, opts, params.necklineParams ?? NECKLINE_DEFAULT, params.strapWidth);
+  const piece = bodicePanel(m, params.position, opts, params.necklineParams ?? NECKLINE_DEFAULT,
+    params.strapWidth, params.armholeCutInCm);
   return {
     pieces: { [params.position]: piece },
     stitches: [],

@@ -248,6 +248,20 @@ describe("renderBody — real strap position for a sleeveless garment (Slice 63)
     const svgStrap = renderBody(STANDARD_M, false, tankFrontNeckline(STANDARD_M), 8);
     expect(svgStrap).toContain("C 13.75 9 20 19 27.5 24");
   });
+
+  it("shows an N03 back-armhole shift only in the back Body figure", () => {
+    const back = (controlOffset: number) => renderBody(
+      STANDARD_M, false, tankBackNeckline(STANDARD_M), STANDARD_M.strapWidth,
+      "back", undefined, undefined, undefined, controlOffset,
+    );
+    const front = (controlOffset: number) => renderBody(
+      STANDARD_M, false, tankFrontNeckline(STANDARD_M), STANDARD_M.strapWidth,
+      "front", undefined, undefined, undefined, controlOffset,
+    );
+
+    expect(back(8)).not.toBe(back(0));
+    expect(front(8)).toBe(front(0));
+  });
 });
 
 describe("renderBody — Polo V1", () => {

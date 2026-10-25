@@ -28,6 +28,26 @@ import { PieceNotches } from "./tshirt-notches";
 import { Pom } from "./pom";
 import { TEE_POMS } from "./tshirt-pom";
 import { easeRange, armholeDepthCheck, shoulderCheck } from "./tshirt-guidance";
+import type { GarmentOption, GarmentOptions } from "./options";
+
+export const TANK_RACERBACK_ENTRY_ID = "tank-racerback-digital-v1";
+export const TANK_RACERBACK_BACK_CUT_IN_OPTION_ID = "tankRacerbackBackCutInCm";
+export const TANK_RACERBACK_BACK_CUT_IN_OPTION: GarmentOption = {
+  id: TANK_RACERBACK_BACK_CUT_IN_OPTION_ID,
+  label: "Back armhole cut-in (digital)",
+  unit: "cm",
+  help: "The value is the maximum inward movement of the N03 back armhole curve. It is a software geometry setting, not a sewn tolerance or fit result.",
+  defaultValue: 3,
+  min: 0,
+  max: 6,
+  step: 0.5,
+  appliesToStarterEntryId: TANK_RACERBACK_ENTRY_ID,
+};
+
+/** Convert the displayed maximum contour movement to the shared Bezier control offset. */
+export function tankRacerbackControlOffsetCm(maxContourShiftCm: number): number {
+  return maxContourShiftCm / 0.75;
+}
 
 /** Shoulder + side only — no sleeve underarm, no cap-ease. The armhole is
  *  drafted (by `bodice`) but stitched to nothing; it's a finished, bound
@@ -69,8 +89,8 @@ export function tankBackNeckline(m: Measurements): NecklineParams {
   return { shape: "crew", widthEase: m.neckWidthEase, frontDrop: 0 };
 }
 
-export function draftTank(m: Measurements): Block {
-  return composeBlock(TANK_GRAMMAR, m);
+export function draftTank(m: Measurements, options: GarmentOptions = {}): Block {
+  return composeBlock(TANK_GRAMMAR, m, options);
 }
 
 /** A tank is the shared bodice grammar with the sleeve node intentionally
@@ -88,6 +108,9 @@ export const TANK_GRAMMAR = garmentGrammar(
       position: "back" as const,
       necklineParams: tankBackNeckline(context.measurements),
       strapWidth: context.measurements.strapWidth,
+      // Both cubic Bezier control points move horizontally, so midpoint movement is 0.75x their offset.
+      // Convert the user's maximum contour displacement into that control-point offset.
+      armholeCutInCm: tankRacerbackControlOffsetCm(context.options[TANK_RACERBACK_BACK_CUT_IN_OPTION_ID] ?? 0),
     })),
   ],
   () => TANK_STITCHES,
