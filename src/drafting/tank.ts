@@ -47,6 +47,7 @@ export const TANK_RACERBACK_BACK_CUT_IN_OPTION: GarmentOption = {
 export const TANK_N04_ENTRY_ID = "tank-square-neck-digital-v1";
 export const TANK_N05_ENTRY_ID = "tank-v-neck-digital-v1";
 export const TANK_N06_ENTRY_ID = "tank-cropped-digital-v1";
+export const TANK_N07_ENTRY_ID = "tank-longline-digital-v1";
 /** Internal route marker derived from saved starter identity; never a user option or persisted value. */
 export const TANK_N05_PROFILE_ROUTE_KEY = "__tankN05Profile";
 /** Internal route marker derived from saved starter identity; never a user option or persisted value. */

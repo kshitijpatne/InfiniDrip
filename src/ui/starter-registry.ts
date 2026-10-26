@@ -12,6 +12,7 @@ import {
   TANK_N04_ENTRY_ID,
   TANK_N05_ENTRY_ID,
   TANK_N06_ENTRY_ID,
+  TANK_N07_ENTRY_ID,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION,
 } from "../drafting/tank";
 
@@ -990,10 +991,44 @@ const TANK_CROPPED_BLANK_ENTRY: StarterEntry = {
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
+const TANK_LONGLINE_BLANK_ENTRY: StarterEntry = {
+  ...TANK_CLASSIC_SCOOP_BLANK_ENTRY,
+  entryId: TANK_N07_ENTRY_ID,
+  entryRevision: "2026-10-26.1",
+  recipeRevision: "tank-longline-v1",
+  label: "Longline Tank · software defaults",
+  configuration: {
+    targetStyle: "Longline tank",
+    measurements: { ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.configuration.measurements, length: 89, ease: 10 },
+    options: {},
+  },
+  supportedControls: TANK_CLASSIC_SCOOP_BLANK_ENTRY.supportedControls.map((control) =>
+    control.fieldId === "length"
+      ? { ...control, min: 78, max: 100, defaultValue: 89 }
+      : control.fieldId === "ease"
+        ? { ...control, min: 5, max: 14, defaultValue: 10 }
+        : control),
+  intent: {
+    ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.intent,
+    use: "Preconfigured Longline Tank digital profile; all existing Tank controls remain editable.",
+    fit: "N01-derived software values with 89 cm body length and 10 cm ease as explicit product defaults; not physical hem placement, fit targets, or standards.",
+    construction: "Uses the existing Tank root: two body panels, scoop front, crew back, sleeveless armholes, and shoulder and side joins. Longline body length is an HPS-to-hem software control; no physical hem endpoint, neckline finish, facing, or binding is specified.",
+    sizeScope: "One software-default profile seeded from N01 with N07-specific body length and ease choices; not a population chart or validated size-M profile. The generic Tank size run is not validated grading for N07.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The shared N01 values and N07 body-length/ease defaults are editable software choices, not physical dimensions, fit targets, or population standards.",
+    "Longline Tank body length is measured in software from high-point shoulder to hem; no physical hem location, wearer reference, or coverage target has been established.",
+    "The modeled Tank geometry and POMs are digital outputs, not sewn measurements or evidence of fit, coverage, comfort, or wear.",
+    "The generic Tank size run is not validated grading for N07; materials, consumption, supplier suitability, manufacturing, and production remain unvalidated.",
+    "B1 technical-design review is pending. Physical hem placement, fit, comfort, wear, material performance, and production remain not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v17",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v18",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

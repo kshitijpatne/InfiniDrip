@@ -59,7 +59,7 @@ import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspe
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
-import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankRacerbackControlOffsetCm } from "../drafting/tank";
+import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankRacerbackControlOffsetCm } from "../drafting/tank";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -654,6 +654,38 @@ export function croppedTankRecipeForOutput(
   return {
     ...recipe,
     label: "Cropped Tank",
+    poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
+    techPack,
+    techPackForOptions: () => techPack,
+    techPackForFabric: undefined,
+  };
+}
+
+/** Keep N07's software length profile clear of generic Tank material and sewing claims. */
+export function longlineTankTechPackForOutput(techPack: GarmentRecipe["techPack"]): GarmentRecipe["techPack"] {
+  return {
+    ...tankStarterTechPackForOutput(techPack),
+    bom: [{ material: "Not specified", placement: "Materials and trim", qty: "Not estimated" }],
+    construction: ["Digital N07 Longline Tank body-length profile; physical hem placement and sewn construction unspecified."],
+    constructionNotice: "Digital N07 Longline Tank shell only. HPS-to-hem length is a software control, not a physical longline hem location. Materials, consumption, neckline and armhole finish, sewing, sewn tolerance, or production instruction are unspecified.",
+    measurementSpecNote: "N07 software geometry only. The generic Tank size run is not a validated N07 grade, size chart, sewn tolerance, or physical-fit result.",
+    measurementSpecToleranceColumn: false,
+    fitRecordStatusNote: "N07 is an editable digital shell. Physical hem placement, fit, comfort, wear, material performance, grading, and production have not been validated.",
+    fitRecordPassColumn: false,
+    fitRecordToleranceColumn: false,
+    fitRecordTitle: "Digital Measurement Worksheet",
+  };
+}
+
+export function longlineTankRecipeForOutput(
+  recipe: GarmentRecipe,
+  fabric: (typeof STRETCH_FABRICS)[number],
+): GarmentRecipe {
+  const fabricPack = recipe.techPackForFabric?.(fabric) ?? recipe.techPack;
+  const techPack = longlineTankTechPackForOutput(fabricPack);
+  return {
+    ...recipe,
+    label: "Longline Tank",
     poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
     techPack,
     techPackForOptions: () => techPack,
@@ -1798,6 +1830,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? "V-neck Tank"
       : starterOrigin?.entryId === TANK_N06_ENTRY_ID && forRecipe.name === "tank"
       ? "Cropped Tank"
+      : starterOrigin?.entryId === TANK_N07_ENTRY_ID && forRecipe.name === "tank"
+      ? "Longline Tank"
       : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && forRecipe.name === "tank"
       ? "Racerback Tank"
       : starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
@@ -1815,6 +1849,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const starterOutputStatusNote = (): string | undefined =>
     starterOrigin?.entryId === TANK_N06_ENTRY_ID
       ? "Digital N06 Cropped Tank shell. The 53 cm body length and 7 cm ease are editable software defaults; no physical crop location, validated grade, material, finish, or construction method is specified. Physical fit, comfort, wear and production remain unvalidated."
+      : starterOrigin?.entryId === TANK_N07_ENTRY_ID
+      ? "Digital N07 Longline Tank shell. The 89 cm body length and 10 cm ease are editable software defaults; HPS-to-hem is not a physical hem-location target. The generic Tank size run is not validated for N07; physical fit, comfort, wear, materials, grading and production remain unvalidated."
       : starterOrigin?.entryId === TANK_N04_ENTRY_ID
       ? `Digital N04 Square-neck Tank shell. Square-corner easing: ${squareNeckTankCornerSetting(recipeOptions())}. Neckline finish, facing/binding template, sewn tolerance and physical fit are unspecified or unvalidated.`
       : starterOrigin?.entryId === TANK_N05_ENTRY_ID
@@ -1947,7 +1983,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : recipe.allowances;
     const poms = pomsForRecipeOptions(recipe, options);
     const withStarterTechPack = (outputRecipe: GarmentRecipe): GarmentRecipe =>
-      starterOrigin?.entryId === TANK_N06_ENTRY_ID
+      starterOrigin?.entryId === TANK_N07_ENTRY_ID
+        ? longlineTankRecipeForOutput(outputRecipe, stretchFabric)
+        : starterOrigin?.entryId === TANK_N06_ENTRY_ID
         ? croppedTankRecipeForOutput(outputRecipe, stretchFabric)
         : starterOrigin?.entryId === TANK_N05_ENTRY_ID
         ? vNeckTankRecipeForOutput(outputRecipe, stretchFabric)
@@ -3323,14 +3361,22 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const maxValue = candidateControl?.max ?? (baseMax === undefined ? undefined : Number(baseMax));
       const min = minValue;
       const max = maxValue;
+      control.querySelector<HTMLElement>('[data-range-endpoint="min"]')!.textContent =
+        min === undefined ? "−∞" : String(min);
+      control.querySelector<HTMLElement>('[data-range-endpoint="max"]')!.textContent =
+        max === undefined ? "+∞" : String(max);
       input.dataset.baseMin ??= input.min;
       input.dataset.baseMax ??= input.max;
       input.dataset.baseStep ??= input.step;
       if (candidateControl) {
         control.dataset.rangeMin = String(candidateControl.min);
         control.dataset.rangeMax = String(candidateControl.max);
+        input.dataset.rangeMin = String(candidateControl.min);
+        input.dataset.rangeMax = String(candidateControl.max);
         input.min = String(candidateControl.min);
         input.max = String(candidateControl.max);
+        input.setAttribute("aria-valuemin", String(candidateControl.min));
+        input.setAttribute("aria-valuemax", String(candidateControl.max));
         input.step = String(candidateControl.step);
       } else {
         if (baseMin === undefined) delete control.dataset.rangeMin;
@@ -3339,6 +3385,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         else control.dataset.rangeMax = baseMax;
         input.min = input.dataset.baseMin!;
         input.max = input.dataset.baseMax!;
+        if (input.min === "") input.removeAttribute("aria-valuemin");
+        else input.setAttribute("aria-valuemin", input.min);
+        if (input.max === "") input.removeAttribute("aria-valuemax");
+        else input.setAttribute("aria-valuemax", input.max);
+        if (baseMin === undefined) delete input.dataset.rangeMin;
+        else input.dataset.rangeMin = baseMin;
+        if (baseMax === undefined) delete input.dataset.rangeMax;
+        else input.dataset.rangeMax = baseMax;
         input.step = input.dataset.baseStep!;
       }
       const state = numericRangeState(input.value, min, max);

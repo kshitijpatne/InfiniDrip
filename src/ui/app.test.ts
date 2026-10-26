@@ -35,6 +35,8 @@ import {
   vNeckTankRecipeForOutput,
   croppedTankTechPackForOutput,
   croppedTankRecipeForOutput,
+  longlineTankTechPackForOutput,
+  longlineTankRecipeForOutput,
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
 import { customOneSizeSpecMarkup, inspectionMarkup } from "./view";
@@ -46,7 +48,7 @@ import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-s
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
-import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY,
+import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID,
   TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 import { blockPieces } from "../drafting/block";
@@ -11181,6 +11183,50 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(fallback.techPackForFabric).toBeUndefined();
   });
 
+  it("keeps N07 output digital-only without inherited Tank materials, sewing, tolerance, or fit claims", () => {
+    const sourcePack: GarmentRecipe["techPack"] = {
+      ...TANK.techPack,
+      bom: [
+        { material: "Fabric", placement: "Body & sleeves", qty: "1.2 m" },
+        { material: "Rib", placement: "Neckband", qty: "0.1 m" },
+      ],
+      construction: ["Join the shoulder seams.", "Bind the neckline and armholes.", "Hem the body."],
+    };
+    const sanitized = longlineTankTechPackForOutput(sourcePack);
+    const knit = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton jersey")!;
+    const woven = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton woven")!;
+    const output = longlineTankRecipeForOutput(TANK, knit);
+    const fallback = longlineTankRecipeForOutput({ ...TANK, techPackForFabric: undefined }, woven);
+
+    expect(sanitized.bom).toEqual([{
+      material: "Not specified",
+      placement: "Materials and trim",
+      qty: "Not estimated",
+    }]);
+    expect(sanitized.construction).toEqual([
+      "Digital N07 Longline Tank body-length profile; physical hem placement and sewn construction unspecified.",
+    ]);
+    expect(sanitized.construction.join(" ")).not.toMatch(/join the shoulder seams|bind the neckline|hem the body/i);
+    expect(sanitized.constructionNotice).toContain("not a physical longline hem location");
+    expect(sanitized.constructionNotice).toContain("production instruction are unspecified");
+    expect(sanitized.measurementSpecNote).toContain("generic Tank size run is not a validated N07 grade");
+    expect(sanitized.measurementSpecToleranceColumn).toBe(false);
+    expect(sanitized.fitRecordStatusNote).toContain("Physical hem placement");
+    expect(sanitized.fitRecordPassColumn).toBe(false);
+    expect(sanitized.fitRecordToleranceColumn).toBe(false);
+    expect(sanitized.fitRecordTitle).toBe("Digital Measurement Worksheet");
+    expect(sourcePack.construction).toEqual(["Join the shoulder seams.", "Bind the neckline and armholes.", "Hem the body."]);
+    expect(output.label).toBe("Longline Tank");
+    expect(output.poms.every((pom) => pom.tolerance === undefined)).toBe(true);
+    expect(output.techPackForOptions!({})).toEqual(output.techPack);
+    expect(output.techPackForFabric).toBeUndefined();
+    expect(fallback.techPack.bom).toEqual(sanitized.bom);
+    expect(fallback.techPack.construction).toEqual(sanitized.construction);
+    expect(fallback.techPackForFabric).toBeUndefined();
+    expect(TANK_N07_ENTRY_ID).toBe("tank-longline-digital-v1");
+    expect(TANK.techPackForFabric).toBeDefined();
+  });
+
   it("resolves and freezes fabric-specific N01 Tech Pack content for export", () => {
     const tankRecipe = GARMENTS.find((candidate) => candidate.name === "tank")!;
     const knit = STRETCH_FABRICS.find((candidate) => candidate.name === "Cotton jersey")!;
@@ -14458,6 +14504,141 @@ describe("S1211 N06 Cropped Tank", () => {
       expect(techPack).not.toContain("Join the shoulder seams");
       expect(techPack).toContain("body-length profile");
       expect(techPack).not.toContain("Cotton jersey");
+    } finally {
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+});
+
+describe("S1213 N07 Longline Tank", () => {
+  it("selects, saves, reopens, drafts boundary profiles, blocks invalid input, and exports digital-only output", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${TANK_N07_ENTRY_ID}`)!;
+      expect(card.textContent).toContain("Longline Tank · software defaults");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      clickId(root, `starter-${TANK_N07_ENTRY_ID}`);
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Longline Tank");
+      const lengthInput = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+      const easeInput = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+      expect(lengthInput.value).toBe("89");
+      expect(lengthInput.min).toBe("78");
+      expect(lengthInput.max).toBe("100");
+      expect(lengthInput.getAttribute("aria-valuemin")).toBe("78");
+      expect(lengthInput.getAttribute("aria-valuemax")).toBe("100");
+      expect(lengthInput.dataset.rangeMin).toBe("78");
+      expect(lengthInput.dataset.rangeMax).toBe("100");
+      expect(lengthInput.closest<HTMLElement>("[data-range-control]")!
+        .querySelector<HTMLElement>('[data-range-endpoint="min"]')!.textContent).toBe("78");
+      expect(lengthInput.closest<HTMLElement>("[data-range-control]")!
+        .querySelector<HTMLElement>('[data-range-endpoint="max"]')!.textContent).toBe("100");
+      expect(easeInput.value).toBe("10");
+      expect(easeInput.min).toBe("5");
+      expect(easeInput.max).toBe("14");
+      expect(easeInput.getAttribute("aria-valuemin")).toBe("5");
+      expect(easeInput.getAttribute("aria-valuemax")).toBe("14");
+      expect(easeInput.closest<HTMLElement>("[data-range-control]")!
+        .querySelector<HTMLElement>('[data-range-endpoint="min"]')!.textContent).toBe("5");
+      expect(easeInput.closest<HTMLElement>("[data-range-control]")!
+        .querySelector<HTMLElement>('[data-range-endpoint="max"]')!.textContent).toBe("14");
+      expect(root.querySelector<HTMLElement>(`#starter-limits-${TANK_N07_ENTRY_ID}`)!.textContent)
+        .toContain("no physical hem location");
+
+      clickId(root, "view-pattern");
+      const initialPattern = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(initialPattern).not.toMatch(/NaN|Infinity/);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TANK_N07_ENTRY_ID,
+        recipeId: "tank",
+        recipeRevision: "tank-longline-v1",
+        configurationSnapshot: {
+          targetStyle: "Longline tank",
+          measurements: { length: 89, ease: 10 },
+          options: {},
+        },
+      });
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Longline Tank · software defaults");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("89");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("10");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${TANK_N07_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(initialPattern);
+
+      const setField = (field: string, value: string): void => {
+        const input = reopened!.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      };
+      for (const length of [78, 89, 100]) {
+        for (const ease of [5, 10, 14]) {
+          setField("length", String(length));
+          setField("ease", String(ease));
+          expect(reopened.querySelector<HTMLElement>("#error-length")!.textContent).toBe("");
+          expect(reopened.querySelector<HTMLElement>("#error-ease")!.textContent).toBe("");
+          const svg = reopened.querySelector<SVGSVGElement>("#canvas-host svg")!;
+          expect(svg.outerHTML).not.toMatch(/NaN|Infinity/);
+          expect(svg.querySelectorAll("path").length).toBeGreaterThan(0);
+        }
+      }
+
+      setField("length", "101");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("101");
+      expect(reopened.querySelector<HTMLElement>("#error-length")!.textContent).toContain("78–100 cm");
+      clickIfPresent(reopened, "welcome-start");
+      clickId(reopened, "journey-step-fit");
+      clickId(reopened, "journey-next");
+      const blockedExport = reopened.querySelector<HTMLButtonElement>("#export-svg")!;
+      expect(blockedExport.disabled).toBe(true);
+      blockedExport.click();
+      expect(saveFile).not.toHaveBeenCalled();
+
+      setField("length", "89");
+      setField("ease", "10");
+      reachExportStage(reopened);
+      const svgButton = reopened.querySelector<HTMLButtonElement>("#export-svg")!;
+      expect(svgButton.disabled).toBe(false);
+      svgButton.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
+      const svgEntry = [...files.entries()].find(([filename]) => filename.endsWith("-M.svg"))!;
+      expect(svgEntry).toBeDefined();
+      expect(svgEntry[1]).toContain("<svg");
+      expect(svgEntry[1]).not.toMatch(/NaN|Infinity/);
+
+      reopened.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      const techPackEntry = [...files.entries()].find(([filename]) => filename.endsWith("-techpack.pdf"))!;
+      expect(techPackEntry).toBeDefined();
+      const techPack = visiblePdfText(techPackEntry[1]);
+      expect(techPack).toContain("Digital N07 Longline Tank shell");
+      expect(techPack).toContain("89 cm body length and 10 cm ease are editable software defaults");
+      expect(techPack).toContain("not a physical longline hem location");
+      expect(techPack).toContain("generic Tank size run is not a validated N07 grade");
+      expect(techPack).toContain("Not estimated");
+      expect(techPack).not.toContain("Cotton jersey");
+      expect(techPack).not.toContain("Bind the neckline");
+      expect(techPack).not.toContain("Join the shoulder seams");
+      expect(techPack).not.toContain("Hem the body");
+      expect(techPack).not.toContain("Tol +/-");
+      expect(techPack).not.toContain("Fit Pass");
     } finally {
       root?.remove();
       reopened?.remove();
