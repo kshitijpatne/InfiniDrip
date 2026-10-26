@@ -601,10 +601,7 @@ export function vNeckTankTechPackForOutput(techPack: GarmentRecipe["techPack"]):
   return {
     ...tankPack,
     bom: [{ material: "Not specified", placement: "Materials and trim", qty: "No sourcing or consumption estimate" }],
-    construction: [
-      ...tankPack.construction.filter((step) => !/(neckline|neckband|binding)/i.test(step)),
-      "Digital N05 V-neck front profile; neckline finish unspecified.",
-    ],
+    construction: ["Digital N05 V-neck front profile; neckline finish unspecified."],
     constructionNotice: "Digital N05 V-neck Tank shell only. Neckline finish and materials are unspecified; no facing or binding template, sewn tolerance, or production instruction is supplied.",
     measurementSpecNote: "N05 software geometry only. The generic Tank size run is not a validated N05 grade, size chart, sewn tolerance, or physical-fit result.",
     measurementSpecToleranceColumn: false,

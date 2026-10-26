@@ -11106,7 +11106,7 @@ describe("EPIC-19 L02 starter binding", () => {
     const sourcePack: GarmentRecipe["techPack"] = {
       ...TANK.techPack,
       bom: [{ material: "Fabric", placement: "Neckband", qty: "0.3 m" }],
-      construction: ["Join shoulder seams.", "Bind the neckline.", "Turn the hem."],
+      construction: ["Join the shoulder seams, front to back.", "Close the side seams.", "Hem the body."],
     };
     const sanitized = vNeckTankTechPackForOutput(sourcePack);
     const knit = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton jersey")!;
@@ -11120,9 +11120,13 @@ describe("EPIC-19 L02 starter binding", () => {
       qty: "No sourcing or consumption estimate",
     }]);
     expect(sanitized.construction).toEqual([
-      "Join shoulder seams.",
-      "Turn the hem.",
       "Digital N05 V-neck front profile; neckline finish unspecified.",
+    ]);
+    expect(sanitized.construction.join(" ")).not.toMatch(/join the shoulder seams|close the side seams|hem the body/i);
+    expect(sourcePack.construction).toEqual([
+      "Join the shoulder seams, front to back.",
+      "Close the side seams.",
+      "Hem the body.",
     ]);
     expect(sanitized.constructionNotice).toContain("no facing or binding template");
     expect(sanitized.measurementSpecToleranceColumn).toBe(false);
