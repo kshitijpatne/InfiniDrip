@@ -3,14 +3,14 @@ import { STANDARD_M } from "./measurements";
 import {
   draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS,
   TANK_RACERBACK_BACK_CUT_IN_OPTION, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
-  TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY,
+  TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID,
-  tankRacerbackControlOffsetCm,
+  tankN06ArmholeLengthNote, tankRacerbackControlOffsetCm,
 } from "./tank";
 import { TANK, gradeRun, specSheet } from "./index";
 import { defaultGarmentOptions } from "./options";
 import { rolePiece, blockPieces } from "./block";
-import { edgeEnd, edgeStart, pieceEdge } from "./piece";
+import { edgeEnd, edgeLength, edgeStart, pieceEdge } from "./piece";
 import { stitchChecks } from "./stitch";
 import { garmentReport } from "../guidance/garment-check";
 import { TSHIRT_POMS } from "./tshirt-pom";
@@ -260,6 +260,35 @@ describe("tankGuidance", () => {
     }));
     expect(notes.find((note) => note.field === "neckDrop")?.text).not.toContain("neck scoop depth");
     expect(notes).toContainEqual(expect.objectContaining({ field: "neckWidthEase", level: "warn" }));
+  });
+
+  it("guards the N06 armhole-depth/body-length relation without changing either input", () => {
+    const invalid = { ...STANDARD_M, length: 40, armholeDepth: 40 };
+    const note = tankN06ArmholeLengthNote(invalid);
+    expect(note).toMatchObject({ level: "warn", field: "armholeDepth" });
+    expect(note?.text).toContain("must be less than body length");
+    expect(note?.text).toContain("Keep both values unchanged");
+    expect(tankN06ArmholeLengthNote({ ...invalid, armholeDepth: 41 })?.text).toContain("41 cm");
+    expect(tankN06ArmholeLengthNote({ ...invalid, armholeDepth: 39 })).toBeNull();
+    expect(tankN06ArmholeLengthNote({ ...invalid, armholeDepth: Number.POSITIVE_INFINITY })).toBeNull();
+    expect(tankN06ArmholeLengthNote({ ...invalid, length: Number.NaN })).toBeNull();
+
+    const options = { [TANK_N06_PROFILE_ROUTE_KEY]: 1 };
+    expect(tankGuidance(draftTank(invalid, options), invalid, options)).toContainEqual(note);
+    expect(tankGuidance(draftTank(invalid), invalid)).not.toContainEqual(note);
+    expect(TANK_N06_ENTRY_ID).toBe("tank-cropped-digital-v1");
+
+    const geometry = [40, 53, 57].map((length) => {
+      const measurements = { ...STANDARD_M, length, armholeDepth: 24 };
+      return blockPieces(draftTank(measurements, options));
+    });
+    expect(geometry).toHaveLength(3);
+    for (const pieces of geometry) {
+      expect(pieces).toHaveLength(2);
+      for (const piece of pieces) {
+        expect(piece.edges.every((edge) => Number.isFinite(edgeLength(edge)) && edgeLength(edge) > 0)).toBe(true);
+      }
+    }
   });
 });
 
