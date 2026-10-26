@@ -37,6 +37,8 @@ import {
   croppedTankRecipeForOutput,
   longlineTankTechPackForOutput,
   longlineTankRecipeForOutput,
+  shelfLinedTankTechPackForOutput,
+  shelfLinedTankRecipeForOutput,
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
 import { customOneSizeSpecMarkup, inspectionMarkup } from "./view";
@@ -49,6 +51,7 @@ import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID,
+  TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID,
   TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 import { blockPieces } from "../drafting/block";
@@ -67,6 +70,7 @@ import { STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
 import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
+  assessCaptureField,
   addCaptureReadingForField,
   createMeasurementCaptureSession,
   selectCaptureReading,
@@ -1980,9 +1984,31 @@ describe("mountApp", () => {
     }, now);
     const selected = selectCaptureReading(withConflict, field.id, "00000000-0000-4000-8000-000000000004", now);
     expect(guidedCaptureStageBlocker(selected, recipeId)).toMatchObject({ step: "measure", field: field.id });
+    const captureField = selected.fields.find((candidate) => candidate.fieldId === field.id)!;
+    expect(captureField.readings.find((reading) => reading.id === captureField.selectedReadingId)).toMatchObject({
+      canonicalValue: field.defaultValue,
+      evidenceStatus: "CONFLICT",
+    });
+    expect(assessCaptureField(captureField, recipeId).issue).toBe("conflicting-evidence");
     const apply = vi.fn();
     applySelectedCaptureValue(selected, recipeId, field.id, apply);
     expect(apply).not.toHaveBeenCalled();
+
+    const resolvedId = "00000000-0000-4000-8000-000000000005";
+    const resolvedSession = selectCaptureReading(addCaptureReadingForField(initial, field.id, {
+      id: resolvedId,
+      rawValue: String(field.defaultValue),
+      enteredUnit: field.unit,
+      provenance: "USER_CAPTURED",
+      evidenceStatus: "UNCONFIRMED",
+      sourceLabel: "Explicit test value",
+      captureMethod: null,
+      capturedAt: null,
+      measurer: null,
+    }, now), field.id, resolvedId, now);
+    const applyResolved = vi.fn();
+    applySelectedCaptureValue(resolvedSession, recipeId, field.id, applyResolved);
+    expect(applyResolved).toHaveBeenCalledWith(field, field.defaultValue);
   });
 
   it("shows a render failure and disables exports when the current source throws", () => {
@@ -11227,6 +11253,49 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(TANK.techPackForFabric).toBeDefined();
   });
 
+  it("keeps N08 output digital-only and reports the current software shelf offset", () => {
+    const sourcePack: GarmentRecipe["techPack"] = {
+      ...TANK.techPack,
+      bom: [
+        { material: "Cotton jersey", placement: "Body", qty: "1.2 m" },
+        { material: "Elastic", placement: "Shelf", qty: "0.4 m" },
+      ],
+      construction: ["Sew elastic to the shelf.", "Bind the neckline and armholes.", "Hem the body."],
+    };
+    const options = { [TANK_N08_SHELF_DROP_OPTION_ID]: 14 };
+    const sanitized = shelfLinedTankTechPackForOutput(sourcePack, options);
+    const knit = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton jersey")!;
+    const woven = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton woven")!;
+    const output = shelfLinedTankRecipeForOutput(TANK, knit, options);
+    const fallback = shelfLinedTankRecipeForOutput({ ...TANK, techPackForFabric: undefined }, woven, options);
+
+    expect(sanitized.bom).toEqual([{
+      material: "Not specified", placement: "Shell, shelf, elastic and trim", qty: "No sourcing or consumption estimate",
+    }]);
+    expect(sanitized.construction).toEqual([
+      "Digital N08 panel set: shell front/back plus separate inner shelf front/back panels.",
+      "Digital shelf hem below underarm: 14 cm below underarm (software); the lower-edge mark identifies the elastic-attachment edge only.",
+    ]);
+    expect(sanitized.construction.join(" ")).not.toMatch(/sew elastic|bind the neckline|hem the body/i);
+    expect(sanitized.constructionNotice).toContain("Elastic width, cut length, tension, material, physical sewing method and production instructions are unspecified.");
+    expect(sanitized.measurementSpecNote).toContain("generic Tank size run is not a validated N08 grade");
+    expect(sanitized.measurementSpecToleranceColumn).toBe(false);
+    expect(sanitized.fitRecordStatusNote).toContain("Physical support, fit, comfort, coverage, wear");
+    expect(sanitized.fitRecordPassColumn).toBe(false);
+    expect(sanitized.fitRecordToleranceColumn).toBe(false);
+    expect(sanitized.fitRecordTitle).toBe("Digital Measurement Worksheet");
+    expect(sourcePack.construction).toEqual(["Sew elastic to the shelf.", "Bind the neckline and armholes.", "Hem the body."]);
+    expect(output.label).toBe("Shelf-lined Tank");
+    expect(output.poms.every((pom) => pom.tolerance === undefined)).toBe(true);
+    expect(output.techPackForOptions!({ [TANK_N08_SHELF_DROP_OPTION_ID]: 15 }).construction.join(" "))
+      .toContain("15 cm below underarm (software)");
+    expect(output.techPackForOptions!({}).construction.join(" ")).toContain("unresolved (software)");
+    expect(output.techPackForFabric).toBeUndefined();
+    expect(fallback.techPack.bom).toEqual(sanitized.bom);
+    expect(fallback.techPack.construction).toEqual(sanitized.construction);
+    expect(fallback.techPackForFabric).toBeUndefined();
+  });
+
   it("resolves and freezes fabric-specific N01 Tech Pack content for export", () => {
     const tankRecipe = GARMENTS.find((candidate) => candidate.name === "tank")!;
     const knit = STRETCH_FABRICS.find((candidate) => candidate.name === "Cotton jersey")!;
@@ -14646,4 +14715,151 @@ describe("S1213 N07 Longline Tank", () => {
       localStorage.clear();
     }
   });
+});
+
+describe("S1215 N08 Shelf-lined Tank", () => {
+  it("selects, saves, restores invalid values, and exports the digital shelf pattern and Tech Pack", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    let invalidRestored: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${TANK_N08_ENTRY_ID}`)!;
+      expect(card.textContent).toContain("Shelf-lined Tank · software defaults");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      clickId(root, `starter-${TANK_N08_ENTRY_ID}`);
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Shelf-lined Tank");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Shelf-lined Tank · software defaults");
+
+      const shelfDrop = root.querySelector<HTMLInputElement>(`input[data-option="${TANK_N08_SHELF_DROP_OPTION_ID}"]`)!;
+      expect([shelfDrop.getAttribute("aria-label"), shelfDrop.min, shelfDrop.max, shelfDrop.step, shelfDrop.value])
+        .toEqual(["Shelf hem below underarm (digital)", "2", "15", "1", "14"]);
+      expect(root.querySelector<HTMLElement>(`[data-option-help="option-${TANK_N08_SHELF_DROP_OPTION_ID}"]`)!.textContent)
+        .toContain("not an underbust measurement, support level, or physical-fit target");
+      expect(root.querySelector<HTMLElement>(`#starter-limits-${TANK_N08_ENTRY_ID}`)!.textContent)
+        .toContain("Elastic width, cut length, tension, material, sourcing and consumption are unspecified");
+
+      clickId(root, "view-pattern");
+      const defaultPattern = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(defaultPattern).toContain('data-pattern-mark-name="elasticAttachmentLine"');
+      expect(root.querySelectorAll("#pattern-annotation-key [data-pattern-piece-name]")).toHaveLength(4);
+      expect(root.querySelectorAll('#canvas-host [data-pattern-mark-name="elasticAttachmentLine"]')).toHaveLength(2);
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.garmentOptions.tank[TANK_N08_SHELF_DROP_OPTION_ID]).toBe(14);
+      expect(saved.garmentOptions.tank).not.toHaveProperty(TANK_N08_PROFILE_ROUTE_KEY);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TANK_N08_ENTRY_ID,
+        recipeId: "tank",
+        recipeRevision: "tank-shelf-lined-v1",
+        configurationSnapshot: {
+          targetStyle: "Classic tank",
+          options: { [TANK_N08_SHELF_DROP_OPTION_ID]: 14 },
+        },
+      });
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${TANK_N08_SHELF_DROP_OPTION_ID}"]`)!.value)
+        .toBe("14");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${TANK_N08_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(defaultPattern);
+
+      let reopenedDrop = reopened.querySelector<HTMLInputElement>(`input[data-option="${TANK_N08_SHELF_DROP_OPTION_ID}"]`)!;
+      reopenedDrop.value = "16";
+      reopenedDrop.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(reopenedDrop.value).toBe("16");
+      expect(reopened.querySelector<HTMLElement>(`[data-input-error="option-${TANK_N08_SHELF_DROP_OPTION_ID}"]`)!.textContent)
+        .toContain("2–15 cm");
+      await vi.waitFor(() => expect(localStorage.getItem("patternworks_recovery_v1")).not.toBeNull());
+      unmountApp();
+      root.remove();
+      reopened.remove();
+      invalidRestored = mount();
+      expect(invalidRestored.querySelector("#recovery-accept")).not.toBeNull();
+      clickId(invalidRestored, "recovery-accept");
+      reopenedDrop = invalidRestored.querySelector<HTMLInputElement>(`input[data-option="${TANK_N08_SHELF_DROP_OPTION_ID}"]`)!;
+      expect(reopenedDrop.value).toBe("16");
+      expect(invalidRestored.querySelector<HTMLElement>(`[data-input-error="option-${TANK_N08_SHELF_DROP_OPTION_ID}"]`)!.textContent)
+        .toContain("2–15 cm");
+      expect(invalidRestored.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      reopenedDrop.value = "15";
+      reopenedDrop.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(invalidRestored.querySelector<HTMLElement>(`[data-input-error="option-${TANK_N08_SHELF_DROP_OPTION_ID}"]`)!.textContent)
+        .toBe("");
+      reachExportStage(invalidRestored);
+      expect(invalidRestored.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      invalidRestored.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      invalidRestored.querySelector<HTMLButtonElement>("#export-dxf")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      expect(files.has("shelf-lined-tank-M.svg")).toBe(true);
+      expect(files.has("shelf-lined-tank-M.dxf")).toBe(true);
+      const expectedOptions = {
+        [TANK_N08_PROFILE_ROUTE_KEY]: 1,
+        [TANK_N08_SHELF_DROP_OPTION_ID]: 15,
+      };
+      const expectedSvg = exportSvg(
+        blockPieces(TANK.draft(saved.measurements, expectedOptions)),
+        TANK.allowances,
+        notchesForRecipeOptions(TANK, expectedOptions),
+      );
+      expect(files.get("shelf-lined-tank-M.svg")).toBe(expectedSvg);
+      expect(files.get("shelf-lined-tank-M.svg")).toContain('data-pattern-mark-name="elasticAttachmentLine"');
+      expect(files.get("shelf-lined-tank-M.dxf")!.match(/\nPOLYLINE\n/gu)).toHaveLength(8);
+
+      const packageButton = invalidRestored.querySelector<HTMLButtonElement>("#export-dxf-source-package")!;
+      expect(packageButton.disabled).toBe(false);
+      packageButton.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(3), { timeout: 15000 });
+      const packageJson = JSON.parse(files.get("shelf-lined-tank-M-cad-exchange-source.json")!) as {
+        readonly dxf: string;
+        readonly manifest: {
+          readonly options: Record<string, number>;
+          readonly pieces: readonly { readonly role: string; readonly onFold: boolean }[];
+          readonly patternMarks: readonly { readonly name: string }[];
+        };
+      };
+      expect(packageJson.manifest.options[TANK_N08_SHELF_DROP_OPTION_ID]).toBe(15);
+      expect(packageJson.manifest.pieces.map((piece) => piece.role)).toEqual(["front", "back", "shelfFront", "shelfBack"]);
+      expect(packageJson.manifest.pieces.filter((piece) => piece.role.startsWith("shelf")).every((piece) => piece.onFold)).toBe(true);
+      expect(packageJson.manifest.patternMarks.filter((mark) => mark.name === "elasticAttachmentLine")).toHaveLength(2);
+
+      invalidRestored.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(4), { timeout: 15000 });
+      expect(files.get("shelf-lined-tank-M-cad-exchange.dxf")).toBe(packageJson.dxf);
+
+      invalidRestored.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(5));
+      const techPack = visiblePdfText(files.get("shelf-lined-tank-techpack.pdf")!);
+      expect(techPack).toContain("Shelf-lined Tank");
+      expect(techPack).toContain("Digital N08 panel set");
+      expect(techPack).toContain("15 cm below underarm (software)");
+      expect(techPack).toContain("No sourcing or consumption estimate");
+      expect(techPack).toContain("Elastic width, cut length, tension, material");
+      expect(techPack).not.toContain("Cotton jersey");
+      expect(techPack).not.toContain("Bind the neckline");
+      expect(techPack).not.toContain("Join the shoulder seams");
+      expect(techPack).not.toContain("Tol +/-");
+      expect(techPack).not.toContain("Fit Pass");
+    } finally {
+      root?.remove();
+      reopened?.remove();
+      invalidRestored?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30000);
 });

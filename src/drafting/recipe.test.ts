@@ -3,7 +3,7 @@ import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions } from "./options";
 import { TEE, TEE_RAGLAN, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, JEANS, SHORTS,
   CREWNECK, JOGGER, HOODIE, GARMENTS, garmentByName, garmentForConstruction,
-  piecesForRecipeBlock, pomsForRecipeOptions, notchesForRecipeOptions } from "./recipe";
+  piecesForRecipeBlock, pomsForRecipeOptions, notchesForRecipeOptions, draftRecipeAtSize } from "./recipe";
 import { raglanNecklineLength, raglanTeeGuidance, TEE_RAGLAN_GRAMMAR, TEE_RAGLAN_STITCHES } from "./tshirt-raglan";
 import { TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION, TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION, teeNeckbandTechPackOptions } from "./vneck-band-output";
@@ -181,6 +181,8 @@ describe("T08 Raglan Tee construction variant", () => {
   it("drafts matched front and back Raglan seams with notches, POMs, and a digital neckline", () => {
     const block = TEE_RAGLAN.draft(STANDARD_M);
     const report = garmentReport(TEE_RAGLAN, STANDARD_M);
+    expect(TEE_RAGLAN.guidance(block, STANDARD_M)).toEqual(raglanTeeGuidance(block, STANDARD_M));
+    expect(TEE_RAGLAN.frontNeckline!(STANDARD_M)).toEqual(TEE_RAGLAN.backNeckline!(STANDARD_M));
     expect(blockPieces(block).map((piece) => piece.name)).toEqual(["front", "back", "sleeve"]);
     expect(report.checks.filter((check) => check.name.toLowerCase().includes("raglan")).every((check) => check.ok)).toBe(true);
     const sideToCuff = TEE_RAGLAN_STITCHES.find((stitch) => stitch.label.startsWith("Continuous side-to-cuff"))!;
@@ -206,6 +208,7 @@ describe("T08 Raglan Tee construction variant", () => {
     expect(TEE_RAGLAN.techPack.construction.join(" ")).not.toMatch(/shoulder seam|set in|cap ease/i);
     expect(TEE_RAGLAN.techPack.bom.some((row) => row.placement === "Shoulder seams")).toBe(false);
     expect(TEE_RAGLAN.techPack.constructionNotice).toContain("no sewn sample");
+    expect(TEE_RAGLAN.techPackForOptions?.({})).toEqual(TEE_RAGLAN.techPack);
     expect(TEE_RAGLAN.techPackForOptions?.({ teeScoopNeckDropCm: 2 })?.constructionNotice).toContain("crew-neck only");
     const neckband = teeNeckbandTemplateSvg(blockPieces(block), 85, 2.4);
     expect(neckband).toContain("<title>Raglan Tee neckband provisional cutting template</title>");
@@ -354,6 +357,40 @@ describe("Polo recipe pipeline", () => {
     expect(report.checks.map((check) => check.name)).toContain("Notches + grainline on every piece");
   });
 
+  it("reports level and unresolved hem instructions for the corresponding option values", () => {
+    const level = POLO.techPackForOptions!({ sideVentDepth: 0, backHemDrop: 0 });
+    expect(level.construction[level.construction.length - 1]).toContain("Hem the front and back body edges level with each other");
+
+    const unresolved = POLO.techPackForOptions!({ backHemDrop: -1 });
+    expect(unresolved.construction[unresolved.construction.length - 1]).toContain("Resolve the back-hem value before cutting");
+
+    const unresolvedVent = POLO.techPackForOptions!({ sideVentDepth: -1 });
+    expect(unresolvedVent.construction).toContain(
+      "Resolve the side-vent value before cutting; do not assume an open or closed vent topology.",
+    );
+  });
+
+});
+
+describe("Jeans recipe review", () => {
+  it("routes the digital draft and guidance notes through the recipe review contract", () => {
+    const review = JEANS.draftReview!(STANDARD_M);
+    expect(review.block).not.toBeNull();
+    expect(blockPieces(review.block!)).toHaveLength(blockPieces(JEANS.draft(STANDARD_M)).length);
+    expect(review.notes).toEqual([]);
+  });
+});
+
+describe("recipe-owned selected-size drafting", () => {
+  it("drafts a registered Tank block at the requested size step", () => {
+    const selected = draftRecipeAtSize(TANK, STANDARD_M, 1);
+    expect(blockPieces(selected)).toHaveLength(blockPieces(TANK.draft(STANDARD_M)).length);
+  });
+
+  it("keeps the legacy POM fallback and fitted base POM selection", () => {
+    expect(pomsForRecipeOptions(TANK)).toBe(TANK.poms);
+    expect(pomsForRecipeOptions(FITTED)).toBe(FITTED.poms);
+  });
 });
 
 describe("Tank fabric tech-pack selection", () => {

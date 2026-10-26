@@ -255,10 +255,10 @@ function patternMarkRecords(
 
 function pieceBlockGroups(
   pieces: readonly Piece[],
-  recipe: GarmentRecipe,
+  notches: GarmentRecipe["notches"],
   identities: readonly PieceIdentity[],
 ): readonly { readonly name: string; readonly leadingEntityCount: number; readonly trailingEntityCount: number }[] {
-  const notchesByPiece = new Map(recipe.notches.map((table) => [table.pieceName, table]));
+  const notchesByPiece = new Map(notches.map((table) => [table.pieceName, table]));
   return pieces.map((piece, index) => {
     const identity = identities[index]!;
     const marks = (piece.marks ?? []).reduce((total, mark) =>
@@ -343,7 +343,10 @@ export async function createDxfInterchangePackage(
   const flatDxf = exportDxfCentimeters(
     pieces, recipe.allowances, notchesForRecipeOptions(recipe, resolvedOptions), cutOutlines, "cross", layoutGapCm,
   );
-  const dxf = wrapDxfEntitiesInNamedBlocks(flatDxf, pieceBlockGroups(pieces, recipe, identities));
+  const dxf = wrapDxfEntitiesInNamedBlocks(
+    flatDxf,
+    pieceBlockGroups(pieces, notchesForRecipeOptions(recipe, resolvedOptions), identities),
+  );
   const drawingSha256 = await sha256(dxf);
   const core = {
     schemaVersion: SCHEMA_VERSION,
