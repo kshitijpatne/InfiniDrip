@@ -46,8 +46,11 @@ export const TANK_RACERBACK_BACK_CUT_IN_OPTION: GarmentOption = {
 
 export const TANK_N04_ENTRY_ID = "tank-square-neck-digital-v1";
 export const TANK_N05_ENTRY_ID = "tank-v-neck-digital-v1";
+export const TANK_N06_ENTRY_ID = "tank-cropped-digital-v1";
 /** Internal route marker derived from saved starter identity; never a user option or persisted value. */
 export const TANK_N05_PROFILE_ROUTE_KEY = "__tankN05Profile";
+/** Internal route marker derived from saved starter identity; never a user option or persisted value. */
+export const TANK_N06_PROFILE_ROUTE_KEY = "__tankN06Profile";
 export const TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID = "tankSquareNeckCornerRadiusCm";
 export const TANK_SQUARE_NECK_CORNER_RADIUS_OPTION: GarmentOption = {
   id: TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID,
@@ -158,7 +161,12 @@ export const TANK_GRAMMAR = garmentGrammar(
  *  functions `draftTank` calls — never a second, independently-derived copy
  *  of the geometry itself. */
 export function tankGuidance(_block: Block, m: Measurements, options: GarmentOptions = {}): Note[] {
-  const notes: (Note | null)[] = [easeRange(m, "tank"), armholeDepthCheck(m), shoulderCheck(m)];
+  const notes: (Note | null)[] = [
+    easeRange(m, "tank"),
+    armholeDepthCheck(m),
+    shoulderCheck(m),
+    options[TANK_N06_PROFILE_ROUTE_KEY] === 1 ? tankN06ArmholeLengthNote(m) : null,
+  ];
   const d = derive(m);
   const front = necklineEdge(
     "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, m.armholeDepth, tankFrontNeckline(m, options));
@@ -170,6 +178,19 @@ export function tankGuidance(_block: Block, m: Measurements, options: GarmentOpt
       : note)
     : front.notes;
   return notes.filter((n): n is Note => n !== null).concat(frontNotes, armhole.notes);
+}
+
+/** N06 relationship guard. The saved inputs stay intact so users can correct the pair explicitly. */
+export function tankN06ArmholeLengthNote(
+  measurements: Pick<Measurements, "armholeDepth" | "length">,
+): Note | null {
+  const { armholeDepth, length } = measurements;
+  if (!Number.isFinite(armholeDepth) || !Number.isFinite(length) || armholeDepth < length) return null;
+  return {
+    level: "warn",
+    field: "armholeDepth",
+    text: `Armhole depth (${armholeDepth} cm) must be less than body length (${length} cm). Keep both values unchanged; reduce armhole depth or increase body length before drafting or exporting.`,
+  };
 }
 
 const SHOULDER = TANK_STITCHES[0];

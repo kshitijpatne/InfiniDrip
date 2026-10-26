@@ -59,7 +59,7 @@ import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspe
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
-import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankRacerbackControlOffsetCm } from "../drafting/tank";
+import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankRacerbackControlOffsetCm } from "../drafting/tank";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -621,6 +621,39 @@ export function vNeckTankRecipeForOutput(
   return {
     ...recipe,
     label: "V-neck Tank",
+    poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
+    techPack,
+    techPackForOptions: () => techPack,
+    techPackForFabric: undefined,
+  };
+}
+
+/** N06 keeps the existing Tank outline while withholding an unchosen crop placement and sewn construction. */
+export function croppedTankTechPackForOutput(techPack: GarmentRecipe["techPack"]): GarmentRecipe["techPack"] {
+  const tankPack = tankStarterTechPackForOutput(techPack);
+  return {
+    ...tankPack,
+    bom: [{ material: "Not specified", placement: "Materials and trim", qty: "Not estimated" }],
+    construction: ["Digital N06 Cropped Tank body-length profile; crop placement and sewn construction unspecified."],
+    constructionNotice: "Digital N06 Cropped Tank shell only. The HPS-to-hem length is a software control, not a physical crop landmark; no neckline finish, binding template, sewn tolerance, material, or production instruction is supplied.",
+    measurementSpecNote: "N06 software geometry only. The generic Tank size run is not a validated N06 grade, physical crop reference, size chart, sewn tolerance, or fit result.",
+    measurementSpecToleranceColumn: false,
+    fitRecordStatusNote: "N06 is an editable digital shell. Physical crop placement, fit, comfort, wear, material performance, grading, and production have not been validated.",
+    fitRecordPassColumn: false,
+    fitRecordToleranceColumn: false,
+    fitRecordTitle: "Digital Measurement Worksheet",
+  };
+}
+
+export function croppedTankRecipeForOutput(
+  recipe: GarmentRecipe,
+  fabric: (typeof STRETCH_FABRICS)[number],
+): GarmentRecipe {
+  const fabricPack = recipe.techPackForFabric?.(fabric) ?? recipe.techPack;
+  const techPack = croppedTankTechPackForOutput(fabricPack);
+  return {
+    ...recipe,
+    label: "Cropped Tank",
     poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
     techPack,
     techPackForOptions: () => techPack,
@@ -1729,8 +1762,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const options = garmentOptionsForStyle(
       forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle, true, starterOrigin?.entryId,
     );
-    return forRecipe.name === "tank" && starterOrigin?.entryId === TANK_N05_ENTRY_ID
-      ? { ...options, [TANK_N05_PROFILE_ROUTE_KEY]: 1 }
+    if (forRecipe.name !== "tank") return options;
+    if (starterOrigin?.entryId === TANK_N05_ENTRY_ID) return { ...options, [TANK_N05_PROFILE_ROUTE_KEY]: 1 };
+    return starterOrigin?.entryId === TANK_N06_ENTRY_ID && targetStyle === "Crop tank"
+      ? { ...options, [TANK_N06_PROFILE_ROUTE_KEY]: 1 }
       : options;
   };
   const racerbackBodyControlOffsetCm = (): number | undefined =>
@@ -1761,6 +1796,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? "Square-neck Tank"
       : starterOrigin?.entryId === TANK_N05_ENTRY_ID && forRecipe.name === "tank"
       ? "V-neck Tank"
+      : starterOrigin?.entryId === TANK_N06_ENTRY_ID && forRecipe.name === "tank"
+      ? "Cropped Tank"
       : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && forRecipe.name === "tank"
       ? "Racerback Tank"
       : starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
@@ -1776,7 +1813,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
   const starterOutputStatusNote = (): string | undefined =>
-    starterOrigin?.entryId === TANK_N04_ENTRY_ID
+    starterOrigin?.entryId === TANK_N06_ENTRY_ID
+      ? "Digital N06 Cropped Tank shell. The 53 cm body length and 7 cm ease are editable software defaults; no physical crop location, validated grade, material, finish, or construction method is specified. Physical fit, comfort, wear and production remain unvalidated."
+      : starterOrigin?.entryId === TANK_N04_ENTRY_ID
       ? `Digital N04 Square-neck Tank shell. Square-corner easing: ${squareNeckTankCornerSetting(recipeOptions())}. Neckline finish, facing/binding template, sewn tolerance and physical fit are unspecified or unvalidated.`
       : starterOrigin?.entryId === TANK_N05_ENTRY_ID
       ? "Digital N05 V-neck Tank shell using software-default geometry. Neckline finish, materials, sewn tolerance, grading and physical fit are unspecified or unvalidated; no facing or binding template is supplied."
@@ -1908,7 +1947,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : recipe.allowances;
     const poms = pomsForRecipeOptions(recipe, options);
     const withStarterTechPack = (outputRecipe: GarmentRecipe): GarmentRecipe =>
-      starterOrigin?.entryId === TANK_N05_ENTRY_ID
+      starterOrigin?.entryId === TANK_N06_ENTRY_ID
+        ? croppedTankRecipeForOutput(outputRecipe, stretchFabric)
+        : starterOrigin?.entryId === TANK_N05_ENTRY_ID
         ? vNeckTankRecipeForOutput(outputRecipe, stretchFabric)
         : starterOrigin?.entryId === TANK_N04_ENTRY_ID
         ? squareNeckTankRecipeForOutput(outputRecipe, stretchFabric, recipeOptions())
@@ -2145,6 +2186,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const error = starterControlError(activeStarterId, field.id, measurements[field.id])
         ?? inputError(measurements[field.id], field);
       if (error) errors.set(field.id, error);
+    }
+    if (activeStarterId === TANK_N06_ENTRY_ID && !errors.has("armholeDepth") && !errors.has("length")) {
+      const relation = tankN06ArmholeLengthNote(measurements);
+      if (relation) errors.set("armholeDepth", relation.text);
     }
     for (const option of activeOptionDefinitions()) {
       const value = recipeOptions()[option.id];

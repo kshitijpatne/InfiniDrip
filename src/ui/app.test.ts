@@ -33,6 +33,8 @@ import {
   squareNeckTankRecipeForOutput,
   vNeckTankTechPackForOutput,
   vNeckTankRecipeForOutput,
+  croppedTankTechPackForOutput,
+  croppedTankRecipeForOutput,
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
 import { customOneSizeSpecMarkup, inspectionMarkup } from "./view";
@@ -44,7 +46,7 @@ import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-s
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
-import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY,
+import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY,
   TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 import { blockPieces } from "../drafting/block";
@@ -11143,6 +11145,42 @@ describe("EPIC-19 L02 starter binding", () => {
     expect(TANK.techPackForFabric).toBeDefined();
   });
 
+  it("keeps N06's Tech Pack digital-only without inheriting generic production material or sewing claims", () => {
+    const sourcePack: GarmentRecipe["techPack"] = {
+      ...TANK.techPack,
+      bom: [
+        { material: "Fabric", placement: "Body & sleeves", qty: "1.2 m" },
+        { material: "Rib", placement: "Neckband", qty: "0.1 m" },
+      ],
+      construction: ["Join the shoulder seams.", "Bind the neckline and armholes.", "Hem the body."],
+    };
+    const sanitized = croppedTankTechPackForOutput(sourcePack);
+    const knit = STRETCH_FABRICS.find((fabric) => fabric.name === "Cotton jersey")!;
+    const output = croppedTankRecipeForOutput(TANK, knit);
+    const fallback = croppedTankRecipeForOutput({ ...TANK, techPackForFabric: undefined }, knit);
+    expect(sanitized.bom).toEqual([{
+      material: "Not specified",
+      placement: "Materials and trim",
+      qty: "Not estimated",
+    }]);
+    expect(sanitized.construction).toEqual([
+      "Digital N06 Cropped Tank body-length profile; crop placement and sewn construction unspecified.",
+    ]);
+    expect(sanitized.construction.join(" ")).not.toMatch(/join|bind|hem the body/i);
+    expect(sanitized.constructionNotice).toContain("not a physical crop landmark");
+    expect(sanitized.measurementSpecToleranceColumn).toBe(false);
+    expect(sanitized.fitRecordPassColumn).toBe(false);
+    expect(sanitized.fitRecordToleranceColumn).toBe(false);
+    expect(sanitized.fitRecordTitle).toBe("Digital Measurement Worksheet");
+    expect(output.label).toBe("Cropped Tank");
+    expect(output.poms.every((pom) => pom.tolerance === undefined)).toBe(true);
+    expect(output.techPackForOptions!({})).toEqual(output.techPack);
+    expect(output.techPackForFabric).toBeUndefined();
+    expect(fallback.techPack.bom).toEqual(sanitized.bom);
+    expect(fallback.techPack.construction).toEqual(sanitized.construction);
+    expect(fallback.techPackForFabric).toBeUndefined();
+  });
+
   it("resolves and freezes fabric-specific N01 Tech Pack content for export", () => {
     const tankRecipe = GARMENTS.find((candidate) => candidate.name === "tank")!;
     const knit = STRETCH_FABRICS.find((candidate) => candidate.name === "Cotton jersey")!;
@@ -14304,6 +14342,122 @@ describe("S1207 N05 V-neck Tank", () => {
       expect(techPack).toContain("physical fit");
       expect(techPack).not.toContain("Cotton jersey");
       expect(techPack).not.toContain("Neckband");
+    } finally {
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+});
+
+describe("S1211 N06 Cropped Tank", () => {
+  it("selects, preserves, blocks the invalid depth/length pair, reopens, and exports the digital shell", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${TANK_N06_ENTRY_ID}`)!;
+      expect(card.textContent).toContain("Cropped Tank · software defaults");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      clickId(root, `starter-${TANK_N06_ENTRY_ID}`);
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Cropped Tank");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("53");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("7");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${TANK_N06_PROFILE_ROUTE_KEY}"]`)).toBeNull();
+      expect(root.querySelector<HTMLElement>(`#starter-limits-${TANK_N06_ENTRY_ID}`)!.textContent)
+        .toContain("no physical crop location");
+
+      clickId(root, "view-pattern");
+      const initialPattern = root.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML;
+      expect(initialPattern).not.toMatch(/NaN|Infinity/);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TANK_N06_ENTRY_ID,
+        recipeId: "tank",
+        recipeRevision: "tank-cropped-v1",
+        configurationSnapshot: {
+          targetStyle: "Crop tank",
+          measurements: { length: 53, ease: 7 },
+          options: {},
+        },
+      });
+      expect(saved.garmentOptions.tank).not.toHaveProperty(TANK_N06_PROFILE_ROUTE_KEY);
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Cropped Tank · software defaults");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("53");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("7");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${TANK_N06_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.outerHTML).toBe(initialPattern);
+
+      const setField = (field: string, value: string): void => {
+        const input = reopened!.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      };
+      setField("length", "40");
+      setField("armholeDepth", "40");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("40");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="armholeDepth"]')!.value).toBe("40");
+      expect(reopened.querySelector<HTMLElement>("#error-armholeDepth")!.textContent)
+        .toContain("must be less than body length");
+
+      clickIfPresent(reopened, "welcome-start");
+      clickId(reopened, "journey-step-fit");
+      clickId(reopened, "journey-next");
+      const blockedNext = reopened.querySelector<HTMLButtonElement>("#journey-next");
+      expect(blockedNext === null || blockedNext.disabled).toBe(true);
+      const blockedSvg = reopened.querySelector<HTMLButtonElement>("#export-svg")!;
+      expect(blockedSvg.disabled).toBe(true);
+      blockedSvg.click();
+      expect(saveFile).not.toHaveBeenCalled();
+
+      setField("armholeDepth", "39");
+      expect(reopened.querySelector<HTMLElement>("#error-armholeDepth")!.textContent).toBe("");
+      setField("length", "53");
+      setField("armholeDepth", "24");
+      reachExportStage(reopened);
+      expect(reopened.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      reopened.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
+      const svgEntry = [...files.entries()].find(([filename]) => filename.endsWith("-M.svg"))!;
+      expect(svgEntry).toBeDefined();
+      const expectedOptions = { [TANK_N06_PROFILE_ROUTE_KEY]: 1 };
+      expect(svgEntry[1]).toBe(exportSvg(
+        blockPieces(TANK.draft({ ...saved.measurements, length: 53, armholeDepth: 24 }, expectedOptions)),
+        TANK.allowances,
+        notchesForRecipeOptions(TANK, expectedOptions),
+      ));
+
+      reopened.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      const techPackEntry = [...files.entries()].find(([filename]) => filename.endsWith("-techpack.pdf"))!;
+      expect(techPackEntry).toBeDefined();
+      const techPack = visiblePdfText(techPackEntry[1]);
+      expect(techPack).toContain("Digital N06 Cropped Tank shell");
+      expect(techPack).toContain("53 cm body length and 7 cm ease are editable software defaults");
+      expect(techPack).toContain("no physical crop location");
+      expect(techPack).toMatch(/physical fit/i);
+      expect(techPack).toContain("Not estimated");
+      expect(techPack).not.toContain("No sourcing or consumption estimate");
+      expect(techPack).not.toContain("Neckband");
+      expect(techPack).not.toContain("Bind the neckline");
+      expect(techPack).not.toContain("Join the shoulder seams");
+      expect(techPack).toContain("body-length profile");
+      expect(techPack).not.toContain("Cotton jersey");
     } finally {
       root?.remove();
       reopened?.remove();
