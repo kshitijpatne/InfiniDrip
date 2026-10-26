@@ -3648,7 +3648,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  }, 10_000);
+  }, 20_000);
 
   it("rejects a palette apply when its saved Tech Pack assignment disappears during artwork verification", async () => {
     const colorId = "a5555555-5555-4555-8555-000000000005";

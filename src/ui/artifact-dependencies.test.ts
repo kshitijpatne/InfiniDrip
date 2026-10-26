@@ -5,6 +5,7 @@ import { blockPieces, GARMENTS, gradeRun, notchesForRecipeOptions, optionApplies
 import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg, exportTechPackV2, flattenPiece, nestPieces } from "../export";
 import { DEFAULT_WOVEN_SHIRT_OPTIONS } from "../drafting/shirt-contract";
 import { wovenShirtAllowances } from "../drafting/shirt";
+import { TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY } from "../drafting/tank";
 import {
   assertFieldArtifactCoverage,
   describeFieldArtifactImpact,
@@ -19,9 +20,13 @@ function defaultOptions(recipeName: string, starterEntryId?: string): GarmentOpt
   const recipe = GARMENTS.find((item) => item.name === recipeName)!;
   // Optional choices are inactive until explicitly selected; loading all their
   // software defaults together can create impossible conflicting states.
-  return Object.fromEntries((recipe.options ?? [])
+  const options = Object.fromEntries((recipe.options ?? [])
     .filter((option) => !option.optional && optionAppliesToStarterEntry(option, starterEntryId))
-    .map((option) => [option.id, option.defaultValue]));
+    .map((option) => [option.id, option.defaultValue])) as GarmentOptions;
+  // The real N08 path derives this internal route marker from the saved starter identity.
+  return recipeName === "tank" && starterEntryId === TANK_N08_ENTRY_ID
+    ? { ...options, [TANK_N08_PROFILE_ROUTE_KEY]: 1 }
+    : options;
 }
 
 function adjacentAllowedValue(value: number, min: number, max: number, step: number): number {

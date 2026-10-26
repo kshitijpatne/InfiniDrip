@@ -59,7 +59,7 @@ import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspe
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
-import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankRacerbackControlOffsetCm } from "../drafting/tank";
+import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankNotchesForOptions, tankRacerbackControlOffsetCm } from "../drafting/tank";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -689,6 +689,55 @@ export function longlineTankRecipeForOutput(
     poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
     techPack,
     techPackForOptions: () => techPack,
+    techPackForFabric: undefined,
+  };
+}
+
+/** Keep N08's digital shelf parts distinct from physical support or elastic claims. */
+export function shelfLinedTankTechPackForOutput(
+  techPack: GarmentRecipe["techPack"],
+  options: GarmentOptions,
+): GarmentRecipe["techPack"] {
+  const shelfDrop = options[TANK_N08_SHELF_DROP_OPTION_ID];
+  const setting = Number.isFinite(shelfDrop) ? `${shelfDrop} cm below underarm (software)` : "unresolved (software)";
+  return {
+    ...tankStarterTechPackForOutput(techPack),
+    bom: [{ material: "Not specified", placement: "Shell, shelf, elastic and trim", qty: "No sourcing or consumption estimate" }],
+    construction: [
+      "Digital N08 panel set: shell front/back plus separate inner shelf front/back panels.",
+      `Digital shelf hem below underarm: ${setting}; the lower-edge mark identifies the elastic-attachment edge only.`,
+    ],
+    constructionNotice: "Digital N08 shelf-lined Tank pattern only. The software shelf drop does not establish an underbust position or physical support. Elastic width, cut length, tension, material, physical sewing method and production instructions are unspecified.",
+    measurementSpecNote: "N08 software geometry only. The generic Tank size run is not a validated N08 grade, size chart, sewn tolerance, or physical-fit result.",
+    measurementSpecToleranceColumn: false,
+    fitRecordStatusNote: "N08 is an editable digital pattern. Physical support, fit, comfort, coverage, wear, material performance, grading and production have not been validated.",
+    fitRecordPassColumn: false,
+    fitRecordToleranceColumn: false,
+    fitRecordTitle: "Digital Measurement Worksheet",
+  };
+}
+
+export function shelfLinedTankRecipeForOutput(
+  recipe: GarmentRecipe,
+  fabric: (typeof STRETCH_FABRICS)[number],
+  options: GarmentOptions,
+): GarmentRecipe {
+  const fabricPack = recipe.techPackForFabric?.(fabric) ?? recipe.techPack;
+  const techPackForOptions = (activeOptions: GarmentOptions): GarmentRecipe["techPack"] =>
+    shelfLinedTankTechPackForOutput(fabricPack, activeOptions);
+  const routeOptions = (activeOptions: GarmentOptions = {}): GarmentOptions => ({
+    ...activeOptions,
+    [TANK_N08_PROFILE_ROUTE_KEY]: 1,
+  });
+  const draft = recipe.draft;
+  return {
+    ...recipe,
+    draft: (measurements, activeOptions) => draft(measurements, routeOptions(activeOptions)),
+    notchesForOptions: (activeOptions) => tankNotchesForOptions(routeOptions(activeOptions)),
+    label: "Shelf-lined Tank",
+    poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
+    techPack: techPackForOptions(options),
+    techPackForOptions,
     techPackForFabric: undefined,
   };
 }
@@ -1652,7 +1701,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === TANK_N04_ENTRY_ID && recipe.name === "tank" ? "square-neck-tank"
+    starterOrigin?.entryId === TANK_N08_ENTRY_ID && recipe.name === "tank" ? "shelf-lined-tank"
+      : starterOrigin?.entryId === TANK_N04_ENTRY_ID && recipe.name === "tank" ? "square-neck-tank"
       : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && recipe.name === "tank" ? "racerback-tank"
       : recipe.name === "tee" && teeConstruction === "raglan" ? "tee-raglan" : recipe.name;
   const currentSavedDesign = (): SavedDesign | null => {
@@ -1796,6 +1846,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     );
     if (forRecipe.name !== "tank") return options;
     if (starterOrigin?.entryId === TANK_N05_ENTRY_ID) return { ...options, [TANK_N05_PROFILE_ROUTE_KEY]: 1 };
+    if (starterOrigin?.entryId === TANK_N08_ENTRY_ID) return { ...options, [TANK_N08_PROFILE_ROUTE_KEY]: 1 };
     return starterOrigin?.entryId === TANK_N06_ENTRY_ID && targetStyle === "Crop tank"
       ? { ...options, [TANK_N06_PROFILE_ROUTE_KEY]: 1 }
       : options;
@@ -1832,6 +1883,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? "Cropped Tank"
       : starterOrigin?.entryId === TANK_N07_ENTRY_ID && forRecipe.name === "tank"
       ? "Longline Tank"
+      : starterOrigin?.entryId === TANK_N08_ENTRY_ID && forRecipe.name === "tank"
+      ? "Shelf-lined Tank"
       : starterOrigin?.entryId === TANK_RACERBACK_ENTRY_ID && forRecipe.name === "tank"
       ? "Racerback Tank"
       : starterOrigin?.entryId === FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID
@@ -1847,7 +1900,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
   const starterOutputStatusNote = (): string | undefined =>
-    starterOrigin?.entryId === TANK_N06_ENTRY_ID
+    starterOrigin?.entryId === TANK_N08_ENTRY_ID
+      ? "Digital N08 shelf-lined Tank pattern. The shelf hem is set by a software offset below the underarm; it is not an underbust, support, or physical-fit target. Elastic dimensions/material, sewing method, grade validation, fit, comfort, wear and production remain unspecified or unvalidated."
+      : starterOrigin?.entryId === TANK_N06_ENTRY_ID
       ? "Digital N06 Cropped Tank shell. The 53 cm body length and 7 cm ease are editable software defaults; no physical crop location, validated grade, material, finish, or construction method is specified. Physical fit, comfort, wear and production remain unvalidated."
       : starterOrigin?.entryId === TANK_N07_ENTRY_ID
       ? "Digital N07 Longline Tank shell. The 89 cm body length and 10 cm ease are editable software defaults; HPS-to-hem is not a physical hem-location target. The generic Tank size run is not validated for N07; physical fit, comfort, wear, materials, grading and production remain unvalidated."
@@ -1983,7 +2038,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : recipe.allowances;
     const poms = pomsForRecipeOptions(recipe, options);
     const withStarterTechPack = (outputRecipe: GarmentRecipe): GarmentRecipe =>
-      starterOrigin?.entryId === TANK_N07_ENTRY_ID
+      starterOrigin?.entryId === TANK_N08_ENTRY_ID
+        ? shelfLinedTankRecipeForOutput(outputRecipe, stretchFabric, options)
+        : starterOrigin?.entryId === TANK_N07_ENTRY_ID
         ? longlineTankRecipeForOutput(outputRecipe, stretchFabric)
         : starterOrigin?.entryId === TANK_N06_ENTRY_ID
         ? croppedTankRecipeForOutput(outputRecipe, stretchFabric)
@@ -6065,12 +6122,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const step = selectedOutputStep();
     const sourceBlock = requireDxfInterchangeSourceBlock(semanticSizeBlock(step));
     const outputRecipe = recipeForCurrentOutputs();
+    const packageOptions = { ...recipeOptions(outputRecipe) };
+    if (starterOrigin?.entryId === TANK_N08_ENTRY_ID) delete packageOptions[TANK_N08_PROFILE_ROUTE_KEY];
     return createDxfInterchangePackage(outputRecipe, {
       label: selectedSizeLabel(recipe.sizes, step),
       step,
       measurements: gradeMeasurements(measurements, recipe.grade, step),
       block: sourceBlock,
-    }, recipeOptions(outputRecipe), starterOrigin?.entryId);
+    }, packageOptions, starterOrigin?.entryId);
   };
   // The desktop shell's only bridge into this app (Slice 46): when running
   // inside Electron, `window.electronAPI` is set by electron/preload.cts via

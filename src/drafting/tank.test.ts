@@ -4,8 +4,9 @@ import {
   draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS,
   TANK_RACERBACK_BACK_CUT_IN_OPTION, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
   TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY,
+  TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION, TANK_N08_SHELF_DROP_OPTION_ID,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID,
-  tankN06ArmholeLengthNote, tankRacerbackControlOffsetCm,
+  tankN06ArmholeLengthNote, tankNotchesForOptions, tankRacerbackControlOffsetCm,
 } from "./tank";
 import { TANK, gradeRun, specSheet } from "./index";
 import { defaultGarmentOptions } from "./options";
@@ -133,7 +134,7 @@ describe("N03 racerback Tank geometry", () => {
 
   it("changes only the back armhole curve across 0/default/6 cm and keeps endpoints and joins", () => {
     const n01 = draftTank(STANDARD_M);
-    expect(TANK.options).toEqual([TANK_RACERBACK_BACK_CUT_IN_OPTION, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION]);
+    expect(TANK.options).toEqual([TANK_RACERBACK_BACK_CUT_IN_OPTION, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION, TANK_N08_SHELF_DROP_OPTION]);
     const defaultOptions = defaultGarmentOptions([TANK_RACERBACK_BACK_CUT_IN_OPTION], TANK_RACERBACK_ENTRY_ID);
     expect(defaultOptions).toEqual({ [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: 3 });
     const draft = (cutIn: number) => draftTank(STANDARD_M, { [TANK_RACERBACK_BACK_CUT_IN_OPTION_ID]: cutIn });
@@ -172,6 +173,81 @@ describe("N03 racerback Tank geometry", () => {
       expect(candidate.stitches.map((stitch) => stitch.label)).toEqual(n01.stitches.map((stitch) => stitch.label));
       expect(stitchChecks(candidate, candidate.stitches).map((check) => check.ok)).toEqual([true, true]);
     }
+  });
+});
+
+describe("N08 shelf-lined Tank geometry", () => {
+  const options = (drop: number) => ({
+    [TANK_N08_PROFILE_ROUTE_KEY]: 1,
+    [TANK_N08_SHELF_DROP_OPTION_ID]: drop,
+  });
+
+  it("adds separate on-fold shelf pieces while preserving the N01 shell and matching upper paths", () => {
+    const shell = draftTank(STANDARD_M);
+    const n08 = draftTank(STANDARD_M, options(14));
+    expect(Object.keys(n08.roles)).toEqual(["front", "back", "shelfFront", "shelfBack"]);
+    expect(n08.roles.front).toEqual(shell.roles.front);
+    expect(n08.roles.back).toEqual(shell.roles.back);
+    expect(n08.roles.shelfFront!.name).toBe("shelf-front");
+    expect(n08.roles.shelfBack!.name).toBe("shelf-back");
+
+    for (const [shellRole, shelfRole] of [["front", "shelfFront"], ["back", "shelfBack"]] as const) {
+      const shellPiece = rolePiece(shell, shellRole);
+      const shelfPiece = rolePiece(n08, shelfRole);
+      expect(shelfPiece.onFold).toBe(shellPiece.onFold);
+      for (const edgeName of ["neckline", "shoulder", "armhole"] as const) {
+        expect(pieceEdge(shelfPiece, edgeName)).toEqual(pieceEdge(shellPiece, edgeName));
+      }
+      for (const edge of shelfPiece.edges) {
+        expect(Number.isFinite(edgeLength(edge)) && edgeLength(edge) > 0).toBe(true);
+      }
+      const elasticEdge = pieceEdge(shelfPiece, "shelfHem");
+      const mark = shelfPiece.marks?.find((candidate) => candidate.name === "elasticAttachmentLine");
+      expect(mark).toMatchObject({ kind: "placementLine", label: "Elastic attachment edge (digital)" });
+      if (mark && "start" in mark && "end" in mark) {
+        expect(mark.start).toEqual(edgeStart(elasticEdge));
+        expect(mark.end).toEqual(edgeEnd(elasticEdge));
+      } else {
+        throw new Error("the shelf lower edge must retain its placement-line mark");
+      }
+    }
+    expect(n08.stitches).toHaveLength(shell.stitches.length + 8);
+    expect(stitchChecks(n08, n08.stitches).map((check) => check.ok)).toEqual(Array(10).fill(true));
+  });
+
+  it("accepts both shelf-drop bounds and keeps 4 cm below the deepest shelf at the N01 code boundary", () => {
+    for (const drop of [2, 15]) {
+      const block = draftTank(STANDARD_M, options(drop));
+      expect(edgeStart(pieceEdge(rolePiece(block, "shelfFront"), "shelfHem")).y).toBe(STANDARD_M.armholeDepth + drop);
+    }
+    const boundaryMeasurements = { ...STANDARD_M, length: 59, armholeDepth: 40 };
+    const deepest = draftTank(boundaryMeasurements, options(15));
+    const hemY = edgeStart(pieceEdge(rolePiece(deepest, "shelfFront"), "shelfHem")).y;
+    expect(boundaryMeasurements.length - hemY).toBe(4);
+  });
+
+  it("rejects missing, non-finite, out-of-range, off-step, and body-colliding settings without affecting ordinary Tank", () => {
+    expect(draftTank(STANDARD_M, { [TANK_N08_SHELF_DROP_OPTION_ID]: -50 })).toEqual(draftTank(STANDARD_M));
+    for (const drop of [Number.NaN, 1, 16, 14.5]) {
+      expect(() => draftTank(STANDARD_M, options(drop))).toThrow(RangeError);
+    }
+    expect(() => draftTank(STANDARD_M, { [TANK_N08_PROFILE_ROUTE_KEY]: 1 })).toThrow(RangeError);
+    expect(() => draftTank({ ...STANDARD_M, length: 40 }, options(15))).toThrow(/at least 2 cm above the shell hem/);
+  });
+
+  it("adds shelf-side notches and grainlines only for the N08 route", () => {
+    expect(tankNotchesForOptions()).toBe(TANK_NOTCHES);
+    const notches = tankNotchesForOptions(options(14));
+    expect(notches.slice(0, TANK_NOTCHES.length)).toEqual(TANK_NOTCHES);
+    expect(notches.find((entry) => entry.pieceName === "shelf-front")).toMatchObject({
+      notches: [{ edgeName: "side", t: 0.5 }],
+      grainline: { topEdge: "neckline", bottomEdge: "shelfHem" },
+    });
+    expect(notches.find((entry) => entry.pieceName === "shelf-back")).toMatchObject({
+      notches: [{ edgeName: "side", t: 0.5 }, { edgeName: "side", t: 0.5 }],
+      grainline: { topEdge: "neckline", bottomEdge: "shelfHem" },
+    });
+    expect(TANK_N08_ENTRY_ID).toBe("tank-shelf-lined-digital-v1");
   });
 });
 

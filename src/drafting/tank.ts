@@ -17,7 +17,10 @@
 // `tankGuidance` below, which is the same function minus `armholeMatch`.
 
 import { Measurements, derive } from "./measurements";
-import { Block } from "./block";
+import { point } from "../geometry";
+import { edgeEnd, edgeStart, Piece, pieceEdge } from "./piece";
+import { lineMark } from "./pattern-mark";
+import { block as makeBlock, Block } from "./block";
 import { Note } from "../guidance/note";
 import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
 import { bodice } from "./bodice";
@@ -48,10 +51,14 @@ export const TANK_N04_ENTRY_ID = "tank-square-neck-digital-v1";
 export const TANK_N05_ENTRY_ID = "tank-v-neck-digital-v1";
 export const TANK_N06_ENTRY_ID = "tank-cropped-digital-v1";
 export const TANK_N07_ENTRY_ID = "tank-longline-digital-v1";
+export const TANK_N08_ENTRY_ID = "tank-shelf-lined-digital-v1";
+export const TANK_N08_SHELF_DROP_OPTION_ID = "tankShelfDropBelowArmholeCm";
 /** Internal route marker derived from saved starter identity; never a user option or persisted value. */
 export const TANK_N05_PROFILE_ROUTE_KEY = "__tankN05Profile";
 /** Internal route marker derived from saved starter identity; never a user option or persisted value. */
 export const TANK_N06_PROFILE_ROUTE_KEY = "__tankN06Profile";
+/** Internal route marker derived from saved starter identity; never a user option or persisted value. */
+export const TANK_N08_PROFILE_ROUTE_KEY = "__tankN08Profile";
 export const TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID = "tankSquareNeckCornerRadiusCm";
 export const TANK_SQUARE_NECK_CORNER_RADIUS_OPTION: GarmentOption = {
   id: TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID,
@@ -63,6 +70,19 @@ export const TANK_SQUARE_NECK_CORNER_RADIUS_OPTION: GarmentOption = {
   max: 1.5,
   step: 0.5,
   appliesToStarterEntryId: TANK_N04_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+};
+
+export const TANK_N08_SHELF_DROP_OPTION: GarmentOption = {
+  id: TANK_N08_SHELF_DROP_OPTION_ID,
+  label: "Shelf hem below underarm (digital)",
+  unit: "cm",
+  help: "Sets the digital shelf hem below the underarm line. This is not an underbust measurement, support level, or physical-fit target.",
+  defaultValue: 14,
+  min: 2,
+  max: 15,
+  step: 1,
+  appliesToStarterEntryId: TANK_N08_ENTRY_ID,
   preserveInvalidWhenRestored: true,
 };
 
@@ -122,8 +142,82 @@ export function tankBackNeckline(m: Measurements): NecklineParams {
   return { shape: "crew", widthEase: m.neckWidthEase, frontDrop: 0 };
 }
 
+function shelfLiningPiece(shell: Piece, centerEdgeName: "centerFront" | "centerBack", shelfBottomY: number, pieceName: string): Piece {
+  const centerEdge = pieceEdge(shell, centerEdgeName);
+  const sideEdge = pieceEdge(shell, "side");
+  const armholeEdge = pieceEdge(shell, "armhole");
+  const sideAtShelf = point(edgeStart(sideEdge).x, shelfBottomY);
+  const centerAtShelf = point(edgeStart(centerEdge).x, shelfBottomY);
+  const topEdges = shell.edges.filter((edge) => edge.name !== "side" && edge.name !== "hem" && edge.name !== centerEdgeName);
+  return {
+    name: pieceName,
+    onFold: shell.onFold,
+    edges: [
+      ...topEdges,
+      { kind: "line", name: "side", start: edgeEnd(armholeEdge), end: sideAtShelf },
+      { kind: "line", name: "shelfHem", start: sideAtShelf, end: centerAtShelf },
+      { kind: "line", name: centerEdgeName, start: centerAtShelf, end: edgeEnd(centerEdge) },
+    ],
+    marks: [lineMark(
+      "placementLine", "elasticAttachmentLine", sideAtShelf, centerAtShelf,
+      "Elastic attachment edge (digital)", "label",
+    )],
+  };
+}
+
+const TANK_N08_SHELF_SIDE_STITCH: Stitch = {
+  label: "Shelf side seam (front ↔ back)",
+  a: iface(edgeRef("shelfFront", "side")),
+  b: iface(edgeRef("shelfBack", "side")),
+};
+
+const TANK_N08_STITCHES: readonly Stitch[] = [
+  { label: "Shelf shoulder seam (front ↔ back)", a: iface(edgeRef("shelfFront", "shoulder")), b: iface(edgeRef("shelfBack", "shoulder")) },
+  TANK_N08_SHELF_SIDE_STITCH,
+  { label: "Front shelf neckline to shell", a: iface(edgeRef("front", "neckline")), b: iface(edgeRef("shelfFront", "neckline")) },
+  { label: "Front shelf shoulder to shell", a: iface(edgeRef("front", "shoulder")), b: iface(edgeRef("shelfFront", "shoulder")) },
+  { label: "Front shelf armhole to shell", a: iface(edgeRef("front", "armhole")), b: iface(edgeRef("shelfFront", "armhole")) },
+  { label: "Back shelf neckline to shell", a: iface(edgeRef("back", "neckline")), b: iface(edgeRef("shelfBack", "neckline")) },
+  { label: "Back shelf shoulder to shell", a: iface(edgeRef("back", "shoulder")), b: iface(edgeRef("shelfBack", "shoulder")) },
+  { label: "Back shelf armhole to shell", a: iface(edgeRef("back", "armhole")), b: iface(edgeRef("shelfBack", "armhole")) },
+];
+
+export function tankNotchesForOptions(options: GarmentOptions = {}): readonly PieceNotches[] {
+  if (options[TANK_N08_PROFILE_ROUTE_KEY] !== 1) return TANK_NOTCHES;
+  return [
+    ...TANK_NOTCHES,
+    {
+      pieceName: "shelf-front",
+      notches: [matchedNotch(TANK_N08_SHELF_SIDE_STITCH, "a", 0.5)],
+      grainline: { topEdge: "neckline", topT: 0.5, bottomEdge: "shelfHem", bottomT: 0.5 },
+    },
+    {
+      pieceName: "shelf-back",
+      notches: [matchedNotch(TANK_N08_SHELF_SIDE_STITCH, "b", 0.5), matchedNotch(TANK_N08_SHELF_SIDE_STITCH, "b", 0.5)],
+      grainline: { topEdge: "neckline", topT: 0.5, bottomEdge: "shelfHem", bottomT: 0.5 },
+    },
+  ];
+}
+
 export function draftTank(m: Measurements, options: GarmentOptions = {}): Block {
-  return composeBlock(TANK_GRAMMAR, m, options);
+  const shell = composeBlock(TANK_GRAMMAR, m, options);
+  if (options[TANK_N08_PROFILE_ROUTE_KEY] !== 1) return shell;
+  const shelfDrop = options[TANK_N08_SHELF_DROP_OPTION_ID];
+  const shelfDropSteps = (shelfDrop - TANK_N08_SHELF_DROP_OPTION.min) / TANK_N08_SHELF_DROP_OPTION.step;
+  if (!Number.isFinite(shelfDrop) || shelfDrop < TANK_N08_SHELF_DROP_OPTION.min
+    || shelfDrop > TANK_N08_SHELF_DROP_OPTION.max || Math.abs(shelfDropSteps - Math.round(shelfDropSteps)) > 1e-8) {
+    throw new RangeError("Shelf hem below underarm (digital) must be a 2–15 cm value in 1 cm increments.");
+  }
+  const shelfBottomY = m.armholeDepth + shelfDrop;
+  if (!Number.isFinite(shelfBottomY) || shelfBottomY >= m.length - 2) {
+    throw new RangeError("The digital shelf hem must remain at least 2 cm above the shell hem; reduce the shelf drop or correct the Tank length/armhole depth.");
+  }
+  const shelfFront = shelfLiningPiece(shell.roles.front!, "centerFront", shelfBottomY, "shelf-front");
+  const shelfBack = shelfLiningPiece(shell.roles.back!, "centerBack", shelfBottomY, "shelf-back");
+  return makeBlock(
+    { ...shell.roles, shelfFront, shelfBack },
+    [...shell.stitches, ...TANK_N08_STITCHES],
+  );
 }
 
 /** A tank is the shared bodice grammar with the sleeve node intentionally

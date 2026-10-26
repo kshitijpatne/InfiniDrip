@@ -13,6 +13,9 @@ import {
   TANK_N05_ENTRY_ID,
   TANK_N06_ENTRY_ID,
   TANK_N07_ENTRY_ID,
+  TANK_N08_ENTRY_ID,
+  TANK_N08_SHELF_DROP_OPTION_ID,
+  TANK_N08_SHELF_DROP_OPTION,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION,
 } from "../drafting/tank";
 
@@ -1025,10 +1028,53 @@ const TANK_LONGLINE_BLANK_ENTRY: StarterEntry = {
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
+const TANK_SHELF_LINED_BLANK_ENTRY: StarterEntry = {
+  ...TANK_CLASSIC_SCOOP_BLANK_ENTRY,
+  entryId: TANK_N08_ENTRY_ID,
+  entryRevision: "2026-10-26.1",
+  recipeRevision: "tank-shelf-lined-v1",
+  label: "Shelf-lined Tank · software defaults",
+  configuration: {
+    targetStyle: "Classic tank",
+    measurements: { ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.configuration.measurements },
+    options: { [TANK_N08_SHELF_DROP_OPTION_ID]: TANK_N08_SHELF_DROP_OPTION.defaultValue },
+  },
+  supportedControls: [
+    ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.supportedControls,
+    {
+      fieldId: TANK_N08_SHELF_DROP_OPTION_ID,
+      label: TANK_N08_SHELF_DROP_OPTION.label,
+      kind: "option",
+      unit: "cm",
+      min: TANK_N08_SHELF_DROP_OPTION.min,
+      max: TANK_N08_SHELF_DROP_OPTION.max,
+      step: TANK_N08_SHELF_DROP_OPTION.step,
+      defaultValue: TANK_N08_SHELF_DROP_OPTION.defaultValue,
+    },
+  ],
+  intent: {
+    ...TANK_CLASSIC_SCOOP_BLANK_ENTRY.intent,
+    use: "Preconfigured shelf-lined Tank digital pattern with an editable software shelf-hem offset.",
+    fit: "The shelf drop is an editable digital shape setting, not an underbust position, physical-support level, or fit target.",
+    bodyMaterial: "No shell or shelf material compatibility claim.",
+    trimMaterial: "Elastic material and dimensions are unspecified; no compatibility claim.",
+    construction: "Existing Tank shell plus separate on-fold inner shelf front/back panels. The digital shelf hem carries an elastic-attachment placement mark; physical sewing and elastic specification are not supplied.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; not a population chart, validated size-M profile, or validated grade for N08.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The 14 cm default and 2–15 cm / 1 cm range are explicit software choices, not sourced underbust positions, anatomical measurements, fit targets, or standards.",
+    "The added shelf-front/back panels and elastic-attachment mark are digital pattern data only; the software does not establish physical support, fit, comfort, coverage, wear, or sewing performance.",
+    "Elastic width, cut length, tension, material, sourcing and consumption are unspecified. No cups, padding, power mesh, or support-material architecture is included.",
+    "The generic Tank size run is not validated grading for N08. The modeled geometry and POMs are digital outputs, not sewn measurements.",
+    "B1 technical-design review is pending. Physical validation, supplier suitability, manufacturing, and production remain not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v18",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v19",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;
