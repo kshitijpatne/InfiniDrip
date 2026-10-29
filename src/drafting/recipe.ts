@@ -50,7 +50,7 @@ import type { TeeConstruction } from "./tshirt";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS, FITTED_PRINCESS_POMS, fittedPanelChecks } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
-import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, POLO_BODY_POMS, resolvePoloOptions } from "./polo";
+import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, POLO_BODY_POMS, poloButtonCountError, resolvePoloOptions } from "./polo";
 import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS } from "./shirt";
 import { WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { edgeLength, pieceEdge } from "./piece";
@@ -752,6 +752,21 @@ const POLO_TECH_PACK: TechPack = {
 
 const POLO_TECH_PACK_FOR_OPTIONS = (rawOptions: GarmentOptions): TechPack => {
   const options = resolvePoloOptions(rawOptions);
+  const buttonCountError = poloButtonCountError(options.buttonCount);
+  if (buttonCountError) throw new RangeError(buttonCountError);
+  const buttonCount = options.buttonCount;
+  const buttonConstruction = buttonCount === 3
+    ? "Make buttonholes and attach three buttons at the marked 3.5 cm centres."
+    : `Make buttonholes and attach ${buttonCount} buttons at the marked 3.5 cm centres.`;
+  const optionPack: TechPack = {
+    ...POLO_TECH_PACK,
+    bom: POLO_TECH_PACK.bom.map((row) => row.material === "Buttons" && row.placement === "Front placket"
+      ? { ...row, qty: String(buttonCount) }
+      : row),
+    construction: POLO_TECH_PACK.construction.map((line) => line.startsWith("Make buttonholes and attach ")
+      ? buttonConstruction
+      : line),
+  };
   const ventOpen = options.sideVentDepth > 0;
   const ventClosed = options.sideVentDepth === 0;
   const backDrop = options.backHemDrop > 0;
@@ -769,7 +784,7 @@ const POLO_TECH_PACK_FOR_OPTIONS = (rawOptions: GarmentOptions): TechPack => {
     : levelBack
       ? "Hem the front and back body edges level with each other; hem sleeves and inspect placket flatness, collar roll, and neckline recovery."
       : "Resolve the back-hem value before cutting; do not assume a level or dropped back hem.";
-  return { ...POLO_TECH_PACK, construction: [...POLO_TECH_PACK.construction.slice(0, 6), ...ventSteps, hemStep] };
+  return { ...optionPack, construction: [...optionPack.construction.slice(0, 6), ...ventSteps, hemStep] };
 };
 
 export const POLO: GarmentRecipe = {

@@ -111,7 +111,7 @@ describe("technical-flat source geometry", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max]
       .map((value) => ({ [option.id]: value })))];
-    expect(endpointOptions).toHaveLength(17);
+    expect(endpointOptions).toHaveLength(1 + 2 * (recipe.options ?? []).length);
     for (const options of endpointOptions) {
       const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
       const original = structuredClone(block);

@@ -18,12 +18,15 @@ import {
   TANK_N08_SHELF_DROP_OPTION,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION,
 } from "../drafting/tank";
+import { POLO_OPTION_DEFINITIONS } from "../drafting/polo";
+
+export const POLO_CLASSIC_TWO_BUTTON_ENTRY_ID = "polo-classic-two-button-digital-v1";
 
 export interface StarterControl {
   readonly fieldId: string;
   readonly label: string;
   readonly kind: "measurement" | "option" | "design";
-  readonly unit: "cm" | "%";
+  readonly unit: "cm" | "%" | "buttons";
   readonly min: number;
   readonly max: number;
   readonly step: number;
@@ -1071,10 +1074,84 @@ const TANK_SHELF_LINED_BLANK_ENTRY: StarterEntry = {
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
+const POLO_CLASSIC_TWO_BUTTON_MEASUREMENTS = {
+  chest: 100,
+  shoulderWidth: 45,
+  bicep: 38,
+  length: 70,
+  armholeDepth: 24,
+  sleeveLength: 22,
+  ease: 10,
+} as const;
+
+const POLO_CLASSIC_TWO_BUTTON_OPTIONS = {
+  buttonCount: 2,
+  placketLength: 14,
+  placketWidth: 3,
+  standHeight: 2,
+  collarLeafDepth: 5,
+  standFrontRise: 0.75,
+  collarPointExtension: 1.5,
+  sideVentDepth: 6,
+  backHemDrop: 1.5,
+} as const;
+
+const POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY: StarterEntry = {
+  entryId: POLO_CLASSIC_TWO_BUTTON_ENTRY_ID,
+  entryRevision: "2026-10-26.1",
+  recipeId: "polo",
+  recipeRevision: "polo-classic-two-button-v1",
+  catalogKind: "blank",
+  label: "Polo Classic two-button · software defaults",
+  configuration: {
+    targetStyle: "Classic polo",
+    measurements: POLO_CLASSIC_TWO_BUTTON_MEASUREMENTS,
+    options: POLO_CLASSIC_TWO_BUTTON_OPTIONS,
+  },
+  supportedControls: [
+    ...TEE_CLASSIC_BLANK_ENTRY.supportedControls
+      .filter((control) => control.kind !== "option")
+      .map((control) => ({
+        ...control,
+        defaultValue: POLO_CLASSIC_TWO_BUTTON_MEASUREMENTS[
+          control.fieldId as keyof typeof POLO_CLASSIC_TWO_BUTTON_MEASUREMENTS
+        ],
+      })),
+    ...POLO_OPTION_DEFINITIONS.map((option) => ({
+      fieldId: option.id,
+      label: option.label,
+      kind: "option" as const,
+      unit: option.unit === "buttons" ? "buttons" as const : "cm" as const,
+      min: option.min,
+      max: option.max,
+      step: option.step,
+      defaultValue: POLO_CLASSIC_TWO_BUTTON_OPTIONS[option.id as keyof typeof POLO_CLASSIC_TWO_BUTTON_OPTIONS],
+    })),
+  ],
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured Classic short-sleeve Polo draft with an editable 2–3 front-button software choice.",
+    fit: "The measurement and button-count values are editable software defaults, not validated fit targets or physical standards.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No button, stabilizer, thread, or trim-material compatibility claim.",
+    construction: "Uses the existing Polo recipe with short sleeves, a collar and stand, and paired folded front plackets. The selected 2–3 count controls digital button and buttonhole marks plus Tech Pack quantities; physical sewing performance is not established.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; not a population chart, validated size-M profile, or validated P01 grade run.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "Two buttons are this profile's software default; the 2–3 count range is an editable product choice, not a universal Polo rule or sourced physical standard.",
+    "The selected count changes digital button/buttonhole marks and estimated Tech Pack/BOM copy; it does not establish sewn usability, button strength, or placket performance.",
+    "The measurements and other option values are editable software defaults, not sourced fit or population standards.",
+    "The modeled geometry, POMs, selected-size output and generic Polo size run are digital outputs, not sewn measurements, validated P01 grading, or evidence of fit, comfort, or wear.",
+    "No body/trim material performance, consumption, supplier suitability, manufacturing, or production claim is established. B1 review is pending; physical validation remains not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v19",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v20",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;
@@ -1153,6 +1230,9 @@ export function starterControlError(entryId: string | null, fieldId: string, val
   }
   const stepsFromMinimum = (value - control.min) / control.step;
   if (Math.abs(stepsFromMinimum - Math.round(stepsFromMinimum)) > 1e-8) {
+    if (control.unit === "buttons") {
+      return control.label + ": choose " + control.min + " or " + control.max + " whole buttons.";
+    }
     return control.label + ": use " + control.step + " " + control.unit + " increments from " + control.min + " " + control.unit + ".";
   }
   return null;

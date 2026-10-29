@@ -23,6 +23,7 @@ import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import { buildPoloCollarGeometry, PoloCollarGeometry, PoloCollarIssueCode, PoloNecklineInputs, reversePoloEdge } from "./polo-collar";
 
 export interface PoloOptions {
+  readonly buttonCount: number;
   readonly placketLength: number;
   readonly placketWidth: number;
   readonly standHeight: number;
@@ -33,7 +34,10 @@ export interface PoloOptions {
   readonly backHemDrop: number;
 }
 
-export const POLO_OPTION_DEFINITIONS: readonly GarmentOption[] = [
+type PoloOptionDefinition = GarmentOption & { readonly unit: string };
+
+export const POLO_OPTION_DEFINITIONS: readonly PoloOptionDefinition[] = [
+  { id: "buttonCount", label: "Front button count", unit: "buttons", group: "Front closure", help: "Choose two or three buttons; matching marks and the Tech Pack follow this count.", defaultValue: 3, min: 2, max: 3, step: 1 },
   { id: "placketLength", label: "Finished placket length", unit: "cm", group: "Front closure", help: "Sets the finished slit length; shorten it if the placket reaches the vent or hem allowance.", defaultValue: 14, min: 14, max: 30, step: 0.5 },
   { id: "placketWidth", label: "Finished placket width", unit: "cm", group: "Front closure", help: "Sets the finished folded placket face; keep it inside the declared 2–4 cm range.", defaultValue: 3, min: 2, max: 4, step: 0.5 },
   { id: "standHeight", label: "Finished stand height", unit: "cm", group: "Neck & collar", help: "Raises the collar stand above the neckline; reduce it if it exceeds the collar leaf.", defaultValue: 2, min: 1, max: 3, step: 0.5 },
@@ -45,6 +49,7 @@ export const POLO_OPTION_DEFINITIONS: readonly GarmentOption[] = [
 ];
 
 export const DEFAULT_POLO_OPTIONS: PoloOptions = {
+  buttonCount: 3,
   placketLength: 14,
   placketWidth: 3,
   standHeight: 2,
@@ -59,6 +64,7 @@ export const DEFAULT_POLO_OPTIONS: PoloOptions = {
  * not silently turn a person’s chosen design back into a default. */
 export function resolvePoloOptions(values: Partial<PoloOptions> = {}): PoloOptions {
   return {
+    buttonCount: typeof values.buttonCount === "number" ? values.buttonCount : DEFAULT_POLO_OPTIONS.buttonCount,
     placketLength: finiteOr(values.placketLength, DEFAULT_POLO_OPTIONS.placketLength),
     placketWidth: finiteOr(values.placketWidth, DEFAULT_POLO_OPTIONS.placketWidth),
     standHeight: finiteOr(values.standHeight, DEFAULT_POLO_OPTIONS.standHeight),
@@ -68,6 +74,14 @@ export function resolvePoloOptions(values: Partial<PoloOptions> = {}): PoloOptio
     sideVentDepth: finiteOr(values.sideVentDepth, DEFAULT_POLO_OPTIONS.sideVentDepth),
     backHemDrop: finiteOr(values.backHemDrop, DEFAULT_POLO_OPTIONS.backHemDrop),
   };
+}
+
+/** Returns actionable validation copy without changing the selected count. */
+export function poloButtonCountError(buttonCount: number): string | null {
+  if (!Number.isFinite(buttonCount)) return "Front button count must be a finite number; choose 2 or 3 buttons.";
+  if (buttonCount < 2 || buttonCount > 3) return `Front button count (${buttonCount}) must be 2 or 3 buttons.`;
+  if (!Number.isInteger(buttonCount)) return `Front button count (${buttonCount}) must be a whole number; choose 2 or 3 buttons.`;
+  return null;
 }
 
 function finiteOr(value: number | undefined, fallback: number): number {
@@ -114,6 +128,11 @@ function placketPiece(
   const foldX = faceStart + options.placketWidth;
   const turnX = foldX + options.placketWidth;
   const markKind = role === "buttonPlacket" ? "button" : "buttonhole";
+  // Preserve a complete legacy preview while an invalid raw choice is shown
+  // with blocking guidance; never draft a truncated or fractional mark set.
+  const buttonCentres = poloButtonCountError(options.buttonCount) === null
+    ? BUTTON_CENTRES.slice(0, options.buttonCount)
+    : BUTTON_CENTRES;
   return {
     name: role === "buttonPlacket" ? "button placket" : "buttonhole placket",
     onFold: false,
@@ -127,7 +146,7 @@ function placketPiece(
       lineMark("placementLine", "attachmentLine", point(faceStart, 0), point(faceStart, options.placketLength), "SEW TO FRONT SLIT", "instruction"),
       lineMark("foldLine", "placketFold", point(foldX, 0), point(foldX, options.placketLength), "FOLD", "instruction"),
       lineMark("foldLine", "turnUnder", point(turnX, 0), point(turnX, options.placketLength), "TURN UNDER", "instruction"),
-      ...BUTTON_CENTRES.map((y, index) => pointMark(
+      ...buttonCentres.map((y, index) => pointMark(
         markKind, `${markKind}-${index + 1}`, point(faceStart + options.placketWidth / 2, y),
         markKind === "button" ? "BUTTON" : "BUTTONHOLE"
       )),
@@ -371,7 +390,12 @@ const poloCollarComponent = (
   _m: Measurements,
   params: { readonly options: PoloOptions; readonly neckline: PoloNecklineInputs },
 ): ComponentResult => {
-  const result = buildPoloCollarGeometry(params.neckline, params.options);
+  const result = buildPoloCollarGeometry(params.neckline, {
+    standHeight: params.options.standHeight,
+    standFrontRise: params.options.standFrontRise,
+    collarLeafDepth: params.options.collarLeafDepth,
+    collarPointExtension: params.options.collarPointExtension,
+  });
   if (!result.geometry) {
     throw new Error(result.issues.map((entry) => entry.text).join(" "));
   }
@@ -468,9 +492,15 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
   const notes = [...sleevedTopGuidance(block, m)];
   for (const definition of POLO_OPTION_DEFINITIONS) {
     const value = options[definition.id as keyof PoloOptions];
+    if (definition.id === "buttonCount") continue;
     if (value < definition.min || value > definition.max) {
-      notes.push({ field: `option-${definition.id}`, level: "warn", text: `${definition.label} (${value} cm) is outside the declared ${definition.min}–${definition.max} cm range — adjust it into that range.` });
+      const unit = definition.unit;
+      notes.push({ field: `option-${definition.id}`, level: "warn", text: `${definition.label} (${value} ${unit}) is outside the declared ${definition.min}–${definition.max} ${unit} range — adjust it into that range.` });
     }
+  }
+  const buttonCountError = poloButtonCountError(options.buttonCount);
+  if (buttonCountError) {
+    notes.push({ field: "option-buttonCount", level: "warn", text: buttonCountError });
   }
   const minimumLength = BUTTON_CENTRES[BUTTON_CENTRES.length - 1] + MIN_BUTTON_END_CLEARANCE;
   if (options.placketLength < minimumLength) {
@@ -489,7 +519,12 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
   const collarResult = buildPoloCollarGeometry({
     front: pieceEdge(block.roles.front, "neckline"),
     back: pieceEdge(block.roles.back, "neckline"),
-  }, options);
+  }, {
+    standHeight: options.standHeight,
+    standFrontRise: options.standFrontRise,
+    collarLeafDepth: options.collarLeafDepth,
+    collarPointExtension: options.collarPointExtension,
+  });
   for (const issue of collarResult.issues) {
     notes.push({
       field: POLO_COLLAR_ISSUE_FIELDS[issue.code],
