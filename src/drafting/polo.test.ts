@@ -8,6 +8,7 @@ import {
   POLO_NOTCHES,
   POLO_OPTION_DEFINITIONS,
   POLO_POMS,
+  poloButtonCountError,
   mapPoloBodyPom,
   poloGuidance,
   resolvePoloOptions,
@@ -57,6 +58,38 @@ describe("Polo shell (Slice 69)", () => {
     const buttons = placket.marks?.filter((mark): mark is Extract<typeof mark, { readonly at: unknown }> =>
       mark.kind === "button");
     expect(buttons?.map((mark) => mark.at.y)).toEqual([3.5, 7, 10.5]);
+  });
+
+  it("keeps the selected count matched across both plackets and preserves the spacing POM", () => {
+    for (const [count, expected] of [[2, [3.5, 7]], [3, [3.5, 7, 10.5]]] as const) {
+      const drafted = draftPolo(STANDARD_M, { buttonCount: count });
+      const points = (role: "buttonPlacket" | "buttonholePlacket", kind: "button" | "buttonhole") =>
+        rolePiece(drafted, role).marks
+          ?.filter((mark): mark is Extract<typeof mark, { readonly at: unknown }> => mark.kind === kind)
+          .map((mark) => mark.at) ?? [];
+      expect(points("buttonPlacket", "button").map(({ y }) => y)).toEqual(expected);
+      expect(points("buttonholePlacket", "buttonhole").map(({ y }) => y)).toEqual(expected);
+      expect(points("buttonPlacket", "button")).toEqual(points("buttonholePlacket", "buttonhole"));
+      expect(POLO_POMS.find((pom) => pom.label === "Button spacing")!.measure(drafted)).toBeCloseTo(3.5);
+    }
+  });
+
+  it("retains invalid counts for guidance and shows a complete legacy preview without partial marks", () => {
+    for (const buttonCount of [1, 4, 2.5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      const options = { buttonCount };
+      const drafted = draftPolo(STANDARD_M, options);
+      const marks = rolePiece(drafted, "buttonPlacket").marks?.filter((mark) => mark.kind === "button");
+      const notes = poloGuidance(drafted, STANDARD_M, options);
+      expect(marks).toHaveLength(3);
+      expect(notes).toContainEqual(expect.objectContaining({ field: "option-buttonCount", level: "warn" }));
+    }
+    expect(resolvePoloOptions({ buttonCount: Number.NaN }).buttonCount).toBeNaN();
+    expect(poloButtonCountError(Number.NaN)).toContain("finite number");
+    expect(poloButtonCountError(1)).toContain("2 or 3 buttons");
+    expect(poloButtonCountError(4)).toContain("2 or 3 buttons");
+    expect(poloButtonCountError(2.5)).toContain("whole number");
+    expect(poloButtonCountError(2)).toBeNull();
+    expect(poloButtonCountError(3)).toBeNull();
   });
 
   it("matches every declared shell seam, including each slit side", () => {
@@ -155,8 +188,11 @@ describe("Polo shell (Slice 69)", () => {
       expect.objectContaining({ id: "sideVentDepth", defaultValue: 6, min: 0, max: 15, step: 0.5 }),
       expect.objectContaining({ id: "backHemDrop", defaultValue: 1.5, min: 0, max: 5, step: 0.5 }),
     ]));
-    expect(POLO_OPTION_DEFINITIONS.every((option) => option.unit === "cm" && option.group && option.help)).toBe(true);
+    expect(POLO_OPTION_DEFINITIONS.every((option) => (option.unit === "cm" || option.unit === "buttons") && option.group && option.help)).toBe(true);
+    expect(POLO_OPTION_DEFINITIONS.find((option) => option.id === "buttonCount"))
+      .toMatchObject({ unit: "buttons", defaultValue: 3, min: 2, max: 3, step: 1 });
     expect(resolvePoloOptions()).toMatchObject({
+      buttonCount: 3,
       standFrontRise: 0.75, collarPointExtension: 1.5, sideVentDepth: 6, backHemDrop: 1.5,
     });
 

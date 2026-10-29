@@ -130,17 +130,19 @@ describe("C04-bounded DXF interchange package", () => {
 
   it("uses canonical option-key ordering and changes package revision when option data changes", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
-    const options = Object.fromEntries((recipe.options ?? []).slice(0, 2).map((option) => [option.id, option.defaultValue]));
+    const options = Object.fromEntries(Object.entries(defaultGarmentOptions(recipe.options ?? []))
+      .filter(([id]) => id !== "buttonCount"));
     const reversedOptions = Object.fromEntries(Object.entries(options).reverse());
     const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, options)[2];
     const first = await createDxfInterchangePackage(recipe, graded, options);
     const reordered = await createDxfInterchangePackage(recipe, graded, reversedOptions);
-    const firstDefinition = recipe.options![0]!;
-    const changedOptions = { ...options, [firstDefinition.id]: firstDefinition.defaultValue + firstDefinition.step };
+    const placketLength = recipe.options!.find((option) => option.id === "placketLength")!;
+    const changedOptions = { ...options, [placketLength.id]: placketLength.defaultValue + placketLength.step };
     const changedGraded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, changedOptions)[2];
     const changed = await createDxfInterchangePackage(recipe, changedGraded, changedOptions);
 
     expect(first.dxf).toBe(reordered.dxf);
+    expect(first.manifest.options.buttonCount).toBe(3);
     expect(first.manifest.revisionId).toBe(reordered.manifest.revisionId);
     expect(first.manifest.revisionId).not.toBe(changed.manifest.revisionId);
   }, 30_000);
@@ -306,8 +308,9 @@ describe("C04-bounded DXF interchange package", () => {
 
   it("rejects a block drafted from a different option set", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
-    const options = Object.fromEntries((recipe.options ?? []).slice(0, 2).map((option) => [option.id, option.defaultValue]));
-    const otherOptions = { ...options, [Object.keys(options)[0]]: Object.values(options)[0] + 0.1 };
+    const options = defaultGarmentOptions(recipe.options ?? []);
+    const placketLength = recipe.options!.find((option) => option.id === "placketLength")!;
+    const otherOptions = { ...options, placketLength: options.placketLength + placketLength.step };
     const gradedWithOtherOptions = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, otherOptions)[2];
 
     await expect(createDxfInterchangePackage(recipe, gradedWithOtherOptions, options))

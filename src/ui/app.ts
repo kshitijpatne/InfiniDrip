@@ -57,7 +57,8 @@ import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObserva
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { DEFAULT_POLO_OPTIONS } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankNotchesForOptions, tankRacerbackControlOffsetCm } from "../drafting/tank";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
@@ -5054,7 +5055,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
   GARMENTS.forEach((g) => {
     root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!
-      .addEventListener("click", () => setGarment(g.name));
+      .addEventListener("click", () => {
+        if (g.name === "polo" && starterOrigin?.entryId === POLO_CLASSIC_TWO_BUTTON_ENTRY_ID) {
+          garmentOptions = {
+            ...garmentOptions,
+            polo: { ...garmentOptions.polo!, buttonCount: DEFAULT_POLO_OPTIONS.buttonCount },
+          };
+          starterOrigin = null;
+        }
+        setGarment(g.name);
+      });
   });
   root.querySelectorAll<HTMLButtonElement>("[data-starter-entry-id]").forEach((button) => {
     button.addEventListener("click", () => {

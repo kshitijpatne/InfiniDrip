@@ -49,7 +49,7 @@ import * as gradePlan from "./grade-plan";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
+import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, POLO, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID,
   TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID,
   TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
@@ -14858,6 +14858,118 @@ describe("S1215 N08 Shelf-lined Tank", () => {
       root?.remove();
       reopened?.remove();
       invalidRestored?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30000);
+});
+
+describe("P01 Classic two-button Polo Starter Blank", () => {
+  it("renders, saves, reopens, exports the selected count, and returns ordinary Polo to three buttons", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const entryId = "polo-classic-two-button-digital-v1";
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${entryId}`)!;
+      expect(card.textContent).toContain("Polo Classic two-button · software defaults");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      expect(root.querySelector<HTMLElement>(`[data-starter-entry="${entryId}"]`)!.textContent)
+        .toContain("2–3 buttons");
+      clickId(root, `starter-${entryId}`);
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Polo Classic two-button · software defaults");
+
+      const buttonCountInput = () => root!.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!;
+      expect(buttonCountInput().value).toBe("2");
+      expect([buttonCountInput().min, buttonCountInput().max, buttonCountInput().step]).toEqual(["2", "3", "1"]);
+      clickId(root, "view-pattern");
+      const pattern = root.querySelector<SVGSVGElement>("#canvas-host svg")!;
+      expect(pattern.querySelectorAll('[data-pattern-mark-name^="button-"]')).toHaveLength(2);
+      expect(pattern.querySelectorAll('[data-pattern-mark-name^="buttonhole-"]')).toHaveLength(2);
+
+      reachExportStage(root);
+      buttonCountInput().value = "2.5";
+      buttonCountInput().dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-buttonCount"]')!.textContent)
+        .toBe("Front button count: choose 2 or 3 whole buttons.");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLElement>("#canvas-host")!.textContent).toContain("Draft paused");
+
+      buttonCountInput().value = "2";
+      buttonCountInput().dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-buttonCount"]')!.textContent).toBe("");
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1") ?? "null") as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: { polo: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; recipeId: string; recipeRevision: string } };
+      } | null;
+      expect(saved).not.toBeNull();
+      expect(saved!.garmentOptions.polo.buttonCount).toBe(2);
+      reachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      root.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(4), { timeout: 20000 });
+
+      const svg = [...files.entries()].find(([name]) => name.endsWith(".svg"))![1];
+      const dxf = [...files.entries()].find(([name]) => name.endsWith(".dxf"))![1];
+      const packageText = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange-source.json"))![1];
+      const packageJson = JSON.parse(packageText) as {
+        manifest: { options: Record<string, number>; patternMarks: readonly { name: string }[] };
+      };
+      expect(svg.match(/data-pattern-mark-name="button-\d+"/gu)).toHaveLength(2);
+      expect(svg.match(/data-pattern-mark-name="buttonhole-\d+"/gu)).toHaveLength(2);
+      expect(dxf).toBe(exportDxf(blockPieces(POLO.draft(saved!.measurements, saved!.garmentOptions.polo)), POLO.allowances!));
+      expect(packageJson.manifest.options.buttonCount).toBe(2);
+      expect(packageJson.manifest.patternMarks.filter((mark) => mark.name.startsWith("button-")).map((mark) => mark.name))
+        .toEqual(["button-1", "button-2"]);
+      const techPack = visiblePdfText([...files.entries()].find(([name]) => name.endsWith("-techpack.pdf"))![1]);
+      expect(techPack).toContain("Make buttonholes and attach 2 buttons");
+      expect(techPack).toContain("Front placket");
+
+      expect(saved!.workspace.starterOrigin).toMatchObject({
+        entryId, recipeId: "polo", recipeRevision: "polo-classic-two-button-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("2");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${entryId}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.querySelectorAll('[data-pattern-mark-name^="button-"]'))
+        .toHaveLength(2);
+
+      clickId(reopened, "garment-polo");
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("3");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${entryId}"]`)!.getAttribute("aria-pressed"))
+        .toBe("false");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.querySelectorAll('[data-pattern-mark-name^="button-"]'))
+        .toHaveLength(3);
+      expect(POLO.techPackForOptions!({ buttonCount: 3 })).toEqual(POLO.techPack);
+      clickId(reopened, "garment-tee");
+      clickId(reopened, "garment-polo");
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("3");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
       delete window.electronAPI;
       localStorage.clear();
     }

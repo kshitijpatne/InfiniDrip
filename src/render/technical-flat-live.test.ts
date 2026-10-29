@@ -539,12 +539,13 @@ describe("compileTechnicalFlatLiveView", () => {
     });
   });
 
-  it("maps the approved Polo dimensions to exact transformed sources across all 17 configurations", () => {
+  it("maps the approved Polo dimensions to exact transformed sources across all supported option endpoints", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const optionSets = [defaultGarmentOptions(recipe.options ?? []), ...(recipe.options ?? []).flatMap((option) => [
       { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min },
       { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.max },
     ])];
+    expect(optionSets).toHaveLength(1 + 2 * (recipe.options ?? []).length);
     for (const options of optionSets) {
       const block = recipe.draft(STANDARD_M, options);
       for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
@@ -1430,7 +1431,7 @@ describe("compileTechnicalFlatLiveView", () => {
       { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min },
       { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.max },
     ])];
-    expect(optionSets).toHaveLength(17);
+    expect(optionSets).toHaveLength(1 + 2 * (recipe.options ?? []).length);
     for (const options of optionSets) {
       const block = recipe.draft(STANDARD_M, options);
       for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {

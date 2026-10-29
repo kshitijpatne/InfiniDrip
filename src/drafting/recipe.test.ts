@@ -333,7 +333,7 @@ describe("Polo recipe pipeline", () => {
   it("is a loose polo with V2 collar controls, full POMs, and complete production data", () => {
     expect(POLO.styles.map((style) => style.name)).toEqual(["Classic polo", "Relaxed polo", "Longline polo"]);
     expect(POLO.options?.map((option) => option.id)).toEqual([
-      "placketLength", "placketWidth", "standHeight", "collarLeafDepth",
+      "buttonCount", "placketLength", "placketWidth", "standHeight", "collarLeafDepth",
       "standFrontRise", "collarPointExtension", "sideVentDepth", "backHemDrop",
     ]);
     expect(POLO.poms.map((pom) => pom.label)).toEqual(expect.arrayContaining([
@@ -368,6 +368,28 @@ describe("Polo recipe pipeline", () => {
     expect(unresolvedVent.construction).toContain(
       "Resolve the side-vent value before cutting; do not assume an open or closed vent topology.",
     );
+  });
+
+  it("keeps the default three-button Tech Pack unchanged and follows a valid selected count", () => {
+    const defaultOutput = POLO.techPackForOptions!({});
+    const twoButtonOutput = POLO.techPackForOptions!({ buttonCount: 2 });
+    const threeButtonOutput = POLO.techPackForOptions!({ buttonCount: 3 });
+    const buttonRow = (pack: typeof POLO.techPack) => pack.bom.find((row) => row.material === "Buttons")!;
+
+    expect(defaultOutput).toEqual(POLO.techPack);
+    expect(threeButtonOutput).toEqual(POLO.techPack);
+    expect(buttonRow(twoButtonOutput)).toMatchObject({ placement: "Front placket", qty: "2" });
+    expect(twoButtonOutput.construction).toContain(
+      "Make buttonholes and attach 2 buttons at the marked 3.5 cm centres.",
+    );
+    expect(buttonRow(threeButtonOutput)).toMatchObject({ placement: "Front placket", qty: "3" });
+    expect(twoButtonOutput.construction.join(" ")).not.toContain("attach three buttons");
+  });
+
+  it("rejects invalid button counts when creating Polo Tech Pack output", () => {
+    for (const buttonCount of [1, 4, 2.5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      expect(() => POLO.techPackForOptions!({ buttonCount })).toThrow(RangeError);
+    }
   });
 
 });
