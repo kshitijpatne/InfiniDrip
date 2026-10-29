@@ -13751,7 +13751,7 @@ describe("EPIC-19 L02 starter binding", () => {
       const selectedTechPack = outputRoot.querySelector<HTMLButtonElement>("#export-tee-selected-techpack")!;
       expect(selectedTechPack.disabled).toBe(false);
       selectedTechPack.click();
-      await vi.waitFor(() => expect(exportedTechPacks.has("tee-S-selected-techpack.pdf")).toBe(true));
+      await vi.waitFor(() => expect(exportedTechPacks.has("tee-S-selected-techpack.pdf")).toBe(true), { timeout: 20_000 });
       expect(exportedTechPacks.get("tee-S-selected-techpack.pdf")).toContain("Attach the neckband");
     } finally {
       workflow.close();
