@@ -2,6 +2,7 @@ import type { GarmentOptions } from "../drafting/options";
 import type { GarmentRecipe, TechPack } from "../drafting/recipe";
 
 const DEFAULT_P02_BUTTON_COUNT = 2;
+const DEFAULT_P03_BUTTON_COUNT = 2;
 
 const STYLE_ARC_SLEEVE_HEM_REFERENCE =
   "Sleeve-hem reference: turn under 2 cm and topstitch, following Style Arc's Jess Knit Polo tutorial (https://www.stylearc.com/magazine/sewing-tutorials/jess-knit-polo/). This is a construction reference only; it has not been physically validated on an InfiniDrip garment.";
@@ -44,6 +45,49 @@ export function poloClassicLongSleeveRecipeForOutput(
     label: "Polo Classic long-sleeve",
     poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
     techPack: longSleevePoloTechPack(baseTechPack, options.buttonCount ?? DEFAULT_P02_BUTTON_COUNT),
+    techPackForOptions,
+    techPackForFabric: undefined,
+  };
+}
+
+function relaxedPoloTechPack(base: TechPack, buttonCount: number): TechPack {
+  const buttonCountText = Number.isFinite(buttonCount) ? String(buttonCount) : "unresolved";
+  return {
+    ...base,
+    bom: [
+      { material: "Not specified", placement: "Body, sleeves, collar, placket, and trim", qty: "No consumption estimate" },
+      { material: "Buttons", placement: "Front placket; selected software mark count", qty: buttonCountText },
+    ],
+    construction: [
+      "Digital P03 Relaxed Polo profile using the existing Polo recipe; review the exported pattern before use.",
+      "The 15 cm ease default is an InfiniDrip software choice, not a sourced physical standard or validated fit target; no boxy or drop-shoulder geometry is added.",
+      `Selected front button count: ${buttonCountText} software value; digital button and buttonhole marks follow this choice.`,
+    ],
+    constructionNotice: "Digital pattern output only. No physical sample has been assessed.",
+    measurementSpecNote: "P03 software geometry only. The 15 cm ease default is a software choice, not a physical standard or validated fit target. The generic Polo size run is not a validated P03 grade.",
+    measurementSpecToleranceColumn: false,
+    fitRecordStatusNote: "P03 is an editable digital profile. Physical fit, comfort, wear, materials, grading, and production remain unvalidated.",
+    fitRecordPassColumn: false,
+    fitRecordToleranceColumn: false,
+    fitRecordTitle: "Digital Measurement Worksheet",
+  };
+}
+
+export function poloRelaxedRecipeForOutput(
+  recipe: GarmentRecipe,
+  options: GarmentOptions,
+): GarmentRecipe {
+  const baseTechPack = recipe.techPackForOptions?.(options) ?? recipe.techPack;
+  const techPackForOptions = (activeOptions: GarmentOptions): TechPack =>
+    relaxedPoloTechPack(
+      recipe.techPackForOptions?.(activeOptions) ?? recipe.techPack,
+      activeOptions.buttonCount ?? DEFAULT_P03_BUTTON_COUNT,
+    );
+  return {
+    ...recipe,
+    label: "Polo Relaxed",
+    poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
+    techPack: relaxedPoloTechPack(baseTechPack, options.buttonCount ?? DEFAULT_P03_BUTTON_COUNT),
     techPackForOptions,
     techPackForFabric: undefined,
   };

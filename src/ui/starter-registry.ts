@@ -23,6 +23,7 @@ import { POLO_OPTION_DEFINITIONS } from "../drafting/polo";
 export const POLO_CLASSIC_TWO_BUTTON_ENTRY_ID = "polo-classic-two-button-digital-v1";
 export const POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID = "polo-classic-long-sleeve-digital-v1";
 export const POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL = "Sleeve length below cap base";
+export const POLO_RELAXED_ENTRY_ID = "polo-relaxed-digital-v1";
 
 export interface StarterControl {
   readonly fieldId: string;
@@ -1191,10 +1192,52 @@ const POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const POLO_RELAXED_MEASUREMENTS = {
+  ...POLO_CLASSIC_TWO_BUTTON_MEASUREMENTS,
+  ease: 15,
+} as const;
+
+const POLO_RELAXED_BLANK_ENTRY: StarterEntry = {
+  entryId: POLO_RELAXED_ENTRY_ID,
+  entryRevision: "2026-11-01.1",
+  recipeId: "polo",
+  recipeRevision: "polo-relaxed-v1",
+  catalogKind: "blank",
+  label: "Polo Relaxed · software defaults",
+  configuration: {
+    targetStyle: "Relaxed polo",
+    measurements: POLO_RELAXED_MEASUREMENTS,
+    options: POLO_CLASSIC_TWO_BUTTON_OPTIONS,
+  },
+  supportedControls: POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY.supportedControls.map((control) =>
+    control.fieldId === "ease"
+      ? { ...control, min: 13, max: 18, step: 1, defaultValue: 15 }
+      : control.fieldId === "length"
+      ? { ...control, min: 59, max: 78 }
+      : control),
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured Relaxed Polo draft using an editable software ease choice and P01's two-button short-sleeve starting configuration.",
+    fit: "The 15 cm ease default is an InfiniDrip software choice within the existing relaxed-style band, not a sourced physical standard or validated fit target.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No button, stabilizer, thread, or trim-material compatibility claim.",
+    construction: "Uses the existing Polo recipe, collar and stand, paired folded front plackets, and P01's short-sleeve configuration. No boxy or drop-shoulder geometry is added.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; the generic Polo size run is not a validated P03 grade or size chart.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The 15 cm ease default and 13–18 cm range are InfiniDrip software choices, not sourced physical dimensions, standards, or validated fit targets.",
+    "Relaxed names the existing software profile; the recipe adds no boxy or drop-shoulder geometry.",
+    "The modeled geometry, POMs, selected-size output, and generic Polo size run are digital outputs, not sewn measurements, validated P03 grading, or evidence of fit, comfort, or wear.",
+    "No body/trim material performance, consumption, supplier suitability, manufacturing, or production claim is established. B1 review is pending; physical validation remains not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v21",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v22",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;
