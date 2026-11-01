@@ -67,7 +67,7 @@ import { loadJourney, tutorialMarkup } from "./journey";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, saveRecoveryToStorage, saveToStorage } from "./persist";
-import { POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
+import { POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
 import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
@@ -15458,6 +15458,162 @@ describe("P05 Low-ease Polo Starter Blank", () => {
         .toBe("true");
       clickId(reopened, "garment-polo");
       expect(reopened.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("3");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30000);
+});
+
+describe("P06 Longline Polo Starter Blank", () => {
+  it("renders editable Longline Polo defaults, blocks invalid values, and preserves P06 output identity", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const entryId = POLO_LONGLINE_ENTRY_ID;
+      const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === entryId)!;
+      const card = root.querySelector<HTMLButtonElement>("#starter-" + entryId)!;
+      expect(card.textContent).toContain("Polo Longline · software defaults");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      clickId(root, "starter-" + entryId);
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Polo Longline · software defaults");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Longline polo");
+
+      clickId(root, "journey-step-measure");
+      root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!.click();
+      const easeInput = () => root!.querySelector<HTMLInputElement>('[data-field="ease"]')!;
+      const lengthInput = () => root!.querySelector<HTMLInputElement>('[data-field="length"]')!;
+      expect([easeInput().value, easeInput().min, easeInput().max, easeInput().step]).toEqual(["10", "7", "18", "1"]);
+      expect([lengthInput().value, lengthInput().min, lengthInput().max, lengthInput().step]).toEqual(["89", "78", "100", "1"]);
+
+      const measurements = { ...STANDARD_M, ...entry.configuration.measurements };
+      for (const ease of [7, 10, 18]) {
+        easeInput().value = String(ease);
+        easeInput().dispatchEvent(new Event("input", { bubbles: true }));
+        expect(easeInput().value).toBe(String(ease));
+        expect(root.querySelector<HTMLElement>('[data-input-error="ease"]')!.textContent).toBe("");
+      }
+      for (const length of [78, 89, 100]) {
+        lengthInput().value = String(length);
+        lengthInput().dispatchEvent(new Event("input", { bubbles: true }));
+        expect(lengthInput().value).toBe(String(length));
+        expect(root.querySelector<HTMLElement>('[data-input-error="length"]')!.textContent).toBe("");
+      }
+      for (const ease of [7, 10, 18]) {
+        for (const length of [78, 89, 100]) {
+          const drafted = POLO.draft({ ...measurements, ease, length }, entry.configuration.options);
+          const front = rolePiece(drafted, "front");
+          const bounds = pieceBounds(front);
+          expect(Number.isFinite(bounds.width) && Number.isFinite(bounds.height)).toBe(true);
+          expect(bounds.width).toBeGreaterThan(0);
+          expect(bounds.height).toBeGreaterThan(0);
+          expect(pieceToPath(front)).not.toBe("");
+          expect(POLO.poms.every((pom) => Number.isFinite(pom.measure(drafted)))).toBe(true);
+        }
+      }
+
+      const setValue = (selector: string, value: number) => {
+        const input = root!.querySelector<HTMLInputElement>(selector)!;
+        input.value = String(value);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        return input;
+      };
+      setValue('[data-field="chest"]', 160);
+      setValue('[data-field="length"]', 78);
+      setValue('[data-option="placketLength"]', 30);
+      setValue('[data-option="sideVentDepth"]', 15);
+      clickId(root, "journey-step-fit");
+      clickId(root, "journey-next");
+      const boundaryGuidance = root.querySelector<HTMLElement>("#guidance-host")!.textContent ?? "";
+      expect(boundaryGuidance).not.toContain("Placket reaches the front vent region");
+      expect(boundaryGuidance).not.toContain("Placket reaches the hem allowance");
+      setValue('[data-field="ease"]', 6);
+      expect(easeInput().value).toBe("6");
+      expect(root.querySelector<HTMLElement>('[data-input-error="ease"]')!.textContent).toContain("7–18 cm");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLElement>("#canvas-host")!.textContent).toContain("Draft paused");
+      setValue('[data-field="ease"]', 19);
+      expect(easeInput().value).toBe("19");
+      expect(root.querySelector<HTMLElement>('[data-input-error="ease"]')!.textContent).toContain("7–18 cm");
+      setValue('[data-field="length"]', 77);
+      expect(lengthInput().value).toBe("77");
+      expect(root.querySelector<HTMLElement>('[data-input-error="length"]')!.textContent).toContain("78–100 cm");
+      setValue('[data-field="length"]', 101);
+      expect(lengthInput().value).toBe("101");
+      expect(root.querySelector<HTMLElement>('[data-input-error="length"]')!.textContent).toContain("78–100 cm");
+
+      setValue('[data-field="ease"]', 10);
+      setValue('[data-field="length"]', 89);
+      setValue('[data-field="chest"]', 100);
+      setValue('[data-option="placketLength"]', 14);
+      setValue('[data-option="sideVentDepth"]', 6);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1") ?? "null") as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: { polo: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; recipeId: string; recipeRevision: string } };
+      } | null;
+      expect(saved).not.toBeNull();
+      expect(saved!.measurements.ease).toBe(10);
+      expect(saved!.measurements.length).toBe(89);
+      expect(saved!.garmentOptions.polo.buttonCount).toBe(2);
+      expect(saved!.workspace.starterOrigin).toMatchObject({
+        entryId, recipeId: "polo", recipeRevision: "polo-longline-v1",
+      });
+
+      reachExportStage(root);
+      root.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(4), { timeout: 20000 });
+      expect([...files.keys()].every((name) => name.startsWith("polo-longline"))).toBe(true);
+      const svg = [...files.entries()].find(([name]) => name.endsWith(".svg"))![1];
+      const dxf = [...files.entries()].find(([name]) => name.endsWith(".dxf"))![1];
+      const packageText = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange-source.json"))![1];
+      const packageJson = JSON.parse(packageText) as {
+        manifest: { options: Record<string, number>; patternMarks: readonly { name: string }[] };
+      };
+      expect(svg).toBe(exportSvg(
+        blockPieces(POLO.draft(saved!.measurements, saved!.garmentOptions.polo)),
+        POLO.allowances!,
+        notchesForRecipeOptions(POLO, saved!.garmentOptions.polo),
+      ));
+      expect(packageJson.manifest.options.buttonCount).toBe(2);
+      expect(packageJson.manifest.patternMarks.filter((mark) => mark.name.startsWith("button-")).map((mark) => mark.name))
+        .toEqual(["button-1", "button-2"]);
+      expect(dxf).toBe(exportDxf(blockPieces(POLO.draft(saved!.measurements, saved!.garmentOptions.polo)), POLO.allowances!));
+      const techPack = visiblePdfText([...files.entries()].find(([name]) => name.endsWith("-techpack.pdf"))![1]);
+      expect(techPack).toContain("Polo Longline");
+      expect(techPack).toContain("10 cm ease and 89 cm modeled HPS-to-hem length");
+      expect(techPack).toContain("No consumption estimate");
+      expect(techPack).toContain("not a validated P06 grade");
+      expect(techPack).toContain("physical fit, hem placement, comfort, wear");
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>('[data-field="ease"]')!.value).toBe("10");
+      expect(reopened.querySelector<HTMLInputElement>('[data-field="length"]')!.value).toBe("89");
+      expect(reopened.querySelector<HTMLButtonElement>("[data-starter-entry-id=" + entryId + "]")!.getAttribute("aria-pressed")).toBe("true");
+      clickId(reopened, "garment-polo");
+      expect(reopened.querySelector<HTMLSelectElement>('[data-option="buttonCount"]')!.value).toBe("3");
       expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
     } finally {
       unmountApp();

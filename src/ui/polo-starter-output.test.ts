@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { POLO, STANDARD_M, type GarmentRecipe } from "../drafting";
-import { poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput } from "./polo-starter-output";
+import { poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput } from "./polo-starter-output";
 
 describe("P02 Classic long-sleeve Polo output", () => {
   it("keeps material consumption unspecified and follows the selected button count", () => {
@@ -163,6 +163,40 @@ describe("P05 Low-ease Polo output", () => {
   it("uses the two-button default for missing options and avoids non-finite quantities", () => {
     const base = { ...POLO, techPackForOptions: undefined };
     const output = poloLowEaseRecipeForOutput(base, {});
+    expect(output.techPack.bom[1]?.qty).toBe("2");
+    expect(output.techPackForOptions!({}).bom[1]?.qty).toBe("2");
+    expect(output.techPackForOptions!({ buttonCount: Number.POSITIVE_INFINITY }).bom[1]?.qty).toBe("unresolved");
+  });
+});
+
+describe("P06 Longline Polo output", () => {
+  it("labels the longline software choices and retains truthful digital-only disclosures", () => {
+    const output = poloLonglineRecipeForOutput(POLO, { buttonCount: 2 });
+    expect(output.label).toBe("Polo Longline");
+    expect(output.poms.every((pom) => pom.tolerance === undefined)).toBe(true);
+    expect(output.techPack.bom).toEqual([
+      { material: "Not specified", placement: "Body, sleeves, collar, placket, and trim", qty: "No consumption estimate" },
+      { material: "Buttons", placement: "Front placket; selected software mark count", qty: "2" },
+    ]);
+    expect(output.techPack.construction.join(" ")).toContain("Digital P06 Longline Polo profile");
+    expect(output.techPack.construction.join(" ")).toContain("10 cm ease default and 7–18 cm range");
+    expect(output.techPack.construction.join(" ")).toContain("89 cm length default and 78–100 cm range");
+    expect(output.techPack.construction.join(" ")).toContain("not a physical hem target");
+    expect(output.techPack.constructionNotice).toContain("No physical sample has been assessed");
+    expect(output.techPack.constructionNotice).toContain("do not establish sewn performance");
+    expect(output.techPack.measurementSpecNote).toContain("not physical standards, hem targets, or validated fit targets");
+    expect(output.techPack.measurementSpecNote).toContain("not a validated P06 grade");
+    expect(output.techPack.measurementSpecToleranceColumn).toBe(false);
+    expect(output.techPack.fitRecordStatusNote).toContain("Physical fit, hem placement, comfort, wear");
+    expect(output.techPack.fitRecordPassColumn).toBe(false);
+    expect(output.techPack.fitRecordToleranceColumn).toBe(false);
+    expect(output.techPack.fitRecordTitle).toBe("Digital Measurement Worksheet");
+    expect(output.techPackForOptions!({ buttonCount: 3 }).bom[1]?.qty).toBe("3");
+  });
+
+  it("uses the P01 two-button fallback and avoids non-finite quantities", () => {
+    const base = { ...POLO, techPackForOptions: undefined };
+    const output = poloLonglineRecipeForOutput(base, {});
     expect(output.techPack.bom[1]?.qty).toBe("2");
     expect(output.techPackForOptions!({}).bom[1]?.qty).toBe("2");
     expect(output.techPackForOptions!({ buttonCount: Number.POSITIVE_INFINITY }).bom[1]?.qty).toBe("unresolved");

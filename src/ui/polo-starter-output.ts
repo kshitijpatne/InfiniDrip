@@ -5,6 +5,7 @@ const DEFAULT_P02_BUTTON_COUNT = 2;
 const DEFAULT_P03_BUTTON_COUNT = 2;
 const DEFAULT_P04_BUTTON_COUNT = 2;
 const DEFAULT_P05_BUTTON_COUNT = 2;
+const DEFAULT_P06_BUTTON_COUNT = 2;
 const P05_LOW_EASE_MIN_CM = 3;
 const P05_LOW_EASE_MAX_CM = 6;
 
@@ -195,6 +196,49 @@ export function poloLowEaseRecipeForOutput(
       ];
     },
     techPack: lowEasePoloTechPack(baseTechPack, options.buttonCount ?? DEFAULT_P05_BUTTON_COUNT),
+    techPackForOptions,
+    techPackForFabric: undefined,
+  };
+}
+
+function longlinePoloTechPack(base: TechPack, buttonCount: number): TechPack {
+  const buttonCountText = Number.isFinite(buttonCount) ? String(buttonCount) : "unresolved";
+  return {
+    ...base,
+    bom: [
+      { material: "Not specified", placement: "Body, sleeves, collar, placket, and trim", qty: "No consumption estimate" },
+      { material: "Buttons", placement: "Front placket; selected software mark count", qty: buttonCountText },
+    ],
+    construction: [
+      "Digital P06 Longline Polo profile using the existing Polo recipe; review the exported pattern before use.",
+      "The 10 cm ease default and 7–18 cm range, plus the 89 cm length default and 78–100 cm range, are editable software choices. Length is modeled from high-point shoulder to hem and is not a physical hem target.",
+      "Selected front button count: " + buttonCountText + " software value; digital button and buttonhole marks follow this choice.",
+    ],
+    constructionNotice: "Digital pattern output only. No physical sample has been assessed; existing placket and vent checks do not establish sewn performance.",
+    measurementSpecNote: "P06 software geometry only. The 10 cm ease and 89 cm modeled HPS-to-hem length, with editable 7–18 cm and 78–100 cm ranges, are software choices, not physical standards, hem targets, or validated fit targets. The generic Polo size run is not a validated P06 grade.",
+    measurementSpecToleranceColumn: false,
+    fitRecordStatusNote: "P06 is an editable digital profile. Physical fit, hem placement, comfort, wear, materials, grading, sewing, and production remain unvalidated.",
+    fitRecordPassColumn: false,
+    fitRecordToleranceColumn: false,
+    fitRecordTitle: "Digital Measurement Worksheet",
+  };
+}
+
+export function poloLonglineRecipeForOutput(
+  recipe: GarmentRecipe,
+  options: GarmentOptions,
+): GarmentRecipe {
+  const baseTechPack = recipe.techPackForOptions?.(options) ?? recipe.techPack;
+  const techPackForOptions = (activeOptions: GarmentOptions): TechPack =>
+    longlinePoloTechPack(
+      recipe.techPackForOptions?.(activeOptions) ?? recipe.techPack,
+      activeOptions.buttonCount ?? DEFAULT_P06_BUTTON_COUNT,
+    );
+  return {
+    ...recipe,
+    label: "Polo Longline",
+    poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
+    techPack: longlinePoloTechPack(baseTechPack, options.buttonCount ?? DEFAULT_P06_BUTTON_COUNT),
     techPackForOptions,
     techPackForFabric: undefined,
   };
