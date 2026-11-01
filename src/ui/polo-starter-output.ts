@@ -5,6 +5,8 @@ const DEFAULT_P02_BUTTON_COUNT = 2;
 const DEFAULT_P03_BUTTON_COUNT = 2;
 const DEFAULT_P04_BUTTON_COUNT = 2;
 const DEFAULT_P05_BUTTON_COUNT = 2;
+const P05_LOW_EASE_MIN_CM = 3;
+const P05_LOW_EASE_MAX_CM = 6;
 
 const STYLE_ARC_SLEEVE_HEM_REFERENCE =
   "Sleeve-hem reference: turn under 2 cm and topstitch, following Style Arc's Jess Knit Polo tutorial (https://www.stylearc.com/magazine/sewing-tutorials/jess-knit-polo/). This is a construction reference only; it has not been physically validated on an InfiniDrip garment.";
@@ -175,6 +177,23 @@ export function poloLowEaseRecipeForOutput(
     ...recipe,
     label: "Polo Low-ease",
     poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
+    guidance: (block, measurements, activeOptions = {}) => {
+      const notes = recipe.guidance(block, measurements, activeOptions);
+      const ease = measurements.ease;
+      if (!Number.isFinite(ease) || ease < P05_LOW_EASE_MIN_CM || ease > P05_LOW_EASE_MAX_CM) return notes;
+
+      const unrelatedNotes = notes.filter((note) => !(
+        note.field === "ease" && note.text.startsWith(`Ease is ${ease} cm —`)
+      ));
+      return [
+        ...unrelatedNotes,
+        {
+          field: "ease",
+          level: "info",
+          text: `P05 Low-ease: ${ease} cm is within the declared 3–6 cm software range. This check does not assess physical fit, wear, comfort, or fabric behavior.`,
+        },
+      ];
+    },
     techPack: lowEasePoloTechPack(baseTechPack, options.buttonCount ?? DEFAULT_P05_BUTTON_COUNT),
     techPackForOptions,
     techPackForFabric: undefined,

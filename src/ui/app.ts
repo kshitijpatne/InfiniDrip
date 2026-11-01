@@ -2102,6 +2102,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       },
     });
   };
+  const guideCurrentRecipe = (value: Measurements, options: GarmentOptions = recipeOptions()): Note[] => {
+    const guidanceRecipe = starterOrigin?.entryId === POLO_LOW_EASE_ENTRY_ID && recipe.name === "polo"
+      ? poloLowEaseRecipeForOutput(recipe, options)
+      : recipe;
+    return guide(guidanceRecipe, value, options);
+  };
   const allowancesForOptions = (options: GarmentOptions): AllowanceSpec => recipe.name === "woven-shirt"
     ? wovenShirtAllowances(options.hemTurn)
     : recipe.allowances;
@@ -2411,7 +2417,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     try {
       const jeansAssessment = currentJeansUiAssessment();
       if (jeansAssessment && (!jeansAssessment.draft.ready || !jeansAssessment.sizeRun.ready)) return false;
-      const guidance = jeansAssessment?.guidance ?? guide(recipe, measurements, recipeOptions());
+      const guidance = jeansAssessment?.guidance ?? guideCurrentRecipe(measurements, recipeOptions());
       if (guidance.some((note) => note.level === "warn") || materialCompatibilityNote() !== null) return false;
       return (jeansAssessment?.report ?? garmentReportForCurrentStyle(recipe)).ok;
     } catch {
@@ -3774,7 +3780,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : recipeOptions();
     const guidanceNotes: Note[] = [
       ...(sourceCannotDraft ? [] : [
-        ...(jeansAssessment?.guidance ?? guide(recipe, measurements, constructionGuidanceOptions).filter((note) =>
+        ...(jeansAssessment?.guidance ?? guideCurrentRecipe(measurements, constructionGuidanceOptions).filter((note) =>
           recipe.name !== "fitted" || customOneSizeStyle()
             || note.field !== "option-bustApexVertical")),
         ...fittedRunClearanceNotes(),
