@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { POLO } from "../drafting/recipe";
-import { poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloRelaxedRecipeForOutput } from "./polo-starter-output";
+import { poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput } from "./polo-starter-output";
 
 describe("P02 Classic long-sleeve Polo output", () => {
   it("keeps material consumption unspecified and follows the selected button count", () => {
@@ -91,6 +91,38 @@ describe("P04 Cropped Polo output", () => {
   it("uses the two-button default for missing options and avoids non-finite quantities", () => {
     const base = { ...POLO, techPackForOptions: undefined };
     const output = poloCroppedRecipeForOutput(base, {});
+    expect(output.techPack.bom[1]?.qty).toBe("2");
+    expect(output.techPackForOptions!({}).bom[1]?.qty).toBe("2");
+    expect(output.techPackForOptions!({ buttonCount: Number.POSITIVE_INFINITY }).bom[1]?.qty).toBe("unresolved");
+  });
+});
+
+describe("P05 Low-ease Polo output", () => {
+  it("labels ease as a software choice and keeps physical claims unvalidated", () => {
+    const output = poloLowEaseRecipeForOutput(POLO, { buttonCount: 2 });
+    expect(output.label).toBe("Polo Low-ease");
+    expect(output.poms.every((pom) => pom.tolerance === undefined)).toBe(true);
+    expect(output.techPack.bom).toEqual([
+      { material: "Not specified", placement: "Body, sleeves, collar, placket, and trim", qty: "No consumption estimate" },
+      { material: "Buttons", placement: "Front placket; selected software mark count", qty: "2" },
+    ]);
+    expect(output.techPack.construction.join(" ")).toContain("Digital P05 Low-ease Polo profile");
+    expect(output.techPack.construction.join(" ")).toContain("5 cm ease default and editable 3–6 cm range are InfiniDrip software choices");
+    expect(output.techPack.construction.join(" ")).toContain("no darted or independently shaped waist construction");
+    expect(output.techPack.constructionNotice).toContain("No physical sample has been assessed");
+    expect(output.techPack.measurementSpecNote).toContain("not physical standards or validated fit targets");
+    expect(output.techPack.measurementSpecNote).toContain("not a validated P05 grade");
+    expect(output.techPack.measurementSpecToleranceColumn).toBe(false);
+    expect(output.techPack.fitRecordStatusNote).toContain("Physical fit, comfort, wear");
+    expect(output.techPack.fitRecordPassColumn).toBe(false);
+    expect(output.techPack.fitRecordToleranceColumn).toBe(false);
+    expect(output.techPack.fitRecordTitle).toBe("Digital Measurement Worksheet");
+    expect(output.techPackForOptions!({ buttonCount: 3 }).bom[1]?.qty).toBe("3");
+  });
+
+  it("uses the two-button default for missing options and avoids non-finite quantities", () => {
+    const base = { ...POLO, techPackForOptions: undefined };
+    const output = poloLowEaseRecipeForOutput(base, {});
     expect(output.techPack.bom[1]?.qty).toBe("2");
     expect(output.techPackForOptions!({}).bom[1]?.qty).toBe("2");
     expect(output.techPackForOptions!({ buttonCount: Number.POSITIVE_INFINITY }).bom[1]?.qty).toBe("unresolved");

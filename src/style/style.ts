@@ -59,6 +59,7 @@ export const TANK_STYLES: readonly StyleDef[] = [
 /** Polo V1 is a loose short-sleeve knit polo. Names describe finished garment
  * type, not a tee surrogate; sleeve/collar variations remain explicitly out. */
 export const POLO_STYLES: readonly StyleDef[] = [
+  { name: "Low-ease polo", ranges: { ease: [3, 6], length: [59, 74] } },
   { name: "Classic polo", ranges: { ease: [7, 12], length: [59, 74] } },
   { name: "Relaxed polo", ranges: { ease: [13, 18], length: [59, 78] } },
   { name: "Cropped polo", ranges: { ease: [7, 12], length: [44, 57] } },

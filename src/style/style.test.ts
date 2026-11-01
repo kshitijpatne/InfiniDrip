@@ -31,6 +31,16 @@ describe("POLO_STYLES cropped classification", () => {
   });
 });
 
+describe("POLO_STYLES low-ease classification", () => {
+  it("classifies the P05 ease band without overlapping other Polo profiles", () => {
+    for (const ease of [3, 5, 6]) {
+      expect(currentStyles({ ...STANDARD_M, ease }, POLO_STYLES)).toEqual(["Low-ease polo"]);
+    }
+    expect(currentStyles({ ...STANDARD_M, ease: 2 }, POLO_STYLES)).toEqual([]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7 }, POLO_STYLES)).toEqual(["Classic polo"]);
+  });
+});
+
 describe("currentStyles", () => {
   it("classifies the standard block as a Classic tee", () => {
     expect(currentStyles(STANDARD_M, TEE_STYLES)).toEqual(["Classic tee"]);
