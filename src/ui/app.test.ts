@@ -15381,7 +15381,18 @@ describe("P05 Low-ease Polo Starter Blank", () => {
       const lowEaseFront = rolePiece(POLO.draft(measurements, entry.configuration.options), "front");
       expect(root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toContain(pieceToPath(lowEaseFront));
 
-      reachExportStage(root);
+      for (const supportedEase of [3, 4, 5, 6]) {
+        easeInput().value = String(supportedEase);
+        easeInput().dispatchEvent(new Event("input", { bubbles: true }));
+        clickId(root, "journey-step-fit");
+        clickId(root, "journey-next"); // P05 Style → Check remains available across the declared range.
+        const guidanceText = root.querySelector<HTMLElement>("#guidance-host")!.textContent ?? "";
+        expect(guidanceText).toContain(`P05 Low-ease: ${supportedEase} cm is within the declared 3–6 cm software range.`);
+        expect(guidanceText).not.toContain("tee check");
+        expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(false);
+        clickId(root, "journey-next"); // reviewed Check → Export
+        expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      }
       for (const invalidEase of [2, 7]) {
         easeInput().value = String(invalidEase);
         easeInput().dispatchEvent(new Event("input", { bubbles: true }));

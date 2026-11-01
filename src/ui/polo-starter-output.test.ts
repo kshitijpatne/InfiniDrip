@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { POLO } from "../drafting/recipe";
+import { POLO, STANDARD_M, type GarmentRecipe } from "../drafting";
 import { poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput } from "./polo-starter-output";
 
 describe("P02 Classic long-sleeve Polo output", () => {
@@ -98,6 +98,46 @@ describe("P04 Cropped Polo output", () => {
 });
 
 describe("P05 Low-ease Polo output", () => {
+  it("uses P05 range guidance for supported ease values and preserves unrelated notes", () => {
+    const unrelatedWarning = { field: "armholeDepth", level: "warn" as const, text: "Preserve this unrelated warning." };
+    const base: GarmentRecipe = {
+      ...POLO,
+      guidance: (_block, measurements) => [
+        {
+          field: "ease",
+          level: "warn",
+          text: `Ease is ${measurements.ease} cm — below the tee check's 5 cm lower boundary.`,
+        },
+        unrelatedWarning,
+      ],
+    };
+    const output = poloLowEaseRecipeForOutput(base, { buttonCount: 2 });
+
+    for (const ease of [3, 4, 5, 6]) {
+      const measurements = { ...STANDARD_M, ease };
+      const notes = output.guidance(base.draft(measurements), measurements, { buttonCount: 2 });
+      expect(notes).toEqual([
+        unrelatedWarning,
+        {
+          field: "ease",
+          level: "info",
+          text: `P05 Low-ease: ${ease} cm is within the declared 3–6 cm software range. This check does not assess physical fit, wear, comfort, or fabric behavior.`,
+        },
+      ]);
+    }
+
+    for (const ease of [2, 7]) {
+      const measurements = { ...STANDARD_M, ease };
+      expect(output.guidance(base.draft(measurements), measurements, { buttonCount: 2 }))
+        .toEqual(base.guidance(base.draft(measurements), measurements, { buttonCount: 2 }));
+    }
+
+    const nonFiniteMeasurements = { ...STANDARD_M, ease: Number.NaN };
+    const validBlock = base.draft(STANDARD_M);
+    expect(output.guidance(validBlock, nonFiniteMeasurements, { buttonCount: 2 }))
+      .toEqual(base.guidance(validBlock, nonFiniteMeasurements, { buttonCount: 2 }));
+  });
+
   it("labels ease as a software choice and keeps physical claims unvalidated", () => {
     const output = poloLowEaseRecipeForOutput(POLO, { buttonCount: 2 });
     expect(output.label).toBe("Polo Low-ease");
