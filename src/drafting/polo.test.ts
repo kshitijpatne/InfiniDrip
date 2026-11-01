@@ -229,6 +229,20 @@ describe("Polo shell (Slice 69)", () => {
     expect(text).toContain("reaches the hem allowance");
   });
 
+  it("keeps P04's 44 cm boundary correction actionable through the 30 cm placket maximum", () => {
+    const measurements = { ...STANDARD_M, chest: 160, length: 44 };
+    const minimum = { placketLength: 14, sideVentDepth: 15 };
+    const minimumNotes = poloGuidance(draftPolo(measurements, minimum), measurements, minimum)
+      .map((note) => note.text).join("\n");
+    expect(minimumNotes).not.toContain("Placket reaches the front vent region");
+
+    const maximum = { ...minimum, placketLength: 30 };
+    const maximumNotes = poloGuidance(draftPolo(measurements, maximum), measurements, maximum)
+      .map((note) => note.text).join("\n");
+    expect(maximumNotes).toContain("Placket reaches the front vent region — shorten it to 16.0 cm or less.");
+    expect(maximum.placketLength).toBe(30);
+  });
+
   it("reports every crossed Polo collar, vent, drop, and seam risk with a correction", () => {
     const short = { ...STANDARD_M, length: 26 };
     const crossed = {

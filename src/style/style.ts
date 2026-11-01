@@ -61,6 +61,7 @@ export const TANK_STYLES: readonly StyleDef[] = [
 export const POLO_STYLES: readonly StyleDef[] = [
   { name: "Classic polo", ranges: { ease: [7, 12], length: [59, 74] } },
   { name: "Relaxed polo", ranges: { ease: [13, 18], length: [59, 78] } },
+  { name: "Cropped polo", ranges: { ease: [7, 12], length: [44, 57] } },
   { name: "Longline polo", ranges: { ease: [7, 18], length: [78, 100] } },
 ];
 
