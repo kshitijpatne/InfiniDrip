@@ -331,7 +331,7 @@ describe("F03 princess-seam fitted Tee pipeline", () => {
 
 describe("Polo recipe pipeline", () => {
   it("is a loose polo with V2 collar controls, full POMs, and complete production data", () => {
-    expect(POLO.styles.map((style) => style.name)).toEqual(["Classic polo", "Relaxed polo", "Longline polo"]);
+    expect(POLO.styles.map((style) => style.name)).toEqual(["Classic polo", "Relaxed polo", "Cropped polo", "Longline polo"]);
     expect(POLO.options?.map((option) => option.id)).toEqual([
       "buttonCount", "placketLength", "placketWidth", "standHeight", "collarLeafDepth",
       "standFrontRise", "collarPointExtension", "sideVentDepth", "backHemDrop",
