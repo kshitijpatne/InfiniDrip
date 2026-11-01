@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
-import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TROUSER_STYLES } from "./style";
+import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TROUSER_STYLES, POLO_STYLES } from "./style";
 
 describe("FITTED_STYLES", () => {
   it("classifies the darted construction without using ease as a fit standard", () => {
@@ -17,6 +17,17 @@ describe("FITTED_STYLES crop classification", () => {
     expect(currentStyles({ ...STANDARD_M, length: 57 }, FITTED_STYLES)).toEqual(["Cropped fitted tee"]);
     expect(currentStyles({ ...STANDARD_M, length: 58 }, FITTED_STYLES)).toEqual([]);
     expect(currentStyles({ ...STANDARD_M, length: 59 }, FITTED_STYLES)).toEqual(["Fitted tee"]);
+  });
+});
+
+describe("POLO_STYLES cropped classification", () => {
+  it("classifies only the admitted Polo crop length envelope", () => {
+    for (const length of [44, 53, 57]) {
+      expect(currentStyles({ ...STANDARD_M, ease: 10, length }, POLO_STYLES)).toEqual(["Cropped polo"]);
+    }
+    for (const length of [43, 58]) {
+      expect(currentStyles({ ...STANDARD_M, ease: 10, length }, POLO_STYLES)).toEqual([]);
+    }
   });
 });
 

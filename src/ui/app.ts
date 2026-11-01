@@ -57,8 +57,8 @@ import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObserva
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_RELAXED_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
-import { poloClassicLongSleeveRecipeForOutput, poloRelaxedRecipeForOutput } from "./polo-starter-output";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_RELAXED_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloRelaxedRecipeForOutput } from "./polo-starter-output";
 import { DEFAULT_POLO_OPTIONS } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankNotchesForOptions, tankRacerbackControlOffsetCm } from "../drafting/tank";
@@ -1706,7 +1706,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID && recipe.name === "polo" ? "polo-relaxed"
+    starterOrigin?.entryId === POLO_CROPPED_ENTRY_ID && recipe.name === "polo" ? "polo-cropped"
+      : starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID && recipe.name === "polo" ? "polo-relaxed"
       : starterOrigin?.entryId === POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID && recipe.name === "polo" ? "polo-classic-long-sleeve"
       : starterOrigin?.entryId === TANK_N08_ENTRY_ID && recipe.name === "tank" ? "shelf-lined-tank"
       : starterOrigin?.entryId === TANK_N04_ENTRY_ID && recipe.name === "tank" ? "square-neck-tank"
@@ -1882,7 +1883,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID && forRecipe.name === "polo"
+    starterOrigin?.entryId === POLO_CROPPED_ENTRY_ID && forRecipe.name === "polo"
+      ? "Polo Cropped"
+      : starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID && forRecipe.name === "polo"
       ? "Polo Relaxed"
       : starterOrigin?.entryId === POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID && forRecipe.name === "polo"
       ? "Polo Classic long-sleeve"
@@ -1911,7 +1914,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
   const starterOutputStatusNote = (): string | undefined =>
-    starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID
+    starterOrigin?.entryId === POLO_CROPPED_ENTRY_ID
+      ? "Digital P04 Cropped Polo pattern. The 53 cm default and 44–57 cm range are editable software choices measured from modeled high point shoulder to hem, not a physical crop position or validated fit target. The generic Polo size run is not a validated P04 grade; physical fit, coverage, comfort, wear, materials, grading, and production remain unvalidated."
+      : starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID
       ? "Digital P03 Relaxed Polo. The 15 cm ease default is an editable software choice, not a sourced physical standard or validated fit target. The generic Polo size run is not a validated P03 grade; physical fit, comfort, wear, materials, grading, and production remain unvalidated."
       : starterOrigin?.entryId === POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID
       ? "Digital P02 Classic long-sleeve Polo pattern. Sleeve length is a software setting below the modeled cap base; the sleeve POM includes cap height. The generic Polo size run is not a validated P02 grade. The source-linked 2 cm sleeve-hem reference is not physically validated; physical fit, comfort, wear, materials, sewing, and production remain unvalidated."
@@ -2053,7 +2058,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : recipe.allowances;
     const poms = pomsForRecipeOptions(recipe, options);
     const withStarterTechPack = (outputRecipe: GarmentRecipe): GarmentRecipe =>
-      starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID && recipe.name === "polo"
+      starterOrigin?.entryId === POLO_CROPPED_ENTRY_ID && recipe.name === "polo"
+        ? poloCroppedRecipeForOutput(outputRecipe, options)
+        : starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID && recipe.name === "polo"
         ? poloRelaxedRecipeForOutput(outputRecipe, options)
         : starterOrigin?.entryId === POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID && recipe.name === "polo"
         ? poloClassicLongSleeveRecipeForOutput(outputRecipe, options)
@@ -5076,7 +5083,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       .addEventListener("click", () => {
         if (g.name === "polo" && (starterOrigin?.entryId === POLO_CLASSIC_TWO_BUTTON_ENTRY_ID
           || starterOrigin?.entryId === POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID
-          || starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID)) {
+          || starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID
+          || starterOrigin?.entryId === POLO_CROPPED_ENTRY_ID)) {
           garmentOptions = {
             ...garmentOptions,
             polo: { ...garmentOptions.polo!, buttonCount: DEFAULT_POLO_OPTIONS.buttonCount },
