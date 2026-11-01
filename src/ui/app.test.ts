@@ -56,6 +56,7 @@ import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 import { blockPieces } from "../drafting/block";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
+import { pieceBounds, pieceToPath } from "../render/shape";
 import { exportA0Pdf, exportDxf, exportPdf, exportSvg } from "../export";
 import { teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
 import * as teeDrafting from "../drafting/tshirt";
@@ -66,7 +67,7 @@ import { loadJourney, tutorialMarkup } from "./journey";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, saveRecoveryToStorage, saveToStorage } from "./persist";
-import { STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
+import { POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
 import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
@@ -14964,6 +14965,121 @@ describe("P01 Classic two-button Polo Starter Blank", () => {
       expect(POLO.techPackForOptions!({ buttonCount: 3 })).toEqual(POLO.techPack);
       clickId(reopened, "garment-tee");
       clickId(reopened, "garment-polo");
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("3");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30000);
+});
+
+describe("P02 Classic long-sleeve Polo Starter Blank", () => {
+  it("renders the longer sleeve, preserves the profile through save/reopen, and exports truthful outputs", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const entryId = POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID;
+      const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === entryId)!;
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${entryId}`)!;
+      expect(card.textContent).toContain("Polo Classic long-sleeve · software defaults");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      clickId(root, `starter-${entryId}`);
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Polo Classic long-sleeve · software defaults");
+
+      const sleeveInput = () => root!.querySelector<HTMLInputElement>('[data-field="sleeveLength"]')!;
+      expect(sleeveInput().value).toBe("55");
+      expect([sleeveInput().min, sleeveInput().max, sleeveInput().step]).toEqual(["45", "70", "1"]);
+      expect(root.querySelector<HTMLElement>('[data-dim-row="sleeveLength"]')!.textContent)
+        .toContain("Sleeve length below cap base");
+      clickId(root, "view-pattern");
+      const pattern = root.querySelector<SVGSVGElement>("#canvas-host svg")!;
+      const measurements = { ...STANDARD_M, ...entry.configuration.measurements };
+      const longSleeve = rolePiece(POLO.draft(measurements, entry.configuration.options), "sleeve");
+      const shortSleeve = rolePiece(POLO.draft({ ...measurements, sleeveLength: 22 }, entry.configuration.options), "sleeve");
+      expect(pieceBounds(longSleeve).height).toBeGreaterThan(pieceBounds(shortSleeve).height);
+      expect(pattern.innerHTML).toContain(pieceToPath(longSleeve));
+
+      reachExportStage(root);
+      sleeveInput().value = "44";
+      sleeveInput().dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>('[data-input-error="sleeveLength"]')!.textContent)
+        .toContain("45–70 cm");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLElement>("#canvas-host")!.textContent).toContain("Draft paused");
+
+      sleeveInput().value = "55";
+      sleeveInput().dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>('[data-input-error="sleeveLength"]')!.textContent).toBe("");
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1") ?? "null") as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: { polo: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; recipeId: string; recipeRevision: string } };
+      } | null;
+      expect(saved).not.toBeNull();
+      expect(saved!.measurements.sleeveLength).toBe(55);
+      expect(saved!.garmentOptions.polo.buttonCount).toBe(2);
+      expect(saved!.workspace.starterOrigin).toMatchObject({
+        entryId, recipeId: "polo", recipeRevision: "polo-classic-long-sleeve-v1",
+      });
+
+      reachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      root.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(4), { timeout: 20000 });
+      expect([...files.keys()].every((name) => name.startsWith("polo-classic-long-sleeve"))).toBe(true);
+      const svg = [...files.entries()].find(([name]) => name.endsWith(".svg"))![1];
+      const dxf = [...files.entries()].find(([name]) => name.endsWith(".dxf"))![1];
+      const packageText = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange-source.json"))![1];
+      const packageJson = JSON.parse(packageText) as {
+        manifest: { options: Record<string, number>; patternMarks: readonly { name: string }[] };
+      };
+      expect(svg).toBe(exportSvg(
+        blockPieces(POLO.draft(saved!.measurements, saved!.garmentOptions.polo)),
+        POLO.allowances!,
+        notchesForRecipeOptions(POLO, saved!.garmentOptions.polo),
+      ));
+      expect(svg.match(/data-pattern-mark-name="button-\d+"/gu)).toHaveLength(2);
+      expect(dxf).toBe(exportDxf(blockPieces(POLO.draft(saved!.measurements, saved!.garmentOptions.polo)), POLO.allowances!));
+      expect(packageJson.manifest.options.buttonCount).toBe(2);
+      expect(packageJson.manifest.patternMarks.filter((mark) => mark.name.startsWith("button-")).map((mark) => mark.name))
+        .toEqual(["button-1", "button-2"]);
+      const techPack = visiblePdfText([...files.entries()].find(([name]) => name.endsWith("-techpack.pdf"))![1]);
+      expect(techPack).toContain("Polo Classic long-sleeve");
+      expect(techPack).toContain("turn under 2 cm and topstitch");
+      expect(techPack).toContain("stylearc.com/magazine/sewing-tutorials/jess-knit-polo");
+      expect(techPack).toContain("No consumption estimate");
+      expect(techPack).toContain("not a validated P02 grade");
+      expect(techPack).toContain("physical fit, comfort, wear");
+      expect(techPack).toContain("Sleeve length");
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>('[data-field="sleeveLength"]')!.value).toBe("55");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${entryId}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "garment-polo");
+      expect(reopened.querySelector<HTMLInputElement>('[data-field="sleeveLength"]')!.value).toBe("22");
       expect(reopened.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("3");
       expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
     } finally {
