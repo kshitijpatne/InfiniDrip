@@ -204,6 +204,14 @@ describe("P06 Longline Polo output", () => {
 });
 
 describe("P07 Zip-placket Polo output", () => {
+  it("opts only the P07 output profile into page-local tiled PDF coordinates", () => {
+    const output = poloZipPlacketRecipeForOutput(POLO, {});
+
+    expect(output.tiledPdfLocalCoordinates).toBe(true);
+    expect(poloLonglineRecipeForOutput(POLO, { buttonCount: 2 }).tiledPdfLocalCoordinates).not.toBe(true);
+    expect(POLO.tiledPdfLocalCoordinates).not.toBe(true);
+  });
+
   it("preserves an option-aware P07 Tech Pack without applying the P07 builder twice", () => {
     const prebuilt = {
       ...POLO.techPack,
