@@ -15766,12 +15766,14 @@ describe("P07 Zip-placket Polo Starter Blank", () => {
       expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(false);
       root.querySelector<HTMLButtonElement>("#export-svg")!.click();
       root.querySelector<HTMLButtonElement>("#export-dxf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-pdf")!.click();
       root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
       root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
-      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(4), { timeout: 20000 });
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(5), { timeout: 20000 });
       expect([...files.keys()].sort()).toEqual([
         "polo-zip-placket-M-cad-exchange-source.json",
         "polo-zip-placket-M.dxf",
+        "polo-zip-placket-M.pdf",
         "polo-zip-placket-M.svg",
         "polo-zip-placket-techpack.pdf",
       ].sort());
@@ -15784,12 +15786,14 @@ describe("P07 Zip-placket Polo Starter Blank", () => {
       const pieces = blockPieces(drafted);
       const svg = [...files.entries()].find(([name]) => name.endsWith(".svg"))![1];
       const dxf = [...files.entries()].find(([name]) => name.endsWith(".dxf"))![1];
+      const tiledPdf = files.get("polo-zip-placket-M.pdf")!;
       const packageText = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange-source.json"))![1];
       const packageJson = JSON.parse(packageText) as {
         manifest: { options: Record<string, number>; patternMarks: readonly { name: string }[]; pieces: readonly { role: string }[] };
       };
       expect(svg).toBe(exportSvg(pieces, POLO.allowances!, notchesForRecipeOptions(POLO, profileOptions)));
       expect(dxf).toBe(exportDxf(pieces, POLO.allowances!));
+      expect(tiledPdf).toBe(exportPdf(pieces, POLO.allowances!, undefined, 1.0, true));
       expect(packageJson.manifest.options.placketLength).toBe(20);
       expect(packageJson.manifest.options.placketWidth).toBe(3.5);
       expect(packageJson.manifest.options).not.toHaveProperty(POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID);

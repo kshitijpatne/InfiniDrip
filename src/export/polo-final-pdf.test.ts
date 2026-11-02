@@ -5,6 +5,7 @@ import { STANDARD_M, POLO, blockPieces, draftAtSize } from "../drafting";
 import { exportPdf } from "./pdf";
 import { exportA0Pdf } from "./a0";
 import { exportTechPack } from "./techpack";
+import { POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 
 const OPTIONS = {
   placketLength: 20, placketWidth: 3.5, standHeight: 2.5, collarLeafDepth: 6,
@@ -26,6 +27,44 @@ function streamTexts(doc: PDFDocument): string[] {
 }
 
 describe("Slice 73 — Polo PDF readiness", () => {
+  it("places P07 zipper geometry inside the printable area of geometry-bearing tiled pages", async () => {
+    const p07Options = {
+      ...OPTIONS,
+      placketLength: 20,
+      placketWidth: 3.5,
+      [POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID]: POLO_ZIPPER_CLOSURE_PROFILE_VALUE,
+    };
+    const pieces = blockPieces(draftAtSize(STANDARD_M, POLO.grade, 2, POLO.draft, p07Options));
+    const doc = await parsePdf(exportPdf(pieces, POLO.allowances, undefined, 1.0, true));
+    const streams = streamTexts(doc);
+    const { width, height } = doc.getPage(0).getSize();
+    const printableX = 72 / 2.54;
+    const printableY = 72 / 2.54;
+
+    expect(doc.getPageCount()).toBeGreaterThan(1);
+    expect(streams.length).toBe(doc.getPageCount());
+    for (const stream of streams) {
+      const clip = stream.match(/([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+) re W n/);
+      expect(clip).not.toBeNull();
+      expect(Number(clip![1])).toBeCloseTo(printableX, 2);
+      expect(Number(clip![2])).toBeCloseTo(printableY, 2);
+      expect(Number(clip![3])).toBeLessThan(width);
+      expect(Number(clip![4])).toBeLessThan(height);
+    }
+    const firstTwoTilesHaveGeometry = streams.slice(0, 2).map((stream) => {
+      const body = stream.slice(0, stream.indexOf("\nQ\n"));
+      const clip = body.match(/([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+) re W n/)!;
+      const [clipX, clipY, clipW, clipH] = clip.slice(1).map(Number);
+      return [...body.matchAll(/(-?[\d.]+) (-?[\d.]+) [ml]\b/g)]
+        .filter(([, rawX, rawY]) => {
+          const x = Number(rawX);
+          const y = Number(rawY);
+          return x >= clipX && x <= clipX + clipW && y >= clipY && y <= clipY + clipH;
+        }).length;
+    });
+    expect(firstTwoTilesHaveGeometry.every((count) => count >= 2)).toBe(true);
+  });
+
   it("keeps a selected size's marks in the parsed tiled PDF", async () => {
     const pieces = blockPieces(draftAtSize(STANDARD_M, POLO.grade, 2, POLO.draft, OPTIONS));
     const text = exportPdf(pieces, POLO.allowances);

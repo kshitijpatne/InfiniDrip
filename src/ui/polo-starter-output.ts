@@ -278,6 +278,7 @@ export function poloZipPlacketRecipeForOutput(
   return {
     ...recipe,
     label: "Polo Zip-placket",
+    tiledPdfLocalCoordinates: true,
     draft: (measurements, activeOptions) => recipe.draft(measurements, withZipPlacketProfile(activeOptions)),
     ...(recipe.draftReview ? {
       draftReview: (measurements: Parameters<NonNullable<GarmentRecipe["draftReview"]>>[0], activeOptions?: GarmentOptions) =>
