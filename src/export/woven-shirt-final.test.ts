@@ -42,10 +42,18 @@ const expectedPieces = [
 ];
 
 function streamText(doc: PDFDocument): string {
+  return streamTexts(doc).join("\n");
+}
+
+function streamTexts(doc: PDFDocument): string[] {
   return [...doc.context.enumerateIndirectObjects()]
     .filter(([, object]) => object instanceof PDFRawStream)
     .map(([, object]) => new TextDecoder().decode((object as PDFRawStream).contents))
-    .join("\n");
+}
+
+function pathCoordinates(stream: string): { x: number; y: number }[] {
+  return [...stream.matchAll(/(-?[\d.]+) (-?[\d.]+) [ml]\b/g)]
+    .map(([, x, y]) => ({ x: Number(x), y: Number(y) }));
 }
 
 async function parsePdf(text: string): Promise<PDFDocument> {
@@ -114,16 +122,52 @@ describe("Slice 93 — woven-shirt component-library exit", () => {
     expect(dxf).toContain("MARK_BUTTON");
     expect(dxf).toContain("MARK_BUTTONHOLE");
 
-    const tiledText = exportPdf(pieces, WOVEN_SHIRT.allowances);
+    expect(WOVEN_SHIRT.tiledPdfLocalCoordinates).toBe(true);
+    const tiledText = exportPdf(
+      pieces, WOVEN_SHIRT.allowances, undefined, 1.0, WOVEN_SHIRT.tiledPdfLocalCoordinates === true,
+    );
     expect(typeof tiledText).toBe("string");
     const tiled = await parsePdf(tiledText);
-    expect(tiled.getPageCount()).toBeGreaterThan(0);
+    expect(tiled.getPageCount()).toBeGreaterThan(1);
     expect(streamText(tiled)).toContain("(POCKET PLACEMENT) Tj");
+    const tiledStreams = streamTexts(tiled);
+    expect(tiledStreams).toHaveLength(tiled.getPageCount());
+    for (const [index, stream] of tiledStreams.entries()) {
+      const { width, height } = tiled.getPage(index).getSize();
+      const clip = stream.match(/([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+) re W n/);
+      expect(clip).not.toBeNull();
+      const [x, y, clipWidth, clipHeight] = clip!.slice(1).map(Number);
+      expect(x).toBeGreaterThanOrEqual(0);
+      expect(y).toBeGreaterThanOrEqual(0);
+      expect(clipWidth).toBeGreaterThan(0);
+      expect(clipHeight).toBeGreaterThan(0);
+      expect(x + clipWidth).toBeLessThanOrEqual(width);
+      expect(y + clipHeight).toBeLessThanOrEqual(height);
+    }
+    const firstTile = tiledStreams[0]!;
+    const firstTileBody = firstTile.slice(0, firstTile.indexOf("\nQ\n"));
+    const firstClip = firstTileBody.match(/([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+) re W n/)!;
+    const [clipX, clipY, clipWidth, clipHeight] = firstClip.slice(1).map(Number);
+    const firstTileGeometry = pathCoordinates(firstTileBody).filter(({ x, y }) =>
+      x >= clipX && x <= clipX + clipWidth && y >= clipY && y <= clipY + clipHeight,
+    );
+    expect(firstTileGeometry.length).toBeGreaterThan(1);
 
-    const a0 = await parsePdf(exportA0Pdf(pieces, WOVEN_SHIRT.allowances, WOVEN_SHIRT.notches));
-    expect(a0.getPageCount()).toBe(1);
+    expect(WOVEN_SHIRT.a0Overflow).toBe(true);
+    const a0 = await parsePdf(exportA0Pdf(
+      pieces, WOVEN_SHIRT.allowances, WOVEN_SHIRT.notches, undefined, WOVEN_SHIRT.a0Overflow === true,
+    ));
+    expect(a0.getPageCount()).toBe(pieces.length);
     expect(streamText(a0)).toContain("(10 cm) Tj");
     expect(streamText(a0)).toContain("(WOVEN BUTTON PLACKET) Tj");
+    const a0Streams = streamTexts(a0);
+    expect(a0Streams).toHaveLength(pieces.length);
+    for (const [index, stream] of a0Streams.entries()) {
+      const { width, height } = a0.getPage(index).getSize();
+      const coordinates = pathCoordinates(stream);
+      expect(coordinates.length).toBeGreaterThan(10);
+      expect(coordinates.every(({ x, y }) => x >= 0 && x <= width && y >= 0 && y <= height)).toBe(true);
+    }
 
     const projector = exportProjectorSvg(WOVEN_SHIRT, STANDARD_M, OPTIONS);
     const projectorDoc = parseSvg(projector);
