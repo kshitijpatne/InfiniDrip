@@ -26,8 +26,10 @@ export const DEFAULT_FABRIC = FABRICS[0].color;
 export interface PoloVisual {
   readonly placketLength: number;
   readonly placketWidth: number;
+  readonly buttonCount?: number;
   readonly standHeight: number;
   readonly collarLeafDepth: number;
+  readonly collarProfile?: "pointed" | "band";
   readonly standFrontRise?: number;
   readonly collarPointExtension?: number;
   readonly sideVentDepth?: number;
@@ -150,7 +152,7 @@ function renderOne(m: Measurements, position: "front" | "back", fabric: string,
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
   const seams = hasSleeve ? armholeSeams(m) : "";
-  const poloV2 = polo !== undefined && (polo.standFrontRise !== undefined || polo.collarPointExtension !== undefined || polo.sideVentDepth !== undefined || polo.backHemDrop !== undefined);
+  const poloV2 = polo !== undefined && (polo.collarProfile === "band" || polo.standFrontRise !== undefined || polo.collarPointExtension !== undefined || polo.sideVentDepth !== undefined || polo.backHemDrop !== undefined);
   const group = `<g transform="translate(${round(cx)} ${round(top)})">${path}${seams}` +
     (polo && (position === "front" || poloV2) ? poloDetails(m, position, frontNeckline, backNeckline, polo) : "") +
     (shirt ? wovenShirtDetails(m, position, shirt) : "") + `</g>`;
@@ -164,7 +166,8 @@ function poloDetails(m: Measurements, position: "front" | "back", frontNeckline:
                      backNeckline: NecklineParams, polo: PoloVisual): string {
   const d = derive(m);
   const bodyLength = m.length + (position === "back" ? polo.backHemDrop ?? 0 : 0);
-  return `<g color="rgba(0,0,0,0.5)">${poloDetailsSvg({
+  const detailColor = polo.collarProfile === "band" ? T.line : "rgba(0,0,0,0.5)";
+  return `<g color="${detailColor}">${poloDetailsSvg({
     neckWidthHalf: d.neckWidthHalf, frontNeckDepth: d.frontNeckDepth, backNeckDepth: d.backNeckDepth,
     shoulderHalf: d.shoulderHalf, armholeDepth: m.armholeDepth,
     neckline: position === "front" ? frontNeckline : backNeckline,

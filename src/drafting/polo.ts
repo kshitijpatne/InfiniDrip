@@ -28,6 +28,8 @@ export interface PoloOptions {
   readonly placketWidth: number;
   /** Internal route supplied only by the P07 starter origin; not a UI control. */
   readonly zipperClosureProfile?: number;
+  /** Internal route supplied only by the P08 starter origin; not a UI control. */
+  readonly bandCollarProfile?: number;
   readonly standHeight: number;
   readonly collarLeafDepth: number;
   readonly standFrontRise: number;
@@ -41,9 +43,16 @@ type PoloOptionDefinition = GarmentOption & { readonly unit: string };
 export const POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID = "zipperClosureProfile";
 export const POLO_ZIPPER_CLOSURE_PROFILE_VALUE = 1;
 export const POLO_ZIP_PLACKET_STARTER_ENTRY_ID = "polo-zip-placket-digital-v1";
+export const POLO_BAND_COLLAR_PROFILE_OPTION_ID = "bandCollarProfile";
+export const POLO_BAND_COLLAR_PROFILE_VALUE = 1;
+export const POLO_BAND_COLLAR_STARTER_ENTRY_ID = "polo-band-collar-half-placket-digital-v1";
 
 export function usesPoloZipperClosure(options: Partial<PoloOptions>): boolean {
   return options.zipperClosureProfile === POLO_ZIPPER_CLOSURE_PROFILE_VALUE;
+}
+
+export function usesPoloBandCollar(options: Partial<PoloOptions>): boolean {
+  return options.bandCollarProfile === POLO_BAND_COLLAR_PROFILE_VALUE;
 }
 
 export const POLO_OPTION_DEFINITIONS: readonly PoloOptionDefinition[] = [
@@ -51,9 +60,9 @@ export const POLO_OPTION_DEFINITIONS: readonly PoloOptionDefinition[] = [
   { id: "placketLength", label: "Finished placket length", unit: "cm", group: "Front closure", help: "Sets the finished slit length; shorten it if the placket reaches the vent or hem allowance.", defaultValue: 14, min: 14, max: 30, step: 0.5, preserveInvalidWhenRestored: true },
   { id: "placketWidth", label: "Finished placket width", unit: "cm", group: "Front closure", help: "Sets the finished folded placket face; keep it inside the declared 2–4 cm range.", defaultValue: 3, min: 2, max: 4, step: 0.5, preserveInvalidWhenRestored: true },
   { id: "standHeight", label: "Finished stand height", unit: "cm", group: "Neck & collar", help: "Raises the collar stand above the neckline; reduce it if it exceeds the collar leaf.", defaultValue: 2, min: 1, max: 3, step: 0.5 },
-  { id: "collarLeafDepth", label: "Finished pointed collar leaf", unit: "cm", group: "Neck & collar", help: "Sets the collar leaf depth from the stand; increase it when the point extension dominates.", defaultValue: 5, min: 4, max: 7, step: 0.5 },
+  { id: "collarLeafDepth", label: "Finished pointed collar leaf", unit: "cm", group: "Neck & collar", help: "Sets the collar leaf depth from the stand; increase it when the point extension dominates.", defaultValue: 5, min: 4, max: 7, step: 0.5, excludedForStarterEntryIds: [POLO_BAND_COLLAR_STARTER_ENTRY_ID] },
   { id: "standFrontRise", label: "Stand front rise", unit: "cm", group: "Neck & collar", help: "Lifts the front stand toward the centre front; reduce it if the shaped seam reverses or cannot preserve length.", defaultValue: 0.75, min: 0, max: 2, step: 0.25 },
-  { id: "collarPointExtension", label: "Collar point extension", unit: "cm", group: "Neck & collar", help: "Extends the collar point beyond the centre-front base; reduce it if the outline self-intersects.", defaultValue: 1.5, min: 0.5, max: 3, step: 0.25 },
+  { id: "collarPointExtension", label: "Collar point extension", unit: "cm", group: "Neck & collar", help: "Extends the collar point beyond the centre-front base; reduce it if the outline self-intersects.", defaultValue: 1.5, min: 0.5, max: 3, step: 0.25, excludedForStarterEntryIds: [POLO_BAND_COLLAR_STARTER_ENTRY_ID] },
   { id: "sideVentDepth", label: "Side vent depth", unit: "cm", group: "Hem & vents", help: "Opens the side seam from the hem; set to 0 cm to close the vent, or increase it when the sewn reserve is too short.", defaultValue: 6, min: 0, max: 15, step: 0.5 },
   { id: "backHemDrop", label: "Back hem drop", unit: "cm", group: "Hem & vents", help: "Extends only the back hem below the front; reduce it when it exceeds the vent depth or when vents are disabled.", defaultValue: 1.5, min: 0, max: 5, step: 0.5 },
 ];
@@ -76,6 +85,9 @@ export function resolvePoloOptions(values: Partial<PoloOptions> = {}): PoloOptio
   const zipperClosureProfile = usesPoloZipperClosure(values)
     ? POLO_ZIPPER_CLOSURE_PROFILE_VALUE
     : undefined;
+  const bandCollarProfile = usesPoloBandCollar(values)
+    ? POLO_BAND_COLLAR_PROFILE_VALUE
+    : undefined;
   return {
     buttonCount: typeof values.buttonCount === "number" ? values.buttonCount : DEFAULT_POLO_OPTIONS.buttonCount,
     placketLength: zipperClosureProfile !== undefined && typeof values.placketLength === "number"
@@ -85,6 +97,7 @@ export function resolvePoloOptions(values: Partial<PoloOptions> = {}): PoloOptio
       ? values.placketWidth
       : finiteOr(values.placketWidth, DEFAULT_POLO_OPTIONS.placketWidth),
     ...(zipperClosureProfile === undefined ? {} : { zipperClosureProfile }),
+    ...(bandCollarProfile === undefined ? {} : { bandCollarProfile }),
     standHeight: finiteOr(values.standHeight, DEFAULT_POLO_OPTIONS.standHeight),
     collarLeafDepth: finiteOr(values.collarLeafDepth, DEFAULT_POLO_OPTIONS.collarLeafDepth),
     standFrontRise: finiteOr(values.standFrontRise, DEFAULT_POLO_OPTIONS.standFrontRise),
@@ -392,13 +405,24 @@ function collarPiece(name: string, geometry: PoloCollarGeometry): Piece {
   };
 }
 
-function poloCollarStitches(): readonly Stitch[] {
+function poloCollarStitches(rawOptions: Partial<PoloOptions> = {}): readonly Stitch[] {
+  const necklineStitch: Stitch = {
+    label: usesPoloBandCollar(rawOptions) ? "Outer band ↔ polo neckline" : "Outer stand ↔ polo neckline",
+    a: iface(edgeRef("outerStand", "frontNeckline"), edgeRef("outerStand", "backNeckline")),
+    b: iface(edgeRef("front", "neckline"), edgeRef("back", "neckline")),
+  };
+  if (usesPoloBandCollar(rawOptions)) {
+    return [
+      necklineStitch,
+      {
+        label: "Outer band ↔ inner band edge",
+        a: iface(edgeRef("outerStand", "backCollar"), edgeRef("outerStand", "frontCollar"), edgeRef("outerStand", "frontEnd")),
+        b: iface(edgeRef("innerStand", "backCollar"), edgeRef("innerStand", "frontCollar"), edgeRef("innerStand", "frontEnd")),
+      },
+    ];
+  }
   return [
-    {
-      label: "Outer stand ↔ polo neckline",
-      a: iface(edgeRef("outerStand", "frontNeckline"), edgeRef("outerStand", "backNeckline")),
-      b: iface(edgeRef("front", "neckline"), edgeRef("back", "neckline")),
-    },
+    necklineStitch,
     {
       label: "Under collar ↔ outer stand",
       a: iface(edgeRef("underCollar", "backCollarBase"), edgeRef("underCollar", "frontCollarBase")),
@@ -476,6 +500,22 @@ const poloCollarComponent = (
     throw new Error(result.issues.map((entry) => entry.text).join(" "));
   }
   const geometry = result.geometry;
+  if (usesPoloBandCollar(params.options)) {
+    return {
+      pieces: {
+        outerStand: standPiece("outer collar band", geometry),
+        innerStand: standPiece("inner collar band", geometry),
+      },
+      stitches: [],
+      interfaces: {
+        neckline: iface(
+          edgeRef("outerStand", "frontNeckline"),
+          edgeRef("outerStand", "backNeckline"),
+        ),
+        collar: iface(edgeRef("outerStand", "backCollar"), edgeRef("outerStand", "frontCollar")),
+      },
+    };
+  }
   return {
     pieces: {
       outerStand: standPiece("outer collar stand", geometry),
@@ -537,7 +577,10 @@ export const POLO_GRAMMAR = garmentGrammar(
       ["front", "back"],
     ),
   ],
-  (context) => [...POLO_SHELL_STITCHES(resolvePoloOptions(context.options)), ...poloCollarStitches()],
+  (context) => {
+    const options = resolvePoloOptions(context.options);
+    return [...POLO_SHELL_STITCHES(options), ...poloCollarStitches(options)];
+  },
 );
 
 /** Completes the Slice 70 draft. Four layer pieces are emitted instead of a
@@ -566,14 +609,18 @@ const POLO_COLLAR_ISSUE_FIELDS: Readonly<Record<PoloCollarIssueCode, string>> = 
 export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<PoloOptions> = {}): Note[] {
   const options = resolvePoloOptions(rawOptions);
   const zipperClosure = usesPoloZipperClosure(options);
+  const bandCollar = usesPoloBandCollar(options);
   const notes = [...sleevedTopGuidance(block, m)];
   for (const definition of POLO_OPTION_DEFINITIONS) {
+    if (bandCollar && (definition.id === "collarLeafDepth" || definition.id === "collarPointExtension")) continue;
     const rawValue = rawOptions[definition.id as keyof PoloOptions];
     const value = typeof rawValue === "number"
       ? rawValue
       : options[definition.id as keyof PoloOptions] as number;
     if (definition.id === "buttonCount") continue;
-    const label = zipperClosure && definition.id === "placketLength"
+    const label = bandCollar && definition.id === "standHeight"
+      ? "Finished band height"
+      : zipperClosure && definition.id === "placketLength"
       ? "Modeled zipper opening length"
       : zipperClosure && definition.id === "placketWidth"
         ? "Finished zipper-placket width"
@@ -615,7 +662,7 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
     const label = zipperClosure ? "Modeled zipper opening" : "Placket";
     notes.push({ field: "option-placketLength", level: "warn", text: `${label} reaches the ${region} — shorten it to ${target.toFixed(1)} cm or less.` });
   }
-  if (options.standHeight > options.collarLeafDepth) {
+  if (!bandCollar && options.standHeight > options.collarLeafDepth) {
     notes.push({ field: "option-standHeight", level: "warn", text: "Stand is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
   }
   const collarResult = buildPoloCollarGeometry({
@@ -628,6 +675,7 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
     collarPointExtension: options.collarPointExtension,
   });
   for (const issue of collarResult.issues) {
+    if (bandCollar && (issue.code === "collar-point-dominates" || issue.code === "collar-outline-self-intersects")) continue;
     notes.push({
       field: POLO_COLLAR_ISSUE_FIELDS[issue.code],
       level: "warn",
@@ -852,6 +900,14 @@ const POLO_BUTTON_CLOSURE_POM_LABELS = new Set([
 ]);
 
 export function poloPomsForOptions(rawOptions: GarmentOptions): readonly Pom[] {
+  if (usesPoloBandCollar(rawOptions)) {
+    return [
+      ...POLO_BODY_POMS,
+      ...POLO_POMS
+        .filter((pom) => pom.label !== "Finished pointed collar leaf" && pom.label !== "Collar point extension")
+        .map((pom) => pom.label === "Finished collar stand height" ? { ...pom, label: "Finished band height" } : pom),
+    ];
+  }
   if (!usesPoloZipperClosure(rawOptions)) return [...POLO_BODY_POMS, ...POLO_POMS];
   const zipperLength: Pom = {
     label: "Modeled zipper opening length",
@@ -918,6 +974,20 @@ export const POLO_NOTCHES: readonly PieceNotches[] = [
 ];
 
 export function poloNotchesForOptions(rawOptions: GarmentOptions): readonly PieceNotches[] {
+  if (usesPoloBandCollar(rawOptions)) {
+    return [
+      ...POLO_NOTCHES.filter((entry) => !entry.pieceName.includes("collar") && !entry.pieceName.includes("stand")),
+      ...["outer collar band", "inner collar band"].map((pieceName) => ({
+        pieceName,
+        notches: [
+          { edgeName: "backCollar", t: 0 },
+          { edgeName: "backCollar", t: 1 },
+          { edgeName: "frontCollar", t: 1 },
+        ],
+        grainline: { topEdge: "backCollar", topT: 0.5, bottomEdge: "backNeckline", bottomT: 0.5 },
+      })),
+    ];
+  }
   if (!usesPoloZipperClosure(rawOptions)) return POLO_NOTCHES;
   return [
     ...POLO_NOTCHES.filter((entry) => entry.pieceName !== "button placket" && entry.pieceName !== "buttonhole placket"),

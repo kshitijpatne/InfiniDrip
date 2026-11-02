@@ -217,6 +217,50 @@ describe("renderGarment — Polo V2", () => {
   });
 });
 
+describe("renderGarment — P08 band-collar schematic", () => {
+  it("uses the active neckline fallback when optional P08 front and back inputs are omitted", () => {
+    const common = {
+      neckWidthHalf: 7, frontNeckDepth: 8, shoulderHalf: 22.5, armholeDepth: 24,
+      neckline: NECKLINE_DEFAULT, placketLength: 14, placketWidth: 3,
+      standHeight: 2, collarLeafDepth: 5, collarProfile: "band" as const,
+    };
+    const front = poloDetailsSvg({ ...common, position: "front" });
+    const back = poloDetailsSvg({ ...common, position: "back" });
+
+    expect(front).toContain('data-position="front"');
+    expect(back).toContain('data-position="back"');
+    expect(`${front}${back}`).not.toContain("NaN");
+    expect(`${front}${back}`).not.toContain('data-edge="option-collarLeafDepth"');
+  });
+
+  it("shows the band-only collar on front and back with the paired half-placket", () => {
+    const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, {
+      placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
+      collarProfile: "band", buttonCount: 2, standFrontRise: 0,
+    });
+    expect((svg.match(/data-garment-detail="polo"/g) ?? []).length).toBe(2);
+    expect((svg.match(/<circle/g) ?? []).length).toBe(2);
+    expect(svg).toContain('data-edge="option-standHeight"><path');
+    expect(svg).toContain('data-edge="option-placketLength"><rect');
+    expect(svg).toContain('color="#DCE7F2"');
+    expect(svg).not.toContain('data-edge="option-collarLeafDepth"');
+    expect(svg).not.toContain('data-edge="option-collarPointExtension"');
+  });
+
+  it("renders the selected third P08 button without changing the default two-button marks", () => {
+    const twoButtons = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, {
+      placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
+      collarProfile: "band", buttonCount: 2, standFrontRise: 0,
+    });
+    const threeButtons = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, {
+      placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
+      collarProfile: "band", buttonCount: 3, standFrontRise: 0,
+    });
+    expect((twoButtons.match(/<circle/g) ?? []).length).toBe(2);
+    expect((threeButtons.match(/<circle/g) ?? []).length).toBe(3);
+  });
+});
+
 describe("renderGarment — woven shirt integration", () => {
   const shirt = {
     neckWidthHalf: 10, frontNeckDepth: 8, backNeckDepth: 3,

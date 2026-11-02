@@ -13,6 +13,7 @@ import {
   mapPoloBodyPom,
   poloGuidance,
   poloPomsForOptions,
+  poloNotchesForOptions,
   resolvePoloOptions,
 } from "./polo";
 import { rolePiece } from "./block";
@@ -276,6 +277,48 @@ describe("Polo shell (Slice 69)", () => {
     expect(stitchChecks(block, block.stitches).every((result) => result.ok)).toBe(true);
     const necklineStitch = block.stitches.find((stitch) => stitch.label === "Outer stand ↔ polo neckline")!;
     expect(interfaceLength(block, necklineStitch.a)).toBeCloseTo(interfaceLength(block, necklineStitch.b));
+  });
+
+  it("drafts P08 as two band layers without pointed leaves and keeps the half-placket marks", () => {
+    const options = { bandCollarProfile: 1, buttonCount: 2, standHeight: 2 };
+    const block = draftPolo(STANDARD_M, options);
+    expect(Object.keys(block.roles)).toEqual([
+      "front", "back", "sleeve", "buttonPlacket", "buttonholePlacket", "outerStand", "innerStand",
+    ]);
+    expect(rolePiece(block, "outerStand").name).toBe("outer collar band");
+    expect(rolePiece(block, "innerStand").name).toBe("inner collar band");
+    expect(rolePiece(block, "outerStand").onFold).toBe(true);
+    expect(rolePiece(block, "innerStand").onFold).toBe(true);
+    expect(rolePiece(block, "buttonPlacket").marks?.filter((mark) => mark.name.startsWith("button-")).map((mark) => mark.name))
+      .toEqual(["button-1", "button-2"]);
+    expect(rolePiece(block, "buttonholePlacket").marks?.filter((mark) => mark.name.startsWith("buttonhole-")).map((mark) => mark.name))
+      .toEqual(["buttonhole-1", "buttonhole-2"]);
+    expect(block.stitches.map((stitch) => stitch.label)).toContain("Outer band ↔ inner band edge");
+    expect(stitchChecks(block, block.stitches).every((result) => result.ok)).toBe(true);
+    const collarMarks = poloPomsForOptions(options).map((pom) => pom.label);
+    expect(collarMarks).toContain("Finished band height");
+    expect(collarMarks).not.toContain("Finished pointed collar leaf");
+    expect(collarMarks).not.toContain("Collar point extension");
+    const collarNotches = poloNotchesForOptions(options).map((notch) => notch.pieceName);
+    expect(collarNotches).toContain("outer collar band");
+    expect(collarNotches).toContain("inner collar band");
+    expect(collarNotches).not.toContain("upper pointed collar");
+  });
+
+  it("keeps invalid P08 band/placket values live and suppresses pointed-leaf-only warnings", () => {
+    const invalid = {
+      bandCollarProfile: 1,
+      standHeight: 0,
+      placketWidth: 4.5,
+      collarLeafDepth: 4,
+      collarPointExtension: 3,
+    };
+    const block = draftPolo(STANDARD_M, invalid);
+    expect(edgeLength(pieceEdge(rolePiece(block, "outerStand"), "frontEnd"))).toBe(0);
+    const notes = poloGuidance(block, STANDARD_M, invalid);
+    expect(notes.map((note) => note.text).join(" ")).toContain("Finished band height (0 cm) is outside the declared 1–3 cm range");
+    expect(notes.map((note) => note.text).join(" ")).toContain("outside the declared 2–4 cm range");
+    expect(notes.map((note) => note.field)).not.toContain("option-collarPointExtension");
   });
 
   it("changes collar and stand geometry directly from supplied options", () => {

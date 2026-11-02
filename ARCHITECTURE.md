@@ -341,6 +341,18 @@ shared views, checks and planning
        digital files to save
 ```
 
+### Starter Blank Library: P08 band-collar Polo
+
+The P08 starter origin selects a band-only Polo drafting profile through the
+existing Polo recipe and output routes. The draft uses separate outer and inner
+collar-band pieces and the existing two-piece button half-placket. Its optional
+schematic profile draws the neckline-following band in Body and assembled views
+without pointed-leaf overlays, and shows the selected two- or three-button
+count. Existing Polo origins omit that profile and retain their prior detail
+rendering. P08 controls are editable software choices; this digital pattern and
+schematic do not establish physical fit, material performance or production
+readiness.
+
 For Woven `sideVentDepth=0`, the front and back drafts join the side seam
 directly to the curved hem: the degenerate vent edge and `VENT TOP` marker do
 not exist, and the side-vent POM has no geometry anchor. Positive vent depths

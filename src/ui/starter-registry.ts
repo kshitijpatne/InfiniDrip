@@ -18,7 +18,7 @@ import {
   TANK_N08_SHELF_DROP_OPTION,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION,
 } from "../drafting/tank";
-import { POLO_OPTION_DEFINITIONS, POLO_ZIP_PLACKET_STARTER_ENTRY_ID } from "../drafting/polo";
+import { POLO_BAND_COLLAR_STARTER_ENTRY_ID, POLO_OPTION_DEFINITIONS, POLO_ZIP_PLACKET_STARTER_ENTRY_ID } from "../drafting/polo";
 
 export const POLO_CLASSIC_TWO_BUTTON_ENTRY_ID = "polo-classic-two-button-digital-v1";
 export const POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID = "polo-classic-long-sleeve-digital-v1";
@@ -28,6 +28,7 @@ export const POLO_CROPPED_ENTRY_ID = "polo-cropped-digital-v1";
 export const POLO_LOW_EASE_ENTRY_ID = "polo-low-ease-digital-v1";
 export const POLO_LONGLINE_ENTRY_ID = "polo-longline-digital-v1";
 export const POLO_ZIP_PLACKET_ENTRY_ID = POLO_ZIP_PLACKET_STARTER_ENTRY_ID;
+export const POLO_BAND_COLLAR_ENTRY_ID = POLO_BAND_COLLAR_STARTER_ENTRY_ID;
 
 export interface StarterControl {
   readonly fieldId: string;
@@ -1410,10 +1411,56 @@ const POLO_ZIP_PLACKET_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const POLO_BAND_COLLAR_OPTIONS = {
+  buttonCount: 2,
+  placketLength: 14,
+  placketWidth: 3,
+  standHeight: 2,
+  standFrontRise: 0.75,
+  sideVentDepth: 6,
+  backHemDrop: 1.5,
+} as const;
+
+const POLO_BAND_COLLAR_BLANK_ENTRY: StarterEntry = {
+  entryId: POLO_BAND_COLLAR_ENTRY_ID,
+  entryRevision: "2026-11-02.1",
+  recipeId: "polo",
+  recipeRevision: "polo-band-collar-v1",
+  catalogKind: "blank",
+  label: "Polo Band-collar half-placket · software defaults",
+  configuration: {
+    targetStyle: "Classic polo",
+    measurements: POLO_CLASSIC_TWO_BUTTON_MEASUREMENTS,
+    options: POLO_BAND_COLLAR_OPTIONS,
+  },
+  supportedControls: POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY.supportedControls
+    .filter((control) => control.fieldId !== "collarLeafDepth" && control.fieldId !== "collarPointExtension")
+    .map((control) => control.fieldId === "standHeight"
+      ? { ...control, label: "Finished band height", min: 1, max: 3, step: 0.5, defaultValue: 2 }
+      : control),
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured band-collar half-placket Polo draft with editable digital construction choices.",
+    fit: "Measurements, band height, placket dimensions and button count are software defaults, not physical standards or validated fit targets.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No button, stabilizer, thread or trim-material compatibility claim.",
+    construction: "Uses the existing Polo body, short sleeves and paired button plackets with two shaped collar-band layers and no pointed leaf or collar-band button. Construction is digital only; sewn performance is unvalidated.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; the generic Polo size run is not a validated P08 grade or size chart.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The 2 cm finished band height (1–3 cm), 14 cm placket opening (14–30 cm), 3 cm placket width (2–4 cm), and 2/3 button choice are InfiniDrip software choices, not sourced physical standards.",
+    "The digital collar has two band layers and no pointed leaf. The front button placket has paired digital pieces and marks; no extra collar-band button is modeled.",
+    "The modeled geometry, POMs, selected-size output and generic Polo size run are digital outputs, not sewn measurements, validated P08 grading, or evidence of fit, comfort or wear.",
+    "No body/trim material performance, consumption, supplier suitability, manufacturing or production claim is established. B1 review is pending; physical validation remains not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v26",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v27",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

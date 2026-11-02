@@ -314,6 +314,23 @@ describe("renderBody — Polo V2", () => {
   });
 });
 
+describe("renderBody — P08 band-collar schematic", () => {
+  it("shows the band on front and back without pointed-leaf overlays", () => {
+    const pair = renderBodyPair(STANDARD_M, true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, {
+      placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
+      collarProfile: "band", buttonCount: 2, standFrontRise: 0,
+    });
+    expect((pair.match(/data-garment-detail="polo"/g) ?? []).length).toBe(2);
+    expect(pair).toContain('data-edge="option-standHeight"><path');
+    expect(pair).toContain('data-edge="option-standFrontRise"><path');
+    expect(pair).not.toContain('data-edge="option-collarLeafDepth"');
+    expect(pair).not.toContain('data-edge="option-collarPointExtension"');
+    expect(pair).toContain('data-edge="option-placketLength"><rect');
+    const placketGroups = [...pair.matchAll(/data-edge="option-placketLength">([\s\S]*?)<\/g>/g)];
+    expect(placketGroups.flatMap(([, markup]) => [...markup.matchAll(/<circle/g)]).length).toBe(2);
+  });
+});
+
 describe("renderBody — woven-shirt independent neck", () => {
   it("uses the recipe-owned neck geometry and exposes the neck measurement", () => {
     const svg = renderBody(STANDARD_M, true, NECKLINE_DEFAULT, undefined, "front", undefined, {

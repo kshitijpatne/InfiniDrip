@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { POLO, STANDARD_M, type GarmentRecipe } from "../drafting";
-import { poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
+import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
 
 describe("P02 Classic long-sleeve Polo output", () => {
   it("keeps material consumption unspecified and follows the selected button count", () => {
@@ -277,5 +277,49 @@ describe("P07 Zip-placket Polo output", () => {
     expect(techPack.bom.some((row) => row.material === "Buttons" || row.material === "Buttonholes")).toBe(false);
     expect(techPack.construction.join(" ")).toContain("No buttons or buttonholes are included");
     expect(output.draftReview!(STANDARD_M, {}).block?.roles.zipperFinish).toBeDefined();
+  });
+});
+
+describe("P08 band-collar half-placket Polo output", () => {
+  it("keeps the two-layer band profile and digital-only Tech Pack consistent", () => {
+    const options = { buttonCount: 3, standHeight: 2.5, placketLength: 20, placketWidth: 3.5 };
+    const output = poloBandCollarRecipeForOutput(POLO, options);
+    const draft = output.draft(STANDARD_M, options);
+    expect(output.label).toBe("Polo Band-collar half-placket");
+    expect(output.poms.every((pom) => pom.tolerance === undefined)).toBe(true);
+    expect(output.pomsForOptions!(options).map((pom) => pom.label)).toContain("Finished band height");
+    expect(output.pomsForOptions!(options).map((pom) => pom.label)).not.toContain("Finished pointed collar leaf");
+    expect(output.notchesForOptions!(options).map((notch) => notch.pieceName)).toContain("outer collar band");
+    expect(draft.roles.upperCollar).toBeUndefined();
+    expect(draft.roles.underCollar).toBeUndefined();
+    expect(draft.roles.outerStand?.name).toBe("outer collar band");
+    expect(draft.roles.innerStand?.name).toBe("inner collar band");
+    expect(output.techPack.bom).toEqual([
+      { material: "Not specified", placement: "Body, sleeves, collar band, placket and unspecified trim", qty: "No consumption estimate" },
+      { material: "Buttons", placement: "Front placket; selected software mark count", qty: "3" },
+    ]);
+    expect(output.techPack.construction.join(" ")).toContain("two band layers with no pointed collar leaf");
+    expect(output.techPack.construction.join(" ")).toContain("no additional button on the collar band");
+    expect(output.techPack.construction.join(" ")).toContain("3.5 cm finished placket width");
+    expect(output.techPack.constructionNotice).toContain("No physical sample has been assessed");
+    expect(output.techPack.fitRecordStatusNote).toContain("remain unvalidated");
+    const fallbackOutput = poloBandCollarRecipeForOutput({ ...POLO, techPackForOptions: undefined }, options);
+    expect(fallbackOutput.techPackForOptions!({ ...options, buttonCount: Number.POSITIVE_INFINITY }).bom[1]?.qty)
+      .toBe("unresolved");
+  });
+
+  it("routes drafting and output callbacks through P08 when option callbacks are absent", () => {
+    const base: GarmentRecipe = {
+      ...POLO,
+      pomsForOptions: undefined,
+      notchesForOptions: undefined,
+      techPackForOptions: undefined,
+      draftReview: (measurements, options = {}) => ({ block: POLO.draft(measurements, options), notes: [] }),
+    };
+    const output = poloBandCollarRecipeForOutput(base, {});
+    expect(output.draftReview!(STANDARD_M, {})!.block!.roles.outerStand?.name).toBe("outer collar band");
+    expect(output.pomsForOptions!({}).map((pom) => pom.label)).toContain("Finished band height");
+    expect(output.notchesForOptions!({}).map((notch) => notch.pieceName)).toContain("inner collar band");
+    expect(output.techPackForOptions!({}).bom[1]?.qty).toBe("2");
   });
 });
