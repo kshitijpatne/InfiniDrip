@@ -1,5 +1,12 @@
 import type { GarmentOptions } from "../drafting/options";
 import type { GarmentRecipe, TechPack } from "../drafting/recipe";
+import { poloZipPlacketTechPack } from "../drafting/recipe";
+import {
+  POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID,
+  POLO_ZIPPER_CLOSURE_PROFILE_VALUE,
+  poloNotchesForOptions,
+  poloPomsForOptions,
+} from "../drafting/polo";
 
 const DEFAULT_P02_BUTTON_COUNT = 2;
 const DEFAULT_P03_BUTTON_COUNT = 2;
@@ -239,6 +246,48 @@ export function poloLonglineRecipeForOutput(
     label: "Polo Longline",
     poms: recipe.poms.map((pom) => ({ ...pom, tolerance: undefined })),
     techPack: longlinePoloTechPack(baseTechPack, options.buttonCount ?? DEFAULT_P06_BUTTON_COUNT),
+    techPackForOptions,
+    techPackForFabric: undefined,
+  };
+}
+
+function zipPlacketPoloTechPack(base: TechPack, options: GarmentOptions): TechPack {
+  return poloZipPlacketTechPack(base, options);
+}
+
+export function poloZipPlacketRecipeForOutput(
+  recipe: GarmentRecipe,
+  options: GarmentOptions,
+): GarmentRecipe {
+  const withZipPlacketProfile = (activeOptions: GarmentOptions = options): GarmentOptions => ({
+    ...activeOptions,
+    [POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID]: POLO_ZIPPER_CLOSURE_PROFILE_VALUE,
+  });
+  const pomsForOptions = (activeOptions: GarmentOptions): GarmentRecipe["poms"] =>
+    recipe.pomsForOptions?.(withZipPlacketProfile(activeOptions))
+      ?? poloPomsForOptions(withZipPlacketProfile(activeOptions));
+  const notchesForOptions = (activeOptions: GarmentOptions): GarmentRecipe["notches"] =>
+    recipe.notchesForOptions?.(withZipPlacketProfile(activeOptions))
+      ?? poloNotchesForOptions(withZipPlacketProfile(activeOptions));
+  const techPackForOptions = (activeOptions: GarmentOptions = options): TechPack => {
+    const profileOptions = withZipPlacketProfile(activeOptions);
+    return recipe.techPackForOptions?.(profileOptions)
+      ?? zipPlacketPoloTechPack(recipe.techPack, profileOptions);
+  };
+  const profileOptions = withZipPlacketProfile(options);
+  return {
+    ...recipe,
+    label: "Polo Zip-placket",
+    draft: (measurements, activeOptions) => recipe.draft(measurements, withZipPlacketProfile(activeOptions)),
+    ...(recipe.draftReview ? {
+      draftReview: (measurements: Parameters<NonNullable<GarmentRecipe["draftReview"]>>[0], activeOptions?: GarmentOptions) =>
+        recipe.draftReview!(measurements, withZipPlacketProfile(activeOptions)),
+    } : {}),
+    poms: pomsForOptions(profileOptions).map((pom) => ({ ...pom, tolerance: undefined })),
+    pomsForOptions,
+    notches: notchesForOptions(profileOptions),
+    notchesForOptions,
+    techPack: techPackForOptions(options),
     techPackForOptions,
     techPackForFabric: undefined,
   };

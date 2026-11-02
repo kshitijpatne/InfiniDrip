@@ -392,6 +392,76 @@ describe("Polo recipe pipeline", () => {
     }
   });
 
+  it("routes P07 to one zipper-finish piece, zipper POMs, and a zipper-only Tech Pack", () => {
+    const options = {
+      zipperClosureProfile: 1,
+      buttonCount: 2,
+      placketLength: 14,
+      placketWidth: 3,
+    };
+    const drafted = POLO.draft(STANDARD_M, options);
+    expect(Object.keys(drafted.roles)).toEqual([
+      "front", "back", "sleeve", "zipperFinish",
+      "outerStand", "innerStand", "upperCollar", "underCollar",
+    ]);
+    expect(drafted.roles.buttonPlacket).toBeUndefined();
+    expect(drafted.roles.buttonholePlacket).toBeUndefined();
+    expect(drafted.roles.zipperFinish?.name).toBe("zipper finish");
+    expect(drafted.roles.zipperFinish?.marks?.map((mark) => mark.name)).toEqual(expect.arrayContaining([
+      "zipperFinishAttachmentLeft", "zipperFinishAttachmentRight", "zipperFinishFold",
+      "zipperTapeLeft", "zipperTapeRight", "zipperTopAnchor", "zipperBottomAnchor",
+    ]));
+    const frontMarks = drafted.roles.front?.marks ?? [];
+    expect(frontMarks.map((mark) => mark.name)).toContain("centerFront");
+    expect(frontMarks.map((mark) => mark.name)).toContain("placketBaseReinforcement");
+    expect(frontMarks.map((mark) => mark.name)).not.toContain("zipperTopAnchor");
+    expect(drafted.roles.front?.marks?.some((mark) => mark.name === "zipperBottomAnchor")).toBe(false);
+    expect(drafted.roles.zipperFinish?.marks?.some((mark) => mark.kind === "button" || mark.kind === "buttonhole")).toBe(false);
+    expect(stitchChecks(drafted, drafted.stitches).every((result) => result.ok)).toBe(true);
+
+    const poms = pomsForRecipeOptions(POLO, options);
+    expect(poms.map((pom) => pom.label)).toContain("Modeled zipper opening length");
+    expect(poms.map((pom) => pom.label)).toContain("Finished zipper-placket width");
+    expect(poms.map((pom) => pom.label)).not.toContain("Button spacing");
+    expect(poms.find((pom) => pom.label === "Modeled zipper opening length")!.measure(drafted)).toBeCloseTo(14);
+    expect(poms.find((pom) => pom.label === "Finished zipper-placket width")!.measure(drafted)).toBeCloseTo(3);
+    const notches = notchesForRecipeOptions(POLO, options);
+    expect(notches.map((entry) => entry.pieceName)).toContain("zipper finish");
+    expect(notches.map((entry) => entry.pieceName)).not.toContain("button placket");
+    expect(notches.map((entry) => entry.pieceName)).not.toContain("buttonhole placket");
+
+    const techPack = POLO.techPackForOptions!(options);
+    expect(techPack.bom.find((row) => row.material === "Zipper (type and material unspecified)"))
+      .toMatchObject({ qty: "1 modeled closure; physical product unspecified" });
+    expect(techPack.bom.some((row) => row.material === "Stretch sewing thread")).toBe(false);
+    expect(techPack.bom.some((row) => row.material.includes("stabilizer"))).toBe(false);
+    expect(techPack.construction.join(" ")).toContain("two diagonal lower clip lines and a reinforcement-box placement line");
+    expect(techPack.construction.join(" ")).toContain("Finish and bar-tack the open side vents");
+    expect(techPack.construction.join(" ")).toContain("Hem front and back body edges separately");
+    expect(techPack.bom.find((row) => row.material === "Buttons")).toBeUndefined();
+    expect(techPack.construction.join(" ")).toContain("No buttons or buttonholes");
+    expect(techPack.measurementSpecNote).toContain("not a validated P07 grade");
+    expect(techPack.constructionNotice).toContain("physical fit, dimensions, comfort, wear");
+    expect(() => POLO.techPackForOptions!({ ...options, placketLength: 14.25 })).toThrow(/0.5 cm increments/);
+    expect(() => POLO.techPackForOptions!({ ...options, placketWidth: Number.NaN })).toThrow(/2–4 cm/);
+
+    const levelNoVent = POLO.techPackForOptions!({
+      ...options,
+      sideVentDepth: 0,
+      backHemDrop: 0,
+    });
+    expect(levelNoVent.construction.join(" ")).toContain("close the side and underarm seams continuously");
+    expect(levelNoVent.construction.join(" ")).toContain("Hem the front and back body edges level with each other");
+    expect(levelNoVent.construction.join(" ")).not.toContain("open side vents");
+    const unresolved = POLO.techPackForOptions!({
+      ...options,
+      sideVentDepth: 0.25,
+      backHemDrop: 0.25,
+    });
+    expect(unresolved.construction.join(" ")).toContain("Resolve the side-vent value before cutting");
+    expect(unresolved.construction.join(" ")).toContain("Resolve the back-hem value before cutting");
+  });
+
 });
 
 describe("Jeans recipe review", () => {

@@ -67,7 +67,8 @@ import { loadJourney, tutorialMarkup } from "./journey";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, saveRecoveryToStorage, saveToStorage } from "./persist";
-import { POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
+import { POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
+import { POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
@@ -13151,7 +13152,7 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(saved.garmentOptions.fitted).toMatchObject({ waistDartWaistlineFromHps: 43, waistDartIntake: 3,
         waistDartLength: 10, waistDartPosition: 45 });
 
-      reachExportStage(root);
+        reachExportStage(root);
       root.querySelector<HTMLButtonElement>("#export-svg")!.click();
       root.querySelector<HTMLButtonElement>("#export-dxf")!.click();
       root.querySelector<HTMLButtonElement>("#export-pdf")!.click();
@@ -15612,6 +15613,209 @@ describe("P06 Longline Polo Starter Blank", () => {
       expect(reopened.querySelector<HTMLInputElement>('[data-field="ease"]')!.value).toBe("10");
       expect(reopened.querySelector<HTMLInputElement>('[data-field="length"]')!.value).toBe("89");
       expect(reopened.querySelector<HTMLButtonElement>("[data-starter-entry-id=" + entryId + "]")!.getAttribute("aria-pressed")).toBe("true");
+      clickId(reopened, "garment-polo");
+      expect(reopened.querySelector<HTMLSelectElement>('[data-option="buttonCount"]')!.value).toBe("3");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30000);
+});
+
+describe("P07 Zip-placket Polo Starter Blank", () => {
+  it("uses the P07 zipper wording in its spatial option cue", () => {
+    const root = mount();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${POLO_ZIP_PLACKET_ENTRY_ID}`);
+      clickId(root, "view-body");
+      const row = root.querySelector<HTMLElement>('[data-dim-row="option-placketLength"]')!;
+      row.dispatchEvent(new Event("mouseenter"));
+      const cue = root.querySelector<HTMLElement>("#spatial-cue-text")!.textContent!;
+      expect(cue).toContain("Modeled zipper opening length");
+      expect(cue).not.toContain("Finished placket length");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("preserves invalid opening and width values with correction guidance after save and reopen", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${POLO_ZIP_PLACKET_ENTRY_ID}`);
+      clickId(root, "journey-step-measure");
+      root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!.click();
+      const setOption = (field: string, value: number) => {
+        const input = root!.querySelector<HTMLInputElement>(`[data-option="${field}"]`)!;
+        input.value = String(value);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        return input;
+      };
+      setOption("placketLength", 14.25);
+      setOption("placketWidth", 3.25);
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-placketLength"]')?.textContent)
+        .toContain("0.5 cm increments");
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-placketWidth"]')?.textContent)
+        .toContain("0.5 cm increments");
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1") ?? "null") as {
+        garmentOptions: { polo: Record<string, number> };
+      } | null;
+      expect(saved?.garmentOptions.polo).toMatchObject({ placketLength: 14.25, placketWidth: 3.25 });
+      unmountApp();
+      root.remove();
+      root = null;
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="placketLength"]')?.value).toBe("14.25");
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="placketWidth"]')?.value).toBe("3.25");
+      expect(reopened.querySelector<HTMLElement>('[data-input-error="option-placketLength"]')?.textContent)
+        .toContain("0.5 cm increments");
+      expect(reopened.querySelector<HTMLElement>('[data-input-error="option-placketWidth"]')?.textContent)
+        .toContain("0.5 cm increments");
+      expect(reopened.querySelector<HTMLElement>("#canvas-host")?.textContent).toContain("Draft paused");
+      expect(reopened.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("keeps the zipper profile through edits, save/reopen, and zipper-only exports", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const entryId = POLO_ZIP_PLACKET_ENTRY_ID;
+      const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === entryId)!;
+      const card = root.querySelector<HTMLButtonElement>("#starter-" + entryId)!;
+      expect(card.textContent).toContain("Polo Zip-placket · software defaults");
+      expect(card.textContent).toContain("B1 technical review pending · physical validation not-validated");
+      clickId(root, "starter-" + entryId);
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Polo Zip-placket · software defaults");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Classic polo");
+
+      clickId(root, "journey-step-measure");
+      root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!.click();
+      const openingInput = () => root!.querySelector<HTMLInputElement>('[data-option="placketLength"]')!;
+      const widthInput = () => root!.querySelector<HTMLInputElement>('[data-option="placketWidth"]')!;
+      expect([openingInput().value, openingInput().min, openingInput().max, openingInput().step])
+        .toEqual(["14", "14", "30", "0.5"]);
+      expect(openingInput().closest("label")?.textContent).toContain("Modeled zipper opening length");
+      expect([widthInput().value, widthInput().min, widthInput().max, widthInput().step])
+        .toEqual(["3", "2", "4", "0.5"]);
+      expect(widthInput().closest("label")?.textContent).toContain("Finished zipper-placket width");
+      expect(root.querySelector('[data-option="buttonCount"]')).toBeNull();
+
+      const setOption = (id: string, value: number) => {
+        const input = root!.querySelector<HTMLInputElement>(`[data-option="${id}"]`)!;
+        input.value = String(value);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        return input;
+      };
+      setOption("placketLength", 13.5);
+      expect(openingInput().value).toBe("13.5");
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-placketLength"]')?.textContent ?? "")
+        .toContain("14–30 cm");
+      setOption("placketLength", 14.25);
+      expect(openingInput().value).toBe("14.25");
+      setOption("placketWidth", 4.5);
+      expect(widthInput().value).toBe("4.5");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLElement>("#canvas-host")!.textContent).toContain("Draft paused");
+
+      setOption("placketLength", 20);
+      setOption("placketWidth", 3.5);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1") ?? "null") as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: { polo: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; recipeId: string; recipeRevision: string } };
+      } | null;
+      expect(saved).not.toBeNull();
+      expect(saved!.garmentOptions.polo.placketLength).toBe(20);
+      expect(saved!.garmentOptions.polo.placketWidth).toBe(3.5);
+      expect(saved!.workspace.starterOrigin).toMatchObject({
+        entryId, recipeId: "polo", recipeRevision: "polo-zip-placket-v1",
+      });
+      expect(entry.configuration.options).not.toHaveProperty("buttonCount");
+
+      reachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(false);
+      root.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(4), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "polo-zip-placket-M-cad-exchange-source.json",
+        "polo-zip-placket-M.dxf",
+        "polo-zip-placket-M.svg",
+        "polo-zip-placket-techpack.pdf",
+      ].sort());
+      expect([...files.keys()].every((name) => name.startsWith("polo-zip-placket"))).toBe(true);
+      const profileOptions = {
+        ...saved!.garmentOptions.polo,
+        [POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID]: POLO_ZIPPER_CLOSURE_PROFILE_VALUE,
+      };
+      const drafted = POLO.draft(saved!.measurements, profileOptions);
+      const pieces = blockPieces(drafted);
+      const svg = [...files.entries()].find(([name]) => name.endsWith(".svg"))![1];
+      const dxf = [...files.entries()].find(([name]) => name.endsWith(".dxf"))![1];
+      const packageText = [...files.entries()].find(([name]) => name.endsWith("-cad-exchange-source.json"))![1];
+      const packageJson = JSON.parse(packageText) as {
+        manifest: { options: Record<string, number>; patternMarks: readonly { name: string }[]; pieces: readonly { role: string }[] };
+      };
+      expect(svg).toBe(exportSvg(pieces, POLO.allowances!, notchesForRecipeOptions(POLO, profileOptions)));
+      expect(dxf).toBe(exportDxf(pieces, POLO.allowances!));
+      expect(packageJson.manifest.options.placketLength).toBe(20);
+      expect(packageJson.manifest.options.placketWidth).toBe(3.5);
+      expect(packageJson.manifest.options).not.toHaveProperty(POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID);
+      expect(packageJson.manifest.options).not.toHaveProperty("buttonCount");
+      expect(packageJson.manifest.pieces.filter((piece) => piece.role === "zipperFinish")).toHaveLength(1);
+      expect(packageJson.manifest.patternMarks.map((mark) => mark.name)).toEqual(expect.arrayContaining([
+        "zipperTopAnchor", "zipperBottomAnchor", "zipperFinishFold", "zipperTapeLeft", "zipperTapeRight",
+      ]));
+      expect(packageJson.manifest.patternMarks.some((mark) => mark.name.startsWith("button"))).toBe(false);
+      const techPack = visiblePdfText([...files.entries()].find(([name]) => name.endsWith("-techpack.pdf"))![1]);
+      expect(techPack).toContain("Polo Zip-placket");
+      expect(techPack).toContain("20 cm modeled zipper opening");
+      expect(techPack).toContain("physical product unspecified");
+      expect(techPack).toContain("No buttons or buttonholes");
+      expect(techPack).toContain("not a validated P07 grade");
+      expect(techPack).toContain("physical fit, comfort, wear");
+      expect(techPack).toContain("The 20 cm modeled opening and 3.5 cm finished zipper-placket width");
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="placketLength"]')!.value).toBe("20");
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="placketWidth"]')!.value).toBe("3.5");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${entryId}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
       clickId(reopened, "garment-polo");
       expect(reopened.querySelector<HTMLSelectElement>('[data-option="buttonCount"]')!.value).toBe("3");
       expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
