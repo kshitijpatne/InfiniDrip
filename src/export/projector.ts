@@ -173,6 +173,7 @@ export function exportProjectorSvg(
   options: GarmentOptions = {},
   plannedRun?: readonly ProjectorDraft[],
   pomExceptions: readonly { readonly sizeLabel: string; readonly pomLabel: string; readonly reason: string }[] = [],
+  statusNote?: string,
 ): string {
   const run: readonly ProjectorDraft[] = plannedRun ?? gradeRecipeRun(recipe, m, recipe.sizes, options);
   const roles = [...new Set(run.flatMap((size) => Object.keys(size.block.roles)))];
@@ -191,8 +192,6 @@ export function exportProjectorSvg(
     };
   });
 
-  const headerH = CALIBRATION_CM + 4;
-  const slotTop = MARGIN + headerH;
   let cursor = MARGIN;
   const centers = slots.map((s) => {
     const c = cursor + s.width / 2;
@@ -200,6 +199,13 @@ export function exportProjectorSvg(
     return c;
   });
   const width = cursor - GAP + MARGIN;
+  const STATUS_TEXT = 1.2; // cm — compact, visible qualification beneath the calibration instructions
+  const statusTextChars = Math.floor((width - 2 * MARGIN) / (STATUS_TEXT * 0.62));
+  const statusLines = statusNote?.trim()
+    ? wrapProjectorText(statusNote, statusTextChars)
+    : [];
+  const headerH = CALIBRATION_CM + 4 + (statusLines.length === 0 ? 0 : 1.8 * statusLines.length);
+  const slotTop = MARGIN + headerH;
   const maxSlotH = Math.max(...slots.map((s) => s.height));
   // A visible, legible legend names every not-applicable POM exception below
   // the piece slots (the <desc> metadata stays for machine consumers). Wrapped
@@ -246,7 +252,10 @@ export function exportProjectorSvg(
     `measure exactly 10 cm on the fabric.</text>` +
     `<text x="${MARGIN + CALIBRATION_CM + 3}" y="${MARGIN + 7.5}" fill="${SEW}" ` +
     `font-size="1.5" font-family="sans-serif">${recipe.label} — one layer per size; ` +
-    `project a single size at a time.</text></g>`;
+    `project a single size at a time.</text>` +
+    (statusLines.length === 0 ? "" : `<g id="status-note">` + statusLines.map((line, index) =>
+      `<text x="${MARGIN + CALIBRATION_CM + 3}" y="${round(MARGIN + 10 + index * 1.5)}" fill="${SEW}" ` +
+      `font-size="${STATUS_TEXT}" font-family="sans-serif">${escapeXml(line)}</text>`).join("") + `</g>`) + `</g>`;
 
   const exceptionDescription = pomExceptions.length === 0 ? "" :
     `<desc>${pomExceptions.map((entry) => `${entry.sizeLabel} - ${entry.pomLabel}: not applicable - ${entry.reason}`)

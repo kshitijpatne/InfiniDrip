@@ -153,6 +153,25 @@ describe("exportProjectorSvg — projector-legible styling", () => {
     const cutWidths = polys.map((p) => Number(p.getAttribute("stroke-width")));
     expect(Math.max(...cutWidths)).toBeGreaterThanOrEqual(0.2);
   });
+
+  it("adds an optional visible status note without changing the unqualified output", () => {
+    const note = "The generic Woven Shirt size run is not validated for W03 grading; fit & wear remain unvalidated.";
+    const baseline = exportProjectorSvg(TEE, STANDARD_M);
+    const qualified = exportProjectorSvg(TEE, STANDARD_M, {}, undefined, [], note);
+    const emptyNote = exportProjectorSvg(TEE, STANDARD_M, {}, undefined, [], "   ");
+    const parsedBaseline = new DOMParser().parseFromString(baseline, "image/svg+xml");
+    const parsedQualified = new DOMParser().parseFromString(qualified, "image/svg+xml");
+    const visibleText = [...parsedQualified.getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+
+    expect(parsedBaseline.querySelector("#status-note")).toBeNull();
+    expect(emptyNote).toBe(baseline);
+    expect(parsedQualified.querySelector("#status-note")).not.toBeNull();
+    expect(parsedQualified.querySelector("parsererror")).toBeNull();
+    expect(visibleText).toContain("not validated for W03 grading");
+    expect(visibleText).toContain("fit & wear remain unvalidated");
+    expect(Number(parsedQualified.documentElement.getAttribute("height")!.replace("cm", "")))
+      .toBeGreaterThan(Number(parsedBaseline.documentElement.getAttribute("height")!.replace("cm", "")));
+  });
 });
 
 describe("exportProjectorSvg — other garments and sparse recipes", () => {

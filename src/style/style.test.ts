@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
-import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TROUSER_STYLES, POLO_STYLES } from "./style";
+import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TROUSER_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES } from "./style";
 
 describe("FITTED_STYLES", () => {
   it("classifies the darted construction without using ease as a fit standard", () => {
@@ -142,5 +142,16 @@ describe("TROUSER_STYLES (recipe-owned, Slice 100)", () => {
     expect(names.join(" ")).not.toContain("tee");
     expect(matchStyle({ ...STANDARD_M, inseam: 60 }, "Long straight trouser", TROUSER_STYLES).deltas)
       .toContainEqual({ id: "inseam", change: 25 });
+  });
+});
+
+describe("WOVEN_SHIRT_STYLES oversized loose-drop profile", () => {
+  it("classifies the selected digital ease and length range", () => {
+    for (const [ease, length] of [[25, 62], [28, 70], [32, 82]]) {
+      expect(currentStyles({ ...STANDARD_M, ease, length }, WOVEN_SHIRT_STYLES))
+        .toEqual(["Oversized loose-drop woven shirt"]);
+    }
+    expect(currentStyles({ ...STANDARD_M, ease: 24, length: 70 }, WOVEN_SHIRT_STYLES)).toEqual(["Relaxed woven shirt"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 28, length: 83 }, WOVEN_SHIRT_STYLES)).toEqual([]);
   });
 });

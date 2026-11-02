@@ -832,7 +832,7 @@ describe("Woven shirt recipe integration", () => {
     expect(WOVEN_SHIRT.options?.map((option) => option.id)).toEqual([
       "neckEase", "buttonCount", "buttonSpacing", "frontOverlap", "placketWidth",
       "standHeight", "collarLeafDepth", "yokeDepth", "pocketWidth", "pocketHeight",
-      "sleeveBandDepth", "sideVentDepth", "hemTurn",
+      "sleeveBandDepth", "sideVentDepth", "hemTurn", "shoulderExtension", "shoulderDrop",
     ]);
   });
 

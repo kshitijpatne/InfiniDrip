@@ -1,5 +1,5 @@
 import { pomsForRecipeOptions, type GarmentRecipe } from "../drafting/recipe";
-import { optionAppliesToStarterEntry, type GarmentOptions } from "../drafting/options";
+import { optionAppliesToStarterEntry, optionAppliesToStyle, type GarmentOptions } from "../drafting/options";
 import type { Measurements } from "../drafting/measurements";
 import { mapTechnicalFlatSources, type FlatMappingIssue } from "./technical-flat-mapping";
 import type { FlatProjectionIssue } from "./technical-flat-projection";
@@ -38,13 +38,15 @@ function validateValues(
   recipe: GarmentRecipe,
   raw: unknown,
   starterEntryId?: string,
+  style?: string,
 ): { options: GarmentOptions | null; issues: TechnicalFlatOptionIssue[] } {
   if (raw !== undefined && !isRecord(raw)) {
     return { options: null, issues: [{ code: "INVALID_OPTIONS_OBJECT", message: "Garment options must be a named set of numeric values." }] };
   }
   const input = raw === undefined ? {} : raw as Record<string, unknown>;
   const allDefinitions = recipe.options ?? [];
-  const definitions = allDefinitions.filter((definition) => optionAppliesToStarterEntry(definition, starterEntryId));
+  const definitions = allDefinitions.filter((definition) => optionAppliesToStyle(definition, style)
+    && optionAppliesToStarterEntry(definition, starterEntryId));
   const issues: TechnicalFlatOptionIssue[] = [];
   for (const optionId of Object.keys(input)) {
     const definition = allDefinitions.find((candidate) => candidate.id === optionId);
@@ -53,6 +55,9 @@ function validateValues(
     } else if (!optionAppliesToStarterEntry(definition, starterEntryId)) {
       issues.push({ code: "UNKNOWN_OPTION", optionId,
         message: `${definition.label} is not part of this starter's option set; remove it or choose a starter that supports it.` });
+    } else if (!optionAppliesToStyle(definition, style)) {
+      issues.push({ code: "UNKNOWN_OPTION", optionId,
+        message: definition.label + " is inactive for the selected style; choose a style that supports it or remove this value." });
     }
   }
 
@@ -91,6 +96,7 @@ export function validateTechnicalFlatOptions(
   rawOptions: unknown,
   revisionId: string,
   starterEntryId?: string,
+  style?: string,
 ): ValidatedTechnicalFlatOptions {
   const base = { recipeId: recipe.name, revisionId };
   if (typeof revisionId !== "string" || !revisionId.trim()) {
@@ -99,7 +105,7 @@ export function validateTechnicalFlatOptions(
     }] };
   }
 
-  const checked = validateValues(recipe, rawOptions, starterEntryId);
+  const checked = validateValues(recipe, rawOptions, starterEntryId, style);
   if (!checked.options) return { ...base, options: null, faces: null, issues: checked.issues };
 
   let block;
