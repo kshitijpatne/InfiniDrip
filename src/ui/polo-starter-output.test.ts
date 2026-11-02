@@ -286,6 +286,7 @@ describe("P08 band-collar half-placket Polo output", () => {
     const output = poloBandCollarRecipeForOutput(POLO, options);
     const draft = output.draft(STANDARD_M, options);
     expect(output.label).toBe("Polo Band-collar half-placket");
+    expect(output.tiledPdfLocalCoordinates).toBe(true);
     expect(output.poms.every((pom) => pom.tolerance === undefined)).toBe(true);
     expect(output.pomsForOptions!(options).map((pom) => pom.label)).toContain("Finished band height");
     expect(output.pomsForOptions!(options).map((pom) => pom.label)).not.toContain("Finished pointed collar leaf");

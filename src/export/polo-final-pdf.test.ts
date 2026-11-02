@@ -6,6 +6,7 @@ import { exportPdf } from "./pdf";
 import { exportA0Pdf } from "./a0";
 import { exportTechPack } from "./techpack";
 import { POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
+import { poloBandCollarRecipeForOutput } from "../ui/polo-starter-output";
 
 const OPTIONS = {
   placketLength: 20, placketWidth: 3.5, standHeight: 2.5, collarLeafDepth: 6,
@@ -63,6 +64,58 @@ describe("Slice 73 — Polo PDF readiness", () => {
         }).length;
     });
     expect(firstTwoTilesHaveGeometry.every((count) => count >= 2)).toBe(true);
+  });
+
+  it("places P08 band-collar geometry inside printable tiles", async () => {
+    const p08Options = { ...OPTIONS, buttonCount: 3, standHeight: 2.5, placketLength: 20, placketWidth: 3.5 };
+    const outputRecipe = poloBandCollarRecipeForOutput(POLO, p08Options);
+    const pieces = blockPieces(draftAtSize(STANDARD_M, outputRecipe.grade, 2, outputRecipe.draft, p08Options));
+    const doc = await parsePdf(exportPdf(
+      pieces,
+      outputRecipe.allowances,
+      undefined,
+      1.0,
+      outputRecipe.tiledPdfLocalCoordinates === true,
+    ));
+    const streams = streamTexts(doc);
+    const { width, height } = doc.getPage(0).getSize();
+    const printableOffset = 72 / 2.54;
+
+    expect(pieces).toHaveLength(7);
+    expect(doc.getPageCount()).toBeGreaterThan(1);
+    expect(streams).toHaveLength(doc.getPageCount());
+    for (const stream of streams) {
+      const clip = stream.match(/([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+) re W n/);
+      expect(clip).not.toBeNull();
+      expect(Number(clip![1])).toBeCloseTo(printableOffset, 2);
+      expect(Number(clip![2])).toBeCloseTo(printableOffset, 2);
+      expect(Number(clip![3])).toBeGreaterThan(0);
+      expect(Number(clip![3])).toBeLessThan(width);
+      expect(Number(clip![4])).toBeGreaterThan(0);
+      expect(Number(clip![4])).toBeLessThan(height);
+    }
+
+    const tileGeometry = streams.map((stream) => {
+      const body = stream.slice(0, stream.indexOf("\nQ\n"));
+      const clip = body.match(/([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+) re W n/)!;
+      const [clipX, clipY, clipW, clipH] = clip.slice(1).map(Number);
+      const tileLabel = stream.match(/\(Tile \d+-(\d+) of \d+x\d+\) Tj/);
+      expect(tileLabel).not.toBeNull();
+      return {
+        row: Number(tileLabel![1]),
+        pointsInsideClip: [...body.matchAll(/(-?[\d.]+) (-?[\d.]+) [ml]\b/g)].filter(([, rawX, rawY]) => {
+          const x = Number(rawX);
+          const y = Number(rawY);
+          return x >= clipX && x <= clipX + clipW && y >= clipY && y <= clipY + clipH;
+        }).length,
+      };
+    });
+    expect(tileGeometry.slice(0, 2).every(({ pointsInsideClip }) => pointsInsideClip >= 2)).toBe(true);
+    expect(tileGeometry.some(({ row, pointsInsideClip }) => row === 2 && pointsInsideClip >= 2)).toBe(true);
+    expect(tileGeometry.some(({ row, pointsInsideClip }) => row === 3 && pointsInsideClip >= 2)).toBe(true);
+    const text = streamText(doc);
+    expect(text).toContain("(BUTTON) Tj");
+    expect(text).toContain("(BUTTONHOLE) Tj");
   });
 
   it("keeps a selected size's marks in the parsed tiled PDF", async () => {

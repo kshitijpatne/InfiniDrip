@@ -347,6 +347,7 @@ export function poloBandCollarRecipeForOutput(
   return {
     ...recipe,
     label: "Polo Band-collar half-placket",
+    tiledPdfLocalCoordinates: true,
     draft: (measurements, activeOptions) => recipe.draft(measurements, withBandCollarProfile(activeOptions)),
     ...(recipe.draftReview ? {
       draftReview: (measurements: Parameters<NonNullable<GarmentRecipe["draftReview"]>>[0], activeOptions?: GarmentOptions) =>
