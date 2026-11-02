@@ -50,6 +50,11 @@ export function optionAppliesToStarterEntry(option: GarmentOption, starterEntryI
   return explicitlyMatches && !excluded;
 }
 
+/** A style-scoped control is dormant when no matching style is selected. */
+export function optionAppliesToStyle(option: GarmentOption, style?: string): boolean {
+  return option.appliesToStyle === undefined || option.appliesToStyle === style;
+}
+
 export function optionalOptionStatusMessage(
   option: GarmentOption,
   explicit: boolean,
@@ -77,12 +82,14 @@ export function optionalOptionActionLabel(option: GarmentOption, explicit: boole
   return option.optionalSetLabel ?? "Set independent value";
 }
 
-/** Defaults are recipe data, so a future recipe never relies on UI state. */
+/** Use shared defaults plus style-scoped defaults only when their style is active. */
 export function defaultGarmentOptions(
   definitions: readonly GarmentOption[],
   starterEntryId?: string,
+  style?: string,
 ): GarmentOptions {
   return Object.fromEntries(definitions.filter((d) => !d.optional
+    && optionAppliesToStyle(d, style)
     && optionAppliesToStarterEntry(d, starterEntryId))
     .map((d) => [d.id, d.defaultValue]));
 }
@@ -96,9 +103,9 @@ export function garmentOptionsForStyle(
   starterEntryId?: string,
 ): GarmentOptions {
   const applicable = definitions.filter((definition) =>
-    (definition.appliesToStyle === undefined || definition.appliesToStyle === style)
+    optionAppliesToStyle(definition, style)
       && optionAppliesToStarterEntry(definition, starterEntryId));
-  const options: Record<string, number> = includeDefaults ? { ...defaultGarmentOptions(applicable, starterEntryId) } : {};
+  const options: Record<string, number> = includeDefaults ? { ...defaultGarmentOptions(applicable, starterEntryId, style) } : {};
   for (const definition of applicable) {
     if (Object.prototype.hasOwnProperty.call(saved, definition.id)) {
       options[definition.id] = saved[definition.id]!;

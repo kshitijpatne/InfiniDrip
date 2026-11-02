@@ -31,7 +31,9 @@ describe("bounded measurement groups", () => {
     }
     const pages = [...root.querySelectorAll<HTMLFieldSetElement>("[data-control-page]")];
     const inputs = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input")];
-    const starterOptions = recipe.options?.filter((option) => option.appliesToStarterEntryId === undefined) ?? [];
+    const activeStyle = root.querySelector<HTMLSelectElement>("#style-target")?.value;
+    const starterOptions = recipe.options?.filter((option) => option.appliesToStarterEntryId === undefined
+      && (option.appliesToStyle === undefined || option.appliesToStyle === activeStyle)) ?? [];
     expect(inputs).toHaveLength(recipe.fields.length + starterOptions.length);
     expect(new Set(inputs.map((input) => input.id)).size).toBe(inputs.length);
     expect(inputs.filter((input) => input.dataset.field !== undefined)
@@ -62,6 +64,14 @@ describe("bounded measurement groups", () => {
     };
     checkStagePages("measure");
     checkStagePages("fit");
+    if (recipe.name === "woven-shirt") {
+      expect(root.querySelector('input[data-option="shoulderExtension"]')).toBeNull();
+      const style = root.querySelector<HTMLSelectElement>("#style-target")!;
+      style.value = "Oversized loose-drop woven shirt";
+      style.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector('input[data-option="shoulderExtension"]')).not.toBeNull();
+      expect(root.querySelector('input[data-option="shoulderDrop"]')).not.toBeNull();
+    }
     click("#view-body");
     click("#body-front-back");
 

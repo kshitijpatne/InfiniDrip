@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { blockPieces, GARMENTS, gradeRun, notchesForRecipeOptions, optionAppliesToStarterEntry,
-  piecesForRecipeBlock, pomsForRecipeOptions, specSheet, STANDARD_M,
+  optionAppliesToStyle, piecesForRecipeBlock, pomsForRecipeOptions, specSheet, STANDARD_M,
   WOVEN_SHIRT as WOVEN_SHIRT_RECIPE, type GarmentOptions } from "../drafting";
 import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg, exportTechPackV2, flattenPiece, nestPieces } from "../export";
 import { DEFAULT_WOVEN_SHIRT_OPTIONS } from "../drafting/shirt-contract";
@@ -16,12 +16,13 @@ import {
 } from "./artifact-dependencies";
 import { getAllFieldDefinitions, getFieldDefinitions } from "./field-provenance";
 
-function defaultOptions(recipeName: string, starterEntryId?: string): GarmentOptions {
+function defaultOptions(recipeName: string, starterEntryId?: string, style?: string): GarmentOptions {
   const recipe = GARMENTS.find((item) => item.name === recipeName)!;
   // Optional choices are inactive until explicitly selected; loading all their
   // software defaults together can create impossible conflicting states.
   const options = Object.fromEntries((recipe.options ?? [])
-    .filter((option) => !option.optional && optionAppliesToStarterEntry(option, starterEntryId))
+    .filter((option) => !option.optional && optionAppliesToStarterEntry(option, starterEntryId)
+      && optionAppliesToStyle(option, style))
     .map((option) => [option.id, option.defaultValue])) as GarmentOptions;
   // The real N08 path derives this internal route marker from the saved starter identity.
   return recipeName === "tank" && starterEntryId === TANK_N08_ENTRY_ID
@@ -84,7 +85,10 @@ describe("field-to-artifact invalidation graph", () => {
         const starterEntryId = definition.inputKind === "option"
           ? recipe.options?.find((option) => option.id === definition.inputKey)?.appliesToStarterEntryId
           : undefined;
-        const options = defaultOptions(recipe.name, starterEntryId);
+        const style = definition.inputKind === "option"
+          ? recipe.options?.find((option) => option.id === definition.inputKey)?.appliesToStyle
+          : undefined;
+        const options = defaultOptions(recipe.name, starterEntryId, style);
         const baselineBlock = recipe.draft(STANDARD_M, options);
         const dependency = getFieldArtifactDependency(recipe.name, definition.inputKind, definition.inputKey)!;
         const measured = definition.inputKind === "measurement"

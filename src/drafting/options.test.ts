@@ -4,6 +4,7 @@ import {
   garmentOptionsForStyle,
   optionalOptionActionLabel,
   optionalOptionStatusMessage,
+  optionAppliesToStyle,
   optionAppliesToStarterEntry,
   restoreGarmentOptions,
   GarmentOption,
@@ -37,6 +38,25 @@ describe("garment options", () => {
 
   it("derives recipe defaults", () => {
     expect(defaultGarmentOptions(DEFINITIONS)).toEqual({ standHeight: 2, leafDepth: 5 });
+  });
+
+  it("keeps style-scoped defaults dormant until their style is selected", () => {
+    const definitions = [
+      { id: "shared", label: "Shared", defaultValue: 1, min: 0, max: 2, step: 1 },
+      { id: "oversized", label: "Oversized", defaultValue: 2, min: 0, max: 3, step: 1,
+        appliesToStyle: "Oversized" },
+    ] as const;
+
+    expect(optionAppliesToStyle(definitions[0])).toBe(true);
+    expect(optionAppliesToStyle(definitions[1])).toBe(false);
+    expect(optionAppliesToStyle(definitions[1], "Classic")).toBe(false);
+    expect(optionAppliesToStyle(definitions[1], "Oversized")).toBe(true);
+    expect(defaultGarmentOptions(definitions)).toEqual({ shared: 1 });
+    expect(defaultGarmentOptions(definitions, undefined, "Classic")).toEqual({ shared: 1 });
+    expect(defaultGarmentOptions(definitions, undefined, "Oversized"))
+      .toEqual({ shared: 1, oversized: 2 });
+    expect(garmentOptionsForStyle(definitions, {}, "Oversized"))
+      .toEqual({ shared: 1, oversized: 2 });
   });
 
   it("restores only finite, in-range persisted values", () => {

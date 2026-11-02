@@ -33,6 +33,10 @@ export interface WovenShirtOptions {
   readonly sleeveBandDepth: number;
   readonly sideVentDepth: number;
   readonly hemTurn: number;
+  /** Moves the W03 shoulder endpoint outward from the measured shoulder point. */
+  readonly shoulderExtension: number;
+  /** Lowers the W03 shoulder endpoint from the measured shoulder line. */
+  readonly shoulderDrop: number;
 }
 
 /** Recipe controls exposed in the first woven-shirt UI. Ranges are advisory
@@ -51,11 +55,17 @@ export const WOVEN_SHIRT_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "sleeveBandDepth", label: "Finished sleeve band depth", unit: "cm", group: "Sleeve & hem", help: "Sets the folded sleeve-band depth; adjust it within the range for the sleeve finish.", defaultValue: 3, min: 2, max: 5, step: 0.5 },
   { id: "sideVentDepth", label: "Side vent depth", unit: "cm", group: "Sleeve & hem", help: "Sets the open side vent; reduce it for a shorter opening or use zero to close it.", defaultValue: 3, min: 0, max: 8, step: 0.5 },
   { id: "hemTurn", label: "Hem turn", unit: "cm", group: "Sleeve & hem", help: "Sets the lower hem turn-under; keep it within the range to preserve the drafted finish.", defaultValue: 1, min: 0.7, max: 2, step: 0.1 },
+  { id: "shoulderExtension", label: "Shoulder extension", unit: "cm", group: "Shoulder & armhole", help: "Moves each shoulder point outward; reduce it if the endpoint reaches the underarm.", defaultValue: 4, min: 2, max: 8, step: 0.5, appliesToStyle: "Oversized loose-drop woven shirt", preserveInvalidWhenRestored: true },
+  { id: "shoulderDrop", label: "Shoulder drop", unit: "cm", group: "Shoulder & armhole", help: "Lowers each shoulder point; reduce it if the endpoint reaches the underarm or leaves too little room for the yoke.", defaultValue: 3, min: 1, max: 4, step: 0.5, appliesToStyle: "Oversized loose-drop woven shirt", preserveInvalidWhenRestored: true },
 ];
 
-export const DEFAULT_WOVEN_SHIRT_OPTIONS: WovenShirtOptions = Object.fromEntries(
-  WOVEN_SHIRT_OPTION_DEFINITIONS.map((definition) => [definition.id, definition.defaultValue])
-) as unknown as WovenShirtOptions;
+type SharedWovenShirtOptions = Omit<WovenShirtOptions, "shoulderExtension" | "shoulderDrop">;
+
+export const DEFAULT_WOVEN_SHIRT_OPTIONS: SharedWovenShirtOptions = Object.fromEntries(
+  WOVEN_SHIRT_OPTION_DEFINITIONS
+    .filter((definition) => definition.appliesToStyle === undefined)
+    .map((definition) => [definition.id, definition.defaultValue])
+) as unknown as SharedWovenShirtOptions;
 
 function finiteOr(value: number | undefined, fallback: number): number {
   return typeof value === "number" && Number.isFinite(value) ? value : fallback;
@@ -66,7 +76,7 @@ function finiteOr(value: number | undefined, fallback: number): number {
 export function resolveWovenShirtOptions(values: Partial<WovenShirtOptions> = {}): WovenShirtOptions {
   return Object.fromEntries(WOVEN_SHIRT_OPTION_DEFINITIONS.map((definition) => [
     definition.id,
-    finiteOr(values[definition.id as keyof WovenShirtOptions], definition.defaultValue),
+    finiteOr(values[definition.id as keyof WovenShirtOptions], definition.appliesToStyle === undefined ? definition.defaultValue : 0),
   ])) as unknown as WovenShirtOptions;
 }
 

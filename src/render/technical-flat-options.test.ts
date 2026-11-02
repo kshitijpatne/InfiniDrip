@@ -18,7 +18,7 @@ describe("technical-flat option and topology validation", () => {
       expect(defaults.faces?.map((face) => face.kind)).toEqual(["FRONT_FLAT", "BACK_FLAT"]);
 
       for (const definition of recipe.options ?? []) {
-        if (definition.appliesToStarterEntryId !== undefined) continue;
+        if (definition.appliesToStarterEntryId !== undefined || definition.appliesToStyle !== undefined) continue;
         for (const value of [definition.min, definition.max]) {
           const result = validateTechnicalFlatOptions(recipe, STANDARD_M, { [definition.id]: value }, revisionId);
           expect(result.issues, `${recipe.name}.${definition.id}=${value}`).toEqual([]);
@@ -27,6 +27,30 @@ describe("technical-flat option and topology validation", () => {
         }
       }
     }
+  });
+
+  it("activates W03 shoulder controls only for its selected style", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt");
+    if (!recipe) throw new Error("Woven Shirt recipe is missing.");
+    const style = "Oversized loose-drop woven shirt";
+    const generic = validateTechnicalFlatOptions(recipe, STANDARD_M,
+      defaultGarmentOptions(recipe.options ?? []), revisionId);
+    expect(generic.issues).toEqual([]);
+    expect(generic.options).not.toHaveProperty("shoulderExtension");
+    expect(generic.options).not.toHaveProperty("shoulderDrop");
+
+    const inactive = validateTechnicalFlatOptions(recipe, STANDARD_M, { shoulderExtension: 4 }, revisionId);
+    expect(inactive.options).toBeNull();
+    expect(inactive.issues).toContainEqual(expect.objectContaining({
+      code: "UNKNOWN_OPTION", optionId: "shoulderExtension", message: expect.stringContaining("inactive for the selected style"),
+    }));
+
+    const options = defaultGarmentOptions(recipe.options ?? [], undefined, style);
+    expect(options).toMatchObject({ shoulderExtension: 4, shoulderDrop: 3 });
+    const active = validateTechnicalFlatOptions(recipe, STANDARD_M, options, revisionId, undefined, style);
+    expect(active.issues).toEqual([]);
+    expect(active.options).toEqual(options);
+    expect(active.faces).toHaveLength(2);
   });
 
   it("activates F02-only waist-dart controls only for the matching starter origin", () => {
@@ -95,11 +119,11 @@ describe("technical-flat option and topology validation", () => {
     expect(inherited.issues).toEqual([]);
     expect(inherited.options).not.toHaveProperty("chestEase");
 
-    const explicit = validateTechnicalFlatOptions(recipe, STANDARD_M, { chestEase: 8 }, revisionId);
+    const explicit = validateTechnicalFlatOptions(recipe, STANDARD_M, { chestEase: 8 }, revisionId, undefined, "Classic tee");
     expect(explicit.issues).toEqual([]);
     expect(explicit.options).toMatchObject({ chestEase: 8 });
 
-    const invalid = validateTechnicalFlatOptions(recipe, STANDARD_M, { chestEase: 6.5 }, revisionId);
+    const invalid = validateTechnicalFlatOptions(recipe, STANDARD_M, { chestEase: 6.5 }, revisionId, undefined, "Classic tee");
     expect(invalid.options).toBeNull();
     expect(invalid.issues).toContainEqual(expect.objectContaining({
       code: "OPTION_OUT_OF_RANGE", optionId: "chestEase",

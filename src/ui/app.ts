@@ -57,7 +57,7 @@ import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObserva
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
 import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
@@ -1743,7 +1743,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       nestScope: "single" as const,
     };
     const result = deserialize(serialize(STANDARD_M, DEFAULT_FABRIC,
-      { [blankRecipe.name]: defaultGarmentOptions(blankRecipe.options ?? []) }, workspace, DEFAULT_APPEARANCE));
+      { [blankRecipe.name]: defaultGarmentOptions(blankRecipe.options ?? [], undefined, workspace.targetStyle) },
+      workspace, DEFAULT_APPEARANCE));
     if (!result.ok) throw new Error(`Default style is invalid: ${result.error}`);
     const { ok: _ok, ...design } = result;
     return design;
@@ -1945,7 +1946,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? "Fitted V-neck Tee"
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
-  const starterOutputStatusNote = (): string | undefined => {
+  const starterOutputStatusNote = (format: "tech-pack" | "projector" = "tech-pack"): string | undefined => {
+    const isW03Starter = starterOrigin?.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID && recipe.name === "woven-shirt";
+    if (format === "projector") return isW03Starter ? "W03 grade is not validated." : undefined;
+    if (isW03Starter) {
+      return "Digital W03 oversized loose-drop woven Shirt. The 28 cm ease default, 4 cm shoulder extension and 3 cm shoulder drop are InfiniDrip software choices, not physical standards. Multi-size values in these whole-run files have not been validated for W03 grading; the default run uses the generic Woven Shirt size range. Physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.";
+    }
     if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo") {
       const options = recipeOptions();
       return `Digital P08 band-collar half-placket Polo pattern. The ${options.standHeight} cm band height, ${options.placketLength} cm opening, ${options.placketWidth} cm finished width and ${options.buttonCount} buttons are editable software choices, not physical standards. Two collar-band layers and paired button-placket pieces are modeled; no pointed collar leaf or collar-band button is included. The generic Polo size run is not a validated P08 grade; physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.`;
@@ -3984,6 +3990,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         measurements: gradeMeasurements(measurements, recipe.grade, outputStep),
         rawOptions: recipeOptions(outputRecipe),
         starterEntryId: starterOrigin?.entryId,
+        style: targetStyle,
         revisionId: flatRevisionId,
         kind: technicalFlatFace,
         placements: surfacePlacementsNow(),
@@ -6616,7 +6623,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       options: size.options!,
     }));
     download(`${exportRecipeName()}-projector.svg`, exportProjectorSvg(
-      recipeForCurrentOutputs(), measurements, recipeOptions(), projectorRun, planRun ? pomExceptionRows(planRun) : [],
+      recipeForCurrentOutputs(), measurements, recipeOptions(), projectorRun, planRun ? pomExceptionRows(planRun) : [], starterOutputStatusNote("projector"),
     ), "image/svg+xml");
   }, canExportRun, true);
   // The print sheet carries one style's artwork at true scale, so like the
@@ -7084,7 +7091,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, currentRecipe.tiledPdfLocalCoordinates === true) },
           { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, notchesForRecipeOptions(currentRecipe, recipeOptions(currentRecipe)), undefined, recipe.a0Overflow === true) },
           { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${exportRecipeName()}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
-          { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${exportRecipeName()}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : []) },
+          { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${exportRecipeName()}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : [], starterOutputStatusNote("projector")) },
           { artifactId: "whole-run-surface-sheet-svg", extension: "svg", displayName: `${exportRecipeName()}-surface-sheet.svg`, mediaType: "image/svg+xml", content: exportSurfaceSheet(surfacePlacementsNow(), targetStyle) },
         ];
         if (canFreezeVBand && frozenBandSettings) {

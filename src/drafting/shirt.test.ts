@@ -207,6 +207,84 @@ describe("woven shirt body", () => {
     expect(shortNotes.some((note) => note.text.includes("last front button"))).toBe(true);
   });
 
+  it("moves both W03 shoulder endpoints and recalculates the armhole curves", () => {
+    const options = { shoulderExtension: 4, shoulderDrop: 3 };
+    const base = draftWovenShirtBody(STANDARD_M);
+    const w03 = draftWovenShirtBody(STANDARD_M, options);
+    for (const role of ["front", "back"] as const) {
+      const baseShoulder = pieceEdge(base.roles[role], "shoulder");
+      const shoulder = pieceEdge(w03.roles[role], "shoulder");
+      const armhole = pieceEdge(w03.roles[role], "armhole");
+      expect(edgeStart(shoulder)).toEqual(edgeStart(baseShoulder));
+      expect(edgeEnd(shoulder)).toEqual(point(STANDARD_M.shoulderWidth / 2 + 4, 5.5));
+      expect(armhole.kind).toBe("curve");
+      if (armhole.kind !== "curve") throw new Error("W03 armhole must remain a curve");
+      expect(armhole.curve.start).toEqual(edgeEnd(shoulder));
+      expect(armhole.curve.control1).toEqual(point(STANDARD_M.shoulderWidth / 2 + 4, 5.5 + (STANDARD_M.armholeDepth - 5.5) * 0.45));
+      expect(armhole).not.toEqual(pieceEdge(base.roles[role], "armhole"));
+    }
+    expect(stitchChecks(w03, w03.stitches).every((check) => check.ok)).toBe(true);
+  });
+
+  it("matches the sleeve cap to the changed W03 armhole and keeps body chest POM derived", () => {
+    const measurements = { ...STANDARD_M, ease: 28 };
+    const options = { shoulderExtension: 4, shoulderDrop: 3 };
+    const base = draftWovenShirt(STANDARD_M);
+    const w03 = draftWovenShirt(measurements, options);
+    const armholeLength = edgeLength(pieceEdge(w03.roles.front, "armhole"))
+      + edgeLength(pieceEdge(w03.roles.yoke, "armholeUpper"))
+      + edgeLength(pieceEdge(w03.roles.back, "armholeLower"));
+    const capLength = edgeLength(pieceEdge(w03.roles.sleeve, "capLeft"))
+      + edgeLength(pieceEdge(w03.roles.sleeve, "capRight"));
+    expect(capLength - armholeLength).toBeCloseTo(1.5, 1);
+    expect(stitchChecks(w03, w03.stitches).every((check) => check.ok)).toBe(true);
+    const bodyChest = WOVEN_SHIRT_POMS.find((pom) => pom.label === "Body chest (finished)")!;
+    expect(bodyChest.measure(base)).toBe(STANDARD_M.chest + STANDARD_M.ease);
+    expect(bodyChest.measure(w03)).toBe(measurements.chest + measurements.ease);
+    expect(bodyChest.measure(w03)).toBeGreaterThan(bodyChest.measure(base));
+    expect(wovenShirtGuidance(w03, measurements, options).some((note) => note.field === "bicep")).toBe(false);
+  });
+
+  it("adds sleeve caps for legacy and partial or complete W03 shoulder options", () => {
+    for (const options of [{}, { shoulderExtension: 4 }, { shoulderDrop: 3 }, { shoulderExtension: 4, shoulderDrop: 3 }]) {
+      const block = draftWovenShirtSleeves(STANDARD_M, options);
+      const backEdge = block.roles.back.edges.some((edge) => edge.name === "armholeLower") ? "armholeLower" : "armhole";
+      const yokeUpper = block.roles.yoke.edges.some((edge) => edge.name === "armholeUpper")
+        ? edgeLength(pieceEdge(block.roles.yoke, "armholeUpper"))
+        : 0;
+      const armholeLength = edgeLength(pieceEdge(block.roles.front, "armhole"))
+        + yokeUpper + edgeLength(pieceEdge(block.roles.back, backEdge));
+      const capLength = edgeLength(pieceEdge(block.roles.sleeve, "capLeft"))
+        + edgeLength(pieceEdge(block.roles.sleeve, "capRight"));
+      expect(capLength - armholeLength).toBeCloseTo(1.5, 1);
+      expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+    }
+  });
+
+  it("warns on W03 shoulder/underarm and yoke conflicts while preserving authored values", () => {
+    const measurements = { ...STANDARD_M, chest: 60, shoulderWidth: 60, ease: 0, armholeDepth: 6 };
+    const options = { shoulderExtension: 8, shoulderDrop: 4, yokeDepth: 7 };
+    const notes = wovenShirtGuidance(draftWovenShirtBody(measurements, options), measurements, options);
+    expect(notes.find((note) => note.field === "option-shoulderExtension")?.text)
+      .toContain("reduce shoulder extension or increase body ease");
+    expect(notes.find((note) => note.field === "option-shoulderDrop")?.text)
+      .toContain("reduce shoulder drop or increase armhole depth");
+    expect(notes.find((note) => note.field === "option-yokeDepth")?.text)
+      .toContain("must sit below the shoulder at 6.5 cm and above the underarm at 6 cm");
+    expect(options).toEqual({ shoulderExtension: 8, shoulderDrop: 4, yokeDepth: 7 });
+
+    const shallowOptions = { yokeDepth: 7, shoulderExtension: 4, shoulderDrop: 4.5 };
+    const shallowYoke = wovenShirtGuidance(draftWovenShirtBody(STANDARD_M, shallowOptions), STANDARD_M, shallowOptions);
+    expect(shallowYoke.find((note) => note.field === "option-yokeDepth")?.text)
+      .toContain("must sit below the shoulder at 7 cm");
+
+    const bicepConflict = { ...STANDARD_M, bicep: 100 };
+    const bicepNotes = wovenShirtGuidance(draftWovenShirtBody(bicepConflict, { shoulderExtension: 4, shoulderDrop: 3 }), bicepConflict, { shoulderExtension: 4, shoulderDrop: 3 });
+    expect(bicepNotes.find((note) => note.field === "bicep")?.text)
+      .toContain("reduce the bicep value or increase armhole depth");
+    expect(bicepConflict.bicep).toBe(100);
+  });
+
   it("flags a woven hip station below the hem and keeps all three inputs unchanged", () => {
     const invalid = { ...STANDARD_M, length: 45, armholeDepth: 24, hipDepth: 20 };
     expect(wovenHipStationY(invalid.length, invalid.armholeDepth, invalid.hipDepth)).toBeCloseTo(51.35, 8);

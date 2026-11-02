@@ -78,6 +78,7 @@ import {
   STARTER_REGISTRY,
   WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_ENTRY_ID,
   WOVEN_SHIRT_RELAXED_BUTTON_FRONT_ENTRY_ID,
+  WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID,
   starterOriginForEntry,
 } from "./starter-registry";
 import { POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
@@ -167,6 +168,12 @@ const reachExportStage = (root: HTMLElement): void => {
   clickId(root, "journey-step-fit");
   clickId(root, "journey-next"); // accept the current Style choices → Check
   clickId(root, "journey-next"); // reviewed Check → Export
+};
+const reReviewAndReachExportStage = (root: HTMLElement): void => {
+  clickId(root, "journey-step-fit");
+  clickId(root, "journey-next");
+  clickId(root, "view-check");
+  clickId(root, "journey-next");
 };
 
 async function addSyntheticNumericQaAndScopedReview(
@@ -11787,6 +11794,201 @@ describe("EPIC-19 L02 starter binding", () => {
       const techPack = visiblePdfText(files.get("woven-shirt-techpack.pdf")!);
       expect(techPack).toContain("Body length (HPS-hem)");
       expect(techPack).toContain("74.0 cm");
+      expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("selects W03, preserves its shoulder controls through save/reopen, and exports all six digital formats", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID);
+
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Oversized loose-drop woven shirt");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Oversized loose-drop Shirt · software defaults");
+      const defaultMeasurements: Record<string, string> = {
+        neck: "40", chest: "100", shoulderWidth: "45", bicep: "38", length: "70",
+        armholeDepth: "24", sleeveLength: "22", waist: "84", hip: "100", hipDepth: "20", ease: "28",
+      };
+      for (const [field, value] of Object.entries(defaultMeasurements)) {
+        expect(root.querySelector<HTMLInputElement>('input[data-field="' + field + '"]')!.value).toBe(value);
+      }
+      const defaultOptions: Record<string, string> = {
+        neckEase: "1", buttonCount: "7", buttonSpacing: "8", frontOverlap: "1.5", placketWidth: "3",
+        standHeight: "2.5", collarLeafDepth: "6", yokeDepth: "10", pocketWidth: "12", pocketHeight: "13",
+        sleeveBandDepth: "3", sideVentDepth: "3", hemTurn: "1", shoulderExtension: "4", shoulderDrop: "3",
+      };
+      for (const [option, value] of Object.entries(defaultOptions)) {
+        expect(root.querySelector<HTMLInputElement>('input[data-option="' + option + '"]')!.value).toBe(value);
+      }
+
+      clickId(root, "view-flat");
+      expect(root.querySelector("#canvas-host")!.textContent).not.toContain("Shoulder extension is inactive for the selected style");
+      clickId(root, "view-pattern");
+      expect(root.querySelector("#canvas-host")!.textContent).toContain("WOVEN FRONT");
+      const initialSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      const extension = root.querySelector<HTMLInputElement>('input[data-option="shoulderExtension"]')!;
+      extension.value = "10";
+      extension.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(extension.value).toBe("10");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("supports 2–8 cm");
+
+      extension.value = "8";
+      extension.dispatchEvent(new Event("input", { bubbles: true }));
+      const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      const shoulderWidth = root.querySelector<HTMLInputElement>('input[data-field="shoulderWidth"]')!;
+      const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+      chest.value = "60";
+      chest.dispatchEvent(new Event("input", { bubbles: true }));
+      shoulderWidth.value = "60";
+      shoulderWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      ease.value = "25";
+      ease.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("reaches the underarm width");
+
+      chest.value = "100";
+      chest.dispatchEvent(new Event("input", { bubbles: true }));
+      shoulderWidth.value = "45";
+      shoulderWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      ease.value = "30";
+      ease.dispatchEvent(new Event("input", { bubbles: true }));
+      extension.value = "5";
+      extension.dispatchEvent(new Event("input", { bubbles: true }));
+      const drop = root.querySelector<HTMLInputElement>('input[data-option="shoulderDrop"]')!;
+      drop.value = "3.5";
+      drop.dispatchEvent(new Event("input", { bubbles: true }));
+      const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+      length.value = "71";
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      const bicep = root.querySelector<HTMLInputElement>('input[data-field="bicep"]')!;
+      bicep.value = "40";
+      bicep.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("Bicep circumference");
+      bicep.value = "37";
+      bicep.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      expect(editedSvg).not.toBe(initialSvg);
+
+      clickId(root, "view-spec");
+      clickId(root, "save-pattern");
+      const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: Record<string, unknown> };
+      };
+      expect(stored.measurements).toMatchObject({ bicep: 37, ease: 30, length: 71 });
+      expect(stored.garmentOptions["woven-shirt"]).toMatchObject({ shoulderExtension: 5, shoulderDrop: 3.5 });
+      expect(stored.workspace.starterOrigin).toMatchObject({
+        entryId: WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID,
+        entryRevision: "2026-11-02.1",
+        recipeId: "woven-shirt",
+        recipeRevision: "woven-shirt-oversized-loose-drop-v1",
+        configurationSnapshot: {
+          targetStyle: "Oversized loose-drop woven shirt",
+          measurements: { length: 70, ease: 28 },
+          options: { shoulderExtension: 4, shoulderDrop: 3 },
+        },
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Oversized loose-drop woven shirt");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("30");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("71");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="shoulderExtension"]')!.value).toBe("5");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="shoulderDrop"]')!.value).toBe("3.5");
+      expect(reopened.querySelector<HTMLButtonElement>("[data-starter-entry-id=" + JSON.stringify(WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID) + "]")!.getAttribute("aria-pressed")).toBe("true");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+      clickId(reopened, "view-spec");
+
+      reachExportStage(reopened);
+      const reopenedExtension = reopened.querySelector<HTMLInputElement>('input[data-option="shoulderExtension"]')!;
+      const reopenedChest = reopened.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      const reopenedShoulderWidth = reopened.querySelector<HTMLInputElement>('input[data-field="shoulderWidth"]')!;
+      const reopenedEase = reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+      const reopenedBicep = reopened.querySelector<HTMLInputElement>('input[data-field="bicep"]')!;
+      const exportButton = reopened.querySelector<HTMLButtonElement>("#export-svg")!;
+      expect(exportButton.disabled).toBe(false);
+
+      reopenedExtension.value = "10";
+      reopenedExtension.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(reopened.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("supports 2–8 cm");
+      expect(exportButton.disabled).toBe(true);
+      reopenedExtension.value = "5";
+      reopenedExtension.dispatchEvent(new Event("input", { bubbles: true }));
+      reReviewAndReachExportStage(reopened);
+      expect(exportButton.disabled).toBe(false);
+
+      reopenedExtension.value = "8";
+      reopenedExtension.dispatchEvent(new Event("input", { bubbles: true }));
+      reopenedChest.value = "60";
+      reopenedChest.dispatchEvent(new Event("input", { bubbles: true }));
+      reopenedShoulderWidth.value = "60";
+      reopenedShoulderWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      reopenedEase.value = "25";
+      reopenedEase.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(reopened.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("reaches the underarm width");
+      expect(exportButton.disabled).toBe(true);
+      reopenedChest.value = "100";
+      reopenedChest.dispatchEvent(new Event("input", { bubbles: true }));
+      reopenedShoulderWidth.value = "45";
+      reopenedShoulderWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      reopenedEase.value = "30";
+      reopenedEase.dispatchEvent(new Event("input", { bubbles: true }));
+      reopenedExtension.value = "5";
+      reopenedExtension.dispatchEvent(new Event("input", { bubbles: true }));
+      reReviewAndReachExportStage(reopened);
+      expect(exportButton.disabled).toBe(false);
+
+      reopenedBicep.value = "40";
+      reopenedBicep.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(reopened.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("Bicep circumference");
+      expect(exportButton.disabled).toBe(true);
+      reopenedBicep.value = "37";
+      reopenedBicep.dispatchEvent(new Event("input", { bubbles: true }));
+      reReviewAndReachExportStage(reopened);
+      expect(exportButton.disabled).toBe(false);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) clickId(reopened, id);
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "woven-shirt-M-A0.pdf", "woven-shirt-M.dxf", "woven-shirt-M.pdf", "woven-shirt-M.svg",
+        "woven-shirt-projector.svg", "woven-shirt-techpack.pdf",
+      ].sort());
+      const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+      const options = stored.garmentOptions["woven-shirt"] as GarmentOptions;
+      const pieces = blockPieces(recipe.draft(stored.measurements, options));
+      expect(files.get("woven-shirt-M.svg")).toBe(exportSvg(pieces, recipe.allowances!, notchesForRecipeOptions(recipe, options)));
+      expect(files.get("woven-shirt-M.dxf")).toBe(exportDxf(pieces, recipe.allowances!));
+      expect(files.get("woven-shirt-M.pdf")).toBe(exportPdf(pieces, recipe.allowances!, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true));
+      expect(files.get("woven-shirt-M-A0.pdf")).toBe(exportA0Pdf(pieces, recipe.allowances!, notchesForRecipeOptions(recipe, options), undefined, recipe.a0Overflow === true));
+      const w03ProjectorNote = "W03 grade is not validated.";
+      expect(files.get("woven-shirt-projector.svg")).toBe(exportProjectorSvg(recipe, stored.measurements, options, undefined, [], w03ProjectorNote));
+      const projectorText = [...new DOMParser().parseFromString(files.get("woven-shirt-projector.svg")!, "image/svg+xml").getElementsByTagName("text")]
+        .map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain(w03ProjectorNote);
+      const techPack = visiblePdfText(files.get("woven-shirt-techpack.pdf")!);
+      expect(techPack).toContain("Body length (HPS-hem)");
+      expect(techPack).toContain("71.0 cm");
+      expect(techPack).toContain("Multi-size values in these whole-run files have not been validated for W03 grading");
       expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
     } finally {
       unmountApp();

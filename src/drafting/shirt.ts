@@ -27,7 +27,7 @@ function shirtPanel(m: Measurements, position: "front" | "back", options: WovenS
   const neckline = necklineEdge(
     position, neckHalf, baseDepth, shoulderHalf, m.armholeDepth, NECKLINE_DEFAULT
   );
-  const shoulder = point(shoulderHalf, 2.5);
+  const shoulder = point(shoulderHalf + options.shoulderExtension, 2.5 + options.shoulderDrop);
   const underarm = point(chestHalf, m.armholeDepth);
   const waist = point(waistHalf, m.armholeDepth + (m.length - m.armholeDepth) * 0.35);
   const hip = point(hipHalf, wovenHipStationY(m.length, m.armholeDepth, m.hipDepth));
@@ -36,7 +36,7 @@ function shirtPanel(m: Measurements, position: "front" | "back", options: WovenS
   const armhole: Edge = {
     kind: "curve", name: "armhole", curve: {
       start: shoulder,
-      control1: point(shoulderHalf, 2.5 + (m.armholeDepth - 2.5) * 0.45),
+      control1: point(shoulder.x, shoulder.y + (m.armholeDepth - shoulder.y) * 0.45),
       control2: point(chestHalf - 2, m.armholeDepth - 3),
       end: underarm,
     },
@@ -390,8 +390,21 @@ function solveWovenCapHeight(width: number, target: number): number {
   return (lo + hi) / 2;
 }
 
-function wovenSleeve(m: Measurements, targetArmhole: number): Piece {
-  const width = m.bicep + m.ease * 0.5;
+function wovenArmholeLength(drafted: Block): number {
+  const back = drafted.roles.back;
+  const backEdge = back.edges.some((edge) => edge.name === "armholeLower") ? "armholeLower" : "armhole";
+  const yoke = drafted.roles.yoke;
+  const yokeUpper = yoke && yoke.edges.some((edge) => edge.name === "armholeUpper")
+    ? edgeLength(pieceEdge(yoke, "armholeUpper"))
+    : 0;
+  return edgeLength(pieceEdge(drafted.roles.front, "armhole"))
+    + yokeUpper + edgeLength(pieceEdge(back, backEdge));
+}
+
+function wovenSleeve(m: Measurements, targetArmhole: number, limitWidthToArmhole = false): Piece {
+  const easedWidth = m.bicep + m.ease * 0.5;
+  // W03's high-ease profile cannot have a sleeve-top width longer than its armscye; legacy profiles keep their exact width formula.
+  const width = limitWidthToArmhole ? Math.min(easedWidth, targetArmhole) : easedWidth;
   const capHeight = solveWovenCapHeight(width, targetArmhole + 1.5);
   const [capLeft, capRight] = wovenCapCurves(width, capHeight);
   const taper = 3;
@@ -444,10 +457,10 @@ export function addWovenShirtSleeves(
   blockWithYoke: Block, m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
   const options = resolveWovenShirtOptions(rawOptions);
-  const armhole = edgeLength(pieceEdge(blockWithYoke.roles.front, "armhole")) +
-    edgeLength(pieceEdge(blockWithYoke.roles.yoke, "armholeUpper")) +
-    edgeLength(pieceEdge(blockWithYoke.roles.back, "armholeLower"));
-  const sleeve = wovenSleeve(m, armhole);
+  const armhole = wovenArmholeLength(blockWithYoke);
+  const hasLooseDropOptions = Object.prototype.hasOwnProperty.call(rawOptions, "shoulderExtension")
+    || Object.prototype.hasOwnProperty.call(rawOptions, "shoulderDrop");
+  const sleeve = wovenSleeve(m, armhole, hasLooseDropOptions);
   const band = sleeveBand(edgeLength(pieceEdge(sleeve, "hem")), options.sleeveBandDepth);
   return block({ ...blockWithYoke.roles, sleeve, sleeveBand: band }, [
     ...blockWithYoke.stitches, ...WOVEN_SHIRT_SLEEVE_STITCHES,
@@ -618,6 +631,7 @@ export function wovenShirtGuidance(
     });
   }
   for (const definition of WOVEN_SHIRT_OPTION_DEFINITIONS) {
+    if (definition.appliesToStyle !== undefined && !Object.prototype.hasOwnProperty.call(rawOptions, definition.id)) continue;
     const value = options[definition.id as keyof WovenShirtOptions];
     // Every woven option declares a unit in shirt-contract.ts. Keep the
     // guidance value sourced from that contract so a count can never inherit a
@@ -642,8 +656,25 @@ export function wovenShirtGuidance(
   if (options.standHeight > options.collarLeafDepth) {
     notes.push({ field: "option-standHeight", level: "warn", text: "Stand height is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
   }
-  if (options.yokeDepth <= 2.5 || options.yokeDepth >= m.armholeDepth) {
-    notes.push({ field: "option-yokeDepth", level: "warn", text: `Back yoke depth (${options.yokeDepth} cm) must sit between shoulder and underarm — choose a shallower yoke than the armhole depth.` });
+  const shoulderY = 2.5 + options.shoulderDrop;
+  const shoulderX = m.shoulderWidth / 2 + options.shoulderExtension;
+  const underarmX = (m.chest + m.ease) / 4;
+  const hasLooseDropOptions = Object.prototype.hasOwnProperty.call(rawOptions, "shoulderExtension")
+    || Object.prototype.hasOwnProperty.call(rawOptions, "shoulderDrop");
+  if (hasLooseDropOptions && shoulderX >= underarmX) {
+    notes.push({ field: "option-shoulderExtension", level: "warn", text: "Shoulder extension reaches the underarm width — reduce shoulder extension or increase body ease." });
+  }
+  if (hasLooseDropOptions && shoulderY >= m.armholeDepth) {
+    notes.push({ field: "option-shoulderDrop", level: "warn", text: "Shoulder drop reaches the underarm depth — reduce shoulder drop or increase armhole depth." });
+  }
+  if (options.yokeDepth <= shoulderY || options.yokeDepth >= m.armholeDepth) {
+    notes.push({ field: "option-yokeDepth", level: "warn", text: "Back yoke depth (" + options.yokeDepth + " cm) must sit below the shoulder at " + shoulderY + " cm and above the underarm at " + m.armholeDepth + " cm — move the yoke seam between those points." });
+  }
+  if (hasLooseDropOptions) {
+    const armholeLength = wovenArmholeLength(block);
+    if (m.bicep > armholeLength) {
+      notes.push({ field: "bicep", level: "warn", text: "Bicep circumference (" + m.bicep + " cm) exceeds the W03 armhole seam (" + armholeLength.toFixed(1) + " cm) — reduce the bicep value or increase armhole depth; the value stays unchanged." });
+    }
   }
   const neckHalf = (m.neck + options.neckEase) / 4;
   if (neckHalf >= m.shoulderWidth / 2) {
@@ -790,7 +821,8 @@ const wovenGrammarSleeves = (
   m: Measurements,
   params: { readonly options: WovenShirtOptions; readonly targetArmhole: number },
 ): ComponentResult => {
-  const sleeve = wovenSleeve(m, params.targetArmhole);
+  const hasLooseDropGeometry = params.options.shoulderExtension !== 0 || params.options.shoulderDrop !== 0;
+  const sleeve = wovenSleeve(m, params.targetArmhole, hasLooseDropGeometry);
   return {
     pieces: {
       sleeve,

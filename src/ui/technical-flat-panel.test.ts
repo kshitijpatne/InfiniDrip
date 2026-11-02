@@ -51,6 +51,21 @@ describe("technicalFlatPanelMarkup", () => {
     expect(markup).not.toContain("waistDartLowerLeg");
   });
 
+  it("validates W03 technical-flat options against its active style", () => {
+    const woven = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const style = "Oversized loose-drop woven shirt";
+    const options = defaultGarmentOptions(woven.options ?? [], undefined, style);
+    const active = technicalFlatPanelMarkup({ ...base, recipe: woven, rawOptions: options, style,
+      sizeReady: false, block: null, revisionId: "live-w03-42", kind: "FRONT_FLAT" });
+    expect(active).toContain("Review or rebase the current pattern edits");
+    expect(active).not.toContain("Correct the listed supported options");
+
+    const inactive = technicalFlatPanelMarkup({ ...base, recipe: woven, rawOptions: options,
+      sizeReady: false, block: null, revisionId: "live-woven-generic-42", kind: "FRONT_FLAT" });
+    expect(inactive).toContain("Correct the listed supported options");
+    expect(inactive).toContain("Shoulder extension is inactive for the selected style");
+  });
+
   it("preserves the original row for a single matching edge diagnostic", () => {
     const markup = technicalFlatIssueList([{
       stage: "geometry", sourceId: "pattern:sample:role:panel:edge:waist",

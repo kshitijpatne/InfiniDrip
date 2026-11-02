@@ -472,13 +472,20 @@ describe("inspectionMarkup", () => {
 
 describe("woven option controls", () => {
   it("groups construction options and shows units plus correction help", () => {
-    const html = controlsMarkup(STANDARD_M, WOVEN_SHIRT.fields, WOVEN_SHIRT_OPTION_DEFINITIONS, {}, "woven-shirt");
+    const genericOptions = WOVEN_SHIRT_OPTION_DEFINITIONS.filter((option) => option.appliesToStyle === undefined);
+    const html = controlsMarkup(STANDARD_M, WOVEN_SHIRT.fields, genericOptions, {}, "woven-shirt");
     expect((html.match(/data-option-group=/g) || [])).toHaveLength(5);
     expect(html).toContain('data-field-unit="option-buttonCount"');
     expect(html).toContain(">buttons<");
     expect(html).toContain('data-field-unit="option-neckEase"');
     expect(html).toContain("one additional button belongs on the collar stand");
     expect(html).toContain('aria-describedby="error-option-buttonCount help-option-buttonCount"');
+
+    const w03Options = WOVEN_SHIRT_OPTION_DEFINITIONS.filter((option) =>
+      option.appliesToStyle === undefined || option.appliesToStyle === "Oversized loose-drop woven shirt");
+    const w03 = controlsMarkup(STANDARD_M, WOVEN_SHIRT.fields, w03Options, {}, "woven-shirt");
+    expect(w03).toContain('data-option="shoulderExtension"');
+    expect(w03).toContain('data-option="shoulderDrop"');
   });
 
   it("keeps unitless custom options usable", () => {
