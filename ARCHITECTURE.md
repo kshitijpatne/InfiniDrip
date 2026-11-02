@@ -351,7 +351,8 @@ without pointed-leaf overlays, and shows the selected two- or three-button
 count. Existing Polo origins omit that profile and retain their prior detail
 rendering. P08 controls are editable software choices; this digital pattern and
 schematic do not establish physical fit, material performance or production
-readiness.
+readiness. Its output recipe opts into the existing page-local coordinate mode
+for selected-size tiled PDF placement, scoped to P08.
 
 For Woven `sideVentDepth=0`, the front and back drafts join the side seam
 directly to the curved hem: the degenerate vent edge and `VENT TOP` marker do
