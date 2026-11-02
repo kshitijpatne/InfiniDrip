@@ -50,7 +50,7 @@ import type { TeeConstruction } from "./tshirt";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS, FITTED_PRINCESS_POMS, fittedPanelChecks } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
-import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, POLO_BODY_POMS, poloButtonCountError, resolvePoloOptions } from "./polo";
+import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, POLO_BODY_POMS, poloButtonCountError, poloNotchesForOptions, poloPomsForOptions, resolvePoloOptions, usesPoloZipperClosure } from "./polo";
 import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS } from "./shirt";
 import { WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { edgeLength, pieceEdge } from "./piece";
@@ -752,6 +752,51 @@ const POLO_TECH_PACK: TechPack = {
 
 const POLO_TECH_PACK_FOR_OPTIONS = (rawOptions: GarmentOptions): TechPack => {
   const options = resolvePoloOptions(rawOptions);
+  if (usesPoloZipperClosure(options)) {
+    const lengthDefinition = POLO_OPTION_DEFINITIONS.find((entry) => entry.id === "placketLength")!;
+    const widthDefinition = POLO_OPTION_DEFINITIONS.find((entry) => entry.id === "placketWidth")!;
+    const hasValidStep = (value: number, definition: typeof lengthDefinition): boolean => {
+      const stepsFromMinimum = (value - definition.min) / definition.step;
+      return Math.abs(stepsFromMinimum - Math.round(stepsFromMinimum)) <= 1e-8;
+    };
+    if (!Number.isFinite(options.placketLength) || options.placketLength < lengthDefinition.min
+      || options.placketLength > lengthDefinition.max || !hasValidStep(options.placketLength, lengthDefinition)) {
+      throw new RangeError("Modeled zipper opening length must be 14–30 cm in 0.5 cm increments.");
+    }
+    if (!Number.isFinite(options.placketWidth) || options.placketWidth < widthDefinition.min
+      || options.placketWidth > widthDefinition.max || !hasValidStep(options.placketWidth, widthDefinition)) {
+      throw new RangeError("Finished zipper-placket width must be 2–4 cm in 0.5 cm increments.");
+    }
+    const lengthText = `${options.placketLength} cm`;
+    const widthText = `${options.placketWidth} cm`;
+    return {
+      ...POLO_TECH_PACK,
+      bom: [
+        { material: "Not specified", placement: "Body, sleeves, collar, zipper finish and trim", qty: "No consumption estimate" },
+        { material: "Zipper (type and material unspecified)", placement: `Center-front opening; nominal modeled length ${lengthText}`, qty: "1" },
+        ...POLO_TECH_PACK.bom.filter((row) => row.material === "Woven brand label"
+          || row.material === "Care/content label" || row.material === "Stretch sewing thread"),
+      ],
+      construction: [
+        "Digital P07 Zip-placket Polo profile using the existing Polo body, short sleeves, collar, stand, side vents and back hem; review the exported pattern before use.",
+        `The ${lengthText} modeled zipper opening and ${widthText} finished zipper-placket width are editable software choices, not physical standards or a selected zipper specification.`,
+        "Use one folded zipper-finish piece behind the centered front slit; align both marked attachment paths and the schematic left/right zipper-tape paths. No separate zipper shield is modeled.",
+        "Match the zipper top and lower anchors to the pattern marks; the lower anchor aligns with the front reinforcement. No physical top-stop clearance or sewing performance is specified.",
+        "No buttons or buttonholes are included in the P07 pattern or bill of materials.",
+        "Join upper and under collar around the outer edge; turn and press the points.",
+        "Sew collar layers into outer and inner stands, matching centre-back folds and front ends.",
+        "Attach the outer stand to the neckline; turn inner stand inside and finish securely.",
+        ...POLO_TECH_PACK.construction.slice(6),
+      ],
+      constructionNotice: "Digital pattern output only. The zipper type/material, physical fit, dimensions, comfort, wear, and sewing performance have not been validated; the marked tape paths are schematic placement data.",
+      measurementSpecNote: "P07 opening length and finished zipper-placket width are editable InfiniDrip software choices. The generic Polo size run is not a validated P07 grade. No physical zipper product, material compatibility, fit, comfort, wear, or production result is established.",
+      measurementSpecToleranceColumn: false,
+      fitRecordStatusNote: "P07 is an editable digital pattern. Physical fit, comfort, wear, zipper compatibility/performance, materials, grading, and production remain unvalidated.",
+      fitRecordPassColumn: false,
+      fitRecordToleranceColumn: false,
+      fitRecordTitle: "Digital Measurement Worksheet",
+    };
+  }
   const buttonCountError = poloButtonCountError(options.buttonCount);
   if (buttonCountError) throw new RangeError(buttonCountError);
   const buttonCount = options.buttonCount;
@@ -798,6 +843,8 @@ export const POLO: GarmentRecipe = {
   grammar: POLO_GRAMMAR,
   notches: POLO_NOTCHES,
   poms: [...POLO_BODY_POMS, ...POLO_POMS],
+  notchesForOptions: poloNotchesForOptions,
+  pomsForOptions: poloPomsForOptions,
   grade: TSHIRT_GRADE,
   sizes: TSHIRT_SIZES,
   checks: sleevedTopPanelChecks(true),

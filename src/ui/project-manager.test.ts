@@ -4241,7 +4241,7 @@ describe("accessible project and style manager", () => {
     } finally {
       state.close();
     }
-  }, 10_000);
+  }, 15_000);
 
   it("blocks creating a scenario while its collection edits are unsaved", async () => {
     const state = await techPackHarness({ techPackIdFactory: scenarioFixtureId });

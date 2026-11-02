@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { POLO, STANDARD_M, type GarmentRecipe } from "../drafting";
-import { poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput } from "./polo-starter-output";
+import { poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
 
 describe("P02 Classic long-sleeve Polo output", () => {
   it("keeps material consumption unspecified and follows the selected button count", () => {
@@ -200,5 +200,54 @@ describe("P06 Longline Polo output", () => {
     expect(output.techPack.bom[1]?.qty).toBe("2");
     expect(output.techPackForOptions!({}).bom[1]?.qty).toBe("2");
     expect(output.techPackForOptions!({ buttonCount: Number.POSITIVE_INFINITY }).bom[1]?.qty).toBe("unresolved");
+  });
+});
+
+describe("P07 Zip-placket Polo output", () => {
+  it("keeps the zipper BOM and digital-only disclosures across option-aware output", () => {
+    const options = { placketLength: 20, placketWidth: 3.5 };
+    const output = poloZipPlacketRecipeForOutput(POLO, options);
+    expect(output.label).toBe("Polo Zip-placket");
+    expect(output.poms.every((pom) => pom.tolerance === undefined)).toBe(true);
+    expect(output.draft(STANDARD_M, options).roles.zipperFinish).toBeDefined();
+    expect(output.pomsForOptions!(options).map((pom) => pom.label)).toContain("Modeled zipper opening length");
+    expect(output.notchesForOptions!(options).map((notch) => notch.pieceName)).toContain("zipper finish");
+    expect(output.techPack.bom).toEqual(expect.arrayContaining([
+      { material: "Not specified", placement: "Body, sleeves, collar, zipper finish and trim", qty: "No consumption estimate" },
+      { material: "Zipper (type and material unspecified)", placement: "Center-front opening; nominal modeled length 20 cm", qty: "1" },
+    ]));
+    expect(output.techPack.bom.some((row) => row.material === "Buttons" || row.material === "Buttonholes")).toBe(false);
+    expect(output.techPack.construction.join(" ")).toContain("No buttons or buttonholes");
+    expect(output.techPack.construction.join(" ")).toContain("3.5 cm finished zipper-placket width");
+    expect(output.techPack.constructionNotice).toContain("physical fit, comfort, wear");
+    expect(output.techPack.measurementSpecNote).toContain("not a validated P07 grade");
+    expect(output.techPack.fitRecordStatusNote).toContain("zipper compatibility/performance");
+    expect(output.techPackForOptions!({ ...options, placketLength: 30 }).bom[1]?.placement)
+      .toContain("nominal modeled length 30 cm");
+  });
+
+  it("keeps the P07 consumers and disclosures when the source recipe lacks option-aware callbacks", () => {
+    const base: GarmentRecipe = {
+      ...POLO,
+      pomsForOptions: undefined,
+      notchesForOptions: undefined,
+      techPackForOptions: undefined,
+      draftReview: (measurements, options = {}) => ({
+        block: POLO.draft(measurements, options),
+        notes: [],
+      }),
+    };
+    const output = poloZipPlacketRecipeForOutput(base, {});
+    const poms = output.pomsForOptions!({});
+    expect(poms.map((pom) => pom.label)).toContain("Modeled zipper opening length");
+    expect(poms.map((pom) => pom.label)).not.toContain("Button spacing");
+    expect(output.notchesForOptions!({}).map((notch) => notch.pieceName)).toContain("zipper finish");
+    const techPack = output.techPackForOptions!({});
+    expect(techPack.measurementSpecNote).toContain("14 cm modeled zipper opening and 3 cm finished zipper-placket width");
+    expect(techPack.bom.filter((row) => row.material === "Zipper (type and material unspecified)"))
+      .toEqual([{ material: "Zipper (type and material unspecified)", placement: "Center-front opening; nominal modeled length 14 cm", qty: "1" }]);
+    expect(techPack.bom.some((row) => row.material === "Buttons" || row.material === "Buttonholes")).toBe(false);
+    expect(techPack.construction.join(" ")).toContain("No buttons or buttonholes are included");
+    expect(output.draftReview!(STANDARD_M, {}).block?.roles.zipperFinish).toBeDefined();
   });
 });

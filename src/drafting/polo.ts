@@ -5,7 +5,7 @@ import { distance, point } from "../geometry";
 import { Block, block, rolePiece } from "./block";
 import { bodice } from "./bodice";
 import { Measurements } from "./measurements";
-import { GarmentOption } from "./options";
+import { GarmentOption, GarmentOptions } from "./options";
 import { Edge, Piece, edgeEnd, edgeLength, edgeStart, pieceEdge } from "./piece";
 import { lineMark, pointMark } from "./pattern-mark";
 import { sleeve as sleeveComponent } from "./sleeve";
@@ -26,6 +26,8 @@ export interface PoloOptions {
   readonly buttonCount: number;
   readonly placketLength: number;
   readonly placketWidth: number;
+  /** Internal route supplied only by the P07 starter origin; not a UI control. */
+  readonly zipperClosureProfile?: number;
   readonly standHeight: number;
   readonly collarLeafDepth: number;
   readonly standFrontRise: number;
@@ -36,8 +38,16 @@ export interface PoloOptions {
 
 type PoloOptionDefinition = GarmentOption & { readonly unit: string };
 
+export const POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID = "zipperClosureProfile";
+export const POLO_ZIPPER_CLOSURE_PROFILE_VALUE = 1;
+export const POLO_ZIP_PLACKET_STARTER_ENTRY_ID = "polo-zip-placket-digital-v1";
+
+export function usesPoloZipperClosure(options: Partial<PoloOptions>): boolean {
+  return options.zipperClosureProfile === POLO_ZIPPER_CLOSURE_PROFILE_VALUE;
+}
+
 export const POLO_OPTION_DEFINITIONS: readonly PoloOptionDefinition[] = [
-  { id: "buttonCount", label: "Front button count", unit: "buttons", group: "Front closure", help: "Choose two or three buttons; matching marks and the Tech Pack follow this count.", defaultValue: 3, min: 2, max: 3, step: 1 },
+  { id: "buttonCount", label: "Front button count", unit: "buttons", group: "Front closure", help: "Choose two or three buttons; matching marks and the Tech Pack follow this count.", defaultValue: 3, min: 2, max: 3, step: 1, excludedForStarterEntryIds: [POLO_ZIP_PLACKET_STARTER_ENTRY_ID] },
   { id: "placketLength", label: "Finished placket length", unit: "cm", group: "Front closure", help: "Sets the finished slit length; shorten it if the placket reaches the vent or hem allowance.", defaultValue: 14, min: 14, max: 30, step: 0.5 },
   { id: "placketWidth", label: "Finished placket width", unit: "cm", group: "Front closure", help: "Sets the finished folded placket face; keep it inside the declared 2–4 cm range.", defaultValue: 3, min: 2, max: 4, step: 0.5 },
   { id: "standHeight", label: "Finished stand height", unit: "cm", group: "Neck & collar", help: "Raises the collar stand above the neckline; reduce it if it exceeds the collar leaf.", defaultValue: 2, min: 1, max: 3, step: 0.5 },
@@ -63,10 +73,18 @@ export const DEFAULT_POLO_OPTIONS: PoloOptions = {
 /** Uses a supplied live value verbatim. Guardrails report bad values; they do
  * not silently turn a person’s chosen design back into a default. */
 export function resolvePoloOptions(values: Partial<PoloOptions> = {}): PoloOptions {
+  const zipperClosureProfile = usesPoloZipperClosure(values)
+    ? POLO_ZIPPER_CLOSURE_PROFILE_VALUE
+    : undefined;
   return {
     buttonCount: typeof values.buttonCount === "number" ? values.buttonCount : DEFAULT_POLO_OPTIONS.buttonCount,
-    placketLength: finiteOr(values.placketLength, DEFAULT_POLO_OPTIONS.placketLength),
-    placketWidth: finiteOr(values.placketWidth, DEFAULT_POLO_OPTIONS.placketWidth),
+    placketLength: zipperClosureProfile !== undefined && typeof values.placketLength === "number"
+      ? values.placketLength
+      : finiteOr(values.placketLength, DEFAULT_POLO_OPTIONS.placketLength),
+    placketWidth: zipperClosureProfile !== undefined && typeof values.placketWidth === "number"
+      ? values.placketWidth
+      : finiteOr(values.placketWidth, DEFAULT_POLO_OPTIONS.placketWidth),
+    ...(zipperClosureProfile === undefined ? {} : { zipperClosureProfile }),
     standHeight: finiteOr(values.standHeight, DEFAULT_POLO_OPTIONS.standHeight),
     collarLeafDepth: finiteOr(values.collarLeafDepth, DEFAULT_POLO_OPTIONS.collarLeafDepth),
     standFrontRise: finiteOr(values.standFrontRise, DEFAULT_POLO_OPTIONS.standFrontRise),
@@ -154,6 +172,38 @@ function placketPiece(
   };
 }
 
+/** One centered P07 finish strip. The two attachment marks connect to the
+ * opened front slit; the center fold and paired tape paths are schematic
+ * placement data, not a physical zipper-tape-width specification. */
+function zipperFinishPiece(options: PoloOptions): Piece {
+  const cutWidth = options.placketWidth * 2 + PLACKET_SEAM_ALLOWANCE * 2;
+  const centerX = cutWidth / 2;
+  const tapeOffset = options.placketWidth / 4;
+  const leftTapeX = centerX - tapeOffset;
+  const rightTapeX = centerX + tapeOffset;
+  const length = options.placketLength;
+  return {
+    name: "zipper finish",
+    onFold: false,
+    edges: [
+      { kind: "line", name: "top", start: point(0, 0), end: point(cutWidth, 0) },
+      { kind: "line", name: "attachmentRight", start: point(cutWidth, 0), end: point(cutWidth, length) },
+      { kind: "line", name: "bottom", start: point(cutWidth, length), end: point(0, length) },
+      { kind: "line", name: "attachmentLeft", start: point(0, length), end: point(0, 0) },
+    ],
+    marks: [
+      lineMark("placementLine", "zipperFinishAttachmentLeft", point(PLACKET_SEAM_ALLOWANCE, 0), point(PLACKET_SEAM_ALLOWANCE, length), "LEFT FINISH ATTACHMENT", "instruction"),
+      lineMark("placementLine", "zipperFinishAttachmentRight", point(cutWidth - PLACKET_SEAM_ALLOWANCE, 0), point(cutWidth - PLACKET_SEAM_ALLOWANCE, length), "RIGHT FINISH ATTACHMENT", "instruction"),
+      lineMark("foldLine", "zipperFinishFold", point(centerX, 0), point(centerX, length), "FOLD AT CENTER", "instruction"),
+      lineMark("placementLine", "zipperCenterline", point(centerX, 0), point(centerX, length), "CENTERED ZIPPER", "instruction"),
+      lineMark("placementLine", "zipperTapeLeft", point(leftTapeX, 0), point(leftTapeX, length), "LEFT TAPE PATH — SCHEMATIC", "instruction"),
+      lineMark("placementLine", "zipperTapeRight", point(rightTapeX, 0), point(rightTapeX, length), "RIGHT TAPE PATH — SCHEMATIC", "instruction"),
+      pointMark("placementPoint", "zipperTopAnchor", point(centerX, 0), "ZIPPER TOP ANCHOR", "instruction"),
+      pointMark("placementPoint", "zipperBottomAnchor", point(centerX, length), "ZIPPER BOTTOM / REINFORCEMENT", "instruction"),
+    ],
+  };
+}
+
 /** Keep the Polo's lower-body topology local to the recipe. The woven shirt
  * has its own curved-hem/vent contract; changing that shared-looking helper
  * would silently alter its export bytes. With zero vent and zero drop this
@@ -201,6 +251,12 @@ function poloFront(m: Measurements, options: PoloOptions): Piece {
   const clipSpan = PLACKET_SEAM_ALLOWANCE;
   const clipUpper = point(slitEnd.x + clipSpan, slitEnd.y - clipSpan);
   const clipLower = point(slitEnd.x + clipSpan, slitEnd.y + clipSpan);
+  const zipperAnchors = usesPoloZipperClosure(options)
+    ? [
+        pointMark("placementPoint", "zipperTopAnchor", slitStart, "ZIPPER TOP ANCHOR", "instruction"),
+        pointMark("placementPoint", "zipperBottomAnchor", slitEnd, "ZIPPER BOTTOM / REINFORCEMENT", "instruction"),
+      ]
+    : [];
   return {
     ...drafted,
     marks: [
@@ -208,6 +264,7 @@ function poloFront(m: Measurements, options: PoloOptions): Piece {
       pointMark("placementPoint", "centerFront", edgeStart(neckline), "CENTER FRONT"),
       pointMark("placementPoint", "shoulder", edgeEnd(neckline), "SHOULDER"),
       lineMark("cutLine", "placketOpening", slitStart, slitEnd, "CUT FRONT SLIT", "instruction"),
+      ...zipperAnchors,
       lineMark("cutLine", "placketBaseClipLeft", slitEnd, clipUpper, "CLIP PLACKET BASE LEFT", "instruction"),
       lineMark("cutLine", "placketBaseClipRight", slitEnd, clipLower, "CLIP PLACKET BASE RIGHT", "instruction"),
       lineMark("placementLine", "placketBaseReinforcement", clipUpper, clipLower, "REINFORCE PLACKET BASE BOX", "instruction"),
@@ -228,19 +285,34 @@ function poloBack(m: Measurements, options: PoloOptions): Piece {
   };
 }
 
-export const POLO_SHELL_STITCHES = (): readonly Stitch[] => [
-  ...sleevedTopStitches(["side"], false),
-  {
-    label: "Button placket ↔ left front slit",
-    a: iface(markRef("front", "placketOpening", "left")),
-    b: iface(markRef("buttonPlacket", "attachmentLine", "left")),
-  },
-  {
-    label: "Buttonhole placket ↔ right front slit",
-    a: iface(markRef("front", "placketOpening", "right")),
-    b: iface(markRef("buttonholePlacket", "attachmentLine", "right")),
-  },
-];
+export const POLO_SHELL_STITCHES = (rawOptions: Partial<PoloOptions> = {}): readonly Stitch[] => {
+  const closureStitches: readonly Stitch[] = usesPoloZipperClosure(rawOptions)
+    ? [
+        {
+          label: "Zipper finish left ↔ left front opening",
+          a: iface(markRef("front", "placketOpening", "left")),
+          b: iface(markRef("zipperFinish", "zipperFinishAttachmentLeft", "left")),
+        },
+        {
+          label: "Zipper finish right ↔ right front opening",
+          a: iface(markRef("front", "placketOpening", "right")),
+          b: iface(markRef("zipperFinish", "zipperFinishAttachmentRight", "right")),
+        },
+      ]
+    : [
+        {
+          label: "Button placket ↔ left front slit",
+          a: iface(markRef("front", "placketOpening", "left")),
+          b: iface(markRef("buttonPlacket", "attachmentLine", "left")),
+        },
+        {
+          label: "Buttonhole placket ↔ right front slit",
+          a: iface(markRef("front", "placketOpening", "right")),
+          b: iface(markRef("buttonholePlacket", "attachmentLine", "right")),
+        },
+      ];
+  return [...sleevedTopStitches(["side"], false), ...closureStitches];
+};
 
 /** Drafts only components resolved for Slice 69. `options` remains in the
  * signature so Slice 70 can add collar/stand without changing this contract. */
@@ -250,13 +322,18 @@ export function draftPoloShell(m: Measurements, rawOptions: Partial<PoloOptions>
   const back = poloBack(m, options);
   const armhole = edgeLength(pieceEdge(front, "armhole")) + edgeLength(pieceEdge(back, "armhole"));
   const sleeve = sleeveComponent(m, { targetArmhole: armhole }).pieces.sleeve;
+  const closurePieces: Record<string, Piece> = usesPoloZipperClosure(options)
+    ? { zipperFinish: zipperFinishPiece(options) }
+    : {
+        buttonPlacket: placketPiece("buttonPlacket", options),
+        buttonholePlacket: placketPiece("buttonholePlacket", options),
+      };
   return block({
     front,
     back,
     sleeve,
-    buttonPlacket: placketPiece("buttonPlacket", options),
-    buttonholePlacket: placketPiece("buttonholePlacket", options),
-  }, POLO_SHELL_STITCHES());
+    ...closurePieces,
+  }, POLO_SHELL_STITCHES(options));
 }
 
 function namedEdge(edge: Edge, name: string): Edge {
@@ -375,15 +452,22 @@ const poloBackComponent = (m: Measurements, options: PoloOptions): ComponentResu
 };
 
 const poloPlacketsComponent = (_m: Measurements, options: PoloOptions): ComponentResult => ({
-  pieces: {
-    buttonPlacket: placketPiece("buttonPlacket", options),
-    buttonholePlacket: placketPiece("buttonholePlacket", options),
-  },
+  pieces: usesPoloZipperClosure(options)
+    ? { zipperFinish: zipperFinishPiece(options) }
+    : {
+        buttonPlacket: placketPiece("buttonPlacket", options),
+        buttonholePlacket: placketPiece("buttonholePlacket", options),
+      },
   stitches: [],
-  interfaces: {
-    button: iface(edgeRef("buttonPlacket", "attachmentRaw")),
-    buttonhole: iface(edgeRef("buttonholePlacket", "attachmentRaw")),
-  },
+  interfaces: usesPoloZipperClosure(options)
+    ? {
+        zipperLeft: iface(markRef("zipperFinish", "zipperFinishAttachmentLeft", "left")),
+        zipperRight: iface(markRef("zipperFinish", "zipperFinishAttachmentRight", "right")),
+      }
+    : {
+        button: iface(edgeRef("buttonPlacket", "attachmentRaw")),
+        buttonhole: iface(edgeRef("buttonholePlacket", "attachmentRaw")),
+      },
 });
 
 const poloCollarComponent = (
@@ -461,7 +545,7 @@ export const POLO_GRAMMAR = garmentGrammar(
       ["front", "back"],
     ),
   ],
-  () => [...POLO_SHELL_STITCHES(), ...poloCollarStitches()],
+  (context) => [...POLO_SHELL_STITCHES(resolvePoloOptions(context.options)), ...poloCollarStitches()],
 );
 
 /** Completes the Slice 70 draft. Four layer pieces are emitted instead of a
@@ -489,21 +573,39 @@ const POLO_COLLAR_ISSUE_FIELDS: Readonly<Record<PoloCollarIssueCode, string>> = 
  * warning names the correction rather than altering it behind the maker's back. */
 export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<PoloOptions> = {}): Note[] {
   const options = resolvePoloOptions(rawOptions);
+  const zipperClosure = usesPoloZipperClosure(options);
   const notes = [...sleevedTopGuidance(block, m)];
   for (const definition of POLO_OPTION_DEFINITIONS) {
-    const value = options[definition.id as keyof PoloOptions];
+    const value = options[definition.id as keyof PoloOptions] as number;
     if (definition.id === "buttonCount") continue;
+    const label = zipperClosure && definition.id === "placketLength"
+      ? "Modeled zipper opening length"
+      : zipperClosure && definition.id === "placketWidth"
+        ? "Finished zipper-placket width"
+        : definition.label;
+    if (zipperClosure && (definition.id === "placketLength" || definition.id === "placketWidth")
+      && !Number.isFinite(value)) {
+      notes.push({ field: `option-${definition.id}`, level: "warn", text: `${label} must be a finite number; enter a value from ${definition.min}–${definition.max} ${definition.unit}.` });
+      continue;
+    }
     if (value < definition.min || value > definition.max) {
       const unit = definition.unit;
-      notes.push({ field: `option-${definition.id}`, level: "warn", text: `${definition.label} (${value} ${unit}) is outside the declared ${definition.min}–${definition.max} ${unit} range — adjust it into that range.` });
+      notes.push({ field: `option-${definition.id}`, level: "warn", text: `${label} (${value} ${unit}) is outside the declared ${definition.min}–${definition.max} ${unit} range — adjust it into that range.` });
+      continue;
+    }
+    if (zipperClosure && (definition.id === "placketLength" || definition.id === "placketWidth")) {
+      const stepsFromMinimum = (value - definition.min) / definition.step;
+      if (Math.abs(stepsFromMinimum - Math.round(stepsFromMinimum)) > 1e-8) {
+        notes.push({ field: `option-${definition.id}`, level: "warn", text: `${label} must use ${definition.step} ${definition.unit} increments from ${definition.min} ${definition.unit}.` });
+      }
     }
   }
   const buttonCountError = poloButtonCountError(options.buttonCount);
-  if (buttonCountError) {
+  if (!zipperClosure && buttonCountError) {
     notes.push({ field: "option-buttonCount", level: "warn", text: buttonCountError });
   }
   const minimumLength = BUTTON_CENTRES[BUTTON_CENTRES.length - 1] + MIN_BUTTON_END_CLEARANCE;
-  if (options.placketLength < minimumLength) {
+  if (!zipperClosure && options.placketLength < minimumLength) {
     notes.push({ field: "option-placketLength", level: "warn", text: `Placket (${options.placketLength} cm) is too short for the fixed button group — increase it to at least ${minimumLength} cm.` });
   }
   const frontNeckline = edgeStart(pieceEdge(block.roles.front, "neckline"));
@@ -511,7 +613,8 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
   if (frontNeckline.y + options.placketLength > frontVentTopY - 2) {
     const target = Math.max(0, frontVentTopY - 2 - frontNeckline.y);
     const region = options.sideVentDepth === 0 ? "hem allowance" : "front vent region";
-    notes.push({ field: "option-placketLength", level: "warn", text: `Placket reaches the ${region} — shorten it to ${target.toFixed(1)} cm or less.` });
+    const label = zipperClosure ? "Modeled zipper opening" : "Placket";
+    notes.push({ field: "option-placketLength", level: "warn", text: `${label} reaches the ${region} — shorten it to ${target.toFixed(1)} cm or less.` });
   }
   if (options.standHeight > options.collarLeafDepth) {
     notes.push({ field: "option-standHeight", level: "warn", text: "Stand is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
@@ -553,7 +656,9 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
       const sideSeamField = options.sideVentDepth === 0 && options.backHemDrop > 0
         ? "option-backHemDrop"
         : "option-sideVentDepth";
-      notes.push({ field: stitch.label === "Side seam (front ↔ back)" ? sideSeamField : "option-placketLength", level: "warn", text: `${stitch.label} measures ${measuredA.toFixed(1)} cm versus ${measuredB.toFixed(1)} cm — correct the named interface before sewing.` });
+      const field = stitch.label === "Side seam (front ↔ back)" ? sideSeamField : "option-placketLength";
+      const action = zipperClosure && field === "option-placketLength" ? "adjust the modeled zipper opening" : "correct the named interface";
+      notes.push({ field, level: "warn", text: `${stitch.label} measures ${measuredA.toFixed(1)} cm versus ${measuredB.toFixed(1)} cm — ${action} before sewing.` });
     }
   }
   return notes;
@@ -741,6 +846,33 @@ export const POLO_BODY_POMS: readonly Pom[] = TSHIRT_POMS
   .filter((pom) => pom.label !== "Body length (HPS–hem)")
   .map(mapPoloBodyPom);
 
+export function poloPomsForOptions(rawOptions: GarmentOptions): readonly Pom[] {
+  if (!usesPoloZipperClosure(rawOptions)) return [...POLO_BODY_POMS, ...POLO_POMS];
+  const zipperLength: Pom = {
+    label: "Modeled zipper opening length",
+    tolerance: 0.3,
+    measure: (drafted) => edgeLength(pieceEdge(rolePiece(drafted, "zipperFinish"), "attachmentLeft")),
+    anchor: (drafted) => edgeStart(pieceEdge(rolePiece(drafted, "zipperFinish"), "attachmentLeft")),
+    anchorRoleId: "zipperFinish",
+    anchorEdgeId: "attachmentLeft",
+  };
+  const zipperWidth: Pom = {
+    label: "Finished zipper-placket width",
+    tolerance: 0.2,
+    measure: (drafted) => {
+      const piece = rolePiece(drafted, "zipperFinish");
+      const attachment = piece.marks?.find((mark) => mark.name === "zipperFinishAttachmentLeft");
+      const fold = piece.marks?.find((mark) => mark.name === "zipperFinishFold");
+      if (!attachment || !fold || !("start" in attachment) || !("start" in fold)) {
+        throw new Error("Polo zipper-finish attachment and fold marks are missing");
+      }
+      return distance(attachment.start, fold.start);
+    },
+    frontMarkAnchor: { roleId: "zipperFinish", markName: "zipperFinishFold", point: "start" },
+  };
+  return [...POLO_BODY_POMS, zipperLength, zipperWidth, ...POLO_POMS.slice(3)];
+}
+
 /** Notches and grainlines for every Polo piece. Sleeve/body tables are reused
  * verbatim because those pieces are the current tee geometry, not lookalikes. */
 export const POLO_NOTCHES: readonly PieceNotches[] = [
@@ -774,3 +906,18 @@ export const POLO_NOTCHES: readonly PieceNotches[] = [
     grainline: { topEdge: "backCollarBase", topT: 0.5, bottomEdge: "outer", bottomT: 0.5 },
   })),
 ];
+
+export function poloNotchesForOptions(rawOptions: GarmentOptions): readonly PieceNotches[] {
+  if (!usesPoloZipperClosure(rawOptions)) return POLO_NOTCHES;
+  return [
+    ...POLO_NOTCHES.filter((entry) => entry.pieceName !== "button placket" && entry.pieceName !== "buttonhole placket"),
+    {
+      pieceName: "zipper finish",
+      notches: [
+        { edgeName: "attachmentLeft", t: 0.5 },
+        { edgeName: "attachmentRight", t: 0.5 },
+      ],
+      grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
+    },
+  ];
+}

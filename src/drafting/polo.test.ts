@@ -11,6 +11,7 @@ import {
   poloButtonCountError,
   mapPoloBodyPom,
   poloGuidance,
+  poloPomsForOptions,
   resolvePoloOptions,
 } from "./polo";
 import { rolePiece } from "./block";
@@ -58,6 +59,92 @@ describe("Polo shell (Slice 69)", () => {
     const buttons = placket.marks?.filter((mark): mark is Extract<typeof mark, { readonly at: unknown }> =>
       mark.kind === "button");
     expect(buttons?.map((mark) => mark.at.y)).toEqual([3.5, 7, 10.5]);
+  });
+
+  it("drafts one centered zipper finish with two matched slit attachments and no button geometry", () => {
+    const options = { zipperClosureProfile: 1, buttonCount: 4, placketLength: 14, placketWidth: 3 };
+    const drafted = draftPolo(STANDARD_M, options);
+    expect(Object.keys(drafted.roles)).toEqual([
+      "front", "back", "sleeve", "zipperFinish", "outerStand", "innerStand", "upperCollar", "underCollar",
+    ]);
+    expect(drafted.roles.buttonPlacket).toBeUndefined();
+    expect(drafted.roles.buttonholePlacket).toBeUndefined();
+    const finish = rolePiece(drafted, "zipperFinish");
+    expect(finish.name).toBe("zipper finish");
+    expect(edgeLength(pieceEdge(finish, "top"))).toBeCloseTo(8);
+    expect(edgeLength(pieceEdge(finish, "attachmentLeft"))).toBeCloseTo(14);
+    expect(edgeLength(pieceEdge(finish, "attachmentRight"))).toBeCloseTo(14);
+    expect(finish.marks?.map((mark) => mark.name)).toEqual(expect.arrayContaining([
+      "zipperFinishAttachmentLeft", "zipperFinishAttachmentRight", "zipperFinishFold",
+      "zipperCenterline", "zipperTapeLeft", "zipperTapeRight", "zipperTopAnchor", "zipperBottomAnchor",
+    ]));
+    expect(finish.marks?.some((mark) => mark.kind === "button" || mark.kind === "buttonhole")).toBe(false);
+    expect(rolePiece(drafted, "front").marks?.map((mark) => mark.name)).toEqual(expect.arrayContaining([
+      "zipperTopAnchor", "zipperBottomAnchor", "placketBaseReinforcement",
+    ]));
+    expect(drafted.stitches.map((stitch) => stitch.label)).toEqual(expect.arrayContaining([
+      "Zipper finish left ↔ left front opening", "Zipper finish right ↔ right front opening",
+    ]));
+    expect(stitchChecks(drafted, drafted.stitches).every((result) => result.ok)).toBe(true);
+    const notes = poloGuidance(drafted, STANDARD_M, options);
+    expect(notes.some((note) => note.field === "option-buttonCount")).toBe(false);
+    expect(notes.some((note) => note.text.includes("fixed button group"))).toBe(false);
+    const poms = poloPomsForOptions(options);
+    const zipperLength = poms.find((pom) => pom.label === "Modeled zipper opening length")!;
+    const zipperWidth = poms.find((pom) => pom.label === "Finished zipper-placket width")!;
+    expect(zipperLength.anchor!(drafted)).toEqual(edgeStart(pieceEdge(finish, "attachmentLeft")));
+    expect(zipperWidth.measure(drafted)).toBeCloseTo(3);
+    const missingFold = {
+      ...drafted,
+      roles: {
+        ...drafted.roles,
+        zipperFinish: {
+          ...finish,
+          marks: finish.marks?.filter((mark) => mark.name !== "zipperFinishFold"),
+        },
+      },
+    };
+    expect(() => zipperWidth.measure(missingFold)).toThrow("Polo zipper-finish attachment and fold marks are missing");
+    expect(poloPomsForOptions({}).map((pom) => pom.label)).toContain("Button spacing");
+  });
+
+  it("routes the shell-level P07 draft through one zipper-finish piece", () => {
+    const shell = draftPoloShell(STANDARD_M, { zipperClosureProfile: 1 });
+    expect(rolePiece(shell, "zipperFinish").name).toBe("zipper finish");
+    expect(shell.roles.buttonPlacket).toBeUndefined();
+    expect(shell.roles.buttonholePlacket).toBeUndefined();
+  });
+
+  it("keeps P07 opening and width boundaries finite and preserves invalid raw values for guidance", () => {
+    for (const placketLength of [14, 22, 30]) {
+      for (const placketWidth of [2, 3, 4]) {
+        const options = { zipperClosureProfile: 1, placketLength, placketWidth };
+        const drafted = draftPolo(STANDARD_M, options);
+        expect(stitchChecks(drafted, drafted.stitches).every((result) => result.ok)).toBe(true);
+        expect(Number.isFinite(edgeLength(pieceEdge(rolePiece(drafted, "zipperFinish"), "top")))).toBe(true);
+      }
+    }
+    for (const [field, value, label] of [
+      ["placketLength", 13.5, "Modeled zipper opening length"],
+      ["placketLength", 14.25, "Modeled zipper opening length"],
+      ["placketWidth", 4.5, "Finished zipper-placket width"],
+      ["placketWidth", 3.25, "Finished zipper-placket width"],
+    ] as const) {
+      const options = { zipperClosureProfile: 1, [field]: value };
+      expect(resolvePoloOptions(options)[field]).toBe(value);
+      const notes = poloGuidance(draftPolo(STANDARD_M, options), STANDARD_M, options);
+      expect(notes.some((note) => note.field === `option-${field}` && note.text.includes(label))).toBe(true);
+    }
+    const nonFinite = { zipperClosureProfile: 1, placketLength: Number.NaN };
+    expect(Number.isNaN(resolvePoloOptions(nonFinite).placketLength)).toBe(true);
+    expect(poloGuidance(draftPolo(STANDARD_M, nonFinite), STANDARD_M, nonFinite))
+      .toContainEqual(expect.objectContaining({ field: "option-placketLength", level: "warn", text: expect.stringContaining("finite number") }));
+  });
+
+  it("labels an opening that reaches the vent as a modeled zipper opening", () => {
+    const options = { zipperClosureProfile: 1, placketLength: 100 };
+    const notes = poloGuidance(draftPolo(STANDARD_M, options), STANDARD_M, options);
+    expect(notes.some((note) => note.text.includes("Modeled zipper opening reaches the"))).toBe(true);
   });
 
   it("keeps the selected count matched across both plackets and preserves the spacing POM", () => {
