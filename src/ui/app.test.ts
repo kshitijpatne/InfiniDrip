@@ -57,7 +57,7 @@ import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_
 import { blockPieces } from "../drafting/block";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
 import { pieceBounds, pieceToPath } from "../render/shape";
-import { exportA0Pdf, exportDxf, exportPdf, exportSvg } from "../export";
+import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg } from "../export";
 import { teeNeckbandSettings, teeNeckbandTemplateSvg } from "../drafting/tshirt";
 import * as teeDrafting from "../drafting/tshirt";
 import * as editEngine from "../edit";
@@ -67,7 +67,7 @@ import { loadJourney, tutorialMarkup } from "./journey";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, saveRecoveryToStorage, saveToStorage } from "./persist";
-import { POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
+import { POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, STARTER_REGISTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_ENTRY_ID, starterOriginForEntry } from "./starter-registry";
 import { POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
@@ -11509,6 +11509,143 @@ describe("EPIC-19 L02 starter binding", () => {
     root.remove();
     reopened.remove();
     localStorage.clear();
+  });
+
+  it("selects W01, preserves edits and origin through save/reopen, and exports the authored profile", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_ENTRY_ID}`);
+
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Classic woven shirt");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Classic button-front Shirt · software defaults");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("B1 technical review pending; physical validation not performed");
+      const defaultMeasurements: Record<string, string> = {
+        neck: "40", chest: "100", shoulderWidth: "45", bicep: "38", length: "70",
+        armholeDepth: "24", sleeveLength: "22", waist: "84", hip: "100", hipDepth: "20", ease: "13",
+      };
+      for (const [field, value] of Object.entries(defaultMeasurements)) {
+        expect(root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!.value).toBe(value);
+      }
+      const defaultOptions: Record<string, string> = {
+        neckEase: "1", buttonCount: "7", buttonSpacing: "8", frontOverlap: "1.5", placketWidth: "3",
+        standHeight: "2.5", collarLeafDepth: "6", yokeDepth: "10", pocketWidth: "12", pocketHeight: "13",
+        sleeveBandDepth: "3", sideVentDepth: "3", hemTurn: "1",
+      };
+      for (const [option, value] of Object.entries(defaultOptions)) {
+        expect(root.querySelector<HTMLInputElement>(`input[data-option="${option}"]`)!.value).toBe(value);
+      }
+
+      clickId(root, "view-pattern");
+      expect(root.querySelector("#canvas-host")!.textContent).toContain("WOVEN FRONT");
+      expect(root.querySelectorAll('[data-edge="woven-button"]')).toHaveLength(7);
+      const initialSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      const buttonCount = root.querySelector<HTMLInputElement>('input[data-option="buttonCount"]')!;
+      buttonCount.value = "5";
+      buttonCount.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(buttonCount.value).toBe("5");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .toContain("supports 6–7 buttons");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      buttonCount.value = "6";
+      buttonCount.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelectorAll('[data-edge="woven-button"]')).toHaveLength(6);
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .not.toContain("supports 6–7 buttons");
+      const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+      ease.value = "14";
+      ease.dispatchEvent(new Event("input", { bubbles: true }));
+      const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+      length.value = "72";
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      expect(editedSvg).not.toBe(initialSvg);
+
+      clickId(root, "view-spec");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+      clickId(root, "save-pattern");
+      const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: Record<string, unknown> };
+      };
+      expect(stored.measurements).toMatchObject({ ease: 14, length: 72 });
+      expect(stored.garmentOptions["woven-shirt"]).toMatchObject({ buttonCount: 6 });
+      expect(stored.workspace.starterOrigin).toMatchObject({
+        entryId: WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_ENTRY_ID,
+        entryRevision: "2026-11-02.1",
+        recipeId: "woven-shirt",
+        recipeRevision: "woven-shirt-classic-button-front-v1",
+        configurationSnapshot: {
+          targetStyle: "Classic woven shirt",
+          measurements: { neck: 40, chest: 100, length: 70, ease: 13 },
+          options: { buttonCount: 7, placketWidth: 3, hemTurn: 1 },
+        },
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Classic woven shirt");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("14");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("72");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="buttonCount"]')!.value).toBe("6");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+      clickId(reopened, "view-spec");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+
+      reachExportStage(reopened);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(reopened, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "woven-shirt-M-A0.pdf", "woven-shirt-M.dxf", "woven-shirt-M.pdf", "woven-shirt-M.svg",
+        "woven-shirt-projector.svg", "woven-shirt-techpack.pdf",
+      ].sort());
+      const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+      const options = stored.garmentOptions["woven-shirt"] as GarmentOptions;
+      const pieces = blockPieces(recipe.draft(stored.measurements, options));
+      expect(files.get("woven-shirt-M.svg")).toBe(
+        exportSvg(pieces, recipe.allowances!, notchesForRecipeOptions(recipe, options)),
+      );
+      expect(files.get("woven-shirt-M.dxf")).toBe(exportDxf(pieces, recipe.allowances!));
+      expect(files.get("woven-shirt-M.pdf")).toBe(exportPdf(
+        pieces, recipe.allowances!, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true,
+      ));
+      expect(files.get("woven-shirt-M-A0.pdf")).toBe(exportA0Pdf(
+        pieces, recipe.allowances!, notchesForRecipeOptions(recipe, options), undefined, recipe.a0Overflow === true,
+      ));
+      expect(files.get("woven-shirt-projector.svg")).toBe(
+        exportProjectorSvg(recipe, stored.measurements, options),
+      );
+      const techPack = visiblePdfText(files.get("woven-shirt-techpack.pdf")!);
+      expect(techPack).toContain("Body length (HPS-hem)");
+      expect(techPack).toContain("72.0 cm");
+      expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
   });
 
   it("selects T03 as Boxy Crop, keeps standard Tee construction, and preserves its origin through save and reopen", () => {
