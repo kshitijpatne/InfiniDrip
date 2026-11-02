@@ -2538,7 +2538,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const visibleTarget = hasTarget(analysisHost);
     const assembledTarget = hasTarget(assembledHost);
     const optionLabel = field.startsWith("option-")
-      ? recipe.options?.find((option) => option.id === field.slice("option-".length))?.label
+      ? activeOptionDefinitions().find((option) => option.id === field.slice("option-".length))?.label
       : undefined;
     const label = optionLabel ?? (field.startsWith("option-")
       ? field.slice("option-".length).replace(/([A-Z])/g, " $1").toLowerCase()

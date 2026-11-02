@@ -15627,6 +15627,72 @@ describe("P06 Longline Polo Starter Blank", () => {
 });
 
 describe("P07 Zip-placket Polo Starter Blank", () => {
+  it("uses the P07 zipper wording in its spatial option cue", () => {
+    const root = mount();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${POLO_ZIP_PLACKET_ENTRY_ID}`);
+      clickId(root, "view-body");
+      const row = root.querySelector<HTMLElement>('[data-dim-row="option-placketLength"]')!;
+      row.dispatchEvent(new Event("mouseenter"));
+      const cue = root.querySelector<HTMLElement>("#spatial-cue-text")!.textContent!;
+      expect(cue).toContain("Modeled zipper opening length");
+      expect(cue).not.toContain("Finished placket length");
+    } finally {
+      root.remove();
+      localStorage.clear();
+    }
+  });
+
+  it("preserves invalid opening and width values with correction guidance after save and reopen", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${POLO_ZIP_PLACKET_ENTRY_ID}`);
+      clickId(root, "journey-step-measure");
+      root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!.click();
+      const setOption = (field: string, value: number) => {
+        const input = root!.querySelector<HTMLInputElement>(`[data-option="${field}"]`)!;
+        input.value = String(value);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        return input;
+      };
+      setOption("placketLength", 14.25);
+      setOption("placketWidth", 3.25);
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-placketLength"]')?.textContent)
+        .toContain("0.5 cm increments");
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-placketWidth"]')?.textContent)
+        .toContain("0.5 cm increments");
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1") ?? "null") as {
+        garmentOptions: { polo: Record<string, number> };
+      } | null;
+      expect(saved?.garmentOptions.polo).toMatchObject({ placketLength: 14.25, placketWidth: 3.25 });
+      unmountApp();
+      root.remove();
+      root = null;
+
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="placketLength"]')?.value).toBe("14.25");
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="placketWidth"]')?.value).toBe("3.25");
+      expect(reopened.querySelector<HTMLElement>('[data-input-error="option-placketLength"]')?.textContent)
+        .toContain("0.5 cm increments");
+      expect(reopened.querySelector<HTMLElement>('[data-input-error="option-placketWidth"]')?.textContent)
+        .toContain("0.5 cm increments");
+      expect(reopened.querySelector<HTMLElement>("#canvas-host")?.textContent).toContain("Draft paused");
+      expect(reopened.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      localStorage.clear();
+    }
+  });
+
   it("keeps the zipper profile through edits, save/reopen, and zipper-only exports", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
@@ -15735,7 +15801,8 @@ describe("P07 Zip-placket Polo Starter Blank", () => {
       expect(packageJson.manifest.patternMarks.some((mark) => mark.name.startsWith("button"))).toBe(false);
       const techPack = visiblePdfText([...files.entries()].find(([name]) => name.endsWith("-techpack.pdf"))![1]);
       expect(techPack).toContain("Polo Zip-placket");
-      expect(techPack).toContain("nominal modeled length 20 1 unspecified");
+      expect(techPack).toContain("20 cm modeled zipper opening");
+      expect(techPack).toContain("physical product unspecified");
       expect(techPack).toContain("No buttons or buttonholes");
       expect(techPack).toContain("not a validated P07 grade");
       expect(techPack).toContain("physical fit, comfort, wear");

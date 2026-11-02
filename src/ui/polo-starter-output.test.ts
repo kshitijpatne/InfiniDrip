@@ -213,17 +213,20 @@ describe("P07 Zip-placket Polo output", () => {
     expect(output.pomsForOptions!(options).map((pom) => pom.label)).toContain("Modeled zipper opening length");
     expect(output.notchesForOptions!(options).map((notch) => notch.pieceName)).toContain("zipper finish");
     expect(output.techPack.bom).toEqual(expect.arrayContaining([
-      { material: "Not specified", placement: "Body, sleeves, collar, zipper finish and trim", qty: "No consumption estimate" },
-      { material: "Zipper (type and material unspecified)", placement: "Center-front opening; nominal modeled length 20 cm", qty: "1" },
+      { material: "Not specified", placement: "Body, sleeves, collar, zipper finish and unspecified trim", qty: "No consumption estimate" },
+      { material: "Zipper (type and material unspecified)", placement: "One modeled center-front closure; nominal opening length 20 cm", qty: "1 modeled closure; physical product unspecified" },
     ]));
     expect(output.techPack.bom.some((row) => row.material === "Buttons" || row.material === "Buttonholes")).toBe(false);
+    expect(output.techPack.bom.some((row) => row.material === "Stretch sewing thread" || row.material.toLowerCase().includes("stabilizer"))).toBe(false);
     expect(output.techPack.construction.join(" ")).toContain("No buttons or buttonholes");
+    expect(output.techPack.construction.join(" ")).toContain("cut line, two diagonal lower clip lines and a reinforcement-box placement line");
     expect(output.techPack.construction.join(" ")).toContain("3.5 cm finished zipper-placket width");
-    expect(output.techPack.constructionNotice).toContain("physical fit, comfort, wear");
+    expect(output.techPack.construction.join(" ")).toContain("Hem front and back body edges separately");
+    expect(output.techPack.constructionNotice).toContain("physical fit, dimensions, comfort, wear");
     expect(output.techPack.measurementSpecNote).toContain("not a validated P07 grade");
     expect(output.techPack.fitRecordStatusNote).toContain("zipper compatibility/performance");
     expect(output.techPackForOptions!({ ...options, placketLength: 30 }).bom[1]?.placement)
-      .toContain("nominal modeled length 30 cm");
+      .toContain("nominal opening length 30 cm");
   });
 
   it("keeps the P07 consumers and disclosures when the source recipe lacks option-aware callbacks", () => {
@@ -245,7 +248,7 @@ describe("P07 Zip-placket Polo output", () => {
     const techPack = output.techPackForOptions!({});
     expect(techPack.measurementSpecNote).toContain("14 cm modeled zipper opening and 3 cm finished zipper-placket width");
     expect(techPack.bom.filter((row) => row.material === "Zipper (type and material unspecified)"))
-      .toEqual([{ material: "Zipper (type and material unspecified)", placement: "Center-front opening; nominal modeled length 14 cm", qty: "1" }]);
+      .toEqual([{ material: "Zipper (type and material unspecified)", placement: "One modeled center-front closure; nominal opening length 14 cm", qty: "1 modeled closure; physical product unspecified" }]);
     expect(techPack.bom.some((row) => row.material === "Buttons" || row.material === "Buttonholes")).toBe(false);
     expect(techPack.construction.join(" ")).toContain("No buttons or buttonholes are included");
     expect(output.draftReview!(STANDARD_M, {}).block?.roles.zipperFinish).toBeDefined();

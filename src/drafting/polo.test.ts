@@ -5,6 +5,7 @@ import {
   draftPolo,
   draftPoloShell,
   POLO_ALLOWANCES,
+  POLO_BODY_POMS,
   POLO_NOTCHES,
   POLO_OPTION_DEFINITIONS,
   POLO_POMS,
@@ -76,12 +77,14 @@ describe("Polo shell (Slice 69)", () => {
     expect(edgeLength(pieceEdge(finish, "attachmentRight"))).toBeCloseTo(14);
     expect(finish.marks?.map((mark) => mark.name)).toEqual(expect.arrayContaining([
       "zipperFinishAttachmentLeft", "zipperFinishAttachmentRight", "zipperFinishFold",
-      "zipperCenterline", "zipperTapeLeft", "zipperTapeRight", "zipperTopAnchor", "zipperBottomAnchor",
+      "zipperTapeLeft", "zipperTapeRight", "zipperTopAnchor", "zipperBottomAnchor",
     ]));
+    expect(finish.marks?.some((mark) => mark.name === "zipperCenterline")).toBe(false);
     expect(finish.marks?.some((mark) => mark.kind === "button" || mark.kind === "buttonhole")).toBe(false);
     expect(rolePiece(drafted, "front").marks?.map((mark) => mark.name)).toEqual(expect.arrayContaining([
-      "zipperTopAnchor", "zipperBottomAnchor", "placketBaseReinforcement",
+      "zipperTopAnchor", "placketBaseReinforcement",
     ]));
+    expect(rolePiece(drafted, "front").marks?.some((mark) => mark.name === "zipperBottomAnchor")).toBe(false);
     expect(drafted.stitches.map((stitch) => stitch.label)).toEqual(expect.arrayContaining([
       "Zipper finish left ↔ left front opening", "Zipper finish right ↔ right front opening",
     ]));
@@ -90,6 +93,13 @@ describe("Polo shell (Slice 69)", () => {
     expect(notes.some((note) => note.field === "option-buttonCount")).toBe(false);
     expect(notes.some((note) => note.text.includes("fixed button group"))).toBe(false);
     const poms = poloPomsForOptions(options);
+    const buttonClosurePoms = new Set(["Finished placket length", "Finished placket width", "Button spacing"]);
+    expect(poms.map((pom) => pom.label)).toEqual([
+      ...POLO_BODY_POMS.map((pom) => pom.label),
+      "Modeled zipper opening length",
+      "Finished zipper-placket width",
+      ...POLO_POMS.filter((pom) => !buttonClosurePoms.has(pom.label)).map((pom) => pom.label),
+    ]);
     const zipperLength = poms.find((pom) => pom.label === "Modeled zipper opening length")!;
     const zipperWidth = poms.find((pom) => pom.label === "Finished zipper-placket width")!;
     expect(zipperLength.anchor!(drafted)).toEqual(edgeStart(pieceEdge(finish, "attachmentLeft")));
@@ -106,6 +116,20 @@ describe("Polo shell (Slice 69)", () => {
     };
     expect(() => zipperWidth.measure(missingFold)).toThrow("Polo zipper-finish attachment and fold marks are missing");
     expect(poloPomsForOptions({}).map((pom) => pom.label)).toContain("Button spacing");
+
+    for (const piece of Object.values(drafted.roles)) {
+      const seenLines = new Set<string>();
+      for (const mark of piece.marks ?? []) {
+        if (!("start" in mark) || !("end" in mark)) continue;
+        const endpoints = [
+          `${mark.start.x.toFixed(6)},${mark.start.y.toFixed(6)}`,
+          `${mark.end.x.toFixed(6)},${mark.end.y.toFixed(6)}`,
+        ].sort();
+        const key = endpoints.join("|");
+        expect(seenLines.has(key), `${piece.name}: duplicate mark line ${key}`).toBe(false);
+        seenLines.add(key);
+      }
+    }
   });
 
   it("routes the shell-level P07 draft through one zipper-finish piece", () => {
@@ -139,6 +163,22 @@ describe("Polo shell (Slice 69)", () => {
     expect(Number.isNaN(resolvePoloOptions(nonFinite).placketLength)).toBe(true);
     expect(poloGuidance(draftPolo(STANDARD_M, nonFinite), STANDARD_M, nonFinite))
       .toContainEqual(expect.objectContaining({ field: "option-placketLength", level: "warn", text: expect.stringContaining("finite number") }));
+  });
+
+  it("warns on non-finite and off-step placket values for both closure profiles", () => {
+    for (const options of [{ placketLength: Number.NaN }, { placketWidth: Number.POSITIVE_INFINITY }]) {
+      const notes = poloGuidance(draftPolo(STANDARD_M, options), STANDARD_M, options);
+      expect(notes.some((note) => (note.field?.startsWith("option-placket") ?? false)
+        && note.text.includes("finite number"))).toBe(true);
+    }
+    const offStep = { placketLength: 14.25, placketWidth: 3.25 };
+    for (const options of [offStep, { ...offStep, zipperClosureProfile: 1 }]) {
+      const notes = poloGuidance(draftPolo(STANDARD_M, options), STANDARD_M, options);
+      expect(notes.some((note) => note.field === "option-placketLength" && note.text.includes("0.5 cm increments"))).toBe(true);
+      expect(notes.some((note) => note.field === "option-placketWidth" && note.text.includes("0.5 cm increments"))).toBe(true);
+    }
+    expect(POLO_OPTION_DEFINITIONS.find((option) => option.id === "placketLength")?.preserveInvalidWhenRestored).toBe(true);
+    expect(POLO_OPTION_DEFINITIONS.find((option) => option.id === "placketWidth")?.preserveInvalidWhenRestored).toBe(true);
   });
 
   it("labels an opening that reaches the vent as a modeled zipper opening", () => {

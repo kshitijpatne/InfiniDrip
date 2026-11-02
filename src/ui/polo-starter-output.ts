@@ -1,5 +1,6 @@
 import type { GarmentOptions } from "../drafting/options";
 import type { GarmentRecipe, TechPack } from "../drafting/recipe";
+import { poloZipPlacketTechPack } from "../drafting/recipe";
 import {
   POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID,
   POLO_ZIPPER_CLOSURE_PROFILE_VALUE,
@@ -12,8 +13,6 @@ const DEFAULT_P03_BUTTON_COUNT = 2;
 const DEFAULT_P04_BUTTON_COUNT = 2;
 const DEFAULT_P05_BUTTON_COUNT = 2;
 const DEFAULT_P06_BUTTON_COUNT = 2;
-const DEFAULT_P07_OPENING_LENGTH_CM = 14;
-const DEFAULT_P07_FINISHED_WIDTH_CM = 3;
 const P05_LOW_EASE_MIN_CM = 3;
 const P05_LOW_EASE_MAX_CM = 6;
 
@@ -253,44 +252,7 @@ export function poloLonglineRecipeForOutput(
 }
 
 function zipPlacketPoloTechPack(base: TechPack, options: GarmentOptions): TechPack {
-  const openingLength = options.placketLength ?? DEFAULT_P07_OPENING_LENGTH_CM;
-  const finishedWidth = options.placketWidth ?? DEFAULT_P07_FINISHED_WIDTH_CM;
-  const zipperMaterial = "Zipper (type and material unspecified)";
-  const zipper = base.bom.find((row) => row.material === zipperMaterial) ?? {
-    material: zipperMaterial,
-    placement: "Center-front opening; nominal modeled length " + openingLength + " cm",
-    qty: "1",
-  };
-  const bom = base.bom.filter((row) => row.material !== "Buttons"
-    && row.material !== "Buttonholes" && row.material !== zipperMaterial);
-  const bodyRowIndex = bom.findIndex((row) => row.material === "Not specified");
-  bom.splice(bodyRowIndex < 0 ? 0 : bodyRowIndex + 1, 0, zipper);
-  const filteredConstruction = base.construction.filter((line) => {
-    const lower = line.toLowerCase();
-    return lower.includes("p07 zip-placket") || lower.includes("zipper") || lower.startsWith("no buttons")
-      || (!lower.includes("button") && !lower.includes("placket"));
-  });
-  const construction = filteredConstruction.some((line) => line.includes("P07 Zip-placket"))
-    ? filteredConstruction
-    : [
-        "Digital P07 Zip-placket Polo profile using the existing Polo body; review the exported pattern before use.",
-        "The " + openingLength + " cm modeled zipper opening and " + finishedWidth + " cm finished zipper-placket width are editable software choices, not physical standards or a selected zipper specification.",
-        "Use one folded zipper-finish piece behind the centered front slit; no separate shield is modeled.",
-        "No buttons or buttonholes are included in the P07 pattern or bill of materials.",
-        ...filteredConstruction,
-      ];
-  return {
-    ...base,
-    bom,
-    construction,
-    constructionNotice: "Digital pattern output only. No physical zipper product or sample has been assessed; physical fit, comfort, wear, zipper compatibility/performance, materials, and sewing performance remain unvalidated.",
-    measurementSpecNote: `P07 uses a ${openingLength} cm modeled zipper opening and ${finishedWidth} cm finished zipper-placket width as editable software choices, not physical standards or a selected zipper specification. The generic Polo size run is not a validated P07 grade; physical fit, materials, grading, comfort, wear, and production remain unvalidated.`,
-    measurementSpecToleranceColumn: false,
-    fitRecordStatusNote: "P07 is an editable digital pattern. Physical fit, comfort, wear, zipper compatibility/performance, materials, grading, and production remain unvalidated.",
-    fitRecordPassColumn: false,
-    fitRecordToleranceColumn: false,
-    fitRecordTitle: "Digital Measurement Worksheet",
-  };
+  return poloZipPlacketTechPack(base, options);
 }
 
 export function poloZipPlacketRecipeForOutput(

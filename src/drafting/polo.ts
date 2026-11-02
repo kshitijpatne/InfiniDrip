@@ -48,8 +48,8 @@ export function usesPoloZipperClosure(options: Partial<PoloOptions>): boolean {
 
 export const POLO_OPTION_DEFINITIONS: readonly PoloOptionDefinition[] = [
   { id: "buttonCount", label: "Front button count", unit: "buttons", group: "Front closure", help: "Choose two or three buttons; matching marks and the Tech Pack follow this count.", defaultValue: 3, min: 2, max: 3, step: 1, excludedForStarterEntryIds: [POLO_ZIP_PLACKET_STARTER_ENTRY_ID] },
-  { id: "placketLength", label: "Finished placket length", unit: "cm", group: "Front closure", help: "Sets the finished slit length; shorten it if the placket reaches the vent or hem allowance.", defaultValue: 14, min: 14, max: 30, step: 0.5 },
-  { id: "placketWidth", label: "Finished placket width", unit: "cm", group: "Front closure", help: "Sets the finished folded placket face; keep it inside the declared 2–4 cm range.", defaultValue: 3, min: 2, max: 4, step: 0.5 },
+  { id: "placketLength", label: "Finished placket length", unit: "cm", group: "Front closure", help: "Sets the finished slit length; shorten it if the placket reaches the vent or hem allowance.", defaultValue: 14, min: 14, max: 30, step: 0.5, preserveInvalidWhenRestored: true },
+  { id: "placketWidth", label: "Finished placket width", unit: "cm", group: "Front closure", help: "Sets the finished folded placket face; keep it inside the declared 2–4 cm range.", defaultValue: 3, min: 2, max: 4, step: 0.5, preserveInvalidWhenRestored: true },
   { id: "standHeight", label: "Finished stand height", unit: "cm", group: "Neck & collar", help: "Raises the collar stand above the neckline; reduce it if it exceeds the collar leaf.", defaultValue: 2, min: 1, max: 3, step: 0.5 },
   { id: "collarLeafDepth", label: "Finished pointed collar leaf", unit: "cm", group: "Neck & collar", help: "Sets the collar leaf depth from the stand; increase it when the point extension dominates.", defaultValue: 5, min: 4, max: 7, step: 0.5 },
   { id: "standFrontRise", label: "Stand front rise", unit: "cm", group: "Neck & collar", help: "Lifts the front stand toward the centre front; reduce it if the shaped seam reverses or cannot preserve length.", defaultValue: 0.75, min: 0, max: 2, step: 0.25 },
@@ -195,7 +195,6 @@ function zipperFinishPiece(options: PoloOptions): Piece {
       lineMark("placementLine", "zipperFinishAttachmentLeft", point(PLACKET_SEAM_ALLOWANCE, 0), point(PLACKET_SEAM_ALLOWANCE, length), "LEFT FINISH ATTACHMENT", "instruction"),
       lineMark("placementLine", "zipperFinishAttachmentRight", point(cutWidth - PLACKET_SEAM_ALLOWANCE, 0), point(cutWidth - PLACKET_SEAM_ALLOWANCE, length), "RIGHT FINISH ATTACHMENT", "instruction"),
       lineMark("foldLine", "zipperFinishFold", point(centerX, 0), point(centerX, length), "FOLD AT CENTER", "instruction"),
-      lineMark("placementLine", "zipperCenterline", point(centerX, 0), point(centerX, length), "CENTERED ZIPPER", "instruction"),
       lineMark("placementLine", "zipperTapeLeft", point(leftTapeX, 0), point(leftTapeX, length), "LEFT TAPE PATH — SCHEMATIC", "instruction"),
       lineMark("placementLine", "zipperTapeRight", point(rightTapeX, 0), point(rightTapeX, length), "RIGHT TAPE PATH — SCHEMATIC", "instruction"),
       pointMark("placementPoint", "zipperTopAnchor", point(centerX, 0), "ZIPPER TOP ANCHOR", "instruction"),
@@ -252,10 +251,7 @@ function poloFront(m: Measurements, options: PoloOptions): Piece {
   const clipUpper = point(slitEnd.x + clipSpan, slitEnd.y - clipSpan);
   const clipLower = point(slitEnd.x + clipSpan, slitEnd.y + clipSpan);
   const zipperAnchors = usesPoloZipperClosure(options)
-    ? [
-        pointMark("placementPoint", "zipperTopAnchor", slitStart, "ZIPPER TOP ANCHOR", "instruction"),
-        pointMark("placementPoint", "zipperBottomAnchor", slitEnd, "ZIPPER BOTTOM / REINFORCEMENT", "instruction"),
-      ]
+    ? [pointMark("placementPoint", "zipperTopAnchor", slitStart, "ZIPPER TOP ANCHOR", "instruction")]
     : [];
   return {
     ...drafted,
@@ -576,16 +572,29 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
   const zipperClosure = usesPoloZipperClosure(options);
   const notes = [...sleevedTopGuidance(block, m)];
   for (const definition of POLO_OPTION_DEFINITIONS) {
-    const value = options[definition.id as keyof PoloOptions] as number;
+    const rawValue = rawOptions[definition.id as keyof PoloOptions];
+    const value = typeof rawValue === "number"
+      ? rawValue
+      : options[definition.id as keyof PoloOptions] as number;
     if (definition.id === "buttonCount") continue;
     const label = zipperClosure && definition.id === "placketLength"
       ? "Modeled zipper opening length"
       : zipperClosure && definition.id === "placketWidth"
         ? "Finished zipper-placket width"
         : definition.label;
-    if (zipperClosure && (definition.id === "placketLength" || definition.id === "placketWidth")
-      && !Number.isFinite(value)) {
-      notes.push({ field: `option-${definition.id}`, level: "warn", text: `${label} must be a finite number; enter a value from ${definition.min}–${definition.max} ${definition.unit}.` });
+    if (definition.id === "placketLength" || definition.id === "placketWidth") {
+      if (!Number.isFinite(value)) {
+        notes.push({ field: `option-${definition.id}`, level: "warn", text: `${label} must be a finite number; enter a value from ${definition.min}–${definition.max} ${definition.unit}.` });
+        continue;
+      }
+      if (value < definition.min || value > definition.max) {
+        notes.push({ field: `option-${definition.id}`, level: "warn", text: `${label} (${value} ${definition.unit}) is outside the declared ${definition.min}–${definition.max} ${definition.unit} range — adjust it into that range.` });
+        continue;
+      }
+      const stepsFromMinimum = (value - definition.min) / definition.step;
+      if (Math.abs(stepsFromMinimum - Math.round(stepsFromMinimum)) > 1e-8) {
+        notes.push({ field: `option-${definition.id}`, level: "warn", text: `${label} must use ${definition.step} ${definition.unit} increments from ${definition.min} ${definition.unit}.` });
+      }
       continue;
     }
     if (value < definition.min || value > definition.max) {
@@ -846,6 +855,12 @@ export const POLO_BODY_POMS: readonly Pom[] = TSHIRT_POMS
   .filter((pom) => pom.label !== "Body length (HPS–hem)")
   .map(mapPoloBodyPom);
 
+const POLO_BUTTON_CLOSURE_POM_LABELS = new Set([
+  "Finished placket length",
+  "Finished placket width",
+  "Button spacing",
+]);
+
 export function poloPomsForOptions(rawOptions: GarmentOptions): readonly Pom[] {
   if (!usesPoloZipperClosure(rawOptions)) return [...POLO_BODY_POMS, ...POLO_POMS];
   const zipperLength: Pom = {
@@ -870,7 +885,12 @@ export function poloPomsForOptions(rawOptions: GarmentOptions): readonly Pom[] {
     },
     frontMarkAnchor: { roleId: "zipperFinish", markName: "zipperFinishFold", point: "start" },
   };
-  return [...POLO_BODY_POMS, zipperLength, zipperWidth, ...POLO_POMS.slice(3)];
+  return [
+    ...POLO_BODY_POMS,
+    zipperLength,
+    zipperWidth,
+    ...POLO_POMS.filter((pom) => !POLO_BUTTON_CLOSURE_POM_LABELS.has(pom.label)),
+  ];
 }
 
 /** Notches and grainlines for every Polo piece. Sleeve/body tables are reused
