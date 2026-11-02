@@ -928,6 +928,8 @@ export const WOVEN_SHIRT: GarmentRecipe = {
   label: "Woven shirt",
   region: "upper",
   editRole: "front",
+  a0Overflow: true,
+  tiledPdfLocalCoordinates: true,
   fields: WOVEN_SHIRT_FIELDS,
   styles: WOVEN_SHIRT_STYLES,
   draft: (m, options = {}) => draftWovenShirt(m, options),
