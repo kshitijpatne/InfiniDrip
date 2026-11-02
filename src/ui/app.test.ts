@@ -67,8 +67,8 @@ import { loadJourney, tutorialMarkup } from "./journey";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, saveRecoveryToStorage, saveToStorage } from "./persist";
-import { POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
-import { POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
+import { POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, STARTER_REGISTRY, starterOriginForEntry } from "./starter-registry";
+import { POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
@@ -15823,6 +15823,151 @@ describe("P07 Zip-placket Polo Starter Blank", () => {
       clickId(reopened, "garment-polo");
       expect(reopened.querySelector<HTMLSelectElement>('[data-option="buttonCount"]')!.value).toBe("3");
       expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30000);
+});
+
+describe("P08 band-collar half-placket Polo Starter Blank", () => {
+  it("keeps identity, editable choices, saved draft and all digital outputs on the band-only profile", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      const entryId = POLO_BAND_COLLAR_ENTRY_ID;
+      const card = root.querySelector<HTMLButtonElement>(`#starter-${entryId}`)!;
+      expect(card.textContent).toContain("Polo Band-collar half-placket · software defaults");
+      clickId(root, `starter-${entryId}`);
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Polo Band-collar half-placket · software defaults");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Classic polo");
+
+      clickId(root, "journey-step-measure");
+      const bandHeight = root.querySelector<HTMLInputElement>('[data-option="standHeight"]')!;
+      const opening = root.querySelector<HTMLInputElement>('[data-option="placketLength"]')!;
+      const width = root.querySelector<HTMLInputElement>('[data-option="placketWidth"]')!;
+      const buttons = root.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!;
+      expect([bandHeight.value, bandHeight.min, bandHeight.max, bandHeight.step]).toEqual(["2", "1", "3", "0.5"]);
+      expect(bandHeight.closest("label")?.textContent).toContain("Finished band height");
+      expect([opening.value, opening.min, opening.max, opening.step]).toEqual(["14", "14", "30", "0.5"]);
+      expect([width.value, width.min, width.max, width.step]).toEqual(["3", "2", "4", "0.5"]);
+      expect(buttons.value).toBe("2");
+      expect(root.querySelector('[data-option="collarLeafDepth"]')).toBeNull();
+      expect(root.querySelector('[data-option="collarPointExtension"]')).toBeNull();
+
+      root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!.click();
+      const assembledSvg = root.querySelector<SVGSVGElement>("#garment-host svg")!;
+      expect(assembledSvg.querySelectorAll('[data-garment-detail="polo"]')).toHaveLength(2);
+      expect(assembledSvg.querySelectorAll('[data-edge="option-standHeight"] path').length).toBeGreaterThan(0);
+      expect(assembledSvg.querySelector('[data-edge="option-collarLeafDepth"]')).toBeNull();
+      expect(assembledSvg.querySelector('[data-edge="option-collarPointExtension"]')).toBeNull();
+      expect(assembledSvg.querySelectorAll('[data-edge="option-placketLength"] circle')).toHaveLength(2);
+      const invalidButtonCount = root.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!;
+      invalidButtonCount.value = "1000000000";
+      invalidButtonCount.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("1000000000");
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-buttonCount"]')?.textContent)
+        .toContain("supports 2–3 buttons");
+      const correctedButtonCount = root.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!;
+      correctedButtonCount.value = "2";
+      correctedButtonCount.dispatchEvent(new Event("input", { bubbles: true }));
+      root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!.click();
+
+      const setOption = (id: string, value: number) => {
+        const input = root!.querySelector<HTMLInputElement>(`[data-option="${id}"]`)!;
+        input.value = String(value);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        return input;
+      };
+      setOption("standHeight", 3.5);
+      setOption("placketWidth", 4.5);
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-standHeight"]')?.textContent).toContain("1–3 cm");
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-placketWidth"]')?.textContent).toContain("2–4 cm");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      setOption("standHeight", 2.5);
+      setOption("placketLength", 20);
+      setOption("placketWidth", 3.5);
+      setOption("buttonCount", 3);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1") ?? "null") as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: { polo: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; recipeId: string; recipeRevision: string } };
+      } | null;
+      expect(saved).not.toBeNull();
+      expect(saved!.garmentOptions.polo).toMatchObject({ standHeight: 2.5, placketLength: 20, placketWidth: 3.5, buttonCount: 3 });
+      expect(saved!.workspace.starterOrigin).toMatchObject({ entryId, recipeId: "polo", recipeRevision: "polo-band-collar-v1" });
+
+      reachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(false);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-dxf-source-package", "export-techpack"]) clickId(root, id);
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "polo-band-collar-M-cad-exchange-source.json",
+        "polo-band-collar-M.dxf",
+        "polo-band-collar-M.pdf",
+        "polo-band-collar-M-A0.pdf",
+        "polo-band-collar-M.svg",
+        "polo-band-collar-techpack.pdf",
+      ].sort());
+      const profileOptions = {
+        ...saved!.garmentOptions.polo,
+        [POLO_BAND_COLLAR_PROFILE_OPTION_ID]: POLO_BAND_COLLAR_PROFILE_VALUE,
+      };
+      const drafted = POLO.draft(saved!.measurements, profileOptions);
+      const pieces = blockPieces(drafted);
+      const svg = files.get("polo-band-collar-M.svg")!;
+      const dxf = files.get("polo-band-collar-M.dxf")!;
+      const a0 = files.get("polo-band-collar-M-A0.pdf")!;
+      const packageJson = JSON.parse(files.get("polo-band-collar-M-cad-exchange-source.json")!) as {
+        manifest: { options: Record<string, number>; pieces: readonly { role: string }[] };
+      };
+      expect(svg).toBe(exportSvg(pieces, POLO.allowances!, notchesForRecipeOptions(POLO, profileOptions)));
+      expect(dxf).toBe(exportDxf(pieces, POLO.allowances!));
+      expect(a0).toBe(exportA0Pdf(
+        pieces, POLO.allowances!, notchesForRecipeOptions(POLO, profileOptions), undefined, POLO.a0Overflow === true,
+      ));
+      const a0Text = visiblePdfText(a0);
+      for (const pieceName of ["FRONT", "BACK", "SLEEVE", "BUTTON PLACKET", "BUTTONHOLE PLACKET", "OUTER COLLAR BAND", "INNER COLLAR BAND"]) {
+        expect(a0Text).toContain(pieceName);
+      }
+      expect(packageJson.manifest.options).not.toHaveProperty(POLO_BAND_COLLAR_PROFILE_OPTION_ID);
+      expect(packageJson.manifest.pieces.map((piece) => piece.role)).toEqual(expect.arrayContaining(["outerStand", "innerStand"]));
+      expect(packageJson.manifest.pieces.map((piece) => piece.role)).not.toContain("upperCollar");
+      const techPack = visiblePdfText(files.get("polo-band-collar-techpack.pdf")!);
+      expect(techPack).toContain("Polo Band-collar half-placket");
+      expect(techPack).toContain("two band layers with no pointed collar leaf");
+      expect(techPack).toContain("not a validated P08 grade");
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="standHeight"]')!.value).toBe("2.5");
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="placketLength"]')!.value).toBe("20");
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="placketWidth"]')!.value).toBe("3.5");
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("3");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${entryId}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "garment-polo");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+      expect(reopened.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("3");
+      expect(reopened.querySelector('[data-option="collarLeafDepth"]')).not.toBeNull();
     } finally {
       unmountApp();
       root?.remove();

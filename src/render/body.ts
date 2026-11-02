@@ -22,8 +22,10 @@ import { upperCroquisFigure, UpperCroquisLowerShape } from "./croquis";
 export interface PoloBodyVisual {
   readonly placketLength: number;
   readonly placketWidth: number;
+  readonly buttonCount?: number;
   readonly standHeight: number;
   readonly collarLeafDepth: number;
+  readonly collarProfile?: "pointed" | "band";
   readonly standFrontRise?: number;
   readonly collarPointExtension?: number;
   readonly sideVentDepth?: number;
@@ -108,7 +110,7 @@ export function renderBody(
 ): string {
   const d = derive(m);
   const adjustableNeckline = frontNeckline !== NECKLINE_DEFAULT;
-  const poloV2 = polo !== undefined && (polo.standFrontRise !== undefined || polo.collarPointExtension !== undefined || polo.sideVentDepth !== undefined || polo.backHemDrop !== undefined);
+  const poloV2 = polo !== undefined && (polo.collarProfile === "band" || polo.standFrontRise !== undefined || polo.collarPointExtension !== undefined || polo.sideVentDepth !== undefined || polo.backHemDrop !== undefined);
   const poloDrop = poloV2 && position === "back" ? polo?.backHemDrop ?? 0 : 0;
   const poloVentDepth = poloV2 ? polo?.sideVentDepth ?? 0 : 0;
 

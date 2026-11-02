@@ -2,6 +2,8 @@ import type { GarmentOptions } from "../drafting/options";
 import type { GarmentRecipe, TechPack } from "../drafting/recipe";
 import { poloZipPlacketTechPack } from "../drafting/recipe";
 import {
+  POLO_BAND_COLLAR_PROFILE_OPTION_ID,
+  POLO_BAND_COLLAR_PROFILE_VALUE,
   POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID,
   POLO_ZIPPER_CLOSURE_PROFILE_VALUE,
   poloNotchesForOptions,
@@ -283,6 +285,72 @@ export function poloZipPlacketRecipeForOutput(
     ...(recipe.draftReview ? {
       draftReview: (measurements: Parameters<NonNullable<GarmentRecipe["draftReview"]>>[0], activeOptions?: GarmentOptions) =>
         recipe.draftReview!(measurements, withZipPlacketProfile(activeOptions)),
+    } : {}),
+    poms: pomsForOptions(profileOptions).map((pom) => ({ ...pom, tolerance: undefined })),
+    pomsForOptions,
+    notches: notchesForOptions(profileOptions),
+    notchesForOptions,
+    techPack: techPackForOptions(options),
+    techPackForOptions,
+    techPackForFabric: undefined,
+  };
+}
+
+function bandCollarPoloTechPack(base: TechPack, options: GarmentOptions): TechPack {
+  const bandHeight = options.standHeight ?? 2;
+  const openingLength = options.placketLength ?? 14;
+  const finishedWidth = options.placketWidth ?? 3;
+  const buttonCount = options.buttonCount ?? 2;
+  return {
+    ...base,
+    bom: [
+      { material: "Not specified", placement: "Body, sleeves, collar band, placket and unspecified trim", qty: "No consumption estimate" },
+      { material: "Buttons", placement: "Front placket; selected software mark count", qty: Number.isFinite(buttonCount) ? String(buttonCount) : "unresolved" },
+    ],
+    construction: [
+      "Digital P08 band-collar half-placket Polo profile using the existing Polo body, short sleeves and paired button plackets; review the exported pattern before use.",
+      `The ${bandHeight} cm finished band height, ${openingLength} cm modeled placket opening, ${finishedWidth} cm finished placket width and ${buttonCount} front-button count are editable InfiniDrip software choices, not sourced physical standards or validated fit targets.`,
+      "The collar is modeled as two band layers with no pointed collar leaf. The pattern has no additional button on the collar band.",
+      `Digital button and buttonhole marks follow the selected ${buttonCount} button count; this does not establish sewn usability or closure performance.`,
+      "No material consumption, material compatibility, supplier, sewn construction or production result is established.",
+    ],
+    constructionNotice: "Digital pattern output only. No physical sample has been assessed; physical fit, comfort, wear, materials and sewing performance remain unvalidated.",
+    measurementSpecNote: `P08 digital geometry only. Band and placket values are editable software choices; the generic Polo size run is not a validated P08 grade. No physical-fit or production result is established.`,
+    measurementSpecToleranceColumn: false,
+    fitRecordStatusNote: "P08 is an editable digital pattern. Physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.",
+    fitRecordPassColumn: false,
+    fitRecordToleranceColumn: false,
+    fitRecordTitle: "Digital Measurement Worksheet",
+  };
+}
+
+export function poloBandCollarRecipeForOutput(
+  recipe: GarmentRecipe,
+  options: GarmentOptions,
+): GarmentRecipe {
+  const withBandCollarProfile = (activeOptions: GarmentOptions = options): GarmentOptions => ({
+    ...activeOptions,
+    [POLO_BAND_COLLAR_PROFILE_OPTION_ID]: POLO_BAND_COLLAR_PROFILE_VALUE,
+  });
+  const pomsForOptions = (activeOptions: GarmentOptions): GarmentRecipe["poms"] =>
+    recipe.pomsForOptions?.(withBandCollarProfile(activeOptions))
+      ?? poloPomsForOptions(withBandCollarProfile(activeOptions));
+  const notchesForOptions = (activeOptions: GarmentOptions): GarmentRecipe["notches"] =>
+    recipe.notchesForOptions?.(withBandCollarProfile(activeOptions))
+      ?? poloNotchesForOptions(withBandCollarProfile(activeOptions));
+  const techPackForOptions = (activeOptions: GarmentOptions = options): TechPack =>
+    bandCollarPoloTechPack(
+      recipe.techPackForOptions?.(withBandCollarProfile(activeOptions)) ?? recipe.techPack,
+      withBandCollarProfile(activeOptions),
+    );
+  const profileOptions = withBandCollarProfile(options);
+  return {
+    ...recipe,
+    label: "Polo Band-collar half-placket",
+    draft: (measurements, activeOptions) => recipe.draft(measurements, withBandCollarProfile(activeOptions)),
+    ...(recipe.draftReview ? {
+      draftReview: (measurements: Parameters<NonNullable<GarmentRecipe["draftReview"]>>[0], activeOptions?: GarmentOptions) =>
+        recipe.draftReview!(measurements, withBandCollarProfile(activeOptions)),
     } : {}),
     poms: pomsForOptions(profileOptions).map((pom) => ({ ...pom, tolerance: undefined })),
     pomsForOptions,

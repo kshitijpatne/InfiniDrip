@@ -57,9 +57,9 @@ import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObserva
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
-import { poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
-import { DEFAULT_POLO_OPTIONS, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
+import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankNotchesForOptions, tankRacerbackControlOffsetCm } from "../drafting/tank";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
@@ -1706,7 +1706,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID && recipe.name === "polo" ? "polo-zip-placket"
+    starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo" ? "polo-band-collar"
+      : starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID && recipe.name === "polo" ? "polo-zip-placket"
       : starterOrigin?.entryId === POLO_LOW_EASE_ENTRY_ID && recipe.name === "polo" ? "polo-low-ease"
       : starterOrigin?.entryId === POLO_LONGLINE_ENTRY_ID && recipe.name === "polo" ? "polo-longline"
       : starterOrigin?.entryId === POLO_CROPPED_ENTRY_ID && recipe.name === "polo" ? "polo-cropped"
@@ -1852,6 +1853,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       (option.appliesToStyle === undefined || option.appliesToStyle === targetStyle)
         && optionAppliesToStarterEntry(option, starterOrigin?.entryId))
       .map((option) => {
+        if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && forRecipe.name === "polo" && option.id === "standHeight") {
+          return { ...option, label: "Finished band height", help: "Sets the modeled height of the two-layer collar band; this is an editable software choice, not a physical standard." };
+        }
         if (starterOrigin?.entryId !== POLO_ZIP_PLACKET_ENTRY_ID || forRecipe.name !== "polo") return option;
         if (option.id === "placketLength") {
           return { ...option, label: "Modeled zipper opening length", help: "Sets the modeled centered zipper opening length; this is a software choice, not a physical zipper specification." };
@@ -1868,6 +1872,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (forRecipe.name === "polo" && starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID) {
       const zipperOptions = Object.fromEntries(Object.entries(options).filter(([id]) => id !== "buttonCount")) as GarmentOptions;
       return { ...zipperOptions, [POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID]: POLO_ZIPPER_CLOSURE_PROFILE_VALUE };
+    }
+    if (forRecipe.name === "polo" && starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID) {
+      return { ...options, [POLO_BAND_COLLAR_PROFILE_OPTION_ID]: POLO_BAND_COLLAR_PROFILE_VALUE };
     }
     if (forRecipe.name !== "tank") return options;
     if (starterOrigin?.entryId === TANK_N05_ENTRY_ID) return { ...options, [TANK_N05_PROFILE_ROUTE_KEY]: 1 };
@@ -1900,7 +1907,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID && forRecipe.name === "polo"
+    starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && forRecipe.name === "polo"
+      ? "Polo Band-collar half-placket"
+      : starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID && forRecipe.name === "polo"
       ? "Polo Zip-placket"
       : starterOrigin?.entryId === POLO_LOW_EASE_ENTRY_ID && forRecipe.name === "polo"
       ? "Polo Low-ease"
@@ -1937,6 +1946,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
   const starterOutputStatusNote = (): string | undefined => {
+    if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo") {
+      const options = recipeOptions();
+      return `Digital P08 band-collar half-placket Polo pattern. The ${options.standHeight} cm band height, ${options.placketLength} cm opening, ${options.placketWidth} cm finished width and ${options.buttonCount} buttons are editable software choices, not physical standards. Two collar-band layers and paired button-placket pieces are modeled; no pointed collar leaf or collar-band button is included. The generic Polo size run is not a validated P08 grade; physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.`;
+    }
     if (starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID && recipe.name === "polo") {
       const options = recipeOptions();
       return `Digital P07 Zip-placket Polo pattern. The ${options.placketLength} cm modeled opening and ${options.placketWidth} cm finished zipper-placket width are editable software choices, not physical standards or a selected zipper specification. The generic Polo size run is not a validated P07 grade; physical fit, comfort, wear, zipper compatibility/performance, materials, grading, sewing, and production remain unvalidated.`;
@@ -2092,6 +2105,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const withStarterTechPack = (outputRecipe: GarmentRecipe): GarmentRecipe =>
       starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID && recipe.name === "polo"
         ? poloZipPlacketRecipeForOutput(outputRecipe, options)
+        : starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo"
+        ? poloBandCollarRecipeForOutput(outputRecipe, options)
         : starterOrigin?.entryId === POLO_LOW_EASE_ENTRY_ID && recipe.name === "polo"
         ? poloLowEaseRecipeForOutput(outputRecipe, options)
         : starterOrigin?.entryId === POLO_LONGLINE_ENTRY_ID && recipe.name === "polo"
@@ -2464,6 +2479,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       placketWidth: options.placketWidth,
       standHeight: options.standHeight,
       collarLeafDepth: options.collarLeafDepth,
+      ...(starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID
+        ? { collarProfile: "band" as const, buttonCount: options.buttonCount }
+        : {}),
       standFrontRise: options.standFrontRise,
       collarPointExtension: options.collarPointExtension,
       sideVentDepth: options.sideVentDepth,
@@ -5126,6 +5144,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!
       .addEventListener("click", () => {
         if (g.name === "polo" && (starterOrigin?.entryId === POLO_CLASSIC_TWO_BUTTON_ENTRY_ID
+          || starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID
           || starterOrigin?.entryId === POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID
           || starterOrigin?.entryId === POLO_RELAXED_ENTRY_ID
           || starterOrigin?.entryId === POLO_CROPPED_ENTRY_ID
@@ -6212,6 +6231,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const outputRecipe = recipeForCurrentOutputs();
     const packageOptions = { ...recipeOptions(outputRecipe) };
     if (starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID) delete packageOptions[POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID];
+    if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID) delete packageOptions[POLO_BAND_COLLAR_PROFILE_OPTION_ID];
     if (starterOrigin?.entryId === TANK_N08_ENTRY_ID) delete packageOptions[TANK_N08_PROFILE_ROUTE_KEY];
     return createDxfInterchangePackage(outputRecipe, {
       label: selectedSizeLabel(recipe.sizes, step),

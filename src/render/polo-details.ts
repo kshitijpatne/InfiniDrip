@@ -4,6 +4,7 @@
 // garment view. It remains a presentation layer: it never changes a Block.
 
 import { NecklineParams, necklineEdge } from "../drafting";
+import { poloButtonCountError } from "../drafting/polo";
 import { buildPoloCollarGeometry, PoloCollarGeometry, reversePoloEdge } from "../drafting/polo-collar";
 import { Edge, edgeEnd, edgeStart } from "../drafting/piece";
 
@@ -23,8 +24,11 @@ export interface PoloDetailValues {
   readonly position?: Position;
   readonly placketLength: number;
   readonly placketWidth: number;
+  readonly buttonCount?: number;
   readonly standHeight: number;
   readonly collarLeafDepth: number;
+  /** Optional P08-only schematic profile. Omitted preserves existing Polo SVG. */
+  readonly collarProfile?: "pointed" | "band";
   /** Polo V2 controls. Undefined means this is a legacy V1 direct caller. */
   readonly standFrontRise?: number;
   readonly collarPointExtension?: number;
@@ -143,14 +147,15 @@ function legacyPoloDetailsSvg(values: PoloDetailValues): string {
 /** Render the V2 details. The legacy branch preserves the established direct
  * render contract for callers that still provide only the four V1 values. */
 export function poloDetailsSvg(values: PoloDetailValues): string {
-  if (values.standFrontRise === undefined && values.collarPointExtension === undefined &&
+  if (values.collarProfile !== "band" && values.standFrontRise === undefined && values.collarPointExtension === undefined &&
       values.sideVentDepth === undefined && values.backHemDrop === undefined) {
     return legacyPoloDetailsSvg(values);
   }
 
   const position = values.position ?? "front";
-  const geometry = collarGeometry(values);
-  if (!geometry) return legacyPoloDetailsSvg(values);
+  const bandProfile = values.collarProfile === "band";
+  const geometry = bandProfile ? null : collarGeometry(values);
+  if (!geometry && !bandProfile) return legacyPoloDetailsSvg(values);
 
   const rise = values.standFrontRise ?? 0;
   const depth = position === "front" ? values.frontNeckDepth + rise : (values.backNeckDepth ?? values.frontNeckDepth);
@@ -161,34 +166,51 @@ export function poloDetailsSvg(values: PoloDetailValues): string {
   const stand = values.standHeight;
   const leaf = values.collarLeafDepth;
   const nh = values.neckWidthHalf;
-  const lowerSource = position === "front"
-    ? reversePoloEdge(geometry.lowerStand.segments[1], "frontNeckline")
-    : geometry.lowerStand.segments[0];
-  const upperSource = position === "front"
-    ? reversePoloEdge(geometry.upperStand.segments[1], "frontCollar")
-    : geometry.upperStand.segments[0];
-  const baseSource = position === "front"
-    ? reversePoloEdge(geometry.collarBase.segments[1], "frontCollarBase")
-    : geometry.collarBase.segments[0];
+  const bandNeckline = bandProfile
+    ? necklineEdge(position, nh, position === "front" ? values.frontNeckDepth : values.backNeckDepth ?? values.frontNeckDepth,
+      values.shoulderHalf, values.armholeDepth, position === "front"
+        ? values.frontNeckline ?? values.neckline
+        : values.backNeckline ?? values.neckline).edge
+    : null;
+  const lowerSource = bandProfile
+    ? bandNeckline!
+    : position === "front"
+      ? reversePoloEdge(geometry!.lowerStand.segments[1], "frontNeckline")
+      : geometry!.lowerStand.segments[0];
+  const upperSource = bandProfile
+    ? lowerSource
+    : position === "front"
+      ? reversePoloEdge(geometry!.upperStand.segments[1], "frontCollar")
+      : geometry!.upperStand.segments[0];
+  const baseSource = bandProfile
+    ? lowerSource
+    : position === "front"
+      ? reversePoloEdge(geometry!.collarBase.segments[1], "frontCollarBase")
+      : geometry!.collarBase.segments[0];
   const lower = mapEdge(lowerSource, { x: 0, y: depth }, { x: nh, y: 0 });
-  const upper = mapEdge(upperSource, { x: 0, y: depth - stand }, { x: nh, y: -stand });
+  const upper = bandProfile
+    ? mapEdge(lower, { x: 0, y: depth - stand }, { x: nh, y: -stand })
+    : mapEdge(upperSource, { x: 0, y: depth - stand }, { x: nh, y: -stand });
   const standPath = `${fullHalfPath(lower)} ${fullHalfPath(upper)} ` +
     `M ${round(-nh)} 0 L ${round(-nh)} ${round(-stand)} M ${round(nh)} 0 L ${round(nh)} ${round(-stand)}`;
-  const base = mapEdge(baseSource, { x: 0, y: depth - stand }, { x: nh, y: -stand });
+  const base = bandProfile ? upper : mapEdge(baseSource, { x: 0, y: depth - stand }, { x: nh, y: -stand });
 
   let collarPath = "";
   let pointPath = "";
-  if (position === "front") {
+  if (bandProfile) {
+    // The paired upper/lower stand edges already describe the complete band;
+    // adding the Polo leaf overlays here would turn the P08 schematic pointed.
+  } else if (position === "front") {
     const tip = { x: Math.max(2, (values.collarPointExtension ?? 0) + 1.5), y: depth - stand + leaf };
-    const tipEdge = mapEdge(geometry.collar.frontTip, { x: 0, y: depth - stand }, tip);
-    const outerEdge = mapEdge(geometry.collar.outer, tip, { x: nh, y: -stand });
+    const tipEdge = mapEdge(geometry!.collar.frontTip, { x: 0, y: depth - stand }, tip);
+    const outerEdge = mapEdge(geometry!.collar.outer, tip, { x: nh, y: -stand });
     const rightLeaf = `${edgePath(tipEdge)} ${edgePath(outerEdge)} ${edgePath(reversePoloEdge(base))}`;
     const leftLeaf = `${edgePath(mirror(tipEdge))} ${edgePath(mirror(outerEdge))} ${edgePath(mirror(reversePoloEdge(base)))}`;
     collarPath = `${rightLeaf} ${leftLeaf}`;
     pointPath = edgePath(tipEdge);
   } else {
     const outerBase = mapEdge(baseSource, { x: 0, y: depth - stand + leaf }, { x: nh, y: -stand + leaf });
-    const centerBack = mapEdge(geometry.collar.centerBack,
+    const centerBack = mapEdge(geometry!.collar.centerBack,
       { x: 0, y: depth - stand + leaf }, { x: 0, y: depth - stand });
     const rightLeaf = `${edgePath(base)} L ${round(nh)} ${round(-stand + leaf)} ` +
       `${edgePath(reversePoloEdge(outerBase))} ${edgePath(centerBack)}`;
@@ -199,7 +221,12 @@ export function poloDetailsSvg(values: PoloDetailValues): string {
 
   const half = values.placketWidth / 2;
   const frontY = values.frontNeckDepth + rise;
-  const buttons = [3.5, 7, 10.5].map((offset) =>
+  const buttonCount = values.buttonCount;
+  const buttonOffsets = bandProfile && buttonCount !== undefined
+    && poloButtonCountError(buttonCount) === null
+    ? Array.from({ length: buttonCount }, (_, index) => values.placketLength * (index + 1) / (buttonCount + 1))
+    : [3.5, 7, 10.5];
+  const buttons = buttonOffsets.map((offset) =>
     `<circle cx="0" cy="${round(frontY + offset)}" r="0.35" fill="none" stroke="currentColor" stroke-width="0.2"/>`).join("");
   const frontOnly = position === "front";
   const vent = ventDepth > 0
@@ -213,11 +240,13 @@ export function poloDetailsSvg(values: PoloDetailValues): string {
       `fill="none" stroke="currentColor" stroke-width="0.9"/>`
     : "";
   const group = (field: string, body: string): string => `<g data-edge="${field}">${body}</g>`;
+  const collarLeafDetails = values.collarProfile === "band" ? "" :
+    group("option-collarLeafDepth", `<path d="${collarPath}" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linejoin="round"/>`) +
+    group("option-collarPointExtension", `<path d="${pointPath}" fill="none" stroke="currentColor" stroke-width="0.7"/>`);
   return `<g data-garment-detail="polo" data-position="${position}">` +
     group("option-standHeight", `<path d="${standPath}" fill="none" stroke="currentColor" stroke-width="0.7"/>`) +
     group("option-standFrontRise", `<path d="${fullHalfPath(lower)}" fill="none" stroke="currentColor" stroke-width="0.7"/>`) +
-    group("option-collarLeafDepth", `<path d="${collarPath}" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linejoin="round"/>`) +
-    group("option-collarPointExtension", `<path d="${pointPath}" fill="none" stroke="currentColor" stroke-width="0.7"/>`) +
+    collarLeafDetails +
     group("option-placketLength", frontOnly
       ? `<rect x="${round(-half)}" y="${round(frontY)}" width="${round(values.placketWidth)}" height="${round(values.placketLength)}" fill="none" stroke="currentColor" stroke-width="0.7"/>${buttons}`
       : "") +
