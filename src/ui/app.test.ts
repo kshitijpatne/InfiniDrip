@@ -15876,6 +15876,15 @@ describe("P08 band-collar half-placket Polo Starter Blank", () => {
       expect(assembledSvg.querySelector('[data-edge="option-collarLeafDepth"]')).toBeNull();
       expect(assembledSvg.querySelector('[data-edge="option-collarPointExtension"]')).toBeNull();
       expect(assembledSvg.querySelectorAll('[data-edge="option-placketLength"] circle')).toHaveLength(2);
+      const invalidButtonCount = root.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!;
+      invalidButtonCount.value = "1000000000";
+      invalidButtonCount.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("1000000000");
+      expect(root.querySelector<HTMLElement>('[data-input-error="option-buttonCount"]')?.textContent)
+        .toContain("supports 2–3 buttons");
+      const correctedButtonCount = root.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!;
+      correctedButtonCount.value = "2";
+      correctedButtonCount.dispatchEvent(new Event("input", { bubbles: true }));
       root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!.click();
 
       const setOption = (id: string, value: number) => {

@@ -315,10 +315,10 @@ describe("renderBody — Polo V2", () => {
 });
 
 describe("renderBody — P08 band-collar schematic", () => {
-  it("shows the band on front and back without pointed-leaf overlays", () => {
+  it.each([2, 3])("shows the band without pointed-leaf overlays and matches the %i-button choice", (buttonCount) => {
     const pair = renderBodyPair(STANDARD_M, true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, {
       placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
-      collarProfile: "band", buttonCount: 2, standFrontRise: 0,
+      collarProfile: "band", buttonCount, standFrontRise: 0,
     });
     expect((pair.match(/data-garment-detail="polo"/g) ?? []).length).toBe(2);
     expect(pair).toContain('data-edge="option-standHeight"><path');
@@ -327,7 +327,16 @@ describe("renderBody — P08 band-collar schematic", () => {
     expect(pair).not.toContain('data-edge="option-collarPointExtension"');
     expect(pair).toContain('data-edge="option-placketLength"><rect');
     const placketGroups = [...pair.matchAll(/data-edge="option-placketLength">([\s\S]*?)<\/g>/g)];
-    expect(placketGroups.flatMap(([, markup]) => [...markup.matchAll(/<circle/g)]).length).toBe(2);
+    expect(placketGroups.flatMap(([, markup]) => [...markup.matchAll(/<circle/g)]).length).toBe(buttonCount);
+  });
+
+  it.each([2.5, Number.MAX_SAFE_INTEGER])("uses the bounded three-button fallback for invalid count %s", (buttonCount) => {
+    const pair = renderBodyPair(STANDARD_M, true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, {
+      placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
+      collarProfile: "band", buttonCount, standFrontRise: 0,
+    });
+    const placketGroups = [...pair.matchAll(/data-edge="option-placketLength">([\s\S]*?)<\/g>/g)];
+    expect(placketGroups.flatMap(([, markup]) => [...markup.matchAll(/<circle/g)]).length).toBe(3);
   });
 });
 

@@ -4,6 +4,7 @@
 // garment view. It remains a presentation layer: it never changes a Block.
 
 import { NecklineParams, necklineEdge } from "../drafting";
+import { poloButtonCountError } from "../drafting/polo";
 import { buildPoloCollarGeometry, PoloCollarGeometry, reversePoloEdge } from "../drafting/polo-collar";
 import { Edge, edgeEnd, edgeStart } from "../drafting/piece";
 
@@ -222,6 +223,7 @@ export function poloDetailsSvg(values: PoloDetailValues): string {
   const frontY = values.frontNeckDepth + rise;
   const buttonCount = values.buttonCount;
   const buttonOffsets = bandProfile && buttonCount !== undefined
+    && poloButtonCountError(buttonCount) === null
     ? Array.from({ length: buttonCount }, (_, index) => values.placketLength * (index + 1) / (buttonCount + 1))
     : [3.5, 7, 10.5];
   const buttons = buttonOffsets.map((offset) =>
