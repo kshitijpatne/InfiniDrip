@@ -269,11 +269,11 @@ export function poloZipPlacketRecipeForOutput(
   const notchesForOptions = (activeOptions: GarmentOptions): GarmentRecipe["notches"] =>
     recipe.notchesForOptions?.(withZipPlacketProfile(activeOptions))
       ?? poloNotchesForOptions(withZipPlacketProfile(activeOptions));
-  const techPackForOptions = (activeOptions: GarmentOptions = options): TechPack =>
-    zipPlacketPoloTechPack(
-      recipe.techPackForOptions?.(withZipPlacketProfile(activeOptions)) ?? recipe.techPack,
-      activeOptions,
-    );
+  const techPackForOptions = (activeOptions: GarmentOptions = options): TechPack => {
+    const profileOptions = withZipPlacketProfile(activeOptions);
+    return recipe.techPackForOptions?.(profileOptions)
+      ?? zipPlacketPoloTechPack(recipe.techPack, profileOptions);
+  };
   const profileOptions = withZipPlacketProfile(options);
   return {
     ...recipe,

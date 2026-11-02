@@ -250,9 +250,6 @@ function poloFront(m: Measurements, options: PoloOptions): Piece {
   const clipSpan = PLACKET_SEAM_ALLOWANCE;
   const clipUpper = point(slitEnd.x + clipSpan, slitEnd.y - clipSpan);
   const clipLower = point(slitEnd.x + clipSpan, slitEnd.y + clipSpan);
-  const zipperAnchors = usesPoloZipperClosure(options)
-    ? [pointMark("placementPoint", "zipperTopAnchor", slitStart, "ZIPPER TOP ANCHOR", "instruction")]
-    : [];
   return {
     ...drafted,
     marks: [
@@ -260,7 +257,6 @@ function poloFront(m: Measurements, options: PoloOptions): Piece {
       pointMark("placementPoint", "centerFront", edgeStart(neckline), "CENTER FRONT"),
       pointMark("placementPoint", "shoulder", edgeEnd(neckline), "SHOULDER"),
       lineMark("cutLine", "placketOpening", slitStart, slitEnd, "CUT FRONT SLIT", "instruction"),
-      ...zipperAnchors,
       lineMark("cutLine", "placketBaseClipLeft", slitEnd, clipUpper, "CLIP PLACKET BASE LEFT", "instruction"),
       lineMark("cutLine", "placketBaseClipRight", slitEnd, clipLower, "CLIP PLACKET BASE RIGHT", "instruction"),
       lineMark("placementLine", "placketBaseReinforcement", clipUpper, clipLower, "REINFORCE PLACKET BASE BOX", "instruction"),
@@ -601,12 +597,6 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
       const unit = definition.unit;
       notes.push({ field: `option-${definition.id}`, level: "warn", text: `${label} (${value} ${unit}) is outside the declared ${definition.min}–${definition.max} ${unit} range — adjust it into that range.` });
       continue;
-    }
-    if (zipperClosure && (definition.id === "placketLength" || definition.id === "placketWidth")) {
-      const stepsFromMinimum = (value - definition.min) / definition.step;
-      if (Math.abs(stepsFromMinimum - Math.round(stepsFromMinimum)) > 1e-8) {
-        notes.push({ field: `option-${definition.id}`, level: "warn", text: `${label} must use ${definition.step} ${definition.unit} increments from ${definition.min} ${definition.unit}.` });
-      }
     }
   }
   const buttonCountError = poloButtonCountError(options.buttonCount);

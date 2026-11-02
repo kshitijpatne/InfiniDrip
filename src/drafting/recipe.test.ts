@@ -411,9 +411,10 @@ describe("Polo recipe pipeline", () => {
       "zipperFinishAttachmentLeft", "zipperFinishAttachmentRight", "zipperFinishFold",
       "zipperTapeLeft", "zipperTapeRight", "zipperTopAnchor", "zipperBottomAnchor",
     ]));
-    expect(drafted.roles.front?.marks?.map((mark) => mark.name)).toEqual(expect.arrayContaining([
-      "zipperTopAnchor", "placketBaseReinforcement",
-    ]));
+    const frontMarks = drafted.roles.front?.marks ?? [];
+    expect(frontMarks.map((mark) => mark.name)).toContain("centerFront");
+    expect(frontMarks.map((mark) => mark.name)).toContain("placketBaseReinforcement");
+    expect(frontMarks.map((mark) => mark.name)).not.toContain("zipperTopAnchor");
     expect(drafted.roles.front?.marks?.some((mark) => mark.name === "zipperBottomAnchor")).toBe(false);
     expect(drafted.roles.zipperFinish?.marks?.some((mark) => mark.kind === "button" || mark.kind === "buttonhole")).toBe(false);
     expect(stitchChecks(drafted, drafted.stitches).every((result) => result.ok)).toBe(true);

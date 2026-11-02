@@ -204,6 +204,23 @@ describe("P06 Longline Polo output", () => {
 });
 
 describe("P07 Zip-placket Polo output", () => {
+  it("preserves an option-aware P07 Tech Pack without applying the P07 builder twice", () => {
+    const prebuilt = {
+      ...POLO.techPack,
+      construction: [...POLO.techPack.construction, "P07 callback output retained"],
+    };
+    const base: GarmentRecipe = {
+      ...POLO,
+      techPackForOptions: () => prebuilt,
+    };
+
+    const output = poloZipPlacketRecipeForOutput(base, {});
+
+    expect(output.techPack.construction).toContain("P07 callback output retained");
+    expect(output.techPackForOptions!({ placketLength: 20 }).construction)
+      .toContain("P07 callback output retained");
+  });
+
   it("keeps the zipper BOM and digital-only disclosures across option-aware output", () => {
     const options = { placketLength: 20, placketWidth: 3.5 };
     const output = poloZipPlacketRecipeForOutput(POLO, options);

@@ -81,9 +81,10 @@ describe("Polo shell (Slice 69)", () => {
     ]));
     expect(finish.marks?.some((mark) => mark.name === "zipperCenterline")).toBe(false);
     expect(finish.marks?.some((mark) => mark.kind === "button" || mark.kind === "buttonhole")).toBe(false);
-    expect(rolePiece(drafted, "front").marks?.map((mark) => mark.name)).toEqual(expect.arrayContaining([
-      "zipperTopAnchor", "placketBaseReinforcement",
-    ]));
+    const frontMarks = rolePiece(drafted, "front").marks ?? [];
+    expect(frontMarks.map((mark) => mark.name)).toContain("centerFront");
+    expect(frontMarks.map((mark) => mark.name)).toContain("placketBaseReinforcement");
+    expect(frontMarks.map((mark) => mark.name)).not.toContain("zipperTopAnchor");
     expect(rolePiece(drafted, "front").marks?.some((mark) => mark.name === "zipperBottomAnchor")).toBe(false);
     expect(drafted.stitches.map((stitch) => stitch.label)).toEqual(expect.arrayContaining([
       "Zipper finish left ↔ left front opening", "Zipper finish right ↔ right front opening",
