@@ -36,7 +36,14 @@ export function materializeCustomSizeDesign(
   // non-recipe slots at the explicit digital baseline so no values from an
   // earlier style or garment can leak into this new recipe.
   const measurements: Measurements = { ...STANDARD_M };
-  const recipeOptions: Record<string, number> = {};
+  const seedOptions = seed.garmentOptions[recipe.name] ?? {};
+  const recipeOptions: Record<string, number> = Object.fromEntries((recipe.options ?? []).flatMap((option) => {
+    if (option.appliesToStyle === undefined || option.appliesToStyle !== seed.workspace.targetStyle
+      || option.appliesToStarterEntryId !== undefined) return [];
+    const hasSeedValue = Object.prototype.hasOwnProperty.call(seedOptions, option.id);
+    if (option.optional && !hasSeedValue) return [];
+    return [[option.id, hasSeedValue ? seedOptions[option.id] : option.defaultValue]];
+  }));
   for (const definition of definitions) {
     const value = values[definition.inputKey];
     if (value === undefined || !Number.isFinite(value)) {
