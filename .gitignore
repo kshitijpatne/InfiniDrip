@@ -5,3 +5,10 @@ release/
 coverage/
 .vite/
 ops/web/artifact-manifest.json
+# Local-only UIQ review harness and per-slice coverage output; not app inputs.
+/coverage-uiq-settled-one-worker/
+/coverage-uiq07-focused/
+/coverage-uiq34-final-focused/
+/coverage-uiq34-global/
+/ops/ui-candidates/
+/.claude/launch.json
