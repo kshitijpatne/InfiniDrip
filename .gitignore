@@ -12,3 +12,11 @@ ops/web/artifact-manifest.json
 /coverage-uiq34-global/
 /ops/ui-candidates/
 /.claude/launch.json
+# Local-only project process and assistant context; not app or user content.
+/AGENTS.md
+/CLAUDE.md
+/CONTEXT-INDEX.md
+/PROJECT-STATE.md
+/docs/PROJECT-DECISIONS.md
+/docs/BUG-LEDGER.md
+/docs/OPENCODE-WORKFLOW.md

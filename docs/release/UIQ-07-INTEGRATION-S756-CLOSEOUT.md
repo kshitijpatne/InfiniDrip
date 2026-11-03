@@ -33,9 +33,9 @@ authentication, profiles, cloud sync, or paid service was added.
 The validated Control Center command layer attached the public verification
 and this closeout report, recorded reviewer acceptance, marked UIQ-07 Done,
 and refreshed the admission-packet digest. Canonical board revision 4464 is
-the final state; `npm run control-center:test` passes 42/42. `PROJECT-STATE.md`,
-`CONTEXT-INDEX.md`, `ARCHITECTURE.md`, `AGENTS.md`, the approved UI sequence,
-the admission, and the durable goal now agree that UIQ-07 is complete. UIQ-08+
+the final state; `npm run control-center:test` passes 42/42. The local project
+state and handoff records, the approved UI sequence, the admission, and the
+durable goal record UIQ-07 as complete. UIQ-08+
 and BUG-UI-048 remain unadmitted.
 
 ## Slice 756 exit
