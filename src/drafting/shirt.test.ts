@@ -2,7 +2,69 @@ import { describe, expect, it } from "vitest";
 import { blockPieces, edgeEnd, edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
 import { point } from "../geometry";
 import { seamAllowance } from "../render/allowance";
-import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirt, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtAllowances, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
+import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirt, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtHipStationY, wovenShirtBodyHalfWidths, wovenShirtAllowances, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
+
+describe("W04 cropped boxy Woven Shirt profile", () => {
+  const measurements = { ...STANDARD_M, chest: 88, waist: 96, hip: 104, ease: 24, length: 54 };
+
+  it("blends all body widths toward the largest girth without changing measurements", () => {
+    const original = { ...measurements };
+    expect(wovenShirtBodyHalfWidths(measurements, 0)).toEqual({ chestHalf: 28, waistHalf: 30, hipHalf: 32 });
+    expect(wovenShirtBodyHalfWidths(measurements, 50)).toEqual({ chestHalf: 30, waistHalf: 31, hipHalf: 32 });
+    expect(wovenShirtBodyHalfWidths(measurements, 100)).toEqual({ chestHalf: 32, waistHalf: 32, hipHalf: 32 });
+
+    const body = draftWovenShirtBody(measurements, { boxySideProfile: 100 });
+    const front = body.roles.front;
+    expect(edgeEnd(pieceEdge(front, "armhole")).x).toBe(32);
+    expect(edgeEnd(pieceEdge(front, "sideUpper")).x).toBe(32);
+    expect(edgeEnd(pieceEdge(front, "sideMiddle")).x).toBe(32);
+    expect(edgeEnd(pieceEdge(front, "sideLower")).x).toBe(32);
+    expect(measurements).toEqual(original);
+  });
+
+  it("preserves invalid profile values and gives range, step and sleeve guidance", () => {
+    const offStep = { boxySideProfile: 55 };
+    expect(wovenShirtGuidance(draftWovenShirtBody(measurements, offStep), measurements, offStep)
+      .find((note) => note.field === "option-boxySideProfile")?.text).toContain("10% increments");
+    const outside = { boxySideProfile: 110 };
+    expect(wovenShirtGuidance(draftWovenShirtBody(measurements, outside), measurements, outside)
+      .find((note) => note.field === "option-boxySideProfile")?.text).toContain("outside the 0–100 % design range");
+    const conflictMeasurements = { ...measurements, bicep: 100 };
+    expect(wovenShirtGuidance(draftWovenShirtBody(conflictMeasurements, { boxySideProfile: 100 }),
+      conflictMeasurements, { boxySideProfile: 100 }).find((note) => note.field === "bicep")?.text)
+      .toContain("W04 armhole seam");
+    expect(wovenShirtGuidance(draftWovenShirtBody(measurements, { boxySideProfile: 0 }),
+      measurements, { boxySideProfile: 0 }).some((note) => note.field === "bicep")).toBe(false);
+  });
+
+  it("recomputes the W04 sleeve from the transformed armhole and keeps seam checks available", () => {
+    const legacy = draftWovenShirt(measurements, { boxySideProfile: 0 });
+    const boxy = draftWovenShirt(measurements, { boxySideProfile: 100 });
+    const legacySleeve = edgeLength(pieceEdge(legacy.roles.sleeve, "capLeft"))
+      + edgeLength(pieceEdge(legacy.roles.sleeve, "capRight"));
+    const boxySleeve = edgeLength(pieceEdge(boxy.roles.sleeve, "capLeft"))
+      + edgeLength(pieceEdge(boxy.roles.sleeve, "capRight"));
+    expect(boxySleeve).not.toBe(legacySleeve);
+    expect(stitchChecks(boxy, boxy.stitches).every((check) => check.ok)).toBe(true);
+  });
+
+  it("keeps the W04 hip-width station inside the crop without changing body measurements", () => {
+    const cropped = { ...measurements };
+    const original = { ...cropped };
+    expect(wovenHipStationY(cropped.length, cropped.armholeDepth, cropped.hipDepth)).toBeGreaterThan(cropped.length);
+
+    const block = draftWovenShirt(cropped, { boxySideProfile: 100 });
+    expect(wovenShirtHipStationY(cropped, 3, true)).toBe(cropped.length - 4);
+    expect(edgeEnd(pieceEdge(block.roles.front, "sideMiddle")).y).toBe(cropped.length - 4);
+    expect(edgeLength(pieceEdge(block.roles.front, "sideLower"))).toBe(1);
+    expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+    const notes = wovenShirtGuidance(block, cropped, { boxySideProfile: 100 });
+    expect(notes.some((note) => note.level === "warn" && note.field === "hipDepth")).toBe(false);
+    expect(notes.find((note) => note.level === "info" && note.field === "hipDepth")?.text)
+      .toContain("1 cm above the side-vent opening");
+    expect(cropped).toEqual(original);
+  });
+});
 
 describe("woven shirt body", () => {
   it("closes a zero-depth vent without a degenerate edge, marker, or non-finite cut coordinates", () => {

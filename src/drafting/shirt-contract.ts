@@ -37,6 +37,8 @@ export interface WovenShirtOptions {
   readonly shoulderExtension: number;
   /** Lowers the W03 shoulder endpoint from the measured shoulder line. */
   readonly shoulderDrop: number;
+  /** Blends W04 torso width stations toward the widest body-girth station. */
+  readonly boxySideProfile: number;
 }
 
 /** Recipe controls exposed in the first woven-shirt UI. Ranges are advisory
@@ -57,9 +59,10 @@ export const WOVEN_SHIRT_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "hemTurn", label: "Hem turn", unit: "cm", group: "Sleeve & hem", help: "Sets the lower hem turn-under; keep it within the range to preserve the drafted finish.", defaultValue: 1, min: 0.7, max: 2, step: 0.1 },
   { id: "shoulderExtension", label: "Shoulder extension", unit: "cm", group: "Shoulder & armhole", help: "Moves each shoulder point outward; reduce it if the endpoint reaches the underarm.", defaultValue: 4, min: 2, max: 8, step: 0.5, appliesToStyle: "Oversized loose-drop woven shirt", preserveInvalidWhenRestored: true },
   { id: "shoulderDrop", label: "Shoulder drop", unit: "cm", group: "Shoulder & armhole", help: "Lowers each shoulder point; reduce it if the endpoint reaches the underarm or leaves too little room for the yoke.", defaultValue: 3, min: 1, max: 4, step: 0.5, appliesToStyle: "Oversized loose-drop woven shirt", preserveInvalidWhenRestored: true },
+  { id: "boxySideProfile", label: "Boxy side profile", unit: "%", group: "Body profile", help: "Blends the chest, waist, and hip widths toward their widest station; 0% preserves each body-derived width.", defaultValue: 100, min: 0, max: 100, step: 10, appliesToStyle: "Cropped boxy woven shirt", preserveInvalidWhenRestored: true },
 ];
 
-type SharedWovenShirtOptions = Omit<WovenShirtOptions, "shoulderExtension" | "shoulderDrop">;
+type SharedWovenShirtOptions = Omit<WovenShirtOptions, "shoulderExtension" | "shoulderDrop" | "boxySideProfile">;
 
 export const DEFAULT_WOVEN_SHIRT_OPTIONS: SharedWovenShirtOptions = Object.fromEntries(
   WOVEN_SHIRT_OPTION_DEFINITIONS

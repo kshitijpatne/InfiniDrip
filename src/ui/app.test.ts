@@ -79,6 +79,7 @@ import {
   WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_ENTRY_ID,
   WOVEN_SHIRT_RELAXED_BUTTON_FRONT_ENTRY_ID,
   WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID,
+  WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID,
   starterOriginForEntry,
 } from "./starter-registry";
 import { POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
@@ -1958,6 +1959,8 @@ describe("mountApp", () => {
       step: "measure", field: "body.wear-line-to-hip-level",
       message: expect.stringContaining("hip station at y=51.35 cm, below the hem at y=45 cm"),
     });
+    expect(guidedCaptureStageBlocker(invalidWovenCapture, "woven-shirt", WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID))
+      .toBeNull();
 
     const tankCaptureTime = "2026-09-26T00:00:00.000Z";
     const tankWithOnlyNeckDropMissing = getCaptureFieldDefinitions("tank")
@@ -11989,6 +11992,158 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(techPack).toContain("Body length (HPS-hem)");
       expect(techPack).toContain("71.0 cm");
       expect(techPack).toContain("Multi-size values in these whole-run files have not been validated for W03 grading");
+      expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("selects W04, edits its boxy profile, preserves identity, and exports geometry-derived outputs", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID);
+
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Cropped boxy woven shirt");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Cropped Boxy Shirt · software defaults");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("54");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("24");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="buttonCount"]')!.value).toBe("6");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="buttonSpacing"]')!.value).toBe("6");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="boxySideProfile"]')!.value).toBe("100");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="shoulderExtension"]')).toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-option="shoulderDrop"]')).toBeNull();
+
+      clickId(root, "view-pattern");
+      const defaultSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      const profile = root.querySelector<HTMLInputElement>('input[data-option="boxySideProfile"]')!;
+      profile.value = "50";
+      profile.dispatchEvent(new Event("input", { bubbles: true }));
+      const halfwaySvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      profile.value = "0";
+      profile.dispatchEvent(new Event("input", { bubbles: true }));
+      const shapedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      expect(halfwaySvg).not.toBe(defaultSvg);
+      expect(shapedSvg).not.toBe(defaultSvg);
+      profile.value = "55";
+      profile.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(profile.value).toBe("55");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("10 % increments");
+
+      const customMeasurements: Record<string, string> = { chest: "88", waist: "96", hip: "104", bicep: "32" };
+      for (const [field, value] of Object.entries(customMeasurements)) {
+        const input = root.querySelector<HTMLInputElement>('input[data-field="' + field + '"]')!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      profile.value = "100";
+      profile.dispatchEvent(new Event("input", { bubbles: true }));
+      const customSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      expect(customSvg).not.toBe(defaultSvg);
+      clickId(root, "view-spec");
+      clickId(root, "save-pattern");
+
+      const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: Record<string, unknown> };
+      };
+      expect(stored.measurements).toMatchObject({ chest: 88, waist: 96, hip: 104, length: 54, ease: 24 });
+      expect(stored.garmentOptions["woven-shirt"]).toMatchObject({ buttonCount: 6, buttonSpacing: 6, boxySideProfile: 100 });
+      expect(stored.workspace.starterOrigin).toMatchObject({
+        entryId: WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID,
+        entryRevision: "2026-11-03.1",
+        recipeId: "woven-shirt",
+        recipeRevision: "woven-shirt-cropped-boxy-v1",
+        configurationSnapshot: {
+          targetStyle: "Cropped boxy woven shirt",
+          measurements: { length: 54, ease: 24 },
+          options: { boxySideProfile: 100 },
+        },
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Cropped boxy woven shirt");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="boxySideProfile"]')!.value).toBe("100");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="shoulderExtension"]')).toBeNull();
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(customSvg);
+      clickId(reopened, "view-spec");
+      clickIfPresent(reopened, "welcome-start");
+      clickId(reopened, "journey-step-fit");
+      clickId(reopened, "journey-next");
+      const outputNext = reopened.querySelector<HTMLElement>("#journey-next");
+      expect(outputNext, `W04 should pass its Check stage. Journey: ${reopened.querySelector<HTMLElement>("#journey-host")?.textContent}; guidance: ${reopened.querySelector<HTMLElement>("#guidance-host")?.textContent}`).not.toBeNull();
+      outputNext!.click();
+
+      const exportButton = reopened.querySelector<HTMLButtonElement>("#export-svg")!;
+      const reopenedProfile = reopened.querySelector<HTMLInputElement>('input[data-option="boxySideProfile"]')!;
+      reopenedProfile.value = "55";
+      reopenedProfile.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(reopenedProfile.value).toBe("55");
+      expect(reopened.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("10 % increments");
+      expect(exportButton.disabled).toBe(true);
+      reopenedProfile.value = "100";
+      reopenedProfile.dispatchEvent(new Event("input", { bubbles: true }));
+      reReviewAndReachExportStage(reopened);
+      expect(exportButton.disabled).toBe(false);
+
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(reopened, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "woven-shirt-M-A0.pdf", "woven-shirt-M.dxf", "woven-shirt-M.pdf", "woven-shirt-M.svg",
+        "woven-shirt-projector.svg", "woven-shirt-techpack.pdf",
+      ].sort());
+
+      const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+      const options = stored.garmentOptions["woven-shirt"] as GarmentOptions;
+      const pieces = blockPieces(recipe.draft(stored.measurements, options));
+      expect(files.get("woven-shirt-M.svg")).toBe(exportSvg(pieces, recipe.allowances!, notchesForRecipeOptions(recipe, options)));
+      expect(files.get("woven-shirt-M.dxf")).toBe(exportDxf(pieces, recipe.allowances!));
+      expect(files.get("woven-shirt-M.pdf")).toBe(exportPdf(pieces, recipe.allowances!, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true));
+      expect(files.get("woven-shirt-M-A0.pdf")).toBe(exportA0Pdf(pieces, recipe.allowances!, notchesForRecipeOptions(recipe, options), undefined, recipe.a0Overflow === true));
+      const w04ProjectorNote = "W04 grade is not validated. The W04 hip station is a digital crop reference, not a physical hip-location or fit measure.";
+      const projectorActual = files.get("woven-shirt-projector.svg")!;
+      const projectorExpected = exportProjectorSvg(
+        { ...recipe, label: "Cropped Boxy Woven Shirt" }, stored.measurements, options, undefined, [], w04ProjectorNote,
+      );
+      const projectorMismatch = [...Array(Math.min(projectorActual.length, projectorExpected.length)).keys()]
+        .find((index) => projectorActual[index] !== projectorExpected[index]) ?? -1;
+      expect(projectorActual === projectorExpected,
+        `Projector output differs at ${projectorMismatch}; actual length ${projectorActual.length}, expected ${projectorExpected.length}; `
+        + `actual: ${projectorActual.slice(Math.max(0, projectorMismatch - 24), projectorMismatch + 72)}; `
+        + `expected: ${projectorExpected.slice(Math.max(0, projectorMismatch - 24), projectorMismatch + 72)}`)
+        .toBe(true);
+      const projectorText = [...new DOMParser().parseFromString(files.get("woven-shirt-projector.svg")!, "image/svg+xml").getElementsByTagName("text")]
+        .map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain(w04ProjectorNote);
+      const techPack = visiblePdfText(files.get("woven-shirt-techpack.pdf")!);
+      expect(techPack).toContain("Digital W04 cropped boxy Woven Shirt");
+      expect(techPack).toContain("These are editable InfiniDrip software defaults");
+      expect(techPack).toContain("Body waist (finished)");
+      expect(techPack).toContain("W04 cropped hip station (finished)");
+      expect(techPack).toContain("digital crop reference");
+      expect(techPack).toContain("1 cm above the side-vent opening");
+      expect(techPack).toContain("generic Woven Shirt size run is not a validated W04 grade");
       expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
     } finally {
       unmountApp();

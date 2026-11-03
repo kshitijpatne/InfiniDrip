@@ -6,6 +6,7 @@ import {
   WOVEN_SHIRT_OPTION_DEFINITIONS,
   WOVEN_SHIRT_PHYSICAL_ROLES,
 } from "./shirt-contract";
+import { garmentOptionsForStyle } from "./options";
 
 describe("woven shirt construction contract", () => {
   it("keeps neck as a body input and construction choices as recipe options", () => {
@@ -38,6 +39,33 @@ describe("woven shirt construction contract", () => {
     expect(drop).toMatchObject({ defaultValue: 3, min: 1, max: 4, step: 0.5, appliesToStyle: "Oversized loose-drop woven shirt", preserveInvalidWhenRestored: true });
     expect(resolveWovenShirtOptions({ shoulderExtension: 4, shoulderDrop: 3 })).toMatchObject({ shoulderExtension: 4, shoulderDrop: 3 });
     expect(resolveWovenShirtOptions({ shoulderExtension: 9, shoulderDrop: 4.5 })).toMatchObject({ shoulderExtension: 9, shoulderDrop: 4.5 });
+  });
+
+  it("scopes the W04 boxy profile to its style and preserves invalid authored percentages", () => {
+    const profile = WOVEN_SHIRT_OPTION_DEFINITIONS.find((option) => option.id === "boxySideProfile")!;
+    expect(DEFAULT_WOVEN_SHIRT_OPTIONS).not.toHaveProperty("boxySideProfile");
+    expect(profile).toMatchObject({
+      unit: "%",
+      defaultValue: 100,
+      min: 0,
+      max: 100,
+      step: 10,
+      appliesToStyle: "Cropped boxy woven shirt",
+      preserveInvalidWhenRestored: true,
+    });
+    const w04Options = garmentOptionsForStyle(
+      WOVEN_SHIRT_OPTION_DEFINITIONS,
+      { boxySideProfile: 55 },
+      "Cropped boxy woven shirt",
+    );
+    expect(w04Options.boxySideProfile).toBe(55);
+    const w03Options = garmentOptionsForStyle(
+      WOVEN_SHIRT_OPTION_DEFINITIONS,
+      { boxySideProfile: 55, shoulderExtension: 5 },
+      "Oversized loose-drop woven shirt",
+    );
+    expect(w03Options).not.toHaveProperty("boxySideProfile");
+    expect(w03Options.shoulderExtension).toBe(5);
   });
 
   it("records explicit physical quantities for the sixteen-piece cut", () => {
