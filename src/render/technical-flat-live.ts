@@ -23,7 +23,8 @@ import { transformFlatPoint, transformFlatPrimitive } from "./technical-flat-tra
 import { compileJoggerWaistbandFragments, compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
 import { composeCrewneckDetachedBandDetails, type CrewneckDetachedBandRole } from "./crewneck-detached-band-detail";
 import { composeWovenDetachedBandDetails } from "./woven-detached-band-detail";
-import { createWovenCollarProjector, projectWovenCollarPrimitive, type WovenCollarRoleId } from "./woven-collar-view-projection";
+import { createWovenCollarProjector, hasExactWovenCampCollarNecklineTopology, projectWovenCollarPrimitive,
+  type WovenCollarRoleId } from "./woven-collar-view-projection";
 import type { Pom } from "../drafting/pom";
 
 export interface TechnicalFlatLiveIssue {
@@ -383,10 +384,7 @@ function pathSubpaths(primitive: Extract<TechnicalFlatPrimitive, { kind: "path" 
   return groups;
 }
 
-/** Attach the approved exact source-edge masks to the assembled Woven front.
- * Missing or ambiguous source subpaths fail closed. */
-export function applyWovenFrontApprovedViewClips(primitives: readonly TechnicalFlatPrimitive[], revisionId: string) {
-  const rules = [
+const WOVEN_FRONT_VIEW_CLIP_RULES = [
     { source: "pattern:woven-shirt:role:front:edge:neckline", decisionId: "G04-S457-WOVEN-NECKLINE-LEAF-MASK", roles: ["underCollar", "upperCollar"] },
     { source: "pattern:woven-shirt:role:front:edge:shoulder", decisionId: "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION", roles: ["outerStand"] },
     { source: "pattern:woven-shirt:role:buttonPlacket:edge:top", decisionId: "G04-S406-WOVEN-COLLAR-OVER-PLACKETS", roles: ["outerStand", "underCollar", "upperCollar"] },
@@ -394,6 +392,78 @@ export function applyWovenFrontApprovedViewClips(primitives: readonly TechnicalF
     { source: "pattern:woven-shirt:role:buttonholePlacket:edge:top", decisionId: "G04-S406-WOVEN-COLLAR-OVER-PLACKETS", roles: ["outerStand", "underCollar", "upperCollar"] },
     { source: "pattern:woven-shirt:role:buttonholePlacket:edge:outerRaw", decisionId: "G04-S406-WOVEN-COLLAR-OVER-PLACKETS", roles: ["outerStand", "underCollar", "upperCollar"] },
   ] as const;
+
+function hasExactWovenCampCollarTopology(block: Block): boolean {
+  return block.roles.buttonPlacket !== undefined && block.roles.buttonholePlacket !== undefined
+    && hasExactWovenCampCollarNecklineTopology(block);
+}
+
+/** @internal Fail-closed source-outline selector for exact W06 collar fill closures. */
+export function wovenCampCollarBaseSeamBoundaries(primitives: readonly TechnicalFlatPrimitive[], block: Block,
+  revisionId: string, kind: TechnicalFlatViewKind) {
+  if (!hasExactWovenCampCollarTopology(block)) return { primitives: [] as TechnicalFlatPrimitive[], issues: [] as TechnicalFlatLiveIssue[] };
+  const bodyRoleId = kind === "FRONT_FLAT" ? "front" : "yoke";
+  const bodySourceId = `pattern:woven-shirt:role:${bodyRoleId}`;
+  const bodyEdgeId = `${bodySourceId}:edge:neckline`;
+  const bodyOutlineId = `flat:woven-shirt:${kind}:component:${bodyRoleId}:outline`;
+  const mirroredSuffix = kind === "FRONT_FLAT" ? ":physical-pair-reflection" : ":fold-reflection";
+  const instances = [
+    { id: bodyOutlineId, boundarySuffix: "" },
+    { id: `${bodyOutlineId}${mirroredSuffix}`, boundarySuffix: ":attached-fold-reflection" },
+  ] as const;
+  const boundaries: TechnicalFlatPrimitive[] = [];
+  const issues: TechnicalFlatLiveIssue[] = [];
+  for (const roleId of ["upperCollar", "underCollar"] as const) {
+    for (const instance of instances) {
+      const owners = primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+        primitive.kind === "path" && primitive.id === instance.id && primitive.layer === "GARMENT_SILHOUETTE"
+          && primitive.colorwayBoundaryOnly !== true && primitive.source.sourceClass === "PATTERN_DERIVED"
+          && primitive.source.sourceId === bodySourceId && primitive.source.revisionId === revisionId);
+      if (owners.length !== 1) {
+        issues.push({ stage: "transform", sourceId: bodyEdgeId,
+          message: `W06 collar fill closure requires one exact same-revision ${bodyRoleId} neckline outline instance at ${instance.id}; found ${owners.length}.` });
+        continue;
+      }
+      const owner = owners[0]!;
+      const groups = pathSubpaths(owner);
+      if (!owner.sourceEdgeIds || owner.sourceEdgeIds.length !== groups.length) {
+        issues.push({ stage: "transform", sourceId: bodyEdgeId,
+          message: `W06 collar fill closure requires one source-edge identity per ${bodyRoleId} outline subpath at ${instance.id}.` });
+        continue;
+      }
+      const matches = owner.sourceEdgeIds.flatMap((sourceEdgeId, groupIndex) =>
+        sourceEdgeId === bodyEdgeId ? [{ commands: groups[groupIndex]!, groupIndex }] : []);
+      if (matches.length !== 1 || matches[0]!.commands.length < 2 || matches[0]!.commands[0]?.op !== "move") {
+        issues.push({ stage: "transform", sourceId: bodyEdgeId,
+          message: `W06 collar fill closure requires one unambiguous neckline subpath at ${instance.id}; found ${matches.length}.` });
+        continue;
+      }
+      const boundaryId = `flat:woven-shirt:${kind}:component:${roleId}:view-boundary:w06-visible-base-seam${instance.boundarySuffix}`;
+      boundaries.push({
+        ...owner,
+        id: boundaryId,
+        source: { ...owner.source, sourceId: `view:woven-shirt:role:${roleId}:decision:G18-S1263-W06-CAMP-COLLAR-BASE-SEAM:visible-body-neckline`, revisionId },
+        sourceEdgeIds: [bodyEdgeId],
+        commands: matches[0]!.commands,
+        colorwayBoundaryOnly: true,
+      });
+    }
+  }
+  return { primitives: issues.length ? [] : boundaries, issues };
+}
+
+/** Attach approved exact source-edge masks to the assembled Woven front.
+ * W06 uses its exact body-neckline display and has no stand/shoulder mask;
+ * every other topology keeps the admitted W01–W05 rule set. Missing or
+ * ambiguous applicable subpaths fail closed. */
+export function applyWovenFrontApprovedViewClips(primitives: readonly TechnicalFlatPrimitive[], revisionId: string,
+  block?: Block) {
+  const isWovenCampCollar = block !== undefined && hasExactWovenCampCollarTopology(block);
+  const rules = isWovenCampCollar
+    ? WOVEN_FRONT_VIEW_CLIP_RULES.filter((rule) => rule.source !== "pattern:woven-shirt:role:front:edge:neckline"
+      && rule.source !== "pattern:woven-shirt:role:front:edge:shoulder")
+      .map((rule) => ({ ...rule, roles: rule.roles.filter((roleId) => block.roles[roleId] !== undefined) }))
+    : WOVEN_FRONT_VIEW_CLIP_RULES;
   const issues: TechnicalFlatLiveIssue[] = [];
   const targets = new Map<string, { owner: Extract<TechnicalFlatPrimitive, { kind: "path" }>;
     clipped: Map<number, (typeof rules)[number]> }>();
@@ -969,6 +1039,11 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
       }
     }
   }
+  if (recipe.name === "woven-shirt") {
+    const baseSeamBoundaries = wovenCampCollarBaseSeamBoundaries(transformed, block, revisionId, kind);
+    transformed.push(...baseSeamBoundaries.primitives);
+    issues.push(...baseSeamBoundaries.issues);
+  }
   if (recipe.name === "crewneck") {
     const detailRoles = crewneckDetachedBandRoles(face);
     const detailMetadataValid = detailRoles.length === 4 && detailRoles.every((role) => {
@@ -1059,7 +1134,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
         if (primitive.kind === "callout") transformed[index] = keyedById.get(primitive.id)!;
       }
     }
-    const clipped = applyWovenFrontApprovedViewClips(transformed, revisionId);
+    const clipped = applyWovenFrontApprovedViewClips(transformed, revisionId, block);
     issues.push(...clipped.issues);
     if (!clipped.issues.length) transformed.splice(0, transformed.length, ...clipped.primitives);
   }

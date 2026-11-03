@@ -3,7 +3,10 @@ import { CREWNECK, draftRecipeAtSize, GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { edgeEnd, edgeLength, edgeStart } from "../drafting/piece";
+import { draftWovenShirtCollar } from "../drafting/shirt";
 import { cubicPoint } from "../geometry/curve";
+import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
+import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS, technicalFlatMappingForBlock } from "./technical-flat-mapping";
 import {
   createG04TechnicalFlatProjectionMap,
@@ -523,6 +526,120 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const openBack = open.faces.find((face) => face.kind === "BACK_FLAT")!.roles.find((role) => role.roleId === "back")!;
     expect(openFront.runs.some((run) => run.edgeId === "vent")).toBe(true);
     expect(openBack.runs.some((run) => run.edgeId === "vent")).toBe(true);
+  });
+
+  it("projects the standless W06 collar directly onto the Woven neckline", () => {
+    const { block } = draft("woven-shirt", { campCollarDepth: 6 });
+    const roleMapping = technicalFlatMappingForBlock("woven-shirt", block)!;
+    expect(roleMapping.faces.flatMap((face) => face.roles.map((role) => role.roleId)))
+      .not.toContain("outerStand");
+    expect(roleMapping.faces.flatMap((face) => face.roles.map((role) => role.roleId)))
+      .not.toContain("innerStand");
+
+    const incompleteCampTopology = { ...block, stitches: block.stitches.filter((stitch) =>
+      stitch.label !== "Under camp collar ↔ woven neckline") };
+    const incompleteMapping = technicalFlatMappingForBlock("woven-shirt", incompleteCampTopology)!;
+    expect(incompleteMapping.faces.flatMap((face) => face.roles.map((role) => role.roleId)))
+      .toContain("outerStand");
+
+    const map = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, map)).toEqual([]);
+    const backRoleId = block.roles.yoke ? "yoke" : "back";
+    const backLength = edgeLength(block.roles[backRoleId]!.edges.find((edge) => edge.name === "neckline")!);
+    const frontLength = edgeLength(block.roles.front!.edges.find((edge) => edge.name === "neckline")!);
+    const baseFraction = backLength / (backLength + frontLength);
+    for (const face of map.faces) {
+      for (const roleId of ["upperCollar", "underCollar"]) {
+        const role = face.roles.find((candidate) => candidate.roleId === roleId)!;
+        expect(role.runs.some((run) => run.edgeId === "neckline")).toBe(false);
+        expect(role.faceExcludedEdges).toContainEqual({ edgeId: "neckline",
+          reason: "The body neckline supplies the direct camp-collar seam; omit the duplicate collar-base stroke." });
+        expect(role.viewSeamRepresentation).toMatchObject({
+          decisionId: "G18-S1263-W06-CAMP-COLLAR-BASE-SEAM",
+          stitchLabel: roleId === "upperCollar" ? "Upper camp collar ↔ woven neckline" : "Under camp collar ↔ woven neckline",
+          visibleRoleId: face.kind === "FRONT_FLAT" ? "front" : backRoleId,
+          visibleEdgeId: "neckline", suppressedEdgeId: "neckline", layer: "SEAM",
+        });
+        expect(role.wovenFullCollarRepresentation).toMatchObject({
+          stitchLabel: roleId === "upperCollar" ? "Upper camp collar ↔ woven neckline" : "Under camp collar ↔ woven neckline",
+          sourceBaseEdgeId: "neckline", splitFraction: baseFraction,
+        });
+        const boundaryRun = role.runs.find((run) => run.edgeId === "outer"
+          && (run.from.kind === "normalized-edge-transfer" || run.to.kind === "normalized-edge-transfer"))!;
+        const transfer = boundaryRun.from.kind === "normalized-edge-transfer" ? boundaryRun.from : boundaryRun.to;
+        if (transfer.kind !== "normalized-edge-transfer") throw new Error("Expected camp collar to transfer from the neckline basis.");
+        expect(transfer.fraction).toBeCloseTo(1 - baseFraction, 10);
+        expect(role.viewBoundaries?.[0]?.to).toEqual({ kind: "edge-arclength", edgeId: "neckline", fraction: baseFraction });
+        expect(resolveFlatProjectionLandmark(block, roleId, face.kind, transfer, boundaryRun.edgeId)).toBeDefined();
+      }
+      const underCollar = face.roles.find((role) => role.roleId === "underCollar")!;
+      expect(underCollar.reversedStitchEdges).toEqual([
+        { stitchLabel: "Under camp collar ↔ woven neckline", pieceId: backRoleId, edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER" },
+        { stitchLabel: "Upper camp collar ↔ woven neckline", pieceId: backRoleId, edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER" },
+      ]);
+      const geometry = compileTechnicalFlatSourceGeometry("woven-shirt", block, REVISION, face.kind, map);
+      expect(geometry.issues).toEqual([]);
+      const assembly = assembleTechnicalFlatRoles("woven-shirt", block, face.kind, map);
+      expect(assembly.transforms.outerStand).toBeUndefined();
+      expect(assembly.transforms.innerStand).toBeUndefined();
+      expect(assembly.transforms.upperCollar).toBeDefined();
+      expect(assembly.transforms.underCollar).toBeDefined();
+      expect(assembly.joinedStitchLabels).toContain("Upper camp collar ↔ woven neckline");
+      expect(assembly.joinedStitchLabels).toContain("Under camp collar ↔ woven neckline");
+      expect(assembly.issues.filter((issue) => issue.sourceId === "stitch:Upper camp collar ↔ woven neckline"
+        || issue.sourceId === "stitch:Under camp collar ↔ woven neckline")).toEqual([]);
+    }
+
+    const broken = { ...block, stitches: block.stitches.map((stitch) => stitch.label === "Upper camp collar ↔ woven neckline"
+      ? { ...stitch, a: { edges: [{ piece: "upperCollar", edge: "outer" }] } } : stitch) };
+    const brokenMap = createG04TechnicalFlatProjectionMap("woven-shirt", broken, REVISION)!;
+    expect(brokenMap.faces.some((face) => face.roles.find((role) => role.roleId === "upperCollar")!.heldEdges.length > 0)).toBe(true);
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", broken, REVISION, brokenMap)
+      .some((issue) => issue.code === "INVALID_STITCH_ENDPOINT_ORIENTATION")).toBe(true);
+
+    const malformedMap = structuredClone(map);
+    const malformedUpper = malformedMap.faces.find((face) => face.kind === "FRONT_FLAT")!.roles
+      .find((role) => role.roleId === "upperCollar")!;
+    (malformedUpper.viewSeamRepresentation as { decisionId: string }).decisionId = "unapproved";
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, malformedMap)
+      .some((issue) => issue.code === "INVALID_VIEW_SEAM_REPRESENTATION")).toBe(true);
+    const malformedAssembly = assembleTechnicalFlatRoles("woven-shirt", block, "FRONT_FLAT", malformedMap);
+    expect(malformedAssembly.issues.filter((issue) => issue.sourceId === "stitch:Upper camp collar ↔ woven neckline"
+      || issue.sourceId === "stitch:Under camp collar ↔ woven neckline")).toHaveLength(2);
+
+    const upperPiece = block.roles.upperCollar!;
+    const malformedBase = { ...block, roles: { ...block.roles, upperCollar: { ...upperPiece, edges: upperPiece.edges.map((edge) =>
+      edge.name === "neckline" && edge.kind === "line" ? { ...edge, end: { ...edge.end, x: edge.end.x + 0.1 } } : edge) } } };
+    const malformedBaseMap = createG04TechnicalFlatProjectionMap("woven-shirt", malformedBase, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", malformedBase, REVISION, malformedBaseMap)
+      .some((issue) => issue.code === "INVALID_VIEW_SEAM_REPRESENTATION")).toBe(true);
+
+    const backOnly = draftWovenShirtCollar(STANDARD_M, { campCollarDepth: 6 });
+    const backOnlyMap = createG04TechnicalFlatProjectionMap("woven-shirt", backOnly, REVISION);
+    expect(backOnlyMap).toBeDefined();
+    if (!backOnlyMap) throw new Error("Expected the Woven component contract to map a body without a yoke.");
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", backOnly, REVISION, backOnlyMap)
+      .some((issue) => issue.code === "UNEXPECTED_ROLE" && issue.sourceId === "BACK_FLAT:yoke")).toBe(true);
+    expect(backOnlyMap.faces.find((face) => face.kind === "BACK_FLAT")!.roles
+      .find((role) => role.roleId === "underCollar")!.viewSeamRepresentation?.visibleRoleId).toBe("back");
+
+    const backOnlyBack = backOnly.roles.back!;
+    const missingBackNeckline = { ...backOnly, roles: { ...backOnly.roles, back: {
+      ...backOnlyBack, edges: backOnlyBack.edges.filter((edge) => edge.name !== "neckline"),
+    } } };
+    const missingBackMap = createG04TechnicalFlatProjectionMap("woven-shirt", missingBackNeckline, REVISION);
+    expect(missingBackMap).toBeDefined();
+    if (!missingBackMap) throw new Error("Expected malformed Woven topology to produce a fail-closed map.");
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", missingBackNeckline, REVISION, missingBackMap).length)
+      .toBeGreaterThan(0);
+    const frontCampRole = map.faces.find((face) => face.kind === "FRONT_FLAT")!.roles
+      .find((role) => role.roleId === "upperCollar")!;
+    const campOuterRun = frontCampRole.runs.find((run) => run.edgeId === "outer"
+      && (run.from.kind === "normalized-edge-transfer" || run.to.kind === "normalized-edge-transfer"))!;
+    const campTransfer = campOuterRun.from.kind === "normalized-edge-transfer" ? campOuterRun.from : campOuterRun.to;
+    if (campTransfer.kind !== "normalized-edge-transfer") throw new Error("Expected a neckline-based collar transfer.");
+    expect(resolveFlatProjectionLandmark(missingBackNeckline, "upperCollar", "FRONT_FLAT", campTransfer, campOuterRun.edgeId))
+      .toBeUndefined();
   });
 
   it("keeps the seam exclusion disabled when the stand base no longer meets its authored front end", () => {

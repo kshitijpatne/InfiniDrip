@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_WOVEN_SHIRT_OPTIONS,
+  WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID,
   resolveWovenShirtOptions,
   WOVEN_SHIRT_FIELDS,
   WOVEN_SHIRT_OPTION_DEFINITIONS,
@@ -66,6 +67,22 @@ describe("woven shirt construction contract", () => {
     );
     expect(w03Options).not.toHaveProperty("boxySideProfile");
     expect(w03Options.shoulderExtension).toBe(5);
+  });
+
+  it("keeps W06 collar depth entry-scoped and preserves finite authored values", () => {
+    const depth = WOVEN_SHIRT_OPTION_DEFINITIONS.find((option) => option.id === "campCollarDepth")!;
+    expect(depth).toMatchObject({
+      defaultValue: 6,
+      min: 4,
+      max: 8,
+      step: 0.5,
+      appliesToStarterEntryId: WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID,
+      preserveInvalidWhenRestored: true,
+    });
+    expect(DEFAULT_WOVEN_SHIRT_OPTIONS).not.toHaveProperty("campCollarDepth");
+    expect(resolveWovenShirtOptions()).not.toHaveProperty("campCollarDepth");
+    expect(resolveWovenShirtOptions({ campCollarDepth: 7.5 }).campCollarDepth).toBe(7.5);
+    expect(resolveWovenShirtOptions({ campCollarDepth: 9 }).campCollarDepth).toBe(9);
   });
 
   it("records explicit physical quantities for the sixteen-piece cut", () => {

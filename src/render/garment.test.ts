@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { createHash } from "node:crypto";
 import { STANDARD_M, derive, necklineEdge, NECKLINE_DEFAULT } from "../drafting";
 import { tankFrontNeckline, tankBackNeckline } from "../drafting/tank";
 import { renderGarment, FABRICS, DEFAULT_FABRIC } from "./garment";
@@ -324,5 +325,32 @@ describe("renderGarment — woven shirt integration", () => {
   it("does not draw buttons for a non-finite button count", () => {
     const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, { ...shirt, buttonCount: Number.NaN });
     expect(svg).not.toContain('data-edge="woven-button"');
+  });
+
+  it("keeps the W01-W05 assembled woven schematic byte-identical", () => {
+    const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, shirt);
+    expect(createHash("sha256").update(svg).digest("hex")).toBe("a92f5fb7d2421792319359f3e1be30868c278e5477bc36488a26186704e390d6");
+  });
+
+  it("renders a finite W06 standless camp-collar schematic driven by collar depth", () => {
+    const campShirt = (campCollarDepth: number): Parameters<typeof renderGarment>[7] => ({
+      neckWidthHalf: 10, frontNeckDepth: 8, backNeckDepth: 3,
+      buttonCount: 6, buttonSpacing: 8, frontOverlap: 1.5, placketWidth: 3,
+      collarProfile: "camp", campCollarDepth,
+      yokeDepth: 10, pocketWidth: 12, pocketHeight: 13, sleeveBandDepth: 3, sideVentDepth: 3, hemTurn: 1,
+    });
+    const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, campShirt(6));
+    const shallow = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, campShirt(4));
+    const deep = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, campShirt(8));
+    expect(svg).not.toMatch(/NaN|Infinity/);
+    expect(svg).not.toContain('data-edge="option-standHeight"');
+    expect(svg).not.toContain('data-edge="option-collarLeafDepth"');
+    expect(svg).toContain('data-edge="option-campCollarDepth"');
+    expect((svg.match(/data-edge="option-campCollarDepth"/g) ?? []).length).toBe(2);
+    expect(shallow).not.toBe(deep);
+
+    const invalidDepth = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, campShirt(Number.NaN));
+    expect(invalidDepth).not.toMatch(/NaN|Infinity/);
+    expect(invalidDepth).not.toContain('data-edge="option-campCollarDepth"');
   });
 });

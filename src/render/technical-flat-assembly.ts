@@ -50,6 +50,11 @@ export function isApprovedWovenBaseSeamDisplay(stitchLabel: string, decisionId?:
   return stitchLabel === "Outer stand ↔ woven neckline" && decisionId === "G04-S342-WOVEN-COLLAR-BASE-SEAM";
 }
 
+export function isApprovedWovenCampCollarBaseSeamDisplay(stitchLabel: string, decisionId?: string): boolean {
+  return (stitchLabel === "Upper camp collar ↔ woven neckline" || stitchLabel === "Under camp collar ↔ woven neckline")
+    && decisionId === "G18-S1263-W06-CAMP-COLLAR-BASE-SEAM";
+}
+
 export function isApprovedPoloEaseResidualDisplay(stitchLabel: string, decisionId?: string): boolean {
   return stitchLabel === "Sleeve-cap ease" && decisionId === "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH";
 }
@@ -412,6 +417,14 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
     ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
       .find((role) => role.roleId === "outerStand")?.viewSeamRepresentation
     : undefined;
+  const isWovenCampCollarView = recipeId === "woven-shirt" && !block.roles.outerStand && !block.roles.innerStand
+    && block.roles.upperCollar !== undefined && block.roles.underCollar !== undefined;
+  const approvedWovenCampCollarBaseSeams = projectionIsValid && isWovenCampCollarView
+    ? new Map([
+      ["Upper camp collar ↔ woven neckline", "G18-S1263-W06-CAMP-COLLAR-BASE-SEAM"],
+      ["Under camp collar ↔ woven neckline", "G18-S1263-W06-CAMP-COLLAR-BASE-SEAM"],
+    ])
+    : new Map<string, string>();
   const approvedWovenSleeveCap = projectionIsValid && recipeId === "woven-shirt"
     ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
       .find((role) => role.roleId === "sleeve")?.wovenSleeveCapRepresentation
@@ -495,6 +508,7 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
       relations.push(...projectedResults);
       const residual = projectedResults.find((candidate) => candidate.endpointResidualCm > 0.25
         && !isApprovedWovenBaseSeamDisplay(candidate.label, approvedWovenBaseSeam?.decisionId)
+        && !isApprovedWovenCampCollarBaseSeamDisplay(candidate.label, approvedWovenCampCollarBaseSeams.get(candidate.label))
         && !(candidate.label === "Woven sleeve-cap ease" && approvedWovenSleeveCap?.decisionId === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION")
         && !(candidate.label === approvedCrewneckSleeveCap?.stitchLabel
           && approvedCrewneckSleeveCap.decisionId === "G07-S1113-CREWNECK-SLEEVE-CAP-VIEW")

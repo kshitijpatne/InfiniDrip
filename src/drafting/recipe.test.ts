@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
-import { defaultGarmentOptions } from "./options";
+import { defaultGarmentOptions, type GarmentOptions } from "./options";
 import { TEE, TEE_RAGLAN, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, JEANS, SHORTS,
   CREWNECK, JOGGER, HOODIE, GARMENTS, garmentByName, garmentForConstruction,
   piecesForRecipeBlock, pomsForRecipeOptions, notchesForRecipeOptions, draftRecipeAtSize } from "./recipe";
@@ -831,7 +831,7 @@ describe("Woven shirt recipe integration", () => {
     ]);
     expect(WOVEN_SHIRT.options?.map((option) => option.id)).toEqual([
       "neckEase", "buttonCount", "buttonSpacing", "frontOverlap", "placketWidth",
-      "standHeight", "collarLeafDepth", "yokeDepth", "pocketWidth", "pocketHeight",
+      "standHeight", "collarLeafDepth", "campCollarDepth", "yokeDepth", "pocketWidth", "pocketHeight",
       "sleeveBandDepth", "sideVentDepth", "hemTurn", "shoulderExtension", "shoulderDrop", "boxySideProfile",
     ]);
   });
@@ -843,6 +843,60 @@ describe("Woven shirt recipe integration", () => {
     expect(six.bom.find((row) => row.material === "Buttons")?.qty).toBe("6 front + 1 stand");
     expect(seven.bom.find((row) => row.material === "Buttons")?.qty).toBe("7 front + 1 stand");
     expect(defaults.bom.find((row) => row.material === "Buttons")?.qty).toBe("7 front + 1 stand");
+  });
+
+  it("uses W06-only POMs and standless construction/BOM wording", () => {
+    const options = { campCollarDepth: 6, buttonCount: 6 };
+    const block = WOVEN_SHIRT.draft(STANDARD_M, options);
+    const pack = WOVEN_SHIRT.techPackForOptions!(options);
+    const poms = pomsForRecipeOptions(WOVEN_SHIRT, options);
+    const campDepth = poms.find((pom) => pom.label === "Camp collar depth (modeled)")!;
+
+    expect(poms).not.toBe(WOVEN_SHIRT.poms);
+    expect(campDepth.measure(block)).toBe(6);
+    expect(pack.bom.find((row) => row.material === "Buttons"))
+      .toMatchObject({ placement: "Front placket", qty: "6 front" });
+    expect(pack.bom.find((row) => row.material === "Fusible interfacing")?.placement)
+      .toBe("Collar & front plackets");
+    expect(pack.construction.join(" ")).toContain("W06 has no stand button");
+    expect(pack.construction.join(" ")).toContain("attach both collar layers directly into the front/back-yoke neckline seam");
+    expect(pack.construction.join(" ")).not.toContain("collar stand");
+    expect(pack.construction.join(" ")).not.toContain("inner stand");
+    expect(pomsForRecipeOptions(WOVEN_SHIRT, {}).some((pom) => pom.label === "Camp collar depth (modeled)"))
+      .toBe(false);
+  });
+
+  it("declares direct-neckline notch and grainline marks for both W06 collar layers", () => {
+    const markCheck = (options: GarmentOptions = {}) =>
+      garmentReport(WOVEN_SHIRT, STANDARD_M, options).checks.find((check) =>
+        check.name === "Notches + grainline on every piece");
+
+    for (const depth of [4, 6, 8]) {
+      const options = { campCollarDepth: depth };
+      const block = WOVEN_SHIRT.draft(STANDARD_M, options);
+      const rules = notchesForRecipeOptions(WOVEN_SHIRT, options);
+      for (const piece of blockPieces(block)) {
+        const rule = rules.find(({ pieceName }) => pieceName === piece.name);
+        expect(rule?.notches.length, piece.name).toBeGreaterThan(0);
+        expect(piece.edges.some(({ name }) => name === rule?.grainline.topEdge), piece.name).toBe(true);
+        expect(piece.edges.some(({ name }) => name === rule?.grainline.bottomEdge), piece.name).toBe(true);
+      }
+      expect(markCheck(options)).toMatchObject({ ok: true });
+    }
+
+    expect(markCheck({})).toMatchObject({ ok: true });
+    expect(notchesForRecipeOptions(WOVEN_SHIRT, { campCollarDepth: 6 }))
+      .toContainEqual({
+        pieceName: "upper camp collar",
+        notches: [{ edgeName: "neckline", t: 0.5 }],
+        grainline: { topEdge: "neckline", topT: 0.5, bottomEdge: "outer", bottomT: 0.5 },
+      });
+    expect(notchesForRecipeOptions(WOVEN_SHIRT, { campCollarDepth: 6 }))
+      .toContainEqual({
+        pieceName: "under camp collar",
+        notches: [{ edgeName: "neckline", t: 0.5 }],
+        grainline: { topEdge: "neckline", topT: 0.5, bottomEdge: "outer", bottomT: 0.5 },
+      });
   });
 
   it("records non-default body hem-turn allowance without changing the default pack", () => {

@@ -51,7 +51,7 @@ import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS, FITTED_PRINCESS_POMS, fittedPanelChecks } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
 import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, POLO_BODY_POMS, poloButtonCountError, poloNotchesForOptions, poloPomsForOptions, resolvePoloOptions, usesPoloZipperClosure } from "./polo";
-import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS, WOVEN_SHIRT_BOXY_PROFILE_POMS } from "./shirt";
+import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS, WOVEN_SHIRT_CAMP_COLLAR_POMS, WOVEN_SHIRT_BOXY_PROFILE_POMS } from "./shirt";
 import { WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { edgeLength, pieceEdge } from "./piece";
 import { rolePiece } from "./block";
@@ -892,11 +892,20 @@ const WOVEN_DEFAULT_HEM_ALLOWANCE = allowanceFor(WOVEN_SHIRT_ALLOWANCES, "hem");
 const WOVEN_SHIRT_TECH_PACK = (
   buttonCount: number,
   hemTurn = WOVEN_HEM_TURN_OPTION.defaultValue,
+  campCollar = false,
 ): TechPack => {
   if (!Number.isFinite(hemTurn) || hemTurn < WOVEN_HEM_TURN_OPTION.min || hemTurn > WOVEN_HEM_TURN_OPTION.max) {
     throw new RangeError("Woven-shirt hem turn is outside its supported range.");
   }
-  const construction = [
+  const construction = campCollar ? [
+    "Fuse the collar and front placket areas according to the selected fabric and interfacing instructions.",
+    "Join the separate front plackets to the two centre-front edges; press the folds and work the marked buttonholes.",
+    `Attach ${buttonCount} front buttons at the marked even spacing; W06 has no stand button.`,
+    "Sew the yoke to the lower back with the enclosed shoulder construction; match the yoke notches.",
+    "Join the upper and under camp-collar layers around their outer edges, then attach both collar layers directly into the front/back-yoke neckline seam.",
+    "Sew the patch pocket to its placement mark, set the sleeves, and attach the folded sleeve bands.",
+    "Close side seams above the marked vents, finish the vent edges, and turn the curved hem.",
+  ] : [
     "Fuse the collar, stand, and front placket areas according to the selected fabric and interfacing instructions.",
     "Join the front plackets to the two centre-front edges; press the folds and work the marked buttonholes.",
     `Attach ${buttonCount} front buttons at the marked even spacing, plus one additional button on the collar stand.`,
@@ -913,8 +922,8 @@ const WOVEN_SHIRT_TECH_PACK = (
   return {
     bom: [
       { material: "Lightweight woven fabric", placement: "Body, sleeves, yoke, collar & pocket", qty: "1.5 m" },
-      { material: "Fusible interfacing", placement: "Collar, stand & front plackets", qty: "0.35 m" },
-      { material: "Buttons", placement: "Front placket + collar stand", qty: `${buttonCount} front + 1 stand` },
+      { material: "Fusible interfacing", placement: campCollar ? "Collar & front plackets" : "Collar, stand & front plackets", qty: "0.35 m" },
+      { material: "Buttons", placement: campCollar ? "Front placket" : "Front placket + collar stand", qty: campCollar ? `${buttonCount} front` : `${buttonCount} front + 1 stand` },
       { material: "Woven brand label", placement: "Centre back neck", qty: "1" },
       { material: "Care/content label", placement: "Left side seam", qty: "1" },
       { material: "All-purpose thread", placement: "All seams", qty: "1 spool" },
@@ -936,9 +945,11 @@ export const WOVEN_SHIRT: GarmentRecipe = {
   grammar: WOVEN_SHIRT_GRAMMAR,
   notches: WOVEN_SHIRT_NOTCHES,
   poms: WOVEN_SHIRT_POMS,
-  pomsForOptions: (options) => Object.prototype.hasOwnProperty.call(options, "boxySideProfile")
-    ? [...WOVEN_SHIRT_POMS, ...WOVEN_SHIRT_BOXY_PROFILE_POMS]
-    : WOVEN_SHIRT_POMS,
+  pomsForOptions: (options) => Object.prototype.hasOwnProperty.call(options, "campCollarDepth")
+    ? WOVEN_SHIRT_CAMP_COLLAR_POMS
+    : Object.prototype.hasOwnProperty.call(options, "boxySideProfile")
+      ? [...WOVEN_SHIRT_POMS, ...WOVEN_SHIRT_BOXY_PROFILE_POMS]
+      : WOVEN_SHIRT_POMS,
   grade: WOVEN_SHIRT_GRADE,
   sizes: TSHIRT_SIZES,
   checks: () => [],
@@ -947,6 +958,7 @@ export const WOVEN_SHIRT: GarmentRecipe = {
   techPack: WOVEN_SHIRT_TECH_PACK(7),
   techPackForOptions: (options) => WOVEN_SHIRT_TECH_PACK(
     Number(options.buttonCount ?? 7), Number(options.hemTurn ?? WOVEN_HEM_TURN_OPTION.defaultValue),
+    Object.prototype.hasOwnProperty.call(options, "campCollarDepth"),
   ),
   options: WOVEN_SHIRT_OPTION_DEFINITIONS,
   allowances: WOVEN_SHIRT_ALLOWANCES,

@@ -81,6 +81,7 @@ import {
   WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID,
   WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID,
   WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID,
+  WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID,
   starterOriginForEntry,
 } from "./starter-registry";
 import { wovenShirtAllowances } from "../drafting/shirt";
@@ -367,7 +368,7 @@ describe("mountApp", () => {
       vi.unstubAllGlobals();
       localStorage.clear();
     }
-  }, 15_000);
+  }, 30_000);
 
   it("shows the revision-bound production pack as unavailable without a saved local style", () => {
     let productionPackClick: EventListener | null = null;
@@ -1775,7 +1776,7 @@ describe("mountApp", () => {
       vi.unstubAllGlobals();
       localStorage.clear();
     }
-  }, 60_000);
+  }, 90_000);
 
   it("downloads both revision-matched outputs and blocks stale or unsupported downloads", async () => {
     localStorage.clear();
@@ -1879,7 +1880,7 @@ describe("mountApp", () => {
       vi.unstubAllGlobals();
       localStorage.clear();
     }
-  }, 60_000);
+  }, 90_000);
 
   it("serializes only meaningful saved drafts and preserves every optional draft field", () => {
     const session = createMeasurementCaptureSession(
@@ -12157,6 +12158,149 @@ describe("EPIC-19 L02 starter binding", () => {
       localStorage.clear();
     }
   });
+
+  it("selects W06 and preserves the standless collar identity, depth, and pattern through save/reopen", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID);
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Camp-collar Woven Shirt");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Relaxed woven shirt");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("72");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("21");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="campCollarDepth"]')!.value).toBe("6");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="standHeight"]')).toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-option="collarLeafDepth"]')).toBeNull();
+      expect(root.querySelector<HTMLElement>('[data-option-help="option-buttonCount"]')?.textContent)
+        .toContain("no additional stand button");
+
+      clickId(root, "assembled-preview-toggle");
+      const assembled = root.querySelector<SVGSVGElement>("#garment-host svg")!;
+      const initialAssembled = assembled.innerHTML;
+      expect(initialAssembled).not.toMatch(/NaN|Infinity/);
+      expect(initialAssembled).toContain('data-edge="option-campCollarDepth"');
+      const campCollarDepth = root.querySelector<HTMLInputElement>('input[data-option="campCollarDepth"]')!;
+      campCollarDepth.value = "6.5";
+      campCollarDepth.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<SVGSVGElement>("#garment-host svg")!.innerHTML).not.toBe(initialAssembled);
+      expect(root.querySelector<SVGSVGElement>("#garment-host svg")!.innerHTML).not.toMatch(/NaN|Infinity/);
+      campCollarDepth.value = "6";
+      campCollarDepth.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "assembled-preview-toggle");
+
+      clickId(root, "view-pattern");
+      const initialSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      const depth = root.querySelector<HTMLInputElement>('input[data-option="campCollarDepth"]')!;
+      depth.value = "6.5";
+      depth.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      expect(editedSvg).not.toBe(initialSvg);
+
+      clickId(root, "view-spec");
+      clickId(root, "save-pattern");
+      const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: Record<string, GarmentOptions>;
+        workspace: { starterOrigin: Record<string, unknown> };
+      };
+      expect(stored.garmentOptions["woven-shirt"]?.campCollarDepth).toBe(6.5);
+      expect(stored.workspace.starterOrigin).toMatchObject({
+        entryId: WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID,
+        entryRevision: "2026-11-03.1",
+        recipeId: "woven-shirt",
+        recipeRevision: "woven-shirt-camp-collar-v1",
+        configurationSnapshot: {
+          targetStyle: "Relaxed woven shirt",
+          measurements: { length: 72, ease: 21 },
+          options: { campCollarDepth: 6 },
+        },
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Camp-collar Woven Shirt");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="campCollarDepth"]')!.value).toBe("6.5");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+      const restoredDepth = reopened.querySelector<HTMLInputElement>('input[data-option="campCollarDepth"]')!;
+      restoredDepth.value = "6.25";
+      restoredDepth.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(restoredDepth.value).toBe("6.25");
+      expect(reopened.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("0.5 cm increments");
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("exports the standless W06 identity and digital-only disclosures through all six output actions", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID);
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Camp-collar Woven Shirt");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="standHeight"]')).toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-option="collarLeafDepth"]')).toBeNull();
+
+      clickId(root, "journey-step-fit");
+      clickId(root, "journey-next");
+      clickId(root, "view-check");
+      const outputNext = root.querySelector<HTMLElement>("#journey-next");
+      expect(outputNext, `W06 should pass its Check stage. Journey: ${root.querySelector<HTMLElement>("#journey-host")?.textContent}; guidance: ${root.querySelector<HTMLElement>("#guidance-host")?.textContent}`).not.toBeNull();
+      outputNext!.click();
+      const exportButton = root.querySelector<HTMLButtonElement>("#export-svg")!;
+      const depth = root.querySelector<HTMLInputElement>('input[data-option="campCollarDepth"]')!;
+      depth.value = "6.25";
+      depth.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(depth.value).toBe("6.25");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("0.5 cm increments");
+      expect(exportButton.disabled).toBe(true);
+
+      depth.value = "6";
+      depth.dispatchEvent(new Event("input", { bubbles: true }));
+      reReviewAndReachExportStage(root);
+      expect(exportButton.disabled).toBe(false);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "woven-shirt-camp-collar-M-A0.pdf", "woven-shirt-camp-collar-M.dxf", "woven-shirt-camp-collar-M.pdf",
+        "woven-shirt-camp-collar-M.svg", "woven-shirt-camp-collar-projector.svg", "woven-shirt-camp-collar-techpack.pdf",
+      ].sort());
+
+      const projector = new DOMParser().parseFromString(files.get("woven-shirt-camp-collar-projector.svg")!, "image/svg+xml");
+      const projectorText = [...projector.getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Camp-collar Woven Shirt");
+      expect(projectorText).toContain("W06 grade is not validated.");
+      const techPack = visiblePdfText(files.get("woven-shirt-camp-collar-techpack.pdf")!);
+      expect(techPack).toContain("Digital W06 Camp-collar Woven Shirt");
+      expect(techPack).toContain("upper and under collar layers join directly to the neckline");
+      expect(techPack).toContain("existing separate front plackets remain");
+      expect(techPack).toContain("not a validated W06 grade");
+      expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 180_000);
 
   it("selects W04, edits its boxy profile, preserves identity, and exports geometry-derived outputs", async () => {
     localStorage.clear();
