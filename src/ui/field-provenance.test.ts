@@ -121,9 +121,13 @@ describe("C03 field definitions and append-only observations", () => {
     const recoveredRacerback = appendRecoveryFieldObservations(
       racerbackRecord, racerback, racerbackRecovery, "2026-09-24T16:00:03.000Z",
     );
+    const reconciledRacerback = reconcileDesignFieldObservations(
+      racerbackRecord, racerback, racerback.design, "2026-09-24T16:00:04.000Z",
+    );
     expect(recoveredPlain.observations.some((observation) => observation.inputKey === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID)).toBe(false);
     expect(reconciledPlain.observations.some((observation) => observation.inputKey === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID)).toBe(false);
     expect(recoveredRacerback.observations.some((observation) => observation.inputKey === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID)).toBe(true);
+    expect(currentFieldObservation(reconciledRacerback, option!)?.canonicalValue).toBe(4.5);
   });
 
   it("builds Hoodie measurement and option provenance from its recipe-owned contract", () => {
@@ -211,6 +215,11 @@ describe("C03 field definitions and append-only observations", () => {
     const scopedOption = GARMENTS.find((recipe) => recipe.name === "fitted")!.options!
       .find((option) => option.id === "princessSeamShaping")!;
     expect(scopedOption.appliesToStarterEntryId).toBe(FITTED_PRINCESS_ENTRY_ID);
+    const allWovenFields = getFieldDefinitions("woven-shirt");
+    const wovenCaptureFields = getCaptureFieldDefinitions("woven-shirt");
+    expect(allWovenFields.some((definition) => definition.inputKey === "shoulderExtension")).toBe(true);
+    expect(wovenCaptureFields.some((definition) => definition.inputKey === "shoulderExtension")).toBe(false);
+    expect(wovenCaptureFields.some((definition) => definition.inputKey === "shoulderDrop")).toBe(false);
     expect(getCaptureFieldDefinitions("missing-recipe")).toEqual([]);
   });
 
@@ -236,6 +245,22 @@ describe("C03 field definitions and append-only observations", () => {
       sourceLabel: expect.stringContaining("inherits the shared measurement"),
     });
     expect(parseFieldObservationRecord(record).ok).toBe(true);
+
+    const missingRecipeOptionBag: StyleRecord = {
+      ...base,
+      design: {
+        ...base.design,
+        measurements: { ...base.design.measurements, ease: 6 },
+        garmentOptions: {},
+      },
+    };
+    const missingBagRecord = createFieldObservationRecord(missingRecipeOptionBag, TIME, "existing-local-style");
+    expect(currentFieldObservation(missingBagRecord, definition)).toMatchObject({
+      rawValue: "6",
+      canonicalValue: 6,
+      provenance: "INHERITED",
+      sourceLabel: expect.stringContaining("inherits the shared measurement"),
+    });
   });
 
   it("keeps an unset optional V-depth inactive instead of labeling it as inherited", () => {
@@ -269,10 +294,12 @@ describe("C03 field definitions and append-only observations", () => {
 
   it("records first-run defaults as presets and legacy values as unresolved, without confidence claims", () => {
     const style = styleFor();
+    const chestDefinition = getFieldDefinition("tee", "chest")!;
+    expect(currentFieldObservation(undefined, chestDefinition)).toBeUndefined();
     expect(() => createFieldObservationRecord(style, "yesterday", "first-run-default"))
       .toThrow("canonical UTC ISO time");
     const preset = createFieldObservationRecord(style, TIME, "first-run-default");
-    const chest = currentFieldObservation(preset, getFieldDefinition("tee", "chest")!);
+    const chest = currentFieldObservation(preset, chestDefinition);
     expect(chest).toMatchObject({
       rawValue: "100",
       canonicalValue: 100,
@@ -282,11 +309,18 @@ describe("C03 field definitions and append-only observations", () => {
       recordedAt: TIME,
     });
     const imported = createFieldObservationRecord(style, TIME, "legacy-save");
-    expect(currentFieldObservation(imported, getFieldDefinition("tee", "chest")!)).toMatchObject({
+    expect(currentFieldObservation(imported, chestDefinition)).toMatchObject({
       provenance: "UNRESOLVED",
       sourceLabel: expect.stringContaining("original value source"),
       recordedAt: null,
       canonicalValue: 100,
+    });
+    const packageV1 = createFieldObservationRecord(style, TIME, "package-v1");
+    expect(currentFieldObservation(packageV1, chestDefinition)?.sourceLabel).toContain("version 1");
+    const copied = createFieldObservationRecord(style, TIME, "copied-style");
+    expect(currentFieldObservation(copied, chestDefinition)).toMatchObject({
+      provenance: "INHERITED",
+      sourceLabel: expect.stringContaining("Inherited from another local style"),
     });
     expect(getFieldDefinition("tee", "chest")?.defaultValue).toBe(STANDARD_M.chest);
   });
@@ -294,7 +328,7 @@ describe("C03 field definitions and append-only observations", () => {
   it("seeds a custom style's field history from its exact selected capture provenance", () => {
     const style = styleFor("woven-shirt");
     let session = createMeasurementCaptureSession("3f0c6a2e-8d1b-4c5e-9a7f-2b6d8e1c4a90", "woven-shirt", TIME, style.id);
-    const definitions = getFieldDefinitions("woven-shirt");
+    const definitions = getCaptureFieldDefinitions("woven-shirt");
     definitions.forEach((definition, index) => {
       const isOption = definition.inputKind === "option";
       const provenance = isOption || definition.semanticKind !== "BODY_MEASURE"
@@ -345,7 +379,7 @@ describe("C03 field definitions and append-only observations", () => {
     })).toThrow("ready recipe-matched capture");
 
     let ready = empty;
-    getFieldDefinitions("woven-shirt").forEach((definition, index) => {
+    getCaptureFieldDefinitions("woven-shirt").forEach((definition, index) => {
       const isOption = definition.inputKind === "option";
       ready = addCaptureReadingForField(ready, definition.id, {
         id: `00000000-0000-4000-8000-${String(index + 101).padStart(12, "0")}`,
@@ -593,6 +627,17 @@ describe("C03 field definitions and append-only observations", () => {
     } as unknown as RecoveryPayload;
     const defaulted = appendRecoveryFieldObservations(original, style, sparseStored, "2026-09-24T16:00:02.000Z");
     expect(currentFieldObservation(defaulted, option)).toMatchObject({ rawValue: String(option.defaultValue), canonicalValue: option.defaultValue });
+    const missingOptionBag = {
+      ...base,
+      rawOptions: {},
+      garmentOptions: {},
+    } as unknown as RecoveryPayload;
+    const recoveredMissingBag = appendRecoveryFieldObservations(
+      original, style, missingOptionBag, "2026-09-24T16:00:03.000Z",
+    );
+    expect(currentFieldObservation(recoveredMissingBag, option)).toMatchObject({
+      rawValue: String(option.defaultValue), canonicalValue: option.defaultValue,
+    });
 
     expect(() => appendRecoveryFieldObservations(original, { ...style, id: PROJECT_ID }, base, TIME))
       .toThrow("must match the style");
@@ -663,6 +708,14 @@ describe("C03 field definitions and append-only observations", () => {
       canonicalValue: 5,
       provenance: "INHERITED",
       validationStatus: "VALID",
+      sourceLabel: expect.stringContaining("inherits the shared measurement"),
+    });
+    const reconciledReset = reconcileDesignFieldObservations(
+      selected, resetStyle, resetStyle.design, "2026-09-24T16:00:03.000Z",
+    );
+    expect(currentFieldObservation(reconciledReset, definition)).toMatchObject({
+      rawValue: "5",
+      provenance: "INHERITED",
       sourceLabel: expect.stringContaining("inherits the shared measurement"),
     });
     expect(parseFieldObservationRecord(reset).ok).toBe(true);

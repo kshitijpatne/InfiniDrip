@@ -6245,7 +6245,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       step,
       measurements: gradeMeasurements(measurements, recipe.grade, step),
       block: sourceBlock,
-    }, packageOptions, starterOrigin?.entryId);
+    }, packageOptions, starterOrigin?.entryId, targetStyle);
   };
   // The desktop shell's only bridge into this app (Slice 46): when running
   // inside Electron, `window.electronAPI` is set by electron/preload.cts via

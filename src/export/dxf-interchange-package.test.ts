@@ -128,6 +128,23 @@ describe("C04-bounded DXF interchange package", () => {
     }
   }, 120_000);
 
+  it("keeps W03 shoulder defaults scoped to the selected style", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const genericOptions = defaultGarmentOptions(recipe.options ?? []);
+    const genericGrade = gradeRecipeRun(recipe, STANDARD_M, recipe.sizes, genericOptions)[2]!;
+    const genericPackage = await createDxfInterchangePackage(recipe, genericGrade, genericOptions);
+    expect(genericPackage.manifest.options).not.toHaveProperty("shoulderExtension");
+    expect(genericPackage.manifest.options).not.toHaveProperty("shoulderDrop");
+
+    const style = "Oversized loose-drop woven shirt";
+    const styleOptions = defaultGarmentOptions(recipe.options ?? [], undefined, style);
+    const styleGrade = gradeRecipeRun(recipe, STANDARD_M, recipe.sizes, styleOptions)[2]!;
+    const stylePackage = await createDxfInterchangePackage(recipe, styleGrade, styleOptions, undefined, style);
+    expect(stylePackage.manifest.options).toMatchObject({ shoulderExtension: 4, shoulderDrop: 3 });
+    await expect(createDxfInterchangePackage(recipe, styleGrade, styleOptions))
+      .rejects.toThrow(/Unsupported woven-shirt option "shoulderExtension"/);
+  }, 30_000);
+
   it("uses canonical option-key ordering and changes package revision when option data changes", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const options = Object.fromEntries(Object.entries(defaultGarmentOptions(recipe.options ?? []))
@@ -215,7 +232,7 @@ describe("C04-bounded DXF interchange package", () => {
       Object.assign(options, testCase.options ?? {});
       Object.assign(options, testCase.optionValues ?? {});
       const resolvedOptions = Object.fromEntries((recipe.options ?? []).flatMap((definition) => {
-        if (definition.appliesToStarterEntryId !== undefined) return [];
+        if (definition.appliesToStarterEntryId !== undefined || definition.appliesToStyle !== undefined) return [];
         if (definition.optional && !Object.prototype.hasOwnProperty.call(options, definition.id)) return [];
         return [[definition.id, options[definition.id] ?? definition.defaultValue]];
       }));
@@ -273,7 +290,7 @@ describe("C04-bounded DXF interchange package", () => {
 
     const explicitOptions = { chestEase: 10 };
     const explicitGraded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, explicitOptions)[2]!;
-    const explicit = await createDxfInterchangePackage(recipe, explicitGraded, explicitOptions);
+    const explicit = await createDxfInterchangePackage(recipe, explicitGraded, explicitOptions, undefined, "Classic tee");
     expect(explicit.manifest.options).toEqual(explicitOptions);
     expect(explicit.manifest.revisionId).not.toBe(inherited.manifest.revisionId);
     expect(await verifyDxfInterchangePackage(explicit)).toBe(true);

@@ -135,6 +135,42 @@ describe("custom one-size design materialization", () => {
     expect(result.garmentOptions).toEqual({ "woven-shirt": seed.garmentOptions["woven-shirt"] });
   });
 
+  it("retains active style-scoped construction controls from the seed", () => {
+    const seed = seedFor("woven-shirt");
+    const savedOptions = seed.garmentOptions["woven-shirt"] ?? {};
+    const oversizedSeed: SavedDesign = {
+      ...seed,
+      workspace: { ...seed.workspace, targetStyle: "Oversized loose-drop woven shirt" },
+      garmentOptions: {
+        ...seed.garmentOptions,
+        "woven-shirt": { ...savedOptions, shoulderExtension: 5, shoulderDrop: 3.5 },
+      },
+    };
+
+    const result = materializeCustomSizeDesign(oversizedSeed, readySession("woven-shirt"));
+    expect(result.garmentOptions["woven-shirt"]).toMatchObject({ shoulderExtension: 5, shoulderDrop: 3.5 });
+  });
+
+  it("defaults missing active style controls while omitting an unset optional style control", () => {
+    const woven = seedFor("woven-shirt");
+    const missingWovenOptions: SavedDesign = {
+      ...woven,
+      workspace: { ...woven.workspace, targetStyle: "Oversized loose-drop woven shirt" },
+      garmentOptions: {},
+    };
+    const oversized = materializeCustomSizeDesign(missingWovenOptions, readySession("woven-shirt"));
+    expect(oversized.garmentOptions["woven-shirt"]).toMatchObject({ shoulderExtension: 4, shoulderDrop: 3 });
+
+    const tee = seedFor("tee");
+    const missingTeeOptions: SavedDesign = {
+      ...tee,
+      workspace: { ...tee.workspace, targetStyle: "Classic tee" },
+      garmentOptions: {},
+    };
+    const classic = materializeCustomSizeDesign(missingTeeOptions, readySession("tee"));
+    expect(classic.garmentOptions.tee).not.toHaveProperty("chestEase");
+  });
+
   it("clears starter provenance when materializing a custom one-size design from a live seed", () => {
     const seed = seedFor("tee");
     const starterOrigin = starterOriginForEntry(STARTER_REGISTRY.entries[0]!);

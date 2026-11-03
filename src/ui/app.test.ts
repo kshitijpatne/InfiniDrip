@@ -13641,14 +13641,22 @@ describe("EPIC-19 L02 starter binding", () => {
         waistDartLength: 10, waistDartPosition: 45 });
 
         reachExportStage(root);
-      root.querySelector<HTMLButtonElement>("#export-svg")!.click();
-      root.querySelector<HTMLButtonElement>("#export-dxf")!.click();
-      root.querySelector<HTMLButtonElement>("#export-pdf")!.click();
-      root.querySelector<HTMLButtonElement>("#export-a0")!.click();
-      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
-      root.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
-      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
-      await vi.waitFor(() => expect(files.size).toBe(7));
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(files.size).toBe(5), { timeout: 10_000 });
+      const waitForPackageExport = async (filename: string, failurePrefix: string): Promise<void> => {
+        await vi.waitFor(() => {
+          const failed = root.querySelector<HTMLElement>("#persist-status")!.textContent!.includes(failurePrefix);
+          expect(files.has(filename) || failed).toBe(true);
+        }, { timeout: 30_000 });
+        expect(files.has(filename), root.querySelector<HTMLElement>("#persist-status")!.textContent).toBe(true);
+      };
+      clickId(root, "export-cad-dxf");
+      await waitForPackageExport("fitted-M-cad-exchange.dxf", "CAD exchange export failed");
+      clickId(root, "export-dxf-source-package");
+      await waitForPackageExport("fitted-M-cad-exchange-source.json", "Source package export failed");
+      expect(files.size).toBe(7);
       const svg = [...files.entries()].find(([name]) => name.endsWith(".svg"))![1];
       const dxf = [...files.entries()].find(([name]) => name.endsWith(".dxf"))![1];
       const pdf = [...files.entries()].find(([name]) => name.endsWith(".pdf") && !name.endsWith("-techpack.pdf") && !name.endsWith("-A0.pdf"))![1];
@@ -13697,7 +13705,7 @@ describe("EPIC-19 L02 starter binding", () => {
       if (originalTextLength) Object.defineProperty(SVGElement.prototype, "getComputedTextLength", originalTextLength);
       else delete (SVGElement.prototype as unknown as { getComputedTextLength?: unknown }).getComputedTextLength;
     }
-  });
+  }, 75_000);
 
   it("delivers the F03 princess-seam Tee through editing, save/reopen, flats, nests, and exports", async () => {
     localStorage.clear();

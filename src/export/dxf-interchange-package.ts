@@ -1,7 +1,7 @@
 import type { Block } from "../drafting/block";
 import type { GarmentOptions } from "../drafting/options";
 import { notchesForRecipeOptions, type GarmentRecipe } from "../drafting/recipe";
-import { optionAppliesToStarterEntry } from "../drafting/options";
+import { optionAppliesToStarterEntry, optionAppliesToStyle } from "../drafting/options";
 import type { GradedSize } from "../drafting/grading";
 import type { Measurements } from "../drafting/measurements";
 import type { PatternMark } from "../drafting/pattern-mark";
@@ -79,18 +79,20 @@ export interface DxfInterchangePackage {
   readonly manifest: DxfInterchangePackageManifest;
 }
 
-function resolveOptions(recipe: GarmentRecipe, options: GarmentOptions, starterEntryId?: string): GarmentOptions {
+function resolveOptions(recipe: GarmentRecipe, options: GarmentOptions, starterEntryId?: string, style?: string): GarmentOptions {
   if (typeof options !== "object" || options === null || Array.isArray(options)) {
     throw new Error("Package options must be a recipe option object");
   }
   const allDefinitions = recipe.options ?? [];
   const definitions = allDefinitions
-    .filter((definition) => optionAppliesToStarterEntry(definition, starterEntryId))
+    .filter((definition) => optionAppliesToStyle(definition, style)
+      && optionAppliesToStarterEntry(definition, starterEntryId))
     .sort((a, b) => a.id.localeCompare(b.id));
   const definitionsById = new Map(allDefinitions.map((definition) => [definition.id, definition]));
   const unknown = Object.keys(options).find((id) => {
     const definition = definitionsById.get(id);
-    return definition === undefined || !optionAppliesToStarterEntry(definition, starterEntryId);
+    return definition === undefined || !optionAppliesToStyle(definition, style)
+      || !optionAppliesToStarterEntry(definition, starterEntryId);
   });
   if (unknown) throw new Error(`Unsupported ${recipe.name} option "${unknown}"`);
 
@@ -301,8 +303,9 @@ export async function createDxfInterchangePackage(
   graded: GradedSize,
   options: GarmentOptions = {},
   starterEntryId?: string,
+  style?: string,
 ): Promise<DxfInterchangePackage> {
-  const baseOptions = resolveOptions(recipe, options, starterEntryId);
+  const baseOptions = resolveOptions(recipe, options, starterEntryId, style);
   const size = recipe.sizes.find((entry) => entry.label === graded.label);
   if (!size || size.step !== graded.step) {
     throw new Error(`Selected size "${graded.label}" does not match the recipe's grade table`);

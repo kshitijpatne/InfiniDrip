@@ -471,17 +471,17 @@ export function getAllFieldDefinitions(): readonly FieldDefinition[] {
   return GARMENTS.flatMap((recipe) => getFieldDefinitions(recipe.name));
 }
 
-/** Capture excludes optional controls because unset options need no independent reading. */
+/** Capture covers required generic inputs; scoped controls stay with the saved design seed. */
 export function getCaptureFieldDefinitions(recipeId: string): readonly FieldDefinition[] {
   const recipe = GARMENTS.find((candidate) => candidate.name === recipeId);
-  // Generic custom-size capture has no starter identity. Keep controls that
-  // require one out of the captured option set so a starter-only topology is
-  // not accidentally materialized as an unbound custom style.
-  const starterBoundOptions = new Set((recipe?.options ?? [])
-    .filter((option) => option.appliesToStarterEntryId !== undefined)
+  // Custom-size capture starts from a saved design seed. Starter-scoped
+  // topology and style-scoped construction controls remain part of that seed
+  // instead of being recaptured as generic inputs for an unbound custom style.
+  const nonGenericOptions = new Set((recipe?.options ?? [])
+    .filter((option) => option.appliesToStarterEntryId !== undefined || option.appliesToStyle !== undefined)
     .map((option) => option.id));
   return getFieldDefinitions(recipeId).filter((definition) => !definition.optional
-    && !(definition.inputKind === "option" && starterBoundOptions.has(definition.inputKey)));
+    && !(definition.inputKind === "option" && nonGenericOptions.has(definition.inputKey)));
 }
 
 export function getFieldDefinition(recipeId: string, inputKey: string, inputKind?: FieldInputKind, starterEntryId?: string | null): FieldDefinition | undefined {
