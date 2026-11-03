@@ -5,7 +5,8 @@ import { block } from "../drafting/block";
 import { defaultGarmentOptions } from "../drafting/options";
 import { edgeRef, iface, markRef, type Stitch } from "../drafting/stitch";
 import type { Edge, Piece } from "../drafting/piece";
-import { assembleTechnicalFlatRoles, hasExactMirroredPanelPair, isApprovedPoloEaseResidualDisplay, isApprovedWovenBaseSeamDisplay } from "./technical-flat-assembly";
+import { assembleTechnicalFlatRoles, hasExactMirroredPanelPair, isApprovedPoloEaseResidualDisplay,
+  isApprovedWovenBaseSeamDisplay, isApprovedWovenCampCollarBaseSeamDisplay } from "./technical-flat-assembly";
 import type { TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { cubicPoint } from "../geometry";
@@ -41,6 +42,15 @@ describe("assembleTechnicalFlatRoles", () => {
     expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline", "unapproved")).toBe(false);
     expect(isApprovedWovenBaseSeamDisplay("Woven sleeve-cap ease", "G04-S342-WOVEN-COLLAR-BASE-SEAM")).toBe(false);
     expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline")).toBe(false);
+  });
+
+  it("suppresses only the exact W06 camp-collar base-seam display residuals", () => {
+    const decision = "G18-S1263-W06-CAMP-COLLAR-BASE-SEAM";
+    expect(isApprovedWovenCampCollarBaseSeamDisplay("Upper camp collar ↔ woven neckline", decision)).toBe(true);
+    expect(isApprovedWovenCampCollarBaseSeamDisplay("Under camp collar ↔ woven neckline", decision)).toBe(true);
+    expect(isApprovedWovenCampCollarBaseSeamDisplay("Outer stand ↔ woven neckline", decision)).toBe(false);
+    expect(isApprovedWovenCampCollarBaseSeamDisplay("Upper camp collar ↔ woven neckline", "unapproved")).toBe(false);
+    expect(isApprovedWovenCampCollarBaseSeamDisplay("Woven sleeve-cap ease", decision)).toBe(false);
   });
 
   it("suppresses only the exact validated S351 Polo eased-cap endpoint residual", () => {

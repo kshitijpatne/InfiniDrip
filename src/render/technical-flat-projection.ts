@@ -99,6 +99,7 @@ export interface FlatProjectionViewBoundary {
  * rigid placement correspondence; the drafted stitch references stay intact. */
 export interface FlatProjectionReversedStitchEdge {
   readonly stitchLabel: "Sleeve-cap ease" | "Woven sleeve-cap ease" | "Yoke seam (yoke ↔ back lower)" | "Outer stand ↔ woven neckline"
+    | "Upper camp collar ↔ woven neckline" | "Under camp collar ↔ woven neckline"
     | "Crewneck set-in sleeve cap: sleeveLeft";
   readonly pieceId: "front" | "frontSide" | "back" | "yoke" | "sleeveLeft";
   readonly edgeId: "armhole" | "yokeSeam" | "neckline";
@@ -118,8 +119,8 @@ export interface FlatProjectionLocalYReflection {
  * source stitch still positions the stand; only its duplicate base stroke is
  * suppressed while the exact body neckline supplies the visible seam. */
 export interface FlatProjectionViewSeamRepresentation {
-  readonly decisionId: "G04-S342-WOVEN-COLLAR-BASE-SEAM";
-  readonly stitchLabel: "Outer stand ↔ woven neckline";
+  readonly decisionId: "G04-S342-WOVEN-COLLAR-BASE-SEAM" | "G18-S1263-W06-CAMP-COLLAR-BASE-SEAM";
+  readonly stitchLabel: "Outer stand ↔ woven neckline" | "Upper camp collar ↔ woven neckline" | "Under camp collar ↔ woven neckline";
   readonly visibleRoleId: "front" | "yoke" | "back";
   readonly visibleEdgeId: "neckline";
   readonly suppressedEdgeId: "neckline";
@@ -192,7 +193,7 @@ export interface FlatProjectionCrewneckDetachedBandDetailRepresentation {
  * changes the drafted stitch graph or cut geometry. */
 export interface FlatProjectionWovenFullCollarRepresentation {
   readonly decisionId: "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH";
-  readonly stitchLabel: "Outer stand ↔ woven neckline";
+  readonly stitchLabel: "Outer stand ↔ woven neckline" | "Upper camp collar ↔ woven neckline" | "Under camp collar ↔ woven neckline";
   readonly sourceBaseEdgeId: "neckline" | "stand";
   readonly receiverBackRoleId: "yoke" | "back";
   readonly receiverBackEdgeId: "neckline";
@@ -763,6 +764,46 @@ function wovenBaseSeamRepresentation(
   };
 }
 
+function wovenCampCollarBaseSeamRepresentation(
+  kind: TechnicalFlatViewKind, block: Block, roleId: "upperCollar" | "underCollar",
+): FlatProjectionViewSeamRepresentation | undefined {
+  const backRoleId = block.roles.yoke ? "yoke" : "back";
+  const stitchLabel = roleId === "upperCollar"
+    ? "Upper camp collar ↔ woven neckline" : "Under camp collar ↔ woven neckline";
+  const matches = block.stitches.filter((stitch) => stitch.label === stitchLabel);
+  const stitch = matches[0];
+  const exactEdgeRef = (ref: InterfaceRef | undefined, piece: string, edge: string) => !!ref && "edge" in ref
+    && ref.piece === piece && ref.edge === edge && ref.reversed !== true;
+  const frontBase = block.roles.front?.edges.find((edge) => edge.name === "neckline");
+  const backBase = block.roles[backRoleId]?.edges.find((edge) => edge.name === "neckline");
+  const collarBase = block.roles[roleId]?.edges.find((edge) => edge.name === "neckline");
+  const collarCenterBack = block.roles[roleId]?.edges.find((edge) => edge.name === "centerBack");
+  const collarFrontTip = block.roles[roleId]?.edges.find((edge) => edge.name === "frontTip");
+  const basisFraction = wovenNecklineFraction(block);
+  if (matches.length !== 1 || !stitch || stitch.ease !== undefined
+    || stitch.a.edges.length !== 1 || stitch.b.edges.length !== 2
+    || !exactEdgeRef(stitch.a.edges[0], roleId, "neckline")
+    || !exactEdgeRef(stitch.b.edges[0], "front", "neckline")
+    || !exactEdgeRef(stitch.b.edges[1], backRoleId, "neckline")
+    || !frontBase || !backBase || !collarBase || !collarCenterBack || !collarFrontTip || basisFraction === undefined
+    || !samePoint(edgeStart(collarBase), edgeEnd(collarCenterBack))
+    || !samePoint(edgeEnd(collarBase), edgeStart(collarFrontTip))
+    || Math.abs(edgeLength(collarBase) - edgeLength(frontBase) - edgeLength(backBase)) > 1e-8) return undefined;
+  return {
+    decisionId: "G18-S1263-W06-CAMP-COLLAR-BASE-SEAM",
+    stitchLabel,
+    visibleRoleId: kind === "FRONT_FLAT" ? "front" : backRoleId,
+    visibleEdgeId: "neckline",
+    suppressedEdgeId: "neckline",
+    layer: "SEAM",
+    suppressedFrom: kind === "FRONT_FLAT"
+      ? { kind: "edge-arclength", edgeId: "neckline", fraction: basisFraction }
+      : endpointLandmark("neckline", "start"),
+    suppressedTo: kind === "FRONT_FLAT" ? endpointLandmark("neckline", "end")
+      : { kind: "edge-arclength", edgeId: "neckline", fraction: basisFraction },
+  };
+}
+
 function heldProjectionRole(roleId: string, treatment: FlatRoleTreatment, piece: Piece, reason: string): FlatProjectionRole {
   return { roleId, instanceId: roleId, treatment, runs: [],
     heldEdges: piece.edges.map((edge) => ({ edgeId: edge.name, reason })) };
@@ -838,14 +879,16 @@ function expectedWovenColorwayBoundary(
     const piece = block.roles[roleId];
     const basisFraction = wovenNecklineFraction(block);
     const exteriorEdgeId = roleId === "outerStand" ? "collar" : "outer";
+    const campCollar = isWovenCampCollarBlock(block);
+    const baseEdgeId = roleId === "outerStand" ? "neckline" : campCollar ? "neckline" : "stand";
     const exterior = piece?.edges.find((edge) => edge.name === exteriorEdgeId);
     const fraction = exterior ? normalizedCollarTransferFraction(block, roleId, exterior, "WOVEN_NECKLINE") : undefined;
     if (!piece?.onFold || foldAxisEdge(piece)?.name !== "centerBack" || basisFraction === undefined || fraction === undefined) return undefined;
     return { id: "approved-woven-collar-area-closure",
       from: transferredLandmark(exteriorEdgeId, fraction, "WOVEN_NECKLINE"),
       to: roleId === "outerStand"
-        ? { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction }
-        : { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction },
+        ? { kind: "edge-arclength", edgeId: baseEdgeId, fraction: 1 - basisFraction }
+        : { kind: "edge-arclength", edgeId: baseEdgeId, fraction: basisFraction },
       fillOnlyColorway: { ...decision, decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" } };
   }
   if (faceKind !== "FRONT_FLAT") return undefined;
@@ -911,9 +954,13 @@ function wovenCollarRoleProjection(
   roleId: "outerStand" | "upperCollar" | "underCollar", kind: TechnicalFlatViewKind,
   block: Block, piece: Piece, treatment: FlatRoleTreatment,
 ): FlatProjectionRole {
+  const campCollar = isWovenCampCollarBlock(block);
   const exteriorEdgeId = roleId === "outerStand" ? "collar" : "outer";
-  const baseEdgeId = roleId === "outerStand" ? "neckline" : "stand";
+  const baseEdgeId = roleId === "outerStand" || campCollar ? "neckline" : "stand";
   const frontEndEdgeId = roleId === "outerStand" ? "frontEnd" : "frontTip";
+  const stitchLabel = campCollar
+    ? roleId === "upperCollar" ? "Upper camp collar ↔ woven neckline" : "Under camp collar ↔ woven neckline"
+    : "Outer stand ↔ woven neckline";
   const exterior = piece.edges.find((edge) => edge.name === exteriorEdgeId);
   const base = piece.edges.find((edge) => edge.name === baseEdgeId);
   const frontEnd = piece.edges.find((edge) => edge.name === frontEndEdgeId);
@@ -927,7 +974,7 @@ function wovenCollarRoleProjection(
   }
   const fullCollarRepresentation: FlatProjectionWovenFullCollarRepresentation = {
     decisionId: "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH",
-    stitchLabel: "Outer stand ↔ woven neckline",
+    stitchLabel,
     sourceBaseEdgeId: baseEdgeId,
     receiverBackRoleId: block.roles.yoke ? "yoke" : "back",
     receiverBackEdgeId: "neckline",
@@ -946,8 +993,8 @@ function wovenCollarRoleProjection(
     id: "approved-woven-collar-area-closure",
     from: station,
     to: roleId === "outerStand"
-      ? { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction }
-      : { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction },
+      ? { kind: "edge-arclength", edgeId: baseEdgeId, fraction: 1 - basisFraction }
+      : { kind: "edge-arclength", edgeId: baseEdgeId, fraction: basisFraction },
     fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" },
   };
   const foldFillClosure: FlatProjectionViewBoundary | undefined = front ? undefined : {
@@ -961,6 +1008,8 @@ function wovenCollarRoleProjection(
     { markName: "centerMatch", reason: "The source-authored PLACE ON FOLD instruction is a cutting instruction, not an exterior assembled-view mark; the approved fold reflection supplies the complete collar outline." },
     ...(roleId === "outerStand" && !front ? [{ markName: "stand-button", reason: "The source-authored stand button lies on the front closure interval and is displayed only on FRONT_FLAT." }] : []),
   ];
+  const campCollarSeamRepresentation = campCollar && (roleId === "upperCollar" || roleId === "underCollar")
+    ? wovenCampCollarBaseSeamRepresentation(kind, block, roleId) : undefined;
   if (roleId === "outerStand") {
     const seamRepresentation = wovenBaseSeamRepresentation(kind, block);
     const visibleNeckline = roleId === "outerStand" && seamRepresentation !== undefined;
@@ -990,25 +1039,39 @@ function wovenCollarRoleProjection(
       viewBoundaries: collarBoundaries,
     };
   }
+  const baseRuns = front ? [
+    { edgeId: baseEdgeId, from: { kind: "edge-arclength" as const, edgeId: baseEdgeId, fraction: basisFraction }, to: endpointLandmark(baseEdgeId, "end") },
+  ] : [
+    { edgeId: baseEdgeId, from: endpointLandmark(baseEdgeId, "start"), to: { kind: "edge-arclength" as const, edgeId: baseEdgeId, fraction: basisFraction } },
+  ];
+  const collarRuns = front ? [
+    ...(!campCollar ? baseRuns : []),
+    { edgeId: "frontTip", from: endpointLandmark("frontTip", "start"), to: endpointLandmark("frontTip", "end") },
+    { edgeId: "outer", from: endpointLandmark("outer", "start"), to: station },
+  ] : [
+    ...(!campCollar ? baseRuns : []),
+    { edgeId: "outer", from: station, to: endpointLandmark("outer", "end") },
+  ];
+  const campCollarReversals: FlatProjectionReversedStitchEdge[] = campCollar && roleId === "underCollar" ? [
+    { stitchLabel: "Under camp collar ↔ woven neckline", pieceId: block.roles.yoke ? "yoke" : "back", edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER" },
+    { stitchLabel: "Upper camp collar ↔ woven neckline", pieceId: block.roles.yoke ? "yoke" : "back", edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER" },
+  ] : [];
   return {
     roleId, instanceId: roleId, treatment,
-    runs: front ? [
-      { edgeId: "stand", from: { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction }, to: endpointLandmark("stand", "end") },
-      { edgeId: "frontTip", from: endpointLandmark("frontTip", "start"), to: endpointLandmark("frontTip", "end") },
-      { edgeId: "outer", from: endpointLandmark("outer", "start"), to: station },
-    ] : [
-      { edgeId: "stand", from: endpointLandmark("stand", "start"), to: { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction } },
-      { edgeId: "outer", from: station, to: endpointLandmark("outer", "end") },
-    ],
+    runs: collarRuns,
     heldEdges: [],
     faceExcludedEdges: front ? [
       { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
+      ...(campCollar ? [{ edgeId: "neckline", reason: "The body neckline supplies the direct camp-collar seam; omit the duplicate collar-base stroke." }] : []),
     ] : [
       { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
       { edgeId: "frontTip", reason: "The collar front point belongs to FRONT_FLAT." },
+      ...(campCollar ? [{ edgeId: "neckline", reason: "The body neckline supplies the direct camp-collar seam; omit the duplicate collar-base stroke." }] : []),
     ],
     faceExcludedMarks,
     foldAxisReflection: { edgeId: mirrorEdgeId, axis: "LOCAL_Y", source: "MAINTAINER_VIEW_DECISION", axisRoleId: mirrorRoleId },
+    ...(campCollarReversals.length > 0 ? { reversedStitchEdges: campCollarReversals } : {}),
+    ...(campCollarSeamRepresentation ? { viewSeamRepresentation: campCollarSeamRepresentation } : {}),
     wovenFullCollarRepresentation: fullCollarRepresentation,
     viewBoundaries: collarBoundaries,
   };
@@ -1280,29 +1343,37 @@ function pointOnEdgeFraction(edge: Edge, fraction: number) {
   return cubicPoint(edge.curve, edgeParameterAtArclengthFraction(edge, fraction)!);
 }
 
+function isWovenCampCollarBlock(block: Block): boolean {
+  return !block.roles.outerStand && !block.roles.innerStand
+    && !!block.roles.upperCollar && !!block.roles.underCollar;
+}
+
 function wovenNecklineFraction(block: Block): number | undefined {
-  const matches = block.stitches.filter((candidate) => candidate.label === "Outer stand ↔ woven neckline");
+  const campCollar = isWovenCampCollarBlock(block);
+  const baseRoleId = campCollar ? "underCollar" : "outerStand";
+  const stitchLabel = campCollar ? "Under camp collar ↔ woven neckline" : "Outer stand ↔ woven neckline";
+  const matches = block.stitches.filter((candidate) => candidate.label === stitchLabel);
   const stitch = matches[0];
   if (matches.length !== 1 || !stitch || stitch.ease !== undefined || stitch.a.edges.length !== 1 || stitch.b.edges.length !== 2) return undefined;
-  const standRef = stitch.a.edges[0];
+  const baseRef = stitch.a.edges[0];
   const [frontRef, backRef] = stitch.b.edges;
   const expectedBack = block.roles.yoke ? "yoke" : "back";
-  if (!standRef || !("edge" in standRef) || standRef.piece !== "outerStand" || standRef.edge !== "neckline"
-    || standRef.reversed || !frontRef || !("edge" in frontRef) || frontRef.piece !== "front" || frontRef.edge !== "neckline" || frontRef.reversed
+  if (!baseRef || !("edge" in baseRef) || baseRef.piece !== baseRoleId || baseRef.edge !== "neckline"
+    || baseRef.reversed || !frontRef || !("edge" in frontRef) || frontRef.piece !== "front" || frontRef.edge !== "neckline" || frontRef.reversed
     || !backRef || !("edge" in backRef) || backRef.piece !== expectedBack || backRef.edge !== "neckline" || backRef.reversed) return undefined;
   const front = block.roles.front;
   const back = block.roles[expectedBack];
   const frontEdge = front?.edges.find((candidate) => candidate.name === "neckline");
   const backEdge = back?.edges.find((candidate) => candidate.name === "neckline");
-  const standEdge = block.roles.outerStand?.edges.find((candidate) => candidate.name === "neckline");
-  if (!frontEdge || !backEdge || !standEdge) return undefined;
+  const baseEdge = block.roles[baseRoleId]?.edges.find((candidate) => candidate.name === "neckline");
+  if (!frontEdge || !backEdge || !baseEdge) return undefined;
   const shared = [edgeStart(frontEdge), edgeEnd(frontEdge)].filter((point) =>
     [edgeStart(backEdge), edgeEnd(backEdge)].some((other) => samePoint(point, other)));
   const frontLength = edgeLength(frontEdge);
   const backLength = edgeLength(backEdge);
   const total = frontLength + backLength;
   if (shared.length !== 1 || !(frontLength > 0) || !(backLength > 0)
-    || Math.abs(edgeLength(standEdge) - total) > 1e-8) return undefined;
+    || Math.abs(edgeLength(baseEdge) - total) > 1e-8) return undefined;
   return backLength / total;
 }
 
@@ -1355,6 +1426,31 @@ function normalizedCollarTransferFraction(
       && receiverRefs?.length === 1 && "edge" in receiverRefs[0]! && receiverRefs[0]!.piece === "underCollar" && receiverRefs[0]!.edge === "stand"
       && Math.abs(edgeLength(edge) - edgeLength(neckline)) <= 1e-8
       && Math.abs(edgeLength(edge) - edgeLength(underBase)) <= 1e-8 ? fraction : undefined;
+  }
+  if (isWovenCampCollarBlock(block) && (roleId === "upperCollar" || roleId === "underCollar") && edge.name === "outer") {
+    const base = piece.edges.find((candidate) => candidate.name === "neckline");
+    const outer = piece.edges.find((candidate) => candidate.name === "outer");
+    const centerBack = piece.edges.find((candidate) => candidate.name === "centerBack");
+    const frontTip = piece.edges.find((candidate) => candidate.name === "frontTip");
+    const receiverRole = roleId === "upperCollar" ? "Upper camp collar ↔ woven neckline" : "Under camp collar ↔ woven neckline";
+    const receiverBackRole = block.roles.yoke ? "yoke" : "back";
+    const joins = block.stitches.filter((stitch) => stitch.label === receiverRole);
+    const stitch = joins[0];
+    const ownRefs = stitch?.a.edges;
+    const receiverRefs = stitch?.b.edges;
+    const receiverBase = block.roles[receiverBackRole]?.edges.find((candidate) => candidate.name === "neckline");
+    const receiverFront = block.roles.front?.edges.find((candidate) => candidate.name === "neckline");
+    // A defined Woven split fraction already guarantees both neckline edges exist.
+    const expectedNecklineLength = edgeLength(receiverBase!) + edgeLength(receiverFront!);
+    if (!base || !outer || outer !== edge || !centerBack || !frontTip || !receiverBase || !receiverFront || joins.length !== 1
+      || !stitch || stitch.ease !== undefined || !ownRefs || ownRefs.length !== 1 || !receiverRefs || receiverRefs.length !== 2
+      || !("edge" in ownRefs[0]!) || ownRefs[0]!.piece !== roleId || ownRefs[0]!.edge !== "neckline" || ownRefs[0]!.reversed
+      || !("edge" in receiverRefs[0]!) || receiverRefs[0]!.piece !== "front" || receiverRefs[0]!.edge !== "neckline" || receiverRefs[0]!.reversed
+      || !("edge" in receiverRefs[1]!) || receiverRefs[1]!.piece !== receiverBackRole || receiverRefs[1]!.edge !== "neckline" || receiverRefs[1]!.reversed
+      || Math.abs(edgeLength(base) - expectedNecklineLength) > 1e-8
+      || !samePoint(edgeStart(base), edgeEnd(centerBack)) || !samePoint(edgeEnd(base), edgeStart(frontTip))
+      || !samePoint(edgeEnd(frontTip), edgeStart(outer)) || !samePoint(edgeEnd(outer), edgeStart(centerBack))) return undefined;
+    return 1 - fraction;
   }
   if ((roleId === "upperCollar" || roleId === "underCollar") && edge.name === "outer") {
     const base = piece.edges.find((candidate) => candidate.name === "stand");
@@ -1782,8 +1878,10 @@ function validateRole(
   const requiresWovenBackYokeOrder = recipeId === "woven-shirt" && faceKind === "BACK_FLAT" && roleId === "back";
   const requiresWovenNecklineOrder = recipeId === "woven-shirt" && roleId === "outerStand"
     && Array.isArray(mappingRole.runs) && mappingRole.runs.length > 0;
+  const requiresWovenCampNecklineOrder = recipeId === "woven-shirt" && isWovenCampCollarBlock(block)
+    && roleId === "underCollar" && Array.isArray(mappingRole.runs) && mappingRole.runs.length > 0;
   if ((reversedStitchEdges !== undefined && recipeId === "woven-shirt")
-    || requiresWovenSleeveOrder || requiresWovenNecklineOrder) {
+    || requiresWovenSleeveOrder || requiresWovenNecklineOrder || requiresWovenCampNecklineOrder) {
     const entries = Array.isArray(reversedStitchEdges) ? reversedStitchEdges : [];
     const sleeveMatches = block.stitches.filter((stitch) => stitch.label === "Woven sleeve-cap ease");
     const sleeveStitch = sleeveMatches[0];
@@ -1851,15 +1949,30 @@ function validateRole(
       && samePoint(edgeStart(collarBackNeckline), collarBackCenter.end)
       && samePoint(edgeEnd(collarBackNeckline), collarBackShoulder.start)
       && wovenNecklineFraction(block) !== undefined;
+    const campCollarRoleLabels = [
+      ["upperCollar", "Upper camp collar ↔ woven neckline"],
+      ["underCollar", "Under camp collar ↔ woven neckline"],
+    ] as const;
+    const campCollarTopologyMatches = isWovenCampCollarBlock(block) && campCollarRoleLabels.every(([campRoleId]) => {
+      const campPiece = block.roles[campRoleId];
+      const outer = campPiece?.edges.find((edge) => edge.name === "outer");
+      return outer !== undefined && normalizedCollarTransferFraction(block, campRoleId, outer, "WOVEN_NECKLINE") !== undefined;
+    });
+    const exactCampCollarRules = entries.length === campCollarRoleLabels.length
+      && campCollarRoleLabels.every(([, campStitchLabel]) => entries.some((entry) => isRecord(entry)
+        && Object.keys(entry).length === 4 && entry.stitchLabel === campStitchLabel
+        && entry.pieceId === collarBackRole && entry.edgeId === "neckline" && entry.source === "SOURCE_ENDPOINT_ORDER"));
     const exactCollarRule = entries.length === 1 && isRecord(entries[0])
       && entries[0].stitchLabel === "Outer stand ↔ woven neckline" && entries[0].pieceId === collarBackRole
       && entries[0].edgeId === "neckline" && entries[0].source === "SOURCE_ENDPOINT_ORDER";
     const validSleeve = !requiresWovenSleeveOrder || (sleeveTopologyMatches && exactSleeveRule);
     const validYoke = !requiresWovenBackYokeOrder || (yokeTopologyMatches && exactYokeRule);
     const validCollar = roleId !== "outerStand" || (collarTopologyMatches && exactCollarRule);
-    const expectedRoleRule = requiresWovenSleeveOrder || requiresWovenBackYokeOrder || requiresWovenNecklineOrder;
+    const validCampCollar = !requiresWovenCampNecklineOrder || (campCollarTopologyMatches && exactCampCollarRules);
+    const expectedRoleRule = requiresWovenSleeveOrder || requiresWovenBackYokeOrder || requiresWovenNecklineOrder
+      || requiresWovenCampNecklineOrder;
     const noUnexpectedReversal = expectedRoleRule || entries.length === 0;
-    if (!validSleeve || !validYoke || !validCollar || !noUnexpectedReversal) {
+    if (!validSleeve || !validYoke || !validCollar || !validCampCollar || !noUnexpectedReversal) {
       issues.push({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION", sourceId,
         message: "Woven sewn-edge traversal requires exact source endpoint ordering for sleeve-cap, neckline and yoke-seam placement." });
     }
@@ -2294,10 +2407,13 @@ function validateRole(
   if (wovenFullCollarEligible && expectedFullCollarFraction !== undefined) {
     const actual = mappingRole.wovenFullCollarRepresentation;
     const expectedBackRole = block.roles.yoke ? "yoke" : "back";
-    const expectedBaseEdge = roleId === "outerStand" ? "neckline" : "stand";
+    const expectedBaseEdge = roleId === "outerStand" || isWovenCampCollarBlock(block) ? "neckline" : "stand";
+    const expectedStitchLabel = isWovenCampCollarBlock(block)
+      ? roleId === "upperCollar" ? "Upper camp collar ↔ woven neckline" : "Under camp collar ↔ woven neckline"
+      : "Outer stand ↔ woven neckline";
     const exact = isRecord(actual) && Object.keys(actual).length === 11
       && actual.decisionId === "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH"
-      && actual.stitchLabel === "Outer stand ↔ woven neckline"
+      && actual.stitchLabel === expectedStitchLabel
       && actual.sourceBaseEdgeId === expectedBaseEdge
       && actual.receiverBackRoleId === expectedBackRole && actual.receiverBackEdgeId === "neckline"
       && actual.receiverFrontRoleId === "front" && actual.receiverFrontEdgeId === "neckline"
@@ -2310,8 +2426,15 @@ function validateRole(
     issues.push({ code: "INVALID_WOVEN_COLLAR_REPRESENTATION", sourceId,
       message: "The Woven full-collar projection metadata is valid only for the exact current collar-to-neckline topology." });
   }
+  const isCampCollarRole = isWovenCampCollarBlock(block) && (roleId === "upperCollar" || roleId === "underCollar");
   const expectedSeamRepresentation = recipeId === "woven-shirt" && roleId === "outerStand"
-    ? wovenBaseSeamRepresentation(faceKind, block) : undefined;
+    ? wovenBaseSeamRepresentation(faceKind, block)
+    : recipeId === "woven-shirt" && isCampCollarRole
+      ? wovenCampCollarBaseSeamRepresentation(faceKind, block, roleId) : undefined;
+  if (isCampCollarRole && !expectedSeamRepresentation) {
+    issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId,
+      message: "The W06 camp-collar base-seam display requires the exact same-revision upper/under joins and a length-compatible split body neckline." });
+  }
   if (expectedSeamRepresentation) {
     const actual = mappingRole.viewSeamRepresentation;
     const excluded = Array.isArray(mappingRole.faceExcludedEdges) ? mappingRole.faceExcludedEdges : [];
@@ -2325,10 +2448,14 @@ function validateRole(
       && exactProjectionLandmark(actual.suppressedFrom, expectedSeamRepresentation.suppressedFrom)
       && exactProjectionLandmark(actual.suppressedTo, expectedSeamRepresentation.suppressedTo);
     const seamExcluded = excluded.some((entry) => isRecord(entry) && entry.edgeId === "neckline"
-      && entry.reason === "The approved assembled view shows the source body neckline once as the base seam.");
+      && entry.reason === (isCampCollarRole
+        ? "The body neckline supplies the direct camp-collar seam; omit the duplicate collar-base stroke."
+        : "The approved assembled view shows the source body neckline once as the base seam."));
     if (!exactRepresentation || !seamExcluded || mappingRole.runs.some((run) => isRecord(run) && run.edgeId === "neckline")) {
       issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId,
-        message: "The approved Woven base-seam display requires the exact current outerStand stitch, the face-specific body neckline, and suppression of only the duplicate stand neckline stroke." });
+        message: isCampCollarRole
+          ? "The W06 camp-collar base-seam display requires the exact role-specific neckline stitch, the face body neckline, and suppression of only that collar base stroke."
+          : "The approved Woven base-seam display requires the exact current outerStand stitch, the face-specific body neckline, and suppression of only the duplicate stand neckline stroke." });
     }
   } else if (mappingRole.viewSeamRepresentation !== undefined) {
     issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId,
@@ -2411,10 +2538,9 @@ export function validateTechnicalFlatProjectionMap(
       }
     }
     if (recipeId === "woven-shirt") {
-      const stand = rawFace.roles.find((role) => isRecord(role) && role.roleId === "outerStand");
-      const representation = isRecord(stand) && isRecord(stand.viewSeamRepresentation)
-        ? stand.viewSeamRepresentation : undefined;
-      if (representation) {
+      for (const sourceRole of rawFace.roles) {
+        if (!isRecord(sourceRole) || typeof sourceRole.roleId !== "string" || !isRecord(sourceRole.viewSeamRepresentation)) continue;
+        const representation = sourceRole.viewSeamRepresentation;
         const visibleRole = rawFace.roles.find((role) => isRecord(role) && role.roleId === representation.visibleRoleId);
         const edgeId = representation.visibleEdgeId;
         const fullRun = isRecord(visibleRole) && Array.isArray(visibleRole.runs)
@@ -2422,8 +2548,8 @@ export function validateTechnicalFlatProjectionMap(
             && exactProjectionLandmark(run.from, endpointLandmark(edgeId as string, "start"))
             && exactProjectionLandmark(run.to, endpointLandmark(edgeId as string, "end")))
           : false;
-        if (!fullRun) issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId: `${faceKind}:outerStand`,
-          message: "The approved Woven base seam must be emitted from the full same-face source body neckline edge." });
+        if (!fullRun) issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId: `${faceKind}:${sourceRole.roleId}`,
+          message: "An approved Woven base seam must be emitted from the full same-face source body neckline edge." });
       }
     }
     for (const role of expectedFace.roles) {

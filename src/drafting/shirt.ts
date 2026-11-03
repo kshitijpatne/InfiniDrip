@@ -144,13 +144,13 @@ function standPiece(name: string, necklineLength: number, height: number): Piece
   };
 }
 
-function collarPiece(name: string, necklineLength: number, depth: number): Piece {
+function collarPiece(name: string, necklineLength: number, depth: number, baseEdgeName: "stand" | "neckline" = "stand"): Piece {
   return {
     name,
     onFold: true,
     edges: [
       { kind: "line", name: "centerBack", start: point(0, depth), end: point(0, 0) },
-      { kind: "line", name: "stand", start: point(0, 0), end: point(necklineLength, 0) },
+      { kind: "line", name: baseEdgeName, start: point(0, 0), end: point(necklineLength, 0) },
       { kind: "line", name: "frontTip", start: point(necklineLength, 0), end: point(necklineLength + COLLAR_TIP_FLARE, depth) },
       { kind: "line", name: "outer", start: point(necklineLength + COLLAR_TIP_FLARE, depth), end: point(0, depth) },
     ],
@@ -181,7 +181,21 @@ export const WOVEN_SHIRT_COLLAR_STITCHES: readonly Stitch[] = [
   },
 ];
 
-function wovenCollarStitches(necklineRole: "back" | "yoke"): readonly Stitch[] {
+function wovenCampCollarStitches(necklineRole: "back" | "yoke"): readonly Stitch[] {
+  const bodyNeckline = iface(edgeRef("front", "neckline"), edgeRef(necklineRole, "neckline"));
+  return [
+    { label: "Under camp collar ↔ woven neckline", a: iface(edgeRef("underCollar", "neckline")), b: bodyNeckline },
+    { label: "Upper camp collar ↔ woven neckline", a: iface(edgeRef("upperCollar", "neckline")), b: bodyNeckline },
+    {
+      label: "Camp collar outer seam (upper ↔ under)",
+      a: iface(edgeRef("upperCollar", "frontTip"), edgeRef("upperCollar", "outer")),
+      b: iface(edgeRef("underCollar", "frontTip"), edgeRef("underCollar", "outer")),
+    },
+  ];
+}
+
+function wovenCollarStitches(necklineRole: "back" | "yoke", options?: WovenShirtOptions): readonly Stitch[] {
+  if (options?.campCollarDepth !== undefined) return wovenCampCollarStitches(necklineRole);
   return WOVEN_SHIRT_COLLAR_STITCHES.map((stitch) => {
     if (stitch.label !== "Outer stand ↔ woven neckline") return stitch;
     return {
@@ -199,6 +213,13 @@ export function addWovenShirtCollar(
   const necklineRole = "yoke" in body.roles ? "yoke" : "back";
   const necklineLength = edgeLength(pieceEdge(body.roles.front, "neckline")) +
     edgeLength(pieceEdge(body.roles[necklineRole], "neckline"));
+  if (options.campCollarDepth !== undefined) {
+    const upperCollar = collarPiece("upper camp collar", necklineLength, options.campCollarDepth, "neckline");
+    const underCollar = collarPiece("under camp collar", necklineLength, options.campCollarDepth, "neckline");
+    return block({ ...body.roles, upperCollar, underCollar }, [
+      ...body.stitches, ...wovenCampCollarStitches(necklineRole),
+    ]);
+  }
   const outerStand = standPiece("outer woven stand", necklineLength, options.standHeight);
   const innerStand = standPiece("inner woven stand", necklineLength, options.standHeight);
   const upperCollar = collarPiece("upper pointed woven collar", necklineLength, options.collarLeafDepth);
@@ -635,6 +656,16 @@ export const WOVEN_SHIRT_POMS: readonly Pom[] = [
   },
 ];
 
+export const WOVEN_SHIRT_CAMP_COLLAR_POMS: readonly Pom[] = [
+  ...WOVEN_SHIRT_POMS,
+  {
+    label: "Camp collar depth (modeled)", tolerance: 0.2,
+    measure: (b) => edgeLength(pieceEdge(b.roles.upperCollar, "centerBack")),
+    anchor: (b) => edgeStart(pieceEdge(b.roles.upperCollar, "centerBack")),
+    anchorRoleId: "upperCollar", anchorEdgeId: "centerBack",
+  },
+];
+
 export const WOVEN_SHIRT_BOXY_PROFILE_POMS: readonly Pom[] = [
   {
     label: "Body waist (finished)", tolerance: 1.3,
@@ -654,19 +685,34 @@ const notch = (pieceName: string, topEdge: string, bottomEdge: string): PieceNot
   grainline: { topEdge, topT: 0.5, bottomEdge, bottomT: 0.5 },
 });
 
-export const WOVEN_SHIRT_NOTCHES: readonly PieceNotches[] = [
+const WOVEN_SHIRT_BODY_NOTCHES: readonly PieceNotches[] = [
   notch("woven front", "shoulder", "hem"),
   notch("woven back lower", "yokeSeam", "hem"),
   notch("woven back yoke", "shoulder", "yokeSeam"),
-  notch("outer woven stand", "collar", "neckline"),
-  notch("inner woven stand", "collar", "neckline"),
-  notch("upper pointed woven collar", "stand", "outer"),
-  notch("under pointed woven collar", "stand", "outer"),
+];
+
+const WOVEN_SHIRT_SHARED_DETAIL_NOTCHES: readonly PieceNotches[] = [
   notch("woven button placket", "top", "bottom"),
   notch("woven buttonhole placket", "top", "bottom"),
   notch("woven short sleeve", "capLeft", "hem"),
   notch("woven folded sleeve band", "top", "bottom"),
   notch("woven patch pocket", "top", "bottom"),
+];
+
+export const WOVEN_SHIRT_NOTCHES: readonly PieceNotches[] = [
+  ...WOVEN_SHIRT_BODY_NOTCHES,
+  notch("outer woven stand", "collar", "neckline"),
+  notch("inner woven stand", "collar", "neckline"),
+  notch("upper pointed woven collar", "stand", "outer"),
+  notch("under pointed woven collar", "stand", "outer"),
+  ...WOVEN_SHIRT_SHARED_DETAIL_NOTCHES,
+];
+
+export const WOVEN_SHIRT_CAMP_COLLAR_NOTCHES: readonly PieceNotches[] = [
+  ...WOVEN_SHIRT_BODY_NOTCHES,
+  notch("upper camp collar", "neckline", "outer"),
+  notch("under camp collar", "neckline", "outer"),
+  ...WOVEN_SHIRT_SHARED_DETAIL_NOTCHES,
 ];
 
 export function wovenShirtGuidance(
@@ -692,7 +738,8 @@ export function wovenShirtGuidance(
   }
   for (const definition of WOVEN_SHIRT_OPTION_DEFINITIONS) {
     if (definition.appliesToStyle !== undefined && !Object.prototype.hasOwnProperty.call(rawOptions, definition.id)) continue;
-    const value = options[definition.id as keyof WovenShirtOptions];
+    if (definition.appliesToStarterEntryId !== undefined && !Object.prototype.hasOwnProperty.call(rawOptions, definition.id)) continue;
+    const value = options[definition.id as keyof WovenShirtOptions] as number;
     // Every woven option declares a unit in shirt-contract.ts. Keep the
     // guidance value sourced from that contract so a count can never inherit a
     // dimensional suffix by accident.
@@ -704,6 +751,9 @@ export function wovenShirtGuidance(
       notes.push({ field: "option-buttonCount", level: "warn", text: `Front placket buttons (${valueLabel}) must be a whole number: choose 6 or 7.` });
     } else if (definition.id === "boxySideProfile" && value % definition.step !== 0) {
       notes.push({ field: "option-boxySideProfile", level: "warn", text: "Boxy side profile must use 10% increments; choose a value from 0% to 100% in steps of 10%." });
+    } else if (definition.id === "campCollarDepth" && !Number.isInteger((value - definition.min) / definition.step)) {
+      notes.push({ field: "option-campCollarDepth", level: "warn",
+        text: `Camp-collar depth must use ${definition.step} ${unit} increments; choose a value from ${definition.min} to ${definition.max} ${unit} in those steps.` });
     }
   }
   if (options.frontOverlap > options.placketWidth) {
@@ -715,7 +765,7 @@ export function wovenShirtGuidance(
   if (lastButton !== undefined && lastButton + 3 > frontLength) {
     notes.push({ field: "option-buttonSpacing", level: "warn", text: `The last front button leaves less than 3 cm at the placket end — reduce spacing/count or increase shirt length.` });
   }
-  if (options.standHeight > options.collarLeafDepth) {
+  if (options.campCollarDepth === undefined && options.standHeight > options.collarLeafDepth) {
     notes.push({ field: "option-standHeight", level: "warn", text: "Stand height is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
   }
   const shoulderY = 2.5 + options.shoulderDrop;
@@ -851,6 +901,19 @@ const wovenGrammarCollar = (
   _m: Measurements,
   params: { readonly options: WovenShirtOptions; readonly necklineLength: number },
 ): ComponentResult => {
+  if (params.options.campCollarDepth !== undefined) {
+    return {
+      pieces: {
+        upperCollar: collarPiece("upper camp collar", params.necklineLength, params.options.campCollarDepth, "neckline"),
+        underCollar: collarPiece("under camp collar", params.necklineLength, params.options.campCollarDepth, "neckline"),
+      },
+      stitches: [],
+      interfaces: {
+        neckline: iface(edgeRef("underCollar", "neckline")),
+        collar: iface(edgeRef("underCollar", "outer")),
+      },
+    };
+  }
   const outer = standPiece("outer woven stand", params.necklineLength, params.options.standHeight);
   const inner = standPiece("inner woven stand", params.necklineLength, params.options.standHeight);
   const standY = edgeStart(pieceEdge(outer, "centerBack")).y / 2;
@@ -964,10 +1027,10 @@ export const WOVEN_SHIRT_GRAMMAR = garmentGrammar(
       ["front", "back-yoke", "pocket", "collar", "plackets"],
     ),
   ],
-  () => [
+  (context) => [
     ...WOVEN_SHIRT_YOKE_STITCHES,
     ...WOVEN_SHIRT_POCKET_STITCHES,
-    ...wovenCollarStitches("yoke"),
+    ...wovenCollarStitches("yoke", resolveWovenShirtOptions(context.options)),
     ...WOVEN_SHIRT_PLACKET_STITCHES,
     ...WOVEN_SHIRT_SLEEVE_STITCHES,
   ],
@@ -993,6 +1056,13 @@ export function addWovenShirtPlackets(
 ): Block {
   const options = resolveWovenShirtOptions(rawOptions);
   const frontLength = edgeLength(pieceEdge(collar.roles.front, "centerFront"));
+  if (options.campCollarDepth !== undefined) {
+    return block({
+      ...collar.roles,
+      buttonPlacket: placketPiece("woven button placket", frontLength, options, "button"),
+      buttonholePlacket: placketPiece("woven buttonhole placket", frontLength, options, "buttonhole"),
+    }, [...collar.stitches, ...WOVEN_SHIRT_PLACKET_STITCHES]);
+  }
   const necklineLength = edgeLength(pieceEdge(collar.roles.outerStand, "collar"));
   const stand = collar.roles.outerStand;
   const innerStand = collar.roles.innerStand;

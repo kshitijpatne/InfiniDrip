@@ -37,7 +37,7 @@ export interface PoloVisual {
 }
 
 /** Finished woven-shirt details used only by the assembled schematic. */
-export interface WovenShirtVisual {
+type WovenShirtVisualCommon = {
   readonly neckWidthHalf: number;
   readonly frontNeckDepth: number;
   readonly backNeckDepth: number;
@@ -45,8 +45,6 @@ export interface WovenShirtVisual {
   readonly buttonSpacing: number;
   readonly frontOverlap: number;
   readonly placketWidth: number;
-  readonly standHeight: number;
-  readonly collarLeafDepth: number;
   readonly yokeDepth: number;
   readonly pocketWidth: number;
   readonly pocketHeight: number;
@@ -59,7 +57,12 @@ export interface WovenShirtVisual {
     readonly hipHalf: number;
   };
   readonly hipStationY?: number;
-}
+};
+
+export type WovenShirtVisual = WovenShirtVisualCommon & (
+  | { readonly collarProfile?: "pointed"; readonly standHeight: number; readonly collarLeafDepth: number; readonly campCollarDepth?: never }
+  | { readonly collarProfile: "camp"; readonly campCollarDepth?: number; readonly standHeight?: never; readonly collarLeafDepth?: never }
+);
 
 // One full garment silhouette, centred on x = 0. `hasSleeve` (Slice 60): a
 // garment with no sleeve role (a tank) stops at the armhole instead of
@@ -185,11 +188,16 @@ function poloDetails(m: Measurements, position: "front" | "back", frontNeckline:
 
 function wovenShirtDetails(m: Measurements, position: "front" | "back", shirt: WovenShirtVisual): string {
   const d = derive(m);
+  const campCollar = shirt.collarProfile === "camp";
+  const standHeight = campCollar ? 0 : shirt.standHeight;
+  const campCollarDepth = campCollar && typeof shirt.campCollarDepth === "number" && Number.isFinite(shirt.campCollarDepth)
+    ? shirt.campCollarDepth
+    : null;
   const count = Number.isFinite(shirt.buttonCount)
     ? Math.max(0, Math.min(20, Math.round(shirt.buttonCount)))
     : 0;
   const neckDepth = position === "front" ? shirt.frontNeckDepth : shirt.backNeckDepth;
-  const firstY = Math.max(5, neckDepth + shirt.standHeight);
+  const firstY = Math.max(5, neckDepth + standHeight);
   const buttons = Array.from({ length: count }, (_, i) =>
     `<circle cx="${round(shirt.frontOverlap)}" cy="${round(firstY + i * shirt.buttonSpacing)}" r="0.45" fill="none" stroke="currentColor" data-edge="woven-button"/>`
   ).join("");
@@ -202,22 +210,33 @@ function wovenShirtDetails(m: Measurements, position: "front" | "back", shirt: W
   const pocketY = Math.max(firstY + shirt.buttonSpacing, neckDepth + shirt.yokeDepth);
   const pocketX = Math.max(2, d.chestWidthHalf - shirt.pocketWidth - 2);
   const ventY = Math.max(m.armholeDepth + 2, m.length - shirt.sideVentDepth);
-  const stand = `<path d="M ${round(-shirt.neckWidthHalf)} 0 Q 0 ${round(shirt.standHeight)} ${round(shirt.neckWidthHalf)} 0" ` +
+  const stand = campCollar ? "" :
+    `<path d="M ${round(-shirt.neckWidthHalf)} 0 Q 0 ${round(standHeight)} ${round(shirt.neckWidthHalf)} 0" ` +
     `fill="none" stroke="currentColor" data-edge="option-standHeight"/>`;
-  const neckEase = `<path d="M ${round(-shirt.neckWidthHalf)} 0 Q 0 ${round(shirt.standHeight + 0.8)} ${round(shirt.neckWidthHalf)} 0" ` +
+  const neckEase = campCollar ? "" :
+    `<path d="M ${round(-shirt.neckWidthHalf)} 0 Q 0 ${round(standHeight + 0.8)} ${round(shirt.neckWidthHalf)} 0" ` +
     `fill="none" stroke="currentColor" stroke-dasharray="1 1" data-edge="option-neckEase"/>`;
-  const collar = `<path d="M ${round(-shirt.neckWidthHalf)} 0 L ${round(-shirt.neckWidthHalf - shirt.collarLeafDepth * 0.35)} ${round(neckDepth + shirt.collarLeafDepth)} ` +
-    `L 0 ${round(neckDepth + shirt.collarLeafDepth * 0.35)} L ${round(shirt.neckWidthHalf + shirt.collarLeafDepth * 0.35)} ${round(neckDepth + shirt.collarLeafDepth)} ` +
-    `L ${round(shirt.neckWidthHalf)} 0" fill="none" stroke="currentColor" data-edge="option-collarLeafDepth"/>`;
+  const collar = campCollar
+    ? campCollarDepth === null ? ""
+      : position === "front"
+        ? `<path d="M ${round(-shirt.neckWidthHalf)} 0 L ${round(-(shirt.neckWidthHalf + campCollarDepth * 0.3))} ${round(neckDepth + campCollarDepth)} ` +
+          `L -0.4 ${round(neckDepth + campCollarDepth * 0.35)} M ${round(shirt.neckWidthHalf)} 0 ` +
+          `L ${round(shirt.neckWidthHalf + campCollarDepth * 0.3)} ${round(neckDepth + campCollarDepth)} L 0.4 ${round(neckDepth + campCollarDepth * 0.35)}" ` +
+          `fill="none" stroke="currentColor" data-edge="option-campCollarDepth"/>`
+        : `<path d="M ${round(-shirt.neckWidthHalf)} 0 Q 0 ${round(campCollarDepth * 0.3)} ${round(shirt.neckWidthHalf)} 0" ` +
+          `fill="none" stroke="currentColor" data-edge="option-campCollarDepth"/>`
+    : `<path d="M ${round(-shirt.neckWidthHalf)} 0 L ${round(-shirt.neckWidthHalf - shirt.collarLeafDepth * 0.35)} ${round(neckDepth + shirt.collarLeafDepth)} ` +
+      `L 0 ${round(neckDepth + shirt.collarLeafDepth * 0.35)} L ${round(shirt.neckWidthHalf + shirt.collarLeafDepth * 0.35)} ${round(neckDepth + shirt.collarLeafDepth)} ` +
+      `L ${round(shirt.neckWidthHalf)} 0" fill="none" stroke="currentColor" data-edge="option-collarLeafDepth"/>`;
   const yoke = position === "back"
     ? `<line x1="${round(-d.chestWidthHalf)}" y1="${round(shirt.yokeDepth)}" x2="${round(d.chestWidthHalf)}" ` +
       `y2="${round(shirt.yokeDepth)}" stroke="currentColor" stroke-dasharray="2 2" data-edge="option-yokeDepth"/>`
     : "";
   const front = position === "front"
-    ? `<line x1="${round(shirt.frontOverlap)}" y1="${round(firstY - shirt.standHeight)}" ` +
+    ? `<line x1="${round(shirt.frontOverlap)}" y1="${round(firstY - standHeight)}" ` +
       `x2="${round(shirt.frontOverlap)}" y2="${round(ventY)}" stroke="currentColor" ` +
       `stroke-width="${round(Math.max(0.5, shirt.placketWidth / 3))}" data-edge="option-placketWidth"/>` +
-      `<line x1="0" y1="${round(firstY - shirt.standHeight)}" x2="${round(shirt.frontOverlap)}" y2="${round(firstY - shirt.standHeight)}" stroke="currentColor" data-edge="option-frontOverlap"/>` +
+      `<line x1="0" y1="${round(firstY - standHeight)}" x2="${round(shirt.frontOverlap)}" y2="${round(firstY - standHeight)}" stroke="currentColor" data-edge="option-frontOverlap"/>` +
       `<rect x="${round(pocketX)}" y="${round(pocketY)}" width="${round(shirt.pocketWidth)}" ` +
       `height="${round(shirt.pocketHeight)}" fill="none" stroke="currentColor" data-edge="option-pocketWidth"/>` +
       `<line x1="${round(pocketX + shirt.pocketWidth)}" y1="${round(pocketY)}" x2="${round(pocketX + shirt.pocketWidth)}" y2="${round(pocketY + shirt.pocketHeight)}" stroke="currentColor" data-edge="option-pocketHeight"/>` + buttons + buttonCountCue + buttonSpacingCue

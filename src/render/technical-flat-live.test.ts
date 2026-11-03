@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { CREWNECK, FITTED_PRINCESS_ENTRY_ID, GARMENTS, STANDARD_M, defaultGarmentOptions, pomsForRecipeOptions, pointMark } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
-import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, crewneckDetachedBandRoles, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, crewneckDetachedBandRoles, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole, wovenCampCollarBaseSeamBoundaries } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
@@ -182,6 +182,49 @@ describe("approved Woven front view conventions", () => {
     const missing = applyWovenFrontApprovedViewClips(missingInput, revisionId);
     expect(missing.issues.length).toBeGreaterThan(0);
     expect(missing.primitives).toBe(missingInput);
+  });
+
+  it("uses only present-role placket masks for an exact W06 camp-collar topology", () => {
+    const woven = GARMENTS.find((recipe) => recipe.name === "woven-shirt")!;
+    const campCollarBlock = woven.draft(STANDARD_M, { campCollarDepth: 6 });
+    const path = (id: string, role: string, edgeIds: string[]): FlatPathPrimitive => ({ kind: "path", id,
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { sourceClass: "PATTERN_DERIVED", sourceId: `pattern:woven-shirt:role:${role}`, revisionId },
+      sourceEdgeIds: edgeIds, commands: edgeIds.flatMap((_, index) => [
+        { op: "move" as const, point: { x: index, y: 0 } }, { op: "line" as const, point: { x: index + 1, y: 0 } },
+      ]) });
+    const buttonTop = "pattern:woven-shirt:role:buttonPlacket:edge:top";
+    const buttonOuter = "pattern:woven-shirt:role:buttonPlacket:edge:outerRaw";
+    const buttonholeTop = "pattern:woven-shirt:role:buttonholePlacket:edge:top";
+    const buttonholeOuter = "pattern:woven-shirt:role:buttonholePlacket:edge:outerRaw";
+    const button = path("button", "buttonPlacket", [buttonTop, buttonOuter]);
+    const buttonhole = path("buttonhole", "buttonholePlacket", [buttonholeTop, buttonholeOuter]);
+    const clipped = applyWovenFrontApprovedViewClips([button, buttonhole], revisionId, campCollarBlock);
+
+    expect(campCollarBlock.roles).not.toHaveProperty("outerStand");
+    expect(campCollarBlock.roles).not.toHaveProperty("innerStand");
+    expect(clipped.issues).toEqual([]);
+    const viewClips = clipped.primitives.filter((primitive): primitive is FlatPathPrimitive => primitive.kind === "path"
+      && primitive.viewClip !== undefined);
+    expect(viewClips).toHaveLength(4);
+    expect(viewClips.map((primitive) => primitive.viewClip?.roleIds)).toEqual([
+      ["underCollar", "upperCollar"], ["pocket", "underCollar", "upperCollar"],
+      ["underCollar", "upperCollar"], ["underCollar", "upperCollar"],
+    ]);
+    expect(viewClips.every((primitive) => !primitive.viewClip?.roleIds.includes("outerStand"))).toBe(true);
+
+    const malformed = { ...campCollarBlock, stitches: campCollarBlock.stitches.map((stitch) => stitch.label
+      === "Upper camp collar ↔ woven neckline" ? { ...stitch, b: { edges: [
+        { piece: "front", edge: "sideUpper" }, { piece: "yoke", edge: "neckline" },
+      ] } } : stitch) };
+    const failClosed = applyWovenFrontApprovedViewClips([button, buttonhole], revisionId, malformed);
+    expect(failClosed.issues.map((issue) => issue.sourceId)).toContain("pattern:woven-shirt:role:front:edge:neckline");
+    expect(failClosed.issues.map((issue) => issue.sourceId)).toContain("pattern:woven-shirt:role:front:edge:shoulder");
+
+    const missingJoin = { ...campCollarBlock,
+      stitches: campCollarBlock.stitches.filter((stitch) => stitch.label !== "Upper camp collar ↔ woven neckline") };
+    const incomplete = applyWovenFrontApprovedViewClips([button, buttonhole], revisionId, missingJoin);
+    expect(incomplete.issues.map((issue) => issue.sourceId)).toContain("pattern:woven-shirt:role:front:edge:neckline");
   });
 });
 
@@ -848,6 +891,91 @@ describe("compileTechnicalFlatLiveView", () => {
       && primitive.id === "flat:woven-shirt:FRONT_FLAT:component:sleeve:outline");
     expect(sleeveOutline?.kind === "path" ? sleeveOutline.sourceEdgeIds?.some((sourceId) =>
       sourceId.endsWith(":edge:capLeft") || sourceId.endsWith(":edge:capRight")) : false).toBe(false);
+  });
+
+  it("renders both W06 collar fills from the exact same-revision body neckline while preserving front placket clips", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, { campCollarDepth: 6 });
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const revisionId = `live-w06-camp-collar-${kind}`;
+      const result = compileTechnicalFlatLiveView({ recipe, block, revisionId, kind, placements: [],
+        colorHex: "#456789", texture: "woven", shine: 0 });
+      expect(result.issues, kind).toEqual([]);
+      expect(result.view, kind).not.toBeNull();
+      expect(result.colorway, kind).not.toBeNull();
+      const bodyRoleId = kind === "FRONT_FLAT" ? "front" : "yoke";
+      const bodyEdgeId = `pattern:woven-shirt:role:${bodyRoleId}:edge:neckline`;
+      const bodyOutlineId = `flat:woven-shirt:${kind}:component:${bodyRoleId}:outline`;
+      const bodyReflectionId = `${bodyOutlineId}${kind === "FRONT_FLAT" ? ":physical-pair-reflection" : ":fold-reflection"}`;
+      const boundaries = result.view!.primitives.filter((primitive): primitive is FlatPathPrimitive => primitive.kind === "path"
+        && primitive.colorwayBoundaryOnly === true
+        && primitive.source.sourceId.includes("G18-S1263-W06-CAMP-COLLAR-BASE-SEAM"));
+      expect(boundaries).toHaveLength(4);
+      for (const roleId of ["upperCollar", "underCollar"] as const) {
+        const roleBoundaries = boundaries.filter((primitive) => primitive.source.sourceId.startsWith(`view:woven-shirt:role:${roleId}:`));
+        expect(roleBoundaries.map((primitive) => primitive.id)).toEqual([
+          `flat:woven-shirt:${kind}:component:${roleId}:view-boundary:w06-visible-base-seam`,
+          `flat:woven-shirt:${kind}:component:${roleId}:view-boundary:w06-visible-base-seam:attached-fold-reflection`,
+        ]);
+        for (const [index, bodyId] of [bodyOutlineId, bodyReflectionId].entries()) {
+          const owner = result.view!.primitives.find((primitive): primitive is FlatPathPrimitive => primitive.kind === "path"
+            && primitive.id === bodyId);
+          const boundary = roleBoundaries[index];
+          expect(owner?.kind).toBe("path");
+          expect(boundary).toMatchObject({ source: { revisionId }, sourceEdgeIds: [bodyEdgeId] });
+          if (!owner || !boundary) throw new Error(`Expected exact ${bodyRoleId} neckline geometry for ${kind}.`);
+          const groups: FlatPathPrimitive["commands"][] = [];
+          let current: FlatPathPrimitive["commands"][number][] = [];
+          for (const command of owner.commands) {
+            if (command.op === "move" && current.length) { groups.push(current); current = []; }
+            current.push(command);
+          }
+          if (current.length) groups.push(current);
+          const edgeIndex = owner.sourceEdgeIds!.indexOf(bodyEdgeId);
+          expect(edgeIndex).toBeGreaterThanOrEqual(0);
+          expect(boundary.commands).toEqual(groups[edgeIndex]);
+        }
+      }
+      const rendered = renderTechnicalFlatSvg(result.view!, { measureText: () => ({ widthCm: 2, ascentCm: 0.3, descentCm: 0.1 }),
+        colorway: result.colorway! });
+      expect(rendered.issues, kind).toEqual([]);
+      if (kind === "FRONT_FLAT") expect(rendered.svg).toContain('data-view-clip="G04-S406-WOVEN-COLLAR-OVER-PLACKETS"');
+    }
+
+  });
+
+  it("withholds W06 collar closures when a body outline repeats its neckline lineage", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, { campCollarDepth: 6 });
+    const revisionId = "live-w06-ambiguous-neckline";
+    const bodyEdgeId = "pattern:woven-shirt:role:yoke:edge:neckline";
+    const owner: FlatPathPrimitive = { kind: "path", id: "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { sourceClass: "PATTERN_DERIVED", sourceId: "pattern:woven-shirt:role:yoke", revisionId },
+      sourceEdgeIds: [bodyEdgeId, bodyEdgeId], commands: [
+        { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 1, y: 0 } },
+        { op: "move", point: { x: 0, y: 1 } }, { op: "line", point: { x: 1, y: 1 } },
+      ] };
+    const result = wovenCampCollarBaseSeamBoundaries([owner], block, revisionId, "BACK_FLAT");
+    expect(result.primitives).toEqual([]);
+    expect(result.issues).toEqual(expect.arrayContaining([expect.objectContaining({
+      message: expect.stringContaining("one unambiguous neckline subpath"),
+    })]));
+    const { sourceEdgeIds: _sourceEdgeIds, ...outlineWithoutLineage } = owner;
+    const missingLineage = wovenCampCollarBaseSeamBoundaries([outlineWithoutLineage], block, revisionId, "BACK_FLAT");
+    expect(missingLineage.issues).toEqual(expect.arrayContaining([expect.objectContaining({
+      message: expect.stringContaining("one source-edge identity per yoke outline subpath"),
+    })]));
+    const shortSubpath = wovenCampCollarBaseSeamBoundaries([{ ...owner, sourceEdgeIds: [bodyEdgeId],
+      commands: owner.commands.slice(0, 1) }], block, revisionId, "BACK_FLAT");
+    expect(shortSubpath.issues).toEqual(expect.arrayContaining([expect.objectContaining({
+      message: expect.stringContaining("one unambiguous neckline subpath"),
+    })]));
+    const nonMoveStart = wovenCampCollarBaseSeamBoundaries([{ ...owner, sourceEdgeIds: [bodyEdgeId],
+      commands: [{ op: "line", point: { x: 0, y: 0 } }, { op: "line", point: { x: 1, y: 0 } }] }], block, revisionId, "BACK_FLAT");
+    expect(nonMoveStart.issues).toEqual(expect.arrayContaining([expect.objectContaining({
+      message: expect.stringContaining("one unambiguous neckline subpath"),
+    })]));
   });
 
   it("fails closed when the approved Woven left closure has no assembled center axis or cannot reflect", () => {

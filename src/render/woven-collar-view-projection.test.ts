@@ -66,6 +66,67 @@ describe("source-bound Woven full-collar projection", () => {
       expect(pointDistance(mappedBase!, receiverBase)).toBeLessThan(1e-6);
       expect(outer.revisionId).toBe(revisionId);
     }
+    const frontAssembly = assembleTechnicalFlatRoles("woven-shirt", block, "FRONT_FLAT");
+    expect(createWovenCollarProjector(block, revisionId, "innerStand", "FRONT_FLAT", frontAssembly.transforms))
+      .toBeUndefined();
+  });
+
+  it("maps only the exact W06 direct camp-collar joins onto their front and back neckline stations", () => {
+    const campBlock = recipe.draft(STANDARD_M, { campCollarDepth: 6 });
+    const total = edgeLength(pieceEdge(campBlock.roles.front!, "neckline"))
+      + edgeLength(pieceEdge(campBlock.roles.yoke!, "neckline"));
+    const backLength = edgeLength(pieceEdge(campBlock.roles.yoke!, "neckline"));
+    const fraction = backLength / total;
+    expect(campBlock.roles).not.toHaveProperty("outerStand");
+    expect(campBlock.roles).not.toHaveProperty("innerStand");
+
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const projection = createG04TechnicalFlatProjectionMap("woven-shirt", campBlock, `${revisionId}-${kind}`)!;
+      const assembly = assembleTechnicalFlatRoles("woven-shirt", campBlock, kind, projection);
+      const bodyRoleId = kind === "FRONT_FLAT" ? "front" : "yoke";
+      const bodyPlacement = assembly.transforms[bodyRoleId]!;
+      const bodyNeckline = pieceEdge(campBlock.roles[bodyRoleId]!, "neckline");
+      for (const roleId of ["upperCollar", "underCollar"] as const) {
+        const collarBase = pieceEdge(campBlock.roles[roleId]!, "neckline");
+        if (collarBase.kind !== "line") throw new Error("The W06 camp-collar base must be a source line.");
+        const projector = createWovenCollarProjector(campBlock, revisionId, roleId, kind, assembly.transforms);
+        expect(projector).toBeDefined();
+        if (!projector) throw new Error(`Expected the exact W06 ${roleId} projector.`);
+        const stations = kind === "FRONT_FLAT"
+          ? [{ sourceFraction: fraction, bodyPoint: edgeEnd(bodyNeckline) }, { sourceFraction: 1, bodyPoint: edgeStart(bodyNeckline) }]
+          : [{ sourceFraction: 0, bodyPoint: edgeStart(bodyNeckline) }, { sourceFraction: fraction, bodyPoint: edgeEnd(bodyNeckline) }];
+        for (const station of stations) {
+          const source = { x: collarBase.start.x + (collarBase.end.x - collarBase.start.x) * station.sourceFraction,
+            y: collarBase.start.y + (collarBase.end.y - collarBase.start.y) * station.sourceFraction };
+          const projected = projector.projectSourcePoint(source, `pattern:woven-shirt:role:${roleId}:edge:neckline`);
+          const expected = transformFlatPoint(station.bodyPoint, { ...bodyPlacement, mirrorX: bodyPlacement.mirrorX ?? false });
+          expect(projected).toBeDefined();
+          expect(pointDistance(projected!, expected)).toBeLessThan(1e-6);
+        }
+        expect(projector.projectSourcePoint({ x: collarBase.start.x, y: collarBase.start.y },
+          `pattern:woven-shirt:role:${roleId}:edge:neckline`) === undefined).toBe(kind === "FRONT_FLAT");
+      }
+    }
+
+    const missingUpperJoin = { ...campBlock, stitches: campBlock.stitches.filter((stitch) =>
+      stitch.label !== "Upper camp collar ↔ woven neckline") };
+    const assembly = assembleTechnicalFlatRoles("woven-shirt", campBlock, "FRONT_FLAT");
+    expect(createWovenCollarProjector(missingUpperJoin, revisionId, "upperCollar", "FRONT_FLAT", assembly.transforms))
+      .toBeUndefined();
+    const shortCollar = { ...campBlock, roles: { ...campBlock.roles, upperCollar: { ...campBlock.roles.upperCollar!, edges:
+      campBlock.roles.upperCollar!.edges.map((edge) => edge.name === "neckline" && edge.kind === "line"
+        ? { ...edge, end: { ...edge.end, x: edge.end.x + 0.25 } } : edge) } } };
+    expect(createWovenCollarProjector(shortCollar, revisionId, "upperCollar", "FRONT_FLAT", assembly.transforms))
+      .toBeUndefined();
+    const displacedCollarBase = { ...campBlock, roles: { ...campBlock.roles, upperCollar: { ...campBlock.roles.upperCollar!, edges:
+      campBlock.roles.upperCollar!.edges.map((edge) => edge.name === "neckline" && edge.kind === "line"
+        ? { ...edge, start: { ...edge.start, y: edge.start.y + 0.25 }, end: { ...edge.end, y: edge.end.y + 0.25 } } : edge) } } };
+    expect(createWovenCollarProjector(displacedCollarBase, revisionId, "upperCollar", "FRONT_FLAT", assembly.transforms))
+      .toBeUndefined();
+    const missingBackNeckline = { ...campBlock, roles: { ...campBlock.roles, yoke: { ...campBlock.roles.yoke!,
+      edges: campBlock.roles.yoke!.edges.filter((edge) => edge.name !== "neckline") } } };
+    expect(createWovenCollarProjector(missingBackNeckline, revisionId, "upperCollar", "FRONT_FLAT", assembly.transforms))
+      .toBeUndefined();
   });
 
   it("keeps the collar front-tip vertex identical across its shared seam and exterior edges", () => {
@@ -269,6 +330,8 @@ describe("source-bound Woven full-collar projection", () => {
     const placedBack = transformFlatPoint(backStation, { ...transform, mirrorX: transform.mirrorX ?? false });
     expect(projectWovenCollarPrimitive({ kind: "circle", id: "hidden-circle", layer: "ANNOTATION", feature: "annotation",
       source, center: placedBack, radius: 0.1 }, projector, transform)).toBeUndefined();
+    expect(projectWovenCollarPrimitive({ kind: "text", id: "hidden-text", layer: "ANNOTATION", feature: "annotation",
+      source, at: placedBack, text: "hidden" }, projector, transform)).toBeUndefined();
     expect(projectWovenCollarPrimitive({ kind: "artwork", id: "hidden-art", layer: "ARTWORK", feature: "artwork",
       source, artworkKind: "print", placementId: "hidden", sourceName: "hidden", targetRoleId: "upperCollar", widthCm: 1,
       heightCm: 1, transform: { dx: placedBack.x, dy: placedBack.y, scale: 1, rotationDegrees: 0 }, zOrder: 0 }, projector, transform))

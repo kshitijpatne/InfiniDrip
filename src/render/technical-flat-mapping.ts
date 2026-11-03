@@ -103,6 +103,18 @@ export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatR
  * single-front map for F01/F02 and other recipes using the same root. */
 export function technicalFlatMappingForBlock(recipeId: string, block: Block): TechnicalFlatRecipeMapping | undefined {
   const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  const hasW06CampCollarNeckline = block.stitches.some((stitch) => stitch.label === "Upper camp collar ↔ woven neckline")
+    && block.stitches.some((stitch) => stitch.label === "Under camp collar ↔ woven neckline");
+  if (mapping && recipeId === "woven-shirt" && hasW06CampCollarNeckline
+    && !block.roles.outerStand && !block.roles.innerStand
+    && block.roles.upperCollar && block.roles.underCollar) {
+    const [front, back] = mapping.faces;
+    const withoutStandRoles = (face: FlatFaceMapping): FlatFaceMapping => ({
+      ...face,
+      roles: face.roles.filter((role) => role.roleId !== "outerStand" && role.roleId !== "innerStand"),
+    });
+    return { ...mapping, faces: [withoutStandRoles(front), withoutStandRoles(back)] };
+  }
   if (!mapping || recipeId !== "fitted" || !block.roles.frontSide) return mapping;
   const [front, back] = mapping.faces;
   return {

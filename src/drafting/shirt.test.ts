@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { blockPieces, edgeEnd, edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
 import { point } from "../geometry";
 import { seamAllowance } from "../render/allowance";
-import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirt, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtHipStationY, wovenShirtBodyHalfWidths, wovenShirtAllowances, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
+import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirt, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtHipStationY, wovenShirtBodyHalfWidths, wovenShirtAllowances, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_CAMP_COLLAR_POMS, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
 
 describe("W04 cropped boxy Woven Shirt profile", () => {
   const measurements = { ...STANDARD_M, chest: 88, waist: 96, hip: 104, ease: 24, length: 54 };
@@ -166,6 +166,17 @@ describe("woven shirt body", () => {
     expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
   });
 
+  it("adds separate front plackets without stand pieces for the camp-collar helper", () => {
+    const block = draftWovenShirtPlackets(STANDARD_M, { campCollarDepth: 6, buttonCount: 6 });
+    expect(block.roles).not.toHaveProperty("outerStand");
+    expect(block.roles).not.toHaveProperty("innerStand");
+    expect(block.roles.buttonPlacket.marks?.filter((mark) => mark.kind === "button")).toHaveLength(6);
+    expect(block.roles.buttonholePlacket.marks?.filter((mark) => mark.kind === "buttonhole")).toHaveLength(6);
+    expect(blockPieces(block).every((piece) => !piece.marks?.some((mark) =>
+      mark.name === "stand-button" || mark.name === "stand-buttonhole"))).toBe(true);
+    expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+  });
+
   it("keeps placket length and closure position tied to the live body/options", () => {
     const base = draftWovenShirtPlackets(STANDARD_M);
     const changed = draftWovenShirtPlackets(STANDARD_M, { frontOverlap: 2.5, placketWidth: 4 });
@@ -229,6 +240,58 @@ describe("woven shirt body", () => {
       },
     };
     expect(() => addWovenShirtYoke(nonCurve)).toThrow("must be a curve");
+  });
+
+  it("drafts a standless camp collar directly to the neckline at the contracted depth bounds", () => {
+    for (const depth of [4, 6, 8]) {
+      const options = { campCollarDepth: depth };
+      const block = draftWovenShirt(STANDARD_M, options);
+      expect(block.roles).not.toHaveProperty("outerStand");
+      expect(block.roles).not.toHaveProperty("innerStand");
+      const backRole = block.roles.yoke ? "yoke" : "back";
+      const necklineLength = edgeLength(pieceEdge(block.roles.front, "neckline"))
+        + edgeLength(pieceEdge(block.roles[backRole]!, "neckline"));
+      for (const roleId of ["upperCollar", "underCollar"] as const) {
+        const collar = block.roles[roleId];
+        expect(collar.edges.map((edge) => edge.name)).toEqual(["centerBack", "neckline", "frontTip", "outer"]);
+        expect(edgeLength(pieceEdge(collar, "centerBack"))).toBe(depth);
+        expect(edgeLength(pieceEdge(collar, "neckline"))).toBeCloseTo(necklineLength, 8);
+        expect(collar.marks?.some((mark) => mark.name === "stand-button" || mark.name === "stand-buttonhole")).toBe(false);
+      }
+      expect(block.stitches).toContainEqual(expect.objectContaining({
+        label: "Upper camp collar ↔ woven neckline",
+        a: { edges: [{ piece: "upperCollar", edge: "neckline" }] },
+        b: { edges: [{ piece: "front", edge: "neckline" }, { piece: backRole, edge: "neckline" }] },
+      }));
+      expect(block.stitches).toContainEqual(expect.objectContaining({
+        label: "Under camp collar ↔ woven neckline",
+        a: { edges: [{ piece: "underCollar", edge: "neckline" }] },
+      }));
+      expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+    }
+    const offStep = { campCollarDepth: 6.25 };
+    expect(wovenShirtGuidance(draftWovenShirt(STANDARD_M, offStep), STANDARD_M, offStep)
+      .find((note) => note.field === "option-campCollarDepth")?.text).toContain("0.5 cm increments");
+    const outside = { campCollarDepth: 8.5 };
+    expect(wovenShirtGuidance(draftWovenShirt(STANDARD_M, outside), STANDARD_M, outside)
+      .find((note) => note.field === "option-campCollarDepth")?.text).toContain("outside the 4–8 cm design range");
+    const campDepthPom = WOVEN_SHIRT_CAMP_COLLAR_POMS.find((pom) => pom.label === "Camp collar depth (modeled)")!;
+    expect(campDepthPom.anchor?.(draftWovenShirt(STANDARD_M, { campCollarDepth: 6 }))).toEqual({ x: 0, y: 6 });
+  });
+
+  it("uses the standless collar branch in the Woven collar-only helper", () => {
+    const collar = draftWovenShirtCollar(STANDARD_M, { campCollarDepth: 6 });
+    expect(collar.roles).not.toHaveProperty("outerStand");
+    expect(collar.roles).not.toHaveProperty("innerStand");
+    expect(collar.roles.upperCollar.name).toBe("upper camp collar");
+    expect(collar.roles.underCollar.name).toBe("under camp collar");
+    expect(collar.stitches.map((stitch) => stitch.label)).toEqual([
+      "Shoulder seam (front ↔ back)",
+      "Side seam (front ↔ back)",
+      "Under camp collar ↔ woven neckline",
+      "Upper camp collar ↔ woven neckline",
+      "Camp collar outer seam (upper ↔ under)",
+    ]);
   });
 
   it("adds a woven sleeve and folded band fitted to the assembled armscye", () => {

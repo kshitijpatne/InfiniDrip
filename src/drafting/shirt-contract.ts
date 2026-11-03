@@ -13,6 +13,8 @@ export const WOVEN_SHIRT_FIELDS = [
   "sleeveLength", "waist", "hip", "hipDepth", "ease",
 ] as const satisfies readonly (keyof Measurements)[];
 
+export const WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID = "woven-shirt-camp-collar-digital-v1";
+
 export interface WovenShirtOptions {
   /** Added to the measured neck circumference before quartering the neckline. */
   readonly neckEase: number;
@@ -27,6 +29,8 @@ export interface WovenShirtOptions {
   readonly standHeight: number;
   /** Finished collar leaf depth from stand seam to collar point. */
   readonly collarLeafDepth: number;
+  /** W06-only modeled depth from the neckline seam to the camp-collar edge. */
+  readonly campCollarDepth?: number;
   readonly yokeDepth: number;
   readonly pocketWidth: number;
   readonly pocketHeight: number;
@@ -49,8 +53,9 @@ export const WOVEN_SHIRT_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "buttonSpacing", label: "Front button spacing", unit: "cm", group: "Front closure", help: "Sets adjacent button distance; reduce it if the last button is too close to the placket end.", defaultValue: 8, min: 6, max: 9, step: 0.5 },
   { id: "frontOverlap", label: "Front overlap", unit: "cm", group: "Front closure", help: "Sets the closure overlap; keep it at or below the finished placket width.", defaultValue: 1.5, min: 1, max: 3, step: 0.5 },
   { id: "placketWidth", label: "Finished placket width", unit: "cm", group: "Front closure", help: "Sets the visible closure face; increase it if the chosen overlap reaches beyond the placket.", defaultValue: 3, min: 2, max: 4, step: 0.5 },
-  { id: "standHeight", label: "Finished stand height", unit: "cm", group: "Neck & collar", help: "Sets the collar stand depth; reduce it if it is deeper than the collar leaf.", defaultValue: 2.5, min: 1.5, max: 3.5, step: 0.5 },
-  { id: "collarLeafDepth", label: "Finished collar leaf depth", unit: "cm", group: "Neck & collar", help: "Sets the pointed collar depth; increase it if the stand is deeper than the leaf.", defaultValue: 6, min: 4, max: 8, step: 0.5 },
+  { id: "standHeight", label: "Finished stand height", unit: "cm", group: "Neck & collar", help: "Sets the collar stand depth; reduce it if it is deeper than the collar leaf.", defaultValue: 2.5, min: 1.5, max: 3.5, step: 0.5, excludedForStarterEntryIds: [WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID] },
+  { id: "collarLeafDepth", label: "Finished collar leaf depth", unit: "cm", group: "Neck & collar", help: "Sets the pointed collar depth; increase it if the stand is deeper than the leaf.", defaultValue: 6, min: 4, max: 8, step: 0.5, excludedForStarterEntryIds: [WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID] },
+  { id: "campCollarDepth", label: "Camp-collar depth", unit: "cm", group: "Neck & collar", help: "Sets the modeled depth from the neckline seam to the collar edge; this editable software choice is not a physical standard.", defaultValue: 6, min: 4, max: 8, step: 0.5, appliesToStarterEntryId: WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, preserveInvalidWhenRestored: true },
   { id: "yokeDepth", label: "Back yoke depth", unit: "cm", group: "Back yoke", help: "Moves the back yoke seam; choose a depth between the shoulder and underarm.", defaultValue: 10, min: 7, max: 15, step: 0.5 },
   { id: "pocketWidth", label: "Patch pocket width", unit: "cm", group: "Pocket", help: "Sets the pocket width; keep it within the declared range for the front panel.", defaultValue: 12, min: 9, max: 16, step: 0.5 },
   { id: "pocketHeight", label: "Patch pocket height", unit: "cm", group: "Pocket", help: "Sets the pocket height; adjust it within the range if the pocket feels too tall or short.", defaultValue: 13, min: 10, max: 18, step: 0.5 },
@@ -66,7 +71,7 @@ type SharedWovenShirtOptions = Omit<WovenShirtOptions, "shoulderExtension" | "sh
 
 export const DEFAULT_WOVEN_SHIRT_OPTIONS: SharedWovenShirtOptions = Object.fromEntries(
   WOVEN_SHIRT_OPTION_DEFINITIONS
-    .filter((definition) => definition.appliesToStyle === undefined)
+    .filter((definition) => definition.appliesToStyle === undefined && definition.appliesToStarterEntryId === undefined)
     .map((definition) => [definition.id, definition.defaultValue])
 ) as unknown as SharedWovenShirtOptions;
 
@@ -77,7 +82,10 @@ function finiteOr(value: number | undefined, fallback: number): number {
 /** Preserve finite live values verbatim; the future shirt guidance owns range
  * and combination warnings so a user can see and fix an invalid design. */
 export function resolveWovenShirtOptions(values: Partial<WovenShirtOptions> = {}): WovenShirtOptions {
-  return Object.fromEntries(WOVEN_SHIRT_OPTION_DEFINITIONS.map((definition) => [
+  return Object.fromEntries(WOVEN_SHIRT_OPTION_DEFINITIONS
+    .filter((definition) => definition.appliesToStarterEntryId === undefined
+      || Object.prototype.hasOwnProperty.call(values, definition.id))
+    .map((definition) => [
     definition.id,
     finiteOr(values[definition.id as keyof WovenShirtOptions], definition.appliesToStyle === undefined ? definition.defaultValue : 0),
   ])) as unknown as WovenShirtOptions;
