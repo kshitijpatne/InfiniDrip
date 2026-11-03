@@ -1940,7 +1940,7 @@ describe("mountApp", () => {
       step: "measure", field: getFieldDefinitions("woven-shirt")[0]!.id,
     });
     const captureTime = "2026-09-26T00:00:00.000Z";
-    const invalidWovenCapture = getFieldDefinitions("woven-shirt").reduce((session, definition, index) =>
+    const invalidWovenCapture = getCaptureFieldDefinitions("woven-shirt").reduce((session, definition, index) =>
       addCaptureReadingForField(session, definition.id, {
         id: `00000000-0000-4000-8000-${String(index + 20).padStart(12, "0")}`,
         rawValue: definition.inputKey === "length" ? "45" : String(definition.defaultValue),
@@ -2318,7 +2318,7 @@ describe("mountApp", () => {
     }
     expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
     expect(root.querySelector<HTMLElement>("#controls-panel")!.style.display).toBe("none");
-    expect(root.querySelectorAll(".measurement-capture-panel__field")).toHaveLength(getFieldDefinitions("woven-shirt").length);
+    expect(root.querySelectorAll(".measurement-capture-panel__field")).toHaveLength(getCaptureFieldDefinitions("woven-shirt").length);
     expect(root.querySelector(".measurement-capture-panel__field")!.textContent).toContain("How the draft uses it");
     expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(true);
 
@@ -2450,7 +2450,7 @@ describe("mountApp", () => {
     expect(root.querySelector<HTMLElement>('[data-field-id="body.chest-girth"]')!.dataset.state).toBe("resolved");
     expect(root.querySelector<HTMLInputElement>('#controls-panel input[data-field="chest"]')!.value).toBe("102.87");
 
-    const option = getFieldDefinitions("woven-shirt").find((definition) => definition.inputKind === "option")!;
+    const option = getCaptureFieldDefinitions("woven-shirt").find((definition) => definition.inputKind === "option")!;
     const optionPreset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
       .find((button) => button.dataset.fieldId === option.id)!;
     clickId(root, optionPreset.id);
@@ -2468,7 +2468,7 @@ describe("mountApp", () => {
       '[data-field-id="target.top-hps-to-hem"] .measurement-capture-panel__reading-details',
     )!.textContent).toContain("Source: User-selected digital target or design value.");
 
-    const rejectedField = getFieldDefinitions("woven-shirt").find((definition) =>
+    const rejectedField = getCaptureFieldDefinitions("woven-shirt").find((definition) =>
       definition.id !== "body.chest-girth" && definition.id !== option.id)!;
     const rejectedInput = [...root.querySelectorAll<HTMLInputElement>('[data-action="capture-edit-raw"]')]
       .find((input) => input.dataset.fieldId === rejectedField.id)!;
@@ -2478,7 +2478,7 @@ describe("mountApp", () => {
     expect(root.querySelector<HTMLElement>(`[data-field-id="${rejectedField.id}"] .measurement-capture-panel__draft-error`)!.textContent)
       .toContain("raw value is invalid");
 
-    for (const definition of getFieldDefinitions("woven-shirt")) {
+    for (const definition of getCaptureFieldDefinitions("woven-shirt")) {
       const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
         .find((button) => button.dataset.fieldId === definition.id)!;
       clickId(root, preset.id);
@@ -9382,7 +9382,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       await vi.waitFor(() => expect(root.querySelector("#current-garment")?.textContent).toBe("Woven shirt"));
       clickId(root, "journey-guided");
       await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull(), { timeout: 20_000 });
-      for (const definition of getFieldDefinitions("woven-shirt")) {
+      for (const definition of getCaptureFieldDefinitions("woven-shirt")) {
         const presets = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')];
         const preset = presets
           .find((button) => button.dataset.fieldId === definition.id)!;
