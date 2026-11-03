@@ -126,7 +126,7 @@ UIQ-09/EPIC-19 and all launch, supplier,
 physical and paid-service gates remain outside this admission. Details and the
 current verified checkpoint are in `docs/planning/EPIC-18-ADMISSION.md`, the
 active sequence addendum `docs/planning/EPIC-18-S765-RESEQUENCING.md`,
-`docs/planning/EPIC-18-GOAL.md`, `PROJECT-STATE.md`, the S763 exit packet
+`docs/planning/EPIC-18-GOAL.md`, the S763 exit packet
 under `docs/research/epic18/S763-T01-record-contract/`, the S764 start and
 exit packets under `docs/research/epic18/S764-T01-persistence-migration/`, and
 the S765 start/exit packet under
@@ -189,8 +189,8 @@ checkpoint only; it adds no runtime behavior. The accepted G04 contracts
 remain in force. UIQ-09 is next
 in the approved UI order, but its required EPIC-19 admission and starter/source
 scope are not present, so no UIQ-09 implementation is authorized. This is
-recorded at board revision 4521, with evidence in `PROJECT-STATE.md`,
-`docs/planning/UI-ENHANCEMENT-SEQUENCE.md`, and
+recorded at board revision 4521, with evidence in
+`docs/planning/UI-ENHANCEMENT-SEQUENCE.md` and
 `docs/research/uiq01-reconciliation/S761-exit-packet.md`.
 
 ## UIQ-08 inspection-toolbar integration boundary
@@ -212,8 +212,8 @@ and actual stable/immutable public outputs. UIQ-08 is Done at board revision
 4512. Evidence is in `docs/release/UIQ-08-INTEGRATION-S759-EXIT.md`,
 `docs/release/UIQ-08-INTEGRATION-S760-CLOSEOUT.md`, and
 `docs/research/uiq08-integration/evidence/`. The flag has no remote switch.
-The deploy runner reported a transient Wrangler npm audit advisory (tracked
-separately in `PROJECT-STATE.md`). See
+The deploy runner reported a transient Wrangler npm audit advisory, tracked
+separately from this architecture guide. See
 `docs/planning/UIQ-08-INTEGRATION-ADMISSION.md`,
 `docs/planning/UIQ-08-INTEGRATION-GOAL.md`, the candidate packet, and
 `docs/research/uiq08/CODEX-REVIEW.md`.
@@ -494,8 +494,7 @@ schedule, and zero sampled post-paint source-stroke contacts. This focused
 output test does not bypass the live compiler's independent Polo residual
 hold: 0.68 cm remains above 0.25 cm, and no Polo face is accepted. The
 maintainer rejected S424's 8.654851 cm bicep reduction and retained the
-continuous Woven neckline with its 28 front holds; see
-`docs/PROJECT-DECISIONS.md` and the S425 packet.
+continuous Woven neckline with its 28 front holds; see the S425 packet.
 
 Tee and Tank share a dedicated body-POM set with exact same-block back
 endpoints for chest, body length, across shoulder and neck width. The legacy
@@ -848,7 +847,7 @@ with no partial output. The S331 browser replay verifies that hold across all
 Woven back sleeve-cap placement is inconsistent. The collar metadata alone
 does not establish assembled joins, crossings, overlap, POM readability or
 accepted faces. See the S321–S331 evidence in `docs/research/epic17/` and the
-live handoff in `PROJECT-STATE.md`.
+live project handoff.
 `src/render/technical-flat-options.ts` checks raw recipe-option values before
 calling a recipe draft, so invalid user values cannot be hidden by a resolver's
 fallback. A valid draft must pass role/stitch/POM and front/back source-geometry
@@ -1164,8 +1163,7 @@ identity, marks, units, repeatability, malformed-input, and readable-output
 gates. This label is not ANSI/AAMA/ASTM conformance or factory acceptance.
 LibreCAD 2.2.1.5/DXF 2000 is only a candidate from the single Polo M evidence
 in S708/S710. The opt-in candidate/package remains separate from and cannot
-change legacy `exportDxf` bytes. Current status and bounded checks are in
-`PROJECT-STATE.md` and the S722 packet.
+change legacy `exportDxf` bytes. Bounded checks are in the S722 packet.
 `createDxfInterchangePackage` produces a separate versioned JSON manifest for
 recipe/piece roles, selected size and grade, options, stitch relationships,
 and explicit centimeter units verified against `$INSUNITS=5`. Its SHA-256
@@ -1495,12 +1493,8 @@ and `docs/research/uiq07-integration/evidence/S755-verification.json`; Slice
 `docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md` and
 `docs/research/uiq07-integration/evidence/S756-public-verification.json`.
 
-## Where to find current project information
+## Where to find product information
 
 Start with the [README](README.md) for the product overview and local setup.
-For current work and approved scope, see [Project state](PROJECT-STATE.md),
-[Project decisions](docs/PROJECT-DECISIONS.md), and the
-[nine-phase local work plan](docs/planning/PRE-GARMENT-EXECUTION.md). The
-[Control Center guide](ops/control-center/README.md) explains the separate
-maintainer board. The [architecture history](docs/archive/ARCHITECTURE-HISTORY.md)
-is old background, not the current system description.
+This guide describes the current architecture; historical architecture notes
+are available in `docs/archive/ARCHITECTURE-HISTORY.md`.

@@ -20,5 +20,5 @@ layout. The UIQ-08 parent remains Backlog/unshipped. App integration requires a
 separate maintainer-approved admission.
 
 The validated Control Center command layer records Slice 758 closeout and links
-the digest-bound deployment proof. See `PROJECT-STATE.md`, `CONTEXT-INDEX.md`,
-`docs/planning/UIQ-08-GOAL.md` and `docs/planning/UI-ENHANCEMENT-SEQUENCE.md`.
+the digest-bound deployment proof. The remaining local project handoff and
+planning records retain the owner context.

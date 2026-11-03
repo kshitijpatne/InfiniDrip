@@ -2,7 +2,7 @@
 // and render/garment.ts both turn a REAL drafted neckline shape (crew/v/scoop,
 // from drafting/neckline.ts's necklineEdge()) into drawable curve commands.
 //
-// Slice 61 fix ("no silent geometry reuse", PROJECT-STATE.md's Tank rework):
+// Slice 61 fix ("no silent geometry reuse", Tank rework):
 // both callers used to draw their own fixed placeholder curve regardless of
 // what the garment actually drafted — a tank's deep scoop and a tee's crew
 // read identically on the body/garment views. This is the one function that

@@ -90,8 +90,8 @@ function seg(x1: number, y1: number, x2: number, y2: number, width: number): str
  *  `frontNeckline` (Slice 61): the garment's REAL declared neckline shape
  *  (`recipe.frontNeckline`) — defaults to crew, matching what an unspecified
  *  garment actually drafts. Fixes two bugs found comparing this view against
- *  the real pattern at identical measurements (see PROJECT-STATE.md, "Tank
- *  rework"): the torso used its own ungrounded `chest * 0.22` body-width
+ *  the real pattern at identical measurements: the torso used its own
+ *  ungrounded `chest * 0.22` body-width
  *  guess instead of `derive()`'s real `chestWidthHalf`, and the collar was a
  *  fixed decorative curve that never reflected crew vs. v vs. scoop.
  *  `strapWidth` (Slice 66): a sleeveless garment's finished strap span from

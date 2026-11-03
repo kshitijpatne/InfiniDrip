@@ -132,9 +132,6 @@ the maintainer—the person responsible for project scope and approvals.
 
 - [Architecture guide](ARCHITECTURE.md) — how the app turns choices into
   patterns, checks, and outputs.
-- [Project state](PROJECT-STATE.md) — current work and verification status.
-- [Project decisions](docs/PROJECT-DECISIONS.md) — approved scope and deferred
-  decisions.
 - [Pre-garment sequence](docs/planning/PRE-GARMENT-EXECUTION.md) — the ordered
   local development work before another garment family.
 - [Control Center guide](ops/control-center/README.md) — the separate local

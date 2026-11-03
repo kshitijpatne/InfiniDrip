@@ -21,8 +21,8 @@ this grouping is `epicId: EPIC-13`.
 | 3 | `PREQUEUE-PHASE-03` — First-load tutorial research and specification | `E-PREQUEUE-PHASE3-SPEC` — [tutorial specification](../planning/FIRST-LOAD-TUTORIAL-SPEC.md) |
 | 4 | `PREQUEUE-PHASE-04` — First-load tutorial implementation and live verification | `E-PREQUEUE-PHASE4-EXIT` — [Phase 4 exit](../planning/PRE-GARMENT-PHASE4-EXIT.md) |
 | 5 | `PREQUEUE-PHASE-05` — README and ARCHITECTURE newcomer refinement | `E-PREQUEUE-PHASE5-EXIT` — [Phase 5 exit](../planning/PRE-GARMENT-PHASE5-EXIT.md) |
-| 6 | `PREQUEUE-PHASE-06` — Existing garment measurement and artwork UI refinement | `E-PREQUEUE-PHASE6-PATTERN-LEGIBILITY`, `E-PREQUEUE-PHASE6-PATTERN-NAV-S198`, `E-PREQUEUE-PHASE6-MEASUREMENTS-ARTWORK-S199` — [project verification history](../../PROJECT-STATE.md) |
-| 7 | `PREQUEUE-PHASE-07` — Safe local artwork import and persistence | `E-PREQUEUE-PHASE7-S200`, `E-PREQUEUE-PHASE7-S209-DROP` — [project verification history](../../PROJECT-STATE.md) |
+| 6 | `PREQUEUE-PHASE-06` — Existing garment measurement and artwork UI refinement | `E-PREQUEUE-PHASE6-PATTERN-LEGIBILITY`, `E-PREQUEUE-PHASE6-PATTERN-NAV-S198`, `E-PREQUEUE-PHASE6-MEASUREMENTS-ARTWORK-S199` — local project verification history |
+| 7 | `PREQUEUE-PHASE-07` — Safe local artwork import and persistence | `E-PREQUEUE-PHASE7-S200`, `E-PREQUEUE-PHASE7-S209-DROP` — local project verification history |
 | 8 | `PREQUEUE-PHASE-08` — Provenance-verified local artwork library V1 | `E-PREQUEUE-PHASE8-S201-SOURCES`, `E-PREQUEUE-PHASE8-S201-TEST`, `E-PREQUEUE-PHASE8-S202-SEARCH`, `E-PREQUEUE-PHASE8-S202-TEST`, `E-PREQUEUE-PHASE8-S203-EXIT` — [artwork V1 execution record](../planning/ARTWORK-LIBRARY-V1-EXECUTION.md) |
 | 9 | `PREQUEUE-PHASE-09` — Expand and practice the V1 artwork library | `E-PREQUEUE-PHASE9-REVIEW`, `E-PREQUEUE-PHASE9-S207-SCOPE`, `E-PREQUEUE-PHASE9-S208-RESULT`, `E-PREQUEUE-PHASE9-S210-EXIT` — [Phase 9 review](../planning/ARTWORK-LIBRARY-PHASE9-REVIEW.md), [expansion scope](../research/ARTWORK-EXPANSION-PHASE9-SCOPE.md), and [V1 execution record](../planning/ARTWORK-LIBRARY-V1-EXECUTION.md) |
 

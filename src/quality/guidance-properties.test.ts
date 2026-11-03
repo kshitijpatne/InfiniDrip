@@ -1,5 +1,5 @@
 // EPIC 10 — bounded, seeded fast-check properties for invalid-input guidance.
-// The standing product invariant (AGENTS.md, docs/PROJECT-DECISIONS.md) is:
+// The standing product invariant is:
 // invalid or implausible input stays visible and raw, and guidance explains
 // the problem with an actionable correction — it never silently clamps or
 // rewrites a user's value. These properties fail loudly if a future change
@@ -129,11 +129,9 @@ describe("EPIC 10 — invalid-input guidance properties (Slice 141)", () => {
     );
   });
 
-  // Permanent regression fixture: a concrete, previously-real product
-  // decision (docs/PROJECT-DECISIONS.md — "Adjustability and guidance") is
-  // that an out-of-range ease must remain visible and produce a named,
-  // actionable correction rather than silently clamping to the nearest
-  // acceptable value.
+  // Permanent regression fixture: an out-of-range ease remains visible and
+  // produces a named, actionable correction rather than silently clamping to
+  // the nearest acceptable value.
   it("regression fixture: an absurd ease value (9999) is rejected verbatim, never clamped to the band", () => {
     const field = FIELD_BY_ID.get("ease")!;
     const applied = applyChange(STANDARD_M, field, "9999");
