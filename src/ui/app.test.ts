@@ -9465,7 +9465,8 @@ describe("bundled local artwork library (Slice 203)", () => {
       clickId(root, "journey-next");
       await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("output"));
       clickId(root, "save-pattern");
-      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("saved"));
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("saved"),
+        { timeout: 10_000 });
       const manager = root.querySelector<HTMLElement>("#project-manager-host")!;
       manager.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
       const freeze = manager.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;

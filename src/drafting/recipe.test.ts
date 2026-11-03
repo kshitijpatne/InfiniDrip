@@ -866,15 +866,30 @@ describe("Woven shirt recipe integration", () => {
       .toBe(false);
   });
 
-  it("declares direct-neckline notch and grainline marks for both W06 collar layers", () => {
+  it("selects notch and grainline tables that match each Woven collar topology", () => {
     const markCheck = (options: GarmentOptions = {}) =>
       garmentReport(WOVEN_SHIRT, STANDARD_M, options).checks.find((check) =>
         check.name === "Notches + grainline on every piece");
+
+    const standardBlock = WOVEN_SHIRT.draft(STANDARD_M, {});
+    const standardPieceNames = new Set(blockPieces(standardBlock).map(({ name }) => name));
+    const standardRules = notchesForRecipeOptions(WOVEN_SHIRT, {});
+    expect(standardRules).toBe(WOVEN_SHIRT.notches);
+    expect(standardRules.every(({ pieceName }) => standardPieceNames.has(pieceName))).toBe(true);
+    expect(standardRules.map(({ pieceName }) => pieceName)).toContain("upper pointed woven collar");
+    expect(standardRules.map(({ pieceName }) => pieceName)).not.toContain("upper camp collar");
+    expect(standardRules.map(({ pieceName }) => pieceName)).not.toContain("under camp collar");
 
     for (const depth of [4, 6, 8]) {
       const options = { campCollarDepth: depth };
       const block = WOVEN_SHIRT.draft(STANDARD_M, options);
       const rules = notchesForRecipeOptions(WOVEN_SHIRT, options);
+      const pieceNames = new Set(blockPieces(block).map(({ name }) => name));
+      expect(rules.every(({ pieceName }) => pieceNames.has(pieceName))).toBe(true);
+      expect(rules.map(({ pieceName }) => pieceName)).toContain("upper camp collar");
+      expect(rules.map(({ pieceName }) => pieceName)).toContain("under camp collar");
+      expect(rules.map(({ pieceName }) => pieceName)).not.toContain("outer woven stand");
+      expect(rules.map(({ pieceName }) => pieceName)).not.toContain("upper pointed woven collar");
       for (const piece of blockPieces(block)) {
         const rule = rules.find(({ pieceName }) => pieceName === piece.name);
         expect(rule?.notches.length, piece.name).toBeGreaterThan(0);

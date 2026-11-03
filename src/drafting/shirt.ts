@@ -685,21 +685,34 @@ const notch = (pieceName: string, topEdge: string, bottomEdge: string): PieceNot
   grainline: { topEdge, topT: 0.5, bottomEdge, bottomT: 0.5 },
 });
 
-export const WOVEN_SHIRT_NOTCHES: readonly PieceNotches[] = [
+const WOVEN_SHIRT_BODY_NOTCHES: readonly PieceNotches[] = [
   notch("woven front", "shoulder", "hem"),
   notch("woven back lower", "yokeSeam", "hem"),
   notch("woven back yoke", "shoulder", "yokeSeam"),
-  notch("outer woven stand", "collar", "neckline"),
-  notch("inner woven stand", "collar", "neckline"),
-  notch("upper pointed woven collar", "stand", "outer"),
-  notch("under pointed woven collar", "stand", "outer"),
-  notch("upper camp collar", "neckline", "outer"),
-  notch("under camp collar", "neckline", "outer"),
+];
+
+const WOVEN_SHIRT_SHARED_DETAIL_NOTCHES: readonly PieceNotches[] = [
   notch("woven button placket", "top", "bottom"),
   notch("woven buttonhole placket", "top", "bottom"),
   notch("woven short sleeve", "capLeft", "hem"),
   notch("woven folded sleeve band", "top", "bottom"),
   notch("woven patch pocket", "top", "bottom"),
+];
+
+export const WOVEN_SHIRT_NOTCHES: readonly PieceNotches[] = [
+  ...WOVEN_SHIRT_BODY_NOTCHES,
+  notch("outer woven stand", "collar", "neckline"),
+  notch("inner woven stand", "collar", "neckline"),
+  notch("upper pointed woven collar", "stand", "outer"),
+  notch("under pointed woven collar", "stand", "outer"),
+  ...WOVEN_SHIRT_SHARED_DETAIL_NOTCHES,
+];
+
+export const WOVEN_SHIRT_CAMP_COLLAR_NOTCHES: readonly PieceNotches[] = [
+  ...WOVEN_SHIRT_BODY_NOTCHES,
+  notch("upper camp collar", "neckline", "outer"),
+  notch("under camp collar", "neckline", "outer"),
+  ...WOVEN_SHIRT_SHARED_DETAIL_NOTCHES,
 ];
 
 export function wovenShirtGuidance(
