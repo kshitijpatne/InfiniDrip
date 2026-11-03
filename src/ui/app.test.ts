@@ -80,8 +80,10 @@ import {
   WOVEN_SHIRT_RELAXED_BUTTON_FRONT_ENTRY_ID,
   WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID,
   WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID,
+  WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID,
   starterOriginForEntry,
 } from "./starter-registry";
+import { wovenShirtAllowances } from "../drafting/shirt";
 import { POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
@@ -11992,6 +11994,160 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(techPack).toContain("Body length (HPS-hem)");
       expect(techPack).toContain("71.0 cm");
       expect(techPack).toContain("Multi-size values in these whole-run files have not been validated for W03 grading");
+      expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("selects W05, preserves its longline identity through save/reopen, and exports six distinct digital files", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID);
+
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Longline woven shirt");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Tunic / Longline Woven Shirt");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Tunic / Longline Woven Shirt · software defaults");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("90");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("18");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="sideVentDepth"]')!.value).toBe("3");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="hemTurn"]')!.value).toBe("1");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="shoulderExtension"]')).toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-option="boxySideProfile"]')).toBeNull();
+
+      clickId(root, "view-pattern");
+      const initialSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+      length.value = "89";
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      const vent = root.querySelector<HTMLInputElement>('input[data-option="sideVentDepth"]')!;
+      vent.value = "4.5";
+      vent.dispatchEvent(new Event("input", { bubbles: true }));
+      const hem = root.querySelector<HTMLInputElement>('input[data-option="hemTurn"]')!;
+      hem.value = "1.5";
+      hem.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      expect(editedSvg).not.toBe(initialSvg);
+
+      clickId(root, "view-spec");
+      clickId(root, "save-pattern");
+      const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: Record<string, GarmentOptions>;
+        workspace: { starterOrigin: Record<string, unknown> };
+      };
+      expect(stored.measurements).toMatchObject({ length: 89, ease: 18 });
+      expect(stored.garmentOptions["woven-shirt"]).toMatchObject({ sideVentDepth: 4.5, hemTurn: 1.5 });
+      expect(stored.workspace.starterOrigin).toMatchObject({
+        entryId: WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID,
+        entryRevision: "2026-11-03.1",
+        recipeId: "woven-shirt",
+        recipeRevision: "woven-shirt-tunic-longline-v1",
+        configurationSnapshot: {
+          targetStyle: "Longline woven shirt",
+          measurements: { length: 90, ease: 18 },
+          options: { sideVentDepth: 3, hemTurn: 1 },
+        },
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Longline woven shirt");
+      expect(reopened.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Tunic / Longline Woven Shirt");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("89");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="sideVentDepth"]')!.value).toBe("4.5");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="hemTurn"]')!.value).toBe("1.5");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+      clickId(reopened, "view-spec");
+      clickIfPresent(reopened, "welcome-start");
+      clickId(reopened, "journey-step-fit");
+      clickId(reopened, "journey-next");
+      const outputNext = reopened.querySelector<HTMLElement>("#journey-next");
+      expect(outputNext, `W05 should pass its Check stage. Journey: ${reopened.querySelector<HTMLElement>("#journey-host")?.textContent}; guidance: ${reopened.querySelector<HTMLElement>("#guidance-host")?.textContent}`).not.toBeNull();
+      outputNext!.click();
+
+      const exportButton = reopened.querySelector<HTMLButtonElement>("#export-svg")!;
+      const reopenedVent = reopened.querySelector<HTMLInputElement>('input[data-option="sideVentDepth"]')!;
+      reopenedVent.value = "4.25";
+      reopenedVent.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(reopenedVent.value).toBe("4.25");
+      expect(reopened.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("0.5 cm increments");
+      expect(exportButton.disabled).toBe(true);
+      reopenedVent.value = "4.5";
+      reopenedVent.dispatchEvent(new Event("input", { bubbles: true }));
+      reReviewAndReachExportStage(reopened);
+      expect(exportButton.disabled).toBe(false);
+
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(reopened, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "woven-shirt-tunic-longline-M-A0.pdf", "woven-shirt-tunic-longline-M.dxf", "woven-shirt-tunic-longline-M.pdf",
+        "woven-shirt-tunic-longline-M.svg", "woven-shirt-tunic-longline-projector.svg", "woven-shirt-tunic-longline-techpack.pdf",
+      ].sort());
+
+      const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+      const options = stored.garmentOptions["woven-shirt"]!;
+      const pieces = blockPieces(recipe.draft(stored.measurements, options));
+      for (const lengthValue of [82, 100]) {
+        for (const ventDepth of [0, 8]) {
+          for (const hemTurn of [0.7, 2]) {
+            const boundaryOptions = { ...options, sideVentDepth: ventDepth, hemTurn };
+            const boundaryBlock = recipe.draft({ ...stored.measurements, length: lengthValue }, boundaryOptions);
+            for (const role of ["front", "back"] as const) {
+              const bodyPiece = boundaryBlock.roles[role];
+              expect(pieceEdge(bodyPiece, "hem").kind).toBe("curve");
+              if (ventDepth === 0) {
+                expect(bodyPiece.edges.some((edge) => edge.name === "vent")).toBe(false);
+              } else {
+                expect(edgeLength(pieceEdge(bodyPiece, "vent"))).toBe(ventDepth);
+              }
+            }
+            expect(wovenShirtAllowances(hemTurn).byPieceEdge).toMatchObject({
+              "woven front": { hem: hemTurn }, "woven back lower": { hem: hemTurn },
+            });
+          }
+        }
+      }
+      expect(files.get("woven-shirt-tunic-longline-M.svg")).toBe(exportSvg(
+        pieces, wovenShirtAllowances(options.hemTurn), notchesForRecipeOptions(recipe, options),
+      ));
+      expect(files.get("woven-shirt-tunic-longline-M.dxf")).toBe(exportDxf(pieces, wovenShirtAllowances(options.hemTurn)));
+      expect(files.get("woven-shirt-tunic-longline-M.pdf")).toBe(exportPdf(
+        pieces, wovenShirtAllowances(options.hemTurn), undefined, 1.0, recipe.tiledPdfLocalCoordinates === true,
+      ));
+      expect(files.get("woven-shirt-tunic-longline-M-A0.pdf")).toBe(exportA0Pdf(
+        pieces, wovenShirtAllowances(options.hemTurn), notchesForRecipeOptions(recipe, options), undefined,
+        recipe.a0Overflow === true,
+      ));
+      const projector = new DOMParser().parseFromString(files.get("woven-shirt-tunic-longline-projector.svg")!, "image/svg+xml");
+      const projectorText = [...projector.getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Tunic / Longline Woven Shirt");
+      expect(projectorText).toContain("W05 grade is not validated.");
+      const techPack = visiblePdfText(files.get("woven-shirt-tunic-longline-techpack.pdf")!);
+      expect(techPack).toContain("Digital W05 Tunic / Longline Woven Shirt pattern");
+      expect(techPack).toContain("90 cm modeled HPS-to-hem length and 18 cm shared ease");
+      expect(techPack).toContain("89.0 cm");
+      expect(techPack).toContain("not a validated W05 grade");
       expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
     } finally {
       unmountApp();
