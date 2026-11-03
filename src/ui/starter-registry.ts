@@ -1464,6 +1464,7 @@ export const WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_ENTRY_ID = "woven-shirt-classic-bu
 export const WOVEN_SHIRT_RELAXED_BUTTON_FRONT_ENTRY_ID = "woven-shirt-relaxed-button-front-digital-v1";
 export const WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID = "woven-shirt-oversized-loose-drop-digital-v1";
 export const WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID = "woven-shirt-cropped-boxy-digital-v1";
+export const WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID = "woven-shirt-tunic-longline-digital-v1";
 
 const WOVEN_SHIRT_SHARED_OPTION_DEFINITIONS = WOVEN_SHIRT_OPTION_DEFINITIONS.filter(
   (option) => option.appliesToStyle === undefined,
@@ -1791,10 +1792,73 @@ const WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const WOVEN_SHIRT_TUNIC_LONGLINE_MEASUREMENTS = {
+  ...STANDARD_M,
+  length: 90,
+  ease: 18,
+} as const;
+
+const WOVEN_SHIRT_TUNIC_LONGLINE_CONTROLS: readonly StarterControl[] = [
+  ...WOVEN_SHIRT_FIELDS.map((fieldId): StarterControl => {
+    const field = FIELDS.find((candidate) => candidate.id === fieldId)!;
+    return {
+      fieldId,
+      label: field.label,
+      kind: fieldId === "length" || fieldId === "ease" ? "design" : "measurement",
+      unit: "cm",
+      min: fieldId === "ease" ? 10 : fieldId === "length" ? 82 : field.min,
+      max: fieldId === "ease" ? 24 : fieldId === "length" ? 100 : field.max,
+      step: field.step,
+      defaultValue: WOVEN_SHIRT_TUNIC_LONGLINE_MEASUREMENTS[fieldId],
+    };
+  }),
+  ...WOVEN_SHIRT_SHARED_OPTION_DEFINITIONS.map((option): StarterControl => ({
+    fieldId: option.id,
+    label: option.label,
+    kind: "option",
+    unit: option.unit === "buttons" ? "buttons" : "cm",
+    min: option.min,
+    max: option.max,
+    step: option.step,
+    defaultValue: DEFAULT_WOVEN_SHIRT_OPTIONS[option.id as keyof typeof DEFAULT_WOVEN_SHIRT_OPTIONS],
+  })),
+];
+
+const WOVEN_SHIRT_TUNIC_LONGLINE_BLANK_ENTRY: StarterEntry = {
+  entryId: WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID,
+  entryRevision: "2026-11-03.1",
+  recipeId: "woven-shirt",
+  recipeRevision: "woven-shirt-tunic-longline-v1",
+  catalogKind: "blank",
+  label: "Tunic / Longline Woven Shirt · software defaults",
+  configuration: {
+    targetStyle: "Longline woven shirt",
+    measurements: WOVEN_SHIRT_TUNIC_LONGLINE_MEASUREMENTS,
+    options: { ...DEFAULT_WOVEN_SHIRT_OPTIONS },
+  },
+  supportedControls: WOVEN_SHIRT_TUNIC_LONGLINE_CONTROLS,
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured tunic/longline Woven Shirt profile with editable body measurements and digital construction choices.",
+    fit: "The 90 cm modeled HPS-to-hem length and 18 cm shared ease are InfiniDrip software defaults selected within existing Longline woven shirt ranges, not sourced physical standards or validated fit targets.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No button, interfacing, thread, or trim-material compatibility claim.",
+    construction: "Reuses the existing Woven Shirt construction with the Longline woven shirt style, shared pattern recipe, side vent, and turned hem. Vent depth and hem turn remain editable shared digital choices; sewn performance is unvalidated.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; the generic Woven Shirt size run is not a validated W05 grade or size chart.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The 90 cm modeled length, 18 cm shared ease, 3 cm side vent, and 1 cm hem turn are editable software defaults, not sourced physical standards or fit targets.",
+    "The modeled geometry, POMs, selected-size outputs, and generic Woven Shirt size run are digital outputs, not sewn measurements, validated W05 grading, or evidence of fit, comfort, or wear.",
+    "No body/trim material performance, consumption, supplier suitability, manufacturing, or production claim is established. B1 review is pending; physical validation remains not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v31",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_BLANK_ENTRY, WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v32",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_BLANK_ENTRY, WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY, WOVEN_SHIRT_TUNIC_LONGLINE_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

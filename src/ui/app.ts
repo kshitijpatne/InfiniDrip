@@ -57,7 +57,7 @@ import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObserva
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
 import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
@@ -1706,7 +1706,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo" ? "polo-band-collar"
+    starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-tunic-longline"
+      : starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo" ? "polo-band-collar"
       : starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID && recipe.name === "polo" ? "polo-zip-placket"
       : starterOrigin?.entryId === POLO_LOW_EASE_ENTRY_ID && recipe.name === "polo" ? "polo-low-ease"
       : starterOrigin?.entryId === POLO_LONGLINE_ENTRY_ID && recipe.name === "polo" ? "polo-longline"
@@ -1908,7 +1909,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && forRecipe.name === "woven-shirt"
+    starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && forRecipe.name === "woven-shirt"
+      ? "Tunic / Longline Woven Shirt"
+      : starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && forRecipe.name === "woven-shirt"
       ? "Cropped Boxy Woven Shirt"
       : starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && forRecipe.name === "polo"
       ? "Polo Band-collar half-placket"
@@ -1951,14 +1954,18 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const starterOutputStatusNote = (format: "tech-pack" | "projector" = "tech-pack"): string | undefined => {
     const isW03Starter = starterOrigin?.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID && recipe.name === "woven-shirt";
     const isW04Starter = starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && recipe.name === "woven-shirt";
+    const isW05Starter = starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt";
     if (format === "projector") return isW03Starter ? "W03 grade is not validated." : isW04Starter
       ? "W04 grade is not validated. The W04 hip station is a digital crop reference, not a physical hip-location or fit measure."
-      : undefined;
+      : isW05Starter ? "W05 grade is not validated." : undefined;
     if (isW03Starter) {
       return "Digital W03 oversized loose-drop woven Shirt. The 28 cm ease default, 4 cm shoulder extension and 3 cm shoulder drop are InfiniDrip software choices, not physical standards. Multi-size values in these whole-run files have not been validated for W03 grading; the default run uses the generic Woven Shirt size range. Physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.";
     }
     if (isW04Starter) {
       return "Digital W04 cropped boxy Woven Shirt. The starting profile uses a 54 cm modeled HPS-to-hem length, 24 cm shared ease, 100% boxy side profile, 6 front buttons and 6 cm button spacing. These are editable InfiniDrip software defaults, not physical standards or validated fit targets. The W04 hip-width station is a digital crop reference. When the body-derived station would fall below the crop, W04 places it 1 cm above the side-vent opening; it is not a physical hip-location or fit measure. The generic Woven Shirt size run is not a validated W04 grade. Physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.";
+    }
+    if (isW05Starter) {
+      return "Digital W05 Tunic / Longline Woven Shirt pattern. The 90 cm modeled HPS-to-hem length and 18 cm shared ease are editable InfiniDrip software defaults selected within existing Longline woven shirt ranges, not sourced physical standards or validated fit targets. The 3 cm side vent and 1 cm hem turn are also editable software choices. The generic Woven Shirt size run is not a validated W05 grade; physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.";
     }
     if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo") {
       const options = recipeOptions();
