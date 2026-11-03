@@ -304,6 +304,23 @@ describe("renderGarment — woven shirt integration", () => {
     expect((long.match(/data-edge="woven-button"/g) ?? []).length).toBe(6);
   });
 
+  it("renders W04 transformed torso stations and matching underarm seams", () => {
+    const measurements = { ...STANDARD_M, chest: 88, waist: 96, hip: 104, ease: 24, length: 54 };
+    const base = renderGarment(measurements, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, shirt);
+    const boxy = renderGarment(measurements, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, {
+      ...shirt,
+      bodyWidths: { chestHalf: 32, waistHalf: 32, hipHalf: 32 },
+      hipStationY: 50,
+      sideVentDepth: 3,
+    });
+    expect(boxy).not.toBe(base);
+    expect(boxy).toContain("L 32 24");
+    expect(boxy).toContain("L 32 50");
+    expect(boxy).toContain("L 32 51");
+    expect(boxy).toContain("L 32 54");
+    expect(boxy).toContain('x2="32" y2="24"');
+  });
+
   it("does not draw buttons for a non-finite button count", () => {
     const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, { ...shirt, buttonCount: Number.NaN });
     expect(svg).not.toContain('data-edge="woven-button"');

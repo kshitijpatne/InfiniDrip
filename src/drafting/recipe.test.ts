@@ -9,7 +9,7 @@ import { TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshi
 import { TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION, TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION, teeNeckbandTechPackOptions } from "./vneck-band-output";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
-import { pieceEdge } from "./piece";
+import { edgeEnd, pieceEdge } from "./piece";
 import { edgeLength } from "./piece";
 import { derive } from "./measurements";
 import { necklineEdge } from "./neckline";
@@ -832,7 +832,7 @@ describe("Woven shirt recipe integration", () => {
     expect(WOVEN_SHIRT.options?.map((option) => option.id)).toEqual([
       "neckEase", "buttonCount", "buttonSpacing", "frontOverlap", "placketWidth",
       "standHeight", "collarLeafDepth", "yokeDepth", "pocketWidth", "pocketHeight",
-      "sleeveBandDepth", "sideVentDepth", "hemTurn", "shoulderExtension", "shoulderDrop",
+      "sleeveBandDepth", "sideVentDepth", "hemTurn", "shoulderExtension", "shoulderDrop", "boxySideProfile",
     ]);
   });
 
@@ -863,6 +863,31 @@ describe("Woven shirt recipe integration", () => {
   it("evaluates every woven-shirt POM from the assembled block", () => {
     const block = WOVEN_SHIRT.draft(STANDARD_M);
     for (const pom of WOVEN_SHIRT.poms) expect(pom.measure(block)).toBeTypeOf("number");
+  });
+
+  it("adds geometry-derived waist and hip POMs only when the W04 option is active", () => {
+    expect(pomsForRecipeOptions(WOVEN_SHIRT, {})).toBe(WOVEN_SHIRT.poms);
+    const wovenOptions = defaultGarmentOptions(WOVEN_SHIRT.options!, undefined, "Oversized loose-drop woven shirt");
+    expect(pomsForRecipeOptions(WOVEN_SHIRT, wovenOptions)).toBe(WOVEN_SHIRT.poms);
+
+    for (const profile of [0, 50, 100]) {
+      const options = { boxySideProfile: profile };
+      const measurements = { ...STANDARD_M, length: 54, ease: 24, waist: 84, hip: 112 };
+      const block = WOVEN_SHIRT.draft(measurements, options);
+      const poms = pomsForRecipeOptions(WOVEN_SHIRT, options);
+      const waist = poms.find((pom) => pom.label === "Body waist (finished)")!;
+      const hip = poms.find((pom) => pom.label === "W04 cropped hip station (finished)")!;
+      expect(waist.measure(block)).toBe(4 * edgeEnd(pieceEdge(block.roles.front!, "sideUpper")).x);
+      expect(hip.measure(block)).toBe(4 * edgeEnd(pieceEdge(block.roles.front!, "sideMiddle")).x);
+      for (const pom of poms) {
+        expect(Number.isFinite(pom.measure(block))).toBe(true);
+        for (const anchor of [pom.anchor?.(block), pom.backAnchor?.(block)]) {
+          if (anchor) expect(Number.isFinite(anchor.x) && Number.isFinite(anchor.y)).toBe(true);
+        }
+        expect(pom.anchorAvailable?.(block) ?? true).toBe(true);
+        expect(pom.backAnchorAvailable?.(block) ?? true).toBe(true);
+      }
+    }
   });
 });
 

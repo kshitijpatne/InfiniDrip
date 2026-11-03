@@ -51,7 +51,7 @@ import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS, FITTED_PRINCESS_POMS, fittedPanelChecks } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
 import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, POLO_BODY_POMS, poloButtonCountError, poloNotchesForOptions, poloPomsForOptions, resolvePoloOptions, usesPoloZipperClosure } from "./polo";
-import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS } from "./shirt";
+import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS, WOVEN_SHIRT_BOXY_PROFILE_POMS } from "./shirt";
 import { WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { edgeLength, pieceEdge } from "./piece";
 import { rolePiece } from "./block";
@@ -936,6 +936,9 @@ export const WOVEN_SHIRT: GarmentRecipe = {
   grammar: WOVEN_SHIRT_GRAMMAR,
   notches: WOVEN_SHIRT_NOTCHES,
   poms: WOVEN_SHIRT_POMS,
+  pomsForOptions: (options) => Object.prototype.hasOwnProperty.call(options, "boxySideProfile")
+    ? [...WOVEN_SHIRT_POMS, ...WOVEN_SHIRT_BOXY_PROFILE_POMS]
+    : WOVEN_SHIRT_POMS,
   grade: WOVEN_SHIRT_GRADE,
   sizes: TSHIRT_SIZES,
   checks: () => [],

@@ -53,6 +53,12 @@ export interface WovenShirtVisual {
   readonly sleeveBandDepth: number;
   readonly sideVentDepth: number;
   readonly hemTurn: number;
+  readonly bodyWidths?: {
+    readonly chestHalf: number;
+    readonly waistHalf: number;
+    readonly hipHalf: number;
+  };
+  readonly hipStationY?: number;
 }
 
 // One full garment silhouette, centred on x = 0. `hasSleeve` (Slice 60): a
@@ -68,15 +74,15 @@ function silhouettePath(
   strapWidth?: number, polo?: PoloVisual, shirt?: WovenShirtVisual
 ): string {
   const d = derive(m);
-  const half = d.chestWidthHalf;        // half the body width
+  const half = shirt?.bodyWidths?.chestHalf ?? d.chestWidthHalf; // half the body width
   const sh = d.shoulderHalf;            // shoulder point
   const slope = d.shoulderSlope;
   const ad = m.armholeDepth;
   const len = m.length;
-  const waistHalf = (m.waist + m.ease) / 4;
-  const hipHalf = (m.hip + m.ease) / 4;
+  const waistHalf = shirt?.bodyWidths?.waistHalf ?? (m.waist + m.ease) / 4;
+  const hipHalf = shirt?.bodyWidths?.hipHalf ?? (m.hip + m.ease) / 4;
   const waistY = ad + (len - ad) * 0.35;
-  const hipY = waistY + m.hipDepth;
+  const hipY = shirt?.hipStationY ?? waistY + m.hipDepth;
   const ventTop = len - (shirt?.sideVentDepth ?? 0);
   const poloVentDepth = polo?.sideVentDepth ?? 0;
   const poloHemY = len + (position === "back" ? polo?.backHemDrop ?? 0 : 0);
@@ -133,14 +139,15 @@ function silhouettePath(
 // Dashed armhole seams (both sides) — where the sleeve meets the body. Only
 // meaningful when there IS a sleeve; a sleeveless garment's armhole is a
 // single finished (bound) edge, not a seam between two pieces.
-function armholeSeams(m: Measurements): string {
+function armholeSeams(m: Measurements, chestHalf?: number): string {
   const d = derive(m);
+  const underarmHalf = chestHalf ?? d.chestWidthHalf;
   const seam = (x1: number, y1: number, x2: number, y2: number): string =>
     `<line x1="${round(x1)}" y1="${round(y1)}" x2="${round(x2)}" y2="${round(y2)}" ` +
     `stroke="rgba(0,0,0,0.28)" stroke-width="1" stroke-dasharray="3 2" ` +
     `vector-effect="non-scaling-stroke"/>`;
-  return seam(d.shoulderHalf, d.shoulderSlope, d.chestWidthHalf, m.armholeDepth) +
-         seam(-d.shoulderHalf, d.shoulderSlope, -d.chestWidthHalf, m.armholeDepth);
+  return seam(d.shoulderHalf, d.shoulderSlope, underarmHalf, m.armholeDepth) +
+         seam(-d.shoulderHalf, d.shoulderSlope, -underarmHalf, m.armholeDepth);
 }
 
 function renderOne(m: Measurements, position: "front" | "back", fabric: string,
@@ -151,7 +158,7 @@ function renderOne(m: Measurements, position: "front" | "back", fabric: string,
   const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline, strapWidth, polo, shirt)}" data-edge="ease" fill="${fabric}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
-  const seams = hasSleeve ? armholeSeams(m) : "";
+  const seams = hasSleeve ? armholeSeams(m, shirt?.bodyWidths?.chestHalf) : "";
   const poloV2 = polo !== undefined && (polo.collarProfile === "band" || polo.standFrontRise !== undefined || polo.collarPointExtension !== undefined || polo.sideVentDepth !== undefined || polo.backHemDrop !== undefined);
   const group = `<g transform="translate(${round(cx)} ${round(top)})">${path}${seams}` +
     (polo && (position === "front" || poloV2) ? poloDetails(m, position, frontNeckline, backNeckline, polo) : "") +

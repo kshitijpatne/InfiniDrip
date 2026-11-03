@@ -14,13 +14,51 @@ import { Note } from "../guidance/note";
 import type { ComponentResult } from "./component";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 
-/** The relaxed woven body is drafted as a half-width back on fold and a
- * separate half-width front. Fronts are cut as a mirrored pair later; keeping
- * centre front as a real edge gives the placket a named attachment boundary. */
-function shirtPanel(m: Measurements, position: "front" | "back", options: WovenShirtOptions): Piece {
+export interface WovenShirtBodyHalfWidths {
+  readonly chestHalf: number;
+  readonly waistHalf: number;
+  readonly hipHalf: number;
+}
+
+function interpolateWidth(from: number, to: number, progress: number): number {
+  return from + (to - from) * progress;
+}
+
+/** Resolve profile widths from body measurements without editing those measurements. */
+export function wovenShirtBodyHalfWidths(
+  m: Measurements, boxySideProfile = 0,
+): WovenShirtBodyHalfWidths {
   const chestHalf = (m.chest + m.ease) / 4;
   const waistHalf = (m.waist + m.ease) / 4;
   const hipHalf = (m.hip + m.ease) / 4;
+  const boxyHalf = Math.max(chestHalf, waistHalf, hipHalf);
+  const profile = boxySideProfile / 100;
+  return {
+    chestHalf: interpolateWidth(chestHalf, boxyHalf, profile),
+    waistHalf: interpolateWidth(waistHalf, boxyHalf, profile),
+    hipHalf: interpolateWidth(hipHalf, boxyHalf, profile),
+  };
+}
+
+/** Keep W04's digital hip-width station above the vent opening without
+ * changing the body-derived location used by other woven-shirt profiles. */
+export function wovenShirtHipStationY(
+  m: Measurements, sideVentDepth: number, croppedBoxy = false,
+): number {
+  const bodyStationY = wovenHipStationY(m.length, m.armholeDepth, m.hipDepth);
+  return croppedBoxy ? Math.min(bodyStationY, m.length - sideVentDepth - 1) : bodyStationY;
+}
+
+/** The relaxed woven body is drafted as a half-width back on fold and a
+ * separate half-width front. Fronts are cut as a mirrored pair later; keeping
+ * centre front as a real edge gives the placket a named attachment boundary. */
+function shirtPanel(
+  m: Measurements,
+  position: "front" | "back",
+  options: WovenShirtOptions,
+  croppedBoxy = false,
+): Piece {
+  const { chestHalf, waistHalf, hipHalf } = wovenShirtBodyHalfWidths(m, options.boxySideProfile);
   const shoulderHalf = m.shoulderWidth / 2;
   const neckHalf = (m.neck + options.neckEase) / 4;
   const baseDepth = position === "front" ? neckHalf * 0.8 : neckHalf * 0.3;
@@ -30,7 +68,7 @@ function shirtPanel(m: Measurements, position: "front" | "back", options: WovenS
   const shoulder = point(shoulderHalf + options.shoulderExtension, 2.5 + options.shoulderDrop);
   const underarm = point(chestHalf, m.armholeDepth);
   const waist = point(waistHalf, m.armholeDepth + (m.length - m.armholeDepth) * 0.35);
-  const hip = point(hipHalf, wovenHipStationY(m.length, m.armholeDepth, m.hipDepth));
+  const hip = point(hipHalf, wovenShirtHipStationY(m, options.sideVentDepth, croppedBoxy));
   const sideHem = point(hipHalf, m.length);
   const cHem = point(0, m.length);
   const armhole: Edge = {
@@ -83,9 +121,10 @@ export function draftWovenShirtBody(
   m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
   const options = resolveWovenShirtOptions(rawOptions);
+  const croppedBoxy = Object.prototype.hasOwnProperty.call(rawOptions, "boxySideProfile");
   return block({
-    front: shirtPanel(m, "front", options),
-    back: shirtPanel(m, "back", options),
+    front: shirtPanel(m, "front", options, croppedBoxy),
+    back: shirtPanel(m, "back", options, croppedBoxy),
   }, WOVEN_SHIRT_BODY_STITCHES);
 }
 
@@ -460,7 +499,7 @@ export function addWovenShirtSleeves(
   const armhole = wovenArmholeLength(blockWithYoke);
   const hasLooseDropOptions = Object.prototype.hasOwnProperty.call(rawOptions, "shoulderExtension")
     || Object.prototype.hasOwnProperty.call(rawOptions, "shoulderDrop");
-  const sleeve = wovenSleeve(m, armhole, hasLooseDropOptions);
+  const sleeve = wovenSleeve(m, armhole, hasLooseDropOptions || options.boxySideProfile > 0);
   const band = sleeveBand(edgeLength(pieceEdge(sleeve, "hem")), options.sleeveBandDepth);
   return block({ ...blockWithYoke.roles, sleeve, sleeveBand: band }, [
     ...blockWithYoke.stitches, ...WOVEN_SHIRT_SLEEVE_STITCHES,
@@ -596,6 +635,19 @@ export const WOVEN_SHIRT_POMS: readonly Pom[] = [
   },
 ];
 
+export const WOVEN_SHIRT_BOXY_PROFILE_POMS: readonly Pom[] = [
+  {
+    label: "Body waist (finished)", tolerance: 1.3,
+    measure: (b) => 4 * edgeEnd(pieceEdge(b.roles.front, "sideUpper")).x,
+    anchor: (b) => edgeEnd(pieceEdge(b.roles.front, "sideUpper")), anchorRoleId: "front", anchorEdgeId: "sideUpper",
+  },
+  {
+    label: "W04 cropped hip station (finished)", tolerance: 1.3,
+    measure: (b) => 4 * edgeEnd(pieceEdge(b.roles.front, "sideMiddle")).x,
+    anchor: (b) => edgeEnd(pieceEdge(b.roles.front, "sideMiddle")), anchorRoleId: "front", anchorEdgeId: "sideMiddle",
+  },
+];
+
 const notch = (pieceName: string, topEdge: string, bottomEdge: string): PieceNotches => ({
   pieceName,
   notches: [{ edgeName: topEdge, t: 0.5 }],
@@ -622,12 +674,20 @@ export function wovenShirtGuidance(
 ): Note[] {
   const options = resolveWovenShirtOptions(rawOptions);
   const notes: Note[] = [];
-  const hipStationY = wovenHipStationY(m.length, m.armholeDepth, m.hipDepth);
-  if (hipStationY > m.length) {
+  const croppedBoxy = Object.prototype.hasOwnProperty.call(rawOptions, "boxySideProfile");
+  const rawHipStationY = wovenHipStationY(m.length, m.armholeDepth, m.hipDepth);
+  const hipStationY = wovenShirtHipStationY(m, options.sideVentDepth, croppedBoxy);
+  if (!croppedBoxy && hipStationY > m.length) {
     notes.push({
       field: "hipDepth",
       level: "warn",
       text: `The current woven-shirt hip station is at y=${hipStationY.toFixed(2)} cm, below the hem at y=${m.length} cm — increase top length or reduce the underarm drop or hip depth until the station is at or above the hem. Values stay unchanged.`,
+    });
+  } else if (croppedBoxy && rawHipStationY > hipStationY) {
+    notes.push({
+      field: "hipDepth",
+      level: "info",
+      text: `W04 keeps its digital hip-width station at y=${hipStationY.toFixed(2)} cm, 1 cm above the side-vent opening at y=${(m.length - options.sideVentDepth).toFixed(2)} cm; the body-derived location remains unchanged.`,
     });
   }
   for (const definition of WOVEN_SHIRT_OPTION_DEFINITIONS) {
@@ -642,6 +702,8 @@ export function wovenShirtGuidance(
       notes.push({ field: `option-${definition.id}`, level: "warn", text: `${definition.label} (${valueLabel}) is outside the ${definition.min}–${definition.max} ${unit} design range — adjust it into that range.` });
     } else if (definition.id === "buttonCount" && !Number.isInteger(value)) {
       notes.push({ field: "option-buttonCount", level: "warn", text: `Front placket buttons (${valueLabel}) must be a whole number: choose 6 or 7.` });
+    } else if (definition.id === "boxySideProfile" && value % definition.step !== 0) {
+      notes.push({ field: "option-boxySideProfile", level: "warn", text: "Boxy side profile must use 10% increments; choose a value from 0% to 100% in steps of 10%." });
     }
   }
   if (options.frontOverlap > options.placketWidth) {
@@ -674,6 +736,12 @@ export function wovenShirtGuidance(
     const armholeLength = wovenArmholeLength(block);
     if (m.bicep > armholeLength) {
       notes.push({ field: "bicep", level: "warn", text: "Bicep circumference (" + m.bicep + " cm) exceeds the W03 armhole seam (" + armholeLength.toFixed(1) + " cm) — reduce the bicep value or increase armhole depth; the value stays unchanged." });
+    }
+  }
+  if (Object.prototype.hasOwnProperty.call(rawOptions, "boxySideProfile") && options.boxySideProfile > 0) {
+    const armholeLength = wovenArmholeLength(block);
+    if (m.bicep > armholeLength) {
+      notes.push({ field: "bicep", level: "warn", text: `Bicep circumference (${m.bicep} cm) exceeds the W04 armhole seam (${armholeLength.toFixed(1)} cm) — reduce the bicep value or increase armhole depth; the value stays unchanged.` });
     }
   }
   const neckHalf = (m.neck + options.neckEase) / 4;
@@ -724,8 +792,12 @@ function placketPiece(
   };
 }
 
-const wovenGrammarFront = (m: Measurements, options: WovenShirtOptions): ComponentResult => {
-  const base = shirtPanel(m, "front", options);
+const wovenGrammarFront = (
+  m: Measurements,
+  params: { readonly options: WovenShirtOptions; readonly croppedBoxy: boolean },
+): ComponentResult => {
+  const { options, croppedBoxy } = params;
+  const base = shirtPanel(m, "front", options, croppedBoxy);
   const pocketX = m.chest / 20;
   const pocketY = m.armholeDepth + 6;
   const withPlacement: Piece = {
@@ -747,8 +819,12 @@ const wovenGrammarFront = (m: Measurements, options: WovenShirtOptions): Compone
   };
 };
 
-const wovenGrammarBackYoke = (m: Measurements, options: WovenShirtOptions): ComponentResult => {
-  const split = splitWovenBack(shirtPanel(m, "back", options), options);
+const wovenGrammarBackYoke = (
+  m: Measurements,
+  params: { readonly options: WovenShirtOptions; readonly croppedBoxy: boolean },
+): ComponentResult => {
+  const { options, croppedBoxy } = params;
+  const split = splitWovenBack(shirtPanel(m, "back", options, croppedBoxy), options);
   return {
     pieces: {
       back: curvedHemAndVent(split.back, options.sideVentDepth),
@@ -821,7 +897,8 @@ const wovenGrammarSleeves = (
   m: Measurements,
   params: { readonly options: WovenShirtOptions; readonly targetArmhole: number },
 ): ComponentResult => {
-  const hasLooseDropGeometry = params.options.shoulderExtension !== 0 || params.options.shoulderDrop !== 0;
+  const hasLooseDropGeometry = params.options.shoulderExtension !== 0 || params.options.shoulderDrop !== 0
+    || params.options.boxySideProfile > 0;
   const sleeve = wovenSleeve(m, params.targetArmhole, hasLooseDropGeometry);
   return {
     pieces: {
@@ -842,8 +919,14 @@ const wovenGrammarSleeves = (
 export const WOVEN_SHIRT_GRAMMAR = garmentGrammar(
   "woven-shirt",
   [
-    componentNode("front", "woven-body", wovenGrammarFront, (context) => resolveWovenShirtOptions(context.options)),
-    componentNode("back-yoke", "yoke", wovenGrammarBackYoke, (context) => resolveWovenShirtOptions(context.options), ["front"]),
+    componentNode("front", "woven-body", wovenGrammarFront, (context) => ({
+      options: resolveWovenShirtOptions(context.options),
+      croppedBoxy: Object.prototype.hasOwnProperty.call(context.options, "boxySideProfile"),
+    })),
+    componentNode("back-yoke", "yoke", wovenGrammarBackYoke, (context) => ({
+      options: resolveWovenShirtOptions(context.options),
+      croppedBoxy: Object.prototype.hasOwnProperty.call(context.options, "boxySideProfile"),
+    }), ["front"]),
     componentNode("pocket", "pocket", wovenGrammarPocket, (context) => resolveWovenShirtOptions(context.options), ["front", "back-yoke"]),
     componentNode(
       "collar",

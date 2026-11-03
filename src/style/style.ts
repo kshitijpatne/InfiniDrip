@@ -72,6 +72,7 @@ export const WOVEN_SHIRT_STYLES: readonly StyleDef[] = [
   { name: "Classic woven shirt", ranges: { ease: [10, 16], length: [62, 78] } },
   { name: "Relaxed woven shirt", ranges: { ease: [17, 24], length: [62, 82] } },
   { name: "Cropped woven shirt", ranges: { ease: [10, 24], length: [45, 60] } },
+  { name: "Cropped boxy woven shirt", ranges: { ease: [10, 24], length: [45, 60] } },
   { name: "Longline woven shirt", ranges: { ease: [10, 24], length: [82, 100] } },
   { name: "Oversized loose-drop woven shirt", ranges: { ease: [25, 32], length: [62, 82] } },
 ];
