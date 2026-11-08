@@ -19,7 +19,7 @@ import {
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION,
 } from "../drafting/tank";
 import { POLO_BAND_COLLAR_STARTER_ENTRY_ID, POLO_OPTION_DEFINITIONS, POLO_ZIP_PLACKET_STARTER_ENTRY_ID } from "../drafting/polo";
-import { DEFAULT_WOVEN_SHIRT_OPTIONS, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "../drafting/shirt-contract";
+import { DEFAULT_WOVEN_SHIRT_OPTIONS, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "../drafting/shirt-contract";
 import { STANDARD_M } from "../drafting";
 import { FIELDS } from "./controls";
 
@@ -1467,6 +1467,7 @@ export const WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID = "woven-shirt-cropped-boxy-digit
 export const WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID = "woven-shirt-tunic-longline-digital-v1";
 export { WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID };
 export { WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID };
+export { WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID };
 
 const WOVEN_SHIRT_SHARED_OPTION_DEFINITIONS = WOVEN_SHIRT_OPTION_DEFINITIONS.filter(
   (option) => option.appliesToStyle === undefined && option.appliesToStarterEntryId === undefined,
@@ -1966,10 +1967,64 @@ const WOVEN_SHIRT_BAND_COLLAR_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const WOVEN_SHIRT_DARTED_BLOUSE_OPTIONS = {
+  ...DEFAULT_WOVEN_SHIRT_OPTIONS,
+  bustDartIntakeCm: 4,
+  bustDartTargetAcrossFrontPercent: 55,
+  bustDartTargetFromUnderarmToHemPercent: 28,
+} as const;
+
+const WOVEN_SHIRT_DARTED_BLOUSE_CONTROLS: readonly StarterControl[] = [
+  ...WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY.supportedControls,
+  ...WOVEN_SHIRT_OPTION_DEFINITIONS
+    .filter((option) => option.appliesToStarterEntryId === WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID)
+    .map((option): StarterControl => ({
+      fieldId: option.id,
+      label: option.label,
+      kind: "option",
+      unit: option.unit as StarterControl["unit"],
+      min: option.min,
+      max: option.max,
+      step: option.step,
+      defaultValue: WOVEN_SHIRT_DARTED_BLOUSE_OPTIONS[option.id as keyof typeof WOVEN_SHIRT_DARTED_BLOUSE_OPTIONS]!,
+    })),
+];
+
+const WOVEN_SHIRT_DARTED_BLOUSE_BLANK_ENTRY: StarterEntry = {
+  entryId: WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID,
+  entryRevision: "2026-11-08.1",
+  recipeId: "woven-shirt",
+  recipeRevision: "woven-shirt-darted-blouse-v1",
+  catalogKind: "blank",
+  label: "Darted blouse · software defaults",
+  configuration: {
+    targetStyle: "Relaxed woven shirt",
+    measurements: WOVEN_SHIRT_RELAXED_BUTTON_FRONT_MEASUREMENTS,
+    options: WOVEN_SHIRT_DARTED_BLOUSE_OPTIONS,
+  },
+  supportedControls: WOVEN_SHIRT_DARTED_BLOUSE_CONTROLS,
+  intent: {
+    audience: "Adult digital design candidate; not a representativeness or fit claim.",
+    use: "Preconfigured W02-based woven blouse with an editable mirrored side bust dart and editable woven-shirt construction choices.",
+    fit: "The 4 cm intake and dart targets are InfiniDrip software geometry choices, not physical standards or validated fit targets.",
+    bodyMaterial: "No body-material compatibility claim.",
+    trimMaterial: "No button, interfacing, thread or trim-material compatibility claim.",
+    construction: "Uses the W02 Woven Shirt base, collar and stand, full front plackets, back yoke, pocket, sleeves, vents and curved hem. Each mirrored front has one editable side-seam bust dart. Geometry and its sewing step are digital construction references only; sewn performance is unvalidated.",
+    sizeScope: "One software-default profile seeded from STANDARD_M; generated size-run geometry is not validated W08 grading or a size chart.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The 4 cm dart intake, 55% across-front target, and 28% underarm-to-hem target are editable software choices, not sourced physical standards or wearer measurements.",
+    "The modeled dart, POMs, selected-size outputs and generic Woven Shirt size run are digital outputs, not sewn measurements, validated grading, or evidence of fit, comfort or wear.",
+    "No body/trim material performance, consumption, supplier suitability, manufacturing or production claim is established. B1 review is pending; physical validation remains not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v34",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_BLANK_ENTRY, WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY, WOVEN_SHIRT_TUNIC_LONGLINE_BLANK_ENTRY, WOVEN_SHIRT_CAMP_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_BAND_COLLAR_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v35",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_BLANK_ENTRY, WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY, WOVEN_SHIRT_TUNIC_LONGLINE_BLANK_ENTRY, WOVEN_SHIRT_CAMP_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_DARTED_BLOUSE_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

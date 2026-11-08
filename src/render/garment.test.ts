@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { createHash } from "node:crypto";
-import { STANDARD_M, derive, necklineEdge, NECKLINE_DEFAULT } from "../drafting";
+import { STANDARD_M, derive, necklineEdge, NECKLINE_DEFAULT, dartOf, draftWovenShirtBody } from "../drafting";
 import { tankFrontNeckline, tankBackNeckline } from "../drafting/tank";
 import { renderGarment, FABRICS, DEFAULT_FABRIC } from "./garment";
 import { poloDetailsSvg } from "./polo-details";
@@ -284,6 +284,25 @@ describe("renderGarment — woven shirt integration", () => {
       expect(svg).toContain(`data-edge="option-${option}"`);
     }
     expect(svg).toContain("C "); // the woven curved hem
+  });
+
+  it("shows both mirrored side bust darts from the W08 pattern on the assembled front only", () => {
+    const draft = draftWovenShirtBody(STANDARD_M, {
+      bustDartIntakeCm: 4,
+      bustDartTargetAcrossFrontPercent: 55,
+      bustDartTargetFromUnderarmToHemPercent: 28,
+    });
+    const bustDart = dartOf(draft.roles.front)!;
+    const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT,
+      undefined, undefined, { ...shirt, bustDart });
+    const front = svg.match(/<g data-garment-detail="woven-shirt" data-position="front"[\s\S]*?<\/g>/)![0];
+    const back = svg.match(/<g data-garment-detail="woven-shirt" data-position="back"[\s\S]*?<\/g>/)![0];
+
+    expect(front).toContain('data-garment-detail="woven-shirt-bust-dart" data-dart-count="mirrored-pair"');
+    expect((front.match(/data-edge="option-bustDartLeg"/g) ?? []).length).toBe(4);
+    expect(front).toContain('data-dart-side="right" data-dart-leg="upper"');
+    expect(front).toContain('data-dart-side="left" data-dart-leg="lower"');
+    expect(back).not.toContain("woven-shirt-bust-dart");
   });
 
   it("keeps back-only yoke construction out of the front and uses selected collar/hem dimensions", () => {

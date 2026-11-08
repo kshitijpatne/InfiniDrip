@@ -7,7 +7,7 @@ import { TEE, TEE_RAGLAN, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, JEANS
 import { raglanNecklineLength, raglanTeeGuidance, TEE_RAGLAN_GRAMMAR, TEE_RAGLAN_STITCHES } from "./tshirt-raglan";
 import { TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION, TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION, teeNeckbandTechPackOptions } from "./vneck-band-output";
-import { dartOf } from "./dart";
+import { dartIntake, dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { edgeEnd, pieceEdge } from "./piece";
 import { edgeLength } from "./piece";
@@ -833,6 +833,7 @@ describe("Woven shirt recipe integration", () => {
       "neckEase", "buttonCount", "buttonSpacing", "frontOverlap", "placketWidth",
       "standHeight", "collarLeafDepth", "campCollarDepth", "bandCollarHeight", "yokeDepth", "pocketWidth", "pocketHeight",
       "sleeveBandDepth", "sideVentDepth", "hemTurn", "shoulderExtension", "shoulderDrop", "boxySideProfile",
+      "bustDartIntakeCm", "bustDartTargetAcrossFrontPercent", "bustDartTargetFromUnderarmToHemPercent",
     ]);
   });
 
@@ -892,6 +893,39 @@ describe("Woven shirt recipe integration", () => {
     expect(pack.construction.join(" ")).not.toContain("pointed collar");
     expect(pomsForRecipeOptions(WOVEN_SHIRT, {}).some((pom) => pom.label === "Finished collar-band height (modeled)"))
       .toBe(false);
+  });
+
+  it("keeps W08 dart geometry, checks, notches, POMs and sewing guidance synchronized", () => {
+    const options = {
+      bustDartIntakeCm: 4,
+      bustDartTargetAcrossFrontPercent: 55,
+      bustDartTargetFromUnderarmToHemPercent: 28,
+    };
+    const block = WOVEN_SHIRT.draft(STANDARD_M, options);
+    const front = rolePiece(block, "front");
+    const poms = pomsForRecipeOptions(WOVEN_SHIRT, options);
+    const dartPom = poms.find((pom) => pom.label === "Bust dart intake (modeled)");
+    const rules = notchesForRecipeOptions(WOVEN_SHIRT, options);
+    const frontRule = rules.find((rule) => rule.pieceName === front.name);
+    const pack = WOVEN_SHIRT.techPackForOptions!(options);
+    const report = garmentReport(WOVEN_SHIRT, STANDARD_M, options);
+
+    expect(dartOf(front)).not.toBeNull();
+    expect(dartIntake(front)).toBeCloseTo(4, 8);
+    expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+    expect(dartPom?.measure(block)).toBeCloseTo(4, 8);
+    expect(frontRule?.notches.map(({ edgeName }) => edgeName)).toEqual(expect.arrayContaining([
+      "bustDartUpper", "bustDartLower",
+    ]));
+    expect(report.checks.find((check) => check.name === "Notches + grainline on every piece"))
+      .toMatchObject({ ok: true });
+    expect(pack.construction.join(" ")).toContain("marked side bust-dart legs together");
+    expect(pack.construction.join(" ")).toContain("not a physical fit standard");
+
+    // The size run is software-generated geometry evidence only; this does not validate grading.
+    const sizeRun = gradeRecipeRun(WOVEN_SHIRT, STANDARD_M, undefined, options);
+    expect(sizeRun.length).toBeGreaterThan(1);
+    expect(sizeRun.every((size) => dartOf(rolePiece(size.block, "front")) !== null)).toBe(true);
   });
 
   it("selects notch and grainline tables that match each Woven collar topology", () => {

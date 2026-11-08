@@ -6,6 +6,7 @@ import { Measurements, derive, necklineEdge, NecklineParams, NECKLINE_DEFAULT } 
 import { BLUEPRINT as T } from "./theme";
 import { armholePathCommand, necklinePathCommand } from "./neckline-path";
 import { sleevelessArmhole } from "../drafting/armhole";
+import type { ResolvedDart } from "../drafting/dart";
 import { poloDetailsSvg } from "./polo-details";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
@@ -57,6 +58,8 @@ type WovenShirtVisualCommon = {
     readonly hipHalf: number;
   };
   readonly hipStationY?: number;
+  /** W08 pattern-derived side-dart geometry for the assembled front schematic. */
+  readonly bustDart?: ResolvedDart;
 };
 
 export type WovenShirtVisual = WovenShirtVisualCommon & (
@@ -256,8 +259,29 @@ function wovenShirtDetails(m: Measurements, position: "front" | "back", shirt: W
   const vent = `<line x1="${round(d.chestWidthHalf)}" y1="${round(ventY)}" x2="${round(d.chestWidthHalf)}" y2="${round(m.length)}" ` +
     `stroke="currentColor" stroke-dasharray="2 2" data-edge="option-sideVentDepth"/>`;
   const hemTurn = `<line x1="${round(-d.chestWidthHalf)}" y1="${round(m.length)}" x2="${round(d.chestWidthHalf)}" y2="${round(m.length)}" stroke="currentColor" stroke-dasharray="1 1" data-edge="option-hemTurn"/>`;
+  const bustDart = position === "front" && shirt.bustDart
+    ? wovenBustDartDetails(shirt.bustDart)
+    : "";
   return `<g data-garment-detail="woven-shirt" data-position="${position}" color="rgba(0,0,0,0.52)">` +
-    stand + neckEase + collar + yoke + front + sleeveBand + vent + hemTurn + `</g>`;
+    stand + neckEase + collar + yoke + front + bustDart + sleeveBand + vent + hemTurn + `</g>`;
+}
+
+function wovenBustDartDetails(dart: ResolvedDart): string {
+  const sides = [
+    { label: "right", sign: 1 },
+    { label: "left", sign: -1 },
+  ] as const;
+  const legs = sides.flatMap((side) => [
+    { label: "upper", mouth: dart.mouth[0] },
+    { label: "lower", mouth: dart.mouth[1] },
+  ].map((leg) =>
+    `<path d="M ${round(side.sign * leg.mouth.x)} ${round(leg.mouth.y)} ` +
+    `L ${round(side.sign * dart.apex.x)} ${round(dart.apex.y)}" fill="none" stroke="currentColor" ` +
+    `stroke-width="0.65" vector-effect="non-scaling-stroke" data-edge="option-bustDartLeg" ` +
+    `data-dart-side="${side.label}" data-dart-leg="${leg.label}"/>`
+  )).join("");
+  return `<g data-garment-detail="woven-shirt-bust-dart" data-dart-count="mirrored-pair">` +
+    `<title>Mirrored side bust darts, positioned from the W08 digital pattern</title>${legs}</g>`;
 }
 
 /** The assembled view: front and back silhouettes side by side, in fabric

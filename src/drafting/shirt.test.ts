@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { blockPieces, edgeEnd, edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
+import { block, blockPieces, edgeEnd, edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
 import { point } from "../geometry";
 import { seamAllowance } from "../render/allowance";
+import { dartIntake, dartOf } from "./dart";
 import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirt, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtHipStationY, wovenShirtBodyHalfWidths, wovenShirtAllowances, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_BAND_COLLAR_POMS, WOVEN_SHIRT_CAMP_COLLAR_POMS, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
 
 describe("W04 cropped boxy Woven Shirt profile", () => {
@@ -504,5 +505,140 @@ describe("woven shirt body", () => {
       roles: { ...block.roles, buttonPlacket: { ...block.roles.buttonPlacket, marks: [] } },
     };
     expect(() => WOVEN_SHIRT_POMS[5].measure(broken)).toThrow("has no point mark");
+  });
+
+  it("opens finite, equal-leg side darts whose measured intake follows each supported boundary", () => {
+    for (const intake of [0.5, 4, 8]) {
+      const block = draftWovenShirtBody(STANDARD_M, { bustDartIntakeCm: intake });
+      const front = block.roles.front;
+      const dart = dartOf(front);
+      const upper = pieceEdge(front, "bustDartUpper");
+      const lower = pieceEdge(front, "bustDartLower");
+      const coordinates = front.edges.flatMap((edge) => edge.kind === "line"
+        ? [edge.start, edge.end]
+        : [edge.curve.start, edge.curve.control1, edge.curve.control2, edge.curve.end]);
+
+      expect(front.dart?.legs).toEqual(["bustDartUpper", "bustDartLower"]);
+      expect(dart).not.toBeNull();
+      expect(dartIntake(front)).toBeCloseTo(intake, 8);
+      expect(edgeLength(upper)).toBeCloseTo(edgeLength(lower), 8);
+      expect(coordinates.every(({ x, y }) => Number.isFinite(x) && Number.isFinite(y))).toBe(true);
+      expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+    }
+  });
+
+  it("keeps the dart opening continuous when its mouth splits the lower side seam", () => {
+    const options = {
+      bustDartIntakeCm: 0.5,
+      bustDartTargetAcrossFrontPercent: 55,
+      bustDartTargetFromUnderarmToHemPercent: 80,
+    };
+    const drafted = draftWovenShirtBody(STANDARD_M, options);
+    const front = drafted.roles.front;
+
+    expect(front.dart?.legs).toEqual(["bustDartUpper", "bustDartLower"]);
+    expect(stitchChecks(drafted, drafted.stitches).every((check) => check.ok)).toBe(true);
+  });
+
+  it("skips a horizontal waist-to-hip edge while locating the side dart mouth", () => {
+    const measurements = { ...STANDARD_M, hipDepth: 0 };
+    const options = {
+      bustDartIntakeCm: 4,
+      bustDartTargetAcrossFrontPercent: 55,
+      bustDartTargetFromUnderarmToHemPercent: 40,
+    };
+    const drafted = draftWovenShirtBody(measurements, options);
+
+    expect(drafted.roles.front.dart?.legs).toEqual(["bustDartUpper", "bustDartLower"]);
+    expect(stitchChecks(drafted, drafted.stitches).every((check) => check.ok)).toBe(true);
+  });
+
+  it("withholds the dart when its mouth target misses a very short front side seam", () => {
+    const measurements = { ...STANDARD_M, length: 32 };
+    const options = {
+      bustDartIntakeCm: 8,
+      bustDartTargetAcrossFrontPercent: 55,
+      bustDartTargetFromUnderarmToHemPercent: 20,
+    };
+    const block = draftWovenShirtBody(measurements, options);
+
+    expect(block.roles.front.dart).toBeUndefined();
+    expect(wovenShirtGuidance(block, measurements, options).map((note) => note.text).join(" "))
+      .toContain("cannot be placed inside the current front panel");
+  });
+
+  it("withholds the dart when the remaining side seam is shorter than the vent", () => {
+    const measurements = { ...STANDARD_M, length: 32, hipDepth: 4 };
+    const options = {
+      bustDartIntakeCm: 0.5,
+      bustDartTargetAcrossFrontPercent: 55,
+      bustDartTargetFromUnderarmToHemPercent: 80,
+      sideVentDepth: 8,
+    };
+    const drafted = draftWovenShirtBody(measurements, options);
+
+    expect(drafted.roles.front.dart).toBeUndefined();
+    expect(wovenShirtGuidance(drafted, measurements, options).map((note) => note.text).join(" "))
+      .toContain("cannot be placed inside the current front panel");
+  });
+
+  it("keeps a curved vent boundary intact and safely falls back when the boundary is absent", () => {
+    const options = {
+      bustDartIntakeCm: 4,
+      bustDartTargetAcrossFrontPercent: 55,
+      bustDartTargetFromUnderarmToHemPercent: 28,
+    };
+    const source = draftWovenShirtBody(STANDARD_M, options);
+    const sourceFront = source.roles.front;
+    const sideLower = pieceEdge(sourceFront, "sideLower");
+    const curvedSideLower = {
+      kind: "curve" as const,
+      name: "sideLower",
+      curve: {
+        start: edgeStart(sideLower),
+        control1: point(34, 64),
+        control2: point(34, 68),
+        end: edgeEnd(sideLower),
+      },
+    };
+    const curvedFront = {
+      ...sourceFront,
+      edges: sourceFront.edges.map((edge) => edge.name === "sideLower" ? curvedSideLower : edge),
+    };
+    const curved = addWovenShirtHemVent(block({ ...source.roles, front: curvedFront }, source.stitches), options);
+    expect(pieceEdge(curved.roles.front, "sideLower")).toEqual(curvedSideLower);
+
+    const missingBoundaryFront = {
+      ...sourceFront,
+      edges: sourceFront.edges.filter((edge) => edge.name !== "sideLower"),
+    };
+    const missingBoundary = addWovenShirtHemVent(
+      block({ ...source.roles, front: missingBoundaryFront }, source.stitches), options,
+    );
+    expect(pieceEdge(missingBoundary.roles.front, "hem").kind).toBe("curve");
+  });
+
+  it.each([
+    { name: "an out-of-range value", options: { bustDartIntakeCm: 8.5 }, expected: "outside the 0.5–8 cm design range" },
+    { name: "an off-step value", options: { bustDartIntakeCm: 4.25 }, expected: "0.5 cm increments" },
+    { name: "a non-finite restored value", options: { bustDartIntakeCm: Number.NaN }, expected: "must be a finite number" },
+    { name: "a dart target inside the placket boundary", options: {
+      bustDartIntakeCm: 4,
+      bustDartTargetAcrossFrontPercent: 20,
+      frontOverlap: 3,
+      placketWidth: 4,
+    }, expected: "cannot be placed inside the current front panel" },
+  ])("keeps $name out of the pattern and explains the correction", ({ options, expected }) => {
+    const block = draftWovenShirtBody(STANDARD_M, options);
+    const guidance = wovenShirtGuidance(block, STANDARD_M, options);
+
+    expect(block.roles.front.dart).toBeUndefined();
+    expect(guidance.map((note) => note.text).join(" ")).toContain(expected);
+  });
+
+  it("keeps W02 free of W08 dart geometry and equal-leg checks", () => {
+    const ordinary = draftWovenShirtBody(STANDARD_M);
+    expect(ordinary.roles.front.dart).toBeUndefined();
+    expect(ordinary.stitches.some((stitch) => stitch.label === "W08 bust-dart legs equal")).toBe(false);
   });
 });

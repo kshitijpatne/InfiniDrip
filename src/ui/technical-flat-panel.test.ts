@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import type { TechnicalFlatMeasureText } from "../render/technical-flat-svg";
 import { technicalFlatIssueList, technicalFlatPanelMarkup } from "./technical-flat-panel";
+import { WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID } from "./starter-registry";
 
 // Tee sleeve contours are correctly held by the current source map. Use Tank,
 // the supported emitting fixture, for success-path panel markup assertions.
@@ -49,6 +50,30 @@ describe("technicalFlatPanelMarkup", () => {
     expect(markup).toContain("data-technical-flat-svg");
     expect(markup).not.toContain("waistDartUpperLeg");
     expect(markup).not.toContain("waistDartLowerLeg");
+  });
+
+  it("renders the W08 modeled dart and leg marks in the matching Woven front flat", () => {
+    const woven = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const options = defaultGarmentOptions(woven.options ?? [], WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID,
+      "Relaxed woven shirt");
+    const wovenBlock = woven.draft(STANDARD_M, options);
+    const markup = technicalFlatPanelMarkup({
+      ...base,
+      recipe: woven,
+      measurements: STANDARD_M,
+      rawOptions: options,
+      starterEntryId: WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID,
+      style: "Relaxed woven shirt",
+      block: wovenBlock,
+      revisionId: "live-w08-42",
+      kind: "FRONT_FLAT",
+    });
+
+    expect(markup).toContain("data-technical-flat-svg");
+    expect(markup).toContain("pattern:woven-shirt:dart:front:bustDartUpper:bustDartLower");
+    expect(markup).toContain("pattern:woven-shirt:mark:front:bustDartUpperLeg");
+    expect(markup).toContain("pattern:woven-shirt:mark:front:bustDartLowerLeg");
+    expect(markup).not.toContain("Technical flat withheld");
   });
 
   it("validates W03 technical-flat options against its active style", () => {

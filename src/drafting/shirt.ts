@@ -4,15 +4,17 @@ import { Measurements } from "./measurements";
 import { Piece, Edge, edgeEnd, edgeLength, edgeStart, pieceEdge } from "./piece";
 import { edgeRef, iface, markRef, Stitch } from "./stitch";
 import { necklineEdge, NECKLINE_DEFAULT } from "./neckline";
-import { WovenShirtOptions, resolveWovenShirtOptions, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
+import { WovenShirtOptions, hasWovenShirtDartProfile, resolveWovenShirtOptions, WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { lineMark, pointMark } from "./pattern-mark";
 import { PieceNotches } from "./tshirt-notches";
 import { Pom } from "./pom";
+import { dartIntake } from "./dart";
 import { GradeRule } from "./grading";
 import { AllowanceSpec } from "./allowance";
 import { Note } from "../guidance/note";
 import type { ComponentResult } from "./component";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
+import { rotatePoint } from "../geometry/rotate";
 
 export interface WovenShirtBodyHalfWidths {
   readonly chestHalf: number;
@@ -40,6 +42,149 @@ export function wovenShirtBodyHalfWidths(
   };
 }
 
+const WOVEN_SHIRT_SIDE_EDGE_NAMES = ["sideUpper", "sideMiddle", "sideLower"] as const;
+const WOVEN_SHIRT_DART_CONTINUATION = "dartSideContinuation";
+const WOVEN_SHIRT_DART_OPTION_IDS = [
+  "bustDartIntakeCm",
+  "bustDartTargetAcrossFrontPercent",
+  "bustDartTargetFromUnderarmToHemPercent",
+] as const;
+
+function rawWovenDartControlsAreFinite(rawOptions: Partial<WovenShirtOptions> | undefined): boolean {
+  return rawOptions === undefined || WOVEN_SHIRT_DART_OPTION_IDS.every((id) =>
+    !Object.prototype.hasOwnProperty.call(rawOptions, id) || Number.isFinite(rawOptions[id]));
+}
+
+function supportedWovenDartOption(id: string, value: number): boolean {
+  const definition = WOVEN_SHIRT_OPTION_DEFINITIONS.find((candidate) => candidate.id === id);
+  return definition !== undefined && Number.isFinite(value)
+    && value >= definition.min && value <= definition.max
+    && Number.isInteger((value - definition.min) / definition.step);
+}
+
+function rawWovenDartOptionsAreSupported(options: Partial<WovenShirtOptions>): boolean {
+  return WOVEN_SHIRT_DART_OPTION_IDS.every((id) =>
+    !Object.prototype.hasOwnProperty.call(options, id)
+    || supportedWovenDartOption(id, options[id] as number));
+}
+
+function pointOnWovenSideAtY(piece: Piece, y: number): { readonly index: number; readonly at: ReturnType<typeof point>; readonly t: number } | null {
+  for (const name of WOVEN_SHIRT_SIDE_EDGE_NAMES) {
+    const index = piece.edges.findIndex((edge) => edge.name === name);
+    // The internal woven-shirt panels always carry these three named lines.
+    const edge = piece.edges[index] as WovenShirtLineEdge;
+    const dy = edge.end.y - edge.start.y;
+    if (Math.abs(dy) < 1e-9) continue;
+    const t = (y - edge.start.y) / dy;
+    if (t > 1e-8 && t < 1 - 1e-8) {
+      return { index, t, at: lerp(edge.start, edge.end, t) };
+    }
+  }
+  return null;
+}
+
+type WovenShirtLineEdge = Extract<Edge, { kind: "line" }>;
+
+function rotateWovenSideLine(
+  edge: WovenShirtLineEdge, apex: ReturnType<typeof point>, angle: number,
+): WovenShirtLineEdge {
+  const rotate = (value: ReturnType<typeof point>) => rotatePoint(value, apex, angle);
+  // shirtPanel authors the named torso side seams and hem as straight edges.
+  return { ...edge, start: rotate(edge.start), end: rotate(edge.end) };
+}
+
+function wovenBustDartUpperMouthY(m: Measurements, options: WovenShirtOptions): number {
+  return m.armholeDepth + (m.length - m.armholeDepth)
+    * options.bustDartTargetFromUnderarmToHemPercent! / 100
+    - options.bustDartIntakeCm! / 2;
+}
+
+/** Open a W08 side dart from its closed woven front while retaining the
+ * authored side-seam lengths. A null result means the options cannot produce
+ * a safe digital opening; callers keep the undarted preview and issue guidance. */
+function openWovenShirtSideBustDart(
+  front: Piece, m: Measurements, options: WovenShirtOptions,
+): Piece | null {
+  // The active W08 profile resolves each optional contract value to its
+  // declared default before this geometry helper is called.
+  const intake = options.bustDartIntakeCm!;
+  const across = options.bustDartTargetAcrossFrontPercent!;
+  const vertical = options.bustDartTargetFromUnderarmToHemPercent!;
+  if (!["bustDartIntakeCm", "bustDartTargetAcrossFrontPercent", "bustDartTargetFromUnderarmToHemPercent"]
+    .every((id) => supportedWovenDartOption(id, options[id as keyof WovenShirtOptions] as number))) return null;
+
+  const widths = wovenShirtBodyHalfWidths(m, options.boxySideProfile);
+  const apex = point(widths.chestHalf * across / 100,
+    m.armholeDepth + (m.length - m.armholeDepth) * vertical / 100);
+  const upperMouthY = wovenBustDartUpperMouthY(m, options);
+  const split = pointOnWovenSideAtY(front, upperMouthY);
+  const apexBoundary = pointOnWovenSideAtY(front, apex.y);
+  if (!split || !Number.isFinite(apex.x) || !Number.isFinite(apex.y)
+    || !apexBoundary || apex.x >= apexBoundary.at.x || apex.x <= 0
+    || apex.y <= m.armholeDepth || apex.y >= m.length
+    || apex.x <= options.placketWidth + options.frontOverlap) return null;
+
+  // pointOnWovenSideAtY returns only named straight side-seam edges.
+  const sideEdge = front.edges[split.index] as WovenShirtLineEdge;
+  const upperMouth = split.at;
+  const radius = distance(upperMouth, apex);
+  const openingAngle = 2 * Math.asin(intake / (2 * radius));
+
+  const prefix: Edge = { ...sideEdge, end: upperMouth };
+  const lowerMouth = rotatePoint(upperMouth, apex, openingAngle);
+  const continuation: Edge = rotateWovenSideLine({
+    ...sideEdge,
+    name: WOVEN_SHIRT_DART_CONTINUATION,
+    start: upperMouth,
+  }, apex, openingAngle);
+  // shirtPanel always authors the named hem as a line before this helper runs.
+  const hem = front.edges.find((edge) => edge.name === "hem") as WovenShirtLineEdge;
+
+  const edges: Edge[] = [];
+  front.edges.forEach((edge, index) => {
+    if (index < split.index) {
+      edges.push(edge);
+      return;
+    }
+    if (index === split.index) {
+      edges.push(
+        prefix,
+        { kind: "line", name: "bustDartUpper", start: upperMouth, end: apex },
+        { kind: "line", name: "bustDartLower", start: apex, end: lowerMouth },
+        continuation,
+      );
+      return;
+    }
+    if ((WOVEN_SHIRT_SIDE_EDGE_NAMES as readonly string[]).includes(edge.name)) {
+      edges.push(rotateWovenSideLine(edge as WovenShirtLineEdge, apex, openingAngle));
+      return;
+    }
+    if (edge.name === "hem") {
+      const rotatedHem = rotateWovenSideLine(hem, apex, openingAngle);
+      edges.push({ ...rotatedHem, end: hem.end });
+      return;
+    }
+    edges.push(edge);
+  });
+
+  // The generated side chain always meets the generated hem; when the dart
+  // mouth splits sideLower, its named continuation is the final segment.
+  const openedHem = edges.find((edge) => edge.name === "hem")!;
+  const sideEnd = edges.find((edge) => (edge.name === "sideLower" || edge.name === WOVEN_SHIRT_DART_CONTINUATION)
+    && distance(edgeEnd(edge), edgeStart(openedHem)) <= 1e-7)!;
+  if (edgeLength(sideEnd) <= options.sideVentDepth) return null;
+  return {
+    ...front,
+    edges,
+    marks: [
+      ...(front.marks ?? []),
+      lineMark("placementLine", "bustDartUpperLeg", upperMouth, apex, "BUST DART", "instruction"),
+      lineMark("placementLine", "bustDartLowerLeg", lowerMouth, apex),
+    ],
+    dart: { legs: ["bustDartUpper", "bustDartLower"] },
+  };
+}
+
 /** Keep W04's digital hip-width station above the vent opening without
  * changing the body-derived location used by other woven-shirt profiles. */
 export function wovenShirtHipStationY(
@@ -57,6 +202,7 @@ function shirtPanel(
   position: "front" | "back",
   options: WovenShirtOptions,
   croppedBoxy = false,
+  rawOptions?: Partial<WovenShirtOptions>,
 ): Piece {
   const { chestHalf, waistHalf, hipHalf } = wovenShirtBodyHalfWidths(m, options.boxySideProfile);
   const shoulderHalf = m.shoulderWidth / 2;
@@ -79,7 +225,7 @@ function shirtPanel(
       end: underarm,
     },
   };
-  return {
+  const panel: Piece = {
     name: position === "front" ? "woven front" : "woven back",
     onFold: position === "back",
     edges: [
@@ -93,6 +239,9 @@ function shirtPanel(
       { kind: "line", name: position === "front" ? "centerFront" : "centerBack", start: cHem, end: neckline.cNeck },
     ],
   };
+  if (position !== "front" || !hasWovenShirtDartProfile(options)
+    || !rawWovenDartControlsAreFinite(rawOptions)) return panel;
+  return openWovenShirtSideBustDart(panel, m, options) ?? panel;
 }
 
 export const WOVEN_SHIRT_BODY_STITCHES: readonly Stitch[] = [
@@ -122,10 +271,12 @@ export function draftWovenShirtBody(
 ): Block {
   const options = resolveWovenShirtOptions(rawOptions);
   const croppedBoxy = Object.prototype.hasOwnProperty.call(rawOptions, "boxySideProfile");
+  const front = shirtPanel(m, "front", options, croppedBoxy, rawOptions);
+  const back = shirtPanel(m, "back", options, croppedBoxy);
   return block({
-    front: shirtPanel(m, "front", options, croppedBoxy),
-    back: shirtPanel(m, "back", options, croppedBoxy),
-  }, WOVEN_SHIRT_BODY_STITCHES);
+    front,
+    back,
+  }, wovenBodyStitches(rawOptions, front));
 }
 
 const COLLAR_TIP_FLARE = 2;
@@ -337,6 +488,36 @@ export const WOVEN_SHIRT_YOKE_STITCHES: readonly Stitch[] = [
   },
 ];
 
+function addWovenShirtDartStitches(stitches: readonly Stitch[]): readonly Stitch[] {
+  return [
+    ...stitches.map((stitch) => stitch.label === "Side seam (front ↔ back)"
+      ? { ...stitch, a: iface(
+          edgeRef("front", "sideUpper"),
+          edgeRef("front", "sideMiddle"),
+          edgeRef("front", "sideLower"),
+          edgeRef("front", WOVEN_SHIRT_DART_CONTINUATION),
+        ) }
+      : stitch),
+    {
+      label: "W08 bust-dart legs equal",
+      a: iface(edgeRef("front", "bustDartUpper")),
+      b: iface(edgeRef("front", "bustDartLower")),
+    },
+  ];
+}
+
+function wovenBodyStitches(rawOptions: Partial<WovenShirtOptions>, front: Piece): readonly Stitch[] {
+  return hasWovenShirtDartProfile(rawOptions) && front.dart
+    ? addWovenShirtDartStitches(WOVEN_SHIRT_BODY_STITCHES)
+    : WOVEN_SHIRT_BODY_STITCHES;
+}
+
+function wovenYokeStitches(rawOptions: Partial<WovenShirtOptions>, front: Piece): readonly Stitch[] {
+  return hasWovenShirtDartProfile(rawOptions) && front.dart
+    ? addWovenShirtDartStitches(WOVEN_SHIRT_YOKE_STITCHES)
+    : WOVEN_SHIRT_YOKE_STITCHES;
+}
+
 /** Replace the back's upper outline with a true yoke seam. The armhole curve
  * is split at the requested depth so the lower back remains a real garment
  * piece and the yoke still carries the neckline/shoulder. */
@@ -345,7 +526,7 @@ export function addWovenShirtYoke(
 ): Block {
   const options = resolveWovenShirtOptions(rawOptions);
   const pieces = splitWovenBack(body.roles.back, options);
-  return block({ ...body.roles, back: pieces.back, yoke: pieces.yoke }, WOVEN_SHIRT_YOKE_STITCHES);
+  return block({ ...body.roles, back: pieces.back, yoke: pieces.yoke }, wovenYokeStitches(rawOptions, body.roles.front));
 }
 
 export function draftWovenShirtYoke(
@@ -376,13 +557,25 @@ export const WOVEN_SHIRT_POCKET_STITCHES: readonly Stitch[] = [
   },
 ];
 
+export function wovenShirtPocketPlacement(
+  m: Measurements, options: WovenShirtOptions, hasDartGeometry = true,
+): { readonly x: number; readonly y: number } {
+  const x = m.chest / 20;
+  const baseY = m.armholeDepth + 6;
+  return {
+    x,
+    y: hasDartGeometry && hasWovenShirtDartProfile(options)
+      ? Math.min(baseY, wovenBustDartUpperMouthY(m, options) - options.pocketHeight - 1)
+      : baseY,
+  };
+}
+
 export function addWovenShirtPocket(
   yoke: Block, m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
   const options = resolveWovenShirtOptions(rawOptions);
-  const pocketX = m.chest / 20;
-  const pocketY = m.armholeDepth + 6;
   const front = yoke.roles.front;
+  const { x: pocketX, y: pocketY } = wovenShirtPocketPlacement(m, options, Boolean(front.dart));
   const frontWithPlacement: Piece = {
     ...front,
     marks: [
@@ -403,14 +596,21 @@ export function draftWovenShirtPocket(
   return addWovenShirtPocket(draftWovenShirtYoke(m, rawOptions), m, rawOptions);
 }
 
-function curvedHemAndVent(piece: Piece, ventDepth: number): Piece {
+function curvedHemAndVent(piece: Piece, ventDepth: number, ventAlongSideSeam = false): Piece {
   const hem = pieceEdge(piece, "hem");
   const sideEnd = edgeStart(hem);
-  const ventTop = point(sideEnd.x, sideEnd.y - ventDepth);
+  const sideBoundary = piece.edges.find((edge) =>
+    (edge.name === "sideLower" || edge.name === WOVEN_SHIRT_DART_CONTINUATION)
+      && distance(edgeEnd(edge), sideEnd) < 1e-7);
+  const boundaryLength = sideBoundary ? edgeLength(sideBoundary) : 0;
+  const ventTop = ventAlongSideSeam && sideBoundary?.kind === "line" && boundaryLength > 0
+    ? lerp(edgeStart(sideBoundary), edgeEnd(sideBoundary), Math.max(0, (boundaryLength - ventDepth) / boundaryLength))
+    : point(sideEnd.x, sideEnd.y - ventDepth);
   const updatedEdges = piece.edges.flatMap((edge): Edge[] => {
-    if (edge.name === "sideLower") {
+    if (edge === sideBoundary) {
       if (ventDepth === 0) return [edge];
-      return [{ kind: "line", name: "sideLower", start: edgeStart(edge), end: ventTop }];
+      if (edge.kind !== "line") return [edge];
+      return [{ ...edge, end: ventTop }];
     }
     if (edge.name === "hem") {
       const curvedHem: Edge = { kind: "curve", name: "hem", curve: {
@@ -442,9 +642,10 @@ export function addWovenShirtHemVent(
   block: Block, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
   const options = resolveWovenShirtOptions(rawOptions);
+  const ventAlongSideSeam = hasWovenShirtDartProfile(rawOptions);
   return blockFromRoles(block, {
-    front: curvedHemAndVent(block.roles.front, options.sideVentDepth),
-    back: curvedHemAndVent(block.roles.back, options.sideVentDepth),
+    front: curvedHemAndVent(block.roles.front, options.sideVentDepth, ventAlongSideSeam),
+    back: curvedHemAndVent(block.roles.back, options.sideVentDepth, ventAlongSideSeam),
   });
 }
 
@@ -684,6 +885,11 @@ export const WOVEN_SHIRT_POMS: readonly Pom[] = [
   },
 ];
 
+export const WOVEN_SHIRT_DARTED_POMS: readonly Pom[] = [
+  ...WOVEN_SHIRT_POMS,
+  { label: "Bust dart intake (modeled)", measure: (b) => dartIntake(b.roles.front) },
+];
+
 export const WOVEN_SHIRT_CAMP_COLLAR_POMS: readonly Pom[] = [
   ...WOVEN_SHIRT_POMS,
   {
@@ -746,6 +952,11 @@ export const WOVEN_SHIRT_NOTCHES: readonly PieceNotches[] = [
   ...WOVEN_SHIRT_SHARED_DETAIL_NOTCHES,
 ];
 
+export const WOVEN_SHIRT_DARTED_NOTCHES: readonly PieceNotches[] = WOVEN_SHIRT_NOTCHES.map((rule) =>
+  rule.pieceName === "woven front"
+    ? { ...rule, notches: [...rule.notches, { edgeName: "bustDartUpper", t: 0.9 }, { edgeName: "bustDartLower", t: 0.1 }] }
+    : rule);
+
 export const WOVEN_SHIRT_CAMP_COLLAR_NOTCHES: readonly PieceNotches[] = [
   ...WOVEN_SHIRT_BODY_NOTCHES,
   notch("upper camp collar", "neckline", "outer"),
@@ -806,7 +1017,16 @@ export function wovenShirtGuidance(
       && !Number.isInteger((value - definition.min) / definition.step)) {
       notes.push({ field: `option-${definition.id}`, level: "warn",
         text: `${definition.label} must use ${definition.step} ${unit} increments; choose a value from ${definition.min} to ${definition.max} ${unit} in those steps.` });
+    } else if (definition.appliesToStarterEntryId === WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID
+      && !Number.isInteger((value - definition.min) / definition.step)) {
+      notes.push({ field: `option-${definition.id}`, level: "warn",
+        text: `${definition.label} must use ${definition.step} ${unit} increments; choose a supported value in the displayed range.` });
     }
+  }
+  if (hasWovenShirtDartProfile(rawOptions) && !block.roles.front.dart
+    && rawWovenDartOptionsAreSupported(rawOptions)) {
+    notes.push({ field: "option-bustDartIntakeCm", level: "warn",
+      text: "The W08 side bust dart cannot be placed inside the current front panel with these values. Reduce intake, move the dart target inward or away from the panel boundaries, then review the regenerated pattern." });
   }
   if (options.frontOverlap > options.placketWidth) {
     notes.push({ field: "option-frontOverlap", level: "warn", text: "Front overlap reaches beyond the finished placket face — reduce overlap or increase placket width." });
@@ -897,12 +1117,11 @@ function placketPiece(
 
 const wovenGrammarFront = (
   m: Measurements,
-  params: { readonly options: WovenShirtOptions; readonly croppedBoxy: boolean },
+  params: { readonly options: WovenShirtOptions; readonly croppedBoxy: boolean; readonly rawOptions: Partial<WovenShirtOptions> },
 ): ComponentResult => {
-  const { options, croppedBoxy } = params;
-  const base = shirtPanel(m, "front", options, croppedBoxy);
-  const pocketX = m.chest / 20;
-  const pocketY = m.armholeDepth + 6;
+  const { options, croppedBoxy, rawOptions } = params;
+  const base = shirtPanel(m, "front", options, croppedBoxy, rawOptions);
+  const { x: pocketX, y: pocketY } = wovenShirtPocketPlacement(m, options, Boolean(base.dart));
   const withPlacement: Piece = {
     ...base,
     marks: [
@@ -911,7 +1130,7 @@ const wovenGrammarFront = (
     ],
   };
   return {
-    pieces: { front: curvedHemAndVent(withPlacement, options.sideVentDepth) },
+    pieces: { front: curvedHemAndVent(withPlacement, options.sideVentDepth, hasWovenShirtDartProfile(options)) },
     stitches: [],
     interfaces: {
       shoulder: iface(edgeRef("front", "shoulder")),
@@ -930,7 +1149,7 @@ const wovenGrammarBackYoke = (
   const split = splitWovenBack(shirtPanel(m, "back", options, croppedBoxy), options);
   return {
     pieces: {
-      back: curvedHemAndVent(split.back, options.sideVentDepth),
+      back: curvedHemAndVent(split.back, options.sideVentDepth, hasWovenShirtDartProfile(options)),
       yoke: split.yoke,
     },
     stitches: [],
@@ -1051,6 +1270,7 @@ export const WOVEN_SHIRT_GRAMMAR = garmentGrammar(
     componentNode("front", "woven-body", wovenGrammarFront, (context) => ({
       options: resolveWovenShirtOptions(context.options),
       croppedBoxy: Object.prototype.hasOwnProperty.call(context.options, "boxySideProfile"),
+      rawOptions: context.options as Partial<WovenShirtOptions>,
     })),
     componentNode("back-yoke", "yoke", wovenGrammarBackYoke, (context) => ({
       options: resolveWovenShirtOptions(context.options),
@@ -1094,7 +1314,7 @@ export const WOVEN_SHIRT_GRAMMAR = garmentGrammar(
     ),
   ],
   (context) => [
-    ...WOVEN_SHIRT_YOKE_STITCHES,
+    ...wovenYokeStitches(context.options, context.block.roles.front!),
     ...WOVEN_SHIRT_POCKET_STITCHES,
     ...wovenCollarStitches("yoke", resolveWovenShirtOptions(context.options)),
     ...WOVEN_SHIRT_PLACKET_STITCHES,
