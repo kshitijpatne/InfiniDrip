@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { blockPieces, edgeEnd, edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
 import { point } from "../geometry";
 import { seamAllowance } from "../render/allowance";
-import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirt, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtHipStationY, wovenShirtBodyHalfWidths, wovenShirtAllowances, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_CAMP_COLLAR_POMS, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
+import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirt, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtHipStationY, wovenShirtBodyHalfWidths, wovenShirtAllowances, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_BAND_COLLAR_POMS, WOVEN_SHIRT_CAMP_COLLAR_POMS, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
 
 describe("W04 cropped boxy Woven Shirt profile", () => {
   const measurements = { ...STANDARD_M, chest: 88, waist: 96, hip: 104, ease: 24, length: 54 };
@@ -277,6 +277,64 @@ describe("woven shirt body", () => {
       .find((note) => note.field === "option-campCollarDepth")?.text).toContain("outside the 4–8 cm design range");
     const campDepthPom = WOVEN_SHIRT_CAMP_COLLAR_POMS.find((pom) => pom.label === "Camp collar depth (modeled)")!;
     expect(campDepthPom.anchor?.(draftWovenShirt(STANDARD_M, { campCollarDepth: 6 }))).toEqual({ x: 0, y: 6 });
+  });
+
+  it("drafts W07 as two matched band layers with no pointed leaves or collar closure marks", () => {
+    const body = draftWovenShirtBody(STANDARD_M);
+    const yoke = draftWovenShirtYoke(STANDARD_M);
+    const neckLength = edgeLength(pieceEdge(body.roles.front, "neckline"))
+      + edgeLength(pieceEdge(yoke.roles.yoke, "neckline"));
+    for (const height of [1.5, 2.5, 3.5]) {
+      const options = { bandCollarHeight: height };
+      const block = draftWovenShirt(STANDARD_M, options);
+      expect(Object.keys(block.roles)).toContain("outerStand");
+      expect(Object.keys(block.roles)).toContain("innerStand");
+      expect(Object.keys(block.roles)).not.toContain("upperCollar");
+      expect(Object.keys(block.roles)).not.toContain("underCollar");
+      expect(block.roles.outerStand.name).toBe("outer woven collar band");
+      expect(block.roles.innerStand.name).toBe("inner woven collar band");
+      for (const band of [block.roles.outerStand, block.roles.innerStand]) {
+        expect(edgeLength(pieceEdge(band, "neckline"))).toBeCloseTo(neckLength, 8);
+        expect(edgeLength(pieceEdge(band, "collar"))).toBeCloseTo(neckLength, 8);
+        expect(edgeLength(pieceEdge(band, "frontEnd"))).toBe(height);
+        expect(band.marks?.some((mark) => mark.name === "stand-button" || mark.name === "stand-buttonhole")).toBe(false);
+      }
+      expect(block.stitches.map((stitch) => stitch.label)).toContain("Outer collar band ↔ woven neckline");
+      expect(block.stitches.map((stitch) => stitch.label)).toContain("Inner collar band ↔ outer band neckline");
+      expect(block.stitches.map((stitch) => stitch.label)).toContain("Outer ↔ inner collar band finish");
+      expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+      expect(block.roles.buttonPlacket.name).toBe("woven button placket");
+      expect(block.roles.buttonholePlacket.name).toBe("woven buttonhole placket");
+      expect(block.roles.buttonPlacket.marks?.filter((mark) => mark.kind === "button")).toHaveLength(7);
+      expect(block.roles.buttonholePlacket.marks?.filter((mark) => mark.kind === "buttonhole")).toHaveLength(7);
+    }
+    const bandPom = WOVEN_SHIRT_BAND_COLLAR_POMS.find((pom) => pom.label === "Finished collar-band height (modeled)");
+    const bandDraft = draftWovenShirt(STANDARD_M, { bandCollarHeight: 3 });
+    expect(bandPom?.measure(bandDraft)).toBe(3);
+    expect(bandPom?.anchor?.(bandDraft)).toEqual(point(0, 3));
+  });
+
+  it("adds W07 through the direct collar helper on a body-only Woven block", () => {
+    const banded = addWovenShirtCollar(draftWovenShirtBody(STANDARD_M), { bandCollarHeight: 2.5 });
+    expect(banded.roles.outerStand.name).toBe("outer woven collar band");
+    expect(banded.roles.innerStand.name).toBe("inner woven collar band");
+    expect(banded.roles).not.toHaveProperty("upperCollar");
+    expect(banded.roles).not.toHaveProperty("underCollar");
+    expect(banded.stitches).toContainEqual(expect.objectContaining({
+      label: "Outer collar band ↔ woven neckline",
+      b: { edges: [{ piece: "front", edge: "neckline" }, { piece: "back", edge: "neckline" }] },
+    }));
+    expect(stitchChecks(banded, banded.stitches).every((check) => check.ok)).toBe(true);
+  });
+
+  it("keeps invalid W07 band heights visible in actionable guidance without point-collar warnings", () => {
+    for (const [height, expected] of [[4, "outside the 1.5–3.5 cm design range"],
+      [2.25, "0.5 cm increments"], [Number.NaN, "must be a finite number"]] as const) {
+      const options = { bandCollarHeight: height };
+      const notes = wovenShirtGuidance(draftWovenShirt(STANDARD_M, options), STANDARD_M, options);
+      expect(notes.find((note) => note.field === "option-bandCollarHeight")?.text).toContain(expected);
+      expect(notes.some((note) => note.field === "option-standHeight")).toBe(false);
+    }
   });
 
   it("uses the standless collar branch in the Woven collar-only helper", () => {

@@ -57,7 +57,7 @@ import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObserva
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
 import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
@@ -1706,7 +1706,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-camp-collar"
+    starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-band-collar"
+      : starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-camp-collar"
       : starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-tunic-longline"
       : starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo" ? "polo-band-collar"
       : starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID && recipe.name === "polo" ? "polo-zip-placket"
@@ -1859,6 +1860,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         if (starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && forRecipe.name === "woven-shirt" && option.id === "buttonCount") {
           return { ...option, help: "Use 6 or 7 whole front-placket buttons. This standless W06 collar has no additional stand button." };
         }
+        if (starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && forRecipe.name === "woven-shirt" && option.id === "buttonCount") {
+          return { ...option, help: "Use 6 or 7 whole front-placket buttons. W07 has no additional collar-band button or buttonhole." };
+        }
+        if (starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && forRecipe.name === "woven-shirt" && option.id === "bandCollarHeight") {
+          return { ...option, label: "Finished collar-band height", help: "Sets the finished digital height of both band layers; this is an editable software choice, not a physical standard." };
+        }
         if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && forRecipe.name === "polo" && option.id === "standHeight") {
           return { ...option, label: "Finished band height", help: "Sets the modeled height of the two-layer collar band; this is an editable software choice, not a physical standard." };
         }
@@ -1913,7 +1920,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && forRecipe.name === "woven-shirt"
+    starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && forRecipe.name === "woven-shirt"
+      ? "Band-collar Woven Shirt"
+      : starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && forRecipe.name === "woven-shirt"
       ? "Camp-collar Woven Shirt"
       : starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && forRecipe.name === "woven-shirt"
       ? "Tunic / Longline Woven Shirt"
@@ -1962,9 +1971,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const isW04Starter = starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && recipe.name === "woven-shirt";
     const isW05Starter = starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt";
     const isW06Starter = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
+    const isW07Starter = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
     if (format === "projector") return isW03Starter ? "W03 grade is not validated." : isW04Starter
       ? "W04 grade is not validated. The W04 hip station is a digital crop reference, not a physical hip-location or fit measure."
-      : isW05Starter ? "W05 grade is not validated." : isW06Starter ? "W06 grade is not validated." : undefined;
+      : isW05Starter ? "W05 grade is not validated." : isW06Starter ? "W06 grade is not validated."
+        : isW07Starter ? "W07 grade is not validated." : undefined;
     if (isW03Starter) {
       return "Digital W03 oversized loose-drop woven Shirt. The 28 cm ease default, 4 cm shoulder extension and 3 cm shoulder drop are InfiniDrip software choices, not physical standards. Multi-size values in these whole-run files have not been validated for W03 grading; the default run uses the generic Woven Shirt size range. Physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.";
     }
@@ -1977,6 +1988,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (isW06Starter) {
       const options = recipeOptions();
       return `Digital W06 Camp-collar Woven Shirt. The ${options.campCollarDepth} cm modeled camp-collar depth, 72 cm modeled length and 21 cm ease are editable InfiniDrip software choices, not physical standards or validated fit targets. The upper and under collar layers join directly to the neckline; the existing separate front plackets remain, with no stand, stand button, stand buttonhole or cut-on front facing. The generic Woven Shirt size run is not a validated W06 grade; physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.`;
+    }
+    if (isW07Starter) {
+      const options = recipeOptions();
+      return `Digital W07 Band-collar Woven Shirt. The ${options.bandCollarHeight} cm band height, 72 cm modeled length and 21 cm ease are editable InfiniDrip software choices, not physical standards or validated fit targets. Two band layers meet at the center-front opening with the existing separate full-front plackets; no pointed collar leaf or extra collar-band button/buttonhole is modeled. The generic Woven Shirt size run is not a validated W07 grade; physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.`;
     }
     if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo") {
       const options = recipeOptions();
@@ -2525,6 +2540,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const options = recipeOptions();
     const hasBoxyProfile = options.boxySideProfile !== undefined;
     const campCollar = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID;
+    const bandCollar = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID;
     const neckWidthHalf = (measurements.neck + options.neckEase) / 4;
     return {
       neckWidthHalf,
@@ -2534,7 +2550,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       buttonSpacing: options.buttonSpacing,
       frontOverlap: options.frontOverlap,
       placketWidth: options.placketWidth,
-      ...(campCollar
+      ...(bandCollar
+        ? { collarProfile: "band" as const, bandCollarHeight: options.bandCollarHeight }
+        : campCollar
         ? { collarProfile: "camp" as const, campCollarDepth: options.campCollarDepth }
         : { collarProfile: "pointed" as const, standHeight: options.standHeight, collarLeafDepth: options.collarLeafDepth }),
       yokeDepth: options.yokeDepth,

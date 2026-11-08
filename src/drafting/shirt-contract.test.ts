@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_WOVEN_SHIRT_OPTIONS,
+  WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID,
   WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID,
   resolveWovenShirtOptions,
   WOVEN_SHIRT_FIELDS,
@@ -83,6 +84,23 @@ describe("woven shirt construction contract", () => {
     expect(resolveWovenShirtOptions()).not.toHaveProperty("campCollarDepth");
     expect(resolveWovenShirtOptions({ campCollarDepth: 7.5 }).campCollarDepth).toBe(7.5);
     expect(resolveWovenShirtOptions({ campCollarDepth: 9 }).campCollarDepth).toBe(9);
+  });
+
+  it("scopes W07 band height to its entry and preserves invalid restored values", () => {
+    const height = WOVEN_SHIRT_OPTION_DEFINITIONS.find((option) => option.id === "bandCollarHeight")!;
+    expect(height).toMatchObject({
+      label: "Finished collar-band height",
+      defaultValue: 2.5,
+      min: 1.5,
+      max: 3.5,
+      step: 0.5,
+      appliesToStarterEntryId: WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID,
+      preserveInvalidWhenRestored: true,
+    });
+    expect(DEFAULT_WOVEN_SHIRT_OPTIONS).not.toHaveProperty("bandCollarHeight");
+    expect(resolveWovenShirtOptions()).not.toHaveProperty("bandCollarHeight");
+    expect(resolveWovenShirtOptions({ bandCollarHeight: 2.5 }).bandCollarHeight).toBe(2.5);
+    expect(resolveWovenShirtOptions({ bandCollarHeight: 4 }).bandCollarHeight).toBe(4);
   });
 
   it("records explicit physical quantities for the sixteen-piece cut", () => {

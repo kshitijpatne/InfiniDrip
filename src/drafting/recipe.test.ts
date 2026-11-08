@@ -831,7 +831,7 @@ describe("Woven shirt recipe integration", () => {
     ]);
     expect(WOVEN_SHIRT.options?.map((option) => option.id)).toEqual([
       "neckEase", "buttonCount", "buttonSpacing", "frontOverlap", "placketWidth",
-      "standHeight", "collarLeafDepth", "campCollarDepth", "yokeDepth", "pocketWidth", "pocketHeight",
+      "standHeight", "collarLeafDepth", "campCollarDepth", "bandCollarHeight", "yokeDepth", "pocketWidth", "pocketHeight",
       "sleeveBandDepth", "sideVentDepth", "hemTurn", "shoulderExtension", "shoulderDrop", "boxySideProfile",
     ]);
   });
@@ -863,6 +863,34 @@ describe("Woven shirt recipe integration", () => {
     expect(pack.construction.join(" ")).not.toContain("collar stand");
     expect(pack.construction.join(" ")).not.toContain("inner stand");
     expect(pomsForRecipeOptions(WOVEN_SHIRT, {}).some((pom) => pom.label === "Camp collar depth (modeled)"))
+      .toBe(false);
+  });
+
+  it("uses W07 band-only POMs, notches, BOM quantities, and construction wording", () => {
+    const options = { bandCollarHeight: 2.5, buttonCount: 7 };
+    const block = WOVEN_SHIRT.draft(STANDARD_M, options);
+    const poms = pomsForRecipeOptions(WOVEN_SHIRT, options);
+    const bandHeight = poms.find((pom) => pom.label === "Finished collar-band height (modeled)")!;
+    const rules = notchesForRecipeOptions(WOVEN_SHIRT, options);
+    const pack = WOVEN_SHIRT.techPackForOptions!(options);
+    const pieceNames = new Set(blockPieces(block).map((piece) => piece.name));
+
+    expect(bandHeight.measure(block)).toBe(2.5);
+    expect(rules.map((rule) => rule.pieceName)).toContain("outer woven collar band");
+    expect(rules.map((rule) => rule.pieceName)).toContain("inner woven collar band");
+    expect(rules.every((rule) => pieceNames.has(rule.pieceName))).toBe(true);
+    expect(rules.map((rule) => rule.pieceName)).not.toContain("upper pointed woven collar");
+    expect(rules.map((rule) => rule.pieceName)).not.toContain("under pointed woven collar");
+    expect(garmentReport(WOVEN_SHIRT, STANDARD_M, options).checks.find((check) =>
+      check.name === "Notches + grainline on every piece")).toMatchObject({ ok: true });
+    expect(pack.bom.find((row) => row.material === "Buttons"))
+      .toMatchObject({ placement: "Front placket", qty: "7 front" });
+    expect(pack.bom.find((row) => row.material === "Fusible interfacing")?.placement)
+      .toBe("Collar band & front plackets");
+    expect(pack.construction.join(" ")).toContain("W07 has no collar-band button or buttonhole");
+    expect(pack.construction.join(" ")).toContain("outer and inner band layers");
+    expect(pack.construction.join(" ")).not.toContain("pointed collar");
+    expect(pomsForRecipeOptions(WOVEN_SHIRT, {}).some((pom) => pom.label === "Finished collar-band height (modeled)"))
       .toBe(false);
   });
 

@@ -642,6 +642,72 @@ describe("validateTechnicalFlatProjectionMap", () => {
       .toBeUndefined();
   });
 
+  it("maps W07 as an exact two-band collar on the split Woven neckline", () => {
+    const { block } = draft("woven-shirt", { bandCollarHeight: 2.5 });
+    const roleMapping = technicalFlatMappingForBlock("woven-shirt", block)!;
+    const mappedRoleIds = roleMapping.faces.flatMap((face) => face.roles.map((role) => role.roleId));
+    expect(mappedRoleIds).toContain("outerStand");
+    expect(mappedRoleIds).toContain("innerStand");
+    expect(mappedRoleIds).not.toContain("upperCollar");
+    expect(mappedRoleIds).not.toContain("underCollar");
+
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const revisionId = `${REVISION}-w07-${kind}`;
+      const map = createG04TechnicalFlatProjectionMap("woven-shirt", block, revisionId)!;
+      expect(validateTechnicalFlatProjectionMap("woven-shirt", block, revisionId, map)).toEqual([]);
+      const role = map.faces.find((face) => face.kind === kind)!.roles.find((candidate) => candidate.roleId === "outerStand")!;
+      expect(role.heldEdges).toEqual([]);
+      expect(role.faceExcludedMarks).toEqual([{
+        markName: "centerMatch",
+        reason: "The source-authored PLACE ON FOLD instruction is a cutting instruction, not an exterior assembled-view mark; the approved fold reflection supplies the complete collar outline.",
+      }]);
+      expect(role.runs.some((run) => run.edgeId === "frontEnd")).toBe(kind === "FRONT_FLAT");
+      expect(role.viewSeamRepresentation).toMatchObject({
+        decisionId: "G18-S1268-W07-BAND-COLLAR-BASE-SEAM",
+        stitchLabel: "Outer collar band ↔ woven neckline",
+        visibleRoleId: kind === "FRONT_FLAT" ? "front" : "yoke",
+      });
+      expect(role.wovenFullCollarRepresentation).toMatchObject({
+        stitchLabel: "Outer collar band ↔ woven neckline", sourceBaseEdgeId: "neckline",
+      });
+      expect(role.reversedStitchEdges).toEqual([{
+        stitchLabel: "Outer collar band ↔ woven neckline", pieceId: "yoke", edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER",
+      }]);
+      expect(compileTechnicalFlatSourceGeometry("woven-shirt", block, revisionId, kind, map).issues).toEqual([]);
+      const assembly = assembleTechnicalFlatRoles("woven-shirt", block, kind, map);
+      expect(assembly.issues).toEqual([]);
+      expect(assembly.transforms.outerStand).toBeDefined();
+      expect(assembly.transforms.upperCollar).toBeUndefined();
+      expect(assembly.transforms.underCollar).toBeUndefined();
+      expect(assembly.joinedStitchLabels).toContain("Outer collar band ↔ woven neckline");
+      expect(assembly.joinedStitchLabels).toContain("Inner collar band ↔ outer band neckline");
+      expect(assembly.joinedStitchLabels).toContain("Outer ↔ inner collar band finish");
+    }
+
+    const missingFinish = { ...block, stitches: block.stitches.filter((stitch) =>
+      stitch.label !== "Outer ↔ inner collar band finish") };
+    const revisionId = `${REVISION}-w07-missing-finish`;
+    const malformed = createG04TechnicalFlatProjectionMap("woven-shirt", missingFinish, revisionId)!;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", missingFinish, revisionId, malformed)
+      .some((issue) => issue.code === "INVALID_STITCH_ENDPOINT_ORIENTATION")).toBe(true);
+    expect(malformed.faces.every((face) => face.roles.find((role) => role.roleId === "outerStand")!.heldEdges.length > 0))
+      .toBe(true);
+  });
+
+  it("uses the direct W07 back-role fallback when a body-only block has no yoke", () => {
+    const block = draftWovenShirtCollar(STANDARD_M, { bandCollarHeight: 2.5 });
+    expect(block.roles.yoke).toBeUndefined();
+    const map = createG04TechnicalFlatProjectionMap("woven-shirt", block, `${REVISION}-w07-no-yoke`);
+    expect(map).toBeDefined();
+    if (!map) throw new Error("Expected the direct W07 collar projection map.");
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, map.revisionId, map))
+      .toContainEqual(expect.objectContaining({ code: "UNEXPECTED_ROLE", sourceId: "BACK_FLAT:yoke" }));
+    const backRole = map.faces.find((face) => face.kind === "BACK_FLAT")!.roles
+      .find((role) => role.roleId === "outerStand")!;
+    expect(backRole.viewSeamRepresentation).toMatchObject({ visibleRoleId: "back" });
+    expect(backRole.wovenFullCollarRepresentation).toMatchObject({ receiverBackRoleId: "back" });
+  });
+
   it("keeps the seam exclusion disabled when the stand base no longer meets its authored front end", () => {
     const { block } = draft("woven-shirt");
     const stand = block.roles.outerStand!;

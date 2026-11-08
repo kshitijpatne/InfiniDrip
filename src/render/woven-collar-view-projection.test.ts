@@ -5,7 +5,7 @@ import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
 import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection";
 import { transformFlatPoint, transformFlatPrimitive } from "./technical-flat-transform";
-import { createWovenCollarProjector, orientedPointAndTangent, projectWovenCollarPrimitive } from "./woven-collar-view-projection";
+import { createWovenCollarProjector, hasExactWovenBandCollarNecklineTopology, orientedPointAndTangent, projectWovenCollarPrimitive } from "./woven-collar-view-projection";
 import type { FlatPoint, FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
 
 const revisionId = "woven-collar-projection-r1";
@@ -127,6 +127,60 @@ describe("source-bound Woven full-collar projection", () => {
       edges: campBlock.roles.yoke!.edges.filter((edge) => edge.name !== "neckline") } } };
     expect(createWovenCollarProjector(missingBackNeckline, revisionId, "upperCollar", "FRONT_FLAT", assembly.transforms))
       .toBeUndefined();
+  });
+
+  it("projects W07's exact outer band and rejects malformed two-layer band joins", () => {
+    const bandBlock = recipe.draft(STANDARD_M, { bandCollarHeight: 2.5 });
+    expect(hasExactWovenBandCollarNecklineTopology(bandBlock)).toBe(true);
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const projection = createG04TechnicalFlatProjectionMap("woven-shirt", bandBlock, `${revisionId}-${kind}`)!;
+      const assembly = assembleTechnicalFlatRoles("woven-shirt", bandBlock, kind, projection);
+      const projector = createWovenCollarProjector(bandBlock, revisionId, "outerStand", kind, assembly.transforms);
+      expect(projector).toBeDefined();
+      expect(createWovenCollarProjector(bandBlock, revisionId, "innerStand", kind, assembly.transforms)).toBeUndefined();
+      if (!projector) throw new Error("Expected the exact W07 outer collar band projector.");
+      const bandBase = pieceEdge(bandBlock.roles.outerStand!, "neckline");
+      if (bandBase.kind !== "line") throw new Error("W07 collar-band neckline must be a line.");
+      const receiverRole = kind === "FRONT_FLAT" ? "front" : "yoke";
+      const receiver = pieceEdge(bandBlock.roles[receiverRole]!, "neckline");
+      const receiverTransform = assembly.transforms[receiverRole]!;
+      const baseEndpoint = kind === "FRONT_FLAT" ? bandBase.start : bandBase.end;
+      const mapped = projector.projectSourcePoint(baseEndpoint);
+      const expected = transformFlatPoint(edgeStart(receiver), {
+        ...receiverTransform, mirrorX: receiverTransform.mirrorX ?? false,
+      });
+      expect(mapped).toBeDefined();
+      expect(pointDistance(mapped!, expected)).toBeLessThan(1e-6);
+    }
+
+    const missingJoins = [
+      "Outer collar band ↔ woven neckline",
+      "Inner collar band ↔ outer band neckline",
+      "Outer ↔ inner collar band finish",
+    ];
+    for (const label of missingJoins) {
+      const broken = { ...bandBlock, stitches: bandBlock.stitches.filter((stitch) => stitch.label !== label) };
+      expect(hasExactWovenBandCollarNecklineTopology(broken), label).toBe(false);
+      const assembly = assembleTechnicalFlatRoles("woven-shirt", bandBlock, "FRONT_FLAT");
+      expect(createWovenCollarProjector(broken, revisionId, "outerStand", "FRONT_FLAT", assembly.transforms), label)
+        .toBeUndefined();
+    }
+    const malformedBand = { ...bandBlock, roles: { ...bandBlock.roles, innerStand: {
+      ...bandBlock.roles.innerStand!, onFold: false,
+    } } };
+    expect(hasExactWovenBandCollarNecklineTopology(malformedBand)).toBe(false);
+    const malformedFrontEnd = { ...bandBlock, roles: { ...bandBlock.roles, outerStand: {
+      ...bandBlock.roles.outerStand!, edges: bandBlock.roles.outerStand!.edges.map((edge) => edge.name === "frontEnd"
+        ? { ...edge, end: { x: edgeEnd(edge).x + 0.25, y: edgeEnd(edge).y } } : edge),
+    } } };
+    expect(hasExactWovenBandCollarNecklineTopology(malformedFrontEnd)).toBe(false);
+    expect(createWovenCollarProjector(bandBlock, " ", "outerStand", "FRONT_FLAT",
+      assembleTechnicalFlatRoles("woven-shirt", bandBlock, "FRONT_FLAT").transforms)).toBeUndefined();
+    const missingBackNeckline = { ...bandBlock, roles: { ...bandBlock.roles, yoke: { ...bandBlock.roles.yoke!,
+      edges: bandBlock.roles.yoke!.edges.filter((edge) => edge.name !== "neckline") } } };
+    expect(hasExactWovenBandCollarNecklineTopology(missingBackNeckline)).toBe(false);
+    expect(createWovenCollarProjector(missingBackNeckline, revisionId, "outerStand", "FRONT_FLAT",
+      assembleTechnicalFlatRoles("woven-shirt", bandBlock, "FRONT_FLAT").transforms)).toBeUndefined();
   });
 
   it("keeps the collar front-tip vertex identical across its shared seam and exterior edges", () => {

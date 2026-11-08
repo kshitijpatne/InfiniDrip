@@ -37,6 +37,23 @@ describe("mapTechnicalFlatSources", () => {
     expect(technicalFlatMappingForBlock("unknown", princessBlock)).toBeUndefined();
   });
 
+  it("maps W07's two collar bands and omits the absent pointed-collar roles", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, { bandCollarHeight: 2.5 });
+    const mapping = technicalFlatMappingForBlock("woven-shirt", block)!;
+    const sources = mapTechnicalFlatSources("woven-shirt", block);
+
+    expect(mapping.faces[0]?.roles.map((role) => role.roleId)).toContain("outerStand");
+    expect(mapping.faces[0]?.roles.map((role) => role.roleId)).toContain("innerStand");
+    expect(mapping.faces[1]?.roles.map((role) => role.roleId)).toContain("outerStand");
+    expect(mapping.faces[1]?.roles.map((role) => role.roleId)).toContain("innerStand");
+    expect(mapping.faces.flatMap((face) => face.roles.map((role) => role.roleId)))
+      .not.toContain("upperCollar");
+    expect(mapping.faces.flatMap((face) => face.roles.map((role) => role.roleId)))
+      .not.toContain("underCollar");
+    expect(sources.issues).toEqual([]);
+  });
+
   it("maps all seven hidden Jogger roles to source-aware front and back faces", () => {
     const block = draftJogger(STANDARD_M);
     const mapping = mapTechnicalFlatSources("jogger", block);

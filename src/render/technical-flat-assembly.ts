@@ -47,7 +47,9 @@ interface Rigid { readonly rotation: number; readonly offset: FlatPoint }
 interface Relation { readonly from: string; readonly to: string; readonly toFrom: Rigid; readonly label: string; readonly endpointResidualCm: number }
 
 export function isApprovedWovenBaseSeamDisplay(stitchLabel: string, decisionId?: string): boolean {
-  return stitchLabel === "Outer stand ↔ woven neckline" && decisionId === "G04-S342-WOVEN-COLLAR-BASE-SEAM";
+  return (stitchLabel === "Outer stand ↔ woven neckline" && decisionId === "G04-S342-WOVEN-COLLAR-BASE-SEAM")
+    || (stitchLabel === "Outer collar band ↔ woven neckline"
+      && decisionId === "G18-S1268-W07-BAND-COLLAR-BASE-SEAM");
 }
 
 export function isApprovedWovenCampCollarBaseSeamDisplay(stitchLabel: string, decisionId?: string): boolean {

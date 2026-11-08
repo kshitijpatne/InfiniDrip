@@ -60,8 +60,9 @@ type WovenShirtVisualCommon = {
 };
 
 export type WovenShirtVisual = WovenShirtVisualCommon & (
-  | { readonly collarProfile?: "pointed"; readonly standHeight: number; readonly collarLeafDepth: number; readonly campCollarDepth?: never }
-  | { readonly collarProfile: "camp"; readonly campCollarDepth?: number; readonly standHeight?: never; readonly collarLeafDepth?: never }
+  | { readonly collarProfile?: "pointed"; readonly standHeight: number; readonly collarLeafDepth: number; readonly campCollarDepth?: never; readonly bandCollarHeight?: never }
+  | { readonly collarProfile: "camp"; readonly campCollarDepth?: number; readonly standHeight?: never; readonly collarLeafDepth?: never; readonly bandCollarHeight?: never }
+  | { readonly collarProfile: "band"; readonly bandCollarHeight: number; readonly standHeight?: never; readonly collarLeafDepth?: never; readonly campCollarDepth?: never }
 );
 
 // One full garment silhouette, centred on x = 0. `hasSleeve` (Slice 60): a
@@ -189,15 +190,18 @@ function poloDetails(m: Measurements, position: "front" | "back", frontNeckline:
 function wovenShirtDetails(m: Measurements, position: "front" | "back", shirt: WovenShirtVisual): string {
   const d = derive(m);
   const campCollar = shirt.collarProfile === "camp";
-  const standHeight = campCollar ? 0 : shirt.standHeight;
+  const bandCollar = shirt.collarProfile === "band";
+  const standHeight = campCollar || bandCollar ? 0 : shirt.standHeight;
   const campCollarDepth = campCollar && typeof shirt.campCollarDepth === "number" && Number.isFinite(shirt.campCollarDepth)
     ? shirt.campCollarDepth
     : null;
+  const bandCollarHeight = bandCollar && "bandCollarHeight" in shirt && Number.isFinite(shirt.bandCollarHeight)
+    ? shirt.bandCollarHeight : null;
   const count = Number.isFinite(shirt.buttonCount)
     ? Math.max(0, Math.min(20, Math.round(shirt.buttonCount)))
     : 0;
   const neckDepth = position === "front" ? shirt.frontNeckDepth : shirt.backNeckDepth;
-  const firstY = Math.max(5, neckDepth + standHeight);
+  const firstY = Math.max(5, neckDepth + (bandCollar ? bandCollarHeight ?? 0 : standHeight));
   const buttons = Array.from({ length: count }, (_, i) =>
     `<circle cx="${round(shirt.frontOverlap)}" cy="${round(firstY + i * shirt.buttonSpacing)}" r="0.45" fill="none" stroke="currentColor" data-edge="woven-button"/>`
   ).join("");
@@ -210,13 +214,17 @@ function wovenShirtDetails(m: Measurements, position: "front" | "back", shirt: W
   const pocketY = Math.max(firstY + shirt.buttonSpacing, neckDepth + shirt.yokeDepth);
   const pocketX = Math.max(2, d.chestWidthHalf - shirt.pocketWidth - 2);
   const ventY = Math.max(m.armholeDepth + 2, m.length - shirt.sideVentDepth);
-  const stand = campCollar ? "" :
+  const stand = campCollar || bandCollar ? "" :
     `<path d="M ${round(-shirt.neckWidthHalf)} 0 Q 0 ${round(standHeight)} ${round(shirt.neckWidthHalf)} 0" ` +
     `fill="none" stroke="currentColor" data-edge="option-standHeight"/>`;
   const neckEase = campCollar ? "" :
     `<path d="M ${round(-shirt.neckWidthHalf)} 0 Q 0 ${round(standHeight + 0.8)} ${round(shirt.neckWidthHalf)} 0" ` +
     `fill="none" stroke="currentColor" stroke-dasharray="1 1" data-edge="option-neckEase"/>`;
-  const collar = campCollar
+  const collar = bandCollar
+    ? bandCollarHeight === null ? ""
+      : `<path d="M ${round(-shirt.neckWidthHalf)} 0 Q 0 ${round(neckDepth + bandCollarHeight)} ${round(shirt.neckWidthHalf)} 0" ` +
+        `fill="none" stroke="currentColor" data-edge="option-bandCollarHeight"/>`
+    : campCollar
     ? campCollarDepth === null ? ""
       : position === "front"
         ? `<path d="M ${round(-shirt.neckWidthHalf)} 0 L ${round(-(shirt.neckWidthHalf + campCollarDepth * 0.3))} ${round(neckDepth + campCollarDepth)} ` +
