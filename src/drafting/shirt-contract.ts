@@ -15,6 +15,7 @@ export const WOVEN_SHIRT_FIELDS = [
 
 export const WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID = "woven-shirt-camp-collar-digital-v1";
 export const WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID = "woven-shirt-band-collar-digital-v1";
+export const WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID = "woven-shirt-darted-blouse-digital-v1";
 
 export interface WovenShirtOptions {
   /** Added to the measured neck circumference before quartering the neckline. */
@@ -46,11 +47,17 @@ export interface WovenShirtOptions {
   readonly shoulderDrop: number;
   /** Blends W04 torso width stations toward the widest body-girth station. */
   readonly boxySideProfile: number;
+  /** W08-only side bust dart controls; values are software geometry choices. */
+  readonly bustDartIntakeCm?: number;
+  readonly bustDartTargetAcrossFrontPercent?: number;
+  readonly bustDartTargetFromUnderarmToHemPercent?: number;
 }
 
 /** Recipe controls exposed in the first woven-shirt UI. Ranges are advisory
  * guardrails, not a permission to clamp live input. */
-export const WOVEN_SHIRT_OPTION_DEFINITIONS: readonly GarmentOption[] = [
+type WovenShirtOptionDefinition = GarmentOption & { readonly unit: string };
+
+export const WOVEN_SHIRT_OPTION_DEFINITIONS: readonly WovenShirtOptionDefinition[] = [
   { id: "neckEase", label: "Neck ease", unit: "cm", group: "Neck & collar", help: "Changes the measured neck opening; reduce it if the neckline reaches the shoulder seam.", defaultValue: 1, min: 0, max: 3, step: 0.5 },
   { id: "buttonCount", label: "Front placket buttons", unit: "buttons", group: "Front closure", help: "Use 6 or 7 whole placket buttons; one additional button belongs on the collar stand.", defaultValue: 7, min: 6, max: 7, step: 1 },
   { id: "buttonSpacing", label: "Front button spacing", unit: "cm", group: "Front closure", help: "Sets adjacent button distance; reduce it if the last button is too close to the placket end.", defaultValue: 8, min: 6, max: 9, step: 0.5 },
@@ -69,7 +76,15 @@ export const WOVEN_SHIRT_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "shoulderExtension", label: "Shoulder extension", unit: "cm", group: "Shoulder & armhole", help: "Moves each shoulder point outward; reduce it if the endpoint reaches the underarm.", defaultValue: 4, min: 2, max: 8, step: 0.5, appliesToStyle: "Oversized loose-drop woven shirt", preserveInvalidWhenRestored: true },
   { id: "shoulderDrop", label: "Shoulder drop", unit: "cm", group: "Shoulder & armhole", help: "Lowers each shoulder point; reduce it if the endpoint reaches the underarm or leaves too little room for the yoke.", defaultValue: 3, min: 1, max: 4, step: 0.5, appliesToStyle: "Oversized loose-drop woven shirt", preserveInvalidWhenRestored: true },
   { id: "boxySideProfile", label: "Boxy side profile", unit: "%", group: "Body profile", help: "Blends the chest, waist, and hip widths toward their widest station; 0% preserves each body-derived width.", defaultValue: 100, min: 0, max: 100, step: 10, appliesToStyle: "Cropped boxy woven shirt", preserveInvalidWhenRestored: true },
+  { id: "bustDartIntakeCm", label: "Bust-dart intake", unit: "cm", group: "Bust dart", help: "Sets the digital side-dart opening; reduce intake or move its target inward if the dart cannot fit inside the front panel. This is a software geometry choice, not a fit standard.", defaultValue: 4, min: 0.5, max: 8, step: 0.5, appliesToStarterEntryId: WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, preserveInvalidWhenRestored: true },
+  { id: "bustDartTargetAcrossFrontPercent", label: "Dart target across front", unit: "%", group: "Bust dart", help: "Sets the software dart-apex location across the front panel; move it inward if the dart reaches the placket or cannot open within the side seam.", defaultValue: 55, min: 20, max: 80, step: 1, appliesToStarterEntryId: WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, preserveInvalidWhenRestored: true },
+  { id: "bustDartTargetFromUnderarmToHemPercent", label: "Dart target from underarm to hem", unit: "%", group: "Bust dart", help: "Sets the software dart-apex station down the front from underarm toward hem; move the target away from nearby boundaries if geometry guidance appears.", defaultValue: 28, min: 20, max: 80, step: 1, appliesToStarterEntryId: WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, preserveInvalidWhenRestored: true },
 ];
+
+export function hasWovenShirtDartProfile(values: Partial<WovenShirtOptions>): boolean {
+  return ["bustDartIntakeCm", "bustDartTargetAcrossFrontPercent", "bustDartTargetFromUnderarmToHemPercent"]
+    .some((id) => Object.prototype.hasOwnProperty.call(values, id));
+}
 
 type SharedWovenShirtOptions = Omit<WovenShirtOptions, "shoulderExtension" | "shoulderDrop" | "boxySideProfile">;
 
@@ -86,9 +101,12 @@ function finiteOr(value: number | undefined, fallback: number): number {
 /** Preserve finite live values verbatim; the future shirt guidance owns range
  * and combination warnings so a user can see and fix an invalid design. */
 export function resolveWovenShirtOptions(values: Partial<WovenShirtOptions> = {}): WovenShirtOptions {
+  const hasDartProfile = hasWovenShirtDartProfile(values);
   return Object.fromEntries(WOVEN_SHIRT_OPTION_DEFINITIONS
     .filter((definition) => definition.appliesToStarterEntryId === undefined
-      || Object.prototype.hasOwnProperty.call(values, definition.id))
+      || (definition.appliesToStarterEntryId === WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID
+        ? hasDartProfile
+        : Object.prototype.hasOwnProperty.call(values, definition.id)))
     .map((definition) => [
     definition.id,
     finiteOr(values[definition.id as keyof WovenShirtOptions], definition.appliesToStyle === undefined ? definition.defaultValue : 0),

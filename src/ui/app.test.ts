@@ -83,6 +83,7 @@ import {
   WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID,
   WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID,
   WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID,
+  WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID,
   starterOriginForEntry,
 } from "./starter-registry";
 import { wovenShirtAllowances } from "../drafting/shirt";
@@ -11803,6 +11804,138 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(techPack).toContain("Body length (HPS-hem)");
       expect(techPack).toContain("74.0 cm");
       expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("selects W08, preserves dart identity and geometry through invalid recovery, save/reopen and project reload", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID}`);
+
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Relaxed woven shirt");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Darted blouse · software defaults");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="bustDartIntakeCm"]')!.value).toBe("4");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="bustDartTargetAcrossFrontPercent"]')!.value).toBe("55");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="bustDartTargetFromUnderarmToHemPercent"]')!.value).toBe("28");
+
+      clickId(root, "assembled-preview-toggle");
+      const assembledFront = root.querySelector<SVGSVGElement>("#garment-host svg")!
+        .querySelector('[data-garment-detail="woven-shirt"][data-position="front"]')!;
+      expect(assembledFront.querySelectorAll('[data-edge="option-bustDartLeg"]')).toHaveLength(4);
+      expect(assembledFront.querySelector('[data-dart-side="right"][data-dart-leg="upper"]')).not.toBeNull();
+      expect(assembledFront.querySelector('[data-dart-side="left"][data-dart-leg="lower"]')).not.toBeNull();
+      clickId(root, "assembled-preview-toggle");
+
+      clickId(root, "view-pattern");
+      const initialSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      expect(initialSvg).toContain('data-pattern-mark-name="bustDartUpperLeg"');
+      expect(initialSvg).toContain('data-pattern-mark-name="bustDartLowerLeg"');
+      const intake = root.querySelector<HTMLInputElement>('input[data-option="bustDartIntakeCm"]')!;
+      intake.value = "4.25";
+      intake.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(intake.value).toBe("4.25");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("0.5 cm increments");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      intake.value = "4.5";
+      intake.dispatchEvent(new Event("input", { bubbles: true }));
+      const across = root.querySelector<HTMLInputElement>('input[data-option="bustDartTargetAcrossFrontPercent"]')!;
+      across.value = "56";
+      across.dispatchEvent(new Event("input", { bubbles: true }));
+      const vertical = root.querySelector<HTMLInputElement>('input[data-option="bustDartTargetFromUnderarmToHemPercent"]')!;
+      vertical.value = "30";
+      vertical.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).not.toContain("0.5 cm increments");
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      expect(editedSvg).not.toBe(initialSvg);
+
+      clickId(root, "save-pattern");
+      const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: Record<string, unknown> };
+      };
+      expect(stored.garmentOptions["woven-shirt"]).toMatchObject({
+        bustDartIntakeCm: 4.5,
+        bustDartTargetAcrossFrontPercent: 56,
+        bustDartTargetFromUnderarmToHemPercent: 30,
+      });
+      expect(stored.workspace.starterOrigin).toMatchObject({
+        entryId: WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID,
+        recipeId: "woven-shirt",
+        recipeRevision: "woven-shirt-darted-blouse-v1",
+        configurationSnapshot: {
+          targetStyle: "Relaxed woven shirt",
+          options: {
+            bustDartIntakeCm: 4,
+            bustDartTargetAcrossFrontPercent: 55,
+            bustDartTargetFromUnderarmToHemPercent: 28,
+          },
+        },
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="bustDartIntakeCm"]')!.value).toBe("4.5");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="bustDartTargetAcrossFrontPercent"]')!.value).toBe("56");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="bustDartTargetFromUnderarmToHemPercent"]')!.value).toBe("30");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+
+      clickId(reopened, "garment-skirt");
+      clickId(reopened, "load-pattern");
+      clickId(reopened, "workspace-confirm-accept");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="bustDartIntakeCm"]')!.value).toBe("4.5");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+
+      reachExportStage(reopened);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(reopened, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "woven-shirt-M-A0.pdf", "woven-shirt-M.dxf", "woven-shirt-M.pdf", "woven-shirt-M.svg",
+        "woven-shirt-projector.svg", "woven-shirt-techpack.pdf",
+      ].sort());
+      const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+      const options = stored.garmentOptions["woven-shirt"] as GarmentOptions;
+      const pieces = blockPieces(recipe.draft(stored.measurements, options));
+      expect(files.get("woven-shirt-M.svg")).toBe(
+        exportSvg(pieces, recipe.allowances!, notchesForRecipeOptions(recipe, options)),
+      );
+      expect(files.get("woven-shirt-M.dxf")).toBe(exportDxf(pieces, recipe.allowances!));
+      expect(files.get("woven-shirt-M.pdf")).toBe(exportPdf(
+        pieces, recipe.allowances!, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true,
+      ));
+      expect(files.get("woven-shirt-M-A0.pdf")).toBe(exportA0Pdf(
+        pieces, recipe.allowances!, notchesForRecipeOptions(recipe, options), undefined, recipe.a0Overflow === true,
+      ));
+      expect(files.get("woven-shirt-projector.svg")).toBe(exportProjectorSvg(recipe, stored.measurements, options));
+      expect(visiblePdfText(files.get("woven-shirt-techpack.pdf")!)).toContain("marked side bust-dart legs together");
     } finally {
       unmountApp();
       root?.remove();

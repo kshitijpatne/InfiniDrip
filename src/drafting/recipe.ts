@@ -51,7 +51,7 @@ import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS, FITTED_PRINCESS_POMS, fittedPanelChecks } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
 import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, POLO_BODY_POMS, poloButtonCountError, poloNotchesForOptions, poloPomsForOptions, resolvePoloOptions, usesPoloZipperClosure } from "./polo";
-import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_CAMP_COLLAR_NOTCHES, WOVEN_SHIRT_BAND_COLLAR_NOTCHES, WOVEN_SHIRT_POMS, WOVEN_SHIRT_CAMP_COLLAR_POMS, WOVEN_SHIRT_BAND_COLLAR_POMS, WOVEN_SHIRT_BOXY_PROFILE_POMS } from "./shirt";
+import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_DARTED_NOTCHES, WOVEN_SHIRT_CAMP_COLLAR_NOTCHES, WOVEN_SHIRT_BAND_COLLAR_NOTCHES, WOVEN_SHIRT_POMS, WOVEN_SHIRT_DARTED_POMS, WOVEN_SHIRT_CAMP_COLLAR_POMS, WOVEN_SHIRT_BAND_COLLAR_POMS, WOVEN_SHIRT_BOXY_PROFILE_POMS } from "./shirt";
 import { WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { edgeLength, pieceEdge } from "./piece";
 import { rolePiece } from "./block";
@@ -894,6 +894,7 @@ const WOVEN_SHIRT_TECH_PACK = (
   hemTurn = WOVEN_HEM_TURN_OPTION.defaultValue,
   campCollar = false,
   bandCollar = false,
+  dartedBlouse = false,
 ): TechPack => {
   if (!Number.isFinite(hemTurn) || hemTurn < WOVEN_HEM_TURN_OPTION.min || hemTurn > WOVEN_HEM_TURN_OPTION.max) {
     throw new RangeError("Woven-shirt hem turn is outside its supported range.");
@@ -925,6 +926,10 @@ const WOVEN_SHIRT_TECH_PACK = (
     "Sew the patch pocket to its placement mark, set the sleeves, and attach the folded sleeve bands.",
     "Close side seams above the marked vents, finish the vent edges, and turn the curved hem.",
   ];
+  if (dartedBlouse) {
+    construction.splice(4, 0,
+      "On each mirrored front, bring the marked side bust-dart legs together, stitch from the side mouth toward the marked apex, and secure the thread. The dart is editable digital construction, not a physical fit standard.");
+  }
   if (hemTurn !== WOVEN_DEFAULT_HEM_ALLOWANCE) {
     construction.splice(construction.length - 1, 0,
       `Apply a ${hemTurn.toFixed(1)} cm turn-under allowance to the front body and lower-back body hems only; the sleeve hem remains at the default ${WOVEN_DEFAULT_HEM_ALLOWANCE.toFixed(1)} cm allowance. This is a cutting allowance, not a finished POM.`);
@@ -958,12 +963,16 @@ export const WOVEN_SHIRT: GarmentRecipe = {
     ? WOVEN_SHIRT_CAMP_COLLAR_NOTCHES
     : Object.prototype.hasOwnProperty.call(options, "bandCollarHeight")
       ? WOVEN_SHIRT_BAND_COLLAR_NOTCHES
-    : WOVEN_SHIRT_NOTCHES,
+      : Object.prototype.hasOwnProperty.call(options, "bustDartIntakeCm")
+        ? WOVEN_SHIRT_DARTED_NOTCHES
+        : WOVEN_SHIRT_NOTCHES,
   poms: WOVEN_SHIRT_POMS,
   pomsForOptions: (options) => Object.prototype.hasOwnProperty.call(options, "campCollarDepth")
     ? WOVEN_SHIRT_CAMP_COLLAR_POMS
     : Object.prototype.hasOwnProperty.call(options, "bandCollarHeight")
       ? WOVEN_SHIRT_BAND_COLLAR_POMS
+      : Object.prototype.hasOwnProperty.call(options, "bustDartIntakeCm")
+        ? WOVEN_SHIRT_DARTED_POMS
       : Object.prototype.hasOwnProperty.call(options, "boxySideProfile")
         ? [...WOVEN_SHIRT_POMS, ...WOVEN_SHIRT_BOXY_PROFILE_POMS]
         : WOVEN_SHIRT_POMS,
@@ -977,6 +986,7 @@ export const WOVEN_SHIRT: GarmentRecipe = {
     Number(options.buttonCount ?? 7), Number(options.hemTurn ?? WOVEN_HEM_TURN_OPTION.defaultValue),
     Object.prototype.hasOwnProperty.call(options, "campCollarDepth"),
     Object.prototype.hasOwnProperty.call(options, "bandCollarHeight"),
+    Object.prototype.hasOwnProperty.call(options, "bustDartIntakeCm"),
   ),
   options: WOVEN_SHIRT_OPTION_DEFINITIONS,
   allowances: WOVEN_SHIRT_ALLOWANCES,

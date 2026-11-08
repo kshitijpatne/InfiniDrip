@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, JeansOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, wovenShirtBodyHalfWidths, wovenShirtHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, optionalOptionStatusMessage, optionalOptionActionLabel, draftJeansWithGuidance, jeansSizeRunWithGuidance } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, JeansOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, wovenShirtBodyHalfWidths, wovenShirtHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, optionalOptionStatusMessage, optionalOptionActionLabel, draftJeansWithGuidance, jeansSizeRunWithGuidance, dartOf } from "../drafting";
 import { gradeRecipeRun, gradeMeasurements, draftRecipeAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName, garmentForConstruction } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { teeNeckbandTechPackOptions, teeVBandTechPackOptions } from "../drafting/vneck-band-output";
@@ -57,7 +57,7 @@ import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObserva
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
 import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
@@ -2539,6 +2539,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (recipe.name !== "woven-shirt") return undefined;
     const options = recipeOptions();
     const hasBoxyProfile = options.boxySideProfile !== undefined;
+    const w08Front = starterOrigin?.entryId === WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID
+      ? semanticSizeBlock(selectedOutputStep())?.roles.front
+      : undefined;
+    const bustDart = w08Front ? dartOf(w08Front) : null;
     const campCollar = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID;
     const bandCollar = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID;
     const neckWidthHalf = (measurements.neck + options.neckEase) / 4;
@@ -2561,6 +2565,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       sleeveBandDepth: options.sleeveBandDepth,
       sideVentDepth: options.sideVentDepth,
       hemTurn: options.hemTurn,
+      ...(bustDart ? { bustDart } : {}),
       ...(hasBoxyProfile ? { bodyWidths: wovenShirtBodyHalfWidths(measurements, options.boxySideProfile) } : {}),
       ...(hasBoxyProfile ? { hipStationY: wovenShirtHipStationY(measurements, options.sideVentDepth, true) } : {}),
     };
