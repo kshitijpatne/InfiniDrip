@@ -186,7 +186,7 @@ export interface GarmentRecipe {
   readonly draftReview?: (m: Measurements, options?: GarmentOptions) => RecipeDraftReview;
   readonly notches: readonly PieceNotches[];
   /** Optional option-aware construction marks for recipes with alternate panel roles. */
-  readonly notchesForOptions?: (options: GarmentOptions) => readonly PieceNotches[];
+  readonly notchesForOptions?: (options: GarmentOptions, block?: Block) => readonly PieceNotches[];
   readonly poms: readonly Pom[];
   /** Optional option-aware POM set for construction-specific digital output. */
   readonly pomsForOptions?: (options: GarmentOptions) => readonly Pom[];
@@ -234,8 +234,10 @@ export function pomsForRecipeOptions(recipe: GarmentRecipe, options: GarmentOpti
 }
 
 /** Resolve construction marks for the active option-selected panel topology. */
-export function notchesForRecipeOptions(recipe: GarmentRecipe, options: GarmentOptions = {}): readonly PieceNotches[] {
-  return recipe.notchesForOptions?.(options) ?? recipe.notches;
+export function notchesForRecipeOptions(
+  recipe: GarmentRecipe, options: GarmentOptions = {}, block?: Block,
+): readonly PieceNotches[] {
+  return recipe.notchesForOptions?.(options, block) ?? recipe.notches;
 }
 
 /** Expand only declared physical cut quantities; all other recipes keep one
@@ -959,12 +961,12 @@ export const WOVEN_SHIRT: GarmentRecipe = {
   draft: (m, options = {}) => draftWovenShirt(m, options),
   grammar: WOVEN_SHIRT_GRAMMAR,
   notches: WOVEN_SHIRT_NOTCHES,
-  notchesForOptions: (options) => Object.prototype.hasOwnProperty.call(options, "campCollarDepth")
+  notchesForOptions: (options, block) => Object.prototype.hasOwnProperty.call(options, "campCollarDepth")
     ? WOVEN_SHIRT_CAMP_COLLAR_NOTCHES
     : Object.prototype.hasOwnProperty.call(options, "bandCollarHeight")
       ? WOVEN_SHIRT_BAND_COLLAR_NOTCHES
       : Object.prototype.hasOwnProperty.call(options, "bustDartIntakeCm")
-        ? WOVEN_SHIRT_DARTED_NOTCHES
+        ? block && !block.roles.front.dart ? WOVEN_SHIRT_NOTCHES : WOVEN_SHIRT_DARTED_NOTCHES
         : WOVEN_SHIRT_NOTCHES,
   poms: WOVEN_SHIRT_POMS,
   pomsForOptions: (options) => Object.prototype.hasOwnProperty.call(options, "campCollarDepth")

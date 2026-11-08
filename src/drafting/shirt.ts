@@ -173,7 +173,7 @@ function openWovenShirtSideBustDart(
   const sideEnd = edges.find((edge) => (edge.name === "sideLower" || edge.name === WOVEN_SHIRT_DART_CONTINUATION)
     && distance(edgeEnd(edge), edgeStart(openedHem)) <= 1e-7)!;
   if (edgeLength(sideEnd) <= options.sideVentDepth) return null;
-  return {
+  const candidate: Piece = {
     ...front,
     edges,
     marks: [
@@ -183,6 +183,13 @@ function openWovenShirtSideBustDart(
     ],
     dart: { legs: ["bustDartUpper", "bustDartLower"] },
   };
+  // Woven fronts are authored on the positive side of centerFront; fail closed
+  // if the dart rotation would make the paired cut piece cross that axis.
+  const outlinePoints = candidate.edges.flatMap((edge) => edge.kind === "line"
+    ? [edge.start, edge.end]
+    : [edge.curve.start, edge.curve.control1, edge.curve.control2, edge.curve.end]);
+  if (!outlinePoints.every(({ x, y }) => Number.isFinite(x) && Number.isFinite(y) && x >= 0)) return null;
+  return candidate;
 }
 
 /** Keep W04's digital hip-width station above the vent opening without

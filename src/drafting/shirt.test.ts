@@ -641,4 +641,28 @@ describe("woven shirt body", () => {
     expect(ordinary.roles.front.dart).toBeUndefined();
     expect(ordinary.stitches.some((stitch) => stitch.label === "W08 bust-dart legs equal")).toBe(false);
   });
+
+  it("keeps an infeasible in-range W08 rotation inside centerFront and recovers without clamping", () => {
+    const invalidOptions = {
+      bustDartIntakeCm: 4,
+      bustDartTargetAcrossFrontPercent: 80,
+      bustDartTargetFromUnderarmToHemPercent: 28,
+    };
+    const invalid = draftWovenShirtBody(STANDARD_M, invalidOptions);
+    const invalidFront = invalid.roles.front;
+    const points = invalidFront.edges.flatMap((edge) => edge.kind === "line"
+      ? [edge.start, edge.end]
+      : [edge.curve.start, edge.curve.control1, edge.curve.control2, edge.curve.end]);
+
+    expect(invalidOptions.bustDartTargetAcrossFrontPercent).toBe(80);
+    expect(invalidOptions.bustDartIntakeCm).toBe(4);
+    expect(invalidFront.dart).toBeUndefined();
+    expect(points.every(({ x, y }) => Number.isFinite(x) && Number.isFinite(y) && x >= 0)).toBe(true);
+    expect(wovenShirtGuidance(invalid, STANDARD_M, invalidOptions).map((note) => note.text).join(" "))
+      .toContain("cannot be placed inside the current front panel");
+
+    const recoveredOptions = { ...invalidOptions, bustDartIntakeCm: 0.5 };
+    const recovered = draftWovenShirtBody(STANDARD_M, recoveredOptions);
+    expect(recovered.roles.front.dart).toBeDefined();
+  });
 });
