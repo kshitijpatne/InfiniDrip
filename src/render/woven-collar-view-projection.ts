@@ -20,6 +20,12 @@ function sourceEdge(block: Block, roleId: string, edgeId: string): Edge | undefi
   return block.roles[roleId]?.edges.find((edge) => edge.name === edgeId);
 }
 
+function isWovenBandCollarBlock(block: Block): boolean {
+  return block.roles.outerStand?.name === "outer woven collar band"
+    && block.roles.innerStand?.name === "inner woven collar band"
+    && !block.roles.upperCollar && !block.roles.underCollar;
+}
+
 function cubicPoint(edge: Extract<Edge, { kind: "curve" }>, t: number): FlatPoint {
   const u = 1 - t;
   const { start, control1, control2, end } = edge.curve;
@@ -67,6 +73,7 @@ function unit(vector: FlatPoint): FlatPoint | undefined {
 }
 
 function exactWovenNecklineFraction(block: Block): number | undefined {
+  if (isWovenBandCollarBlock(block)) return exactWovenBandCollarNecklineFraction(block);
   const stitches = block.stitches.filter((stitch) => stitch.label === "Outer stand ↔ woven neckline");
   const stitch = stitches[0];
   const stand = stitch?.a.edges[0];
@@ -88,6 +95,62 @@ function exactWovenNecklineFraction(block: Block): number | undefined {
   const total = frontLength + backLength;
   if (common.length !== 1 || !(frontLength > EPSILON) || !(backLength > EPSILON)
     || Math.abs(edgeLength(standEdge) - total) > 1e-7) return undefined;
+  return backLength / total;
+}
+
+function exactWovenBandCollarNecklineFraction(block: Block): number | undefined {
+  if (!isWovenBandCollarBlock(block) || !block.roles.front || !block.roles.yoke) return undefined;
+  const outer = block.roles.outerStand!;
+  const inner = block.roles.innerStand!;
+  const exactRefs = (refs: readonly import("../drafting/stitch").InterfaceRef[], expected: readonly (readonly [string, string])[]) =>
+    refs.length === expected.length && refs.every((ref, index) => "edge" in ref
+      && ref.piece === expected[index]?.[0] && ref.edge === expected[index]?.[1] && !ref.reversed);
+  const exactJoin = (label: string, a: readonly (readonly [string, string])[], b: readonly (readonly [string, string])[]): boolean => {
+    const matches = block.stitches.filter((stitch) => stitch.label === label);
+    const stitch = matches[0];
+    return matches.length === 1 && stitch?.ease === undefined
+      && exactRefs(stitch.a.edges, a) && exactRefs(stitch.b.edges, b);
+  };
+  if (!exactJoin("Outer collar band ↔ woven neckline", [["outerStand", "neckline"]],
+    [["front", "neckline"], ["yoke", "neckline"]])
+    || !exactJoin("Inner collar band ↔ outer band neckline", [["innerStand", "neckline"]], [["outerStand", "neckline"]])
+    || !exactJoin("Outer ↔ inner collar band finish", [["outerStand", "collar"], ["outerStand", "frontEnd"]],
+      [["innerStand", "collar"], ["innerStand", "frontEnd"]])) return undefined;
+  const frontEdge = sourceEdge(block, "front", "neckline");
+  const backEdge = sourceEdge(block, "yoke", "neckline");
+  if (!frontEdge || !backEdge) return undefined;
+  const frontLength = edgeLength(frontEdge);
+  const backLength = edgeLength(backEdge);
+  const total = frontLength + backLength;
+  const exactBandShape = (piece: typeof outer): boolean => {
+    const centerBack = piece.edges.find((edge) => edge.name === "centerBack");
+    const collar = piece.edges.find((edge) => edge.name === "collar");
+    const frontEnd = piece.edges.find((edge) => edge.name === "frontEnd");
+    const neckline = piece.edges.find((edge) => edge.name === "neckline");
+    return piece.onFold && centerBack?.kind === "line" && collar?.kind === "line"
+      && frontEnd?.kind === "line" && neckline?.kind === "line"
+      && samePoint(edgeStart(collar), edgeEnd(centerBack))
+      && samePoint(edgeEnd(collar), edgeStart(frontEnd))
+      && samePoint(edgeEnd(frontEnd), edgeStart(neckline))
+      && samePoint(edgeEnd(neckline), edgeStart(centerBack))
+      && Math.abs(edgeLength(neckline) - total) <= 1e-7;
+  };
+  const outerCollar = sourceEdge(block, "outerStand", "collar");
+  const innerCollar = sourceEdge(block, "innerStand", "collar");
+  const outerFrontEnd = sourceEdge(block, "outerStand", "frontEnd");
+  const innerFrontEnd = sourceEdge(block, "innerStand", "frontEnd");
+  const outerNeckline = sourceEdge(block, "outerStand", "neckline");
+  const innerNeckline = sourceEdge(block, "innerStand", "neckline");
+  if (!Number.isFinite(total) || !(frontLength > EPSILON) || !(backLength > EPSILON)
+    || !exactBandShape(outer) || !exactBandShape(inner)
+    || !outerCollar || !innerCollar || !outerFrontEnd || !innerFrontEnd || !outerNeckline || !innerNeckline
+    || Math.abs(edgeLength(outerCollar) - edgeLength(innerCollar)) > 1e-7
+    || Math.abs(edgeLength(outerFrontEnd) - edgeLength(innerFrontEnd)) > 1e-7
+    || Math.abs(edgeLength(outerNeckline) - edgeLength(innerNeckline)) > 1e-7
+    || !samePoint(edgeStart(outerCollar), edgeStart(innerCollar))
+    || !samePoint(edgeEnd(outerCollar), edgeEnd(innerCollar))
+    || !samePoint(edgeStart(outerFrontEnd), edgeStart(innerFrontEnd))
+    || !samePoint(edgeEnd(outerFrontEnd), edgeEnd(innerFrontEnd))) return undefined;
   return backLength / total;
 }
 
@@ -137,6 +200,11 @@ function exactWovenCampCollarNecklineFraction(block: Block): number | undefined 
 /** Exact W06 source topology gate shared with live clipping and fill closure. */
 export function hasExactWovenCampCollarNecklineTopology(block: Block): boolean {
   return exactWovenCampCollarNecklineFraction(block) !== undefined;
+}
+
+/** Exact W07 two-layer band-only collar gate shared by its technical views. */
+export function hasExactWovenBandCollarNecklineTopology(block: Block): boolean {
+  return exactWovenBandCollarNecklineFraction(block) !== undefined;
 }
 
 function centerAxisEdge(block: Block, roleId: "front" | "yoke" | "back"): Edge | undefined {
@@ -229,9 +297,11 @@ export function createWovenCollarProjector(
   kind: TechnicalFlatViewKind,
   transforms: Readonly<Record<string, FlatRoleTransform>>,
 ): WovenCollarProjector | undefined {
+  const bandCollar = roleId === "outerStand" && exactWovenBandCollarNecklineFraction(block) !== undefined;
   const campCollar = (roleId === "upperCollar" || roleId === "underCollar")
     && exactWovenCampCollarNecklineFraction(block) !== undefined;
-  const fraction = campCollar ? exactWovenCampCollarNecklineFraction(block) : exactWovenNecklineFraction(block);
+  const fraction = campCollar ? exactWovenCampCollarNecklineFraction(block)
+    : bandCollar ? exactWovenBandCollarNecklineFraction(block) : exactWovenNecklineFraction(block);
   const sourcePiece = block.roles[roleId];
   const baseEdge = sourceEdge(block, roleId, campCollar || roleId === "outerStand" || roleId === "innerStand" ? "neckline" : "stand");
   const expectedRefs = campCollar
@@ -243,6 +313,7 @@ export function createWovenCollarProjector(
         : [["underCollar", "stand"], ["outerStand", "collar"]];
   const stitchLabel = campCollar
     ? roleId === "upperCollar" ? "Upper camp collar ↔ woven neckline" : "Under camp collar ↔ woven neckline"
+    : bandCollar ? "Outer collar band ↔ woven neckline"
     : roleId === "outerStand" || roleId === "innerStand"
     ? "Outer stand ↔ woven neckline" : roleId === "upperCollar" ? "Upper collar ↔ inner stand" : "Under collar ↔ outer stand";
   const stitches = block.stitches.filter((stitch) => stitch.label === stitchLabel);

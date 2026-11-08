@@ -944,6 +944,45 @@ describe("compileTechnicalFlatLiveView", () => {
 
   });
 
+  it("renders W07 band-only front/back flats with one visible outer band and matched neckline seams", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, { bandCollarHeight: 2.5 });
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const revisionId = `live-w07-band-collar-${kind}`;
+      const result = compileTechnicalFlatLiveView({ recipe, block, revisionId, kind, placements: [],
+        colorHex: "#456789", texture: "woven", shine: 0 });
+      expect(result.issues, kind).toEqual([]);
+      expect(result.view, kind).not.toBeNull();
+      expect(result.colorway, kind).not.toBeNull();
+      const outerBand = result.view!.primitives.find((primitive) => primitive.kind === "path"
+        && primitive.id === `flat:woven-shirt:${kind}:component:outerStand:outline`);
+      expect(outerBand?.kind).toBe("path");
+      expect(result.view!.primitives.some((primitive) => primitive.id.includes(":component:innerStand:"))).toBe(false);
+      expect(result.view!.primitives.some((primitive) => primitive.id.includes(":component:upperCollar:"))).toBe(false);
+      expect(result.view!.primitives.some((primitive) => primitive.id.includes(":component:underCollar:"))).toBe(false);
+      const visibleNecklineRole = kind === "FRONT_FLAT" ? "front" : "yoke";
+      expect(result.view!.primitives.some((primitive) => primitive.kind === "path"
+        && primitive.id.startsWith(`flat:woven-shirt:${kind}:view-seam:${visibleNecklineRole}:neckline`)
+        && primitive.layer === "SEAM"
+        && primitive.sourceEdgeIds?.includes(`pattern:woven-shirt:role:${visibleNecklineRole}:edge:neckline`))).toBe(true);
+      const clips = result.view!.primitives.filter((primitive): primitive is FlatPathPrimitive =>
+        primitive.kind === "path" && primitive.viewClip !== undefined);
+      if (kind === "FRONT_FLAT") {
+        expect(clips.some((primitive) => primitive.viewClip?.decisionId === "G04-S406-WOVEN-COLLAR-OVER-PLACKETS")).toBe(true);
+      }
+      expect(clips.some((primitive) => primitive.viewClip?.decisionId === "G04-S457-WOVEN-NECKLINE-LEAF-MASK")).toBe(false);
+      expect(clips.every((primitive) => primitive.viewClip!.roleIds.every((roleId) => block.roles[roleId] !== undefined))).toBe(true);
+      const rendered = renderTechnicalFlatSvg(result.view!, {
+        measureText: () => ({ widthCm: 2, ascentCm: 0.3, descentCm: 0.1 }), colorway: result.colorway!,
+      });
+      expect(rendered.issues, kind).toEqual([]);
+      expect(rendered.svg).toContain(`data-colorway-fill-for="flat:woven-shirt:${kind}:component:outerStand:outline"`);
+      expect(rendered.svg).not.toContain(`component:upperCollar:outline`);
+      expect(rendered.svg).not.toContain(`component:underCollar:outline`);
+      if (kind === "FRONT_FLAT") expect(rendered.svg).toContain('data-view-clip="G04-S406-WOVEN-COLLAR-OVER-PLACKETS"');
+    }
+  });
+
   it("withholds W06 collar closures when a body outline repeats its neckline lineage", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
     const block = recipe.draft(STANDARD_M, { campCollarDepth: 6 });
@@ -1315,6 +1354,19 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(result.view).toBeNull();
     expect(result.issues).toContainEqual(expect.objectContaining({ stage: "overlay",
       message: expect.stringContaining("Artwork on the Shorts waistband is withheld") }));
+  });
+
+  it("compiles Jogger casing fragments and withholds casing artwork until fragment-clipped", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "jogger")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-jogger-casing-art",
+      kind: "BACK_FLAT", placements: [
+        { id: "casing-art", kind: "print", pieceRole: "waistband", widthCm: 1, heightCm: 1,
+          transform: { dx: 0, dy: 0, scale: 1, rotationDeg: 0 }, zOrder: 1, sourceName: "Casing artwork" },
+      ], colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "overlay",
+      message: expect.stringContaining("Artwork on the Jogger casing is withheld") }));
   });
 
   it("keeps a recipe without an overlay face explicitly unsupported", () => {

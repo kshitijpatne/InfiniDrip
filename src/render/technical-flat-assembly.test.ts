@@ -42,6 +42,9 @@ describe("assembleTechnicalFlatRoles", () => {
     expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline", "unapproved")).toBe(false);
     expect(isApprovedWovenBaseSeamDisplay("Woven sleeve-cap ease", "G04-S342-WOVEN-COLLAR-BASE-SEAM")).toBe(false);
     expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline")).toBe(false);
+    expect(isApprovedWovenBaseSeamDisplay("Outer collar band ↔ woven neckline", "G18-S1268-W07-BAND-COLLAR-BASE-SEAM")).toBe(true);
+    expect(isApprovedWovenBaseSeamDisplay("Outer collar band ↔ woven neckline", "unapproved")).toBe(false);
+    expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline", "G18-S1268-W07-BAND-COLLAR-BASE-SEAM")).toBe(false);
   });
 
   it("suppresses only the exact W06 camp-collar base-seam display residuals", () => {

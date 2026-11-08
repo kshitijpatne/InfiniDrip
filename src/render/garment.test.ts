@@ -353,4 +353,30 @@ describe("renderGarment — woven shirt integration", () => {
     expect(invalidDepth).not.toMatch(/NaN|Infinity/);
     expect(invalidDepth).not.toContain('data-edge="option-campCollarDepth"');
   });
+
+  it("renders W07's two-layer band collar without pointed leaves or an extra collar closure", () => {
+    const bandShirt = (bandCollarHeight: number): Parameters<typeof renderGarment>[7] => ({
+      neckWidthHalf: 10, frontNeckDepth: 8, backNeckDepth: 3,
+      buttonCount: 7, buttonSpacing: 8, frontOverlap: 1.5, placketWidth: 3,
+      collarProfile: "band", bandCollarHeight,
+      yokeDepth: 10, pocketWidth: 12, pocketHeight: 13, sleeveBandDepth: 3, sideVentDepth: 3, hemTurn: 1,
+    });
+    const defaultSvg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT,
+      undefined, undefined, bandShirt(2.5));
+    const lowSvg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT,
+      undefined, undefined, bandShirt(1.5));
+    const highSvg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT,
+      undefined, undefined, bandShirt(3.5));
+    expect(defaultSvg).not.toMatch(/NaN|Infinity/);
+    expect(defaultSvg).toContain('data-edge="option-bandCollarHeight"');
+    expect((defaultSvg.match(/data-edge="option-bandCollarHeight"/g) ?? []).length).toBe(2);
+    expect(defaultSvg).not.toContain('data-edge="option-standHeight"');
+    expect(defaultSvg).not.toContain('data-edge="option-collarLeafDepth"');
+    expect(lowSvg).not.toBe(highSvg);
+    expect(defaultSvg.match(/data-edge="woven-button"/g) ?? []).toHaveLength(7);
+    const invalid = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT,
+      undefined, undefined, bandShirt(Number.NaN));
+    expect(invalid).not.toMatch(/NaN|Infinity/);
+    expect(invalid).not.toContain('data-edge="option-bandCollarHeight"');
+  });
 });

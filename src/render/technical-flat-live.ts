@@ -23,7 +23,7 @@ import { transformFlatPoint, transformFlatPrimitive } from "./technical-flat-tra
 import { compileJoggerWaistbandFragments, compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
 import { composeCrewneckDetachedBandDetails, type CrewneckDetachedBandRole } from "./crewneck-detached-band-detail";
 import { composeWovenDetachedBandDetails } from "./woven-detached-band-detail";
-import { createWovenCollarProjector, hasExactWovenCampCollarNecklineTopology, projectWovenCollarPrimitive,
+import { createWovenCollarProjector, hasExactWovenBandCollarNecklineTopology, hasExactWovenCampCollarNecklineTopology, projectWovenCollarPrimitive,
   type WovenCollarRoleId } from "./woven-collar-view-projection";
 import type { Pom } from "../drafting/pom";
 
@@ -459,10 +459,14 @@ export function wovenCampCollarBaseSeamBoundaries(primitives: readonly Technical
 export function applyWovenFrontApprovedViewClips(primitives: readonly TechnicalFlatPrimitive[], revisionId: string,
   block?: Block) {
   const isWovenCampCollar = block !== undefined && hasExactWovenCampCollarTopology(block);
+  const isWovenBandCollar = block !== undefined && hasExactWovenBandCollarNecklineTopology(block);
   const rules = isWovenCampCollar
     ? WOVEN_FRONT_VIEW_CLIP_RULES.filter((rule) => rule.source !== "pattern:woven-shirt:role:front:edge:neckline"
       && rule.source !== "pattern:woven-shirt:role:front:edge:shoulder")
       .map((rule) => ({ ...rule, roles: rule.roles.filter((roleId) => block.roles[roleId] !== undefined) }))
+    : isWovenBandCollar
+      ? WOVEN_FRONT_VIEW_CLIP_RULES.filter((rule) => rule.decisionId !== "G04-S457-WOVEN-NECKLINE-LEAF-MASK")
+        .map((rule) => ({ ...rule, roles: rule.roles.filter((roleId) => block.roles[roleId] !== undefined) }))
     : WOVEN_FRONT_VIEW_CLIP_RULES;
   const issues: TechnicalFlatLiveIssue[] = [];
   const targets = new Map<string, { owner: Extract<TechnicalFlatPrimitive, { kind: "path" }>;
@@ -947,9 +951,13 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   }
   if (recipe.name === "woven-shirt") {
     const approvedWovenCollarProjection = wovenCollarProjectors.has("outerStand");
-    issues.push(...assembly.issues.filter((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
-      && ((issue.sourceId.includes("Outer stand ↔ woven neckline") && !approvedWovenCollarProjection)
-        || (issue.sourceId.includes("Woven sleeve-cap ease") && !approvedWovenSleeveCap))).map((issue) => ({ stage: "assembly" as const,
+    issues.push(...assembly.issues.filter((issue) => {
+      if (issue.code !== "STITCH_ENDPOINT_RESIDUAL") return false;
+      const collarJoin = issue.sourceId.includes("Outer stand ↔ woven neckline")
+        || issue.sourceId.includes("Outer collar band ↔ woven neckline");
+      const sleeveJoin = issue.sourceId.includes("Woven sleeve-cap ease");
+      return (collarJoin && !approvedWovenCollarProjection) || (sleeveJoin && !approvedWovenSleeveCap);
+    }).map((issue) => ({ stage: "assembly" as const,
       sourceId: issue.sourceId,
       message: `${issue.message} Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.`,
     })));

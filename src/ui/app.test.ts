@@ -49,7 +49,7 @@ import * as gradePlan from "./grade-plan";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, POLO, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe } from "../drafting";
+import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, POLO, draftRecipeAtSize, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe, type Measurements } from "../drafting";
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID,
   TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID,
   TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
@@ -82,6 +82,7 @@ import {
   WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID,
   WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID,
   WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID,
+  WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID,
   starterOriginForEntry,
 } from "./starter-registry";
 import { wovenShirtAllowances } from "../drafting/shirt";
@@ -12294,6 +12295,146 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(techPack).toContain("upper and under collar layers join directly to the neckline");
       expect(techPack).toContain("existing separate front plackets remain");
       expect(techPack).toContain("not a validated W06 grade");
+      expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 180_000);
+
+  it("selects W07 and preserves its band height, profile identity, and pattern through save/reopen", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID);
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Band-collar Woven Shirt");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Relaxed woven shirt");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="length"]')!.value).toBe("72");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="ease"]')!.value).toBe("21");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="bandCollarHeight"]')!.value).toBe("2.5");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="standHeight"]')).toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-option="collarLeafDepth"]')).toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-option="campCollarDepth"]')).toBeNull();
+      expect(root.querySelector<HTMLElement>('[data-option-help="option-buttonCount"]')?.textContent)
+        .toContain("no additional collar-band button");
+
+      clickId(root, "view-pattern");
+      const defaultSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      const height = root.querySelector<HTMLInputElement>('input[data-option="bandCollarHeight"]')!;
+      height.value = "3";
+      height.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedSvg = root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML;
+      expect(editedSvg).not.toBe(defaultSvg);
+      height.value = "2.25";
+      height.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(height.value).toBe("2.25");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("0.5 cm increments");
+      height.value = "3";
+      height.dispatchEvent(new Event("input", { bubbles: true }));
+
+      clickId(root, "view-spec");
+      clickId(root, "save-pattern");
+      const stored = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: Record<string, GarmentOptions>;
+        workspace: { starterOrigin: Record<string, unknown> };
+      };
+      expect(stored.garmentOptions["woven-shirt"]?.bandCollarHeight).toBe(3);
+      expect(stored.workspace.starterOrigin).toMatchObject({
+        entryId: WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID,
+        entryRevision: "2026-11-04.1",
+        recipeId: "woven-shirt",
+        recipeRevision: "woven-shirt-band-collar-v1",
+        configurationSnapshot: {
+          targetStyle: "Relaxed woven shirt",
+          measurements: { length: 72, ease: 21 },
+          options: { bandCollarHeight: 2.5 },
+        },
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Band-collar Woven Shirt");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="bandCollarHeight"]')!.value).toBe("3");
+      clickId(reopened, "view-pattern");
+      expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("exports the W07 band-only identity and disclosures through all six output actions", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID);
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Band-collar Woven Shirt");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="standHeight"]')).toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-option="collarLeafDepth"]')).toBeNull();
+
+      reachExportStage(root);
+      const height = root.querySelector<HTMLInputElement>('input[data-option="bandCollarHeight"]')!;
+      height.value = "2.25";
+      height.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(height.value).toBe("2.25");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("0.5 cm increments");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      height.value = "2.5";
+      height.dispatchEvent(new Event("input", { bubbles: true }));
+      reReviewAndReachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) clickId(root, id);
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "woven-shirt-band-collar-M-A0.pdf", "woven-shirt-band-collar-M.dxf", "woven-shirt-band-collar-M.pdf",
+        "woven-shirt-band-collar-M.svg", "woven-shirt-band-collar-projector.svg", "woven-shirt-band-collar-techpack.pdf",
+      ].sort());
+      const bandEntry = STARTER_REGISTRY.entries.find((entry) => entry.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID)!;
+      const outputRecipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+      const measurements = bandEntry.configuration.measurements as unknown as Measurements;
+      const outputOptions: GarmentOptions = { ...bandEntry.configuration.options, bandCollarHeight: 2.5 };
+      const expectedBlock = draftRecipeAtSize(outputRecipe, measurements, 0, outputOptions);
+      const expectedPieces = exportablePieces(expectedBlock, true);
+      const expectedAllowances = wovenShirtAllowances(outputOptions.hemTurn);
+      const expectedNotches = notchesForRecipeOptions(outputRecipe, outputOptions);
+      expect(files.get("woven-shirt-band-collar-M.svg")).toBe(exportSvg(expectedPieces, expectedAllowances, expectedNotches));
+      const dxf = files.get("woven-shirt-band-collar-M.dxf")!;
+      expect(dxf).toBe(exportDxf(expectedPieces, expectedAllowances));
+      expect((dxf.match(/\nPOLYLINE\n8\nCUT\n66\n1\n70\n1\n/gu) ?? [])).toHaveLength(10);
+      expect((dxf.match(/\nCIRCLE\n8\nMARK_BUTTON\n/gu) ?? [])).toHaveLength(7);
+      expect((dxf.match(/\nPOINT\n8\nMARK_BUTTONHOLE\n/gu) ?? [])).toHaveLength(7);
+      expect(files.get("woven-shirt-band-collar-M.pdf")).toBe(exportPdf(expectedPieces, expectedAllowances, undefined, 1.0,
+        outputRecipe.tiledPdfLocalCoordinates === true));
+      expect(files.get("woven-shirt-band-collar-M-A0.pdf")).toBe(exportA0Pdf(expectedPieces, expectedAllowances, expectedNotches,
+        undefined, outputRecipe.a0Overflow === true));
+      const projector = new DOMParser().parseFromString(files.get("woven-shirt-band-collar-projector.svg")!, "image/svg+xml");
+      const projectorText = [...projector.getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Band-collar Woven Shirt");
+      expect(projectorText).toContain("W07 grade is not validated.");
+      const techPack = visiblePdfText(files.get("woven-shirt-band-collar-techpack.pdf")!);
+      expect(techPack).toContain("Digital W07 Band-collar Woven Shirt");
+      expect(techPack).toMatch(/two band layers/i);
+      expect(techPack).toMatch(/no collar-band button or buttonhole/i);
+      expect(techPack).toMatch(/not a validated W07 grade/i);
       expect(techPack).toContain("Draft estimates only; this is not a production BOM.");
     } finally {
       unmountApp();
