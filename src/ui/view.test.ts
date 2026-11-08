@@ -472,7 +472,7 @@ describe("inspectionMarkup", () => {
 
 describe("woven option controls", () => {
   it("groups construction options and shows units plus correction help", () => {
-    const genericOptions = WOVEN_SHIRT_OPTION_DEFINITIONS.filter((option) => option.appliesToStyle === undefined);
+    const genericOptions = WOVEN_SHIRT_OPTION_DEFINITIONS.filter((option) => option.appliesToStyle === undefined && option.appliesToStarterEntryId === undefined);
     const html = controlsMarkup(STANDARD_M, WOVEN_SHIRT.fields, genericOptions, {}, "woven-shirt");
     expect((html.match(/data-option-group=/g) || [])).toHaveLength(5);
     expect(html).toContain('data-field-unit="option-buttonCount"');

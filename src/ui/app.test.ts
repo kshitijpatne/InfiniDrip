@@ -11854,11 +11854,34 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("0.5 cm increments");
       expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
 
-      intake.value = "4.5";
+      intake.value = "4";
       intake.dispatchEvent(new Event("input", { bubbles: true }));
       const across = root.querySelector<HTMLInputElement>('input[data-option="bustDartTargetAcrossFrontPercent"]')!;
-      across.value = "56";
+      across.value = "80";
       across.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(across.value).toBe("80");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="bustDartIntakeCm"]')!.value).toBe("4");
+      expect(root.querySelector<HTMLElement>("#canvas-host [data-render-failed]")).toBeNull();
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).not.toContain("bustDartUpperLeg");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .toContain("cannot be placed inside the current front panel");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      const recoveredIntake = root.querySelector<HTMLInputElement>('input[data-option="bustDartIntakeCm"]')!;
+      recoveredIntake.value = "0.5";
+      recoveredIntake.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .not.toContain("cannot be placed inside the current front panel");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toContain("bustDartUpperLeg");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      const editedIntake = root.querySelector<HTMLInputElement>('input[data-option="bustDartIntakeCm"]')!;
+      editedIntake.value = "4.5";
+      editedIntake.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedAcross = root.querySelector<HTMLInputElement>('input[data-option="bustDartTargetAcrossFrontPercent"]')!;
+      editedAcross.value = "56";
+      editedAcross.dispatchEvent(new Event("input", { bubbles: true }));
       const vertical = root.querySelector<HTMLInputElement>('input[data-option="bustDartTargetFromUnderarmToHemPercent"]')!;
       vertical.value = "30";
       vertical.dispatchEvent(new Event("input", { bubbles: true }));

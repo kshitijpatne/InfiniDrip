@@ -928,6 +928,19 @@ describe("Woven shirt recipe integration", () => {
     expect(sizeRun.every((size) => dartOf(rolePiece(size.block, "front")) !== null)).toBe(true);
   });
 
+  it("uses construction marks that match the fail-closed W08 front topology", () => {
+    const options = {
+      bustDartIntakeCm: 4,
+      bustDartTargetAcrossFrontPercent: 80,
+      bustDartTargetFromUnderarmToHemPercent: 28,
+    };
+    const block = WOVEN_SHIRT.draft(STANDARD_M, options);
+
+    expect(dartOf(rolePiece(block, "front"))).toBeNull();
+    expect(notchesForRecipeOptions(WOVEN_SHIRT, options, block)).toBe(WOVEN_SHIRT.notches);
+    expect(notchesForRecipeOptions(WOVEN_SHIRT, options)).not.toBe(WOVEN_SHIRT.notches);
+  });
+
   it("selects notch and grainline tables that match each Woven collar topology", () => {
     const markCheck = (options: GarmentOptions = {}) =>
       garmentReport(WOVEN_SHIRT, STANDARD_M, options).checks.find((check) =>

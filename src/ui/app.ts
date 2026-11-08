@@ -4119,7 +4119,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const pieces = blockPieces(block);
         canvasContent = renderBlueprint(
           pieces,
-          { active: pieces[0].name, notches: notchesForRecipeOptions(outputRecipe, recipeOptions(outputRecipe)), allowances: outputRecipe.allowances,
+          { active: pieces[0].name, notches: notchesForRecipeOptions(outputRecipe, recipeOptions(outputRecipe), block), allowances: outputRecipe.allowances,
             layout: recipe.name === "polo" ? "polo" : "linear", annotationMode: "external" });
         canvasContent += patternAnnotationKeyMarkup(
           pieces,
