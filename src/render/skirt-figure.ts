@@ -20,7 +20,7 @@
 // Pure: measurements in, one SVG string out.
 
 import { Measurements, skirtWidths, type GarmentOptions } from "../drafting";
-import { skirtHemAdjustmentQuarterCm, skirtHemWidthQuarterCm } from "../drafting/skirt";
+import { skirtHemAdjustmentQuarterCm, skirtHemWidthQuarterCm, isGatheredSkirtProfile, gatheredSkirtOptions } from "../drafting/skirt";
 import { BLUEPRINT as T } from "./theme";
 import { lowerCroquisFigure, lowerCroquisFlareCommand } from "./croquis";
 import type { LowerCroquisAnchors } from "./croquis";
@@ -91,9 +91,30 @@ function renderPanel(waistHalf: number, hipHalf: number, hemHalf: number, len: n
   return group + tag;
 }
 
+function renderGatheredPanel(waistHalf: number, hipHalf: number, hemHalf: number, len: number, hipDrop: number,
+  casingDepthCm: number, fabric: string, cx: number, top: number, label: string): string {
+  const path = `<path d="${skirtPanelPath(waistHalf, hipHalf, hemHalf, len, hipDrop)}" data-part="gathered-skirt" fill="${fabric}" ` +
+    `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+  const guideHalf = hipDrop > 0
+    ? waistHalf + (hipHalf - waistHalf) * casingDepthCm / hipDrop
+    : waistHalf;
+  const guide = `<line data-part="casing-stitch-guide" x1="${round(-guideHalf)}" y1="${round(casingDepthCm)}" ` +
+    `x2="${round(guideHalf)}" y2="${round(casingDepthCm)}" stroke="${T.marker}" stroke-width="0.7" ` +
+    `stroke-dasharray="1.2 1.1" vector-effect="non-scaling-stroke"/>`;
+  const gathers = Array.from({ length: 9 }, (_, index) => {
+    const x = -waistHalf + (2 * waistHalf * index) / 8;
+    return line(x, 0.35, x, 1.6, T.marker, 0.75);
+  }).join("");
+  const group = `<g transform="translate(${round(cx)} ${round(top)})">${path}${guide}<g data-part="gather-marks">${gathers}</g></g>`;
+  const tag = `<text x="${round(cx)}" y="${round(top - 3)}" fill="${T.label}" font-size="2.6" ${FONT} text-anchor="middle">${label}</text>`;
+  return group + tag;
+}
+
 /** The assembled skirt: front and back panels side by side, in fabric colour. */
 export function renderSkirtGarment(m: Measurements, fabric: string, options: GarmentOptions = {}): string {
-  const { waistHalf, hipHalf } = skirtWidths(m);
+  const { hipHalf } = skirtWidths(m);
+  const gathered = isGatheredSkirtProfile(options);
+  const waistHalf = gathered ? m.waist / 4 : skirtWidths(m).waistHalf;
   const hemHalf = skirtHemWidthQuarterCm(m, options);
   const len = m.length;
   const hipDrop = m.hipDepth;
@@ -105,13 +126,17 @@ export function renderSkirtGarment(m: Measurements, fabric: string, options: Gar
   const frontCx = margin + halfW;
   const backCx = frontCx + 2 * halfW + gap;
   const width = backCx + halfW + margin;
+  const casingDepthCm = gathered ? gatheredSkirtOptions(options).casingDepthCm : 0;
   const height = top + len + margin;
 
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
-    renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, frontCx, top, "FRONT") +
-    renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, backCx, top, "BACK") +
+    (gathered
+      ? renderGatheredPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, casingDepthCm, fabric, frontCx, top, "FRONT")
+        + renderGatheredPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, casingDepthCm, fabric, backCx, top, "BACK")
+      : renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, frontCx, top, "FRONT")
+        + renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, backCx, top, "BACK")) +
     `</svg>`;
 }
 

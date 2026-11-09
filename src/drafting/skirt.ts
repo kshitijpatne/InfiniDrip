@@ -18,6 +18,7 @@ import { Pom, spanX, spanY, PointRef } from "./pom";
 import { PieceNotches } from "./tshirt-notches";
 import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
 import { Component } from "./component";
+import { lineMark } from "./pattern-mark";
 import { waistband, WAISTBAND_DEFAULT } from "./waistband";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import type { GarmentOption, GarmentOptions } from "./options";
@@ -53,6 +54,55 @@ export const SKIRT_PENCIL_HEM_TAPER_OPTION: GarmentOption = {
   max: 12,
   step: 1,
 };
+
+export const SKIRT_GATHERED_ENTRY_ID = "skirt-gathered-pull-on-digital-v1";
+export const SKIRT_GATHER_RATIO_OPTION_ID = "gatherRatio";
+export const SKIRT_CASING_DEPTH_OPTION_ID = "casingDepthCm";
+export const SKIRT_GATHER_RATIO_OPTION: GarmentOption = {
+  id: SKIRT_GATHER_RATIO_OPTION_ID,
+  label: "Waist gathering ratio (software setting)",
+  unit: "ratio",
+  help: "Sets the digital cut-waist width before gathering; the measured waist remains the gathered-to reference and ease affects hip width only. The range is a software choice, not a physical standard or fabric-specific gathering recommendation.",
+  group: "Waist finish",
+  appliesToStarterEntryId: SKIRT_GATHERED_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 1.5,
+  min: 1.25,
+  max: 2,
+  step: 0.25,
+};
+export const SKIRT_CASING_DEPTH_OPTION: GarmentOption = {
+  id: SKIRT_CASING_DEPTH_OPTION_ID,
+  label: "Casing depth (software setting)",
+  unit: "cm",
+  help: "Sets the digital fold-to-stitch guide depth. Elastic width and physical casing compatibility are unspecified.",
+  group: "Waist finish",
+  appliesToStarterEntryId: SKIRT_GATHERED_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 4,
+  min: 2,
+  max: 5,
+  step: 0.5,
+};
+
+export function isGatheredSkirtProfile(options: GarmentOptions = {}): boolean {
+  return Object.prototype.hasOwnProperty.call(options, SKIRT_GATHER_RATIO_OPTION_ID);
+}
+
+function gatheredSkirtOption(options: GarmentOptions, id: string, fallback: number): number {
+  const value = options[id] ?? fallback;
+  if (!Number.isFinite(value)) {
+    throw new RangeError(`K03 ${id} must be finite; enter a supported value to restore the digital draft`);
+  }
+  return value;
+}
+
+export function gatheredSkirtOptions(options: GarmentOptions = {}): { gatherRatio: number; casingDepthCm: number } {
+  return {
+    gatherRatio: gatheredSkirtOption(options, SKIRT_GATHER_RATIO_OPTION_ID, 1.5),
+    casingDepthCm: gatheredSkirtOption(options, SKIRT_CASING_DEPTH_OPTION_ID, 4),
+  };
+}
 
 /** Additional width assigned to each of the four on-fold quarter panels. */
 export function skirtHemSweepQuarterCm(options: GarmentOptions = {}): number {
@@ -184,6 +234,126 @@ export const skirtPanel: Component<SkirtPanelParams> = (m, params) => {
     interfaces: { waist: iface(edgeRef(params.position, "waist")) },
   };
 };
+
+export interface GatheredSkirtPanelParams {
+  readonly position: "front" | "back";
+  readonly gatherRatio: number;
+  readonly casingDepthCm: number;
+}
+
+/** K03's flat cut piece carries a gathered waist extension above the finished
+ * fold line. Its cut edge is deliberately distinct from the modeled waist. */
+export const gatheredSkirtPanel: Component<GatheredSkirtPanelParams> = (m, params) => {
+  const { gatherRatio, casingDepthCm } = gatheredSkirtOptions({
+    [SKIRT_GATHER_RATIO_OPTION_ID]: params.gatherRatio,
+    [SKIRT_CASING_DEPTH_OPTION_ID]: params.casingDepthCm,
+  });
+  const finishedWaistQ = m.waist / 4;
+  const { hipHalf } = skirtWidths(m);
+  const cutWaistQ = (m.waist * gatherRatio) / 4;
+  const cutTopCenter = point(0, -casingDepthCm);
+  const cutTopSide = point(cutWaistQ, -casingDepthCm);
+  const waistSide = point(finishedWaistQ, 0);
+  const hipSide = point(hipHalf, m.hipDepth);
+  const hemSide = point(hipHalf, m.length);
+  const hemCenter = point(0, m.length);
+  const casingGuideY = casingDepthCm;
+  const casingGuideX = m.hipDepth > 0
+    ? finishedWaistQ + (hipHalf - finishedWaistQ) * casingDepthCm / m.hipDepth
+    : finishedWaistQ;
+  const edges: Edge[] = [
+    { kind: "line", name: "waist", start: cutTopCenter, end: cutTopSide },
+    { kind: "line", name: "casingSide", start: cutTopSide, end: waistSide },
+    { kind: "line", name: "sideUpper", start: waistSide, end: hipSide },
+    { kind: "line", name: "sideLower", start: hipSide, end: hemSide },
+    { kind: "line", name: "hem", start: hemSide, end: hemCenter },
+    { kind: "line", name: "center", start: hemCenter, end: cutTopCenter },
+  ];
+  return {
+    pieces: {
+      [params.position]: {
+        name: params.position,
+        onFold: true,
+        edges,
+        marks: [
+          lineMark("foldLine", "casingFold", point(0, 0), point(finishedWaistQ, 0),
+            "Finished waist fold line", "instruction"),
+          lineMark("placementLine", "casingStitchGuide", point(0, casingGuideY), point(casingGuideX, casingGuideY),
+            "Casing stitch guide (software depth)", "instruction"),
+        ],
+      },
+    },
+    stitches: [],
+    interfaces: { waist: iface(edgeRef(params.position, "waist")) },
+  };
+};
+
+const GATHERED_SKIRT_SIDE_SEAM: Stitch = {
+  label: "Side seam (gathered front ↔ back)",
+  a: iface(edgeRef("front", "casingSide"), edgeRef("front", "sideUpper"), edgeRef("front", "sideLower")),
+  b: iface(edgeRef("back", "casingSide"), edgeRef("back", "sideUpper"), edgeRef("back", "sideLower")),
+};
+
+export const SKIRT_GATHERED_NOTCHES: readonly PieceNotches[] = [
+  {
+    pieceName: "front",
+    notches: [matchedNotch(GATHERED_SKIRT_SIDE_SEAM, "a", 0.5, 1)],
+    grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
+  },
+  {
+    pieceName: "back",
+    notches: [
+      matchedNotch(GATHERED_SKIRT_SIDE_SEAM, "b", 0.5, 1),
+      matchedNotch(GATHERED_SKIRT_SIDE_SEAM, "b", 0.5, 1),
+    ],
+    grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
+  },
+];
+
+export const SKIRT_GATHERED_GRAMMAR = garmentGrammar(
+  "skirt-gathered-pull-on",
+  [
+    componentNode("front", "gathered-skirt-panel", gatheredSkirtPanel, (context) => ({
+      position: "front" as const,
+      ...gatheredSkirtOptions(context.options),
+    })),
+    componentNode("back", "gathered-skirt-panel", gatheredSkirtPanel, (context) => ({
+      position: "back" as const,
+      ...gatheredSkirtOptions(context.options),
+    })),
+  ],
+  () => [GATHERED_SKIRT_SIDE_SEAM],
+);
+
+export const SKIRT_GATHERED_POMS: readonly Pom[] = [
+  {
+    label: "Cut waist edge (before gathering)",
+    measure: (b) => 4 * spanX(rolePiece(b, "front"), { edge: "waist", at: "end" }, FOLD),
+    anchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "front"), "waist")),
+    backAnchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "back"), "waist")),
+  },
+  {
+    label: "Measured waist (digital gathered-to reference)",
+    measure: (b) => {
+      const fold = rolePiece(b, "front").marks?.find((mark) => mark.name === "casingFold");
+      if (!fold || !("start" in fold)) throw new Error("K03 front panel is missing its casing fold line");
+      return 4 * Math.abs(fold.end.x - fold.start.x);
+    },
+  },
+  {
+    label: "Hip (modeled)",
+    tolerance: 1.3,
+    measure: (b) => 4 * spanX(rolePiece(b, "front"), { edge: "sideLower", at: "start" }, FOLD),
+    anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "sideLower")),
+    backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "sideLower")),
+  },
+  {
+    label: "Length (finished top fold–hem)",
+    tolerance: 1.3,
+    measure: (b) => spanY(rolePiece(b, "front"), { edge: "sideUpper", at: "start" }, { edge: "hem", at: "end" }),
+  },
+];
+
 /** The skirt's stitches preserve the original panel side-seam check, attach
  *  separate front/back waistband pieces to their matching body panels, and
  *  describe the single side zipper path from the band through the upper body
@@ -217,6 +387,13 @@ const SKIRT_STITCHES: readonly Stitch[] = [
 ];
 
 export function draftSkirt(m: Measurements, options: GarmentOptions = {}): Block {
+  if (isGatheredSkirtProfile(options)) {
+    if (Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)
+        || Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)) {
+      throw new Error("K03 gathered construction cannot combine with a hem sweep or taper profile");
+    }
+    return composeBlock(SKIRT_GATHERED_GRAMMAR, m, options);
+  }
   return composeBlock(SKIRT_GRAMMAR, m, options);
 }
 

@@ -1,4 +1,4 @@
-import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID } from "./skirt";
+import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "./skirt";
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions, type GarmentOptions } from "./options";
@@ -1394,5 +1394,39 @@ describe("K02 Pencil-like skirt recipe", () => {
       expect(pack.construction.join(" ")).toContain("does not model conventional darts or a center-back vent");
       expect(plainPack).toEqual(SKIRT.techPack);
     }
+  });
+});
+
+describe("K03 gathered pull-on skirt recipe", () => {
+  it("selects the K03 POM, notch and digital-only Tech Pack contracts from its scoped options", () => {
+    const options = { [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5, [SKIRT_CASING_DEPTH_OPTION_ID]: 4 };
+    const block = SKIRT.draft(STANDARD_M, options);
+    const poms = pomsForRecipeOptions(SKIRT, options);
+    const notches = notchesForRecipeOptions(SKIRT, options, block);
+    const pack = SKIRT.techPackForOptions!(options);
+    expect(Object.keys(block.roles)).toEqual(["front", "back"]);
+    expect(poms.map((pom) => pom.label)).toEqual([
+      "Cut waist edge (before gathering)",
+      "Measured waist (digital gathered-to reference)",
+      "Hip (modeled)",
+      "Length (finished top fold–hem)",
+    ]);
+    expect(poms.map((pom) => pom.measure(block))).toEqual([
+      STANDARD_M.waist * 1.5,
+      STANDARD_M.waist,
+      STANDARD_M.hip + STANDARD_M.ease,
+      STANDARD_M.length,
+    ]);
+    expect(pack.construction.join(" ")).toContain("gathered to that measured waist as a digital target");
+    expect(notches.map(({ pieceName }) => pieceName)).toEqual(["front", "back"]);
+    expect(garmentReport(SKIRT, STANDARD_M, options).ok).toBe(true);
+    expect(pack.bom).toEqual([]);
+    expect(pack.construction.join(" ")).toContain("not a sourced fabric or sewing standard");
+    expect(pack.construction.join(" ")).toContain("No separate waistband, zipper");
+    expect(pack.constructionNotice).toContain("elastic specification");
+    const fallbackPack = SKIRT.techPackForOptions!({ [SKIRT_GATHER_RATIO_OPTION_ID]: undefined } as unknown as GarmentOptions);
+    expect(fallbackPack.construction.join(" ")).toContain("at 1.5 times the measured waist");
+    expect(fallbackPack.construction.join(" ")).toContain("the 4 cm placement line");
+    expect(SKIRT.techPackForOptions!({})).toEqual(SKIRT.techPack);
   });
 });
