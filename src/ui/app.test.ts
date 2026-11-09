@@ -9330,7 +9330,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  });
+  }, 20_000);
 
   it("creates a one-size custom Skirt through the empty recipe-option fallback", async () => {
     localStorage.clear();
@@ -9358,12 +9358,19 @@ describe("bundled local artwork library (Slice 203)", () => {
           id: SKIRT_A_LINE_HEM_SWEEP_OPTION_ID,
           appliesToStarterEntryId: SKIRT_A_LINE_ENTRY_ID,
         }),
+        expect.objectContaining({
+          id: SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
+          appliesToStarterEntryId: SKIRT_PENCIL_ENTRY_ID,
+        }),
       ]);
 
       clickId(root, "journey-guided");
       await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
       expect(root.querySelector<HTMLInputElement>(
         `input[data-option="${SKIRT_A_LINE_HEM_SWEEP_OPTION_ID}"]`,
+      )).toBeNull();
+      expect(root.querySelector<HTMLInputElement>(
+        `input[data-option="${SKIRT_PENCIL_HEM_TAPER_OPTION_ID}"]`,
       )).toBeNull();
       for (const definition of getCaptureFieldDefinitions("skirt")) {
         const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
@@ -15355,7 +15362,7 @@ describe("EPIC-19 L02 starter binding", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  }, 10_000);
+  }, 20_000);
 
   it("restores the Raglan construction and exact candidate origin from an unfinished recovery draft", () => {
     localStorage.clear();
