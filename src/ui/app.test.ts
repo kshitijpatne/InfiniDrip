@@ -9342,11 +9342,19 @@ describe("bundled local artwork library (Slice 203)", () => {
       clickId(root, "garment-skirt");
       await vi.waitFor(() => expect(root.querySelector("#current-garment")?.textContent).toBe("Skirt"));
       const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
-      expect(recipe.options).toBeUndefined();
+      expect(recipe.options).toEqual([
+        expect.objectContaining({
+          id: SKIRT_A_LINE_HEM_SWEEP_OPTION_ID,
+          appliesToStarterEntryId: SKIRT_A_LINE_ENTRY_ID,
+        }),
+      ]);
 
       clickId(root, "journey-guided");
       await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
-      for (const definition of getFieldDefinitions("skirt")) {
+      expect(root.querySelector<HTMLInputElement>(
+        `input[data-option="${SKIRT_A_LINE_HEM_SWEEP_OPTION_ID}"]`,
+      )).toBeNull();
+      for (const definition of getCaptureFieldDefinitions("skirt")) {
         const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
           .find((button) => button.dataset.fieldId === definition.id);
         if (!preset) throw new Error(`No digital preset button for ${definition.id}`);
