@@ -5,7 +5,7 @@
 // hem (bottom) → centre (the fold). Front and back are the same simple block.
 //
 // This is a dartless block: the waist is eased in at the side seam rather than
-// darted. Waist darts / A-line flare are a later refinement.
+// darted. K01 adds a bounded digital hem sweep; it does not transfer a dart.
 
 import { point } from "../geometry";
 import { Measurements } from "./measurements";
@@ -20,6 +20,28 @@ import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
 import { Component } from "./component";
 import { waistband, WAISTBAND_DEFAULT } from "./waistband";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
+import type { GarmentOption, GarmentOptions } from "./options";
+
+export const SKIRT_A_LINE_ENTRY_ID = "skirt-a-line-digital-v1";
+export const SKIRT_A_LINE_HEM_SWEEP_OPTION_ID = "hemSweepCm";
+export const SKIRT_A_LINE_HEM_SWEEP_OPTION: GarmentOption = {
+  id: SKIRT_A_LINE_HEM_SWEEP_OPTION_ID,
+  label: "Additional hem sweep (whole garment)",
+  unit: "cm",
+  help: "Adds width at the hem while keeping the waist and hip unchanged. This is an editable software geometry choice, not a physical pattern standard.",
+  group: "Hem",
+  appliesToStarterEntryId: SKIRT_A_LINE_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 12,
+  min: 4,
+  max: 24,
+  step: 1,
+};
+
+/** Additional width assigned to each of the four on-fold quarter panels. */
+export function skirtHemSweepQuarterCm(options: GarmentOptions = {}): number {
+  return (options[SKIRT_A_LINE_HEM_SWEEP_OPTION_ID] ?? 0) / 4;
+}
 
 /** The skirt's own half-widths at the waist and hip — the single source of
  *  truth `panel()` drafts from and `render/skirt-figure.ts` must draw from
@@ -36,13 +58,13 @@ export function skirtWidths(m: Measurements): { waistHalf: number; hipHalf: numb
 }
 
 /** One skirt panel (front or back), cut on the fold at the centre (x = 0). */
-function panel(m: Measurements, name: string): Piece {
+function panel(m: Measurements, name: string, hemSweepQuarterCm = 0): Piece {
   const { waistHalf: waistQ, hipHalf: hipQ } = skirtWidths(m);
 
   const cWaist = point(0, 0);
   const sWaist = point(waistQ, 0);
   const sHip = point(hipQ, m.hipDepth);
-  const sHem = point(hipQ, m.length);
+  const sHem = point(hipQ + hemSweepQuarterCm, m.length);
   const cHem = point(0, m.length);
 
   const edges: Edge[] = [
@@ -57,11 +79,10 @@ function panel(m: Measurements, name: string): Piece {
 
 export interface SkirtPanelParams {
   readonly position: "front" | "back";
-  /** Per §5's taxonomy. Only "straight" is drafted — the block's whole
-   *  premise (§ file header: "waist darts / A-line flare are a later
-   *  refinement"). Typed now so the taxonomy doesn't need a breaking change
-   *  when flare ships; throws rather than silently drafting straight. */
+  /** Straight keeps the base hem; flare requires an explicit positive quarter-panel sweep. */
   readonly silhouette: "straight" | "flare";
+  /** Whole-garment sweep divided across four on-fold quarter panels. */
+  readonly hemSweepQuarterCm?: number;
 }
 
 /** The SkirtPanel component (Phase C1, Slice 58): formalises `panel` — the
@@ -72,10 +93,17 @@ export interface SkirtPanelParams {
  *  inventing, not about wrapping an already-real implementation for
  *  consistency) — `panel`'s geometry is untouched, so this is byte-identical. */
 export const skirtPanel: Component<SkirtPanelParams> = (m, params) => {
-  if (params.silhouette !== "straight") {
-    throw new Error(`Skirt silhouette "${params.silhouette}" not yet implemented (straight only)`);
+  if (params.silhouette !== "straight" && params.silhouette !== "flare") {
+    throw new Error(`Skirt silhouette "${params.silhouette}" is not supported`);
   }
-  const piece = panel(m, params.position);
+  if (params.silhouette === "flare"
+      && (!Number.isFinite(params.hemSweepQuarterCm) || params.hemSweepQuarterCm! <= 0)) {
+    throw new Error("A flared skirt panel requires a positive finite hem-sweep value");
+  }
+  if (params.silhouette === "straight" && params.hemSweepQuarterCm !== undefined && params.hemSweepQuarterCm !== 0) {
+    throw new Error("A straight skirt panel cannot include hem sweep");
+  }
+  const piece = panel(m, params.position, params.silhouette === "flare" ? params.hemSweepQuarterCm : 0);
   return {
     pieces: { [params.position]: piece },
     stitches: [],
@@ -115,8 +143,8 @@ const SKIRT_STITCHES: readonly Stitch[] = [
   },
 ];
 
-export function draftSkirt(m: Measurements): Block {
-  return composeBlock(SKIRT_GRAMMAR, m);
+export function draftSkirt(m: Measurements, options: GarmentOptions = {}): Block {
+  return composeBlock(SKIRT_GRAMMAR, m, options);
 }
 
 /** Each band receives the exact seam length exposed by its matching panel.
@@ -124,8 +152,22 @@ export function draftSkirt(m: Measurements): Block {
 export const SKIRT_GRAMMAR = garmentGrammar(
   "skirt",
   [
-    componentNode("front", "skirt-panel", skirtPanel, () => ({ position: "front" as const, silhouette: "straight" as const })),
-    componentNode("back", "skirt-panel", skirtPanel, () => ({ position: "back" as const, silhouette: "straight" as const })),
+    componentNode("front", "skirt-panel", skirtPanel, (context) => {
+      const hemSweepQuarterCm = skirtHemSweepQuarterCm(context.options);
+      return {
+        position: "front" as const,
+        silhouette: hemSweepQuarterCm > 0 ? "flare" as const : "straight" as const,
+        hemSweepQuarterCm,
+      };
+    }),
+    componentNode("back", "skirt-panel", skirtPanel, (context) => {
+      const hemSweepQuarterCm = skirtHemSweepQuarterCm(context.options);
+      return {
+        position: "back" as const,
+        silhouette: hemSweepQuarterCm > 0 ? "flare" as const : "straight" as const,
+        hemSweepQuarterCm,
+      };
+    }),
     componentNode(
       "waistband",
       "waistband",
@@ -223,6 +265,13 @@ export const SKIRT_POMS: readonly Pom[] = [
     measure: (b) => spanY(rolePiece(b, "front"), { edge: "waist", at: "start" }, { edge: "hem", at: "end" }),
   },
 ];
+
+export const SKIRT_A_LINE_HEM_POM: Pom = {
+  label: "Hem circumference (modeled)",
+  measure: (b) => 4 * spanX(rolePiece(b, "front"), { edge: "hem", at: "start" }, FOLD),
+  anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "hem")),
+  backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "hem")),
+};
 
 // Phase A3 (Slice 51): both balance notches read off SKIRT_STITCHES' own
 // side-seam interface (index 1 = sideLower, the edge nearest the hem) instead

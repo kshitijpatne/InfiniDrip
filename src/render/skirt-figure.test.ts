@@ -115,6 +115,18 @@ describe("renderSkirtGarment (assembled view)", () => {
     };
     expect(panelWidth({ ...STANDARD_M, hip: 130 })).toBeGreaterThan(panelWidth(STANDARD_M));
   });
+
+  it("draws the same quarter-panel sweep as the pattern and keeps the zero-sweep view byte-identical", () => {
+    const sweep = 12;
+    const options = { hemSweepCm: sweep };
+    const base = renderSkirtGarment(STANDARD_M, "#3A4150");
+    const zero = renderSkirtGarment(STANDARD_M, "#3A4150", { hemSweepCm: 0 });
+    const flared = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", options));
+    expect(zero).toBe(base);
+    const path = [...flared.querySelectorAll('path[data-edge="ease"]')][0]!;
+    const hem = vertices(path.getAttribute("d")!).filter((vertex) => vertex.y === STANDARD_M.length);
+    expect(Math.max(...hem.map(({ x }) => x))).toBeCloseTo((STANDARD_M.hip + STANDARD_M.ease) / 4 + sweep / 4, 8);
+  });
 });
 
 describe("renderSkirtBody (annotated body view)", () => {
@@ -167,6 +179,22 @@ describe("renderSkirtBody (annotated body view)", () => {
     const doc = wellFormed(svg);
     expect(pathOf(svg, "silhouette")).toBe(figure.silhouettePath);
     expect(doc.querySelector('[data-part="cloth"]')).not.toBeNull();
+  });
+
+  it("blends the option sweep from hip to hem in the cloth view without changing the body", () => {
+    const options = { hemSweepCm: 12 };
+    const base = wellFormed(renderSkirtBody(STANDARD_M));
+    const zero = renderSkirtBody(STANDARD_M, { hemSweepCm: 0 });
+    const flaredSvg = renderSkirtBody(STANDARD_M, options);
+    const flared = wellFormed(flaredSvg);
+    expect(zero).toBe(renderSkirtBody(STANDARD_M));
+    expect(flared.querySelector('[data-part="silhouette"]')!.getAttribute("d"))
+      .toBe(base.querySelector('[data-part="silhouette"]')!.getAttribute("d"));
+    const clothVertices = vertices(flared.querySelector('[data-part="cloth"]')!.getAttribute("d")!);
+    const hemHalf = (STANDARD_M.hip + STANDARD_M.ease) / 4 + 12 / 4 + 1.5;
+    expect(Math.max(...clothVertices.filter(({ y }) => y === STANDARD_M.length).map(({ x }) => x)))
+      .toBeCloseTo(hemHalf, 8);
+    expect(viewBoxOf(flaredSvg)[2]).toBeGreaterThan(viewBoxOf(renderSkirtBody(STANDARD_M))[2]);
   });
 });
 

@@ -55,6 +55,7 @@ import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_
   TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 import { blockPieces } from "../drafting/block";
+import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID } from "../drafting/skirt";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
 import { pieceBounds, pieceToPath } from "../render/shape";
 import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg } from "../export";
@@ -11926,6 +11927,7 @@ describe("EPIC-19 L02 starter binding", () => {
       clickId(reopened, "view-pattern");
       expect(reopened.querySelector<SVGSVGElement>("#canvas-host svg")!.innerHTML).toBe(editedSvg);
 
+      clickId(reopened, "garment-polo");
       clickId(reopened, "garment-skirt");
       clickId(reopened, "load-pattern");
       clickId(reopened, "workspace-confirm-accept");
@@ -16113,6 +16115,161 @@ describe("S1215 N08 Shelf-lined Tank", () => {
       localStorage.clear();
     }
   }, 30000);
+});
+
+describe("K01 A-line-like skirt starter workflow", () => {
+  it("keeps the sweep entry-scoped, corrects invalid inputs, and saves the selected digital profile", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_A_LINE_ENTRY_ID}`);
+
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: A-line skirt · software defaults");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_A_LINE_HEM_SWEEP_OPTION_ID}"]`)!.value)
+        .toBe("12");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("A-line-like skirt");
+      reachExportStage(root);
+
+      const sweep = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_A_LINE_HEM_SWEEP_OPTION_ID}"]`)!;
+      sweep.value = "25";
+      sweep.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(sweep.value).toBe("25");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("supports 4–24 cm");
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_A_LINE_HEM_SWEEP_OPTION_ID}"]`)!.textContent)
+        .toContain("supports 4–24 cm");
+
+      sweep.value = "12.5";
+      sweep.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(sweep.value).toBe("12.5");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("use 1 cm increments");
+
+      sweep.value = "4";
+      sweep.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).not.toContain("supports 4–24 cm");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).not.toContain("use 1 cm increments");
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_A_LINE_HEM_SWEEP_OPTION_ID}"]`)?.textContent).toBe("");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+
+      const hipDepth = root.querySelector<HTMLInputElement>('input[data-field="hipDepth"]')!;
+      hipDepth.value = "40";
+      hipDepth.dispatchEvent(new Event("input", { bubbles: true }));
+      const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+      length.value = "40";
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(length.value).toBe("40");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .toContain("Length (40 cm) does not clear the hip depth (40 cm)");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .toContain("Lengthen the skirt or reduce the hip depth");
+      expect(root.querySelector<HTMLElement>('[data-input-error="length"]')!.textContent)
+        .toContain("Lengthen the skirt or reduce the hip depth");
+
+      length.value = "70";
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>('[data-input-error="length"]')?.textContent).toBe("");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.skirt).toMatchObject({ [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: 4 });
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: SKIRT_A_LINE_ENTRY_ID,
+        recipeRevision: "skirt-a-line-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_A_LINE_HEM_SWEEP_OPTION_ID}"]`)!.value)
+        .toBe("4");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_A_LINE_ENTRY_ID}"]`)!
+        .getAttribute("aria-pressed")).toBe("true");
+
+      clickId(reopened, "garment-skirt");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_A_LINE_HEM_SWEEP_OPTION_ID}"]`))
+        .toBeNull();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("keeps the A-line identity and digital-only limits in all six output actions", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_A_LINE_ENTRY_ID}`);
+      reachExportStage(root);
+
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6));
+      expect([...files.keys()].sort()).toEqual([
+        "a-line-like-skirt-M-A0.pdf",
+        "a-line-like-skirt-M.dxf",
+        "a-line-like-skirt-M.pdf",
+        "a-line-like-skirt-M.svg",
+        "a-line-like-skirt-projector.svg",
+        "a-line-like-skirt-techpack.pdf",
+      ].sort());
+
+      const projectorText = [...new DOMParser().parseFromString(
+        files.get("a-line-like-skirt-projector.svg")!, "image/svg+xml",
+      ).getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("A-line-like skirt");
+      expect(projectorText).toContain("Digital A-line-like hem sweep; grading is not validated.");
+
+      const techPackText = visiblePdfText(files.get("a-line-like-skirt-techpack.pdf")!);
+      expect(techPackText).toContain("Hem circumference (modeled)");
+      expect(techPackText).toContain("Digital pattern guidance only");
+      expect(techPackText).toContain(
+        "Digital A-line-like skirt using a 12 cm whole-garment hem-sweep software setting over a dartless block.",
+      );
+      expect(techPackText).toContain("does not model literal dart transfer");
+      expect(techPackText).toContain("physical fit");
+      expect(techPackText).toContain("unvalidated");
+
+      clickId(root, "garment-skirt");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+      reachExportStage(root);
+      clickId(root, "export-svg");
+      clickId(root, "export-projector");
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(8));
+      expect(files.has("skirt-M.svg")).toBe(true);
+      expect(files.get("skirt-M.svg")).not.toBe(files.get("a-line-like-skirt-M.svg"));
+      expect(files.has("skirt-projector.svg")).toBe(true);
+      const genericProjectorText = [...new DOMParser().parseFromString(
+        files.get("skirt-projector.svg")!, "image/svg+xml",
+      ).getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(genericProjectorText).not.toContain("Digital A-line-like hem sweep; grading is not validated.");
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
 });
 
 describe("P01 Classic two-button Polo Starter Blank", () => {

@@ -62,6 +62,7 @@ import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, po
 import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankNotchesForOptions, tankRacerbackControlOffsetCm } from "../drafting/tank";
+import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID } from "../drafting/skirt";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -1706,7 +1707,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-band-collar"
+    starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt" ? "a-line-like-skirt"
+      : starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-band-collar"
       : starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-camp-collar"
       : starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-tunic-longline"
       : starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo" ? "polo-band-collar"
@@ -1920,7 +1922,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && forRecipe.name === "woven-shirt"
+    starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && forRecipe.name === "skirt"
+      ? "A-line-like skirt"
+      : starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && forRecipe.name === "woven-shirt"
       ? "Band-collar Woven Shirt"
       : starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && forRecipe.name === "woven-shirt"
       ? "Camp-collar Woven Shirt"
@@ -1967,12 +1971,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
   const starterOutputStatusNote = (format: "tech-pack" | "projector" = "tech-pack"): string | undefined => {
+    const isK01Starter = starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt";
     const isW03Starter = starterOrigin?.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID && recipe.name === "woven-shirt";
     const isW04Starter = starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && recipe.name === "woven-shirt";
     const isW05Starter = starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt";
     const isW06Starter = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
     const isW07Starter = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
-    if (format === "projector") return isW03Starter ? "W03 grade is not validated." : isW04Starter
+    if (format === "projector") return isK01Starter ? "Digital A-line-like hem sweep; grading is not validated."
+      : isW03Starter ? "W03 grade is not validated." : isW04Starter
       ? "W04 grade is not validated. The W04 hip station is a digital crop reference, not a physical hip-location or fit measure."
       : isW05Starter ? "W05 grade is not validated." : isW06Starter ? "W06 grade is not validated."
         : isW07Starter ? "W07 grade is not validated." : undefined;
@@ -1992,6 +1998,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (isW07Starter) {
       const options = recipeOptions();
       return `Digital W07 Band-collar Woven Shirt. The ${options.bandCollarHeight} cm band height, 72 cm modeled length and 21 cm ease are editable InfiniDrip software choices, not physical standards or validated fit targets. Two band layers meet at the center-front opening with the existing separate full-front plackets; no pointed collar leaf or extra collar-band button/buttonhole is modeled. The generic Woven Shirt size run is not a validated W07 grade; physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.`;
+    }
+    if (isK01Starter) {
+      const sweep = recipeOptions()[SKIRT_A_LINE_HEM_SWEEP_OPTION_ID];
+      return `Digital A-line-like skirt using a ${sweep} cm whole-garment hem-sweep software setting over a dartless block. This does not model literal dart transfer. Physical fit, comfort, wear, grading, materials, consumption, sewing performance and production remain unspecified or unvalidated.`;
     }
     if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo") {
       const options = recipeOptions();
@@ -2417,6 +2427,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (activeStarterId === TANK_N06_ENTRY_ID && !errors.has("armholeDepth") && !errors.has("length")) {
       const relation = tankN06ArmholeLengthNote(measurements);
       if (relation) errors.set("armholeDepth", relation.text);
+    }
+    if (activeStarterId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt"
+        && !errors.has("length") && !errors.has("hipDepth") && measurements.length <= measurements.hipDepth) {
+      errors.set("length", `Length (${measurements.length} cm) does not clear the hip depth (${measurements.hipDepth} cm). Lengthen the skirt or reduce the hip depth; the K01 preview and exports stay paused.`);
     }
     for (const option of activeOptionDefinitions()) {
       const value = recipeOptions()[option.id];
@@ -4096,7 +4110,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
                 : bodyCroquisView === "back"
                   ? renderJoggerBody(measurements, recipeOptions(), "back")
                   : renderJoggerBodyPair(measurements, recipeOptions())
-              : renderSkirtBody(measurements);
+              : renderSkirtBody(measurements, recipeOptions());
       } else if (isHoodie) {
         canvasContent = bodyCroquisView === "front"
           ? renderHoodieBody(measurements, recipeOptions(), "front")
@@ -4143,7 +4157,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             ? renderShortsGarment(measurements, fabric, recipeOptions())
             : isJogger
               ? renderJoggerGarment(measurements, fabric, recipeOptions())
-              : renderSkirtGarment(measurements, fabric);
+              : renderSkirtGarment(measurements, fabric, recipeOptions());
     const assembledPreview = applyAppearanceToSvg(assembled, fabric, appearance);
     const assembledEditNotice = semanticEdits
       ? '<p class="semantic-edit-preview-notice" role="status">Saved pattern edits are not reflected in this schematic assembled illustration. Pattern-linked 3D simulation is not available.</p>'
@@ -5221,6 +5235,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           }
           starterOrigin = null;
         }
+        // Selecting the generic Skirt while K01 is already active does not
+        // change the recipe name, so setGarment's recipe-change cleanup cannot
+        // clear the entry-scoped A-line controls on its own.
+        if (g.name === "skirt" && starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID) starterOrigin = null;
         setGarment(g.name);
       });
   });

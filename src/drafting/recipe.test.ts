@@ -1330,3 +1330,35 @@ describe("Jogger recipe activation (S1119)", () => {
     expect(invalid.some((note) => note.field === "option-waistbandDepth" && note.text.includes("increase casing depth"))).toBe(true);
   });
 });
+
+describe("K01 A-line-like skirt recipe", () => {
+  it("derives the hem POM and size metric from the same option-driven draft without changing plain Skirt", () => {
+    const optionId = "hemSweepCm";
+    const plainBlock = SKIRT.draft(STANDARD_M, {});
+    const plainPoms = pomsForRecipeOptions(SKIRT, {});
+    const plainPack = SKIRT.techPackForOptions!({});
+    expect(plainPack).toEqual(SKIRT.techPack);
+    expect(plainPack.bom.length).toBeGreaterThan(0);
+    expect(plainPoms.some((pom) => pom.label === "Hem circumference (modeled)")).toBe(false);
+
+    for (const sweep of [4, 12, 24]) {
+      const options = { [optionId]: sweep };
+      const block = SKIRT.draft(STANDARD_M, options);
+      const poms = pomsForRecipeOptions(SKIRT, options);
+      const hem = poms.find((pom) => pom.label === "Hem circumference (modeled)")!;
+      const pack = SKIRT.techPackForOptions!(options);
+      expect(hem.measure(block) - plainPoms.find((pom) => pom.label === "Hip (finished)")!.measure(plainBlock))
+        .toBeCloseTo(sweep, 8);
+      expect(SKIRT.sizeMetric(block) - SKIRT.sizeMetric(plainBlock)).toBeCloseTo(sweep / 4, 8);
+      expect(poms.find((pom) => pom.label === "Waist (finished)")!.measure(block))
+        .toBeCloseTo(plainPoms.find((pom) => pom.label === "Waist (finished)")!.measure(plainBlock), 8);
+      expect(poms.find((pom) => pom.label === "Hip (finished)")!.measure(block))
+        .toBeCloseTo(plainPoms.find((pom) => pom.label === "Hip (finished)")!.measure(plainBlock), 8);
+      expect(poms.find((pom) => pom.label === "Length (waist–hem)")!.measure(block))
+        .toBeCloseTo(plainPoms.find((pom) => pom.label === "Length (waist–hem)")!.measure(plainBlock), 8);
+      expect(pack.bom).toEqual([]);
+      expect(pack.constructionNotice).toContain("material selection, consumption");
+      expect(pack.construction.join(" ")).toContain("does not model literal dart transfer");
+    }
+  });
+});
