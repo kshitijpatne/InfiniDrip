@@ -2,6 +2,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M, Measurements, skirtWidths } from "../drafting";
 import { renderSkirtGarment, renderSkirtBody } from "./skirt-figure";
+import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID } from "../drafting/skirt";
 import { lowerCroquisFigure } from "./croquis";
 
 const parse = (svg: string): Document => new DOMParser().parseFromString(svg, "image/svg+xml");
@@ -389,5 +390,28 @@ describe("renderSkirtBody — real waist/hip width sync (Slice 61)", () => {
       expect(halfWidthAt(pts, 0)).toBeCloseTo(waistHalf, 1);
       expect(halfWidthAt(pts, m.hipDepth)).toBeCloseTo(hipHalf, 1);
     }
+  });
+});
+describe("rendered K02 Pencil-like skirt views", () => {
+  const options = { [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 8 };
+
+  it("draws the assembled hem two centimeters inside the hip on each quarter", () => {
+    const doc = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", options));
+    const front = [...doc.querySelectorAll('path[data-edge="ease"]')][0]!;
+    const hem = vertices(front.getAttribute("d")!).filter((vertex) => vertex.y === STANDARD_M.length);
+    expect(Math.max(...hem.map(({ x }) => x)))
+      .toBeCloseTo((STANDARD_M.hip + STANDARD_M.ease) / 4 - 2, 8);
+    expect(() => renderSkirtGarment(STANDARD_M, "#3A4150", {
+      [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 120,
+    })).toThrow(/positive finite quarter-panel width/);
+  });
+
+  it("draws the annotated body cloth with the same inward hem taper", () => {
+    const doc = wellFormed(renderSkirtBody(STANDARD_M, options));
+    const cloth = doc.querySelector('path[data-part="cloth"]')!;
+    const hem = vertices(cloth.getAttribute("d")!).filter((vertex) => vertex.y === STANDARD_M.length);
+    expect(Math.max(...hem.map(({ x }) => x)))
+      .toBeCloseTo((STANDARD_M.hip + STANDARD_M.ease) / 4 - 2 + 1.5, 8);
+    expect(doc.querySelector('[data-dim="length"]')).not.toBeNull();
   });
 });

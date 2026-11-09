@@ -13,7 +13,8 @@ import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES,
-  SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM } from "./skirt";
+  SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM,
+  SKIRT_PENCIL_HEM_TAPER_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_PENCIL_HEM_POM } from "./skirt";
 import { StyleDef, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES, JEANS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
@@ -1033,16 +1034,29 @@ const SKIRT_TECH_PACK: TechPack = {
 };
 
 function skirtTechPackForOptions(options: GarmentOptions): TechPack {
-  if (!Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)) return SKIRT_TECH_PACK;
-  return {
-    ...SKIRT_TECH_PACK,
-    bom: [],
-    constructionNotice: "Digital pattern guidance only. The A-line-like hem sweep and construction steps are unvalidated; material selection, consumption, sewing performance, physical fit, grading and production are unspecified or unvalidated.",
-    construction: [
-      "This digital A-line-like profile uses a software-selected hem sweep over a dartless skirt block; it does not model literal dart transfer.",
-      ...SKIRT_TECH_PACK.construction,
-    ],
-  };
+  if (Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)) {
+    return {
+      ...SKIRT_TECH_PACK,
+      bom: [],
+      constructionNotice: "Digital pattern guidance only. The A-line-like hem sweep and construction steps are unvalidated; material selection, consumption, sewing performance, physical fit, grading and production are unspecified or unvalidated.",
+      construction: [
+        "This digital A-line-like profile uses a software-selected hem sweep over a dartless skirt block; it does not model literal dart transfer.",
+        ...SKIRT_TECH_PACK.construction,
+      ],
+    };
+  }
+  if (Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)) {
+    return {
+      ...SKIRT_TECH_PACK,
+      bom: [],
+      constructionNotice: "Digital pattern guidance only. The Pencil-like hem taper and construction steps are unvalidated; material selection, consumption, sewing performance, physical fit, grading and production are unspecified or unvalidated.",
+      construction: [
+        "This digital Pencil-like profile uses a software-selected inward hem taper over a dartless skirt block; it does not model conventional darts or a center-back vent.",
+        ...SKIRT_TECH_PACK.construction,
+      ],
+    };
+  }
+  return SKIRT_TECH_PACK;
 }
 
 export const SKIRT: GarmentRecipe = {
@@ -1057,7 +1071,9 @@ export const SKIRT: GarmentRecipe = {
   poms: SKIRT_POMS,
   pomsForOptions: (options) => Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)
     ? [...SKIRT_POMS, SKIRT_A_LINE_HEM_POM]
-    : SKIRT_POMS,
+    : Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)
+      ? [...SKIRT_POMS, SKIRT_PENCIL_HEM_POM]
+      : SKIRT_POMS,
   grade: SKIRT_GRADE,
   sizes: TSHIRT_SIZES, // the same size run drives every garment
   checks: skirtPanelChecks,
@@ -1066,7 +1082,7 @@ export const SKIRT: GarmentRecipe = {
   allowances: WOVEN_SKIRT_ALLOWANCES,
   techPack: SKIRT_TECH_PACK,
   techPackForOptions: skirtTechPackForOptions,
-  options: [SKIRT_A_LINE_HEM_SWEEP_OPTION],
+  options: [SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION],
 };
 
 export const TROUSER: GarmentRecipe = {
