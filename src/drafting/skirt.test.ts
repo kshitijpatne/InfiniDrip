@@ -3,7 +3,8 @@ import { STANDARD_M } from "./measurements";
 import { blockPieces, rolePiece } from "./block";
 import { pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES, skirtPanel,
-  SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM, skirtHemSweepQuarterCm } from "./skirt";
+  SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM, skirtHemSweepQuarterCm,
+  SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_PENCIL_HEM_POM, skirtHemTaperQuarterCm } from "./skirt";
 import { stitchChecks } from "./stitch";
 import { resolveNotch } from "../render/notch";
 import { SKIRT, gradeRun, specSheet } from "./index";
@@ -113,6 +114,63 @@ describe("draftSkirt", () => {
     }
   });
 
+  it("narrows each of the four quarter hems by one quarter of the selected whole-garment taper", () => {
+    expect(skirtHemTaperQuarterCm()).toBe(0);
+    const straight = draftSkirt(STANDARD_M);
+    const straightFront = rolePiece(straight, "front");
+    const straightHemLength = edgeLength(pieceEdge(straightFront, "hem"));
+    const waistPom = SKIRT_POMS.find((pom) => pom.label === "Waist (finished)")!;
+    const hipPom = SKIRT_POMS.find((pom) => pom.label === "Hip (finished)")!;
+    for (const taper of [4, 8, 12]) {
+      const options = { [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: taper };
+      const block = draftSkirt(STANDARD_M, options);
+      const front = rolePiece(block, "front");
+      const back = rolePiece(block, "back");
+      const hipX = edgeStart(pieceEdge(front, "sideLower")).x;
+      const hemX = edgeStart(pieceEdge(front, "hem")).x;
+      expect(skirtHemTaperQuarterCm(options)).toBe(taper / 4);
+      expect(hipX - hemX).toBeCloseTo(taper / 4, 8);
+      expect(edgeStart(pieceEdge(back, "hem")).x).toBeCloseTo(hemX, 8);
+      expect(hemX).toBeGreaterThan(0);
+      expect(4 * (straightHemLength - edgeLength(pieceEdge(front, "hem")))).toBeCloseTo(taper, 8);
+      expect(SKIRT_PENCIL_HEM_POM.measure(block)).toBeCloseTo(
+        STANDARD_M.hip + STANDARD_M.ease - taper, 8,
+      );
+      expect(SKIRT_PENCIL_HEM_POM.anchor?.(block))
+        .toEqual(edgeStart(pieceEdge(front, "hem")));
+      expect(SKIRT_PENCIL_HEM_POM.backAnchor?.(block))
+        .toEqual(edgeStart(pieceEdge(back, "hem")));
+      expect(SKIRT.sizeMetric(block)).toBeCloseTo(SKIRT.sizeMetric(straight) - taper / 4, 8);
+      expect(waistPom.measure(block)).toBeCloseTo(waistPom.measure(straight), 8);
+      expect(hipPom.measure(block)).toBeCloseTo(hipPom.measure(straight), 8);
+      expect(allSkirtChecks(block).every((check) => check.ok)).toBe(true);
+      for (const piece of blockPieces(block)) {
+        for (const edge of piece.edges) {
+          const start = edgeStart(edge);
+          const end = edgeEnd(edge);
+          expect(Number.isFinite(start.x)).toBe(true);
+          expect(Number.isFinite(start.y)).toBe(true);
+          expect(Number.isFinite(end.x)).toBe(true);
+          expect(Number.isFinite(end.y)).toBe(true);
+        }
+      }
+    }
+  });
+
+  it("rejects negative, nonfinite, combined and hem-collapsing skirt adjustments", () => {
+    expect(() => draftSkirt(STANDARD_M, { [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: -4 }))
+      .toThrow(/cannot be negative/);
+    expect(() => draftSkirt(STANDARD_M, { [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: Number.NaN }))
+      .toThrow(/must be finite/);
+    expect(() => draftSkirt(STANDARD_M, {
+      [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: 4,
+      [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 4,
+    })).toThrow(/cannot combine/);
+    const quarterHip = (STANDARD_M.hip + STANDARD_M.ease) / 4;
+    expect(() => skirtPanel(STANDARD_M, {
+      position: "front", silhouette: "taper", hemTaperQuarterCm: quarterHip,
+    })).toThrow(/positive finite quarter-panel width/);
+  });
   // Slice 42: the waist-to-hip drop used to be a hard-coded HIP_DROP = 20 in this
   // file AND in render/skirt-figure.ts. It is now the real `hipDepth` measurement.
   // The gate is a MEASURED y-coordinate on the drafted piece, not a re-derivation.
@@ -252,6 +310,30 @@ describe("skirtPanel — the Component contract (Phase C1, Slice 58)", () => {
       .toThrow(/is not supported/);
   });
 
+  it("requires a positive finite taper and rejects taper hidden in another silhouette", () => {
+    expect(() => skirtPanel(STANDARD_M, { position: "front", silhouette: "taper" }))
+      .toThrow(/requires a positive finite hem-taper/);
+    expect(() => skirtPanel(STANDARD_M, {
+      position: "front", silhouette: "taper", hemTaperQuarterCm: Number.NaN,
+    })).toThrow(/requires a positive finite hem-taper/);
+    expect(() => skirtPanel(STANDARD_M, {
+      position: "front", silhouette: "taper", hemTaperQuarterCm: 0,
+    })).toThrow(/requires a positive finite hem-taper/);
+    expect(() => skirtPanel(STANDARD_M, {
+      position: "front", silhouette: "taper", hemTaperQuarterCm: 2, hemSweepQuarterCm: 1,
+    })).toThrow(/cannot include hem sweep/);
+    expect(() => skirtPanel(STANDARD_M, {
+      position: "front", silhouette: "flare", hemSweepQuarterCm: 3, hemTaperQuarterCm: 2,
+    })).toThrow(/cannot include hem taper/);
+    expect(() => skirtPanel(STANDARD_M, {
+      position: "front", silhouette: "straight", hemTaperQuarterCm: 2,
+    })).toThrow(/cannot include hem taper/);
+    const tapered = skirtPanel(STANDARD_M, {
+      position: "front", silhouette: "taper", hemTaperQuarterCm: 2,
+    });
+    expect(edgeStart(pieceEdge(tapered.pieces.front, "hem")).x)
+      .toBeCloseTo((STANDARD_M.hip + STANDARD_M.ease) / 4 - 2, 8);
+  });
   it("does not accept flare hidden inside a straight-panel request", () => {
     expect(() => skirtPanel(STANDARD_M, { position: "front", silhouette: "straight", hemSweepQuarterCm: 1 }))
       .toThrow(/cannot include hem sweep/);

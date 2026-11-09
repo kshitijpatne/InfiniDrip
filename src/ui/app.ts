@@ -62,7 +62,7 @@ import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, po
 import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankNotchesForOptions, tankRacerbackControlOffsetCm } from "../drafting/tank";
-import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID } from "../drafting/skirt";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -1707,7 +1707,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt" ? "a-line-like-skirt"
+    starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt" ? "pencil-like-skirt"
+      : starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt" ? "a-line-like-skirt"
       : starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-band-collar"
       : starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-camp-collar"
       : starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-tunic-longline"
@@ -1922,7 +1923,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && forRecipe.name === "skirt"
+    starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && forRecipe.name === "skirt"
+      ? "Pencil-like skirt"
+      : starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && forRecipe.name === "skirt"
       ? "A-line-like skirt"
       : starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && forRecipe.name === "woven-shirt"
       ? "Band-collar Woven Shirt"
@@ -1972,13 +1975,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
   const starterOutputStatusNote = (format: "tech-pack" | "projector" = "tech-pack"): string | undefined => {
     const isK01Starter = starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt";
+    const isK02Starter = starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt";
     const isW03Starter = starterOrigin?.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID && recipe.name === "woven-shirt";
     const isW04Starter = starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && recipe.name === "woven-shirt";
     const isW05Starter = starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt";
     const isW06Starter = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
     const isW07Starter = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
     if (format === "projector") return isK01Starter ? "Digital A-line-like hem sweep; grading is not validated."
-      : isW03Starter ? "W03 grade is not validated." : isW04Starter
+      : isK02Starter ? "Digital Pencil-like hem taper; grading is not validated."
+        : isW03Starter ? "W03 grade is not validated." : isW04Starter
       ? "W04 grade is not validated. The W04 hip station is a digital crop reference, not a physical hip-location or fit measure."
       : isW05Starter ? "W05 grade is not validated." : isW06Starter ? "W06 grade is not validated."
         : isW07Starter ? "W07 grade is not validated." : undefined;
@@ -2002,6 +2007,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (isK01Starter) {
       const sweep = recipeOptions()[SKIRT_A_LINE_HEM_SWEEP_OPTION_ID];
       return `Digital A-line-like skirt using a ${sweep} cm whole-garment hem-sweep software setting over a dartless block. This does not model literal dart transfer. Physical fit, comfort, wear, grading, materials, consumption, sewing performance and production remain unspecified or unvalidated.`;
+    }
+    if (isK02Starter) {
+      const taper = recipeOptions()[SKIRT_PENCIL_HEM_TAPER_OPTION_ID];
+      return "Digital Pencil-like skirt using a " + taper +
+        " cm whole-garment hem-taper software setting over a dartless block. It does not model conventional darts or a center-back vent; walking performance, physical fit, comfort, wear, grading, materials, consumption and production remain unspecified or unvalidated.";
     }
     if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo") {
       const options = recipeOptions();
@@ -2431,6 +2441,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (activeStarterId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt"
         && !errors.has("length") && !errors.has("hipDepth") && measurements.length <= measurements.hipDepth) {
       errors.set("length", `Length (${measurements.length} cm) does not clear the hip depth (${measurements.hipDepth} cm). Lengthen the skirt or reduce the hip depth; the K01 preview and exports stay paused.`);
+    }
+    if (activeStarterId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt"
+        && !errors.has("length") && !errors.has("hipDepth") && measurements.length <= measurements.hipDepth) {
+      errors.set("length", "Length (" + measurements.length + " cm) does not clear the hip depth (" +
+        measurements.hipDepth + " cm). Lengthen the skirt or reduce the hip depth; the K02 preview and exports stay paused.");
     }
     for (const option of activeOptionDefinitions()) {
       const value = recipeOptions()[option.id];
@@ -5235,10 +5250,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           }
           starterOrigin = null;
         }
-        // Selecting the generic Skirt while K01 is already active does not
+        // Selecting the generic Skirt while a skirt blank is active does not
         // change the recipe name, so setGarment's recipe-change cleanup cannot
-        // clear the entry-scoped A-line controls on its own.
-        if (g.name === "skirt" && starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID) starterOrigin = null;
+        // clear the entry-scoped controls on its own.
+        if (g.name === "skirt" && (starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID
+            || starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID)) starterOrigin = null;
         setGarment(g.name);
       });
   });

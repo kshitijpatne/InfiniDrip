@@ -1,3 +1,4 @@
+import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID } from "./skirt";
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions, type GarmentOptions } from "./options";
@@ -1359,6 +1360,39 @@ describe("K01 A-line-like skirt recipe", () => {
       expect(pack.bom).toEqual([]);
       expect(pack.constructionNotice).toContain("material selection, consumption");
       expect(pack.construction.join(" ")).toContain("does not model literal dart transfer");
+    }
+  });
+});
+describe("K02 Pencil-like skirt recipe", () => {
+  it("derives the hem POM, size metric and no-material-claim Tech Pack from the tapered draft", () => {
+    const plainBlock = SKIRT.draft(STANDARD_M, {});
+    const plainPoms = pomsForRecipeOptions(SKIRT, {});
+    const plainPack = SKIRT.techPackForOptions!({});
+    const plainHip = plainPoms.find((pom) => pom.label === "Hip (finished)")!;
+    const plainWaist = plainPoms.find((pom) => pom.label === "Waist (finished)")!;
+    const plainLength = plainPoms.find((pom) => pom.label === "Length (waist–hem)")!;
+    expect(plainPoms.some((pom) => pom.label === "Hem circumference (modeled)")).toBe(false);
+    expect(plainPack.bom.length).toBeGreaterThan(0);
+
+    for (const taper of [4, 8, 12]) {
+      const options = { [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: taper };
+      const block = SKIRT.draft(STANDARD_M, options);
+      const poms = pomsForRecipeOptions(SKIRT, options);
+      const hem = poms.find((pom) => pom.label === "Hem circumference (modeled)")!;
+      const pack = SKIRT.techPackForOptions!(options);
+      expect(hem.measure(block) - plainHip.measure(plainBlock)).toBeCloseTo(-taper, 8);
+      expect(SKIRT.sizeMetric(block) - SKIRT.sizeMetric(plainBlock)).toBeCloseTo(-taper / 4, 8);
+      expect(poms.find((pom) => pom.label === "Waist (finished)")!.measure(block))
+        .toBeCloseTo(plainWaist.measure(plainBlock), 8);
+      expect(poms.find((pom) => pom.label === "Hip (finished)")!.measure(block))
+        .toBeCloseTo(plainHip.measure(plainBlock), 8);
+      expect(poms.find((pom) => pom.label === "Length (waist–hem)")!.measure(block))
+        .toBeCloseTo(plainLength.measure(plainBlock), 8);
+      expect(pack.bom).toEqual([]);
+      expect(pack.constructionNotice).toContain("Pencil-like hem taper");
+      expect(pack.constructionNotice).toContain("material selection, consumption");
+      expect(pack.construction.join(" ")).toContain("does not model conventional darts or a center-back vent");
+      expect(plainPack).toEqual(SKIRT.techPack);
     }
   });
 });

@@ -20,7 +20,7 @@
 // Pure: measurements in, one SVG string out.
 
 import { Measurements, skirtWidths, type GarmentOptions } from "../drafting";
-import { skirtHemSweepQuarterCm } from "../drafting/skirt";
+import { skirtHemAdjustmentQuarterCm, skirtHemWidthQuarterCm } from "../drafting/skirt";
 import { BLUEPRINT as T } from "./theme";
 import { lowerCroquisFigure, lowerCroquisFlareCommand } from "./croquis";
 import type { LowerCroquisAnchors } from "./croquis";
@@ -94,7 +94,7 @@ function renderPanel(waistHalf: number, hipHalf: number, hemHalf: number, len: n
 /** The assembled skirt: front and back panels side by side, in fabric colour. */
 export function renderSkirtGarment(m: Measurements, fabric: string, options: GarmentOptions = {}): string {
   const { waistHalf, hipHalf } = skirtWidths(m);
-  const hemHalf = hipHalf + skirtHemSweepQuarterCm(options);
+  const hemHalf = skirtHemWidthQuarterCm(m, options);
   const len = m.length;
   const hipDrop = m.hipDepth;
 
@@ -128,10 +128,10 @@ export function renderSkirtGarment(m: Measurements, fabric: string, options: Gar
 
 /** The skirt cloth follows the waist and hip; an explicit K01 option blends its
  *  selected quarter-panel sweep from the hip to the hem. */
-function clothPath(f: LowerCroquisAnchors, out: number, hemSweepQuarterCm: number): string {
+function clothPath(f: LowerCroquisAnchors, out: number, hemAdjustmentQuarterCm: number): string {
   const cw = f.waistHalf + out;
   const ch = f.hipHalf + out * 1.5;
-  const hemHalf = f.hipHalf + hemSweepQuarterCm + out * 1.5;
+  const hemHalf = f.hipHalf + hemAdjustmentQuarterCm + out * 1.5;
   return [
     `M ${pt([-cw, 0])}`,
     `L ${pt([cw, 0])}`,
@@ -148,9 +148,9 @@ function clothPath(f: LowerCroquisAnchors, out: number, hemSweepQuarterCm: numbe
 export function renderSkirtBody(m: Measurements, options: GarmentOptions = {}): string {
   const croquis = lowerCroquisFigure(m);
   const f = croquis.anchors;
-  const hemSweepQuarterCm = skirtHemSweepQuarterCm(options);
+  const hemAdjustmentQuarterCm = skirtHemAdjustmentQuarterCm(options);
   const CLOTH_OUT = 1.0;                          // how far the cloth stands off the body
-  const hemClothHalf = f.hipHalf + hemSweepQuarterCm + CLOTH_OUT * 1.5;
+  const hemClothHalf = f.hipHalf + hemAdjustmentQuarterCm + CLOTH_OUT * 1.5;
   const clothHalf = Math.max(f.hipHalf + CLOTH_OUT * 1.5, hemClothHalf);
   // The dimension gutters must clear the widest thing DRAWN. Normally that is the
   // cloth at the hip, but a waist wider than the hip is a reachable (and warned)
@@ -160,7 +160,7 @@ export function renderSkirtBody(m: Measurements, options: GarmentOptions = {}): 
 
   const bodyPath = `<path data-part="silhouette" d="${croquis.silhouettePath}" fill="${T.fill}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
-  const cloth = `<path data-part="cloth" d="${clothPath(f, CLOTH_OUT, hemSweepQuarterCm)}" fill="${T.cloth}" ` +
+  const cloth = `<path data-part="cloth" d="${clothPath(f, CLOTH_OUT, hemAdjustmentQuarterCm)}" fill="${T.cloth}" ` +
     `stroke="${T.line}" stroke-width="1.2" stroke-linejoin="round" stroke-opacity="0.75" ` +
     `vector-effect="non-scaling-stroke"/>`;
 

@@ -38,9 +38,46 @@ export const SKIRT_A_LINE_HEM_SWEEP_OPTION: GarmentOption = {
   step: 1,
 };
 
+export const SKIRT_PENCIL_ENTRY_ID = "skirt-pencil-digital-v1";
+export const SKIRT_PENCIL_HEM_TAPER_OPTION_ID = "hemTaperCm";
+export const SKIRT_PENCIL_HEM_TAPER_OPTION: GarmentOption = {
+  id: SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
+  label: "Hem taper (whole garment)",
+  unit: "cm",
+  help: "Narrows the digital hem from the hip while keeping the waist and hip unchanged. This is a software geometry choice, not a physical pattern standard.",
+  group: "Hem",
+  appliesToStarterEntryId: SKIRT_PENCIL_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 8,
+  min: 4,
+  max: 12,
+  step: 1,
+};
+
 /** Additional width assigned to each of the four on-fold quarter panels. */
 export function skirtHemSweepQuarterCm(options: GarmentOptions = {}): number {
   return (options[SKIRT_A_LINE_HEM_SWEEP_OPTION_ID] ?? 0) / 4;
+}
+
+/** Inward width removed from each of the four on-fold quarter panels. */
+export function skirtHemTaperQuarterCm(options: GarmentOptions = {}): number {
+  return (options[SKIRT_PENCIL_HEM_TAPER_OPTION_ID] ?? 0) / 4;
+}
+
+/** Signed quarter-panel hem adjustment, keeping sweep and taper options separate. */
+export function skirtHemAdjustmentQuarterCm(options: GarmentOptions = {}): number {
+  const sweep = skirtHemSweepQuarterCm(options);
+  const taper = skirtHemTaperQuarterCm(options);
+  if (!Number.isFinite(sweep) || !Number.isFinite(taper)) {
+    throw new Error("A skirt hem adjustment must be finite");
+  }
+  if (sweep < 0 || taper < 0) {
+    throw new Error("A skirt hem sweep or taper cannot be negative");
+  }
+  if (sweep > 0 && taper > 0) {
+    throw new Error("A skirt panel cannot combine hem sweep and hem taper");
+  }
+  return sweep - taper;
 }
 
 /** The skirt's own half-widths at the waist and hip — the single source of
@@ -57,32 +94,41 @@ export function skirtWidths(m: Measurements): { waistHalf: number; hipHalf: numb
   };
 }
 
+export function skirtHemWidthQuarterCm(m: Measurements, options: GarmentOptions = {}): number {
+  const width = skirtWidths(m).hipHalf + skirtHemAdjustmentQuarterCm(options);
+  if (skirtHemTaperQuarterCm(options) > 0 && (!Number.isFinite(width) || width <= 0)) {
+    throw new Error("A skirt hem taper must leave a positive finite quarter-panel width");
+  }
+  return width;
+}
 /** One skirt panel (front or back), cut on the fold at the centre (x = 0). */
-function panel(m: Measurements, name: string, hemSweepQuarterCm = 0): Piece {
+function panel(m: Measurements, name: string, hemOffsetQuarterCm = 0): Piece {
   const { waistHalf: waistQ, hipHalf: hipQ } = skirtWidths(m);
 
   const cWaist = point(0, 0);
   const sWaist = point(waistQ, 0);
   const sHip = point(hipQ, m.hipDepth);
-  const sHem = point(hipQ + hemSweepQuarterCm, m.length);
+  const sHem = point(hipQ + hemOffsetQuarterCm, m.length);
   const cHem = point(0, m.length);
 
   const edges: Edge[] = [
     { kind: "line", name: "waist", start: cWaist, end: sWaist },
-    { kind: "line", name: "sideUpper", start: sWaist, end: sHip }, // taper out to the hip
-    { kind: "line", name: "sideLower", start: sHip, end: sHem },   // straight to the hem
+    { kind: "line", name: "sideUpper", start: sWaist, end: sHip },
+    { kind: "line", name: "sideLower", start: sHip, end: sHem },
     { kind: "line", name: "hem", start: sHem, end: cHem },
-    { kind: "line", name: "center", start: cHem, end: cWaist },    // the fold
+    { kind: "line", name: "center", start: cHem, end: cWaist },
   ];
   return { name, onFold: true, edges };
 }
 
 export interface SkirtPanelParams {
   readonly position: "front" | "back";
-  /** Straight keeps the base hem; flare requires an explicit positive quarter-panel sweep. */
-  readonly silhouette: "straight" | "flare";
+  /** Straight keeps the base hem; flare and taper require explicit positive quarter-panel changes. */
+  readonly silhouette: "straight" | "flare" | "taper";
   /** Whole-garment sweep divided across four on-fold quarter panels. */
   readonly hemSweepQuarterCm?: number;
+  /** Whole-garment taper removed from each of four on-fold quarter panels. */
+  readonly hemTaperQuarterCm?: number;
 }
 
 /** The SkirtPanel component (Phase C1, Slice 58): formalises `panel` — the
@@ -93,24 +139,51 @@ export interface SkirtPanelParams {
  *  inventing, not about wrapping an already-real implementation for
  *  consistency) — `panel`'s geometry is untouched, so this is byte-identical. */
 export const skirtPanel: Component<SkirtPanelParams> = (m, params) => {
-  if (params.silhouette !== "straight" && params.silhouette !== "flare") {
-    throw new Error(`Skirt silhouette "${params.silhouette}" is not supported`);
+  if (params.silhouette !== "straight" && params.silhouette !== "flare" && params.silhouette !== "taper") {
+    throw new Error("Skirt silhouette is not supported");
   }
-  if (params.silhouette === "flare"
-      && (!Number.isFinite(params.hemSweepQuarterCm) || params.hemSweepQuarterCm! <= 0)) {
-    throw new Error("A flared skirt panel requires a positive finite hem-sweep value");
+  if (params.silhouette === "flare") {
+    if (!Number.isFinite(params.hemSweepQuarterCm) || params.hemSweepQuarterCm! <= 0) {
+      throw new Error("A flared skirt panel requires a positive finite hem-sweep value");
+    }
+    if (params.hemTaperQuarterCm !== undefined && params.hemTaperQuarterCm !== 0) {
+      throw new Error("A flared skirt panel cannot include hem taper");
+    }
+    return {
+      pieces: { [params.position]: panel(m, params.position, params.hemSweepQuarterCm) },
+      stitches: [],
+      interfaces: { waist: iface(edgeRef(params.position, "waist")) },
+    };
   }
-  if (params.silhouette === "straight" && params.hemSweepQuarterCm !== undefined && params.hemSweepQuarterCm !== 0) {
+  if (params.silhouette === "taper") {
+    if (!Number.isFinite(params.hemTaperQuarterCm) || params.hemTaperQuarterCm! <= 0) {
+      throw new Error("A tapered skirt panel requires a positive finite hem-taper value");
+    }
+    if (params.hemSweepQuarterCm !== undefined && params.hemSweepQuarterCm !== 0) {
+      throw new Error("A tapered skirt panel cannot include hem sweep");
+    }
+    const hemWidth = skirtWidths(m).hipHalf - params.hemTaperQuarterCm!;
+    if (!Number.isFinite(hemWidth) || hemWidth <= 0) {
+      throw new Error("A skirt hem taper must leave a positive finite quarter-panel width");
+    }
+    return {
+      pieces: { [params.position]: panel(m, params.position, -params.hemTaperQuarterCm!) },
+      stitches: [],
+      interfaces: { waist: iface(edgeRef(params.position, "waist")) },
+    };
+  }
+  if (params.hemSweepQuarterCm !== undefined && params.hemSweepQuarterCm !== 0) {
     throw new Error("A straight skirt panel cannot include hem sweep");
   }
-  const piece = panel(m, params.position, params.silhouette === "flare" ? params.hemSweepQuarterCm : 0);
+  if (params.hemTaperQuarterCm !== undefined && params.hemTaperQuarterCm !== 0) {
+    throw new Error("A straight skirt panel cannot include hem taper");
+  }
   return {
-    pieces: { [params.position]: piece },
+    pieces: { [params.position]: panel(m, params.position) },
     stitches: [],
     interfaces: { waist: iface(edgeRef(params.position, "waist")) },
   };
 };
-
 /** The skirt's stitches preserve the original panel side-seam check, attach
  *  separate front/back waistband pieces to their matching body panels, and
  *  describe the single side zipper path from the band through the upper body
@@ -149,25 +222,17 @@ export function draftSkirt(m: Measurements, options: GarmentOptions = {}): Block
 
 /** Each band receives the exact seam length exposed by its matching panel.
  * This keeps the dependency in the grammar instead of re-deriving waist width. */
+function skirtPanelParams(position: "front" | "back", options: GarmentOptions): SkirtPanelParams {
+  const adjustment = skirtHemAdjustmentQuarterCm(options);
+  if (adjustment > 0) return { position, silhouette: "flare", hemSweepQuarterCm: adjustment };
+  if (adjustment < 0) return { position, silhouette: "taper", hemTaperQuarterCm: -adjustment };
+  return { position, silhouette: "straight" };
+}
 export const SKIRT_GRAMMAR = garmentGrammar(
   "skirt",
   [
-    componentNode("front", "skirt-panel", skirtPanel, (context) => {
-      const hemSweepQuarterCm = skirtHemSweepQuarterCm(context.options);
-      return {
-        position: "front" as const,
-        silhouette: hemSweepQuarterCm > 0 ? "flare" as const : "straight" as const,
-        hemSweepQuarterCm,
-      };
-    }),
-    componentNode("back", "skirt-panel", skirtPanel, (context) => {
-      const hemSweepQuarterCm = skirtHemSweepQuarterCm(context.options);
-      return {
-        position: "back" as const,
-        silhouette: hemSweepQuarterCm > 0 ? "flare" as const : "straight" as const,
-        hemSweepQuarterCm,
-      };
-    }),
+    componentNode("front", "skirt-panel", skirtPanel, (context) => skirtPanelParams("front", context.options)),
+    componentNode("back", "skirt-panel", skirtPanel, (context) => skirtPanelParams("back", context.options)),
     componentNode(
       "waistband",
       "waistband",
@@ -273,6 +338,12 @@ export const SKIRT_A_LINE_HEM_POM: Pom = {
   backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "hem")),
 };
 
+export const SKIRT_PENCIL_HEM_POM: Pom = {
+  label: "Hem circumference (modeled)",
+  measure: (b) => 4 * spanX(rolePiece(b, "front"), { edge: "hem", at: "start" }, FOLD),
+  anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "hem")),
+  backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "hem")),
+};
 // Phase A3 (Slice 51): both balance notches read off SKIRT_STITCHES' own
 // side-seam interface (index 1 = sideLower, the edge nearest the hem) instead
 // of a second, separately-typed "sideLower" string.

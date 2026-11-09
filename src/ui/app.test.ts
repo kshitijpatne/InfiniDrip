@@ -42,7 +42,7 @@ import {
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
 import { customOneSizeSpecMarkup, inspectionMarkup } from "./view";
-import { isCustomOneSizeStyle } from "./project-records";
+import { isCustomOneSizeStyle, migrateLegacySaveFile } from "./project-records";
 import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import * as gradePlanContext from "./grade-plan-context";
 import * as gradePlan from "./grade-plan";
@@ -56,7 +56,7 @@ import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_
   TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 import { blockPieces } from "../drafting/block";
-import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID } from "../drafting/skirt";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
 import { pieceBounds, pieceToPath } from "../render/shape";
 import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg } from "../export";
@@ -68,7 +68,7 @@ import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney, tutorialMarkup } from "./journey";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
-import { DEFAULT_WORKSPACE, saveRecoveryToStorage, saveToStorage } from "./persist";
+import { DEFAULT_WORKSPACE, saveRecoveryToStorage, saveToStorage, serialize } from "./persist";
 import {
   POLO_BAND_COLLAR_ENTRY_ID,
   POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID,
@@ -90,7 +90,7 @@ import {
 } from "./starter-registry";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import { POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
-import { currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
+import { createFieldObservationRecord, currentFieldObservation, getCaptureFieldDefinitions, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
   assessCaptureField,
@@ -17443,4 +17443,256 @@ describe("P08 band-collar half-placket Polo Starter Blank", () => {
       localStorage.clear();
     }
   }, 30000);
+});
+describe("K02 Pencil-like skirt starter workflow", () => {
+  it("keeps taper controls entry-scoped, retains invalid values, and saves/reopens K02", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + SKIRT_PENCIL_ENTRY_ID);
+
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Pencil-like skirt · software defaults");
+      const taper = root.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )!;
+      expect(taper.value).toBe("8");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Pencil-like skirt");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("software defaults");
+      reachExportStage(root);
+
+      taper.value = "13";
+      taper.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(taper.value).toBe("13");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("supports 4–12 cm");
+      expect(root.querySelector<HTMLElement>(
+        '[data-input-error="option-' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )!.textContent).toContain("supports 4–12 cm");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      taper.value = "8.5";
+      taper.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(taper.value).toBe("8.5");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("use 1 cm increments");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      taper.value = "4";
+      taper.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).not.toContain("supports 4–12 cm");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).not.toContain("use 1 cm increments");
+      expect(root.querySelector<HTMLElement>(
+        '[data-input-error="option-' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )?.textContent).toBe("");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+
+      const hipDepth = root.querySelector<HTMLInputElement>('input[data-field="hipDepth"]')!;
+      hipDepth.value = "40";
+      hipDepth.dispatchEvent(new Event("input", { bubbles: true }));
+      const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+      length.value = "40";
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(length.value).toBe("40");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .toContain("the K02 preview and exports stay paused");
+      expect(root.querySelector<HTMLElement>('[data-input-error="length"]')!.textContent)
+        .toContain("Lengthen the skirt or reduce the hip depth");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      length.value = "70";
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>('[data-input-error="length"]')?.textContent).toBe("");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.skirt).toMatchObject({ [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 4 });
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: SKIRT_PENCIL_ENTRY_ID,
+        recipeRevision: "skirt-pencil-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )!.value).toBe("4");
+      expect(reopened.querySelector<HTMLButtonElement>(
+        '[data-starter-entry-id="' + SKIRT_PENCIL_ENTRY_ID + '"]',
+      )!.getAttribute("aria-pressed")).toBe("true");
+
+      clickId(reopened, "garment-skirt");
+      expect(reopened.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )).toBeNull();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+
+      clickId(reopened, "starter-" + SKIRT_A_LINE_ENTRY_ID);
+      expect(reopened.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_A_LINE_HEM_SWEEP_OPTION_ID + '"]',
+      )!.value).toBe("12");
+      expect(reopened.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )).toBeNull();
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("exports six consistent K02 outputs and removes the K02 identity on generic Skirt", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + SKIRT_PENCIL_ENTRY_ID);
+      reachExportStage(root);
+
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6));
+      expect([...files.keys()].sort()).toEqual([
+        "pencil-like-skirt-M-A0.pdf",
+        "pencil-like-skirt-M.dxf",
+        "pencil-like-skirt-M.pdf",
+        "pencil-like-skirt-M.svg",
+        "pencil-like-skirt-projector.svg",
+        "pencil-like-skirt-techpack.pdf",
+      ].sort());
+
+      const pattern = new DOMParser().parseFromString(files.get("pencil-like-skirt-M.svg")!, "image/svg+xml");
+      expect(pattern.querySelector("parsererror")).toBeNull();
+      expect(pattern.querySelectorAll("path").length).toBeGreaterThan(0);
+      expect(files.get("pencil-like-skirt-M.dxf")).toContain("SECTION");
+      const techPackText = visiblePdfText(files.get("pencil-like-skirt-techpack.pdf")!);
+      expect(techPackText).toContain("Hem circumference (modeled)");
+      expect(techPackText).toContain("Digital pattern guidance only");
+      expect(techPackText).toContain("Digital Pencil-like skirt using a 8 cm whole-garment hem-taper software setting");
+      expect(techPackText).toContain("does not model conventional darts or a center-back vent");
+      expect(techPackText).toContain("material selection, consumption");
+      const projectorText = [...new DOMParser().parseFromString(
+        files.get("pencil-like-skirt-projector.svg")!, "image/svg+xml",
+      ).getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Pencil-like skirt");
+      expect(projectorText).toContain("Digital Pencil-like hem taper; grading is not validated.");
+
+      clickId(root, "garment-skirt");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+      reachExportStage(root);
+      clickId(root, "export-svg");
+      clickId(root, "export-projector");
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(8));
+      expect(files.has("skirt-M.svg")).toBe(true);
+      expect(files.get("skirt-M.svg")).not.toBe(files.get("pencil-like-skirt-M.svg"));
+      expect(files.has("skirt-projector.svg")).toBe(true);
+      const genericProjectorText = [...new DOMParser().parseFromString(
+        files.get("skirt-projector.svg")!, "image/svg+xml",
+      ).getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(genericProjectorText).not.toContain("Digital Pencil-like hem taper");
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("restores K02 identity, measurements, and taper after switching between local projects", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const now = "2026-11-09T07:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-k02-project-switch-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => now,
+    });
+    let root: HTMLDivElement | null = mount({ projectWorkflow: workflow });
+    const originalProjectId = workflow.snapshot.project.id;
+    const otherProjectId = webcrypto.randomUUID();
+    const otherStyleId = webcrypto.randomUUID();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + SKIRT_PENCIL_ENTRY_ID);
+      const hip = root.querySelector<HTMLInputElement>('input[data-field="hip"]')!;
+      hip.value = "108";
+      hip.dispatchEvent(new Event("input", { bubbles: true }));
+      const taper = root.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )!;
+      taper.value = "12";
+      taper.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.design.workspace.starterOrigin?.entryId)
+        .toBe(SKIRT_PENCIL_ENTRY_ID));
+      expect(workflow.snapshot.activeStyle.design.measurements.hip).toBe(108);
+      expect(workflow.snapshot.activeStyle.design.garmentOptions.skirt)
+        .toMatchObject({ [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 12 });
+
+      const migrated = migrateLegacySaveFile({
+        json: serialize(STANDARD_M, "#204060"),
+        projectId: otherProjectId,
+        styleId: otherStyleId,
+        migratedAt: now,
+        projectName: "Separate local K02 test project",
+      });
+      if (!migrated.ok) throw new Error(migrated.error);
+      await workflow.repository.saveProjectBundle({
+        project: migrated.value.project,
+        styles: [migrated.value.style],
+        fieldObservations: [createFieldObservationRecord(migrated.value.style, now, "existing-local-style")],
+        expectedProjectRevision: null,
+      });
+
+      await workflow.switchProject(otherProjectId);
+      expect(workflow.snapshot.project.id).toBe(otherProjectId);
+      await workflow.switchProject(originalProjectId);
+      expect(workflow.snapshot.project.id).toBe(originalProjectId);
+      expect(workflow.snapshot.activeStyle.design.measurements.hip).toBe(108);
+      expect(workflow.snapshot.activeStyle.design.garmentOptions.skirt)
+        .toMatchObject({ [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 12 });
+      expect(workflow.snapshot.activeStyle.design.workspace.starterOrigin?.entryId)
+        .toBe(SKIRT_PENCIL_ENTRY_ID);
+
+      unmountApp();
+      root.remove();
+      root = mount({ projectWorkflow: workflow });
+      expect(root.querySelector<HTMLInputElement>('input[data-field="hip"]')!.value).toBe("108");
+      expect(root.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )!.value).toBe("12");
+      expect(root.querySelector<HTMLButtonElement>(
+        '[data-starter-entry-id="' + SKIRT_PENCIL_ENTRY_ID + '"]',
+      )!.getAttribute("aria-pressed")).toBe("true");
+    } finally {
+      unmountApp();
+      root?.remove();
+      workflow.close();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
 });
