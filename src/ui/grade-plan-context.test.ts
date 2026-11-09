@@ -67,6 +67,22 @@ function value<T>(result: { readonly ok: true; readonly value: T } | { readonly 
 }
 
 describe("explicit grade-plan base context", () => {
+  it("builds a grade-plan context for a registered recipe without an option catalog", async () => {
+    const source = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const recipe = { ...source, name: "tee-optionless-grade-context-test", options: undefined };
+    const recipes = GARMENTS as unknown as Array<typeof GARMENTS[number]>;
+    recipes.push(recipe);
+    try {
+      const context = await createGradePlanContext(PROJECT_ID, styleFor(recipe.name), captureFor(recipe.name));
+      expect(context.ok).toBe(true);
+      if (!context.ok) throw new Error(context.errors.join("; "));
+      expect(context.value.targets.filter((target) => target.kind === "option")).toEqual([]);
+      expect(context.value.targets.filter((target) => target.kind === "measurement")).toHaveLength(recipe.fields.length);
+    } finally {
+      recipes.splice(recipes.indexOf(recipe), 1);
+    }
+  });
+
   it("lists every recipe measurement, saved control, and raw current POM without inventing target deltas", async () => {
     for (const recipe of GARMENTS) {
       const style = styleFor(recipe.name);

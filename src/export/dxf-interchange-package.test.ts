@@ -145,6 +145,16 @@ describe("C04-bounded DXF interchange package", () => {
       .rejects.toThrow(/Unsupported woven-shirt option "shoulderExtension"/);
   }, 30_000);
 
+  it("accepts a recipe whose optional option catalog is omitted", async () => {
+    const source = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const recipe = { ...source, options: undefined };
+    const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft)[2]!;
+    const candidate = await createDxfInterchangePackage(recipe, graded, {});
+
+    expect(candidate.manifest.options).toEqual({});
+    expect(await verifyDxfInterchangePackage(candidate)).toBe(true);
+  }, 30_000);
+
   it("uses canonical option-key ordering and changes package revision when option data changes", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const options = Object.fromEntries(Object.entries(defaultGarmentOptions(recipe.options ?? []))

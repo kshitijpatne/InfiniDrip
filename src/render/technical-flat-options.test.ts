@@ -130,6 +130,17 @@ describe("technical-flat option and topology validation", () => {
     }));
   });
 
+  it("validates an optionless recipe with an empty option set", () => {
+    const source = GARMENTS.find((candidate) => candidate.name === "tee");
+    if (!source) throw new Error("Tee recipe is missing.");
+    const recipe = { ...source, options: undefined };
+    const result = validateTechnicalFlatOptions(recipe, STANDARD_M, undefined, revisionId);
+
+    expect(result.issues).toEqual([]);
+    expect(result.options).toEqual({});
+    expect(result.faces).not.toBeNull();
+  });
+
   it("returns field-specific actionable issues without drafting invalid supplied values", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt");
     if (!recipe) throw new Error("Woven shirt recipe is missing.");
