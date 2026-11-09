@@ -4,6 +4,7 @@ import type { Block } from "../drafting/block";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { FITTED_PRINCESS_ENTRY_ID } from "../drafting/fitted";
+import { SKIRT_A_LINE_ENTRY_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_PENCIL_ENTRY_ID } from "../drafting/skirt";
 import { draftJogger } from "../drafting/jogger";
 import {
   G04_TECHNICAL_FLAT_MAPPINGS,
@@ -52,6 +53,44 @@ describe("mapTechnicalFlatSources", () => {
     expect(mapping.faces.flatMap((face) => face.roles.map((role) => role.roleId)))
       .not.toContain("underCollar");
     expect(sources.issues).toEqual([]);
+  });
+
+  it("maps K03 integrated-casing panels from their positive structure", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const k03Block = recipe.draft(STANDARD_M,
+      defaultGarmentOptions(recipe.options ?? [], SKIRT_GATHERED_ENTRY_ID));
+    const k03Mapping = technicalFlatMappingForBlock("skirt", k03Block)!;
+    const sourceMap = mapTechnicalFlatSources("skirt", k03Block, recipe.poms);
+
+    expect(k03Mapping.faces.map((face) => face.roles.map((role) => role.roleId)))
+      .toEqual([["front"], ["back"]]);
+    expect(sourceMap.issues).toEqual([]);
+    expect(sourceMap.sources.filter((source) => source.kind === "mark")
+      .sort((a, b) => a.sourceId.localeCompare(b.sourceId))
+      .map((source) => [source.sourceId, source.viewKinds]))
+      .toEqual([
+        ["pattern:skirt:mark:back:casingFold", ["BACK_FLAT"]],
+        ["pattern:skirt:mark:back:casingStitchGuide", ["BACK_FLAT"]],
+        ["pattern:skirt:mark:front:casingFold", ["FRONT_FLAT"]],
+        ["pattern:skirt:mark:front:casingStitchGuide", ["FRONT_FLAT"]],
+      ]);
+
+    for (const entryId of [undefined, SKIRT_A_LINE_ENTRY_ID, SKIRT_PENCIL_ENTRY_ID]) {
+      const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? [], entryId));
+      const mapping = technicalFlatMappingForBlock("skirt", block)!;
+      expect(mapping.faces.map((face) => face.roles.map((role) => role.roleId)))
+        .toEqual([["front", "waistbandFront"], ["back", "waistbandBack"]]);
+    }
+
+    const genericBlock = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const withoutBands: Block = {
+      ...genericBlock,
+      roles: Object.fromEntries(Object.entries(genericBlock.roles)
+        .filter(([roleId]) => roleId !== "waistbandFront" && roleId !== "waistbandBack")),
+    };
+    expect(technicalFlatMappingForBlock("skirt", withoutBands)?.faces.map((face) =>
+      face.roles.map((role) => role.roleId)))
+      .toEqual([["front", "waistbandFront"], ["back", "waistbandBack"]]);
   });
 
   it("maps all seven hidden Jogger roles to source-aware front and back faces", () => {

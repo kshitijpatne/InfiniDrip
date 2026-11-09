@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import type { TechnicalFlatMeasureText } from "../render/technical-flat-svg";
+import { SKIRT_GATHERED_ENTRY_ID } from "../drafting/skirt";
 import { technicalFlatIssueList, technicalFlatPanelMarkup } from "./technical-flat-panel";
 import { WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID } from "./starter-registry";
 
@@ -24,6 +25,29 @@ const base = {
 };
 
 describe("technicalFlatPanelMarkup", () => {
+  it("renders K03 casing fold and stitch guides on their front and back technical flats", () => {
+    const skirt = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const rawOptions = defaultGarmentOptions(skirt.options ?? [], SKIRT_GATHERED_ENTRY_ID);
+    const block = skirt.draft(STANDARD_M, rawOptions);
+
+    for (const [kind, roleId] of [["FRONT_FLAT", "front"], ["BACK_FLAT", "back"]] as const) {
+      const markup = technicalFlatPanelMarkup({
+        ...base,
+        recipe: skirt,
+        rawOptions,
+        starterEntryId: SKIRT_GATHERED_ENTRY_ID,
+        block,
+        revisionId: `live-k03-${roleId}-1284`,
+        kind,
+      });
+      expect(markup).toContain("data-technical-flat-svg");
+      expect(markup).toContain(`pattern:skirt:mark:${roleId}:casingFold`);
+      expect(markup).toContain(`pattern:skirt:mark:${roleId}:casingStitchGuide`);
+      expect(markup).not.toContain("Technical flat withheld");
+      expect(markup).not.toContain("data-technical-flat-issues");
+    }
+  });
+
   it("keeps F02 waist-dart marks in the flat only with the matching starter origin", () => {
     const fitted = GARMENTS.find((candidate) => candidate.name === "fitted")!;
     const starterEntryId = "fitted-waist-dart-tee-digital-v1";
