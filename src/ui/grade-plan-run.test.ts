@@ -74,6 +74,24 @@ async function fixture(recipeId = "tee"): Promise<{ recipe: typeof GARMENTS[numb
 }
 
 describe("approved grade-plan drafting and exact reconciliation", () => {
+  it("evaluates an approved recipe run without an option catalog", async () => {
+    const source = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const recipe = { ...source, name: "tee-optionless-grade-run-test", options: undefined };
+    const recipes = GARMENTS as unknown as Array<typeof GARMENTS[number]>;
+    recipes.push(recipe);
+    try {
+      const values = await fixture(recipe.name);
+      const result = evaluateGradePlanRun(recipe, values.style.design.measurements,
+        values.style.design.garmentOptions[recipe.name] ?? {}, values.plan, values.context);
+      expect(result.approved).toBe(true);
+      expect(result.wholeRunReady).toBe(true);
+      expect(result.sizes).toHaveLength(3);
+      expect(result.sizes.every((size) => size.options !== null && Object.keys(size.options).length === 0)).toBe(true);
+    } finally {
+      recipes.splice(recipes.indexOf(recipe), 1);
+    }
+  });
+
   it("drafts each explicit size from authored inputs for all twelve recipes without using legacy grades", async () => {
     for (const recipe of GARMENTS) {
       const values = await fixture(recipe.name);

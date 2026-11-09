@@ -50,6 +50,7 @@ import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-s
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, STRETCH_FABRICS, TANK, POLO, draftRecipeAtSize, draftTshirt, gradeRun, notchesForRecipeOptions, rolePiece, type GarmentOptions, type GarmentRecipe, type Measurements } from "../drafting";
+import * as drafting from "../drafting";
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID,
   TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID,
   TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
@@ -9370,6 +9371,58 @@ describe("bundled local artwork library (Slice 203)", () => {
     } finally {
       workflow.close();
       root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 20_000);
+
+  it("creates a custom style when the selected recipe omits its option catalog", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const source = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const recipe = { ...source, options: undefined };
+    const originalGarmentForConstruction = drafting.garmentForConstruction;
+    vi.spyOn(drafting, "garmentForConstruction").mockImplementation((name, teeConstruction) => {
+      const resolved = originalGarmentForConstruction(name, teeConstruction);
+      return name === "skirt" ? recipe : resolved;
+    });
+    let workflow: Awaited<ReturnType<typeof openProjectWorkflow>> | null = null;
+    let root: HTMLDivElement | null = null;
+    try {
+      workflow = await openProjectWorkflow({
+        repositoryOptions: {
+          name: `app-optionless-recipe-${Date.now()}`,
+          factory: new IDBFactory(),
+          crypto: webcrypto as unknown as Crypto,
+        },
+        storage: localStorage,
+        idFactory: () => webcrypto.randomUUID(),
+        now: () => "2026-09-24T16:00:00.000Z",
+      });
+      root = document.createElement("div");
+      document.body.append(root);
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "welcome-start");
+      clickId(root, "garment-skirt");
+      await vi.waitFor(() => expect(root!.querySelector("#current-garment")?.textContent).toBe(recipe.label));
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root!.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      for (const definition of getCaptureFieldDefinitions("skirt")) {
+        const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+          .find((button) => button.dataset.fieldId === definition.id);
+        if (!preset) throw new Error(`No digital preset button for ${definition.id}`);
+        preset.click();
+      }
+
+      expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(false);
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root!.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("fit"),
+        { timeout: 20_000 });
+      expect(workflow.snapshot.activeStyle.recipeId).toBe("skirt");
+      expect(workflow.snapshot.activeStyle.design.garmentOptions.skirt).toEqual({});
+    } finally {
+      workflow?.close();
+      root?.remove();
       vi.unstubAllGlobals();
       localStorage.clear();
     }

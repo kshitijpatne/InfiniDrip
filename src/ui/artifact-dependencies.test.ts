@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { blockPieces, GARMENTS, gradeRun, notchesForRecipeOptions, optionAppliesToStarterEntry,
   optionAppliesToStyle, piecesForRecipeBlock, pomsForRecipeOptions, specSheet, STANDARD_M,
-  WOVEN_SHIRT as WOVEN_SHIRT_RECIPE, type GarmentOptions } from "../drafting";
+  WOVEN_SHIRT as WOVEN_SHIRT_RECIPE, type GarmentOptions, type GarmentRecipe } from "../drafting";
 import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg, exportTechPackV2, flattenPiece, nestPieces } from "../export";
 import { DEFAULT_WOVEN_SHIRT_OPTIONS } from "../drafting/shirt-contract";
 import { wovenShirtAllowances } from "../drafting/shirt";
@@ -77,6 +77,19 @@ describe("field-to-artifact invalidation graph", () => {
     expect(() => assertFieldArtifactCoverage([{ ...tee, fields: [...tee.fields, "neck"] }])).toThrow(
       "tee field inputs do not have a complete artifact dependency row.",
     );
+  });
+
+  it("covers the dependency matrix for a registered recipe without an option catalog", () => {
+    const source = GARMENTS.find((recipe) => recipe.name === "tee")!;
+    const recipe = { ...source, name: "tee-optionless-artifact-test", options: undefined };
+    const recipes = GARMENTS as unknown as GarmentRecipe[];
+    recipes.push(recipe);
+    try {
+      expect(() => assertFieldArtifactCoverage([recipe])).not.toThrow();
+      expect(getRecipeFieldArtifactMatrix(recipe.name)).toHaveLength(recipe.fields.length);
+    } finally {
+      recipes.splice(recipes.indexOf(recipe), 1);
+    }
   });
 
   it("probes every field against the real recipe draft and records hem-turn cut dependencies", () => {

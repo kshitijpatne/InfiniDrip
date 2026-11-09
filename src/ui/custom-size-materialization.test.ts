@@ -1,4 +1,4 @@
-import { GARMENTS, STANDARD_M, blockPieces, defaultGarmentOptions, draftAtSize } from "../drafting";
+import { GARMENTS, STANDARD_M, blockPieces, defaultGarmentOptions, draftAtSize, type GarmentRecipe } from "../drafting";
 import { exportA0Pdf, exportDxf, exportPdf, exportSvg } from "../export";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import { DEFAULT_APPEARANCE } from "./appearance";
@@ -62,6 +62,20 @@ function readySession(recipeId: string, varyValues = false) {
 }
 
 describe("custom one-size design materialization", () => {
+  it("materializes a registered recipe without an option catalog", () => {
+    const source = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const recipe = { ...source, name: "tee-optionless-size-test", options: undefined };
+    const recipes = GARMENTS as unknown as GarmentRecipe[];
+    recipes.push(recipe);
+    try {
+      const result = materializeCustomSizeDesign(seedFor(recipe.name), readySession(recipe.name));
+      expect(result.garmentOptions[recipe.name]).toEqual({});
+      expect(result.workspace.garment).toBe(recipe.name);
+    } finally {
+      recipes.splice(recipes.indexOf(recipe), 1);
+    }
+  });
+
   it("maps every selected measurement and option into a fresh seed for all twelve recipes", () => {
     expect(GARMENTS).toHaveLength(12);
     for (const recipe of GARMENTS) {

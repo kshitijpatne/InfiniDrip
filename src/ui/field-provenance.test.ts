@@ -69,6 +69,21 @@ function recoveryFor(style: StyleRecord, changes: {
 }
 
 describe("C03 field definitions and append-only observations", () => {
+  it("defines and validates all fields for a recipe without an option catalog", () => {
+    const source = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const recipe = { ...source, name: "tee-optionless-provenance-test", options: undefined };
+    const recipes = GARMENTS as unknown as GarmentRecipe[];
+    recipes.push(recipe);
+    try {
+      const definitions = getFieldDefinitions(recipe.name);
+      expect(definitions).toHaveLength(recipe.fields.length);
+      expect(definitions.every((definition) => definition.inputKind === "measurement")).toBe(true);
+      expect(() => assertRecipeFieldCoverage([recipe])).not.toThrow();
+    } finally {
+      recipes.splice(recipes.indexOf(recipe), 1);
+    }
+  });
+
   it("covers every editable input exactly once across all twelve current recipes", () => {
     expect(GARMENTS).toHaveLength(12);
     expect(() => assertRecipeFieldCoverage()).not.toThrow();
