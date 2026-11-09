@@ -117,6 +117,16 @@ function visiblePdfText(pdf: string): string {
   ).join(" ");
 }
 
+function expectedSkirtTiledPdf(localCoordinates: boolean, options: GarmentOptions = {}): string {
+  const skirtRecipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+  return exportPdf(
+    blockPieces(skirtRecipe.draft(STANDARD_M, options)),
+    skirtRecipe.allowances!,
+    undefined,
+    1,
+    localCoordinates,
+  );
+}
 function mount(options: Parameters<typeof mountApp>[1] = {}): HTMLDivElement {
   const root = document.createElement("div");
   mountApp(root, options);
@@ -16295,6 +16305,9 @@ describe("K01 A-line-like skirt starter workflow", () => {
         "a-line-like-skirt-techpack.pdf",
       ].sort());
 
+      expect(files.get("a-line-like-skirt-M.pdf")).toBe(expectedSkirtTiledPdf(true, {
+        [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: 12,
+      }));
       const projectorText = [...new DOMParser().parseFromString(
         files.get("a-line-like-skirt-projector.svg")!, "image/svg+xml",
       ).getElementsByTagName("text")].map((element) => element.textContent).join(" ");
@@ -16315,9 +16328,11 @@ describe("K01 A-line-like skirt starter workflow", () => {
       expect(root.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
       reachExportStage(root);
       clickId(root, "export-svg");
+      clickId(root, "export-pdf");
       clickId(root, "export-projector");
-      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(8));
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(9));
       expect(files.has("skirt-M.svg")).toBe(true);
+      expect(files.get("skirt-M.pdf")).toBe(expectedSkirtTiledPdf(false));
       expect(files.get("skirt-M.svg")).not.toBe(files.get("a-line-like-skirt-M.svg"));
       expect(files.has("skirt-projector.svg")).toBe(true);
       const genericProjectorText = [...new DOMParser().parseFromString(
@@ -17444,7 +17459,7 @@ describe("P08 band-collar half-placket Polo Starter Blank", () => {
     }
   }, 30000);
 });
-describe("K02 Pencil-like skirt starter workflow", () => {
+describe("K02 Pencil-like skirt and starter tiled-PDF workflows", () => {
   it("keeps taper controls entry-scoped, retains invalid values, and saves/reopens K02", () => {
     localStorage.clear();
     let root: HTMLDivElement | null = null;
@@ -17589,6 +17604,9 @@ describe("K02 Pencil-like skirt starter workflow", () => {
       expect(techPackText).toContain("Digital Pencil-like skirt using a 8 cm whole-garment hem-taper software setting");
       expect(techPackText).toContain("does not model conventional darts or a center-back vent");
       expect(techPackText).toContain("material selection, consumption");
+      expect(files.get("pencil-like-skirt-M.pdf")).toBe(expectedSkirtTiledPdf(true, {
+        [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 8,
+      }));
       const projectorText = [...new DOMParser().parseFromString(
         files.get("pencil-like-skirt-projector.svg")!, "image/svg+xml",
       ).getElementsByTagName("text")].map((element) => element.textContent).join(" ");
@@ -17616,6 +17634,72 @@ describe("K02 Pencil-like skirt starter workflow", () => {
     }
   });
 
+  const tiledPdfProfiles: ReadonlyArray<{
+    label: string;
+    entryId: string | null;
+    localCoordinates: boolean;
+    options: GarmentOptions;
+  }> = [
+    {
+      label: "K01",
+      entryId: SKIRT_A_LINE_ENTRY_ID,
+      localCoordinates: true,
+      options: { [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: 12 },
+    },
+    {
+      label: "K02",
+      entryId: SKIRT_PENCIL_ENTRY_ID,
+      localCoordinates: true,
+      options: { [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 8 },
+    },
+    { label: "generic Skirt", entryId: null, localCoordinates: false, options: {} },
+  ];
+  for (const profile of tiledPdfProfiles) {
+    it(`freezes ${profile.label} tiled PDF with the expected coordinate mode`, async () => {
+      localStorage.clear();
+      vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+      vi.stubGlobal("Blob", NodeBlob);
+      const workflow = await openProjectWorkflow({
+        repositoryOptions: {
+          name: `app-${profile.label}-pdf-freeze-${Date.now()}`,
+          factory: new IDBFactory(),
+          crypto: webcrypto as unknown as Crypto,
+        },
+        storage: localStorage,
+        idFactory: () => webcrypto.randomUUID(),
+        now: () => "2026-11-09T10:45:00.000Z",
+      });
+      const root = document.createElement("div");
+      document.body.append(root);
+      try {
+        mountApp(root, { projectWorkflow: workflow });
+        clickIfPresent(root, "welcome-start");
+        if (profile.entryId) clickId(root, "starter-" + profile.entryId);
+        else clickId(root, "garment-skirt");
+        clickId(root, "save-pattern");
+        await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state)
+          .toBe("saved"), { timeout: 10_000 });
+        reachExportStage(root);
+        const manager = root.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+        manager.open = true;
+        const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+        await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+        freeze.click();
+        await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+          { timeout: 20_000 });
+        const manifest = workflow.snapshot.exportManifests[0]!;
+        const frozenPdf = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-tiled-pdf");
+        expect(await frozenPdf.artifact.bytes.text()).toBe(
+          expectedSkirtTiledPdf(profile.localCoordinates, profile.options),
+        );
+      } finally {
+        workflow.close();
+        root.remove();
+        vi.unstubAllGlobals();
+        localStorage.clear();
+      }
+    }, 30_000);
+  }
   it("restores K02 identity, measurements, and taper after switching between local projects", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
