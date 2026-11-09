@@ -4,7 +4,9 @@ import { blockPieces, rolePiece } from "./block";
 import { pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES, skirtPanel,
   SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM, skirtHemSweepQuarterCm,
-  SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_PENCIL_HEM_POM, skirtHemTaperQuarterCm } from "./skirt";
+  SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_PENCIL_HEM_POM, skirtHemTaperQuarterCm,
+  SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
+  SKIRT_GATHERED_POMS, SKIRT_GATHERED_NOTCHES, gatheredSkirtOptions, isGatheredSkirtProfile } from "./skirt";
 import { stitchChecks } from "./stitch";
 import { resolveNotch } from "../render/notch";
 import { SKIRT, gradeRun, specSheet } from "./index";
@@ -346,5 +348,79 @@ describe("skirtPanel — the Component contract (Phase C1, Slice 58)", () => {
     const b = draftSkirt(STANDARD_M);
     expect(rolePiece(b, "front")).toEqual(skirtPanel(STANDARD_M, { position: "front", silhouette: "straight" }).pieces.front);
     expect(rolePiece(b, "back")).toEqual(skirtPanel(STANDARD_M, { position: "back", silhouette: "straight" }).pieces.back);
+  });
+});
+
+describe("K03 gathered pull-on skirt draft", () => {
+  const options = { [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5, [SKIRT_CASING_DEPTH_OPTION_ID]: 4 };
+
+  it("drafts only two on-fold body panels with gather, fold and casing guide data", () => {
+    expect(isGatheredSkirtProfile({})).toBe(false);
+    expect(isGatheredSkirtProfile(options)).toBe(true);
+    expect(gatheredSkirtOptions()).toEqual({ gatherRatio: 1.5, casingDepthCm: 4 });
+    const block = draftSkirt(STANDARD_M, options);
+    expect(blockPieces(block).map((piece) => piece.name)).toEqual(["front", "back"]);
+    expect(Object.keys(block.roles)).toEqual(["front", "back"]);
+    expect(block.stitches.map((stitch) => stitch.label)).toEqual(["Side seam (gathered front ↔ back)"]);
+    expect(allSkirtChecks(block).every((check) => check.ok)).toBe(true);
+    expect(rolePiece(block, "front").onFold).toBe(true);
+    expect(() => rolePiece(block, "waistbandFront")).toThrow();
+    expect(block.stitches.some((stitch) => stitch.label.toLowerCase().includes("zipper"))).toBe(false);
+
+    const front = rolePiece(block, "front");
+    expect(edgeLength(pieceEdge(front, "waist")) * 4).toBeCloseTo(STANDARD_M.waist * 1.5, 8);
+    expect(edgeEnd(pieceEdge(front, "waist")).y).toBe(-4);
+    expect(edgeStart(pieceEdge(front, "sideUpper")).y).toBe(0);
+    expect(edgeStart(pieceEdge(front, "sideLower")).y).toBe(STANDARD_M.hipDepth);
+    expect(front.marks?.map((mark) => mark.name)).toEqual(["casingFold", "casingStitchGuide"]);
+    expect(front.marks?.[0]).toMatchObject({ kind: "foldLine", label: "Finished waist fold line" });
+    expect(front.marks?.[1]).toMatchObject({ kind: "placementLine", label: "Casing stitch guide (software depth)" });
+    expect(SKIRT_GATHERED_NOTCHES.map((entry) => entry.pieceName)).toEqual(["front", "back"]);
+  });
+
+  it("reports modeled waist, pre-gather cut waist, hip and finished fold-to-hem length", () => {
+    const block = draftSkirt(STANDARD_M, options);
+    expect(SKIRT_GATHERED_POMS.map((pom) => pom.label)).toEqual([
+      "Cut waist edge (before gathering)",
+      "Measured waist (digital gathered-to reference)",
+      "Hip (modeled)",
+      "Length (finished top fold–hem)",
+    ]);
+    expect(SKIRT_GATHERED_POMS.map((pom) => pom.measure(block))).toEqual([
+      STANDARD_M.waist * 1.5,
+      STANDARD_M.waist,
+      STANDARD_M.hip + STANDARD_M.ease,
+      STANDARD_M.length,
+    ]);
+    expect(SKIRT_GATHERED_POMS[0]!.anchor?.(block)).toEqual(edgeEnd(pieceEdge(rolePiece(block, "front"), "waist")));
+    expect(SKIRT_GATHERED_POMS[0]!.backAnchor?.(block)).toEqual(edgeEnd(pieceEdge(rolePiece(block, "back"), "waist")));
+    expect(SKIRT_GATHERED_POMS[2]!.anchor?.(block)).toEqual(edgeStart(pieceEdge(rolePiece(block, "front"), "sideLower")));
+    expect(SKIRT_GATHERED_POMS[2]!.backAnchor?.(block)).toEqual(edgeStart(pieceEdge(rolePiece(block, "back"), "sideLower")));
+    expect(() => SKIRT_GATHERED_POMS[1]!.measure(draftSkirt(STANDARD_M)))
+      .toThrow(/missing its casing fold line/);
+  });
+
+  it("preserves finite out-of-range settings and keeps the measured waist target independent of hip ease", () => {
+    expect(gatheredSkirtOptions({ [SKIRT_GATHER_RATIO_OPTION_ID]: 1.4 }).gatherRatio).toBe(1.4);
+    expect(gatheredSkirtOptions({ [SKIRT_CASING_DEPTH_OPTION_ID]: 5.5 }).casingDepthCm).toBe(5.5);
+    expect(() => gatheredSkirtOptions({ [SKIRT_GATHER_RATIO_OPTION_ID]: Number.NaN })).toThrow(/must be finite/);
+    expect(() => draftSkirt(STANDARD_M, {
+      ...options,
+      [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: 4,
+    })).toThrow(/cannot combine/);
+    const highEase = { ...STANDARD_M, waist: 50, ease: 30 };
+    const minimumRatio = draftSkirt(highEase, {
+      [SKIRT_GATHER_RATIO_OPTION_ID]: 1.25,
+      [SKIRT_CASING_DEPTH_OPTION_ID]: 4,
+    });
+    expect(SKIRT_GATHERED_POMS[0]!.measure(minimumRatio)).toBe(62.5);
+    expect(SKIRT_GATHERED_POMS[1]!.measure(minimumRatio)).toBe(50);
+    expect(SKIRT_GATHERED_POMS[2]!.measure(minimumRatio)).toBe(highEase.hip + highEase.ease);
+    const zeroHipDepth = draftSkirt({ ...STANDARD_M, hipDepth: 0 }, options);
+    expect(rolePiece(zeroHipDepth, "front").marks?.[1]).toMatchObject({
+      name: "casingStitchGuide",
+      start: { x: 0, y: 4 },
+      end: { x: STANDARD_M.waist / 4, y: 4 },
+    });
   });
 });

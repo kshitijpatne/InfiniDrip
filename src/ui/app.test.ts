@@ -56,7 +56,8 @@ import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_
   TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID,
   TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 import { blockPieces } from "../drafting/block";
-import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
+  SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "../drafting/skirt";
 import { edgeLength, pieceEdge, type Piece } from "../drafting/piece";
 import { pieceBounds, pieceToPath } from "../render/shape";
 import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg } from "../export";
@@ -17783,6 +17784,158 @@ describe("K02 Pencil-like skirt and starter tiled-PDF workflows", () => {
       root?.remove();
       workflow.close();
       vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
+});
+
+describe("K03 gathered pull-on skirt starter workflows", () => {
+  it("keeps its controls entry-scoped, preserves invalid values, and saves/reopens the selected profile", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_GATHERED_ENTRY_ID}`);
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Gathered pull-on skirt · software defaults");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Gathered pull-on skirt");
+      expect(root.querySelector<HTMLElement>('[data-dim-row="waist"]')!.textContent)
+        .toContain("Waist (gathered-to reference)");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="waist"]')!.getAttribute("aria-label"))
+        .toBe("Waist (gathered-to reference)");
+      const ratio = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!;
+      const casing = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CASING_DEPTH_OPTION_ID}"]`)!;
+      expect(ratio.value).toBe("1.5");
+      expect(casing.value).toBe("4");
+      expect(root.querySelectorAll('#garment-host [data-part="gathered-skirt"]')).toHaveLength(2);
+      expect(root.querySelectorAll('#garment-host [data-part="casing-stitch-guide"]')).toHaveLength(2);
+      reachExportStage(root);
+
+      ratio.value = "1.4";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(ratio.value).toBe("1.4");
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!.textContent)
+        .toContain("use 0.25 ratio increments");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      ratio.value = "1.25";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!.textContent).toBe("");
+      casing.value = "5.5";
+      casing.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(casing.value).toBe("5.5");
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_CASING_DEPTH_OPTION_ID}"]`)!.textContent)
+        .toContain("supports 2–5 cm");
+
+      casing.value = "4";
+      casing.dispatchEvent(new Event("input", { bubbles: true }));
+      const waist = root.querySelector<HTMLInputElement>('input[data-field="waist"]')!;
+      const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+      waist.value = "50";
+      waist.dispatchEvent(new Event("input", { bubbles: true }));
+      ease.value = "30";
+      ease.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!.textContent)
+        .toBe("");
+      reReviewAndReachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+
+      waist.value = "84";
+      waist.dispatchEvent(new Event("input", { bubbles: true }));
+      ease.value = "10";
+      ease.dispatchEvent(new Event("input", { bubbles: true }));
+      ratio.value = "1.5";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      reReviewAndReachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.skirt).toMatchObject({
+        [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5,
+        [SKIRT_CASING_DEPTH_OPTION_ID]: 4,
+      });
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: SKIRT_GATHERED_ENTRY_ID,
+        recipeRevision: "skirt-gathered-pull-on-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!.value).toBe("1.5");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CASING_DEPTH_OPTION_ID}"]`)!.value).toBe("4");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_GATHERED_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+
+      clickId(reopened, "garment-skirt");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`)).toBeNull();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("exports six K03 outputs with the gathered casing, pre-gather POM and no zipper claim", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_GATHERED_ENTRY_ID}`);
+      reachExportStage(root);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6));
+      expect([...files.keys()].sort()).toEqual([
+        "gathered-pull-on-skirt-M-A0.pdf",
+        "gathered-pull-on-skirt-M.dxf",
+        "gathered-pull-on-skirt-M.pdf",
+        "gathered-pull-on-skirt-M.svg",
+        "gathered-pull-on-skirt-projector.svg",
+        "gathered-pull-on-skirt-techpack.pdf",
+      ].sort());
+      expect(files.get("gathered-pull-on-skirt-M.pdf")).toBe(expectedSkirtTiledPdf(true, {
+        [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5,
+        [SKIRT_CASING_DEPTH_OPTION_ID]: 4,
+      }));
+
+      const patternText = files.get("gathered-pull-on-skirt-M.svg")!;
+      expect(patternText).toContain("Finished waist fold line");
+      expect(patternText).toContain("Casing stitch guide (software depth)");
+      const techPackText = visiblePdfText(files.get("gathered-pull-on-skirt-techpack.pdf")!);
+      expect(techPackText).toContain("Cut waist edge (before gathering)");
+      expect(techPackText).toContain("Measured waist (digital gathered-to reference)");
+      expect(techPackText).toContain("Length (finished top fold-hem)");
+      expect(techPackText).toContain("Digital pattern guidance only");
+      expect(techPackText).toContain("elastic specification");
+      expect(techPackText).toContain("No separate waistband, zipper");
+      expect(techPackText).not.toContain("Install one invisible zipper");
+      const projectorText = [...new DOMParser().parseFromString(
+        files.get("gathered-pull-on-skirt-projector.svg")!, "image/svg+xml",
+      ).getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Gathered pull-on skirt");
+      expect(projectorText).toContain("Digital K03 gathered pull-on skirt");
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
       localStorage.clear();
     }
   }, 30_000);

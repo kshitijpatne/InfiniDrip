@@ -2,7 +2,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M, Measurements, skirtWidths } from "../drafting";
 import { renderSkirtGarment, renderSkirtBody } from "./skirt-figure";
-import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "../drafting/skirt";
 import { lowerCroquisFigure } from "./croquis";
 
 const parse = (svg: string): Document => new DOMParser().parseFromString(svg, "image/svg+xml");
@@ -413,5 +413,28 @@ describe("rendered K02 Pencil-like skirt views", () => {
     expect(Math.max(...hem.map(({ x }) => x)))
       .toBeCloseTo((STANDARD_M.hip + STANDARD_M.ease) / 4 - 2 + 1.5, 8);
     expect(doc.querySelector('[data-dim="length"]')).not.toBeNull();
+  });
+});
+
+describe("rendered K03 gathered pull-on skirt view", () => {
+  const options = { [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5, [SKIRT_CASING_DEPTH_OPTION_ID]: 4 };
+
+  it("shows the modeled gathered waist and casing guide without changing the body dimensions", () => {
+    const svg = renderSkirtGarment(STANDARD_M, "#3A4150", options);
+    const doc = wellFormed(svg);
+    expect(doc.querySelectorAll('path[data-part="gathered-skirt"]')).toHaveLength(2);
+    expect(doc.querySelectorAll('line[data-part="casing-stitch-guide"]')).toHaveLength(2);
+    expect(doc.querySelectorAll('[data-part="gather-marks"] line')).toHaveLength(18);
+    expect(doc.querySelectorAll('path[data-edge="ease"]')).toHaveLength(0);
+    expect(wellFormed(renderSkirtBody(STANDARD_M, options)).querySelector('[data-dim="waist"]'))
+      .not.toBeNull();
+    expect(wellFormed(renderSkirtGarment({ ...STANDARD_M, hipDepth: 0 }, "#3A4150", options))
+      .querySelectorAll('line[data-part="casing-stitch-guide"]')).toHaveLength(2);
+    const highEase = { ...STANDARD_M, waist: 50, ease: 30 };
+    const highEaseDoc = wellFormed(renderSkirtGarment(highEase, "#3A4150", options));
+    const highEasePanel = highEaseDoc.querySelector<SVGPathElement>('path[data-part="gathered-skirt"]')!;
+    const highEaseWaist = vertices(highEasePanel.getAttribute("d")!);
+    expect(highEaseWaist[0]!.x).toBe(-highEase.waist / 4);
+    expect(highEaseWaist[1]!.x).toBe(highEase.waist / 4);
   });
 });

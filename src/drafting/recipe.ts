@@ -14,7 +14,9 @@ import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES,
   SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM,
-  SKIRT_PENCIL_HEM_TAPER_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_PENCIL_HEM_POM } from "./skirt";
+  SKIRT_PENCIL_HEM_TAPER_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_PENCIL_HEM_POM,
+  SKIRT_GATHER_RATIO_OPTION, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION,
+  SKIRT_CASING_DEPTH_OPTION_ID, SKIRT_GATHERED_POMS, SKIRT_GATHERED_NOTCHES, isGatheredSkirtProfile } from "./skirt";
 import { StyleDef, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES, JEANS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
@@ -1034,6 +1036,23 @@ const SKIRT_TECH_PACK: TechPack = {
 };
 
 function skirtTechPackForOptions(options: GarmentOptions): TechPack {
+  if (isGatheredSkirtProfile(options)) {
+    const { gatherRatio, casingDepthCm } = {
+      gatherRatio: options[SKIRT_GATHER_RATIO_OPTION_ID] ?? SKIRT_GATHER_RATIO_OPTION.defaultValue,
+      casingDepthCm: options[SKIRT_CASING_DEPTH_OPTION_ID] ?? SKIRT_CASING_DEPTH_OPTION.defaultValue,
+    };
+    return {
+      bom: [],
+      constructionNotice: "Digital pattern guidance only. The gathered cut waist, casing depth and all construction notes are software choices; elastic specification, material compatibility, physical fit, grading, sewing performance and production are unspecified or unvalidated.",
+      construction: [
+        `K03 models a cut-waist width at ${gatherRatio} times the measured waist, gathered to that measured waist as a digital target; shared ease affects the modeled hip only. This ratio is a software setting, not a sourced fabric or sewing standard.`,
+        `Fold the casing inward on the marked fold line; the ${casingDepthCm} cm placement line is a digital stitch guide, not an elastic-width specification.`,
+        "Match the front and back side-seam notches, then join the casing-side, upper-side and lower-side segments continuously.",
+        "No separate waistband, zipper, elastic length, elastic width, material quantity or physical sewing method is specified.",
+        "Turn and finish the skirt hem using a separately selected material and sewing method; neither is validated by this digital draft.",
+      ],
+    };
+  }
   if (Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)) {
     return {
       ...SKIRT_TECH_PACK,
@@ -1069,11 +1088,14 @@ export const SKIRT: GarmentRecipe = {
   grammar: SKIRT_GRAMMAR,
   notches: SKIRT_NOTCHES,
   poms: SKIRT_POMS,
-  pomsForOptions: (options) => Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)
+  pomsForOptions: (options) => isGatheredSkirtProfile(options)
+    ? SKIRT_GATHERED_POMS
+    : Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)
     ? [...SKIRT_POMS, SKIRT_A_LINE_HEM_POM]
     : Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)
       ? [...SKIRT_POMS, SKIRT_PENCIL_HEM_POM]
       : SKIRT_POMS,
+  notchesForOptions: (options) => isGatheredSkirtProfile(options) ? SKIRT_GATHERED_NOTCHES : SKIRT_NOTCHES,
   grade: SKIRT_GRADE,
   sizes: TSHIRT_SIZES, // the same size run drives every garment
   checks: skirtPanelChecks,
@@ -1082,7 +1104,8 @@ export const SKIRT: GarmentRecipe = {
   allowances: WOVEN_SKIRT_ALLOWANCES,
   techPack: SKIRT_TECH_PACK,
   techPackForOptions: skirtTechPackForOptions,
-  options: [SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION],
+  options: [SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION,
+    SKIRT_GATHER_RATIO_OPTION, SKIRT_CASING_DEPTH_OPTION],
 };
 
 export const TROUSER: GarmentRecipe = {
