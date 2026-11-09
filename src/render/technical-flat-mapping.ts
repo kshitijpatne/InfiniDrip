@@ -99,11 +99,24 @@ export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatR
     "front", "back"),
 };
 
+const GATHERED_SKIRT_TECHNICAL_FLAT_MAPPING = makeMapping(
+  "skirt", [shell("front")], [shell("back")], "front", "back",
+);
+
+function hasIntegratedGatheredCasingPanel(piece: Block["roles"][string] | undefined): boolean {
+  if (!piece?.onFold || piece.edges.filter((edge) => edge.name === "casingSide").length !== 1) return false;
+  return ["casingFold", "casingStitchGuide"].every((markName) =>
+    piece.marks?.some((mark) => mark.name === markName) === true);
+}
+
 /** Resolve topology-specific role membership while preserving the legacy
  * single-front map for F01/F02 and other recipes using the same root. */
 export function technicalFlatMappingForBlock(recipeId: string, block: Block): TechnicalFlatRecipeMapping | undefined {
   const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
   const roles = block.roles;
+  const hasIntegratedGatheredCasing = recipeId === "skirt"
+    && hasIntegratedGatheredCasingPanel(roles.front)
+    && hasIntegratedGatheredCasingPanel(roles.back);
   const hasW07BandCollar = roles?.outerStand?.name === "outer woven collar band"
     && roles?.innerStand?.name === "inner woven collar band"
     && !roles?.upperCollar && !roles?.underCollar;
@@ -127,6 +140,7 @@ export function technicalFlatMappingForBlock(recipeId: string, block: Block): Te
     });
     return { ...mapping, faces: [withoutStandRoles(front), withoutStandRoles(back)] };
   }
+  if (mapping && hasIntegratedGatheredCasing) return GATHERED_SKIRT_TECHNICAL_FLAT_MAPPING;
   if (!mapping || recipeId !== "fitted" || !roles?.frontSide) return mapping;
   const [front, back] = mapping.faces;
   return {

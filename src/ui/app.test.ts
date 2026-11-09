@@ -9363,6 +9363,14 @@ describe("bundled local artwork library (Slice 203)", () => {
           id: SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
           appliesToStarterEntryId: SKIRT_PENCIL_ENTRY_ID,
         }),
+        expect.objectContaining({
+          id: SKIRT_GATHER_RATIO_OPTION_ID,
+          appliesToStarterEntryId: SKIRT_GATHERED_ENTRY_ID,
+        }),
+        expect.objectContaining({
+          id: SKIRT_CASING_DEPTH_OPTION_ID,
+          appliesToStarterEntryId: SKIRT_GATHERED_ENTRY_ID,
+        }),
       ]);
 
       clickId(root, "journey-guided");
@@ -9372,6 +9380,12 @@ describe("bundled local artwork library (Slice 203)", () => {
       )).toBeNull();
       expect(root.querySelector<HTMLInputElement>(
         `input[data-option="${SKIRT_PENCIL_HEM_TAPER_OPTION_ID}"]`,
+      )).toBeNull();
+      expect(root.querySelector<HTMLInputElement>(
+        `input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`,
+      )).toBeNull();
+      expect(root.querySelector<HTMLInputElement>(
+        `input[data-option="${SKIRT_CASING_DEPTH_OPTION_ID}"]`,
       )).toBeNull();
       for (const definition of getCaptureFieldDefinitions("skirt")) {
         const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
