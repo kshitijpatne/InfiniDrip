@@ -19,7 +19,8 @@
 //
 // Pure: measurements in, one SVG string out.
 
-import { Measurements, skirtWidths } from "../drafting";
+import { Measurements, skirtWidths, type GarmentOptions } from "../drafting";
+import { skirtHemSweepQuarterCm } from "../drafting/skirt";
 import { BLUEPRINT as T } from "./theme";
 import { lowerCroquisFigure, lowerCroquisFlareCommand } from "./croquis";
 import type { LowerCroquisAnchors } from "./croquis";
@@ -67,21 +68,21 @@ const pt = (p: Pt): string => `${round(p[0])} ${round(p[1])}`;
 
 // One full skirt panel silhouette (front or back), centred on x = 0, waist at y = 0.
 // Full panel = two drafted quarters, so the half-width is (girth + ease) / 4.
-function skirtPanelPath(waistHalf: number, hipHalf: number, len: number, hipDrop: number): string {
+function skirtPanelPath(waistHalf: number, hipHalf: number, hemHalf: number, len: number, hipDrop: number): string {
   return [
     `M ${round(-waistHalf)} 0`,
     `L ${round(waistHalf)} 0`,          // waist
     `L ${round(hipHalf)} ${round(hipDrop)}`, // taper out to the hip
-    `L ${round(hipHalf)} ${round(len)}`,      // straight to the hem
-    `L ${round(-hipHalf)} ${round(len)}`,     // hem
+    `L ${round(hemHalf)} ${round(len)}`,      // side seam blends from hip to the hem width
+    `L ${round(-hemHalf)} ${round(len)}`,     // hem
     `L ${round(-hipHalf)} ${round(hipDrop)}`, // back up the other side
     "Z",
   ].join(" ");
 }
 
-function renderPanel(waistHalf: number, hipHalf: number, len: number, hipDrop: number, fabric: string,
+function renderPanel(waistHalf: number, hipHalf: number, hemHalf: number, len: number, hipDrop: number, fabric: string,
                      cx: number, top: number, label: string): string {
-  const path = `<path d="${skirtPanelPath(waistHalf, hipHalf, len, hipDrop)}" data-edge="ease" fill="${fabric}" ` +
+  const path = `<path d="${skirtPanelPath(waistHalf, hipHalf, hemHalf, len, hipDrop)}" data-edge="ease" fill="${fabric}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
   const band = line(-waistHalf, 4, waistHalf, 4, T.marker, 0.6); // a hint of the waistband
   const group = `<g transform="translate(${round(cx)} ${round(top)})">${path}${band}</g>`;
@@ -91,12 +92,13 @@ function renderPanel(waistHalf: number, hipHalf: number, len: number, hipDrop: n
 }
 
 /** The assembled skirt: front and back panels side by side, in fabric colour. */
-export function renderSkirtGarment(m: Measurements, fabric: string): string {
+export function renderSkirtGarment(m: Measurements, fabric: string, options: GarmentOptions = {}): string {
   const { waistHalf, hipHalf } = skirtWidths(m);
+  const hemHalf = hipHalf + skirtHemSweepQuarterCm(options);
   const len = m.length;
   const hipDrop = m.hipDepth;
 
-  const halfW = hipHalf; // the widest half of one panel
+  const halfW = Math.max(hipHalf, hemHalf); // the widest half of one panel
   const margin = 6;
   const top = 10;
   const gap = 12;
@@ -108,8 +110,8 @@ export function renderSkirtGarment(m: Measurements, fabric: string): string {
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
-    renderPanel(waistHalf, hipHalf, len, hipDrop, fabric, frontCx, top, "FRONT") +
-    renderPanel(waistHalf, hipHalf, len, hipDrop, fabric, backCx, top, "BACK") +
+    renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, frontCx, top, "FRONT") +
+    renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, backCx, top, "BACK") +
     `</svg>`;
 }
 
@@ -124,18 +126,18 @@ export function renderSkirtGarment(m: Measurements, fabric: string): string {
 // The shared lower-body figure geometry lives in render/croquis.ts. This module
 // retains the skirt-specific cloth overlay and annotated presentation around it.
 
-/** The skirt itself: cloth sitting just outside the body, waist → hip → hem.
- *  Straight from hip to hem, because that is what the draft actually does — no
- *  A-line flare is invented here. */
-function clothPath(f: LowerCroquisAnchors, out: number): string {
+/** The skirt cloth follows the waist and hip; an explicit K01 option blends its
+ *  selected quarter-panel sweep from the hip to the hem. */
+function clothPath(f: LowerCroquisAnchors, out: number, hemSweepQuarterCm: number): string {
   const cw = f.waistHalf + out;
   const ch = f.hipHalf + out * 1.5;
+  const hemHalf = f.hipHalf + hemSweepQuarterCm + out * 1.5;
   return [
     `M ${pt([-cw, 0])}`,
     `L ${pt([cw, 0])}`,
     lowerCroquisFlareCommand(cw, ch, f.hipY, 1),
-    `L ${pt([ch, f.length])}`,
-    `L ${pt([-ch, f.length])}`,
+    `L ${pt([hemHalf, f.length])}`,
+    `L ${pt([-hemHalf, f.length])}`,
     `L ${pt([-ch, f.hipY])}`,
     lowerCroquisFlareCommand(cw, ch, f.hipY, -1, true),
     "Z",
@@ -143,11 +145,13 @@ function clothPath(f: LowerCroquisAnchors, out: number): string {
 }
 
 /** The skirt body view: an annotated lower-body figure, measurement-honest. */
-export function renderSkirtBody(m: Measurements): string {
+export function renderSkirtBody(m: Measurements, options: GarmentOptions = {}): string {
   const croquis = lowerCroquisFigure(m);
   const f = croquis.anchors;
+  const hemSweepQuarterCm = skirtHemSweepQuarterCm(options);
   const CLOTH_OUT = 1.0;                          // how far the cloth stands off the body
-  const clothHalf = f.hipHalf + CLOTH_OUT * 1.5;
+  const hemClothHalf = f.hipHalf + hemSweepQuarterCm + CLOTH_OUT * 1.5;
+  const clothHalf = Math.max(f.hipHalf + CLOTH_OUT * 1.5, hemClothHalf);
   // The dimension gutters must clear the widest thing DRAWN. Normally that is the
   // cloth at the hip, but a waist wider than the hip is a reachable (and warned)
   // state, and then the cloth at the WAIST is widest — the figure would otherwise
@@ -156,7 +160,7 @@ export function renderSkirtBody(m: Measurements): string {
 
   const bodyPath = `<path data-part="silhouette" d="${croquis.silhouettePath}" fill="${T.fill}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
-  const cloth = `<path data-part="cloth" d="${clothPath(f, CLOTH_OUT)}" fill="${T.cloth}" ` +
+  const cloth = `<path data-part="cloth" d="${clothPath(f, CLOTH_OUT, hemSweepQuarterCm)}" fill="${T.cloth}" ` +
     `stroke="${T.line}" stroke-width="1.2" stroke-linejoin="round" stroke-opacity="0.75" ` +
     `vector-effect="non-scaling-stroke"/>`;
 
@@ -186,7 +190,7 @@ export function renderSkirtBody(m: Measurements): string {
     edge("waist", seg(-f.waistHalf, 0, f.waistHalf, 0, 1.4)) +
     edge("hip", flareOverlay(1) + flareOverlay(-1)) +
     edge("hipDepth", seg(-f.hipHalf, f.hipY, f.hipHalf, f.hipY, 1.4)) +
-    edge("length", seg(-clothHalf, f.length, clothHalf, f.length, 1.4));
+    edge("length", seg(-hemClothHalf, f.length, hemClothHalf, f.length, 1.4));
 
   const minX = leftDimX - 26;
   const maxX = rightDimX + 26;

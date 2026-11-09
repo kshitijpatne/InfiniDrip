@@ -12,7 +12,8 @@ import { CheckResult } from "../guidance/check";
 import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
-import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
+import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES,
+  SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM } from "./skirt";
 import { StyleDef, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES, JEANS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
@@ -1019,33 +1020,53 @@ const WOVEN_SKIRT_BOM: readonly BomRow[] = [
   { material: "All-purpose thread", placement: "All seams", qty: "1 spool" },
 ];
 
+const SKIRT_TECH_PACK: TechPack = {
+  bom: WOVEN_SKIRT_BOM,
+  constructionNotice: "Draft guidance only; verify waistband joins, zipper method, and hip-notch placement before sewing or production.",
+  construction: [
+    "Overlock the exposed raw edges of the panels and waistband pieces.",
+    "Join each waistband to its matching front or back panel waist edge, matching the center fold and side endpoint.",
+    "Install one invisible zipper in a side opening, continuing from the waistband top through the upper skirt side seam to the hip notch.",
+    "Sew the opposite side seam from waistband to hem; close the zipper-side seam from the hip notch to the hem and secure the zipper end.",
+    "Turn up and hem the skirt.",
+  ],
+};
+
+function skirtTechPackForOptions(options: GarmentOptions): TechPack {
+  if (!Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)) return SKIRT_TECH_PACK;
+  return {
+    ...SKIRT_TECH_PACK,
+    bom: [],
+    constructionNotice: "Digital pattern guidance only. The A-line-like hem sweep and construction steps are unvalidated; material selection, consumption, sewing performance, physical fit, grading and production are unspecified or unvalidated.",
+    construction: [
+      "This digital A-line-like profile uses a software-selected hem sweep over a dartless skirt block; it does not model literal dart transfer.",
+      ...SKIRT_TECH_PACK.construction,
+    ],
+  };
+}
+
 export const SKIRT: GarmentRecipe = {
   name: "skirt",
   label: "Skirt",
   editRole: "front",
   fields: ["waist", "hip", "hipDepth", "length", "ease"],
   styles: SKIRT_STYLES,
-  draft: draftSkirt,
+  draft: (m, options = {}) => draftSkirt(m, options),
   grammar: SKIRT_GRAMMAR,
   notches: SKIRT_NOTCHES,
   poms: SKIRT_POMS,
+  pomsForOptions: (options) => Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)
+    ? [...SKIRT_POMS, SKIRT_A_LINE_HEM_POM]
+    : SKIRT_POMS,
   grade: SKIRT_GRADE,
   sizes: TSHIRT_SIZES, // the same size run drives every garment
   checks: skirtPanelChecks,
   guidance: skirtGuidance,
   sizeMetric: frontHemWidth, // the front hem grows with the hip → orders the run
   allowances: WOVEN_SKIRT_ALLOWANCES,
-  techPack: {
-    bom: WOVEN_SKIRT_BOM,
-    constructionNotice: "Draft guidance only; verify waistband joins, zipper method, and hip-notch placement before sewing or production.",
-    construction: [
-      "Overlock the exposed raw edges of the panels and waistband pieces.",
-      "Join each waistband to its matching front or back panel waist edge, matching the center fold and side endpoint.",
-      "Install one invisible zipper in a side opening, continuing from the waistband top through the upper skirt side seam to the hip notch.",
-      "Sew the opposite side seam from waistband to hem; close the zipper-side seam from the hip notch to the hem and secure the zipper end.",
-      "Turn up and hem the skirt.",
-    ],
-  },
+  techPack: SKIRT_TECH_PACK,
+  techPackForOptions: skirtTechPackForOptions,
+  options: [SKIRT_A_LINE_HEM_SWEEP_OPTION],
 };
 
 export const TROUSER: GarmentRecipe = {

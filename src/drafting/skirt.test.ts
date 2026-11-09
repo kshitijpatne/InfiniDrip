@@ -2,7 +2,8 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { blockPieces, rolePiece } from "./block";
 import { pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
-import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES, skirtPanel } from "./skirt";
+import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES, skirtPanel,
+  SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM, skirtHemSweepQuarterCm } from "./skirt";
 import { stitchChecks } from "./stitch";
 import { resolveNotch } from "../render/notch";
 import { SKIRT, gradeRun, specSheet } from "./index";
@@ -82,6 +83,34 @@ describe("draftSkirt", () => {
     const front = rolePiece(draftSkirt(STANDARD_M), "front");
     const hipQuarter = edgeStart(pieceEdge(front, "sideLower")).x;
     expect(hipQuarter * 4).toBeCloseTo(STANDARD_M.hip + STANDARD_M.ease, 5);
+  });
+
+  it("distributes the selected whole-garment hem sweep equally across four quarter panels", () => {
+    expect(skirtHemSweepQuarterCm()).toBe(0);
+    for (const sweep of [4, 12, 24]) {
+      const options = { [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: sweep };
+      const block = draftSkirt(STANDARD_M, options);
+      const front = rolePiece(block, "front");
+      const back = rolePiece(block, "back");
+      const straight = rolePiece(draftSkirt(STANDARD_M), "front");
+      const hipX = edgeStart(pieceEdge(front, "sideLower")).x;
+      const hemX = edgeStart(pieceEdge(front, "hem")).x;
+      expect(skirtHemSweepQuarterCm(options)).toBe(sweep / 4);
+      expect(hemX - hipX).toBeCloseTo(sweep / 4, 8);
+      expect(edgeStart(pieceEdge(back, "hem")).x).toBeCloseTo(hemX, 8);
+      expect(edgeStart(pieceEdge(front, "sideLower")).x)
+        .toBe(edgeStart(pieceEdge(straight, "sideLower")).x);
+      expect(edgeLength(pieceEdge(front, "hem")) - edgeLength(pieceEdge(straight, "hem")))
+        .toBeCloseTo(sweep / 4, 8);
+      expect(4 * (edgeLength(pieceEdge(front, "hem")) - edgeLength(pieceEdge(straight, "hem"))))
+        .toBeCloseTo(sweep, 8);
+      expect(SKIRT_A_LINE_HEM_POM.measure(block)).toBeCloseTo(STANDARD_M.hip + STANDARD_M.ease + sweep, 8);
+      expect(SKIRT_A_LINE_HEM_POM.anchor?.(block))
+        .toEqual(edgeStart(pieceEdge(front, "hem")));
+      expect(SKIRT_A_LINE_HEM_POM.backAnchor?.(block))
+        .toEqual(edgeStart(pieceEdge(back, "hem")));
+      expect(allSkirtChecks(block).every((check) => check.ok)).toBe(true);
+    }
   });
 
   // Slice 42: the waist-to-hip drop used to be a hard-coded HIP_DROP = 20 in this
@@ -213,9 +242,22 @@ describe("skirtPanel — the Component contract (Phase C1, Slice 58)", () => {
     expect(result.interfaces.waist.edges).toEqual([{ piece: "front", edge: "waist" }]);
   });
 
-  it("throws on any silhouette other than \"straight\" — flare isn't drafted yet", () => {
+  it("requires a positive finite sweep before drafting a flared panel", () => {
     expect(() => skirtPanel(STANDARD_M, { position: "front", silhouette: "flare" }))
-      .toThrow(/not yet implemented/);
+      .toThrow(/requires a positive finite hem-sweep/);
+    expect(() => skirtPanel(STANDARD_M, { position: "front", silhouette: "flare", hemSweepQuarterCm: Number.NaN }))
+      .toThrow(/requires a positive finite hem-sweep/);
+    const unsupported = "unknown" as unknown as "straight" | "flare";
+    expect(() => skirtPanel(STANDARD_M, { position: "front", silhouette: unsupported }))
+      .toThrow(/is not supported/);
+  });
+
+  it("does not accept flare hidden inside a straight-panel request", () => {
+    expect(() => skirtPanel(STANDARD_M, { position: "front", silhouette: "straight", hemSweepQuarterCm: 1 }))
+      .toThrow(/cannot include hem sweep/);
+    const flared = skirtPanel(STANDARD_M, { position: "front", silhouette: "flare", hemSweepQuarterCm: 3 });
+    expect(edgeStart(pieceEdge(flared.pieces.front, "hem")).x)
+      .toBeCloseTo((STANDARD_M.hip + STANDARD_M.ease) / 4 + 3, 8);
   });
 
   it("draftSkirt's front and back pieces ARE skirtPanel's output, not a re-derivation of it", () => {
