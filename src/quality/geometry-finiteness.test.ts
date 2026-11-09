@@ -49,6 +49,28 @@ function reviewedBlockAtSize(
   return draftAtSize(measurements, recipe.grade, step, recipe.draft, options);
 }
 
+function optionArbitrary(
+  definitions: NonNullable<GarmentRecipe["options"]>,
+): fc.Arbitrary<GarmentOptions> {
+  const entries = definitions.map((definition) =>
+    [definition.id, fc.double({ min: definition.min, max: definition.max, noNaN: true, noDefaultInfinity: true })] as const);
+  return fc.record(Object.fromEntries(entries)) as fc.Arbitrary<GarmentOptions>;
+}
+
+function defaultOptionCases(recipe: GarmentRecipe): GarmentOptions[] {
+  const definitions = recipe.options ?? [];
+  const baseDefinitions = definitions.filter((definition) => !definition.appliesToStarterEntryId);
+  const profileDefinitions = definitions.filter((definition) => definition.appliesToStarterEntryId);
+  const baseDefaults = defaultGarmentOptions(baseDefinitions);
+  return [
+    baseDefaults,
+    ...profileDefinitions.map((definition) => ({
+      ...baseDefaults,
+      ...defaultGarmentOptions([definition]),
+    })),
+  ];
+}
+
 /** A generator for one recipe's own valid domain: only its declared
  * measurement fields vary (bounded by the shared UI field ranges), every
  * other field stays at STANDARD_M, and any recipe-owned numeric options vary
@@ -66,9 +88,17 @@ function validInputArbitrary(recipe: GarmentRecipe): fc.Arbitrary<{
   const measurementsArb = fc.record(Object.fromEntries(fieldEntries)) as fc.Arbitrary<Partial<Measurements>>;
 
   const optionDefs = recipe.options ?? [];
-  const optionEntries = optionDefs.map((d) =>
-    [d.id, fc.double({ min: d.min, max: d.max, noNaN: true, noDefaultInfinity: true })] as const);
-  const optionsArb = fc.record(Object.fromEntries(optionEntries)) as fc.Arbitrary<GarmentOptions>;
+  const baseOptionDefs = optionDefs.filter((definition) => !definition.appliesToStarterEntryId);
+  const profileOptionDefs = optionDefs.filter((definition) => definition.appliesToStarterEntryId);
+  const baseOptionsArb = optionArbitrary(baseOptionDefs);
+  const profileOptionsArb = profileOptionDefs.length === 0
+    ? fc.constant({} as GarmentOptions)
+    : fc.oneof(
+      fc.constant({} as GarmentOptions),
+      ...profileOptionDefs.map((definition) => optionArbitrary([definition])),
+    );
+  const optionsArb = fc.tuple(baseOptionsArb, profileOptionsArb)
+    .map(([baseOptions, profileOptions]) => ({ ...baseOptions, ...profileOptions }));
 
   const stepArb = fc.constantFrom(...recipe.sizes.map((s) => s.step));
 
@@ -154,9 +184,11 @@ describe("EPIC 10 — geometry finiteness (Slice 142)", () => {
   // a future change that breaks it fails fast without needing fast-check.
   it("regression fixture: STANDARD_M at step 0 drafts finite geometry for every recipe", () => {
     for (const recipe of GARMENTS) {
-      const block = draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft, defaultGarmentOptions(recipe.options ?? []));
-      for (const piece of blockPieces(block)) {
-        for (const edge of piece.edges) expect(edgeFinite(edge)).toBe(true);
+      for (const options of defaultOptionCases(recipe)) {
+        const block = draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft, options);
+        for (const piece of blockPieces(block)) {
+          for (const edge of piece.edges) expect(edgeFinite(edge)).toBe(true);
+        }
       }
     }
   });
