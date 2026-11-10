@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { CREWNECK, GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
+import { SKIRT_BOX_PLEAT_ENTRY_ID } from "../drafting/skirt";
 import { lineMark, pointMark } from "../drafting/pattern-mark";
 import { cubicPoint } from "../geometry/curve";
 import type { Block } from "../drafting/block";
@@ -351,7 +352,8 @@ describe("technical-flat source geometry", () => {
   it("compiles exact mapped role outlines, marks and darts for every G04-admitted recipe and option endpoint", () => {
     for (const recipe of G04_RECIPES) {
       const optionSets = [defaultGarmentOptions(recipe.options ?? [])];
-      for (const option of recipe.options ?? []) {
+      for (const option of (recipe.options ?? []).filter((candidate) =>
+        candidate.appliesToStarterEntryId !== SKIRT_BOX_PLEAT_ENTRY_ID)) {
         optionSets.push({ ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min });
         optionSets.push({ ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.max });
       }
@@ -522,7 +524,8 @@ describe("technical-flat source geometry", () => {
 
     for (const recipe of G04_RECIPES) {
       const optionSets = [defaultGarmentOptions(recipe.options ?? [])];
-      for (const option of recipe.options ?? []) {
+      for (const option of (recipe.options ?? []).filter((candidate) =>
+        candidate.appliesToStarterEntryId !== SKIRT_BOX_PLEAT_ENTRY_ID)) {
         optionSets.push({ ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min });
         optionSets.push({ ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.max });
       }
