@@ -1,0 +1,705 @@
+// @vitest-environment jsdom
+
+// @vitest-environment jsdom
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+import { Blob as NodeBlob } from "node:buffer";
+
+import { createHash, webcrypto } from "node:crypto";
+
+import { IDBFactory } from "fake-indexeddb";
+
+import { mountApp, unmountApp } from "./app";
+
+import { openProjectWorkflow } from "./project-workflow";
+
+import { migrateLegacySaveFile } from "./project-records";
+
+import { GARMENTS, STANDARD_M, notchesForRecipeOptions, type GarmentOptions } from "../drafting";
+
+import { blockPieces } from "../drafting/block";
+
+import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "../drafting/skirt";
+
+import { exportA0Pdf, exportPdf } from "../export";
+
+import { serialize } from "./persist";
+
+import { createFieldObservationRecord } from "./field-provenance";
+
+function visiblePdfText(pdf: string): string {
+  const streams = [...pdf.matchAll(/>>\nstream\n([\s\S]*?)\nendstream/g)].map((match) => match[1]!);
+  return streams.flatMap((stream) =>
+    [...stream.matchAll(/\(((?:[^()\\]|\\.)*)\) Tj/g)].map((match) => match[1]!.replace(/\\(.)/g, "$1")),
+  ).join(" ");
+}
+
+function expectedSkirtTiledPdf(localCoordinates: boolean, options: GarmentOptions = {}): string {
+  const skirtRecipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+  return exportPdf(
+    blockPieces(skirtRecipe.draft(STANDARD_M, options)),
+    skirtRecipe.allowances!,
+    undefined,
+    1,
+    localCoordinates,
+  );
+}
+
+function expectedSkirtA0Pdf(allowOverflow: boolean, options: GarmentOptions): string {
+  const skirtRecipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+  return exportA0Pdf(
+    blockPieces(skirtRecipe.draft(STANDARD_M, options)),
+    skirtRecipe.allowances!,
+    notchesForRecipeOptions(skirtRecipe, options),
+    undefined,
+    allowOverflow,
+  );
+}
+
+function mount(options: Parameters<typeof mountApp>[1] = {}): HTMLDivElement {
+  const root = document.createElement("div");
+  mountApp(root, options);
+  mountedRoots.add(root);
+  return root;
+}
+
+type TrackedWindowListener = {
+  readonly type: string;
+  readonly listener: EventListenerOrEventListenerObject;
+  readonly options?: boolean | AddEventListenerOptions;
+};
+
+const mountedRoots = new Set<HTMLDivElement>();
+
+const trackedWindowListeners: TrackedWindowListener[] = [];
+
+const addNativeWindowListener = window.addEventListener.bind(window);
+
+const removeNativeWindowListener = window.removeEventListener.bind(window);
+
+const clickId = (root: HTMLElement, id: string): void => {
+    root.querySelector<HTMLElement>(`#${id}`)!.click();
+};
+
+const clickIfPresent = (root: HTMLElement, id: string): void => {
+    root.querySelector<HTMLElement>(`#${id}`)?.click();
+};
+
+/** Navigate the real reviewed path used by export-writer tests. */
+const reachExportStage = (root: HTMLElement): void => {
+    clickIfPresent(root, "welcome-start");
+    clickId(root, "journey-step-fit");
+    clickId(root, "journey-next"); // accept the current Style choices → Check
+    clickId(root, "journey-next"); // reviewed Check → Export
+};
+
+const reReviewAndReachExportStage = (root: HTMLElement): void => {
+    clickId(root, "journey-step-fit");
+    clickId(root, "journey-next");
+    clickId(root, "view-check");
+    clickId(root, "journey-next");
+};
+
+beforeEach(() => {
+  trackedWindowListeners.length = 0;
+  vi.spyOn(window, "addEventListener").mockImplementation((type, listener, options) => {
+    trackedWindowListeners.push({ type, listener, options });
+    addNativeWindowListener(type, listener, options);
+  });
+});
+
+afterEach(() => {
+  unmountApp();
+  for (const { type, listener, options } of trackedWindowListeners) {
+    removeNativeWindowListener(type, listener, options);
+  }
+  trackedWindowListeners.length = 0;
+  for (const root of mountedRoots) root.remove();
+  mountedRoots.clear();
+  vi.useRealTimers();
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
+
+
+describe("K02 Pencil-like skirt and starter tiled-PDF workflows", () => {
+  it("keeps taper controls entry-scoped, retains invalid values, and saves/reopens K02", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + SKIRT_PENCIL_ENTRY_ID);
+
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Pencil-like skirt · software defaults");
+      const taper = root.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )!;
+      expect(taper.value).toBe("8");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Pencil-like skirt");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("software defaults");
+      reachExportStage(root);
+
+      taper.value = "13";
+      taper.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(taper.value).toBe("13");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("supports 4–12 cm");
+      expect(root.querySelector<HTMLElement>(
+        '[data-input-error="option-' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )!.textContent).toContain("supports 4–12 cm");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      taper.value = "8.5";
+      taper.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(taper.value).toBe("8.5");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("use 1 cm increments");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      taper.value = "4";
+      taper.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).not.toContain("supports 4–12 cm");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).not.toContain("use 1 cm increments");
+      expect(root.querySelector<HTMLElement>(
+        '[data-input-error="option-' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )?.textContent).toBe("");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+
+      const hipDepth = root.querySelector<HTMLInputElement>('input[data-field="hipDepth"]')!;
+      hipDepth.value = "40";
+      hipDepth.dispatchEvent(new Event("input", { bubbles: true }));
+      const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+      length.value = "40";
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(length.value).toBe("40");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .toContain("the K02 preview and exports stay paused");
+      expect(root.querySelector<HTMLElement>('[data-input-error="length"]')!.textContent)
+        .toContain("Lengthen the skirt or reduce the hip depth");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      length.value = "70";
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>('[data-input-error="length"]')?.textContent).toBe("");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        measurements: typeof STANDARD_M;
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.skirt).toMatchObject({ [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 4 });
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: SKIRT_PENCIL_ENTRY_ID,
+        recipeRevision: "skirt-pencil-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )!.value).toBe("4");
+      expect(reopened.querySelector<HTMLButtonElement>(
+        '[data-starter-entry-id="' + SKIRT_PENCIL_ENTRY_ID + '"]',
+      )!.getAttribute("aria-pressed")).toBe("true");
+
+      clickId(reopened, "garment-skirt");
+      expect(reopened.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )).toBeNull();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+
+      clickId(reopened, "starter-" + SKIRT_A_LINE_ENTRY_ID);
+      expect(reopened.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_A_LINE_HEM_SWEEP_OPTION_ID + '"]',
+      )!.value).toBe("12");
+      expect(reopened.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )).toBeNull();
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("exports six consistent K02 outputs and removes the K02 identity on generic Skirt", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + SKIRT_PENCIL_ENTRY_ID);
+      reachExportStage(root);
+
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6));
+      expect([...files.keys()].sort()).toEqual([
+        "pencil-like-skirt-M-A0.pdf",
+        "pencil-like-skirt-M.dxf",
+        "pencil-like-skirt-M.pdf",
+        "pencil-like-skirt-M.svg",
+        "pencil-like-skirt-projector.svg",
+        "pencil-like-skirt-techpack.pdf",
+      ].sort());
+
+      const pattern = new DOMParser().parseFromString(files.get("pencil-like-skirt-M.svg")!, "image/svg+xml");
+      expect(pattern.querySelector("parsererror")).toBeNull();
+      expect(pattern.querySelectorAll("path").length).toBeGreaterThan(0);
+      expect(files.get("pencil-like-skirt-M.dxf")).toContain("SECTION");
+      const techPackText = visiblePdfText(files.get("pencil-like-skirt-techpack.pdf")!);
+      expect(techPackText).toContain("Hem circumference (modeled)");
+      expect(techPackText).toContain("Digital pattern guidance only");
+      expect(techPackText).toContain("Digital Pencil-like skirt using a 8 cm whole-garment hem-taper software setting");
+      expect(techPackText).toContain("does not model conventional darts or a center-back vent");
+      expect(techPackText).toContain("material selection, consumption");
+      expect(files.get("pencil-like-skirt-M.pdf")).toBe(expectedSkirtTiledPdf(true, {
+        [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 8,
+      }));
+      const projectorText = [...new DOMParser().parseFromString(
+        files.get("pencil-like-skirt-projector.svg")!, "image/svg+xml",
+      ).getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Pencil-like skirt");
+      expect(projectorText).toContain("Digital Pencil-like hem taper; grading is not validated.");
+
+      clickId(root, "garment-skirt");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+      reachExportStage(root);
+      clickId(root, "export-svg");
+      clickId(root, "export-projector");
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(8));
+      expect(files.has("skirt-M.svg")).toBe(true);
+      expect(files.get("skirt-M.svg")).not.toBe(files.get("pencil-like-skirt-M.svg"));
+      expect(files.has("skirt-projector.svg")).toBe(true);
+      const genericProjectorText = [...new DOMParser().parseFromString(
+        files.get("skirt-projector.svg")!, "image/svg+xml",
+      ).getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(genericProjectorText).not.toContain("Digital Pencil-like hem taper");
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  const tiledPdfProfiles: ReadonlyArray<{
+    label: string;
+    entryId: string | null;
+    localCoordinates: boolean;
+    options: GarmentOptions;
+  }> = [
+    {
+      label: "K01",
+      entryId: SKIRT_A_LINE_ENTRY_ID,
+      localCoordinates: true,
+      options: { [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: 12 },
+    },
+    {
+      label: "K02",
+      entryId: SKIRT_PENCIL_ENTRY_ID,
+      localCoordinates: true,
+      options: { [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 8 },
+    },
+    { label: "generic Skirt", entryId: null, localCoordinates: false, options: {} },
+  ];
+  for (const profile of tiledPdfProfiles) {
+    it(`freezes ${profile.label} tiled PDF with the expected coordinate mode`, async () => {
+      localStorage.clear();
+      vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+      vi.stubGlobal("Blob", NodeBlob);
+      const workflow = await openProjectWorkflow({
+        repositoryOptions: {
+          name: `app-${profile.label}-pdf-freeze-${Date.now()}`,
+          factory: new IDBFactory(),
+          crypto: webcrypto as unknown as Crypto,
+        },
+        storage: localStorage,
+        idFactory: () => webcrypto.randomUUID(),
+        now: () => "2026-11-09T10:45:00.000Z",
+      });
+      const root = document.createElement("div");
+      document.body.append(root);
+      try {
+        mountApp(root, { projectWorkflow: workflow });
+        clickIfPresent(root, "welcome-start");
+        if (profile.entryId) clickId(root, "starter-" + profile.entryId);
+        else clickId(root, "garment-skirt");
+        clickId(root, "save-pattern");
+        await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state)
+          .toBe("saved"), { timeout: 10_000 });
+        reachExportStage(root);
+        const manager = root.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+        manager.open = true;
+        const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+        await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+        freeze.click();
+        await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+          { timeout: 20_000 });
+        const manifest = workflow.snapshot.exportManifests[0]!;
+        const frozenPdf = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-tiled-pdf");
+        expect(await frozenPdf.artifact.bytes.text()).toBe(
+          expectedSkirtTiledPdf(profile.localCoordinates, profile.options),
+        );
+      } finally {
+        workflow.close();
+        root.remove();
+        vi.unstubAllGlobals();
+        localStorage.clear();
+      }
+    }, 30_000);
+  }
+  it("restores K02 identity, measurements, and taper after switching between local projects", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const now = "2026-11-09T07:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-k02-project-switch-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => now,
+    });
+    let root: HTMLDivElement | null = mount({ projectWorkflow: workflow });
+    const originalProjectId = workflow.snapshot.project.id;
+    const otherProjectId = webcrypto.randomUUID();
+    const otherStyleId = webcrypto.randomUUID();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-" + SKIRT_PENCIL_ENTRY_ID);
+      const hip = root.querySelector<HTMLInputElement>('input[data-field="hip"]')!;
+      hip.value = "108";
+      hip.dispatchEvent(new Event("input", { bubbles: true }));
+      const taper = root.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )!;
+      taper.value = "12";
+      taper.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.design.workspace.starterOrigin?.entryId)
+        .toBe(SKIRT_PENCIL_ENTRY_ID));
+      expect(workflow.snapshot.activeStyle.design.measurements.hip).toBe(108);
+      expect(workflow.snapshot.activeStyle.design.garmentOptions.skirt)
+        .toMatchObject({ [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 12 });
+
+      const migrated = migrateLegacySaveFile({
+        json: serialize(STANDARD_M, "#204060"),
+        projectId: otherProjectId,
+        styleId: otherStyleId,
+        migratedAt: now,
+        projectName: "Separate local K02 test project",
+      });
+      if (!migrated.ok) throw new Error(migrated.error);
+      await workflow.repository.saveProjectBundle({
+        project: migrated.value.project,
+        styles: [migrated.value.style],
+        fieldObservations: [createFieldObservationRecord(migrated.value.style, now, "existing-local-style")],
+        expectedProjectRevision: null,
+      });
+
+      await workflow.switchProject(otherProjectId);
+      expect(workflow.snapshot.project.id).toBe(otherProjectId);
+      await workflow.switchProject(originalProjectId);
+      expect(workflow.snapshot.project.id).toBe(originalProjectId);
+      expect(workflow.snapshot.activeStyle.design.measurements.hip).toBe(108);
+      expect(workflow.snapshot.activeStyle.design.garmentOptions.skirt)
+        .toMatchObject({ [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 12 });
+      expect(workflow.snapshot.activeStyle.design.workspace.starterOrigin?.entryId)
+        .toBe(SKIRT_PENCIL_ENTRY_ID);
+
+      unmountApp();
+      root.remove();
+      root = mount({ projectWorkflow: workflow });
+      expect(root.querySelector<HTMLInputElement>('input[data-field="hip"]')!.value).toBe("108");
+      expect(root.querySelector<HTMLInputElement>(
+        'input[data-option="' + SKIRT_PENCIL_HEM_TAPER_OPTION_ID + '"]',
+      )!.value).toBe("12");
+      expect(root.querySelector<HTMLButtonElement>(
+        '[data-starter-entry-id="' + SKIRT_PENCIL_ENTRY_ID + '"]',
+      )!.getAttribute("aria-pressed")).toBe("true");
+    } finally {
+      unmountApp();
+      root?.remove();
+      workflow.close();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
+
+
+});
+
+
+
+describe("K03 gathered pull-on skirt starter workflows", () => {
+  it("keeps its controls entry-scoped, preserves invalid values, and saves/reopens the selected profile", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_GATHERED_ENTRY_ID}`);
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Gathered pull-on skirt · software defaults");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Gathered pull-on skirt");
+      expect(root.querySelector<HTMLElement>('[data-dim-row="waist"]')!.textContent)
+        .toContain("Waist (gathered-to reference)");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="waist"]')!.getAttribute("aria-label"))
+        .toBe("Waist (gathered-to reference)");
+      const ratio = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!;
+      const casing = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CASING_DEPTH_OPTION_ID}"]`)!;
+      expect(ratio.value).toBe("1.5");
+      expect(casing.value).toBe("4");
+      expect(root.querySelectorAll('#garment-host [data-part="gathered-skirt"]')).toHaveLength(2);
+      expect(root.querySelectorAll('#garment-host [data-part="casing-stitch-guide"]')).toHaveLength(2);
+      reachExportStage(root);
+
+      ratio.value = "1.4";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(ratio.value).toBe("1.4");
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!.textContent)
+        .toContain("use 0.25 ratio increments");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      ratio.value = "1.25";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!.textContent).toBe("");
+      casing.value = "5.5";
+      casing.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(casing.value).toBe("5.5");
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_CASING_DEPTH_OPTION_ID}"]`)!.textContent)
+        .toContain("supports 2–5 cm");
+
+      casing.value = "4";
+      casing.dispatchEvent(new Event("input", { bubbles: true }));
+      const waist = root.querySelector<HTMLInputElement>('input[data-field="waist"]')!;
+      const ease = root.querySelector<HTMLInputElement>('input[data-field="ease"]')!;
+      waist.value = "50";
+      waist.dispatchEvent(new Event("input", { bubbles: true }));
+      ease.value = "30";
+      ease.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!.textContent)
+        .toBe("");
+      reReviewAndReachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+
+      waist.value = "84";
+      waist.dispatchEvent(new Event("input", { bubbles: true }));
+      ease.value = "10";
+      ease.dispatchEvent(new Event("input", { bubbles: true }));
+      ratio.value = "1.5";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      reReviewAndReachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.skirt).toMatchObject({
+        [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5,
+        [SKIRT_CASING_DEPTH_OPTION_ID]: 4,
+      });
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: SKIRT_GATHERED_ENTRY_ID,
+        recipeRevision: "skirt-gathered-pull-on-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!.value).toBe("1.5");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CASING_DEPTH_OPTION_ID}"]`)!.value).toBe("4");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_GATHERED_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+
+      clickId(reopened, "garment-skirt");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`)).toBeNull();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("exports six K03 outputs with the gathered casing, pre-gather POM and no zipper claim", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_GATHERED_ENTRY_ID}`);
+      reachExportStage(root);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6));
+      expect([...files.keys()].sort()).toEqual([
+        "gathered-pull-on-skirt-M-A0.pdf",
+        "gathered-pull-on-skirt-M.dxf",
+        "gathered-pull-on-skirt-M.pdf",
+        "gathered-pull-on-skirt-M.svg",
+        "gathered-pull-on-skirt-projector.svg",
+        "gathered-pull-on-skirt-techpack.pdf",
+      ].sort());
+      expect(files.get("gathered-pull-on-skirt-M.pdf")).toBe(expectedSkirtTiledPdf(true, {
+        [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5,
+        [SKIRT_CASING_DEPTH_OPTION_ID]: 4,
+      }));
+      const defaultK03Options = {
+        [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5,
+        [SKIRT_CASING_DEPTH_OPTION_ID]: 4,
+      };
+      const defaultA0 = files.get("gathered-pull-on-skirt-M-A0.pdf")!;
+      expect(defaultA0).toBe(expectedSkirtA0Pdf(true, defaultK03Options));
+      expect(defaultA0).toBe(expectedSkirtA0Pdf(false, defaultK03Options));
+      expect(defaultA0.match(/\/Type \/Page\b/g)).toHaveLength(1);
+      expect(createHash("sha256").update(defaultA0).digest("hex"))
+        .toBe("3d0a64e64642f062b715950cbe240b35cfa1292936276a62302ab4a116602ef1");
+
+      const patternText = files.get("gathered-pull-on-skirt-M.svg")!;
+      expect(patternText).toContain("Finished waist fold line");
+      expect(patternText).toContain("Casing stitch guide (software depth)");
+      const techPackText = visiblePdfText(files.get("gathered-pull-on-skirt-techpack.pdf")!);
+      expect(techPackText).toContain("Cut waist edge (before gathering)");
+      expect(techPackText).toContain("Measured waist (digital gathered-to reference)");
+      expect(techPackText).toContain("Length (finished top fold-hem)");
+      expect(techPackText).toContain("Digital pattern guidance only");
+      expect(techPackText).toContain("elastic specification");
+      expect(techPackText).toContain("No separate waistband, zipper");
+      expect(techPackText).not.toContain("Install one invisible zipper");
+      const projectorText = [...new DOMParser().parseFromString(
+        files.get("gathered-pull-on-skirt-projector.svg")!, "image/svg+xml",
+      ).getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Gathered pull-on skirt");
+      expect(projectorText).toContain("Digital K03 gathered pull-on skirt");
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+  it("exports overflowing K03 settings as complete A0 pages from the visible download path", async () => {
+    localStorage.clear();
+    const savedPdfs: string[] = [];
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      savedPdfs.push(content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_GATHERED_ENTRY_ID}`);
+      reachExportStage(root);
+
+      for (const [index, ratio] of [1.75, 2].entries()) {
+        const ratioInput = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!;
+        ratioInput.value = String(ratio);
+        ratioInput.dispatchEvent(new Event("input", { bubbles: true }));
+        const casingInput = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CASING_DEPTH_OPTION_ID}"]`)!;
+        const casingDepth = ratio === 1.75 ? 4.5 : 5;
+        casingInput.value = String(casingDepth);
+        casingInput.dispatchEvent(new Event("input", { bubbles: true }));
+        reReviewAndReachExportStage(root);
+        clickId(root, "export-a0");
+        await vi.waitFor(() => expect(savedPdfs).toHaveLength(index + 1));
+        expect(savedPdfs[index]!.match(/\/Type \/Page\b/g)).toHaveLength(2);
+        expect(savedPdfs[index]).toBe(expectedSkirtA0Pdf(true, {
+          [SKIRT_GATHER_RATIO_OPTION_ID]: ratio,
+          [SKIRT_CASING_DEPTH_OPTION_ID]: casingDepth,
+        }));
+      }
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("freezes the K03 selected-size A0 artifact with the gathered overflow decision", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-k03-a0-freeze-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-11-10T01:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_GATHERED_ENTRY_ID}`);
+      const ratio = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!;
+      ratio.value = "1.75";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      const casing = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CASING_DEPTH_OPTION_ID}"]`)!;
+      casing.value = "4.5";
+      casing.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("saved"),
+        { timeout: 10_000 });
+      reReviewAndReachExportStage(root);
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+      freeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      const manifest = workflow.snapshot.exportManifests[0]!;
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-a0-pdf");
+      const frozenA0 = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-a0-pdf");
+      const frozenPdf = await frozenA0.artifact.bytes.text();
+      const expected = expectedSkirtA0Pdf(true, {
+        [SKIRT_GATHER_RATIO_OPTION_ID]: 1.75,
+        [SKIRT_CASING_DEPTH_OPTION_ID]: 4.5,
+      });
+      expect(frozenPdf).toBe(expected);
+      expect(frozenPdf.match(/\/Type \/Page\b/g)).toHaveLength(2);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
+});
