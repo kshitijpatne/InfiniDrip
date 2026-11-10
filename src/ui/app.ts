@@ -2242,7 +2242,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     outputRecipe.tiledPdfLocalCoordinates === true
     || (outputRecipe.name === "skirt"
       && (starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID || starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID
-        || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID));
+        || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID));
+  const tiledPdfMarkLabelLayout = (outputRecipe: GarmentRecipe): "inline" | "staggered-box-pleat-guides" =>
+    outputRecipe.name === "skirt" && starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
+      ? "staggered-box-pleat-guides"
+      : "inline";
   const guideCurrentRecipe = (value: Measurements, options: GarmentOptions = recipeOptions()): Note[] => {
     const guidanceRecipe = starterOrigin?.entryId === POLO_LOW_EASE_ENTRY_ID && recipe.name === "polo"
       ? poloLowEaseRecipeForOutput(recipe, options)
@@ -6708,7 +6712,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   onExport("#export-pdf", () => {
     const outputRecipe = recipeForCurrentOutputs();
     download(`${exportRecipeName()}-${exportSizeLabel()}.pdf`, exportPdf(
-      exportPieces(), exportAllowances(), undefined, 1.0, usesLocalTiledPdfCoordinates(outputRecipe)
+      exportPieces(), exportAllowances(), undefined, 1.0, usesLocalTiledPdfCoordinates(outputRecipe), tiledPdfMarkLabelLayout(outputRecipe)
     ), "application/pdf");
   });
   onExport("#export-tee-selected-techpack", () => {
@@ -7241,7 +7245,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const artifacts = [
           { artifactId: "selected-size-svg", extension: "svg", displayName: `${exportRecipeName()}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, notchesForRecipeOptions(currentRecipe, selectedSizeOptions)) },
           { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${exportRecipeName()}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
-          { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, usesLocalTiledPdfCoordinates(currentRecipe)) },
+          { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, usesLocalTiledPdfCoordinates(currentRecipe), tiledPdfMarkLabelLayout(currentRecipe)) },
           { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, notchesForRecipeOptions(currentRecipe, selectedSizeOptions), undefined, recipeA0OverflowEnabled(currentRecipe, selectedSizeOptions)) },
           { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${exportRecipeName()}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
           { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${exportRecipeName()}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : [], starterOutputStatusNote("projector")) },
