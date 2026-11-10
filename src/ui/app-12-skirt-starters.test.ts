@@ -19,7 +19,8 @@ import { GARMENTS, STANDARD_M, notchesForRecipeOptions, type GarmentOptions } fr
 
 import { blockPieces } from "../drafting/block";
 
-import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
+  SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "../drafting/skirt";
 
 import { exportA0Pdf, exportPdf } from "../export";
 
@@ -699,6 +700,238 @@ describe("K03 gathered pull-on skirt starter workflows", () => {
       workflow.close();
       root.remove();
       vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
+});
+
+describe("K04 box-pleat guide skirt starter workflows", () => {
+  it("shows the editable guide, blocks invalid spacing, and preserves K04 through save/reopen", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_BOX_PLEAT_ENTRY_ID}`);
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Starting design: Pleated skirt · box-pleat guide");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent)
+        .toBe("Pleated skirt · box-pleat guide");
+      const count = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_COUNT_OPTION_ID}"]`)!;
+      const spacing = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_SPACING_OPTION_ID}"]`)!;
+      expect(count.value).toBe("4");
+      expect(spacing.value).toBe("3");
+      expect(root.querySelectorAll('#garment-host [data-part^="box-pleat-guides-"] line')).toHaveLength(20);
+      expect(root.querySelector<HTMLElement>('#garment-host [data-part="box-pleat-summary"]')!.textContent)
+        .toContain("4 groups · 3 cm spacing");
+
+      reachExportStage(root);
+      clickId(root, "view-spec");
+      expect(root.querySelector("#canvas-host [data-box-pleat-output-paused]")).toBeNull();
+      expect(root.querySelector("#canvas-host table")).not.toBeNull();
+      count.value = "12";
+      count.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .toContain("overlap or cross the on-fold panel edge");
+      expect(root.querySelector<HTMLElement>('#garment-host [data-part="box-pleat-preview-paused"]')!.textContent)
+        .toContain("preview paused");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+      for (const view of ["pattern", "edit", "flat", "nest", "spec", "fabric"]) {
+        clickId(root, `view-${view}`);
+        expect(root.querySelector<HTMLButtonElement>(`#view-${view}`)!.getAttribute("aria-pressed")).toBe("true");
+        expect(root.querySelector<HTMLElement>("#canvas-host [data-box-pleat-output-paused]")?.textContent)
+          .toContain("overlap or cross the on-fold panel edge");
+      }
+
+      count.value = "4";
+      count.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .not.toContain("overlap or cross the on-fold panel edge");
+      reReviewAndReachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.skirt).toMatchObject({
+        [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4,
+        [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
+      });
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: SKIRT_BOX_PLEAT_ENTRY_ID,
+        recipeRevision: "skirt-box-pleat-guide-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_COUNT_OPTION_ID}"]`)!.value).toBe("4");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_SPACING_OPTION_ID}"]`)!.value).toBe("3");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_BOX_PLEAT_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+
+      clickId(reopened, "garment-skirt");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_COUNT_OPTION_ID}"]`)).toBeNull();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+      expect(reopened.querySelectorAll('#garment-host [data-part^="box-pleat-guides-"] line')).toHaveLength(0);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("keeps a valid selected size available while pausing outputs for an invalid XS guide", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_BOX_PLEAT_ENTRY_ID}`);
+      reachExportStage(root);
+      const waist = root.querySelector<HTMLInputElement>('input[data-field="waist"]')!;
+      waist.value = "75";
+      waist.dispatchEvent(new Event("input", { bubbles: true }));
+      const count = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_COUNT_OPTION_ID}"]`)!;
+      const spacing = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_SPACING_OPTION_ID}"]`)!;
+      count.value = "12";
+      count.dispatchEvent(new Event("input", { bubbles: true }));
+      spacing.value = "2.5";
+      spacing.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent).toContain("XS:");
+
+      clickId(root, "view-pattern");
+      expect(root.querySelector<HTMLButtonElement>("#view-pattern")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector("#canvas-host [data-box-pleat-output-paused]")).toBeNull();
+      expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+      clickId(root, "view-edit");
+      expect(root.querySelector<HTMLButtonElement>("#view-edit")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector("#canvas-host [data-box-pleat-output-paused]")).toBeNull();
+      clickId(root, "view-flat");
+      expect(root.querySelector<HTMLButtonElement>("#view-flat")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector("#canvas-host [data-box-pleat-output-paused]")).toBeNull();
+
+      clickId(root, "view-nest");
+      expect(root.querySelector<HTMLButtonElement>("#view-nest")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLElement>("#canvas-host [data-box-pleat-output-paused]")?.textContent).toContain("XS:");
+      clickId(root, "view-spec");
+      expect(root.querySelector<HTMLButtonElement>("#view-spec")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLElement>("#canvas-host [data-box-pleat-output-paused]")?.textContent).toContain("XS:");
+      clickId(root, "view-fabric");
+      expect(root.querySelector<HTMLButtonElement>("#view-fabric")!.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector("#canvas-host [data-box-pleat-output-paused]")).toBeNull();
+      clickId(root, "nest-marker");
+      expect(root.querySelector<HTMLElement>("#canvas-host [data-box-pleat-output-paused]")?.textContent).toContain("XS:");
+
+      clickId(root, "garment-skirt");
+      expect(root.querySelector(`input[data-option="${SKIRT_BOX_PLEAT_COUNT_OPTION_ID}"]`)).toBeNull();
+      expect(root.querySelector("#canvas-host [data-box-pleat-output-paused]")).toBeNull();
+    } finally {
+      unmountApp();
+      root?.remove();
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("keeps generic Skirt outputs and unavailable-draft fallbacks independent of K04", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_BOX_PLEAT_ENTRY_ID}`);
+      reachExportStage(root);
+      clickId(root, "garment-skirt");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_COUNT_OPTION_ID}"]`)).toBeNull();
+      reachExportStage(root);
+      clickId(root, "export-techpack");
+      clickId(root, "export-projector");
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      expect(files.has("skirt-techpack.pdf")).toBe(true);
+      expect(files.get("skirt-techpack.pdf")).not.toContain("box-pleat");
+      expect(files.get("skirt-projector.svg")).not.toContain("box-pleat");
+
+      const skirt = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+      const draftSpy = vi.spyOn(skirt, "draft").mockImplementation(() => { throw new Error("generic skirt draft failure"); });
+      try {
+        clickId(root, "view-edit");
+        await vi.waitFor(() => expect(root?.querySelector("[data-semantic-source-unavailable]")).not.toBeNull());
+      } finally {
+        draftSpy.mockRestore();
+      }
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 60_000);
+
+  it("exports the same digital guides in SVG, DXF, PDFs, Tech Pack and Projector output", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_BOX_PLEAT_ENTRY_ID}`);
+      reachExportStage(root);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) clickId(root, id);
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6));
+      expect([...files.keys()].sort()).toEqual([
+        "pleated-skirt-box-pleat-guide-M-A0.pdf",
+        "pleated-skirt-box-pleat-guide-M.dxf",
+        "pleated-skirt-box-pleat-guide-M.pdf",
+        "pleated-skirt-box-pleat-guide-M.svg",
+        "pleated-skirt-box-pleat-guide-projector.svg",
+        "pleated-skirt-box-pleat-guide-techpack.pdf",
+      ].sort());
+      const options = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 };
+      expect(files.get("pleated-skirt-box-pleat-guide-M.pdf")).toBe(expectedSkirtTiledPdf(false, options));
+      const a0 = files.get("pleated-skirt-box-pleat-guide-M-A0.pdf")!;
+      expect(a0).toBe(expectedSkirtA0Pdf(false, options));
+      expect(a0.match(/\/Type \/Page\b/g)).toHaveLength(1);
+
+      const svg = files.get("pleated-skirt-box-pleat-guide-M.svg")!;
+      expect(svg).toContain("Box pleat 1 fold");
+      expect(svg).toContain("Box pleat 1 roll");
+      expect(svg).toContain("Box pleat 1 placement");
+      expect(visiblePdfText(files.get("pleated-skirt-box-pleat-guide-M.pdf")!)).toContain("Box pleat 1 fold");
+      expect(visiblePdfText(a0)).toContain("Box pleat 1 roll");
+      const dxf = files.get("pleated-skirt-box-pleat-guide-M.dxf")!;
+      expect(dxf).toContain("MARK_FOLDLINE");
+      expect(dxf).toContain("MARK_PLACEMENTLINE");
+      expect(dxf.match(/\n0\nLINE\n/g)).toHaveLength(10);
+      const techPack = visiblePdfText(files.get("pleated-skirt-box-pleat-guide-techpack.pdf")!);
+      expect(techPack).toContain("Digital box-pleat layout guide only");
+      expect(techPack).toContain("illustrative guide groups at 3 cm spacing");
+      expect(techPack).toContain("no added cut fullness");
+      expect(techPack).toContain("not a sewing-ready pleat pattern");
+      expect(techPack).not.toContain("Install one invisible zipper");
+      const projector = new DOMParser().parseFromString(files.get("pleated-skirt-box-pleat-guide-projector.svg")!, "image/svg+xml");
+      const projectorText = [...projector.getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Digital box-pleat guide only");
+      expect(projectorText).toContain("K04 size run and physical fit are not validated");
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
       localStorage.clear();
     }
   }, 30_000);

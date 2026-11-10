@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import type { TechnicalFlatMeasureText } from "../render/technical-flat-svg";
-import { SKIRT_GATHERED_ENTRY_ID } from "../drafting/skirt";
+import { SKIRT_GATHERED_ENTRY_ID, SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID,
+  SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "../drafting/skirt";
 import { technicalFlatIssueList, technicalFlatPanelMarkup } from "./technical-flat-panel";
 import { WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID } from "./starter-registry";
 
@@ -45,6 +46,33 @@ describe("technicalFlatPanelMarkup", () => {
       expect(markup).toContain(`pattern:skirt:mark:${roleId}:casingStitchGuide`);
       expect(markup).not.toContain("Technical flat withheld");
       expect(markup).not.toContain("data-technical-flat-issues");
+    }
+  });
+
+  it("renders K04 box-pleat guide annotations while retaining the cut-geometry caveat", () => {
+    const skirt = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const rawOptions = {
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
+    };
+    const skirtBlock = skirt.draft(STANDARD_M, rawOptions);
+
+    for (const [kind, roleId] of [["FRONT_FLAT", "front"], ["BACK_FLAT", "back"]] as const) {
+      const markup = technicalFlatPanelMarkup({
+        ...base,
+        recipe: skirt,
+        measurements: STANDARD_M,
+        rawOptions,
+        starterEntryId: SKIRT_BOX_PLEAT_ENTRY_ID,
+        block: skirtBlock,
+        revisionId: `live-k04-${roleId}-1289`,
+        kind,
+      });
+      expect(markup).toContain("data-technical-flat-svg");
+      expect(markup).toContain(`pattern:skirt:mark:${roleId}:boxPleat1LeftFold`);
+      expect(markup).toContain(`pattern:skirt:mark:${roleId}:boxPleat1Roll`);
+      expect(markup).toContain(`pattern:skirt:mark:${roleId}:boxPleat1RightPlacement`);
+      expect(markup).not.toContain("Technical flat withheld");
     }
   });
 

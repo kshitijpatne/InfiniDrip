@@ -85,6 +85,110 @@ export const SKIRT_CASING_DEPTH_OPTION: GarmentOption = {
   step: 0.5,
 };
 
+export const SKIRT_BOX_PLEAT_ENTRY_ID = "skirt-box-pleat-guide-digital-v1";
+export const SKIRT_BOX_PLEAT_COUNT_OPTION_ID = "boxPleatCount";
+export const SKIRT_BOX_PLEAT_SPACING_OPTION_ID = "boxPleatGuideSpacingCm";
+export const SKIRT_BOX_PLEAT_COUNT_OPTION: GarmentOption = {
+  id: SKIRT_BOX_PLEAT_COUNT_OPTION_ID,
+  label: "Box-pleat guide groups (whole garment)",
+  unit: "groups",
+  help: "Sets illustrative fold/roll/placement guide groups over the existing Skirt outline. This does not add cut fullness or define a sewn pleat.",
+  group: "Pleat guide",
+  appliesToStarterEntryId: SKIRT_BOX_PLEAT_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 4,
+  min: 4,
+  max: 12,
+  step: 4,
+};
+export const SKIRT_BOX_PLEAT_SPACING_OPTION: GarmentOption = {
+  id: SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+  label: "Guide-line spacing",
+  unit: "cm",
+  help: "Controls the separation of digital pleat-guide lines only; it is not pleat intake, fabric width or sewn depth.",
+  group: "Pleat guide",
+  appliesToStarterEntryId: SKIRT_BOX_PLEAT_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 3,
+  min: 1,
+  max: 4,
+  step: 0.5,
+};
+
+export interface BoxPleatGuideGroup {
+  readonly index: number;
+  readonly centerX: number;
+  readonly leftFoldX: number;
+  readonly leftPlacementX: number;
+  readonly rollX: number;
+  readonly rightPlacementX: number;
+  readonly rightFoldX: number;
+}
+
+export function isBoxPleatedSkirtProfile(options: GarmentOptions = {}): boolean {
+  return Object.prototype.hasOwnProperty.call(options, SKIRT_BOX_PLEAT_COUNT_OPTION_ID);
+}
+
+/** Return the user-facing, fail-closed reason when a K04 guide cannot fit. */
+export function boxPleatGuideProblem(m: Measurements, options: GarmentOptions = {}): string | null {
+  if (!isBoxPleatedSkirtProfile(options)) return null;
+  if (Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)
+      || Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)
+      || isGatheredSkirtProfile(options)) {
+    return "The box-pleat guide cannot be combined with another skirt profile. Keep only the box-pleat guide settings; the preview and outputs stay paused.";
+  }
+  const count = options[SKIRT_BOX_PLEAT_COUNT_OPTION_ID] ?? SKIRT_BOX_PLEAT_COUNT_OPTION.defaultValue;
+  if (![4, 8, 12].includes(count)) {
+    return "Box-pleat guide groups must be 4, 8 or 12. The saved value is retained; choose one of those settings to restore the preview and outputs.";
+  }
+  const spacing = options[SKIRT_BOX_PLEAT_SPACING_OPTION_ID] ?? SKIRT_BOX_PLEAT_SPACING_OPTION.defaultValue;
+  if (!Number.isFinite(spacing) || spacing < 1 || spacing > 4 || (spacing - 1) * 2 % 1 !== 0) {
+    return "Box-pleat guide spacing must be 1–4 cm in 0.5 cm steps. The saved value is retained; choose a supported spacing to restore the preview and outputs.";
+  }
+  const { waistHalf } = skirtWidths(m);
+  if (!Number.isFinite(waistHalf) || waistHalf <= 0 || !Number.isFinite(m.length) || m.length <= 0) {
+    return "The box-pleat guides need a positive finite waist-plus-ease width and skirt length. Correct those measurements to restore the preview and outputs.";
+  }
+  const groupsPerQuarter = count / 4;
+  const groupPitch = waistHalf / (groupsPerQuarter + 1);
+  if (2 * spacing >= groupPitch) {
+    return `The ${count} box-pleat guide groups at ${spacing} cm spacing overlap or cross the on-fold panel edge. Reduce guide spacing, choose fewer groups, or increase the modeled waist/ease width; the preview and outputs stay paused.`;
+  }
+  return null;
+}
+
+export function boxPleatGuideGroups(m: Measurements, options: GarmentOptions = {}): BoxPleatGuideGroup[] {
+  const problem = boxPleatGuideProblem(m, options);
+  if (problem) throw new RangeError(problem);
+  const count = options[SKIRT_BOX_PLEAT_COUNT_OPTION_ID] ?? SKIRT_BOX_PLEAT_COUNT_OPTION.defaultValue;
+  const spacing = options[SKIRT_BOX_PLEAT_SPACING_OPTION_ID] ?? SKIRT_BOX_PLEAT_SPACING_OPTION.defaultValue;
+  const { waistHalf } = skirtWidths(m);
+  const groupsPerQuarter = count / 4;
+  const pitch = waistHalf / (groupsPerQuarter + 1);
+  return Array.from({ length: groupsPerQuarter }, (_, index) => {
+    const centerX = (index + 1) * pitch;
+    return {
+      index: index + 1,
+      centerX,
+      leftFoldX: centerX - spacing,
+      leftPlacementX: centerX - spacing / 2,
+      rollX: centerX,
+      rightPlacementX: centerX + spacing / 2,
+      rightFoldX: centerX + spacing,
+    };
+  });
+}
+
+export function boxPleatPanelMarks(m: Measurements, options: GarmentOptions = {}) {
+  return boxPleatGuideGroups(m, options).flatMap((group) => [
+    lineMark("foldLine", `boxPleat${group.index}LeftFold`, point(group.leftFoldX, 0), point(group.leftFoldX, m.length), `Box pleat ${group.index} fold`, "instruction"),
+    lineMark("placementLine", `boxPleat${group.index}LeftPlacement`, point(group.leftPlacementX, 0), point(group.leftPlacementX, m.length), `Box pleat ${group.index} placement`, "instruction"),
+    lineMark("foldLine", `boxPleat${group.index}Roll`, point(group.rollX, 0), point(group.rollX, m.length), `Box pleat ${group.index} roll`, "instruction"),
+    lineMark("placementLine", `boxPleat${group.index}RightPlacement`, point(group.rightPlacementX, 0), point(group.rightPlacementX, m.length), `Box pleat ${group.index} placement`, "instruction"),
+    lineMark("foldLine", `boxPleat${group.index}RightFold`, point(group.rightFoldX, 0), point(group.rightFoldX, m.length), `Box pleat ${group.index} fold`, "instruction"),
+  ]);
+}
+
 export function isGatheredSkirtProfile(options: GarmentOptions = {}): boolean {
   return Object.prototype.hasOwnProperty.call(options, SKIRT_GATHER_RATIO_OPTION_ID);
 }
@@ -387,6 +491,19 @@ const SKIRT_STITCHES: readonly Stitch[] = [
 ];
 
 export function draftSkirt(m: Measurements, options: GarmentOptions = {}): Block {
+  if (isBoxPleatedSkirtProfile(options)) {
+    const problem = boxPleatGuideProblem(m, options);
+    if (problem) throw new RangeError(problem);
+    const block = composeBlock(SKIRT_GRAMMAR, m, options);
+    const marks = boxPleatPanelMarks(m, options);
+    return {
+      ...block,
+      roles: Object.fromEntries(Object.entries(block.roles).map(([role, piece]) => [role, {
+        ...piece,
+        ...(role === "front" || role === "back" ? { marks: [...(piece.marks ?? []), ...marks] } : {}),
+      }])),
+    };
+  }
   if (isGatheredSkirtProfile(options)) {
     if (Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)
         || Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)) {

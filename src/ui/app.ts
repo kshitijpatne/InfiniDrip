@@ -3,7 +3,7 @@
 // logic lives in the pure modules.
 
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, JeansOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, wovenShirtBodyHalfWidths, wovenShirtHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, recipeA0OverflowEnabled, optionalOptionStatusMessage, optionalOptionActionLabel, draftJeansWithGuidance, jeansSizeRunWithGuidance, dartOf } from "../drafting";
-import { gradeRecipeRun, gradeMeasurements, draftRecipeAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName, garmentForConstruction } from "../drafting";
+import { gradeRecipeRun, gradeMeasurements, draftRecipeAtSize, draftRecipeReviewAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName, garmentForConstruction } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { teeNeckbandTechPackOptions, teeVBandTechPackOptions } from "../drafting/vneck-band-output";
 import {
@@ -63,7 +63,8 @@ import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COL
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankNotchesForOptions, tankRacerbackControlOffsetCm } from "../drafting/tank";
 import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
-  SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "../drafting/skirt";
+  SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
+  SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "../drafting/skirt";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -1712,6 +1713,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt" ? "pencil-like-skirt"
       : starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt" ? "a-line-like-skirt"
       : starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID && recipe.name === "skirt" ? "gathered-pull-on-skirt"
+      : starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && recipe.name === "skirt" ? "pleated-skirt-box-pleat-guide"
       : starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-band-collar"
       : starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-camp-collar"
       : starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-tunic-longline"
@@ -1926,7 +1928,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID && forRecipe.name === "skirt"
+    starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && forRecipe.name === "skirt"
+      ? "Pleated skirt · box-pleat guide"
+      : starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID && forRecipe.name === "skirt"
       ? "Gathered pull-on skirt"
       : starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && forRecipe.name === "skirt"
       ? "Pencil-like skirt"
@@ -1982,12 +1986,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const isK01Starter = starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt";
     const isK02Starter = starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt";
     const isK03Starter = starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID && recipe.name === "skirt";
+    const isK04Starter = starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && recipe.name === "skirt";
     const isW03Starter = starterOrigin?.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID && recipe.name === "woven-shirt";
     const isW04Starter = starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && recipe.name === "woven-shirt";
     const isW05Starter = starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt";
     const isW06Starter = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
     const isW07Starter = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
-    if (format === "projector") return isK03Starter
+    if (format === "projector") return isK04Starter
+      ? "Digital box-pleat guide only; the straight Skirt outline has no added cut fullness, and the K04 size run and physical fit are not validated."
+      : isK03Starter
       ? "Digital K03 gathered pull-on skirt; the size run, elastic specification and physical fit are not validated."
       : isK01Starter ? "Digital A-line-like hem sweep; grading is not validated."
       : isK02Starter ? "Digital Pencil-like hem taper; grading is not validated."
@@ -2024,6 +2031,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (isK03Starter) {
       const options = recipeOptions();
       return `Digital K03 gathered pull-on skirt. The ${options[SKIRT_GATHER_RATIO_OPTION_ID]} gathering ratio and ${options[SKIRT_CASING_DEPTH_OPTION_ID]} cm casing guide are editable software choices, not physical standards. Elastic dimensions/material, fabric-specific gathering, sewing performance, the generic Skirt size run, physical fit, comfort, wear and production remain unspecified or unvalidated.`;
+    }
+    if (isK04Starter) {
+      const options = recipeOptions();
+      return `Digital box-pleat guide only: ${options[SKIRT_BOX_PLEAT_COUNT_OPTION_ID]} illustrative guide groups at ${options[SKIRT_BOX_PLEAT_SPACING_OPTION_ID]} cm spacing over the existing straight Skirt outline. These are software choices; no cut fullness, pleat intake, sewing-ready construction, validated grading, physical fit, comfort, wear, material performance or production readiness is established.`;
     }
     if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo") {
       const options = recipeOptions();
@@ -2168,7 +2179,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (!semanticEdits) {
       const source = view === "edit" ? currentSemanticState()?.source : null;
       if (source?.status === "failed" && source.baseBlock === null) return null;
-      return draftRecipeAtSize(recipe, measurements, step, recipeOptions());
+      return draftRecipeReviewAtSize(recipe, measurements, step, recipeOptions()).block;
     }
     return currentSemanticState()?.evaluation?.sizes.find((size) => size.step === step)?.block ?? null;
   };
@@ -3018,6 +3029,21 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     projectManager?.refresh();
   };
   const selectedOutputStep = (): number => customOneSizeStyle() ? 0 : exportStep;
+  const isK04Starter = (): boolean => starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && recipe.name === "skirt";
+  const k04ReviewAtSize = (step: number) => draftRecipeReviewAtSize(recipe, measurements, step, recipeOptions());
+  const k04SizeProblem = (step: number): Note | undefined => {
+    if (!isK04Starter()) return undefined;
+    const review = k04ReviewAtSize(step);
+    return review.block ? undefined : review.notes.find((note) => note.level === "warn");
+  };
+  const k04RunProblems = (): Note[] => {
+    if (!isK04Starter() || customOneSizeStyle()) return [];
+    return recipe.sizes.filter((size) => size.step !== 0).flatMap((size) => {
+      const problem = k04SizeProblem(size.step);
+      return problem ? [{ ...problem, text: `${size.label}: ${problem.text}` }] : [];
+    });
+  };
+  const k04RunProblem = (): Note | undefined => k04SizeProblem(0) ?? k04RunProblems()[0];
   const garmentReportForCurrentStyle = (checkRecipe: GarmentRecipe) =>
     garmentReport(checkRecipe, measurements, recipeOptions(), { includeSizeRun: !customOneSizeStyle() });
   const fittedDartClearanceNotesAt = (sizeMeasurements: Measurements): Note[] =>
@@ -3939,6 +3965,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           recipe.name !== "fitted" || customOneSizeStyle()
             || note.field !== "option-bustApexVertical")),
         ...fittedRunClearanceNotes(),
+        ...k04RunProblems(),
       ]),
       ...failedChecks,
       ...(semanticEdits && semanticState?.source.status === "checking"
@@ -3960,7 +3987,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       view === "fabric" && !previewActive ? "flex" : "none";
     bodyCroquisHost.style.display = view === "body" && !previewActive ? "flex" : "none";
     let canvasContent: string;
-    if (view === "nest" && customOneSizeStyle()) {
+    if (view === "nest" && k04RunProblem()) {
+      canvasContent = `<p role="alert" data-box-pleat-output-paused>${escapeUiText(k04RunProblem()!.text)}</p>`;
+    } else if (view === "nest" && customOneSizeStyle()) {
       const run = currentGradePlanRun();
       canvasContent = run.wholeRunReady
         ? renderNest(run.sizes.map((size) => ({
@@ -3972,7 +4001,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? renderNest(gradeRecipeRun(recipeForCurrentOutputs(), measurements, recipe.sizes, recipeOptions()))
         : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
-      if (recipe.name === "fitted" && nestScope === "marker" && !fittedRunClearanceValid()) {
+      const k04FabricProblem = nestScope === "marker" ? k04RunProblem() : k04SizeProblem(selectedOutputStep());
+      if (k04FabricProblem) {
+        canvasContent = `<p role="alert" data-box-pleat-output-paused>${escapeUiText(k04FabricProblem.text)}</p>`;
+      } else if (recipe.name === "fitted" && nestScope === "marker" && !fittedRunClearanceValid()) {
         canvasContent = `<p role="status">${escapeUiText(markerAvailabilityTitle())}</p>`;
       } else if (customOneSizeStyle() && nestScope === "marker" && !canExportRun()) {
         canvasContent = `<p role="status">${escapeUiText(!gradePlanOutputBaseIsSaved() && gradePlanState?.plan
@@ -4023,10 +4055,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
-      const draft = semanticSizeBlock(selectedOutputStep())
-        ?? (sourceCannotDraft ? null : draftRecipeAtSize(recipe, measurements, selectedOutputStep(), recipeOptions()));
+      const draft = sourceCannotDraft ? null : semanticSizeBlock(selectedOutputStep());
       if (!draft) {
-        canvasContent = '<p role="alert" data-semantic-source-unavailable>The current recipe pattern could not be generated. Resolve the source issue before editing.</p>' +
+        const k04Problem = k04SizeProblem(selectedOutputStep());
+        canvasContent = k04Problem
+          ? `<p role="alert" data-box-pleat-output-paused>${escapeUiText(k04Problem.text)}</p>`
+          : '<p role="alert" data-semantic-source-unavailable>The current recipe pattern could not be generated. Resolve the source issue before editing.</p>' +
           semanticEditorHintMarkup(semanticOutputIssues(), editRoleId, {
             status: "failed", roles: [], canUndo: false, canRedo: false,
             canRebase: false, hasEdits: semanticEdits !== null, feedback: semanticEditFeedback,
@@ -4070,7 +4104,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         semanticSizeBlock(0), measurements, outputRecipe.poms, semanticSizeReady(0), outputRecipe.name,
       );
     } else if (view === "spec") {
-      if (!semanticRunReady()) {
+      if (k04RunProblem()) {
+        canvasContent = `<p role="alert" data-box-pleat-output-paused>${escapeUiText(k04RunProblem()!.text)}</p>`;
+      } else if (!semanticRunReady()) {
         canvasContent = `<p role="status" data-semantic-output-paused>Graded specifications are paused. Review or rebase the saved edits in Edit.</p>`;
       } else {
         const outputRecipe = recipeForCurrentOutputs();
@@ -4082,10 +4118,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     } else if (view === "flat") {
       const outputRecipe = recipeForCurrentOutputs();
       const outputStep = selectedOutputStep();
+      const k04Problem = k04SizeProblem(outputStep);
       const flatRevisionId = `live-draft:${recipe.name}:${designRevision}:${outputRevision}`;
       const sizeReady = semanticSizeReady(outputStep);
       technicalFlatTextMeasurer ??= createBrowserTechnicalFlatTextMeasurer(root.ownerDocument);
-      canvasContent = technicalFlatPanelMarkup({
+      canvasContent = k04Problem
+        ? `<p role="alert" data-box-pleat-output-paused>${escapeUiText(k04Problem.text)}</p>`
+        : technicalFlatPanelMarkup({
         recipe: outputRecipe,
         measurements: gradeMeasurements(measurements, recipe.grade, outputStep),
         rawOptions: recipeOptions(outputRecipe),
@@ -4157,8 +4196,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements, recipeOptions()), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape(), racerbackBodyControlOffsetCm());
       }
     } else {
+      const k04Problem = k04SizeProblem(selectedOutputStep());
       const block = semanticSizeBlock(selectedOutputStep());
-      if (!semanticSizeReady(selectedOutputStep()) || block === null) {
+      if (k04Problem) {
+        canvasContent = `<p role="alert" data-box-pleat-output-paused>${escapeUiText(k04Problem.text)}</p>`;
+      } else if (!semanticSizeReady(selectedOutputStep()) || block === null) {
         canvasContent = `<p role="status" data-semantic-output-paused>Pattern output is paused for this size. Review or rebase the saved edits in Edit.</p>`;
       } else {
         const outputRecipe = recipeForCurrentOutputs();
@@ -5272,7 +5314,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         // clear the entry-scoped controls on its own.
         if (g.name === "skirt" && (starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID
             || starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID
-            || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID)) starterOrigin = null;
+            || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID
+            || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID)) starterOrigin = null;
         setGarment(g.name);
       });
   });

@@ -28,6 +28,23 @@ describe("garmentReport — the tee", () => {
     expect(r.ok).toBe(false);
     expect(r.checks.find((c) => c.name === "Sleeve-cap ease")!.ok).toBe(false);
   });
+
+  it("reports an empty rejected-draft review and rethrows unrelated graded draft failures", () => {
+    const rejected = { ...TEE, draftReview: () => ({ block: null, notes: [] }) };
+    const unavailable = garmentReport(rejected, STANDARD_M);
+    expect(unavailable.ok).toBe(false);
+    expect(unavailable.checks[0]?.detail).toContain("do not produce a supported draft");
+
+    const failing = {
+      ...TEE,
+      draftReview: undefined,
+      draft: (m: typeof STANDARD_M) => {
+        if (m.length !== STANDARD_M.length) throw new RangeError("unexpected graded failure");
+        return TEE.draft(m);
+      },
+    };
+    expect(() => garmentReport(failing, STANDARD_M)).toThrow("unexpected graded failure");
+  });
 });
 
 describe("garmentReport — the fitted block", () => {

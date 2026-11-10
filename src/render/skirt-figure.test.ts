@@ -2,7 +2,8 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M, Measurements, skirtWidths } from "../drafting";
 import { renderSkirtGarment, renderSkirtBody } from "./skirt-figure";
-import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
+  SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "../drafting/skirt";
 import { lowerCroquisFigure } from "./croquis";
 
 const parse = (svg: string): Document => new DOMParser().parseFromString(svg, "image/svg+xml");
@@ -436,5 +437,39 @@ describe("rendered K03 gathered pull-on skirt view", () => {
     const highEaseWaist = vertices(highEasePanel.getAttribute("d")!);
     expect(highEaseWaist[0]!.x).toBe(-highEase.waist / 4);
     expect(highEaseWaist[1]!.x).toBe(highEase.waist / 4);
+  });
+});
+
+describe("rendered K04 box-pleat guide view", () => {
+  const options = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 };
+
+  it("shows symmetric fold, roll and placement marks on both assembled panels", () => {
+    const doc = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", options));
+    const plain = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150"));
+    expect(doc.querySelector('[data-part="box-pleat-summary"]')!.textContent).toContain("4 groups · 3 cm spacing");
+    expect(doc.querySelectorAll('[data-part="box-pleat-guides-front"] line')).toHaveLength(10);
+    expect(doc.querySelectorAll('[data-part="box-pleat-guides-back"] line')).toHaveLength(10);
+    expect(doc.querySelectorAll('[data-part="box-pleat-fold"]')).toHaveLength(8);
+    expect(doc.querySelectorAll('[data-part="box-pleat-roll"]')).toHaveLength(4);
+    expect(doc.querySelectorAll('[data-part="box-pleat-placement"]')).toHaveLength(8);
+    expect([...doc.querySelectorAll('path[data-edge="ease"]')].map((path) => path.getAttribute("d")))
+      .toEqual([...plain.querySelectorAll('path[data-edge="ease"]')].map((path) => path.getAttribute("d")));
+  });
+
+  it("pauses the assembled garment preview when guide groups overlap", () => {
+    const paused = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", {
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 12,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
+    }));
+    expect(paused.querySelector('[data-part="box-pleat-preview-paused"]')?.textContent)
+      .toContain("preview paused");
+    expect(paused.querySelector('path[data-edge="ease"]')).toBeNull();
+  });
+
+  it("uses the registered defaults when the partial K04 options omit both values", () => {
+    const options = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: undefined } as unknown as Record<string, number>;
+    const doc = wellFormed(renderSkirtGarment(STANDARD_M, "#765", options));
+    expect(doc.querySelector('[data-part="box-pleat-summary"]')?.textContent).toContain("4 groups · 3 cm spacing");
+    expect(doc.querySelectorAll('[data-part="box-pleat-guides-front"] line')).toHaveLength(10);
   });
 });

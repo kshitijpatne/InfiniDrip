@@ -67,7 +67,13 @@ export function garmentReport(
   options: GarmentOptions = {},
   reportOptions: { readonly includeSizeRun?: boolean } = {},
 ): Report {
-  const b = recipe.draft(m, options);
+  const review = recipe.draftReview?.(m, options);
+  const b = review ? review.block : recipe.draft(m, options);
+  if (!b) return buildReport([{
+    name: "Draft geometry is available",
+    ok: false,
+    detail: review?.notes.map((note) => note.text).join(" ") || "The current settings do not produce a supported draft.",
+  }]);
 
   const checks: CheckResult[] = [
     ...stitchChecks(b, b.stitches),
@@ -77,8 +83,17 @@ export function garmentReport(
   ];
 
   if (reportOptions.includeSizeRun !== false) {
-    const graded = gradeRecipeRun(recipe, m, recipe.sizes, options);
-    checks.push(strictlyIncreasing("Size run grows in order", graded.map((g) => recipe.sizeMetric(g.block))));
+    try {
+      const graded = gradeRecipeRun(recipe, m, recipe.sizes, options);
+      checks.push(strictlyIncreasing("Size run grows in order", graded.map((g) => recipe.sizeMetric(g.block))));
+    } catch (error) {
+      if (!(error instanceof RangeError) || !recipe.draftReview) throw error;
+      checks.push({
+        name: "Draft geometry is available across the size run",
+        ok: false,
+        detail: error.message,
+      });
+    }
   }
 
   return buildReport(checks);

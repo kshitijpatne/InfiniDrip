@@ -16,11 +16,13 @@ import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE
   SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM,
   SKIRT_PENCIL_HEM_TAPER_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_PENCIL_HEM_POM,
   SKIRT_GATHER_RATIO_OPTION, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION,
-  SKIRT_CASING_DEPTH_OPTION_ID, SKIRT_GATHERED_POMS, SKIRT_GATHERED_NOTCHES, isGatheredSkirtProfile } from "./skirt";
+  SKIRT_CASING_DEPTH_OPTION_ID, SKIRT_GATHERED_POMS, SKIRT_GATHERED_NOTCHES, isGatheredSkirtProfile,
+  SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION,
+  SKIRT_BOX_PLEAT_SPACING_OPTION_ID, boxPleatGuideProblem, isBoxPleatedSkirtProfile } from "./skirt";
 import { StyleDef, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES, JEANS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
-import { draftAtSize, gradeRun, type GradeOptionResolver, type GradeRule, type SizeStep } from "./grading";
+import { gradeMeasurements, gradeRun, type GradeOptionResolver, type GradeRule, type SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
 import { TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION, TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION } from "./vneck-band-output";
 import {
@@ -283,7 +285,30 @@ export function draftRecipeAtSize(
   step: number,
   options: GarmentOptions = {},
 ): Block {
-  return draftAtSize(base, recipe.grade, step, recipe.draft, options, recipe.resolveOptionsForSize);
+  const review = draftRecipeReviewAtSize(recipe, base, step, options);
+  if (review.block) return review.block;
+  throw new RangeError(review.notes.map((note) => note.text).join(" ") || "The recipe draft is not available for this size.");
+}
+
+/** Resolve a size through the recipe's fail-closed preflight without discarding its correction. */
+export function draftRecipeReviewAtSize(
+  recipe: GarmentRecipe,
+  base: Measurements,
+  step: number,
+  options: GarmentOptions = {},
+): RecipeDraftReview {
+  const measurements = gradeMeasurements(base, recipe.grade, step);
+  const resolvedOptions = recipe.resolveOptionsForSize && step !== 0
+    ? recipe.resolveOptionsForSize({
+      baseMeasurements: base,
+      sizeMeasurements: measurements,
+      step,
+      draft: recipe.draft,
+      baseOptions: options,
+    })
+    : options;
+  return recipe.draftReview?.(measurements, resolvedOptions)
+    ?? { block: recipe.draft(measurements, resolvedOptions), notes: [] };
 }
 
 /** Draft a registered recipe's whole size run through one shared resolver. */
@@ -293,7 +318,13 @@ export function gradeRecipeRun(
   sizes: readonly SizeStep[] = recipe.sizes,
   options: GarmentOptions = {},
 ): ReturnType<typeof gradeRun> {
-  return gradeRun(base, recipe.grade, sizes, recipe.draft, options, recipe.resolveOptionsForSize);
+  const reviewedDraft = (measurements: Measurements, activeOptions?: GarmentOptions): Block => {
+    const review = recipe.draftReview?.(measurements, activeOptions);
+    if (!review) return recipe.draft(measurements, activeOptions);
+    if (review.block) return review.block;
+    throw new RangeError(review.notes.map((note) => note.text).join(" ") || "The recipe draft is not available for this size.");
+  };
+  return gradeRun(base, recipe.grade, sizes, reviewedDraft, options, recipe.resolveOptionsForSize);
 }
 
 /**
@@ -1043,6 +1074,20 @@ const SKIRT_TECH_PACK: TechPack = {
 };
 
 function skirtTechPackForOptions(options: GarmentOptions): TechPack {
+  if (isBoxPleatedSkirtProfile(options)) {
+    const count = options[SKIRT_BOX_PLEAT_COUNT_OPTION_ID] ?? SKIRT_BOX_PLEAT_COUNT_OPTION.defaultValue;
+    const spacing = options[SKIRT_BOX_PLEAT_SPACING_OPTION_ID] ?? SKIRT_BOX_PLEAT_SPACING_OPTION.defaultValue;
+    return {
+      bom: [],
+      constructionNotice: "Digital box-pleat layout guide only. The existing straight Skirt outline has no added cut fullness; pleat construction, material quantity, physical fit and production are unspecified or unvalidated. This is not a sewing-ready pleat pattern.",
+      construction: [
+        `The ${count} groups and ${spacing} cm spacing describe fold, roll and placement annotations only. These are InfiniDrip software choices, not sourced physical standards or pleat-intake dimensions.`,
+        "The guide overlays the existing straight Skirt cut outline with no added cut fullness. It does not model pleat intake, a sewn fold or a construction sequence.",
+        "The base Skirt's existing waistband and side-zipper pattern details remain; this profile does not claim to remove or validate them.",
+        "No material quantity, graded fit, comfort, wear, sample sewing or production readiness is established.",
+      ],
+    };
+  }
   if (isGatheredSkirtProfile(options)) {
     const { gatherRatio, casingDepthCm } = {
       gatherRatio: options[SKIRT_GATHER_RATIO_OPTION_ID] ?? SKIRT_GATHER_RATIO_OPTION.defaultValue,
@@ -1113,7 +1158,16 @@ export const SKIRT: GarmentRecipe = {
   techPackForOptions: skirtTechPackForOptions,
   a0OverflowForOptions: isGatheredSkirtProfile,
   options: [SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION,
-    SKIRT_GATHER_RATIO_OPTION, SKIRT_CASING_DEPTH_OPTION],
+    SKIRT_GATHER_RATIO_OPTION, SKIRT_CASING_DEPTH_OPTION,
+    SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_SPACING_OPTION],
+  draftReview: (m, options = {}) => {
+    const problem = boxPleatGuideProblem(m, options);
+    if (problem) return {
+      block: null,
+      notes: [{ level: "warn", field: `option-${SKIRT_BOX_PLEAT_SPACING_OPTION_ID}`, text: problem }],
+    };
+    return { block: draftSkirt(m, options), notes: [] };
+  },
 };
 
 export const TROUSER: GarmentRecipe = {
