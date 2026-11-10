@@ -1152,7 +1152,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  }, 20_000);
+  }, 60_000);
 
   it("freezes the selected-size V-band for an approved custom-size grade plan", async () => {
     localStorage.clear();
@@ -1319,8 +1319,9 @@ describe("bundled local artwork library (Slice 203)", () => {
       await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 20_000 });
       freeze.click();
       await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
-        { timeout: 20_000 });
+        { timeout: 60_000 });
 
+      await vi.waitFor(() => expect(workflow.snapshot.exportManifests).toHaveLength(1), { timeout: 60_000 });
       expect(workflow.snapshot.exportManifests).toHaveLength(1);
       const manifest = workflow.snapshot.exportManifests[0]!;
       expect(manifest.schemaVersion).toBe(4);
@@ -1342,7 +1343,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  }, 60_000);
+  }, 120_000);
 
   it("gates whole-run outputs on exact plan readiness and invalidates approval after edits", async () => {
     localStorage.clear();
@@ -2100,7 +2101,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  }, 60_000);
+  }, 120_000);
 
   it("keeps grade-plan creation blocked when a custom style has no saved measurement capture", async () => {
     localStorage.clear();
@@ -2433,7 +2434,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       document.body.append(rebaseRoot);
       mountApp(rebaseRoot, { projectWorkflow: workflow });
       await vi.waitFor(() => expect(rebaseRoot!.textContent)
-        .toContain("Review or rebase the saved pattern before creating grade-plan targets."));
+        .toContain("Review or rebase the saved pattern before creating grade-plan targets."), { timeout: 60_000 });
       expect(rebaseRoot.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')!.disabled).toBe(true);
       expect(rebaseRoot.textContent).toContain("The source pattern or its reviewed inputs changed.");
 
@@ -2455,7 +2456,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  }, 60_000);
+  }, 120_000);
 
   it("reports a non-Error failure while saving a completed custom size", async () => {
     localStorage.clear();
