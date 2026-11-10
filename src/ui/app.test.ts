@@ -128,6 +128,16 @@ function expectedSkirtTiledPdf(localCoordinates: boolean, options: GarmentOption
     localCoordinates,
   );
 }
+function expectedSkirtA0Pdf(allowOverflow: boolean, options: GarmentOptions): string {
+  const skirtRecipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+  return exportA0Pdf(
+    blockPieces(skirtRecipe.draft(STANDARD_M, options)),
+    skirtRecipe.allowances!,
+    notchesForRecipeOptions(skirtRecipe, options),
+    undefined,
+    allowOverflow,
+  );
+}
 function mount(options: Parameters<typeof mountApp>[1] = {}): HTMLDivElement {
   const root = document.createElement("div");
   mountApp(root, options);
@@ -17801,6 +17811,8 @@ describe("K02 Pencil-like skirt and starter tiled-PDF workflows", () => {
       localStorage.clear();
     }
   }, 30_000);
+
+
 });
 
 describe("K03 gathered pull-on skirt starter workflows", () => {
@@ -17929,6 +17941,16 @@ describe("K03 gathered pull-on skirt starter workflows", () => {
         [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5,
         [SKIRT_CASING_DEPTH_OPTION_ID]: 4,
       }));
+      const defaultK03Options = {
+        [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5,
+        [SKIRT_CASING_DEPTH_OPTION_ID]: 4,
+      };
+      const defaultA0 = files.get("gathered-pull-on-skirt-M-A0.pdf")!;
+      expect(defaultA0).toBe(expectedSkirtA0Pdf(true, defaultK03Options));
+      expect(defaultA0).toBe(expectedSkirtA0Pdf(false, defaultK03Options));
+      expect(defaultA0.match(/\/Type \/Page\b/g)).toHaveLength(1);
+      expect(createHash("sha256").update(defaultA0).digest("hex"))
+        .toBe("3d0a64e64642f062b715950cbe240b35cfa1292936276a62302ab4a116602ef1");
 
       const patternText = files.get("gathered-pull-on-skirt-M.svg")!;
       expect(patternText).toContain("Finished waist fold line");
@@ -17950,6 +17972,100 @@ describe("K03 gathered pull-on skirt starter workflows", () => {
       unmountApp();
       root?.remove();
       delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+  it("exports overflowing K03 settings as complete A0 pages from the visible download path", async () => {
+    localStorage.clear();
+    const savedPdfs: string[] = [];
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      savedPdfs.push(content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_GATHERED_ENTRY_ID}`);
+      reachExportStage(root);
+
+      for (const [index, ratio] of [1.75, 2].entries()) {
+        const ratioInput = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!;
+        ratioInput.value = String(ratio);
+        ratioInput.dispatchEvent(new Event("input", { bubbles: true }));
+        const casingInput = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CASING_DEPTH_OPTION_ID}"]`)!;
+        const casingDepth = ratio === 1.75 ? 4.5 : 5;
+        casingInput.value = String(casingDepth);
+        casingInput.dispatchEvent(new Event("input", { bubbles: true }));
+        reReviewAndReachExportStage(root);
+        clickId(root, "export-a0");
+        await vi.waitFor(() => expect(savedPdfs).toHaveLength(index + 1));
+        expect(savedPdfs[index]!.match(/\/Type \/Page\b/g)).toHaveLength(2);
+        expect(savedPdfs[index]).toBe(expectedSkirtA0Pdf(true, {
+          [SKIRT_GATHER_RATIO_OPTION_ID]: ratio,
+          [SKIRT_CASING_DEPTH_OPTION_ID]: casingDepth,
+        }));
+      }
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("freezes the K03 selected-size A0 artifact with the gathered overflow decision", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-k03-a0-freeze-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-11-10T01:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_GATHERED_ENTRY_ID}`);
+      const ratio = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_GATHER_RATIO_OPTION_ID}"]`)!;
+      ratio.value = "1.75";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      const casing = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CASING_DEPTH_OPTION_ID}"]`)!;
+      casing.value = "4.5";
+      casing.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("saved"),
+        { timeout: 10_000 });
+      reReviewAndReachExportStage(root);
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+      freeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      const manifest = workflow.snapshot.exportManifests[0]!;
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-a0-pdf");
+      const frozenA0 = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-a0-pdf");
+      const frozenPdf = await frozenA0.artifact.bytes.text();
+      const expected = expectedSkirtA0Pdf(true, {
+        [SKIRT_GATHER_RATIO_OPTION_ID]: 1.75,
+        [SKIRT_CASING_DEPTH_OPTION_ID]: 4.5,
+      });
+      expect(frozenPdf).toBe(expected);
+      expect(frozenPdf.match(/\/Type \/Page\b/g)).toHaveLength(2);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
       localStorage.clear();
     }
   }, 30_000);

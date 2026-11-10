@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, JeansOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, wovenShirtBodyHalfWidths, wovenShirtHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, optionalOptionStatusMessage, optionalOptionActionLabel, draftJeansWithGuidance, jeansSizeRunWithGuidance, dartOf } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, JeansOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, wovenShirtBodyHalfWidths, wovenShirtHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, recipeA0OverflowEnabled, optionalOptionStatusMessage, optionalOptionActionLabel, draftJeansWithGuidance, jeansSizeRunWithGuidance, dartOf } from "../drafting";
 import { gradeRecipeRun, gradeMeasurements, draftRecipeAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName, garmentForConstruction } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { teeNeckbandTechPackOptions, teeVBandTechPackOptions } from "../drafting/vneck-band-output";
@@ -6738,8 +6738,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     download(`${exportRecipeName()}-surface-sheet.svg`, exportSurfaceSheet(surfacePlacementsNow(), targetStyle), "image/svg+xml");
   }, () => styleReviewed && checkReviewed && baseDesignValid());
   onExport("#export-a0", () => {
+    const options = recipeOptions();
     download(`${exportRecipeName()}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(
-      exportPieces(), exportAllowances(), notchesForRecipeOptions(recipe, recipeOptions()), undefined, recipe.a0Overflow === true
+      exportPieces(), exportAllowances(), notchesForRecipeOptions(recipe, options), undefined, recipeA0OverflowEnabled(recipe, options)
     ), "application/pdf");
   });
 
@@ -7191,11 +7192,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             pomExceptionRows(customRun), starterOutputStatusNote())
           : exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle,
             starterOutputStatusNote());
+        const selectedSizeOptions = recipeOptions(currentRecipe);
         const artifacts = [
-          { artifactId: "selected-size-svg", extension: "svg", displayName: `${exportRecipeName()}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, notchesForRecipeOptions(currentRecipe, recipeOptions(currentRecipe))) },
+          { artifactId: "selected-size-svg", extension: "svg", displayName: `${exportRecipeName()}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, notchesForRecipeOptions(currentRecipe, selectedSizeOptions)) },
           { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${exportRecipeName()}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
           { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, usesLocalTiledPdfCoordinates(currentRecipe)) },
-          { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, notchesForRecipeOptions(currentRecipe, recipeOptions(currentRecipe)), undefined, recipe.a0Overflow === true) },
+          { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, notchesForRecipeOptions(currentRecipe, selectedSizeOptions), undefined, recipeA0OverflowEnabled(currentRecipe, selectedSizeOptions)) },
           { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${exportRecipeName()}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
           { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${exportRecipeName()}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : [], starterOutputStatusNote("projector")) },
           { artifactId: "whole-run-surface-sheet-svg", extension: "svg", displayName: `${exportRecipeName()}-surface-sheet.svg`, mediaType: "image/svg+xml", content: exportSurfaceSheet(surfacePlacementsNow(), targetStyle) },
