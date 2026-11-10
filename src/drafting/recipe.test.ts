@@ -1,10 +1,10 @@
-import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "./skirt";
+import { SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "./skirt";
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions, type GarmentOptions } from "./options";
 import { TEE, TEE_RAGLAN, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, JEANS, SHORTS,
   CREWNECK, JOGGER, HOODIE, GARMENTS, garmentByName, garmentForConstruction,
-  piecesForRecipeBlock, pomsForRecipeOptions, notchesForRecipeOptions, draftRecipeAtSize } from "./recipe";
+  piecesForRecipeBlock, pomsForRecipeOptions, notchesForRecipeOptions, recipeA0OverflowEnabled, draftRecipeAtSize } from "./recipe";
 import { raglanNecklineLength, raglanTeeGuidance, TEE_RAGLAN_GRAMMAR, TEE_RAGLAN_STITCHES } from "./tshirt-raglan";
 import { TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION, TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION, teeNeckbandTechPackOptions } from "./vneck-band-output";
@@ -90,6 +90,22 @@ describe("the garment registry", () => {
       expect(piece.edges.some(({ name }) => name === rule.grainline.bottomEdge), piece.name).toBe(true);
     }
     expect(garmentReport(JEANS, STANDARD_M).ok).toBe(true);
+  });
+});
+
+describe("recipe A0 overflow selection", () => {
+  it("enables gathered K03 overflow while preserving sibling profiles and static opt-ins", () => {
+    expect(recipeA0OverflowEnabled(SKIRT, {})).toBe(false);
+    expect(notchesForRecipeOptions(SKIRT, {})).toBe(SKIRT.notches);
+    expect(recipeA0OverflowEnabled(SKIRT, { [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: 8 })).toBe(false);
+    expect(recipeA0OverflowEnabled(SKIRT, { [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 12 })).toBe(false);
+    expect(recipeA0OverflowEnabled(SKIRT, {
+      [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5,
+      [SKIRT_CASING_DEPTH_OPTION_ID]: 4,
+    })).toBe(true);
+    expect(recipeA0OverflowEnabled(TROUSER, {})).toBe(true);
+    expect(recipeA0OverflowEnabled(JOGGER, {})).toBe(true);
+    expect(recipeA0OverflowEnabled(SHORTS, {})).toBe(false);
   });
 });
 

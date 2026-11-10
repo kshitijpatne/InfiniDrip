@@ -181,6 +181,8 @@ export interface GarmentRecipe {
   readonly editRole?: string;
   /** Permit a whole-piece multi-page A0 export when the true-scale layout overflows one sheet. */
   readonly a0Overflow?: boolean;
+  /** Resolve A0 overflow opt-in for option-selected profiles within a shared recipe. */
+  readonly a0OverflowForOptions?: (options: GarmentOptions) => boolean;
   /** Use page-local coordinates for the tiled PDF; legacy recipes keep their byte-identity path. */
   readonly tiledPdfLocalCoordinates?: boolean;
   readonly fields: readonly (keyof Measurements)[]; // which measurements this garment uses (drives the UI, in order)
@@ -235,6 +237,11 @@ export interface GarmentRecipe {
 /** Resolve the active POM contract while preserving each recipe's legacy default. */
 export function pomsForRecipeOptions(recipe: GarmentRecipe, options: GarmentOptions = {}): readonly Pom[] {
   return recipe.pomsForOptions?.(options) ?? recipe.poms;
+}
+
+/** Resolve the A0 whole-piece overflow path without changing sibling recipe profiles. */
+export function recipeA0OverflowEnabled(recipe: GarmentRecipe, options: GarmentOptions = {}): boolean {
+  return recipe.a0Overflow === true || recipe.a0OverflowForOptions?.(options) === true;
 }
 
 /** Resolve construction marks for the active option-selected panel topology. */
@@ -1104,6 +1111,7 @@ export const SKIRT: GarmentRecipe = {
   allowances: WOVEN_SKIRT_ALLOWANCES,
   techPack: SKIRT_TECH_PACK,
   techPackForOptions: skirtTechPackForOptions,
+  a0OverflowForOptions: isGatheredSkirtProfile,
   options: [SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION,
     SKIRT_GATHER_RATIO_OPTION, SKIRT_CASING_DEPTH_OPTION],
 };
