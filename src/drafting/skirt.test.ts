@@ -6,7 +6,9 @@ import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, S
   SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM, skirtHemSweepQuarterCm,
   SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_PENCIL_HEM_POM, skirtHemTaperQuarterCm,
   SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
-  SKIRT_GATHERED_POMS, SKIRT_GATHERED_NOTCHES, gatheredSkirtOptions, isGatheredSkirtProfile } from "./skirt";
+  SKIRT_GATHERED_POMS, SKIRT_GATHERED_NOTCHES, gatheredSkirtOptions, isGatheredSkirtProfile,
+  SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+  boxPleatGuideGroups, boxPleatGuideProblem, isBoxPleatedSkirtProfile } from "./skirt";
 import { stitchChecks } from "./stitch";
 import { resolveNotch } from "../render/notch";
 import { SKIRT, gradeRun, specSheet } from "./index";
@@ -422,5 +424,86 @@ describe("K03 gathered pull-on skirt draft", () => {
       start: { x: 0, y: 4 },
       end: { x: STANDARD_M.waist / 4, y: 4 },
     });
+  });
+});
+
+describe("K04 box-pleat guide skirt draft", () => {
+  it("adds five symmetric guide marks per group without changing the straight cut outline", () => {
+    const options = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 };
+    const straight = draftSkirt(STANDARD_M);
+    const pleated = draftSkirt(STANDARD_M, options);
+    expect(isBoxPleatedSkirtProfile(options)).toBe(true);
+    expect(isBoxPleatedSkirtProfile({ [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 })).toBe(false);
+    expect(boxPleatGuideProblem(STANDARD_M, options)).toBeNull();
+    expect(Object.keys(pleated.roles)).toEqual(Object.keys(straight.roles));
+    for (const role of Object.keys(straight.roles)) {
+      expect(pleated.roles[role]!.edges).toEqual(straight.roles[role]!.edges);
+    }
+    expect(rolePiece(pleated, "front").marks).toMatchObject([
+      { kind: "foldLine", name: "boxPleat1LeftFold", start: { x: 8.75, y: 0 }, end: { x: 8.75, y: 70 } },
+      { kind: "placementLine", name: "boxPleat1LeftPlacement", start: { x: 10.25, y: 0 }, end: { x: 10.25, y: 70 } },
+      { kind: "foldLine", name: "boxPleat1Roll", start: { x: 11.75, y: 0 }, end: { x: 11.75, y: 70 } },
+      { kind: "placementLine", name: "boxPleat1RightPlacement", start: { x: 13.25, y: 0 }, end: { x: 13.25, y: 70 } },
+      { kind: "foldLine", name: "boxPleat1RightFold", start: { x: 14.75, y: 0 }, end: { x: 14.75, y: 70 } },
+    ]);
+    expect(rolePiece(pleated, "back").marks).toEqual(rolePiece(pleated, "front").marks);
+    expect(rolePiece(pleated, "waistbandFront").marks).toBeUndefined();
+    expect(rolePiece(pleated, "waistbandBack").marks).toBeUndefined();
+    expect(blockPieces(pleated).map((piece) => piece.name)).toEqual(["front", "back", "waistbandFront", "waistbandBack"]);
+  });
+
+  it("keeps the supported group counts and rejects overlapping or malformed raw settings", () => {
+    for (const [count, spacing, expectedLines] of [[4, 3, 5], [8, 2, 10], [12, 2.5, 15]] as const) {
+      const block = draftSkirt(STANDARD_M, {
+        [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: count,
+        [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: spacing,
+      });
+      expect(rolePiece(block, "front").marks).toHaveLength(expectedLines);
+      expect(rolePiece(block, "front").marks?.filter((mark) => mark.kind === "placementLine")).toHaveLength(count / 2);
+    }
+    const overlap = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 12, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 };
+    expect(boxPleatGuideProblem(STANDARD_M, overlap)).toContain("overlap or cross the on-fold panel edge");
+    expect(() => draftSkirt(STANDARD_M, overlap)).toThrow(/Reduce guide spacing/);
+    expect(boxPleatGuideProblem(STANDARD_M, { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 6 })).toContain("must be 4, 8 or 12");
+    expect(boxPleatGuideProblem(STANDARD_M, {
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 2.25,
+    })).toContain("1–4 cm in 0.5 cm steps");
+    expect(boxPleatGuideProblem({ ...STANDARD_M, waist: 50, ease: -30 }, {
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
+    })).toContain("overlap or cross the on-fold panel edge");
+    expect(boxPleatGuideProblem({ ...STANDARD_M, waist: Number.NaN }, {
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
+    })).toContain("positive finite waist-plus-ease width");
+    expect(boxPleatGuideProblem({ ...STANDARD_M, length: Number.POSITIVE_INFINITY }, {
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
+    })).toContain("positive finite waist-plus-ease width");
+  });
+
+  it("does not let K04 marks or settings leak into generic or incompatible skirt profiles", () => {
+    const genericWithStaleSpacing = draftSkirt(STANDARD_M, { [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 });
+    expect(rolePiece(genericWithStaleSpacing, "front").marks).toBeUndefined();
+    expect(() => draftSkirt(STANDARD_M, {
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
+      [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: 12,
+    })).toThrow(/cannot be combined with another skirt profile/);
+    expect(boxPleatGuideGroups(STANDARD_M, {
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
+    })).toHaveLength(1);
+    expect(boxPleatGuideGroups(STANDARD_M, {})).toEqual(
+      boxPleatGuideGroups(STANDARD_M, {
+        [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4,
+        [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
+      }),
+    );
+    expect(() => boxPleatGuideGroups(STANDARD_M, {
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 12,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
+    })).toThrow(RangeError);
   });
 });

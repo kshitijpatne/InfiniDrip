@@ -20,7 +20,10 @@
 // Pure: measurements in, one SVG string out.
 
 import { Measurements, skirtWidths, type GarmentOptions } from "../drafting";
-import { skirtHemAdjustmentQuarterCm, skirtHemWidthQuarterCm, isGatheredSkirtProfile, gatheredSkirtOptions } from "../drafting/skirt";
+import { skirtHemAdjustmentQuarterCm, skirtHemWidthQuarterCm, isGatheredSkirtProfile, gatheredSkirtOptions,
+  isBoxPleatedSkirtProfile, boxPleatGuideGroups, boxPleatGuideProblem,
+  SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+  SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_SPACING_OPTION } from "../drafting/skirt";
 import { BLUEPRINT as T } from "./theme";
 import { lowerCroquisFigure, lowerCroquisFlareCommand } from "./croquis";
 import type { LowerCroquisAnchors } from "./croquis";
@@ -110,10 +113,32 @@ function renderGatheredPanel(waistHalf: number, hipHalf: number, hemHalf: number
   return group + tag;
 }
 
+function renderBoxPleatGuides(m: Measurements, options: GarmentOptions): string {
+  return boxPleatGuideGroups(m, options).flatMap((group) => [-1, 1].flatMap((side) => {
+    const marks = [
+      { x: group.leftFoldX, part: "box-pleat-fold", dash: "2 1" },
+      { x: group.leftPlacementX, part: "box-pleat-placement", dash: "0.8 1" },
+      { x: group.rollX, part: "box-pleat-roll", dash: "" },
+      { x: group.rightPlacementX, part: "box-pleat-placement", dash: "0.8 1" },
+      { x: group.rightFoldX, part: "box-pleat-fold", dash: "2 1" },
+    ];
+    return marks.map((mark) => `<line data-part="${mark.part}" data-group="${group.index}" ` +
+      `x1="${round(mark.x * side)}" y1="0" x2="${round(mark.x * side)}" y2="${round(m.length)}" ` +
+      `stroke="${T.marker}" stroke-width="${mark.part === "box-pleat-roll" ? "0.9" : "0.65"}" ` +
+      `${mark.dash ? `stroke-dasharray="${mark.dash}" ` : ""}vector-effect="non-scaling-stroke"/>`);
+  })).join("");
+}
+
 /** The assembled skirt: front and back panels side by side, in fabric colour. */
 export function renderSkirtGarment(m: Measurements, fabric: string, options: GarmentOptions = {}): string {
+  if (isBoxPleatedSkirtProfile(options) && boxPleatGuideProblem(m, options)) {
+    return `<svg viewBox="0 0 100 24" width="100%" xmlns="http://www.w3.org/2000/svg" ` +
+      `style="background:${T.background};border-radius:8px"><text data-part="box-pleat-preview-paused" ` +
+      `x="4" y="14" fill="${T.label}" font-size="3.2" ${FONT}>Pleat-guide preview paused. See the correction in Guidance.</text></svg>`;
+  }
   const { hipHalf } = skirtWidths(m);
   const gathered = isGatheredSkirtProfile(options);
+  const boxPleated = isBoxPleatedSkirtProfile(options);
   const waistHalf = gathered ? m.waist / 4 : skirtWidths(m).waistHalf;
   const hemHalf = skirtHemWidthQuarterCm(m, options);
   const len = m.length;
@@ -128,15 +153,26 @@ export function renderSkirtGarment(m: Measurements, fabric: string, options: Gar
   const width = backCx + halfW + margin;
   const casingDepthCm = gathered ? gatheredSkirtOptions(options).casingDepthCm : 0;
   const height = top + len + margin;
+  const boxPleatHeading = boxPleated
+    ? `<text data-part="box-pleat-summary" x="${round(width / 2)}" y="4" fill="${T.label}" ` +
+      `font-size="2.5" ${FONT} text-anchor="middle">DIGITAL BOX-PLEAT GUIDE · ` +
+      `${options[SKIRT_BOX_PLEAT_COUNT_OPTION_ID] ?? SKIRT_BOX_PLEAT_COUNT_OPTION.defaultValue} groups · ` +
+      `${options[SKIRT_BOX_PLEAT_SPACING_OPTION_ID] ?? SKIRT_BOX_PLEAT_SPACING_OPTION.defaultValue} cm spacing</text>`
+    : "";
+  const panelContent = gathered
+    ? renderGatheredPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, casingDepthCm, fabric, frontCx, top, "FRONT")
+      + renderGatheredPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, casingDepthCm, fabric, backCx, top, "BACK")
+    : renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, frontCx, top, "FRONT")
+      + renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, backCx, top, "BACK");
+  const pleatGuides = boxPleated
+    ? `<g data-part="box-pleat-guides-front" transform="translate(${round(frontCx)} ${round(top)})">${renderBoxPleatGuides(m, options)}</g>`
+      + `<g data-part="box-pleat-guides-back" transform="translate(${round(backCx)} ${round(top)})">${renderBoxPleatGuides(m, options)}</g>`
+    : "";
 
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
-    (gathered
-      ? renderGatheredPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, casingDepthCm, fabric, frontCx, top, "FRONT")
-        + renderGatheredPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, casingDepthCm, fabric, backCx, top, "BACK")
-      : renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, frontCx, top, "FRONT")
-        + renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, backCx, top, "BACK")) +
+    boxPleatHeading + panelContent + pleatGuides +
     `</svg>`;
 }
 

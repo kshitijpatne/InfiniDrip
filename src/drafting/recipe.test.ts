@@ -1,10 +1,12 @@
-import { SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "./skirt";
+import { SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
+  SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "./skirt";
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions, type GarmentOptions } from "./options";
 import { TEE, TEE_RAGLAN, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER, JEANS, SHORTS,
   CREWNECK, JOGGER, HOODIE, GARMENTS, garmentByName, garmentForConstruction,
-  piecesForRecipeBlock, pomsForRecipeOptions, notchesForRecipeOptions, recipeA0OverflowEnabled, draftRecipeAtSize } from "./recipe";
+  piecesForRecipeBlock, pomsForRecipeOptions, notchesForRecipeOptions, recipeA0OverflowEnabled, draftRecipeAtSize,
+  draftRecipeReviewAtSize, gradeRecipeRun } from "./recipe";
 import { raglanNecklineLength, raglanTeeGuidance, TEE_RAGLAN_GRAMMAR, TEE_RAGLAN_STITCHES } from "./tshirt-raglan";
 import { TEE_SCOOP_NECK_DROP_OPTION_ID, TEE_V_NECK_DROP_OPTION_ID } from "./tshirt";
 import { TEE_SELECTED_SIZE_NECKBAND_OUTPUT_OPTION, TEE_SELECTED_SIZE_VBAND_OUTPUT_OPTION, teeNeckbandTechPackOptions } from "./vneck-band-output";
@@ -39,7 +41,6 @@ import {
 } from "./crewneck-tables";
 import { CREWNECK_ROLE_ORDER } from "./crewneck";
 import { crewneckBandMeasurements } from "./crewneck-components";
-import { gradeRecipeRun } from "./recipe";
 import { STRETCH_FABRICS } from "./ease";
 import { CREWNECK as BARREL_CREWNECK, CREWNECK_STABLE_KNIT_DEFAULT as BARREL_STABLE_KNIT } from "./index";
 import { JOGGER as BARREL_JOGGER } from "./index";
@@ -1444,5 +1445,65 @@ describe("K03 gathered pull-on skirt recipe", () => {
     expect(fallbackPack.construction.join(" ")).toContain("at 1.5 times the measured waist");
     expect(fallbackPack.construction.join(" ")).toContain("the 4 cm placement line");
     expect(SKIRT.techPackForOptions!({})).toEqual(SKIRT.techPack);
+  });
+});
+
+describe("K04 box-pleat guide skirt recipe", () => {
+  const options = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 };
+
+  it("keeps the base skirt POM/size rules and emits digital-only Tech Pack guidance", () => {
+    const block = SKIRT.draft(STANDARD_M, options);
+    const base = SKIRT.draft(STANDARD_M, {});
+    const pack = SKIRT.techPackForOptions!(options);
+    expect(block.roles.front!.edges).toEqual(base.roles.front!.edges);
+    expect(pomsForRecipeOptions(SKIRT, options)).toEqual(SKIRT.poms);
+    expect(notchesForRecipeOptions(SKIRT, options, block)).toEqual(SKIRT.notches);
+    expect(recipeA0OverflowEnabled(SKIRT, options)).toBe(false);
+    expect(pack.bom).toEqual([]);
+    expect(pack.constructionNotice).toContain("not a sewing-ready pleat pattern");
+    expect(pack.construction.join(" ")).toContain("4 groups and 3 cm spacing");
+    expect(pack.construction.join(" ")).toContain("with no added cut fullness");
+    expect(pack.construction.join(" ")).toContain("existing waistband and side-zipper");
+    expect(garmentReport(SKIRT, STANDARD_M, options).ok).toBe(true);
+    expect(SKIRT.techPackForOptions!({})).toEqual(SKIRT.techPack);
+    const defaultedPack = SKIRT.techPackForOptions!({
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: undefined,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: undefined,
+    } as unknown as GarmentOptions);
+    expect(defaultedPack.construction[0]).toContain("4 groups and 3 cm spacing");
+  });
+
+  it("resolves an existing size-specific recipe and preserves the legacy unreviewed run path", () => {
+    const resolved = draftRecipeReviewAtSize(CREWNECK, STANDARD_M, 1);
+    expect(resolved.block).not.toBeNull();
+    expect(resolved.notes).toEqual([]);
+    expect(draftRecipeAtSize(TANK, STANDARD_M, 1).roles.front).toBeDefined();
+    expect(gradeRecipeRun(TEE, STANDARD_M)).toHaveLength(TEE.sizes.length);
+  });
+
+  it("supplies a safe failure when a recipe rejects a draft without a note", () => {
+    const rejected = { ...TEE, draftReview: () => ({ block: null, notes: [] }) };
+    expect(() => draftRecipeAtSize(rejected, STANDARD_M, 0)).toThrow("The recipe draft is not available for this size.");
+    expect(() => gradeRecipeRun(rejected, STANDARD_M)).toThrow("The recipe draft is not available for this size.");
+  });
+
+  it("preserves invalid guide values and withholds base or graded drafts with actionable findings", () => {
+    const overlap = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 12, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 };
+    const review = draftRecipeReviewAtSize(SKIRT, STANDARD_M, 0, overlap);
+    expect(review.block).toBeNull();
+    expect(review.notes[0]).toMatchObject({ level: "warn", field: `option-${SKIRT_BOX_PLEAT_SPACING_OPTION_ID}` });
+    expect(review.notes[0]!.text).toContain("Reduce guide spacing");
+    expect(overlap).toEqual({ [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 12, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 });
+    expect(() => draftRecipeAtSize(SKIRT, STANDARD_M, 0, overlap)).toThrow(/Reduce guide spacing/);
+    expect(garmentReport(SKIRT, STANDARD_M, overlap).ok).toBe(false);
+
+    const narrowWaist = { ...STANDARD_M, ease: 0 };
+    const sizeSensitive = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 12, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 2.5 };
+    expect(draftRecipeReviewAtSize(SKIRT, narrowWaist, 0, sizeSensitive).block).not.toBeNull();
+    expect(() => gradeRecipeRun(SKIRT, narrowWaist, SKIRT.sizes, sizeSensitive)).toThrow(/overlap or cross/);
+    const report = garmentReport(SKIRT, narrowWaist, sizeSensitive);
+    expect(report.ok).toBe(false);
+    expect(report.checks.find((check) => check.name === "Draft geometry is available across the size run")?.detail)
+      .toContain("overlap or cross");
   });
 });

@@ -56,4 +56,4 @@ export * from "./jeans-guidance";
 export * from "./jeans-tables";
 
 // Keep the registry API explicit for consumers that import this barrel.
-export { CREWNECK, JOGGER, draftRecipeAtSize, gradeRecipeRun } from "./recipe";
+export { CREWNECK, JOGGER, draftRecipeAtSize, draftRecipeReviewAtSize, gradeRecipeRun } from "./recipe";

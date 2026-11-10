@@ -22,7 +22,8 @@ import { POLO_BAND_COLLAR_STARTER_ENTRY_ID, POLO_OPTION_DEFINITIONS, POLO_ZIP_PL
 import { DEFAULT_WOVEN_SHIRT_OPTIONS, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "../drafting/shirt-contract";
 import { STANDARD_M } from "../drafting";
 import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
-  SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID } from "../drafting/skirt";
+  SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
+  SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "../drafting/skirt";
 import { FIELDS } from "./controls";
 
 export const POLO_CLASSIC_TWO_BUTTON_ENTRY_ID = "polo-classic-two-button-digital-v1";
@@ -39,7 +40,7 @@ export interface StarterControl {
   readonly fieldId: string;
   readonly label: string;
   readonly kind: "measurement" | "option" | "design";
-  readonly unit: "cm" | "%" | "buttons" | "ratio";
+  readonly unit: "cm" | "%" | "buttons" | "ratio" | "groups";
   readonly min: number;
   readonly max: number;
   readonly step: number;
@@ -2139,10 +2140,50 @@ const SKIRT_GATHERED_BLANK_ENTRY: StarterEntry = {
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
+
+const SKIRT_BOX_PLEAT_BLANK_ENTRY: StarterEntry = {
+  entryId: SKIRT_BOX_PLEAT_ENTRY_ID,
+  entryRevision: "2026-11-10.1",
+  recipeId: "skirt",
+  recipeRevision: "skirt-box-pleat-guide-v1",
+  catalogKind: "blank",
+  label: "Pleated skirt · box-pleat guide",
+  configuration: {
+    targetStyle: "Midi skirt",
+    measurements: { waist: 84, hip: 100, hipDepth: 20, length: 70, ease: 10 },
+    options: { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 },
+  },
+  supportedControls: [
+    { fieldId: "waist", label: "Waist", kind: "measurement", unit: "cm", min: 50, max: 140, step: 1, defaultValue: 84 },
+    { fieldId: "hip", label: "Hip", kind: "measurement", unit: "cm", min: 60, max: 150, step: 1, defaultValue: 100 },
+    { fieldId: "hipDepth", label: "Hip depth", kind: "measurement", unit: "cm", min: 10, max: 40, step: 1, defaultValue: 20 },
+    { fieldId: "length", label: "Length", kind: "design", unit: "cm", min: 40, max: 100, step: 1, defaultValue: 70 },
+    { fieldId: "ease", label: "Ease", kind: "design", unit: "cm", min: -30, max: 30, step: 1, defaultValue: 10 },
+    { fieldId: SKIRT_BOX_PLEAT_COUNT_OPTION_ID, label: "Box-pleat guide groups (whole garment)", kind: "option", unit: "groups", min: 4, max: 12, step: 4, defaultValue: 4 },
+    { fieldId: SKIRT_BOX_PLEAT_SPACING_OPTION_ID, label: "Guide-line spacing (software setting)", kind: "option", unit: "cm", min: 1, max: 4, step: 0.5, defaultValue: 3 },
+  ],
+  intent: {
+    audience: "Digital skirt design candidate; not a representativeness or fit claim.",
+    use: "An editable box-pleat fold/roll/placement guide over the existing straight Skirt outline.",
+    fit: "The starting measurements and guide values are InfiniDrip software choices, not sourced physical standards or validated fit targets.",
+    bodyMaterial: "No fabric compatibility, pleating behavior, consumption or material-performance claim.",
+    trimMaterial: "No trim is specified.",
+    construction: "The guides do not add cut fullness or define a sewn pleat. The existing generic Skirt waistband and side-zipper pattern details remain; this starter does not claim to remove or validate them.",
+    sizeScope: "One software-default profile; generated size-run geometry is not validated K04 grading.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The 4/8/12 guide-group counts and 1–4 cm guide spacing are InfiniDrip software choices, not sourced pleat-intake or sewing standards.",
+    "Five fold/roll/placement lines per guide group annotate the existing straight cut panels; they do not model cut fullness or pleat consumption and are not a sewing-ready construction method.",
+    "The base Skirt waistband and side-zipper details remain. No alternative closure, sewn sample, physical fit, comfort, wear or production readiness is established.",
+    "The generic skirt size run is not validated K04 grading. B1 review is pending; physical validation remains not-validated.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v38",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_BLANK_ENTRY, WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY, WOVEN_SHIRT_TUNIC_LONGLINE_BLANK_ENTRY, WOVEN_SHIRT_CAMP_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_DARTED_BLOUSE_BLANK_ENTRY, SKIRT_A_LINE_BLANK_ENTRY, SKIRT_PENCIL_BLANK_ENTRY, SKIRT_GATHERED_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v39",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_BLANK_ENTRY, WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY, WOVEN_SHIRT_TUNIC_LONGLINE_BLANK_ENTRY, WOVEN_SHIRT_CAMP_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_DARTED_BLOUSE_BLANK_ENTRY, SKIRT_A_LINE_BLANK_ENTRY, SKIRT_PENCIL_BLANK_ENTRY, SKIRT_GATHERED_BLANK_ENTRY, SKIRT_BOX_PLEAT_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;
@@ -2223,6 +2264,9 @@ export function starterControlError(entryId: string | null, fieldId: string, val
   if (Math.abs(stepsFromMinimum - Math.round(stepsFromMinimum)) > 1e-8) {
     if (control.unit === "buttons") {
       return control.label + ": choose " + control.min + " or " + control.max + " whole buttons.";
+    }
+    if (control.unit === "groups") {
+      return control.label + ": choose 4, 8 or 12 whole groups.";
     }
     return control.label + ": use " + control.step + " " + control.unit + " increments from " + control.min + " " + control.unit + ".";
   }
