@@ -318,9 +318,12 @@ export function gradeRecipeRun(
   sizes: readonly SizeStep[] = recipe.sizes,
   options: GarmentOptions = {},
 ): ReturnType<typeof gradeRun> {
+  const draftReview = recipe.draftReview;
+  if (!draftReview) {
+    return gradeRun(base, recipe.grade, sizes, recipe.draft, options, recipe.resolveOptionsForSize);
+  }
   const reviewedDraft = (measurements: Measurements, activeOptions?: GarmentOptions): Block => {
-    const review = recipe.draftReview?.(measurements, activeOptions);
-    if (!review) return recipe.draft(measurements, activeOptions);
+    const review = draftReview(measurements, activeOptions);
     if (review.block) return review.block;
     throw new RangeError(review.notes.map((note) => note.text).join(" ") || "The recipe draft is not available for this size.");
   };

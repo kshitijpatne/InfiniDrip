@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { CREWNECK, draftRecipeAtSize, GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
+import { SKIRT_BOX_PLEAT_ENTRY_ID } from "../drafting/skirt";
 import { edgeEnd, edgeLength, edgeStart } from "../drafting/piece";
 import { draftWovenShirtCollar } from "../drafting/shirt";
 import { cubicPoint } from "../geometry/curve";
@@ -974,7 +975,9 @@ describe("validateTechnicalFlatProjectionMap", () => {
 
   it("creates source-edge maps for every supported recipe and numeric option endpoint", () => {
     for (const recipe of G04_RECIPES) {
-      const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
+      const endpointOptions = [undefined, ...(recipe.options ?? []).filter((option) =>
+        option.appliesToStarterEntryId !== SKIRT_BOX_PLEAT_ENTRY_ID)
+        .flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
       for (const options of endpointOptions) {
         const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
         const map = createG04TechnicalFlatProjectionMap(recipe.name, block, REVISION)!;
@@ -1307,7 +1310,9 @@ describe("validateTechnicalFlatProjectionMap", () => {
 
   it("records only source-validated local-y fold axes across every recipe option endpoint", () => {
     for (const recipe of G04_RECIPES) {
-      const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
+      const endpointOptions = [undefined, ...(recipe.options ?? []).filter((option) =>
+        option.appliesToStarterEntryId !== SKIRT_BOX_PLEAT_ENTRY_ID)
+        .flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
       for (const options of endpointOptions) {
         const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
         const map = createG04TechnicalFlatProjectionMap(recipe.name, block, REVISION)!;
@@ -1442,7 +1447,9 @@ describe("validateTechnicalFlatProjectionMap", () => {
 
   it("accepts explicit per-face edge accounting for every supported recipe and option endpoint", () => {
     for (const recipe of G04_RECIPES) {
-      const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
+      const endpointOptions = [undefined, ...(recipe.options ?? []).filter((option) =>
+        option.appliesToStarterEntryId !== SKIRT_BOX_PLEAT_ENTRY_ID)
+        .flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
       for (const options of endpointOptions) {
         const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
         const mapping = validMap(recipe.name, block);

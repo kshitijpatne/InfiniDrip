@@ -4055,7 +4055,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
-      const draft = sourceCannotDraft ? null : semanticSizeBlock(selectedOutputStep());
+      const draft = semanticSizeBlock(selectedOutputStep())
+        ?? (sourceCannotDraft ? null
+          : draftRecipeReviewAtSize(recipe, measurements, selectedOutputStep(), recipeOptions()).block);
       if (!draft) {
         const k04Problem = k04SizeProblem(selectedOutputStep());
         canvasContent = k04Problem

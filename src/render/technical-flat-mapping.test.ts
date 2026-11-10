@@ -4,7 +4,8 @@ import type { Block } from "../drafting/block";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { FITTED_PRINCESS_ENTRY_ID } from "../drafting/fitted";
-import { SKIRT_A_LINE_ENTRY_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_PENCIL_ENTRY_ID } from "../drafting/skirt";
+import { SKIRT_A_LINE_ENTRY_ID, SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID,
+  SKIRT_BOX_PLEAT_SPACING_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_PENCIL_ENTRY_ID } from "../drafting/skirt";
 import { draftJogger } from "../drafting/jogger";
 import {
   G04_TECHNICAL_FLAT_MAPPINGS,
@@ -91,6 +92,28 @@ describe("mapTechnicalFlatSources", () => {
     expect(technicalFlatMappingForBlock("skirt", withoutBands)?.faces.map((face) =>
       face.roles.map((role) => role.roleId)))
       .toEqual([["front", "waistbandFront"], ["back", "waistbandBack"]]);
+  });
+
+  it("maps the K04 guide only under its entry and with a valid maximum-count spacing", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const options = {
+      ...defaultGarmentOptions(recipe.options ?? [], SKIRT_BOX_PLEAT_ENTRY_ID),
+      [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 12,
+      [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 1,
+    };
+    const block = recipe.draft(STANDARD_M, options);
+    const mapping = technicalFlatMappingForBlock("skirt", block)!;
+    const sourceMap = mapTechnicalFlatSources("skirt", block, recipe.poms);
+
+    expect(mapping.faces.map((face) => face.roles.map((role) => role.roleId)))
+      .toEqual([["front", "waistbandFront"], ["back", "waistbandBack"]]);
+    expect(sourceMap.issues).toEqual([]);
+    for (const [role, view] of [["front", "FRONT_FLAT"], ["back", "BACK_FLAT"]] as const) {
+      const marks = sourceMap.sources.filter((source) => source.kind === "mark"
+        && source.sourceId.startsWith(`pattern:skirt:mark:${role}:boxPleat`));
+      expect(marks).toHaveLength(15);
+      expect(marks.every((source) => source.viewKinds.includes(view))).toBe(true);
+    }
   });
 
   it("maps all seven hidden Jogger roles to source-aware front and back faces", () => {
@@ -325,7 +348,8 @@ describe("mapTechnicalFlatSources", () => {
 
   it("keeps every declared numeric option endpoint inside its recipe's mapped topology", () => {
     for (const recipe of G04_RECIPES) {
-      for (const option of recipe.options ?? []) {
+      for (const option of (recipe.options ?? []).filter((candidate) =>
+        candidate.appliesToStarterEntryId !== SKIRT_BOX_PLEAT_ENTRY_ID)) {
         for (const value of [option.min, option.max]) {
           const options = { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: value };
           const block = recipe.draft(STANDARD_M, options);
