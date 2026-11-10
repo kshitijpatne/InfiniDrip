@@ -35,7 +35,11 @@ function visiblePdfText(pdf: string): string {
   ).join(" ");
 }
 
-function expectedSkirtTiledPdf(localCoordinates: boolean, options: GarmentOptions = {}): string {
+function expectedSkirtTiledPdf(
+  localCoordinates: boolean,
+  options: GarmentOptions = {},
+  markLabelLayout: "inline" | "staggered-box-pleat-guides" = "inline",
+): string {
   const skirtRecipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
   return exportPdf(
     blockPieces(skirtRecipe.draft(STANDARD_M, options)),
@@ -43,6 +47,7 @@ function expectedSkirtTiledPdf(localCoordinates: boolean, options: GarmentOption
     undefined,
     1,
     localCoordinates,
+    markLabelLayout,
   );
 }
 
@@ -855,9 +860,11 @@ describe("K04 box-pleat guide skirt starter workflows", () => {
       clickId(root, "garment-skirt");
       expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_COUNT_OPTION_ID}"]`)).toBeNull();
       reachExportStage(root);
+      clickId(root, "export-pdf");
       clickId(root, "export-techpack");
       clickId(root, "export-projector");
-      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(3));
+      expect(files.get("skirt-M.pdf")).toBe(expectedSkirtTiledPdf(false));
       expect(files.has("skirt-techpack.pdf")).toBe(true);
       expect(files.get("skirt-techpack.pdf")).not.toContain("box-pleat");
       expect(files.get("skirt-projector.svg")).not.toContain("box-pleat");
@@ -903,7 +910,7 @@ describe("K04 box-pleat guide skirt starter workflows", () => {
         "pleated-skirt-box-pleat-guide-techpack.pdf",
       ].sort());
       const options = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 };
-      expect(files.get("pleated-skirt-box-pleat-guide-M.pdf")).toBe(expectedSkirtTiledPdf(false, options));
+      expect(files.get("pleated-skirt-box-pleat-guide-M.pdf")).toBe(expectedSkirtTiledPdf(true, options, "staggered-box-pleat-guides"));
       const a0 = files.get("pleated-skirt-box-pleat-guide-M-A0.pdf")!;
       expect(a0).toBe(expectedSkirtA0Pdf(false, options));
       expect(a0.match(/\/Type \/Page\b/g)).toHaveLength(1);

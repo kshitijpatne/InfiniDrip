@@ -7,6 +7,8 @@ import { PatternMark } from "../drafting";
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 const pt = (cm: number): number => round(cm * 72 / 2.54);
 
+export type PatternMarkPdfLabelLayout = "inline" | "staggered-box-pleat-guides";
+
 export function translatePatternMarks(
   marks: readonly PatternMark[] | undefined, dx: number, dy: number
 ): readonly PatternMark[] {
@@ -70,14 +72,25 @@ export function patternMarksDxf(
 }
 
 /** PDF path/text operators for marks, translated already into sheet coordinates. */
-export function patternMarksPdfOps(marks: readonly PatternMark[] | undefined, sheetHeight: number): string {
+export function patternMarksPdfOps(
+  marks: readonly PatternMark[] | undefined,
+  sheetHeight: number,
+  labelLayout: PatternMarkPdfLabelLayout = "inline",
+): string {
   if (!marks || marks.length === 0) return "";
   const y = (v: number): number => pt(sheetHeight - v);
   const safe = (s: string): string => s.replace(/[()\\]/g, "");
   return marks.map((mark) => {
     if ("start" in mark) {
       const line = `${pt(mark.start.x)} ${y(mark.start.y)} m ${pt(mark.end.x)} ${y(mark.end.y)} l S`;
-      return line + (mark.label ? ` BT /F1 7 Tf ${pt((mark.start.x + mark.end.x) / 2)} ${y((mark.start.y + mark.end.y) / 2 - 0.5)} Td (${safe(mark.label)}) Tj ET` : "");
+      if (!mark.label) return line;
+      const boxPleatRole = labelLayout === "staggered-box-pleat-guides" && Math.abs(mark.start.x - mark.end.x) < 0.01
+        ? /^Box pleat \d+ (fold|roll|placement)$/i.exec(mark.label)?.[1]?.toLowerCase()
+        : undefined;
+      const roleOffsetCm = boxPleatRole === "fold" ? -0.8 : boxPleatRole === "placement" ? 0.8 : 0;
+      const labelX = pt((mark.start.x + mark.end.x) / 2 + (boxPleatRole ? 0.25 : 0));
+      const labelY = y((mark.start.y + mark.end.y) / 2 - 0.5 + roleOffsetCm);
+      return line + ` BT /F1 7 Tf ${labelX} ${labelY} Td (${safe(mark.label)}) Tj ET`;
     }
     const size = pt(0.25);
     const x = pt(mark.at.x);

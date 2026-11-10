@@ -45,4 +45,17 @@ describe("export pattern marks", () => {
     expect(pdf).toContain(" m ");
     expect(patternMarksPdfOps(undefined, 20)).toBe("");
   });
+
+  it("stagger-layouts only recognized box-pleat guide labels on vertical lines", () => {
+    const guides = [
+      lineMark("foldLine", "fold", point(3, 0), point(3, 10), "Box pleat 1 fold"),
+      lineMark("foldLine", "roll", point(4, 0), point(4, 10), "Box pleat 1 roll"),
+      lineMark("placementLine", "placement", point(5, 0), point(5, 10), "Box pleat 1 placement"),
+    ];
+    const pdf = patternMarksPdfOps(guides, 20, "staggered-box-pleat-guides");
+    expect(pdf).toContain("92.126 462.047 Td (Box pleat 1 fold) Tj ET");
+    expect(pdf).toContain("120.472 439.37 Td (Box pleat 1 roll) Tj ET");
+    expect(pdf).toContain("148.819 416.693 Td (Box pleat 1 placement) Tj ET");
+    expect(patternMarksPdfOps(guides, 20)).not.toContain("92.126 462.047 Td");
+  });
 });

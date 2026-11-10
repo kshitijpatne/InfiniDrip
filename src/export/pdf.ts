@@ -19,7 +19,7 @@
 import { Piece, AllowanceSpec } from "../drafting";
 import { flattenPiece, layoutPieces, Polyline } from "./layout";
 import { polylineBounds } from "./layout";
-import { patternMarksPdfOps, translatePatternMarks } from "./pattern-mark";
+import { patternMarksPdfOps, translatePatternMarks, type PatternMarkPdfLabelLayout } from "./pattern-mark";
 import { patternLabelPose } from "./pattern-label-layout";
 
 // ── Unit conversion ───────────────────────────────────────────────────────────
@@ -113,7 +113,8 @@ function tileStream(
   totalCols: number,
   totalRows: number,
   page: PageSize,
-  localCoordinates = false
+  localCoordinates = false,
+  markLabelLayout: PatternMarkPdfLabelLayout = "inline"
 ): string {
   const { x: tx, y: ty, w: tw, h: th } = tile;
   const sh = layout.height;
@@ -152,7 +153,7 @@ function tileStream(
     lines.push("0 0 0 RG 0.35 w");
     for (const pieceMarks of marks) {
       const localMarks = localCoordinates ? translatePatternMarks(pieceMarks, -tx, -ty) : pieceMarks;
-      lines.push(patternMarksPdfOps(localMarks, drawHeight));
+      lines.push(patternMarksPdfOps(localMarks, drawHeight, markLabelLayout));
     }
   }
 
@@ -297,7 +298,8 @@ export function exportPdf(
   allowance: AllowanceSpec,
   page: PageSize = PAGE_A4,
   overlap = 1.0,
-  localCoordinates = false
+  localCoordinates = false,
+  markLabelLayout: PatternMarkPdfLabelLayout = "inline"
 ): string {
   const layout = layoutPieces(pieces.map((p) => flattenPiece(p, allowance)));
   const marks = layout.pieces.map((placed, i) => {
@@ -310,6 +312,6 @@ export function exportPdf(
   const tiles = tilePlan(layout.width, layout.height, page, overlap);
   const cols = Math.max(...tiles.map((t) => t.col)) + 1;
   const rows = Math.max(...tiles.map((t) => t.row)) + 1;
-  const streams = tiles.map((tile) => tileStream(tile, layout, marks, cols, rows, page, localCoordinates));
+  const streams = tiles.map((tile) => tileStream(tile, layout, marks, cols, rows, page, localCoordinates, markLabelLayout));
   return assemblePdf(streams, page);
 }
