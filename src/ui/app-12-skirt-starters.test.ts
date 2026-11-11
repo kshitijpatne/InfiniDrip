@@ -35,6 +35,14 @@ function visiblePdfText(pdf: string): string {
   ).join(" ");
 }
 
+function expectK04PdfGuideKey(text: string): void {
+  expect(text).toContain("BOX-PLEAT GUIDE KEY");
+  expect(text).toContain("F1-F12  Fold guide lines");
+  expect(text).toContain("R1-R12  Roll guide lines");
+  expect(text).toContain("P1-P12  Placement guide lines");
+  expect(text).toContain("The number identifies the box-pleat group.");
+}
+
 function expectedSkirtTiledPdf(
   localCoordinates: boolean,
   options: GarmentOptions = {},
@@ -915,7 +923,9 @@ describe("K04 box-pleat guide skirt starter workflows", () => {
         "pleated-skirt-box-pleat-guide-techpack.pdf",
       ].sort());
       const options = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 };
-      expect(files.get("pleated-skirt-box-pleat-guide-M.pdf")).toBe(expectedSkirtTiledPdf(true, options, "line-aligned-box-pleat-guides"));
+      const tiled = files.get("pleated-skirt-box-pleat-guide-M.pdf")!;
+      expect(tiled).toBe(expectedSkirtTiledPdf(true, options, "line-aligned-box-pleat-guides"));
+      expect(tiled.match(/\/Type \/Page\b/g)).toHaveLength(22);
       const a0 = files.get("pleated-skirt-box-pleat-guide-M-A0.pdf")!;
       expect(a0).toBe(expectedSkirtA0Pdf(false, options, "line-aligned-box-pleat-guides"));
       expect(a0.match(/\/Type \/Page\b/g)).toHaveLength(1);
@@ -924,8 +934,14 @@ describe("K04 box-pleat guide skirt starter workflows", () => {
       expect(svg).toContain("Box pleat 1 fold");
       expect(svg).toContain("Box pleat 1 roll");
       expect(svg).toContain("Box pleat 1 placement");
-      expect(visiblePdfText(files.get("pleated-skirt-box-pleat-guide-M.pdf")!)).toContain("Box pleat 1 fold");
-      expect(visiblePdfText(a0)).toContain("Box pleat 1 roll");
+      const tiledText = visiblePdfText(tiled);
+      const a0Text = visiblePdfText(a0);
+      for (const text of [tiledText, a0Text]) {
+        expect(text).toContain("F1");
+        expect(text).toContain("R1");
+        expect(text).toContain("P1");
+        expectK04PdfGuideKey(text);
+      }
       const dxf = files.get("pleated-skirt-box-pleat-guide-M.dxf")!;
       expect(dxf).toContain("MARK_FOLDLINE");
       expect(dxf).toContain("MARK_PLACEMENTLINE");
@@ -948,7 +964,7 @@ describe("K04 box-pleat guide skirt starter workflows", () => {
     }
   }, 30_000);
 
-  it("keeps full K04 PDF labels distinct at 12 groups and 1 cm spacing", async () => {
+  it("keeps compact K04 PDF guide IDs distinct at 12 groups and 1 cm spacing", async () => {
     localStorage.clear();
     const files = new Map<string, string>();
     const saveFile = vi.fn(async (filename: string, content: string) => {
@@ -982,14 +998,16 @@ describe("K04 box-pleat guide skirt starter workflows", () => {
       const tiled = files.get("pleated-skirt-box-pleat-guide-M.pdf")!;
       const a0 = files.get("pleated-skirt-box-pleat-guide-M-A0.pdf")!;
       expect(tiled).toBe(expectedSkirtTiledPdf(true, options, "line-aligned-box-pleat-guides"));
+      expect(tiled.match(/\/Type \/Page\b/g)).toHaveLength(22);
       expect(a0).toBe(expectedSkirtA0Pdf(false, options, "line-aligned-box-pleat-guides"));
+      expect(a0.match(/\/Type \/Page\b/g)).toHaveLength(1);
       for (const pdf of [tiled, a0]) {
         const text = visiblePdfText(pdf);
-        expect(text).toContain("Box pleat 3 fold");
-        expect(text).toContain("Box pleat 3 roll");
-        expect(text).toContain("Box pleat 3 placement");
+        expect(text).toContain("F3");
+        expect(text).toContain("R3");
+        expect(text).toContain("P3");
+        expectK04PdfGuideKey(text);
       }
-      expect(a0.match(/\/Type \/Page\b/g)).toHaveLength(1);
     } finally {
       unmountApp();
       root?.remove();
