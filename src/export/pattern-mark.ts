@@ -12,6 +12,45 @@ export type PatternMarkPdfLabelLayout =
   | "staggered-box-pleat-guides"
   | "line-aligned-box-pleat-guides";
 
+const BOX_PLEAT_GUIDE_LABEL = /^Box pleat (\d+) (fold|roll|placement)$/i;
+const BOX_PLEAT_GUIDE_FONT_PT = 7;
+export const BOX_PLEAT_GUIDE_KEY_WIDTH_CM = 22;
+export const BOX_PLEAT_GUIDE_KEY_HEIGHT_CM = 4.5;
+
+/** Convert a K04 role/group label into its compact printed PDF identifier. */
+export function compactBoxPleatGuideId(label: string): string | undefined {
+  const match = BOX_PLEAT_GUIDE_LABEL.exec(label);
+  if (!match) return undefined;
+  const group = Number(match[1]);
+  if (!Number.isInteger(group) || group < 1 || group > 12) return undefined;
+  const role = match[2].toLowerCase();
+  const prefix = role === "fold" ? "F" : role === "roll" ? "R" : "P";
+  return prefix + group;
+}
+
+/** Shared printed legend; topY is measured down from the top edge. */
+export function boxPleatGuideKeyPdfOps(
+  x: number,
+  topY: number,
+  pageHeight: number,
+  fontSizePt = 9,
+): string {
+  const rows = [
+    "F1-F12  Fold guide lines",
+    "R1-R12  Roll guide lines",
+    "P1-P12  Placement guide lines",
+    "The number identifies the box-pleat group.",
+  ];
+  const pdfY = (top: number): number => pt(pageHeight - top);
+  const title = "BT /F1 " + (fontSizePt + 2) + " Tf " + pt(x) + " " + pdfY(topY) +
+    " Td (BOX-PLEAT GUIDE KEY) Tj ET";
+  const body = rows.map((row, index) =>
+    "BT /F1 " + fontSizePt + " Tf " + pt(x) + " " +
+      pdfY(topY + 1 + index * 0.7) + " Td (" + row + ") Tj ET"
+  );
+  return [title, ...body].join("\n");
+}
+
 export function translatePatternMarks(
   marks: readonly PatternMark[] | undefined, dx: number, dy: number
 ): readonly PatternMark[] {
@@ -84,22 +123,60 @@ export function patternMarksPdfOps(
   if (!marks || marks.length === 0) return "";
   const y = (v: number): number => pt(sheetHeight - v);
   const safe = (s: string): string => s.replace(/[()\\]/g, "");
-  const pageHeightPt = pt(sheetHeight);
   const clamp = (value: number, min: number, max: number): number => Math.min(max, Math.max(min, value));
+  const labelHalfExtentCm = BOX_PLEAT_GUIDE_FONT_PT / pt(1) / 2;
+  const labelClearanceCm = labelHalfExtentCm + 0.05;
   const lineAlignedLabelOrigins = new Map<number, { x: number; y: number; vertical: boolean }>();
+  const clearGuideLabelCenter = (
+    line: number,
+    otherLines: readonly number[],
+    lowerBound: number,
+    upperBound: number,
+    preferredDirection: 1 | -1,
+  ): number | undefined => {
+    const neighbors = otherLines.filter((coordinate) => Math.abs(coordinate - line) >= 0.01);
+    const previous = Math.max(lowerBound, ...neighbors.filter((coordinate) => coordinate < line));
+    const next = Math.min(upperBound, ...neighbors.filter((coordinate) => coordinate > line));
+    for (const direction of [preferredDirection, preferredDirection === 1 ? -1 : 1] as const) {
+      const gap = direction === 1 ? next - line : line - previous;
+      if (gap < labelClearanceCm * 2) continue;
+      const offset = Math.max(labelClearanceCm, Math.min(0.25, gap - labelClearanceCm));
+      const center = line + direction * offset;
+      if (center >= lowerBound && center <= upperBound) return center;
+    }
+    return undefined;
+  };
   if (labelLayout === "line-aligned-box-pleat-guides" && sheetWidth !== undefined) {
     const occupied: Array<{ x: number; y: number; halfWidth: number; halfHeight: number }> = [];
+    const seenGuideLines = new Set<string>();
     const candidates = marks.flatMap((mark, index) => {
-      if (!("start" in mark) || !mark.label || !/^Box pleat \d+ (fold|roll|placement)$/i.test(mark.label)) return [];
+      if (!("start" in mark) || !mark.label) return [];
+      const id = compactBoxPleatGuideId(mark.label);
+      if (!id) return [];
       const dx = Math.abs(mark.start.x - mark.end.x);
       const dy = Math.abs(mark.start.y - mark.end.y);
       const vertical = dx < 0.01 && dy >= 0.01;
       const horizontal = dy < 0.01 && dx >= 0.01;
-      return vertical || horizontal ? [{ mark, index, vertical }] : [];
+      if (!vertical && !horizontal) return [];
+      const endpoints = [
+        round(mark.start.x) + "," + round(mark.start.y),
+        round(mark.end.x) + "," + round(mark.end.y),
+      ].sort();
+      const geometry = id + ":" + endpoints.join("|");
+      if (seenGuideLines.has(geometry)) return [];
+      seenGuideLines.add(geometry);
+      return [{ mark, index, vertical, id }];
     });
+    const verticalLineXs = candidates.filter((candidate) => candidate.vertical
+        && candidate.mark.start.x >= 0 && candidate.mark.start.x <= sheetWidth)
+      .map(({ mark }) => (mark.start.x + mark.end.x) / 2);
+    const horizontalLineYs = candidates.filter((candidate) => !candidate.vertical
+        && (candidate.mark.start.y + candidate.mark.end.y) / 2 >= 0
+        && (candidate.mark.start.y + candidate.mark.end.y) / 2 <= sheetHeight)
+      .map(({ mark }) => (mark.start.y + mark.end.y) / 2);
 
-    for (const { mark, index, vertical } of candidates) {
-      const labelWidth = mark.label!.length * 7 * 0.5;
+    for (const { mark, index, vertical, id } of candidates) {
+      const labelWidth = id.length * BOX_PLEAT_GUIDE_FONT_PT * 0.5;
       const labelLengthCm = labelWidth / pt(1);
       const marginCm = 0.25;
       let min: number;
@@ -114,8 +191,19 @@ export function patternMarksPdfOps(
         if (visibleEnd - visibleStart < labelLengthCm + marginCm * 2) continue;
         min = visibleStart + labelLengthCm / 2 + marginCm;
         max = visibleEnd - labelLengthCm / 2 - marginCm;
-        const preferredOffset = lineX <= sheetWidth / 2 ? 0.4 : -0.4;
-        fixedX = pt(lineX + preferredOffset);
+        const labelCenterX = clearGuideLabelCenter(
+          lineX,
+          verticalLineXs,
+          labelClearanceCm,
+          sheetWidth - labelClearanceCm,
+          lineX <= sheetWidth / 2 ? 1 : -1
+        );
+        if (labelCenterX === undefined) {
+          throw new RangeError("K04 guide ID has no clear horizontal slot on the page");
+        }
+        // Rotated text extends left from its text-matrix origin. Shift the
+        // origin so the measured glyph box stays centered in the clear slot.
+        fixedX = pt(labelCenterX + labelHalfExtentCm);
         fixedY = (visibleStart + visibleEnd) / 2;
       } else {
         const lineY = (mark.start.y + mark.end.y) / 2;
@@ -125,10 +213,20 @@ export function patternMarksPdfOps(
         if (visibleEnd - visibleStart < labelLengthCm + marginCm * 2) continue;
         min = visibleStart + labelLengthCm / 2 + marginCm;
         max = visibleEnd - labelLengthCm / 2 - marginCm;
-        const linePageY = y(lineY);
-        const inwardOffset = linePageY < 9 ? pt(0.3) : linePageY > pageHeightPt - 9 ? -pt(0.3) : pt(0.3);
+        const labelCenterY = clearGuideLabelCenter(
+          lineY,
+          horizontalLineYs,
+          labelClearanceCm,
+          sheetHeight - labelClearanceCm,
+          lineY <= sheetHeight / 2 ? 1 : -1
+        );
+        if (labelCenterY === undefined) {
+          throw new RangeError("K04 guide ID has no clear vertical slot on the page");
+        }
         fixedX = (visibleStart + visibleEnd) / 2;
-        fixedY = sheetHeight - (linePageY + inwardOffset) / pt(1);
+        // PDF text rises from its baseline; move the baseline down by half the
+        // conservative glyph height so the ink box sits in the chosen slot.
+        fixedY = labelCenterY + labelHalfExtentCm;
       }
 
       const base = clamp(vertical ? fixedY : fixedX, min, max);
@@ -137,7 +235,7 @@ export function patternMarksPdfOps(
       for (let distance = step; distance <= max - min; distance += step) positions.push(base + distance, base - distance);
       positions.sort((left, right) => Math.abs(left - base) - Math.abs(right - base));
       const halfAlong = labelLengthCm / 2 + marginCm;
-      const halfAcross = 0.25;
+      const halfAcross = labelClearanceCm;
       const centerX = vertical ? fixedX / pt(1) : 0;
       const centerY = vertical ? 0 : fixedY;
       const placement = positions.find((position) => {
@@ -151,7 +249,9 @@ export function patternMarksPdfOps(
           Math.abs(yCenter - box.y) < halfHeight + box.halfHeight
         );
       });
-      if (placement === undefined) continue;
+      if (placement === undefined) {
+        throw new RangeError("K04 guide ID has no collision-free segment slot");
+      }
       const centerXcm = vertical ? centerX : placement;
       const centerYcm = vertical ? placement : centerY;
       const halfWidth = vertical ? halfAcross : halfAlong;
@@ -172,23 +272,27 @@ export function patternMarksPdfOps(
       const dx = Math.abs(mark.start.x - mark.end.x);
       const dy = Math.abs(mark.start.y - mark.end.y);
       if (labelLayout === "line-aligned-box-pleat-guides" && boxPleatLabel && dx < 0.01) {
-        const labelWidth = mark.label.length * 7 * 0.5;
+        const label = compactBoxPleatGuideId(mark.label);
+        if (!label) return line;
+        const labelWidth = label.length * BOX_PLEAT_GUIDE_FONT_PT * 0.5;
         const lineX = (mark.start.x + mark.end.x) / 2;
         const allocated = lineAlignedLabelOrigins.get(index);
-        if (allocated?.vertical) return line + ` BT /F1 7 Tf 0 1 -1 0 ${allocated.x} ${allocated.y} Tm (${safe(mark.label)}) Tj ET`;
+        if (allocated?.vertical) return line + " BT /F1 " + BOX_PLEAT_GUIDE_FONT_PT + " Tf 0 1 -1 0 " + allocated.x + " " + allocated.y + " Tm (" + safe(label) + ") Tj ET";
         if (sheetWidth !== undefined) return line;
         const labelX = pt(lineX + 0.4);
         const labelY = round(y((mark.start.y + mark.end.y) / 2) - labelWidth / 2);
-        return line + ` BT /F1 7 Tf 0 1 -1 0 ${labelX} ${labelY} Tm (${safe(mark.label)}) Tj ET`;
+        return line + " BT /F1 " + BOX_PLEAT_GUIDE_FONT_PT + " Tf 0 1 -1 0 " + labelX + " " + labelY + " Tm (" + safe(label) + ") Tj ET";
       }
       if (labelLayout === "line-aligned-box-pleat-guides" && boxPleatLabel && dy < 0.01) {
-        const labelWidth = mark.label.length * 7 * 0.5;
+        const label = compactBoxPleatGuideId(mark.label);
+        if (!label) return line;
+        const labelWidth = label.length * BOX_PLEAT_GUIDE_FONT_PT * 0.5;
         const lineY = (mark.start.y + mark.end.y) / 2;
         const allocated = lineAlignedLabelOrigins.get(index);
-        if (allocated && !allocated.vertical) return line + ` BT /F1 7 Tf ${allocated.x} ${allocated.y} Td (${safe(mark.label)}) Tj ET`;
+        if (allocated && !allocated.vertical) return line + " BT /F1 " + BOX_PLEAT_GUIDE_FONT_PT + " Tf " + allocated.x + " " + allocated.y + " Td (" + safe(label) + ") Tj ET";
         if (sheetWidth !== undefined) return line;
         const labelX = round(pt((mark.start.x + mark.end.x) / 2) - labelWidth / 2);
-        return line + ` BT /F1 7 Tf ${labelX} ${y(lineY) + pt(0.3)} Td (${safe(mark.label)}) Tj ET`;
+        return line + " BT /F1 " + BOX_PLEAT_GUIDE_FONT_PT + " Tf " + labelX + " " + (y(lineY) + pt(0.3)) + " Td (" + safe(label) + ") Tj ET";
       }
       const boxPleatRole = labelLayout === "staggered-box-pleat-guides" && Math.abs(mark.start.x - mark.end.x) < 0.01
         ? /^Box pleat \d+ (fold|roll|placement)$/i.exec(mark.label)?.[1]?.toLowerCase()

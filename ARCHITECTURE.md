@@ -1,38 +1,38 @@
 # InfiniDrip architecture guide
 
-## EPIC-32/G18 current architecture handoff — S1292 K04 PDF label repair (2026-11-11)
+## EPIC-32/G18 current architecture handoff — S1293 K04 PDF guide key (2026-11-11)
 
 EPIC-32/G18 remains in progress at **43/56 digitally accepted**; K04 is still
-uncounted. S1292 starts from deployed exact main
-`1ed0fbdbb8e2c3913cc997819cccbcf9d371ee54` and corrects the reproduced valid
-maximum K04 setting (12 guide groups at 1 cm spacing), whose full role/group
-labels collided or clipped in both tiled A4 and A0 PDF output. The correction
-is isolated to the K04 PDF path: full labels are laid out along their guide
-lines with collision-aware placement, while the K04 on-screen key, saved
-project, Tech Pack, SVG, DXF, Projector, generic Skirt, K01–K03, exporter
-defaults and protected output identities remain unchanged. Tiled geometry
-remains a 21-page 7×3 A4 layout; A0 remains one complete page for the reviewed
-fixture settings.
+uncounted. S1292 merged and deployed at exact main
+`bc3749e2c5326be69be2544e9ea8b1820c612bd3`. Fresh two-origin acceptance found
+that some full role/group labels still intersected adjacent guide lines in the
+maximum K04 PDFs. S1293 replaces only those PDF labels with compact `F`, `R`,
+or `P` plus group number and adds a printed key. Tiled A4 retains the 21 pattern
+tiles and appends one key page; A0 remains a single page with its key in
+reserved whitespace. The key states that F means fold, R roll, P placement,
+and the number identifies the box-pleat group.
 
-The prior broad focused app/export gate passed 49 files and 816 tests, with
-100% statements, branches, functions and lines for each changed production
-module: `src/ui/app.ts`, `src/export/pdf.ts`, `src/export/a0.ts`, and
-`src/export/pattern-mark.ts`. That run included a temporary PDF sample writer,
-which has since been removed. After that cleanup, the affected regression set
-passed 4 files / 65 tests, including a frozen K04 maximum-setting tiled/A0
-artifact check; the targeted `pattern-mark.ts` coverage run remains 100% on all
-four metrics. Production sources have not changed since the broad coverage run.
-The TypeScript/Vite production build passes. Actual PDF rendering of default
-4/3 cm, edited 4/2.5 cm, minimum-spacing 4/1 cm, maximum 12/1 cm and
-high-count/wide-spacing 12/2.5 cm shows the complete tiled geometry and all
-expected guide labels; PDF text bounds have zero label-label overlaps and zero
-out-of-page labels. These are local digital software outputs, not
-physical-garment evidence. S1292 is not yet merged or deployed; K04 stays at
-43/56.
+The S1293 path is K04-only. It leaves the on-screen full-word key, saved
+project, pattern geometry, Tech Pack, SVG, DXF, Projector, generic Skirt,
+K01–K03, unrelated recipes, exporter defaults and protected output identities
+unchanged. The five admitted settings are default 4/3 cm, edited 4/2.5 cm,
+minimum 4/1 cm, maximum 12/1 cm and high-count/wide-spacing 12/2.5 cm.
 
-**Open gates:** hosted global coverage, normal merge, exact-main release,
-stable/immutable asset parity, fresh two-origin acceptance and validated
-S1292/S1291/S1289 closeout. Do not start K05 before K04 closes.
+The final local export gate passes 28 files / 317 tests with 100% statements,
+branches, functions and lines for `src/export/a0.ts`,
+`src/export/pattern-mark.ts`, and `src/export/pdf.ts`; the affected 62 tests and
+TypeScript/Vite production build pass. Poppler renders show the maximum guide
+IDs clear of neighboring lines, the full A4 key on page 22, and the A0 key in
+reserved whitespace. The five tiled outputs each have 21 geometry pages plus
+the key; all five A0 outputs remain one page. These are local digital outputs,
+not physical-garment evidence.
+
+S1293 is an unmerged local candidate based on `bc3749e2c5326be69be2544e9ea8b1820c612bd3`;
+hosted global coverage, normal merge, exact-main release, 16-file parity,
+fresh two-origin acceptance and validated S1293/S1292/S1291/S1289 closeout are
+still required. K04 stays at **43/56** until every gate passes. Do not start
+K05 before K04 closes. B1 and physical-fit validation remain separate; no
+physical-fit or production claim is established.
 
 ## Historical architecture handoff — S1285 K03 A0 overflow follow-up (2026-11-10)
 

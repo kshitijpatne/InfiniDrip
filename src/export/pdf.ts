@@ -19,7 +19,13 @@
 import { Piece, AllowanceSpec } from "../drafting";
 import { flattenPiece, layoutPieces, Polyline } from "./layout";
 import { polylineBounds } from "./layout";
-import { patternMarksPdfOps, translatePatternMarks, type PatternMarkPdfLabelLayout } from "./pattern-mark";
+import {
+  boxPleatGuideKeyPdfOps,
+  compactBoxPleatGuideId,
+  patternMarksPdfOps,
+  translatePatternMarks,
+  type PatternMarkPdfLabelLayout,
+} from "./pattern-mark";
 import { patternLabelPose } from "./pattern-label-layout";
 
 // ── Unit conversion ───────────────────────────────────────────────────────────
@@ -313,5 +319,10 @@ export function exportPdf(
   const cols = Math.max(...tiles.map((t) => t.col)) + 1;
   const rows = Math.max(...tiles.map((t) => t.row)) + 1;
   const streams = tiles.map((tile) => tileStream(tile, layout, marks, cols, rows, page, localCoordinates, markLabelLayout));
+  const hasBoxPleatGuides = markLabelLayout === "line-aligned-box-pleat-guides"
+    && marks.some((pieceMarks) => pieceMarks.some((mark) => compactBoxPleatGuideId(mark.label ?? "") !== undefined));
+  if (hasBoxPleatGuides) {
+    streams.push(boxPleatGuideKeyPdfOps(2, 5, page.height, 9));
+  }
   return assemblePdf(streams, page);
 }

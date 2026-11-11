@@ -26,6 +26,10 @@ import { resolveNotch, resolveGrainline } from "../render/notch";
 import { calibrationPdfOps, CALIBRATION_CM } from "./calibration";
 import { FOLD_EPS } from "./unfold";
 import {
+  boxPleatGuideKeyPdfOps,
+  BOX_PLEAT_GUIDE_KEY_HEIGHT_CM,
+  BOX_PLEAT_GUIDE_KEY_WIDTH_CM,
+  compactBoxPleatGuideId,
   patternMarksPdfOps,
   translatePatternMarks,
   type PatternMarkPdfLabelLayout,
@@ -327,6 +331,22 @@ export function exportA0Pdf(
     sqY = nest.fabricLength + GAP;
   }
   lines.push(calibrationPdfOps(sqX, sqY, ph));
+
+  const hasBoxPleatGuides = markLabelLayout === "line-aligned-box-pleat-guides"
+    && pieces.some((piece) => piece.marks?.some((mark) => compactBoxPleatGuideId(mark.label ?? "") !== undefined));
+  if (hasBoxPleatGuides) {
+    let legendX = MARGIN;
+    let legendTop = sqX === MARGIN ? sqY + CALIBRATION_CM + 2 : nest.fabricLength + GAP + 2;
+    if (legendTop + BOX_PLEAT_GUIDE_KEY_HEIGHT_CM > page.height - MARGIN
+        && sqX + BOX_PLEAT_GUIDE_KEY_WIDTH_CM <= page.width - MARGIN) {
+      legendX = sqX;
+      legendTop = sqY + CALIBRATION_CM + 2;
+    }
+    if (legendTop + BOX_PLEAT_GUIDE_KEY_HEIGHT_CM > page.height - MARGIN) {
+      throw new Error("The K04 box-pleat guide key does not fit in the reserved A0 whitespace");
+    }
+    lines.push(boxPleatGuideKeyPdfOps(legendX, legendTop, ph, 8));
+  }
 
   return assemblePdf([lines.join("\n")], page);
 }
