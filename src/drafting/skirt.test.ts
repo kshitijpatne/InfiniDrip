@@ -8,7 +8,10 @@ import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, S
   SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_GATHERED_POMS, SKIRT_GATHERED_NOTCHES, gatheredSkirtOptions, isGatheredSkirtProfile,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
-  boxPleatGuideGroups, boxPleatGuideProblem, isBoxPleatedSkirtProfile } from "./skirt";
+  boxPleatGuideGroups, boxPleatGuideProblem, isBoxPleatedSkirtProfile,
+  SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
+  tieredSkirtOptions, tieredSkirtProblem, isTieredSkirtProfile, tieredSkirtNotches, tieredSkirtPoms,
+  tieredSkirtPanel } from "./skirt";
 import { stitchChecks } from "./stitch";
 import { resolveNotch } from "../render/notch";
 import { SKIRT, gradeRun, specSheet } from "./index";
@@ -219,9 +222,13 @@ describe("skirtPanelChecks", () => {
 });
 
 describe("skirtGuidance", () => {
-  it("is happy with a normal waist < hip and comfortable ease", () => {
+  it("is happy with a normal waist < hip and reports an in-range digital ease value", () => {
     const notes = skirtGuidance(draftSkirt(STANDARD_M), STANDARD_M);
     expect(notes.every((n) => n.level === "ok")).toBe(true);
+    const ease = notes.find((n) => n.field === "ease")!;
+    expect(ease.text).toContain("inside the 2–12 cm software check range");
+    expect(ease.text).toContain("physical fit, comfort, and wear remain unvalidated");
+    expect(ease.text).not.toMatch(/comfortable|will sit away from the body|needs a little room/i);
   });
 
   it("warns when the waist is not smaller than the hip", () => {
@@ -251,8 +258,18 @@ describe("skirtGuidance", () => {
   });
 
   it("warns on too-tight ease and informs on loose ease", () => {
-    expect(skirtGuidance(draftSkirt(STANDARD_M), { ...STANDARD_M, ease: 0 }).some((n) => n.level === "warn")).toBe(true);
-    expect(skirtGuidance(draftSkirt(STANDARD_M), { ...STANDARD_M, ease: 20 }).some((n) => n.level === "info")).toBe(true);
+    const tight = skirtGuidance(draftSkirt(STANDARD_M), { ...STANDARD_M, ease: 0 }).find((n) => n.field === "ease")!;
+    const loose = skirtGuidance(draftSkirt(STANDARD_M), { ...STANDARD_M, ease: 20 }).find((n) => n.field === "ease")!;
+    expect(tight.level).toBe("warn");
+    expect(tight.text).toContain("below the 2 cm software check threshold");
+    expect(tight.text).toContain("Increase the digital value to at least 2 cm");
+    expect(loose.level).toBe("info");
+    expect(loose.text).toContain("above the 12 cm software review threshold");
+    expect(loose.text).toContain("Adjust the digital value if this is not intended");
+    for (const note of [tight, loose]) {
+      expect(note.text).toContain("physical fit, comfort, and wear remain unvalidated");
+      expect(note.text).not.toMatch(/comfortable|will sit away from the body|needs a little room/i);
+    }
   });
 });
 
@@ -505,5 +522,117 @@ describe("K04 box-pleat guide skirt draft", () => {
       [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 12,
       [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3,
     })).toThrow(RangeError);
+  });
+});
+
+describe("K05 gathered tier skirt draft", () => {
+  const defaultOptions = { [SKIRT_TIER_COUNT_OPTION_ID]: 3, [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.25 };
+
+  it.each([2, 3, 4])("drafts %i total tiers as separate on-fold panels with per-join checks", (tierCount) => {
+    const options = { ...defaultOptions, [SKIRT_TIER_COUNT_OPTION_ID]: tierCount };
+    expect(isTieredSkirtProfile(options)).toBe(true);
+    expect(isTieredSkirtProfile({})).toBe(false);
+    expect(tieredSkirtOptions({})).toEqual({ tierCount: 3, gatherRatio: 1.25 });
+    expect(tieredSkirtProblem(STANDARD_M, options)).toBeNull();
+    const drafted = draftSkirt(STANDARD_M, options);
+    const lowerTierCount = tierCount - 1;
+    expect(Object.keys(drafted.roles)).toEqual([
+      "front", "back", "waistbandFront", "waistbandBack",
+      ...Array.from({ length: lowerTierCount }, (_, index) => [`tier${index + 1}Front`, `tier${index + 1}Back`]).flat(),
+    ]);
+    expect(blockPieces(drafted).every((piece) => piece.onFold)).toBe(true);
+    expect(drafted.stitches.filter((stitch) => stitch.gather)).toHaveLength(lowerTierCount);
+    expect(drafted.stitches.filter((stitch) => stitch.gather)
+      .every((stitch) => stitch.gather?.cutSide === "b" && stitch.gather.ratio === 1.25)).toBe(true);
+    expect(allSkirtChecks(drafted).every((check) => check.ok)).toBe(true);
+    expect(edgeLength(pieceEdge(rolePiece(drafted, "front"), "waist"))).toBeCloseTo((STANDARD_M.waist + STANDARD_M.ease) / 4, 8);
+    expect(edgeLength(pieceEdge(rolePiece(drafted, "front"), "hem"))).toBeCloseTo((STANDARD_M.hip + STANDARD_M.ease) / 4, 8);
+    expect(edgeStart(pieceEdge(rolePiece(drafted, "front"), "hem")).y).toBe(STANDARD_M.hipDepth);
+
+    let previousHalfWidth = (STANDARD_M.hip + STANDARD_M.ease) / 4;
+    for (let tier = 1; tier < tierCount; tier += 1) {
+      const front = rolePiece(drafted, `tier${tier}Front`);
+      const back = rolePiece(drafted, `tier${tier}Back`);
+      const cutHalfWidth = previousHalfWidth * 1.25;
+      const expectedLength = (STANDARD_M.length - STANDARD_M.hipDepth) / lowerTierCount;
+      expect(edgeLength(pieceEdge(front, "waist"))).toBeCloseTo(cutHalfWidth, 8);
+      expect(edgeLength(pieceEdge(front, "hem"))).toBeCloseTo(cutHalfWidth, 8);
+      expect(edgeLength(pieceEdge(front, "waist"))).toBeCloseTo(edgeLength(pieceEdge(front, "hem")), 8);
+      expect(Math.abs(edgeEnd(pieceEdge(front, "center")).y - edgeStart(pieceEdge(front, "center")).y)).toBeCloseTo(expectedLength, 8);
+      expect(front.onFold).toBe(true);
+      expect(back.onFold).toBe(true);
+      previousHalfWidth = cutHalfWidth;
+    }
+    const poms = tieredSkirtPoms(tierCount);
+    expect(poms[poms.length - 1]?.label).toBe("Total modeled skirt length (digital)");
+    expect(poms[poms.length - 1]?.measure(drafted)).toBeCloseTo(STANDARD_M.length, 8);
+    expect(poms.filter((pom) => pom.label.includes("cut width before gathering"))).toHaveLength(lowerTierCount);
+    const notches = tieredSkirtNotches(options);
+    expect(notches.map((item) => item.pieceName)).toEqual(Object.keys(drafted.roles));
+    expect(notches.every((item) => item.notches.length > 0)).toBe(true);
+    expect(notches.find((item) => item.pieceName === "waistbandFront")?.grainline)
+      .toEqual({ topEdge: "top", topT: 0.5, bottomEdge: "seam", bottomT: 0.5 });
+    expect(notches.find((item) => item.pieceName === "tier1Front")?.notches)
+      .toContainEqual({ edgeName: "waist", t: 0.5 });
+  });
+
+  it("uses the maximum software gather ratio without changing lower-tier panel width", () => {
+    const drafted = draftSkirt(STANDARD_M, {
+      [SKIRT_TIER_COUNT_OPTION_ID]: 4,
+      [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.5,
+    });
+    expect(edgeLength(pieceEdge(rolePiece(drafted, "tier1Front"), "waist"))).toBeCloseTo(27.5 * 1.5, 8);
+    expect(edgeLength(pieceEdge(rolePiece(drafted, "tier2Front"), "waist"))).toBeCloseTo(27.5 * 1.5 ** 2, 8);
+    expect(edgeLength(pieceEdge(rolePiece(drafted, "tier3Front"), "waist"))).toBeCloseTo(27.5 * 1.5 ** 3, 8);
+    expect(drafted.stitches.filter((stitch) => stitch.gather)
+      .every((stitch) => stitch.gather?.ratio === 1.5)).toBe(true);
+    expect(allSkirtChecks(drafted).every((check) => check.ok)).toBe(true);
+  });
+
+  it("retains invalid values and pauses the K05 draft with actionable conflicts and geometry guidance", () => {
+    expect(tieredSkirtProblem(STANDARD_M, { [SKIRT_TIER_COUNT_OPTION_ID]: 5 })).toContain("must be 2, 3 or 4");
+    expect(tieredSkirtProblem(STANDARD_M, { [SKIRT_TIER_COUNT_OPTION_ID]: Number.NaN })).toContain("must be 2, 3 or 4");
+    expect(tieredSkirtProblem(STANDARD_M, { [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.4 })).toContain("must be 1.25 or 1.50");
+    expect(tieredSkirtProblem(STANDARD_M, { [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: Number.POSITIVE_INFINITY }))
+      .toContain("must be 1.25 or 1.50");
+    expect(tieredSkirtProblem(STANDARD_M, { ...defaultOptions, [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4 }))
+      .toContain("cannot be combined with another skirt profile");
+    expect(tieredSkirtProblem(STANDARD_M, { ...defaultOptions, [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5 }))
+      .toContain("cannot be combined with another skirt profile");
+    expect(tieredSkirtProblem({ ...STANDARD_M, waist: 50, ease: -60 }, defaultOptions))
+      .toContain("positive finite waist-plus-ease and hip-plus-ease widths");
+    expect(tieredSkirtProblem({ ...STANDARD_M, hip: 40, ease: -80, waist: 90 }, defaultOptions))
+      .toContain("positive finite waist-plus-ease and hip-plus-ease widths");
+    expect(tieredSkirtProblem({ ...STANDARD_M, hipDepth: Number.NaN }, defaultOptions))
+      .toContain("positive finite waist-plus-ease and hip-plus-ease widths");
+    expect(tieredSkirtProblem({ ...STANDARD_M, hipDepth: 0 }, defaultOptions)).toContain("hip depth must be positive");
+    expect(tieredSkirtProblem({ ...STANDARD_M, length: STANDARD_M.hipDepth }, defaultOptions))
+      .toContain("total skirt length must exceed hip depth");
+    const unreadableOptions = new Proxy(defaultOptions, { get: () => { throw "saved settings could not be read"; } });
+    expect(tieredSkirtProblem(STANDARD_M, unreadableOptions)).toContain("tier settings are invalid");
+    expect(() => draftSkirt(STANDARD_M, { [SKIRT_TIER_COUNT_OPTION_ID]: 5 })).toThrow(/must be 2, 3 or 4/);
+  });
+
+  it("rejects invalid panel dimensions and width changes in gathered lower tiers", () => {
+    const lowerPanel = {
+      roleId: "tier1Front",
+      tier: "lower" as const,
+      topHalfWidthCm: 20,
+      bottomHalfWidthCm: 20,
+      lengthCm: 25,
+    };
+    expect(() => tieredSkirtPanel(STANDARD_M, lowerPanel)).not.toThrow();
+    expect(() => tieredSkirtPanel(STANDARD_M, { ...lowerPanel, tier: "upper", topHalfWidthCm: 15 }))
+      .not.toThrow();
+    for (const invalid of [
+      { ...lowerPanel, topHalfWidthCm: Number.NaN },
+      { ...lowerPanel, topHalfWidthCm: 0 },
+      { ...lowerPanel, bottomHalfWidthCm: 0 },
+      { ...lowerPanel, lengthCm: 0 },
+    ]) {
+      expect(() => tieredSkirtPanel(STANDARD_M, invalid)).toThrow(/must be positive and finite/);
+    }
+    expect(() => tieredSkirtPanel(STANDARD_M, { ...lowerPanel, bottomHalfWidthCm: 21 }))
+      .toThrow(/must keep constant width/);
   });
 });

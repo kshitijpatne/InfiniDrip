@@ -18,7 +18,10 @@ import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE
   SKIRT_GATHER_RATIO_OPTION, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION,
   SKIRT_CASING_DEPTH_OPTION_ID, SKIRT_GATHERED_POMS, SKIRT_GATHERED_NOTCHES, isGatheredSkirtProfile,
   SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION,
-  SKIRT_BOX_PLEAT_SPACING_OPTION_ID, boxPleatGuideProblem, isBoxPleatedSkirtProfile } from "./skirt";
+  SKIRT_BOX_PLEAT_SPACING_OPTION_ID, boxPleatGuideProblem, isBoxPleatedSkirtProfile,
+  SKIRT_TIER_COUNT_OPTION, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION,
+  SKIRT_TIER_GATHER_RATIO_OPTION_ID, isTieredSkirtProfile, tieredSkirtOptions,
+  tieredSkirtProblem, tieredSkirtNotches, tieredSkirtPoms } from "./skirt";
 import { StyleDef, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES, JEANS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
@@ -1077,6 +1080,20 @@ const SKIRT_TECH_PACK: TechPack = {
 };
 
 function skirtTechPackForOptions(options: GarmentOptions): TechPack {
+  if (isTieredSkirtProfile(options)) {
+    const { tierCount, gatherRatio } = tieredSkirtOptions(options);
+    return {
+      bom: [],
+      constructionNotice: "Digital K05 tiered-skirt guidance only. Tier count and gathered-join ratio are software choices; materials, consumption, physical fit, comfort, wear, validated grading, supplier suitability and production are unspecified or unvalidated.",
+      construction: [
+        `K05 models ${tierCount} total tiers: one shaped upper tier ending at hip depth and ${tierCount - 1} separate constant-width lower cut tiers. The lower panel lengths divide the remaining digital skirt length evenly.`,
+        `Gather each lower tier's cut top edge to the preceding panel's hem seam at a ${gatherRatio.toFixed(2)} software ratio. The ratio is a product setting, not a sourced fabric-specific or sewing standard.`,
+        "The top tier reuses the generic skirt's separate waistband and side-zipper path, which ends at the hip seam; lower tiers join at gathered horizontal seams.",
+        "The Tier cut-width POMs describe authored digital panel dimensions before gathering. They are not marker efficiency, fabric consumption or material quantities.",
+        "The generic Skirt size run is not validated K05 grading. No sewn sample, physical fit, comfort, wear, material behavior or production review is represented.",
+      ],
+    };
+  }
   if (isBoxPleatedSkirtProfile(options)) {
     const count = options[SKIRT_BOX_PLEAT_COUNT_OPTION_ID] ?? SKIRT_BOX_PLEAT_COUNT_OPTION.defaultValue;
     const spacing = options[SKIRT_BOX_PLEAT_SPACING_OPTION_ID] ?? SKIRT_BOX_PLEAT_SPACING_OPTION.defaultValue;
@@ -1143,14 +1160,18 @@ export const SKIRT: GarmentRecipe = {
   grammar: SKIRT_GRAMMAR,
   notches: SKIRT_NOTCHES,
   poms: SKIRT_POMS,
-  pomsForOptions: (options) => isGatheredSkirtProfile(options)
+  pomsForOptions: (options) => isTieredSkirtProfile(options)
+    ? tieredSkirtPoms(tieredSkirtOptions(options).tierCount)
+    : isGatheredSkirtProfile(options)
     ? SKIRT_GATHERED_POMS
     : Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)
     ? [...SKIRT_POMS, SKIRT_A_LINE_HEM_POM]
     : Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)
       ? [...SKIRT_POMS, SKIRT_PENCIL_HEM_POM]
       : SKIRT_POMS,
-  notchesForOptions: (options) => isGatheredSkirtProfile(options) ? SKIRT_GATHERED_NOTCHES : SKIRT_NOTCHES,
+  notchesForOptions: (options) => isTieredSkirtProfile(options)
+    ? tieredSkirtNotches(options)
+    : isGatheredSkirtProfile(options) ? SKIRT_GATHERED_NOTCHES : SKIRT_NOTCHES,
   grade: SKIRT_GRADE,
   sizes: TSHIRT_SIZES, // the same size run drives every garment
   checks: skirtPanelChecks,
@@ -1159,11 +1180,20 @@ export const SKIRT: GarmentRecipe = {
   allowances: WOVEN_SKIRT_ALLOWANCES,
   techPack: SKIRT_TECH_PACK,
   techPackForOptions: skirtTechPackForOptions,
-  a0OverflowForOptions: isGatheredSkirtProfile,
+  a0OverflowForOptions: (options) => isGatheredSkirtProfile(options) || isTieredSkirtProfile(options),
   options: [SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION,
     SKIRT_GATHER_RATIO_OPTION, SKIRT_CASING_DEPTH_OPTION,
-    SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_SPACING_OPTION],
+    SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_SPACING_OPTION,
+    SKIRT_TIER_COUNT_OPTION, SKIRT_TIER_GATHER_RATIO_OPTION],
   draftReview: (m, options = {}) => {
+    const tieredProblem = tieredSkirtProblem(m, options);
+    if (tieredProblem) {
+      const field = tieredProblem.includes("tier count") ? `option-${SKIRT_TIER_COUNT_OPTION_ID}`
+        : tieredProblem.includes("gathered join ratio") ? `option-${SKIRT_TIER_GATHER_RATIO_OPTION_ID}`
+        : tieredProblem.includes("total skirt length") ? "length"
+        : tieredProblem.includes("hip depth") ? "hipDepth" : "ease";
+      return { block: null, notes: [{ level: "warn", field, text: tieredProblem }] };
+    }
     const problem = boxPleatGuideProblem(m, options);
     if (problem) return {
       block: null,

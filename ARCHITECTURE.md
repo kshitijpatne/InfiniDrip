@@ -1,6 +1,46 @@
 # InfiniDrip architecture guide
 
-## EPIC-32/G18 current architecture handoff — S1293 K04 PDF guide key (2026-11-11)
+## EPIC-32/G18 current architecture handoff — S1297 K05 tiered skirt (2026-11-11)
+
+K05 is a separate selectable profile on the existing Skirt recipe, with stable
+entry ID `skirt-tiered-gathered-digital-v1` and recipe revision
+`skirt-tiered-gathered-v1`. The saved settings allow 2–4 total tiers (default
+3) and per-join cut-to-seam software ratios of 1.25 or 1.50 (default 1.25).
+These are product settings, not sourced fabric or sewing standards.
+
+`src/drafting/skirt.ts` drafts a shaped upper tier from waist to hip depth and
+one pair of separate constant-width lower cut panels for each remaining tier.
+The upper tier keeps the existing separate waistband and side-zipper path; each
+lower tier joins to the preceding panel through an explicit `Stitch.gather`
+relation that identifies the cut side and ratio. `stitchChecks` verifies the
+cut length against the sewn target length. This is separate from the shared
+sleeve-ease tolerance; invalid options or geometry pause the K05 draft with a
+correction target rather than silently changing saved values. Source pieces
+remain at their authored dimensions.
+
+`src/render/skirt-figure.ts` shows front and back assembled outlines, horizontal
+tier joins, gather marks and the selected digital tier/ratio summary.
+`src/render/technical-flat-mapping.ts` maps each tier to its matching front or
+back face. `src/render/technical-flat-assembly.ts` checks the declared gather
+ratio and places the pieces with rigid transforms; it does not scale or warp a
+piece. Incomplete or inconsistent tier/gather topology withholds the technical
+flat instead of falling back to a generic view that omits panels.
+
+The recipe supplies tier-specific dimensions, notches and a digital Tech Pack.
+Cut-width POMs describe the authored panel width before gathering; they are not
+fabric consumption or marker-efficiency values. The six standard outputs remain
+SVG, DXF, tiled PDF, A0 PDF, Tech Pack PDF and Projector SVG. K05 opts into the
+existing true-scale A0 overflow path, which paginates complete cut pieces when
+the combined layout does not fit; it does not scale a piece to fit a sheet.
+Generic Skirt and K01–K04 retain their own settings, geometry and output paths.
+
+S1297 is still the app implementation candidate at this handoff; K05 remains
+uncounted until the hosted gate, normal merge, exact-main release, asset parity,
+fresh two-origin acceptance and validated board closeout pass. The digital
+draft and virtual views do not validate K05 grading, physical fit, comfort,
+wear, fabric behavior, consumption, supplier suitability or production.
+
+## Historical architecture handoff — S1293 K04 PDF guide key (2026-11-11)
 
 EPIC-32/G18 remains in progress at **43/56 digitally accepted**; K04 is still
 uncounted. S1292 merged and deployed at exact main

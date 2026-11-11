@@ -20,7 +20,8 @@ import { GARMENTS, STANDARD_M, notchesForRecipeOptions, type GarmentOptions } fr
 import { blockPieces } from "../drafting/block";
 
 import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
-  SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "../drafting/skirt";
+  SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+  SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
 
 import { exportA0Pdf, exportPdf } from "../export";
 
@@ -1071,6 +1072,247 @@ describe("K04 box-pleat guide skirt starter workflows", () => {
     } finally {
       workflow.close();
       root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
+});
+
+describe("K05 tiered gathered skirt starter workflows", () => {
+  it("selects K05, retains invalid values, restores the draft, and saves/reopens its identity", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_TIERED_ENTRY_ID}`);
+      expect(root.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_TIERED_ENTRY_ID}"]`)?.getAttribute("aria-pressed"))
+        .toBe("true");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent)
+        .toContain("Tiered skirt · gathered panels");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent)
+        .toBe("Tiered skirt · gathered panels");
+
+      const tierCount = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_COUNT_OPTION_ID}"]`)!;
+      const ratio = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_GATHER_RATIO_OPTION_ID}"]`)!;
+      expect(tierCount).toMatchObject({ value: "3", min: "2", max: "4", step: "1" });
+      expect(ratio).toMatchObject({ value: "1.25", min: "1.25", max: "1.5", step: "0.25" });
+      expect(root.querySelectorAll('#garment-host [data-part="tiered-skirt"]')).toHaveLength(2);
+      expect(root.querySelector<HTMLElement>('#garment-host [data-part="tiered-skirt-summary"]')!.textContent)
+        .toContain("3 tiers · gather ratio 1.25");
+
+      reachExportStage(root);
+      ratio.value = "1.4";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_GATHER_RATIO_OPTION_ID}"]`)!.value)
+        .toBe("1.4");
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_TIER_GATHER_RATIO_OPTION_ID}"]`)!.textContent)
+        .toContain("use 0.25 ratio increments from 1.25 ratio");
+      expect(root.querySelector<HTMLElement>("#inspection-content [role=status]")?.textContent)
+        .toContain("Draft paused");
+      expect(root.querySelector("#inspection-content svg")).toBeNull();
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      const correctedRatio = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_GATHER_RATIO_OPTION_ID}"]`)!;
+      correctedRatio.value = "1.5";
+      correctedRatio.dispatchEvent(new Event("input", { bubbles: true }));
+      const invalidLength = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+      invalidLength.value = "40";
+      invalidLength.dispatchEvent(new Event("input", { bubbles: true }));
+      const hipDepth = root.querySelector<HTMLInputElement>('input[data-field="hipDepth"]')!;
+      hipDepth.value = "40";
+      hipDepth.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLInputElement>('input[data-field="hipDepth"]')!.value).toBe("40");
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .toContain("total skirt length must exceed hip depth");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      const correctedHipDepth = root.querySelector<HTMLInputElement>('input[data-field="hipDepth"]')!;
+      correctedHipDepth.value = "20";
+      correctedHipDepth.dispatchEvent(new Event("input", { bubbles: true }));
+      const correctedLength = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+      correctedLength.value = "70";
+      correctedLength.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>('[data-input-error="hipDepth"]')!.textContent).toBe("");
+      reReviewAndReachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.skirt).toMatchObject({
+        [SKIRT_TIER_COUNT_OPTION_ID]: 3,
+        [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.5,
+      });
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: SKIRT_TIERED_ENTRY_ID,
+        recipeRevision: "skirt-tiered-gathered-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_COUNT_OPTION_ID}"]`)!.value).toBe("3");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_GATHER_RATIO_OPTION_ID}"]`)!.value).toBe("1.5");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_TIERED_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+
+      clickId(reopened, "garment-skirt");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_COUNT_OPTION_ID}"]`)).toBeNull();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+      expect(reopened.querySelectorAll('#garment-host [data-part="tiered-skirt"]')).toHaveLength(0);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("exports consistent maximum-range K05 geometry and digital limits in all six formats", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_TIERED_ENTRY_ID}`);
+      for (const [optionId, value] of [[SKIRT_TIER_COUNT_OPTION_ID, "4"], [SKIRT_TIER_GATHER_RATIO_OPTION_ID, "1.5"]] as const) {
+        const input = root.querySelector<HTMLInputElement>(`input[data-option="${optionId}"]`)!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      reReviewAndReachExportStage(root);
+      clickId(root, "view-flat");
+      expect(root.querySelector<HTMLButtonElement>("#technical-flat-front")?.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+      expect(root.querySelector<HTMLElement>("#canvas-host")!.textContent).not.toContain("could not be assembled");
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6));
+      expect([...files.keys()].sort()).toEqual([
+        "tiered-gathered-skirt-M-A0.pdf",
+        "tiered-gathered-skirt-M.dxf",
+        "tiered-gathered-skirt-M.pdf",
+        "tiered-gathered-skirt-M.svg",
+        "tiered-gathered-skirt-projector.svg",
+        "tiered-gathered-skirt-techpack.pdf",
+      ].sort());
+
+      const options = { [SKIRT_TIER_COUNT_OPTION_ID]: 4, [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.5 };
+      const tiled = files.get("tiered-gathered-skirt-M.pdf")!;
+      expect(tiled).toBe(expectedSkirtTiledPdf(true, options));
+      expect(tiled.match(/\/Type \/Page\b/g)).toHaveLength(30);
+      const a0 = files.get("tiered-gathered-skirt-M-A0.pdf")!;
+      expect(a0).toBe(expectedSkirtA0Pdf(true, options));
+      expect(a0.match(/\/Type \/Page\b/g)).toHaveLength(10);
+      expect(files.get("tiered-gathered-skirt-M.svg")).toContain("TIER1FRONT");
+      expect(files.get("tiered-gathered-skirt-M.svg")).toContain("TIER3BACK");
+      expect(files.get("tiered-gathered-skirt-M.dxf")!.match(/\n0\nPOLYLINE\n/g)).toHaveLength(20);
+      const techPack = visiblePdfText(files.get("tiered-gathered-skirt-techpack.pdf")!);
+      expect(techPack).toContain("4 total tiers");
+      expect(techPack).toMatch(/1\.50 software\s+ratio/);
+      expect(techPack).toContain("Tier 3 cut width before gathering");
+      expect(techPack).toContain("not marker efficiency, fabric consumption or material quantities");
+      expect(techPack).toContain("physical fit");
+      const projector = new DOMParser().parseFromString(files.get("tiered-gathered-skirt-projector.svg")!, "image/svg+xml");
+      const projectorText = [...projector.getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Digital K05 tiered skirt");
+      expect(projectorText).toContain("physical fit are not validated");
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 60_000);
+
+  it("restores K05 identity, measurements and tier settings after local-project switching", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const now = "2026-11-11T13:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-k05-project-switch-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => now,
+    });
+    let root: HTMLDivElement | null = mount({ projectWorkflow: workflow });
+    const originalProjectId = workflow.snapshot.project.id;
+    const otherProjectId = webcrypto.randomUUID();
+    const otherStyleId = webcrypto.randomUUID();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_TIERED_ENTRY_ID}`);
+      const hip = root.querySelector<HTMLInputElement>('input[data-field="hip"]')!;
+      hip.value = "108";
+      hip.dispatchEvent(new Event("input", { bubbles: true }));
+      const count = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_COUNT_OPTION_ID}"]`)!;
+      count.value = "4";
+      count.dispatchEvent(new Event("input", { bubbles: true }));
+      const ratio = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_GATHER_RATIO_OPTION_ID}"]`)!;
+      ratio.value = "1.5";
+      ratio.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.design.workspace.starterOrigin?.entryId)
+        .toBe(SKIRT_TIERED_ENTRY_ID));
+      expect(workflow.snapshot.activeStyle.design.measurements.hip).toBe(108);
+      expect(workflow.snapshot.activeStyle.design.garmentOptions.skirt).toMatchObject({
+        [SKIRT_TIER_COUNT_OPTION_ID]: 4,
+        [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.5,
+      });
+
+      const migrated = migrateLegacySaveFile({
+        json: serialize(STANDARD_M, "#204060"),
+        projectId: otherProjectId,
+        styleId: otherStyleId,
+        migratedAt: now,
+        projectName: "Separate local K05 project",
+      });
+      if (!migrated.ok) throw new Error(migrated.error);
+      await workflow.repository.saveProjectBundle({
+        project: migrated.value.project,
+        styles: [migrated.value.style],
+        fieldObservations: [createFieldObservationRecord(migrated.value.style, now, "existing-local-style")],
+        expectedProjectRevision: null,
+      });
+      await workflow.switchProject(otherProjectId);
+      expect(workflow.snapshot.project.id).toBe(otherProjectId);
+      await workflow.switchProject(originalProjectId);
+      expect(workflow.snapshot.project.id).toBe(originalProjectId);
+      expect(workflow.snapshot.activeStyle.design.measurements.hip).toBe(108);
+      expect(workflow.snapshot.activeStyle.design.garmentOptions.skirt).toMatchObject({
+        [SKIRT_TIER_COUNT_OPTION_ID]: 4,
+        [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.5,
+      });
+      expect(workflow.snapshot.activeStyle.design.workspace.starterOrigin?.entryId).toBe(SKIRT_TIERED_ENTRY_ID);
+
+      unmountApp();
+      root.remove();
+      root = mount({ projectWorkflow: workflow });
+      expect(root.querySelector<HTMLInputElement>('input[data-field="hip"]')!.value).toBe("108");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_COUNT_OPTION_ID}"]`)!.value).toBe("4");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_TIER_GATHER_RATIO_OPTION_ID}"]`)!.value).toBe("1.5");
+      expect(root.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_TIERED_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+    } finally {
+      unmountApp();
+      root?.remove();
+      workflow.close();
       vi.unstubAllGlobals();
       localStorage.clear();
     }

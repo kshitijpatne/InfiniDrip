@@ -64,7 +64,8 @@ import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID, tankN06ArmholeLengthNote, tankNotchesForOptions, tankRacerbackControlOffsetCm } from "../drafting/tank";
 import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
   SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
-  SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "../drafting/skirt";
+  SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+  SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -1714,6 +1715,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt" ? "a-line-like-skirt"
       : starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID && recipe.name === "skirt" ? "gathered-pull-on-skirt"
       : starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && recipe.name === "skirt" ? "pleated-skirt-box-pleat-guide"
+      : starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID && recipe.name === "skirt" ? "tiered-gathered-skirt"
       : starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-band-collar"
       : starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-camp-collar"
       : starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt" ? "woven-shirt-tunic-longline"
@@ -1930,6 +1932,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
     starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && forRecipe.name === "skirt"
       ? "Pleated skirt · box-pleat guide"
+      : starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID && forRecipe.name === "skirt"
+      ? "Tiered skirt · gathered panels"
       : starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID && forRecipe.name === "skirt"
       ? "Gathered pull-on skirt"
       : starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && forRecipe.name === "skirt"
@@ -1987,12 +1991,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const isK02Starter = starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt";
     const isK03Starter = starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID && recipe.name === "skirt";
     const isK04Starter = starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && recipe.name === "skirt";
+    const isK05Starter = starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID && recipe.name === "skirt";
     const isW03Starter = starterOrigin?.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID && recipe.name === "woven-shirt";
     const isW04Starter = starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && recipe.name === "woven-shirt";
     const isW05Starter = starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt";
     const isW06Starter = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
     const isW07Starter = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
-    if (format === "projector") return isK04Starter
+    if (format === "projector") return isK05Starter
+      ? "Digital K05 tiered skirt; gather ratios are software settings, and size grading, material behavior and physical fit are not validated."
+      : isK04Starter
       ? "Digital box-pleat guide only; the straight Skirt outline has no added cut fullness, and the K04 size run and physical fit are not validated."
       : isK03Starter
       ? "Digital K03 gathered pull-on skirt; the size run, elastic specification and physical fit are not validated."
@@ -2035,6 +2042,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (isK04Starter) {
       const options = recipeOptions();
       return `Digital box-pleat guide only: ${options[SKIRT_BOX_PLEAT_COUNT_OPTION_ID]} illustrative guide groups at ${options[SKIRT_BOX_PLEAT_SPACING_OPTION_ID]} cm spacing over the existing straight Skirt outline. These are software choices; no cut fullness, pleat intake, sewing-ready construction, validated grading, physical fit, comfort, wear, material performance or production readiness is established.`;
+    }
+    if (isK05Starter) {
+      const options = recipeOptions();
+      return `Digital K05 tiered skirt with ${options[SKIRT_TIER_COUNT_OPTION_ID]} total tiers and ${options[SKIRT_TIER_GATHER_RATIO_OPTION_ID]} per-join cut-to-seam software ratio. The upper tier keeps the generic waistband and zipper path to hip depth; lower-tier cut-width measurements are digital pattern dimensions, not material consumption. The generic size run is not validated K05 grading. Physical fit, comfort, wear, fabric-specific gathering, materials, sewing performance and production remain unvalidated.`;
     }
     if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID && recipe.name === "polo") {
       const options = recipeOptions();
@@ -2242,7 +2253,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     outputRecipe.tiledPdfLocalCoordinates === true
     || (outputRecipe.name === "skirt"
       && (starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID || starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID
-        || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID));
+        || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
+        || starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID));
   const pdfMarkLabelLayout = (outputRecipe: GarmentRecipe): "inline" | "staggered-box-pleat-guides" | "line-aligned-box-pleat-guides" =>
     outputRecipe.name === "skirt" && starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
       ? "line-aligned-box-pleat-guides"
@@ -5321,7 +5333,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         if (g.name === "skirt" && (starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID
             || starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID
             || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID
-            || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID)) starterOrigin = null;
+            || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
+            || starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID)) starterOrigin = null;
         setGarment(g.name);
       });
   });

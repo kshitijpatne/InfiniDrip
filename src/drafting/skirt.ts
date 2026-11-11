@@ -9,7 +9,7 @@
 
 import { point } from "../geometry";
 import { Measurements } from "./measurements";
-import { Edge, Piece, pieceEdge, edgeStart, edgeEnd } from "./piece";
+import { Edge, Piece, edgeLength, pieceEdge, edgeStart, edgeEnd } from "./piece";
 import { Block, rolePiece } from "./block";
 import { CheckResult, squareCorner } from "../guidance/check";
 import { Note } from "../guidance/note";
@@ -114,6 +114,88 @@ export const SKIRT_BOX_PLEAT_SPACING_OPTION: GarmentOption = {
   max: 4,
   step: 0.5,
 };
+
+export const SKIRT_TIERED_ENTRY_ID = "skirt-tiered-gathered-digital-v1";
+export const SKIRT_TIER_COUNT_OPTION_ID = "tierCount";
+export const SKIRT_TIER_GATHER_RATIO_OPTION_ID = "tierGatherRatio";
+export const SKIRT_TIER_COUNT_OPTION: GarmentOption = {
+  id: SKIRT_TIER_COUNT_OPTION_ID,
+  label: "Total skirt tiers (software setting)",
+  unit: "tiers",
+  help: "Selects 2–4 total digital panels including the shaped upper tier. The count is a software construction choice, not a physical standard.",
+  group: "Tier construction",
+  appliesToStarterEntryId: SKIRT_TIERED_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 3,
+  min: 2,
+  max: 4,
+  step: 1,
+};
+export const SKIRT_TIER_GATHER_RATIO_OPTION: GarmentOption = {
+  id: SKIRT_TIER_GATHER_RATIO_OPTION_ID,
+  label: "Gathered join ratio (software setting)",
+  unit: "ratio",
+  help: "Sets each lower tier's cut edge relative to the previous panel's seam edge. This 1.25 or 1.50 ratio is an InfiniDrip software choice, not a fabric-specific or sewing standard.",
+  group: "Tier construction",
+  appliesToStarterEntryId: SKIRT_TIERED_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 1.25,
+  min: 1.25,
+  max: 1.5,
+  step: 0.25,
+};
+
+export interface TieredSkirtSettings {
+  readonly tierCount: number;
+  readonly gatherRatio: number;
+}
+
+export function isTieredSkirtProfile(options: GarmentOptions = {}): boolean {
+  return Object.prototype.hasOwnProperty.call(options, SKIRT_TIER_COUNT_OPTION_ID)
+    || Object.prototype.hasOwnProperty.call(options, SKIRT_TIER_GATHER_RATIO_OPTION_ID);
+}
+
+export function tieredSkirtOptions(options: GarmentOptions = {}): TieredSkirtSettings {
+  const tierCount = options[SKIRT_TIER_COUNT_OPTION_ID] ?? SKIRT_TIER_COUNT_OPTION.defaultValue;
+  const gatherRatio = options[SKIRT_TIER_GATHER_RATIO_OPTION_ID] ?? SKIRT_TIER_GATHER_RATIO_OPTION.defaultValue;
+  if (![2, 3, 4].includes(tierCount)) {
+    throw new RangeError("K05 total tier count must be 2, 3 or 4; the saved value is retained until corrected");
+  }
+  if (![1.25, 1.5].includes(gatherRatio)) {
+    throw new RangeError("K05 gathered join ratio must be 1.25 or 1.50; the saved value is retained until corrected");
+  }
+  return { tierCount, gatherRatio };
+}
+
+export function tieredSkirtProblem(m: Measurements, options: GarmentOptions = {}): string | null {
+  if (!isTieredSkirtProfile(options)) return null;
+  if (Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)
+      || Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)
+      || Object.prototype.hasOwnProperty.call(options, SKIRT_GATHER_RATIO_OPTION_ID)
+      || Object.prototype.hasOwnProperty.call(options, SKIRT_CASING_DEPTH_OPTION_ID)
+      || Object.prototype.hasOwnProperty.call(options, SKIRT_BOX_PLEAT_COUNT_OPTION_ID)
+      || Object.prototype.hasOwnProperty.call(options, SKIRT_BOX_PLEAT_SPACING_OPTION_ID)) {
+    return "K05 tier construction cannot be combined with another skirt profile. Keep only the K05 tier settings; the preview and outputs stay paused.";
+  }
+  try {
+    tieredSkirtOptions(options);
+  } catch (error) {
+    return error instanceof Error ? error.message : "K05 tier settings are invalid; correct them to restore the digital draft.";
+  }
+  const widths = skirtWidths(m);
+  if (![m.waist, m.hip, m.hipDepth, m.length, m.ease, widths.waistHalf, widths.hipHalf]
+    .every(Number.isFinite) || widths.waistHalf <= 0 || widths.hipHalf <= 0) {
+    return "K05 needs positive finite waist-plus-ease and hip-plus-ease widths. Correct the measurements to restore the preview and outputs.";
+  }
+  if (m.hipDepth <= 0) return "K05 hip depth must be positive so the upper tier can be drafted. Correct hip depth to restore the preview and outputs.";
+  if (m.length <= m.hipDepth) {
+    return "K05 total skirt length must exceed hip depth so every tier has positive length. Correct skirt length to restore the preview and outputs.";
+  }
+  // The largest supported multiplier is 1.5^3 = 3.375, below the quarter-
+  // width divisor; a finite full hip width therefore keeps every cut width
+  // finite. Each component rechecks its concrete dimensions before drafting.
+  return null;
+}
 
 export interface BoxPleatGuideGroup {
   readonly index: number;
@@ -458,6 +540,228 @@ export const SKIRT_GATHERED_POMS: readonly Pom[] = [
   },
 ];
 
+export interface TieredSkirtPanelParams {
+  readonly roleId: string;
+  readonly tier: "upper" | "lower";
+  readonly topHalfWidthCm: number;
+  readonly bottomHalfWidthCm: number;
+  readonly lengthCm: number;
+}
+
+/** A K05 on-fold panel. The upper tier is shaped waist-to-hip; lower tiers are
+ * constant-width cut rectangles whose top edges are gathered during assembly. */
+export const tieredSkirtPanel: Component<TieredSkirtPanelParams> = (_m, params) => {
+  const { topHalfWidthCm: topWidth, bottomHalfWidthCm: bottomWidth, lengthCm } = params;
+  if (![topWidth, bottomWidth, lengthCm].every(Number.isFinite)
+    || topWidth <= 0 || bottomWidth <= 0 || lengthCm <= 0) {
+    throw new RangeError("K05 panel widths and length must be positive and finite");
+  }
+  if (params.tier === "lower" && Math.abs(topWidth - bottomWidth) > 1e-9) {
+    throw new RangeError("K05 lower-tier cut panels must keep constant width from top to hem");
+  }
+  const topCenter = point(0, 0);
+  const topSide = point(topWidth, 0);
+  const bottomSide = point(bottomWidth, lengthCm);
+  const bottomCenter = point(0, lengthCm);
+  const sideName = params.tier === "upper" ? "sideUpper" : "side";
+  const piece: Piece = {
+    name: params.roleId,
+    onFold: true,
+    edges: [
+      { kind: "line", name: "waist", start: topCenter, end: topSide },
+      { kind: "line", name: sideName, start: topSide, end: bottomSide },
+      { kind: "line", name: "hem", start: bottomSide, end: bottomCenter },
+      { kind: "line", name: "center", start: bottomCenter, end: topCenter },
+    ],
+  };
+  return {
+    pieces: { [params.roleId]: piece },
+    stitches: [],
+    interfaces: {
+      waist: iface(edgeRef(params.roleId, "waist")),
+      hem: iface(edgeRef(params.roleId, "hem")),
+      side: iface(edgeRef(params.roleId, sideName)),
+    },
+  };
+};
+
+function lowerTierRole(tier: number, position: "front" | "back"): string {
+  return `tier${tier}${position === "front" ? "Front" : "Back"}`;
+}
+
+function tieredCutHalfWidths(m: Measurements, settings: TieredSkirtSettings): number[] {
+  const widths: number[] = [];
+  let width = skirtWidths(m).hipHalf;
+  for (let tier = 1; tier < settings.tierCount; tier += 1) {
+    width *= settings.gatherRatio;
+    widths.push(width);
+  }
+  return widths;
+}
+
+function tieredSkirtStitches(settings: TieredSkirtSettings): Stitch[] {
+  const stitches: Stitch[] = [
+    {
+      label: "Side seam (upper tier front ↔ back)",
+      a: iface(edgeRef("front", "sideUpper")),
+      b: iface(edgeRef("back", "sideUpper")),
+    },
+    {
+      label: "Waistband (upper tier front + back ↔ matching bands)",
+      a: iface(edgeRef("front", "waist"), edgeRef("back", "waist", true)),
+      b: iface(edgeRef("waistbandFront", "seam", true), edgeRef("waistbandBack", "seam")),
+    },
+    {
+      label: "Waistband side seam (front ↔ back)",
+      a: iface(edgeRef("waistbandFront", "side")),
+      b: iface(edgeRef("waistbandBack", "side")),
+    },
+    {
+      label: "Side zipper path (waistband → hip)",
+      a: iface(edgeRef("waistbandFront", "side"), edgeRef("front", "sideUpper")),
+      b: iface(edgeRef("waistbandBack", "side"), edgeRef("back", "sideUpper")),
+    },
+  ];
+  for (let tier = 1; tier < settings.tierCount; tier += 1) {
+    const frontRole = lowerTierRole(tier, "front");
+    const backRole = lowerTierRole(tier, "back");
+    stitches.push({
+      label: `Side seam (tier ${tier} front ↔ back)`,
+      a: iface(edgeRef(frontRole, "side")),
+      b: iface(edgeRef(backRole, "side")),
+    });
+    const previousFront = tier === 1 ? "front" : lowerTierRole(tier - 1, "front");
+    const previousBack = tier === 1 ? "back" : lowerTierRole(tier - 1, "back");
+    stitches.push({
+      label: `Gathered tier ${tier} join (cut ÷ target ${settings.gatherRatio.toFixed(2)})`,
+      a: iface(edgeRef(previousFront, "hem"), edgeRef(previousBack, "hem")),
+      b: iface(edgeRef(frontRole, "waist"), edgeRef(backRole, "waist")),
+      gather: { cutSide: "b", ratio: settings.gatherRatio },
+    });
+  }
+  return stitches;
+}
+
+export function tieredSkirtGrammar(options: GarmentOptions = {}) {
+  const settings = tieredSkirtOptions(options);
+  const nodes = [
+    componentNode("front", "tiered-skirt-upper-panel", tieredSkirtPanel, (context) => {
+      const widths = skirtWidths(context.measurements);
+      return { roleId: "front", tier: "upper" as const, topHalfWidthCm: widths.waistHalf,
+        bottomHalfWidthCm: widths.hipHalf, lengthCm: context.measurements.hipDepth };
+    }),
+    componentNode("back", "tiered-skirt-upper-panel", tieredSkirtPanel, (context) => {
+      const widths = skirtWidths(context.measurements);
+      return { roleId: "back", tier: "upper" as const, topHalfWidthCm: widths.waistHalf,
+        bottomHalfWidthCm: widths.hipHalf, lengthCm: context.measurements.hipDepth };
+    }),
+    componentNode("waistband", "waistband", waistband, (context) => ({
+      ...WAISTBAND_DEFAULT,
+      frontSeamLength: context.interfaceLength("front", "waist"),
+      backSeamLength: context.interfaceLength("back", "waist"),
+    }), ["front", "back"]),
+    ...Array.from({ length: settings.tierCount - 1 }, (_, index) => {
+      const tier = index + 1;
+      return (["front", "back"] as const).map((position) => {
+        const roleId = lowerTierRole(tier, position);
+        return componentNode(roleId, "tiered-skirt-lower-panel", tieredSkirtPanel, (context) => {
+          const width = tieredCutHalfWidths(context.measurements, settings)[index]!;
+          return { roleId, tier: "lower" as const, topHalfWidthCm: width, bottomHalfWidthCm: width,
+            lengthCm: (context.measurements.length - context.measurements.hipDepth) / (settings.tierCount - 1) };
+        });
+      });
+    }).flat(),
+  ];
+  return garmentGrammar("skirt-tiered-gathered", nodes, () => tieredSkirtStitches(settings));
+}
+
+export function tieredSkirtNotches(options: GarmentOptions = {}): readonly PieceNotches[] {
+  const settings = tieredSkirtOptions(options);
+  const stitches = tieredSkirtStitches(settings);
+  const byRole = new Map<string, { notches: { edgeName: string; t: number }[] }>();
+  const add = (roleId: string, notch: { edgeName: string; t: number }): void => {
+    const entry = byRole.get(roleId) ?? { notches: [] };
+    entry.notches.push(notch);
+    byRole.set(roleId, entry);
+  };
+  const topSide = stitches.find((stitch) => stitch.label === "Side seam (upper tier front ↔ back)")!;
+  const waistbandSeam = stitches.find((stitch) => stitch.label.startsWith("Waistband ("))!;
+  const zipperPath = stitches.find((stitch) => stitch.label === "Side zipper path (waistband → hip)")!;
+  add("front", matchedNotch(topSide, "a", 0.5));
+  add("back", matchedNotch(topSide, "b", 0.5));
+  add("back", matchedNotch(topSide, "b", 0.75));
+  add("waistbandFront", matchedNotch(waistbandSeam, "b", 0, 0));
+  add("waistbandFront", matchedNotch(zipperPath, "a", 1, 0));
+  add("waistbandBack", matchedNotch(waistbandSeam, "b", 0, 1));
+  add("waistbandBack", matchedNotch(zipperPath, "b", 1, 0));
+  for (let tier = 1; tier < settings.tierCount; tier += 1) {
+    const frontRole = lowerTierRole(tier, "front");
+    const backRole = lowerTierRole(tier, "back");
+    const side = stitches.find((stitch) => stitch.label === `Side seam (tier ${tier} front ↔ back)`)!;
+    add(frontRole, matchedNotch(side, "a", 0.5));
+    add(backRole, matchedNotch(side, "b", 0.5));
+    add(backRole, matchedNotch(side, "b", 0.75));
+    const gather = stitches.find((stitch) => stitch.label.startsWith(`Gathered tier ${tier} join `))!;
+    add(tier === 1 ? "front" : lowerTierRole(tier - 1, "front"), matchedNotch(gather, "a", 0.5, 0));
+    add(tier === 1 ? "back" : lowerTierRole(tier - 1, "back"), matchedNotch(gather, "a", 0.5, 1));
+    add(frontRole, matchedNotch(gather, "b", 0.5, 0));
+    add(backRole, matchedNotch(gather, "b", 0.5, 1));
+  }
+  return [...byRole].map(([pieceName, value]) => ({
+    pieceName,
+    notches: value.notches,
+    grainline: pieceName.startsWith("waistband")
+      ? { topEdge: "top", topT: 0.5, bottomEdge: "seam", bottomT: 0.5 }
+      : { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
+  }));
+}
+
+export function tieredSkirtPoms(tierCount: number): readonly Pom[] {
+  const poms: Pom[] = [
+    {
+      label: "Upper tier waist edge (modeled digital width)",
+      measure: (b) => 4 * edgeLength(pieceEdge(rolePiece(b, "front"), "waist")),
+      anchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "front"), "waist")),
+      backAnchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "back"), "waist")),
+      anchorRoleId: "front", anchorEdgeId: "waist", backAnchorRoleId: "back", backAnchorEdgeId: "waist",
+    },
+    {
+      label: "Upper tier hip seam (modeled digital width)",
+      measure: (b) => 4 * edgeLength(pieceEdge(rolePiece(b, "front"), "hem")),
+      anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "hem")),
+      backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "hem")),
+      anchorRoleId: "front", anchorEdgeId: "hem", backAnchorRoleId: "back", backAnchorEdgeId: "hem",
+    },
+    {
+      label: "Upper tier length (digital)",
+      measure: (b) => spanY(rolePiece(b, "front"), { edge: "center", at: "start" }, { edge: "center", at: "end" }),
+    },
+  ];
+  for (let tier = 1; tier < tierCount; tier += 1) {
+    const frontRole = lowerTierRole(tier, "front");
+    const backRole = lowerTierRole(tier, "back");
+    poms.push({
+      label: `Tier ${tier} cut width before gathering (digital)`,
+      measure: (b) => 4 * edgeLength(pieceEdge(rolePiece(b, frontRole), "waist")),
+      anchor: (b) => edgeEnd(pieceEdge(rolePiece(b, frontRole), "waist")),
+      backAnchor: (b) => edgeEnd(pieceEdge(rolePiece(b, backRole), "waist")),
+      anchorRoleId: frontRole, anchorEdgeId: "waist",
+      backAnchorRoleId: backRole, backAnchorEdgeId: "waist",
+    });
+    poms.push({
+      label: `Tier ${tier} cut panel length (digital)`,
+      measure: (b) => spanY(rolePiece(b, frontRole), { edge: "center", at: "start" }, { edge: "center", at: "end" }),
+    });
+  }
+  poms.push({
+    label: "Total modeled skirt length (digital)",
+    measure: (b) => spanY(rolePiece(b, "front"), { edge: "center", at: "start" }, { edge: "center", at: "end" })
+      + Array.from({ length: tierCount - 1 }, (_, index) => spanY(rolePiece(b, lowerTierRole(index + 1, "front")),
+        { edge: "center", at: "start" }, { edge: "center", at: "end" })).reduce((sum, length) => sum + length, 0),
+  });
+  return poms;
+}
+
 /** The skirt's stitches preserve the original panel side-seam check, attach
  *  separate front/back waistband pieces to their matching body panels, and
  *  describe the single side zipper path from the band through the upper body
@@ -491,6 +795,11 @@ const SKIRT_STITCHES: readonly Stitch[] = [
 ];
 
 export function draftSkirt(m: Measurements, options: GarmentOptions = {}): Block {
+  if (isTieredSkirtProfile(options)) {
+    const problem = tieredSkirtProblem(m, options);
+    if (problem) throw new RangeError(problem);
+    return composeBlock(tieredSkirtGrammar(options), m, options);
+  }
   if (isBoxPleatedSkirtProfile(options)) {
     const problem = boxPleatGuideProblem(m, options);
     if (problem) throw new RangeError(problem);
@@ -585,11 +894,11 @@ export function skirtGuidance(_b: Block, m: Measurements): Note[] {
     });
   }
   if (m.ease < 2) {
-    notes.push({ field: "ease", level: "warn", text: `Ease is ${m.ease} cm — a skirt needs a little room to sit over the hip.` });
+    notes.push({ field: "ease", level: "warn", text: `Ease is ${m.ease} cm — below the 2 cm software check threshold. Increase the digital value to at least 2 cm; physical fit, comfort, and wear remain unvalidated.` });
   } else if (m.ease > 12) {
-    notes.push({ field: "ease", level: "info", text: `Ease is ${m.ease} cm — loose; the skirt will sit away from the body.` });
+    notes.push({ field: "ease", level: "info", text: `Ease is ${m.ease} cm — above the 12 cm software review threshold. Adjust the digital value if this is not intended; physical fit, comfort, and wear remain unvalidated.` });
   } else {
-    notes.push({ field: "ease", level: "ok", text: `Ease is ${m.ease} cm — comfortable for a skirt.` });
+    notes.push({ field: "ease", level: "ok", text: `Ease is ${m.ease} cm — inside the 2–12 cm software check range; physical fit, comfort, and wear remain unvalidated.` });
   }
   return notes;
 }
