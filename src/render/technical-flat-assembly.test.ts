@@ -4,7 +4,7 @@ import { STANDARD_M } from "../drafting/measurements";
 import { block } from "../drafting/block";
 import { defaultGarmentOptions } from "../drafting/options";
 import { edgeRef, iface, markRef, type Stitch } from "../drafting/stitch";
-import type { Edge, Piece } from "../drafting/piece";
+import { edgeLength, pieceEdge, type Edge, type Piece } from "../drafting/piece";
 import { assembleTechnicalFlatRoles, hasExactMirroredPanelPair, isApprovedPoloEaseResidualDisplay,
   isApprovedWovenBaseSeamDisplay, isApprovedWovenCampCollarBaseSeamDisplay } from "./technical-flat-assembly";
 import type { TechnicalFlatViewKind } from "./technical-flat";
@@ -14,6 +14,7 @@ import { transformFlatPoint } from "./technical-flat-transform";
 import { TROUSER_OPTION_DEFINITIONS } from "../drafting/trouser-contract";
 import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection";
 import { draftJogger } from "../drafting/jogger";
+import { SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
 
 const draft = (recipe: typeof GARMENTS[number]) => recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
 const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
@@ -169,6 +170,54 @@ describe("assembleTechnicalFlatRoles", () => {
       const bandViewPoint = transformFlatPoint(edgePoint(bandEdge, 0), { ...assembly.transforms[bandRoleId]!, mirrorX: false });
       expect(Math.hypot(bodyViewPoint.x - bandViewPoint.x, bodyViewPoint.y - bandViewPoint.y)).toBeLessThan(0.3);
     }
+  });
+
+  it("rigidly places K05 tiers from ratio-validated gathers without scaling authored panels", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const source = recipe.draft(STANDARD_M, {
+      [SKIRT_TIER_COUNT_OPTION_ID]: 3,
+      [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.25,
+    });
+    const tierBefore = structuredClone(source.roles.tier2Front);
+    for (const [kind, bodyRole, tierRole, bandRole] of [
+      ["FRONT_FLAT", "front", "tier1Front", "waistbandFront"],
+      ["BACK_FLAT", "back", "tier1Back", "waistbandBack"],
+    ] as const) {
+      const result = assembleTechnicalFlatRoles("skirt", source, kind);
+      expect(result.issues, kind).toEqual([]);
+      expect(result.transforms[bodyRole]).toBeDefined();
+      expect(result.transforms[tierRole]).toBeDefined();
+      expect(result.transforms[bandRole]).toBeDefined();
+      expect(result.transforms[`tier2${kind === "FRONT_FLAT" ? "Front" : "Back"}`]).toBeDefined();
+      expect(result.joinedStitchLabels.filter((label) => label.startsWith("Gathered tier "))).toHaveLength(2);
+    }
+    expect(source.roles.tier2Front).toEqual(tierBefore);
+    expect(edgeLength(pieceEdge(source.roles.tier2Front!, "waist"))).toBeCloseTo(1.25 * 1.25 * 27.5, 8);
+
+    const wrongRatio = {
+      ...source,
+      stitches: source.stitches.map((stitch) => stitch.gather
+        ? { ...stitch, gather: { ...stitch.gather, ratio: 1.5 } }
+        : stitch),
+    };
+    const rejected = assembleTechnicalFlatRoles("skirt", wrongRatio, "FRONT_FLAT");
+    expect(rejected.issues).toContainEqual(expect.objectContaining({
+      code: "UNRESOLVED_STITCH_REFERENCE",
+      sourceId: expect.stringMatching(/^stitch:Gathered tier 1 join/),
+    }));
+
+    const reversedGatherSides = {
+      ...source,
+      stitches: source.stitches.map((stitch) => stitch.gather ? {
+        ...stitch,
+        a: stitch.b,
+        b: stitch.a,
+        gather: { ...stitch.gather, cutSide: "a" as const },
+      } : stitch),
+    };
+    const reversedAssembly = assembleTechnicalFlatRoles("skirt", reversedGatherSides, "FRONT_FLAT");
+    expect(reversedAssembly.issues).toEqual([]);
+    expect(reversedAssembly.joinedStitchLabels.filter((label) => label.startsWith("Gathered tier "))).toHaveLength(2);
   });
 
   it("maps the Tee front sleeve underarm to the source-matching body underarm by reversing only the view traversal", () => {

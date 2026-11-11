@@ -61,6 +61,10 @@ export interface Stitch {
   readonly a: Interface;
   readonly b: Interface;
   readonly ease?: { readonly lo: number; readonly hi: number };
+  /** A deliberately longer cut interface gathered to the opposite sewn edge.
+   * The ratio is cut-side length ÷ gathered-side length; this is distinct from
+   * sleeve ease and must never be interpreted as a generic tolerance band. */
+  readonly gather?: { readonly cutSide: "a" | "b"; readonly ratio: number };
 }
 
 /** The total length of an interface: every one of its edges, summed. A
@@ -90,6 +94,16 @@ export function stitchChecks(b: Block, stitches: readonly Stitch[]): CheckResult
   return stitches.map((s) => {
     const la = interfaceLength(b, s.a);
     const lb = interfaceLength(b, s.b);
+    if (s.gather) {
+      const cutLength = s.gather.cutSide === "a" ? la : lb;
+      const gatheredLength = s.gather.cutSide === "a" ? lb : la;
+      if (s.ease !== undefined || !Number.isFinite(s.gather.ratio) || s.gather.ratio <= 1
+        || !Number.isFinite(cutLength) || cutLength <= 0
+        || !Number.isFinite(gatheredLength) || gatheredLength <= 0) {
+        return { name: s.label, ok: false, detail: "gathered seam needs positive finite cut and target lengths and a finite ratio greater than 1" };
+      }
+      return matchLengths(s.label, cutLength, gatheredLength * s.gather.ratio);
+    }
     return s.ease ? inBand(s.label, la - lb, s.ease.lo, s.ease.hi) : matchLengths(s.label, la, lb);
   });
 }

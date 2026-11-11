@@ -109,6 +109,32 @@ function hasIntegratedGatheredCasingPanel(piece: Block["roles"][string] | undefi
     piece.marks?.some((mark) => mark.name === markName) === true);
 }
 
+function tieredSkirtTechnicalFlatMapping(block: Block): TechnicalFlatRecipeMapping | undefined {
+  const frontTiers = Object.keys(block.roles).flatMap((roleId) => {
+    const match = /^tier(\d+)Front$/.exec(roleId);
+    return match ? [Number(match[1])] : [];
+  }).sort((a, b) => a - b);
+  const backTiers = Object.keys(block.roles).flatMap((roleId) => {
+    const match = /^tier(\d+)Back$/.exec(roleId);
+    return match ? [Number(match[1])] : [];
+  }).sort((a, b) => a - b);
+  const hasGatheredJoins = block.stitches.some((stitch) => stitch.gather !== undefined
+    && stitch.label.startsWith("Gathered tier "));
+  if (!hasGatheredJoins) return undefined;
+  if (frontTiers.length === 0 || frontTiers.length !== backTiers.length
+    || frontTiers.some((tier, index) => tier !== index + 1 || backTiers[index] !== tier)
+    || block.stitches.filter((stitch) => stitch.gather !== undefined).length !== frontTiers.length) return undefined;
+  return makeMapping("skirt",
+    [shell("front"), ...frontTiers.map((tier) => shell(`tier${tier}Front`)), overlay("waistbandFront")],
+    [shell("back"), ...backTiers.map((tier) => shell(`tier${tier}Back`)), overlay("waistbandBack")],
+    "front", "back");
+}
+
+function hasTieredSkirtTopology(block: Block): boolean {
+  return Object.keys(block.roles).some((roleId) => /^tier\d+(Front|Back)$/.test(roleId))
+    || block.stitches.some((stitch) => stitch.label.startsWith("Gathered tier "));
+}
+
 /** Resolve topology-specific role membership while preserving the legacy
  * single-front map for F01/F02 and other recipes using the same root. */
 export function technicalFlatMappingForBlock(recipeId: string, block: Block): TechnicalFlatRecipeMapping | undefined {
@@ -117,6 +143,8 @@ export function technicalFlatMappingForBlock(recipeId: string, block: Block): Te
   const hasIntegratedGatheredCasing = recipeId === "skirt"
     && hasIntegratedGatheredCasingPanel(roles.front)
     && hasIntegratedGatheredCasingPanel(roles.back);
+  const hasTieredSkirt = recipeId === "skirt" && hasTieredSkirtTopology(block);
+  const tieredSkirtMapping = recipeId === "skirt" ? tieredSkirtTechnicalFlatMapping(block) : undefined;
   const hasW07BandCollar = roles?.outerStand?.name === "outer woven collar band"
     && roles?.innerStand?.name === "inner woven collar band"
     && !roles?.upperCollar && !roles?.underCollar;
@@ -140,6 +168,8 @@ export function technicalFlatMappingForBlock(recipeId: string, block: Block): Te
     });
     return { ...mapping, faces: [withoutStandRoles(front), withoutStandRoles(back)] };
   }
+  if (tieredSkirtMapping) return tieredSkirtMapping;
+  if (hasTieredSkirt) return undefined;
   if (mapping && hasIntegratedGatheredCasing) return GATHERED_SKIRT_TECHNICAL_FLAT_MAPPING;
   if (!mapping || recipeId !== "fitted" || !roles?.frontSide) return mapping;
   const [front, back] = mapping.faces;

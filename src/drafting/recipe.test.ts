@@ -1,5 +1,6 @@
 import { SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
-  SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "./skirt";
+  SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+  SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "./skirt";
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions, type GarmentOptions } from "./options";
@@ -1505,5 +1506,71 @@ describe("K04 box-pleat guide skirt recipe", () => {
     expect(report.ok).toBe(false);
     expect(report.checks.find((check) => check.name === "Draft geometry is available across the size run")?.detail)
       .toContain("overlap or cross");
+  });
+});
+
+describe("K05 tiered gathered skirt recipe", () => {
+  const options = { [SKIRT_TIER_COUNT_OPTION_ID]: 3, [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.25 };
+
+  it("routes the K05 POM, notches, A0 overflow and digital-only Tech Pack from scoped options", () => {
+    const block = SKIRT.draft(STANDARD_M, options);
+    const poms = SKIRT.pomsForOptions!(options);
+    expect(poms.map((pom) => pom.label)).toEqual([
+      "Upper tier waist edge (modeled digital width)",
+      "Upper tier hip seam (modeled digital width)",
+      "Upper tier length (digital)",
+      "Tier 1 cut width before gathering (digital)",
+      "Tier 1 cut panel length (digital)",
+      "Tier 2 cut width before gathering (digital)",
+      "Tier 2 cut panel length (digital)",
+      "Total modeled skirt length (digital)",
+    ]);
+    expect(poms[poms.length - 1]?.measure(block)).toBeCloseTo(STANDARD_M.length, 8);
+    expect(poms[2]?.measure(block)).toBeCloseTo(STANDARD_M.hipDepth, 8);
+    const lowerTierLength = (STANDARD_M.length - STANDARD_M.hipDepth) / 2;
+    expect(poms[4]?.measure(block)).toBeCloseTo(lowerTierLength, 8);
+    expect(poms[6]?.measure(block)).toBeCloseTo(lowerTierLength, 8);
+    expect(SKIRT.notchesForOptions!(options).map((entry) => entry.pieceName)).toEqual([
+      "front", "back", "waistbandFront", "waistbandBack", "tier1Front", "tier1Back", "tier2Front", "tier2Back",
+    ]);
+    expect(SKIRT.a0OverflowForOptions!(options)).toBe(true);
+    expect(SKIRT.a0OverflowForOptions!({ [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5 })).toBe(true);
+    expect(SKIRT.a0OverflowForOptions!({})).toBe(false);
+    const techPack = SKIRT.techPackForOptions!(options);
+    expect(techPack.bom).toEqual([]);
+    expect(techPack.construction.join(" ")).toContain("3 total tiers");
+    expect(techPack.construction.join(" ")).toContain("1.25 software ratio");
+    expect(techPack.construction.join(" ")).toContain("not marker efficiency, fabric consumption or material quantities");
+    expect(techPack.constructionNotice).toContain("physical fit");
+  });
+
+  it("pauses invalid K05 recipe drafts and leaves unrelated skirt profiles on their own contract", () => {
+    const invalidCount = SKIRT.draftReview!(STANDARD_M, { ...options, [SKIRT_TIER_COUNT_OPTION_ID]: 5 });
+    expect(invalidCount.block).toBeNull();
+    expect(invalidCount.notes[0]).toMatchObject({ level: "warn", field: `option-${SKIRT_TIER_COUNT_OPTION_ID}` });
+
+    const invalid = { ...options, [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.4 };
+    const review = SKIRT.draftReview!(STANDARD_M, invalid);
+    expect(review.block).toBeNull();
+    expect(review.notes[0]).toMatchObject({ level: "warn", field: `option-${SKIRT_TIER_GATHER_RATIO_OPTION_ID}` });
+    expect(review.notes[0]?.text).toContain("must be 1.25 or 1.50");
+    expect(SKIRT.pomsForOptions!({ [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5 })).toBeDefined();
+    expect(SKIRT.notchesForOptions!({})).toEqual(SKIRT.notches);
+    expect(SKIRT.techPackForOptions!({}).constructionNotice).toBe(SKIRT.techPack.constructionNotice);
+  });
+
+  it("routes each K05 geometry correction to its measurement control", () => {
+    const invalidLength = SKIRT.draftReview!({ ...STANDARD_M, length: STANDARD_M.hipDepth }, options);
+    expect(invalidLength.block).toBeNull();
+    expect(invalidLength.notes[0]).toMatchObject({ level: "warn", field: "length" });
+    expect(invalidLength.notes[0]?.text).toContain("total skirt length must exceed hip depth");
+
+    const invalidHipDepth = SKIRT.draftReview!({ ...STANDARD_M, hipDepth: 0 }, options);
+    expect(invalidHipDepth.block).toBeNull();
+    expect(invalidHipDepth.notes[0]).toMatchObject({ level: "warn", field: "hipDepth" });
+
+    const invalidWidth = SKIRT.draftReview!({ ...STANDARD_M, waist: 50, ease: -60 }, options);
+    expect(invalidWidth.block).toBeNull();
+    expect(invalidWidth.notes[0]).toMatchObject({ level: "warn", field: "ease" });
   });
 });

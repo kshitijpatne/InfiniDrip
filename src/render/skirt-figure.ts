@@ -23,7 +23,8 @@ import { Measurements, skirtWidths, type GarmentOptions } from "../drafting";
 import { skirtHemAdjustmentQuarterCm, skirtHemWidthQuarterCm, isGatheredSkirtProfile, gatheredSkirtOptions,
   isBoxPleatedSkirtProfile, boxPleatGuideGroups, boxPleatGuideProblem,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
-  SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_SPACING_OPTION } from "../drafting/skirt";
+  SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_SPACING_OPTION,
+  isTieredSkirtProfile, tieredSkirtOptions, tieredSkirtProblem } from "../drafting/skirt";
 import { BLUEPRINT as T } from "./theme";
 import { lowerCroquisFigure, lowerCroquisFlareCommand } from "./croquis";
 import type { LowerCroquisAnchors } from "./croquis";
@@ -129,8 +130,54 @@ function renderBoxPleatGuides(m: Measurements, options: GarmentOptions): string 
   })).join("");
 }
 
+function renderTieredPanel(waistHalf: number, hipHalf: number, lowerCutHalfWidths: readonly number[], len: number,
+  hipDrop: number, fabric: string, cx: number, top: number, label: string): string {
+  const lowerLength = (len - hipDrop) / lowerCutHalfWidths.length;
+  const right: { width: number; y: number }[] = [{ width: waistHalf, y: 0 }, { width: hipHalf, y: hipDrop }];
+  const joinLines: string[] = [];
+  let previousWidth = hipHalf;
+  let previousY = hipDrop;
+  lowerCutHalfWidths.forEach((cutWidth, index) => {
+    const nextY = hipDrop + lowerLength * (index + 1);
+    right.push({ width: cutWidth, y: nextY });
+    joinLines.push(line(-previousWidth, previousY, previousWidth, previousY, T.marker, 0.9));
+    const gatherTicks = Array.from({ length: 9 }, (_, tick) => {
+      const x = -previousWidth + (2 * previousWidth * tick) / 8;
+      return line(x, previousY - 0.6, x, previousY + 0.6, T.marker, 0.75);
+    }).join("");
+    joinLines.push(`<g data-part="tier-gather-marks" data-join="${index + 1}">${gatherTicks}</g>`);
+    previousWidth = cutWidth;
+    previousY = nextY;
+  });
+  const pathParts = [`M ${round(-waistHalf)} 0`, `L ${round(waistHalf)} 0`];
+  for (const point of right.slice(1)) pathParts.push(`L ${round(point.width)} ${round(point.y)}`);
+  pathParts.push(`L ${round(-previousWidth)} ${round(previousY)}`);
+  for (let index = lowerCutHalfWidths.length - 1; index >= 0; index -= 1) {
+    const startWidth = index === 0 ? hipHalf : lowerCutHalfWidths[index - 1]!;
+    const startY = hipDrop + lowerLength * index;
+    pathParts.push(`L ${round(-startWidth)} ${round(startY)}`);
+  }
+  pathParts.push(`L ${round(-waistHalf)} 0`, "Z");
+  const outline = `<path d="${pathParts.join(" ")}" data-part="tiered-skirt" data-face="${label.toLowerCase()}" ` +
+    `fill="${fabric}" stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" ` +
+    `vector-effect="non-scaling-stroke"/>`;
+  const seamLines = joinLines.join("");
+  const group = `<g transform="translate(${round(cx)} ${round(top)})">${outline}${seamLines}</g>`;
+  const tag = `<text x="${round(cx)}" y="${round(top - 3)}" fill="${T.label}" font-size="2.6" ${FONT} text-anchor="middle">${label}</text>`;
+  return group + tag;
+}
+
 /** The assembled skirt: front and back panels side by side, in fabric colour. */
 export function renderSkirtGarment(m: Measurements, fabric: string, options: GarmentOptions = {}): string {
+  const tiered = isTieredSkirtProfile(options);
+  if (tiered) {
+    const problem = tieredSkirtProblem(m, options);
+    if (problem) {
+      return `<svg viewBox="0 0 100 24" width="100%" xmlns="http://www.w3.org/2000/svg" ` +
+        `style="background:${T.background};border-radius:8px"><text data-part="tiered-skirt-preview-paused" ` +
+        `x="4" y="14" fill="${T.label}" font-size="3.2" ${FONT}>Tiered-skirt preview paused. See the correction in Guidance.</text></svg>`;
+    }
+  }
   if (isBoxPleatedSkirtProfile(options) && boxPleatGuideProblem(m, options)) {
     return `<svg viewBox="0 0 100 24" width="100%" xmlns="http://www.w3.org/2000/svg" ` +
       `style="background:${T.background};border-radius:8px"><text data-part="box-pleat-preview-paused" ` +
@@ -139,14 +186,17 @@ export function renderSkirtGarment(m: Measurements, fabric: string, options: Gar
   const { hipHalf } = skirtWidths(m);
   const gathered = isGatheredSkirtProfile(options);
   const boxPleated = isBoxPleatedSkirtProfile(options);
+  const tieredOptions = tiered ? tieredSkirtOptions(options) : undefined;
+  const tierWidths = tieredOptions ? Array.from({ length: tieredOptions.tierCount - 1 }, (_, index) =>
+    hipHalf * tieredOptions.gatherRatio ** (index + 1)) : [];
   const waistHalf = gathered ? m.waist / 4 : skirtWidths(m).waistHalf;
   const hemHalf = skirtHemWidthQuarterCm(m, options);
   const len = m.length;
   const hipDrop = m.hipDepth;
 
-  const halfW = Math.max(hipHalf, hemHalf); // the widest half of one panel
+  const halfW = Math.max(hipHalf, hemHalf, ...tierWidths); // the widest half of one panel
   const margin = 6;
-  const top = 10;
+  const top = tiered ? 14 : 10;
   const gap = 12;
   const frontCx = margin + halfW;
   const backCx = frontCx + 2 * halfW + gap;
@@ -159,7 +209,15 @@ export function renderSkirtGarment(m: Measurements, fabric: string, options: Gar
       `${options[SKIRT_BOX_PLEAT_COUNT_OPTION_ID] ?? SKIRT_BOX_PLEAT_COUNT_OPTION.defaultValue} groups · ` +
       `${options[SKIRT_BOX_PLEAT_SPACING_OPTION_ID] ?? SKIRT_BOX_PLEAT_SPACING_OPTION.defaultValue} cm spacing</text>`
     : "";
-  const panelContent = gathered
+  const tieredHeading = tieredOptions
+    ? `<text data-part="tiered-skirt-summary" x="${round(width / 2)}" y="5" fill="${T.label}" ` +
+      `font-size="2.5" ${FONT} text-anchor="middle">DIGITAL TIERED SKIRT · ${tieredOptions.tierCount} tiers · ` +
+      `gather ratio ${tieredOptions.gatherRatio.toFixed(2)}</text>`
+    : "";
+  const panelContent = tieredOptions
+    ? renderTieredPanel(waistHalf, hipHalf, tierWidths, len, hipDrop, fabric, frontCx, top, "FRONT")
+      + renderTieredPanel(waistHalf, hipHalf, tierWidths, len, hipDrop, fabric, backCx, top, "BACK")
+    : gathered
     ? renderGatheredPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, casingDepthCm, fabric, frontCx, top, "FRONT")
       + renderGatheredPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, casingDepthCm, fabric, backCx, top, "BACK")
     : renderPanel(waistHalf, hipHalf, hemHalf, len, hipDrop, fabric, frontCx, top, "FRONT")
@@ -172,7 +230,7 @@ export function renderSkirtGarment(m: Measurements, fabric: string, options: Gar
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
-    boxPleatHeading + panelContent + pleatGuides +
+    boxPleatHeading + tieredHeading + panelContent + pleatGuides +
     `</svg>`;
 }
 

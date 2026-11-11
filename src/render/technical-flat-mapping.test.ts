@@ -5,7 +5,8 @@ import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { FITTED_PRINCESS_ENTRY_ID } from "../drafting/fitted";
 import { SKIRT_A_LINE_ENTRY_ID, SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID,
-  SKIRT_BOX_PLEAT_SPACING_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_PENCIL_ENTRY_ID } from "../drafting/skirt";
+  SKIRT_BOX_PLEAT_SPACING_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_PENCIL_ENTRY_ID,
+  SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
 import { draftJogger } from "../drafting/jogger";
 import {
   G04_TECHNICAL_FLAT_MAPPINGS,
@@ -114,6 +115,29 @@ describe("mapTechnicalFlatSources", () => {
       expect(marks).toHaveLength(15);
       expect(marks.every((source) => source.viewKinds.includes(view))).toBe(true);
     }
+  });
+
+  it("maps every K05 cut tier and matching waistband to the corresponding technical-flat face", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const options = {
+      [SKIRT_TIER_COUNT_OPTION_ID]: 4,
+      [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.5,
+    };
+    const block = recipe.draft(STANDARD_M, options);
+    const mapping = technicalFlatMappingForBlock("skirt", block)!;
+    const poms = recipe.pomsForOptions!(options);
+    const sourceMap = mapTechnicalFlatSources("skirt", block, poms);
+    expect(mapping.faces.map((face) => face.roles.map((role) => role.roleId))).toEqual([
+      ["front", "tier1Front", "tier2Front", "tier3Front", "waistbandFront"],
+      ["back", "tier1Back", "tier2Back", "tier3Back", "waistbandBack"],
+    ]);
+    expect(sourceMap.issues).toEqual([]);
+    expect(sourceMap.sources.filter((source) => source.kind === "component")).toHaveLength(10);
+    expect(sourceMap.sources.find((source) => source.sourceId === "pom:skirt:tier-3-cut-width-before-gathering-digital"))
+      .toMatchObject({ viewKinds: ["FRONT_FLAT"], targetGeometryId: "flat:skirt:FRONT_FLAT:component:tier3Front:outline" });
+    const extraGather = { ...block.stitches.find((stitch) => stitch.gather)!, label: "Unmapped gathered relation" };
+    expect(technicalFlatMappingForBlock("skirt", { ...block, stitches: [...block.stitches, extraGather] }))
+      .toBeUndefined();
   });
 
   it("maps all seven hidden Jogger roles to source-aware front and back faces", () => {

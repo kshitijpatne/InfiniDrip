@@ -183,7 +183,17 @@ function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<stri
   if (!a || !b) return null;
   const totalA = a.reduce((sum, segment) => sum + segment.length, 0);
   const totalB = b.reduce((sum, segment) => sum + segment.length, 0);
-  const allowedDifference = stitch.ease ? Math.max(Math.abs(stitch.ease.lo), Math.abs(stitch.ease.hi)) + 0.1 : 0.1;
+  if (stitch.gather) {
+    const cutLength = stitch.gather.cutSide === "a" ? totalA : totalB;
+    const targetLength = stitch.gather.cutSide === "a" ? totalB : totalA;
+    if (stitch.ease !== undefined || !Number.isFinite(stitch.gather.ratio) || stitch.gather.ratio <= 1
+      || !Number.isFinite(cutLength) || cutLength <= 0
+      || !Number.isFinite(targetLength) || targetLength <= 0
+      || Math.abs(cutLength - targetLength * stitch.gather.ratio) > 0.1) return null;
+  }
+  const allowedDifference = stitch.gather
+    ? Math.abs(totalA - totalB) + 0.1
+    : stitch.ease ? Math.max(Math.abs(stitch.ease.lo), Math.abs(stitch.ease.hi)) + 0.1 : 0.1;
   if (Math.abs(totalA - totalB) > allowedDifference) return null;
 
   const groups = new Map<string, { from: string; to: string; source: FlatPoint[]; target: FlatPoint[] }>();
@@ -509,6 +519,7 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
         : stitchResults;
       relations.push(...projectedResults);
       const residual = projectedResults.find((candidate) => candidate.endpointResidualCm > 0.25
+        && stitch.gather === undefined
         && !isApprovedWovenBaseSeamDisplay(candidate.label, approvedWovenBaseSeam?.decisionId)
         && !isApprovedWovenCampCollarBaseSeamDisplay(candidate.label, approvedWovenCampCollarBaseSeams.get(candidate.label))
         && !(candidate.label === "Woven sleeve-cap ease" && approvedWovenSleeveCap?.decisionId === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION")

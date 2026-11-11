@@ -4,6 +4,7 @@ import { STANDARD_M, Measurements, skirtWidths } from "../drafting";
 import { renderSkirtGarment, renderSkirtBody } from "./skirt-figure";
 import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
 import { lowerCroquisFigure } from "./croquis";
 
 const parse = (svg: string): Document => new DOMParser().parseFromString(svg, "image/svg+xml");
@@ -471,5 +472,42 @@ describe("rendered K04 box-pleat guide view", () => {
     const doc = wellFormed(renderSkirtGarment(STANDARD_M, "#765", options));
     expect(doc.querySelector('[data-part="box-pleat-summary"]')?.textContent).toContain("4 groups · 3 cm spacing");
     expect(doc.querySelectorAll('[data-part="box-pleat-guides-front"] line')).toHaveLength(10);
+  });
+});
+
+describe("rendered K05 tiered gathered skirt view", () => {
+  it("shows the software tier count, gathered joins and width growth on both assembled panels", () => {
+    const doc = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", {
+      [SKIRT_TIER_COUNT_OPTION_ID]: 3,
+      [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.25,
+    }));
+    expect(doc.querySelector('[data-part="tiered-skirt-summary"]')?.textContent)
+      .toContain("3 tiers · gather ratio 1.25");
+    const front = doc.querySelector<SVGPathElement>('path[data-part="tiered-skirt"][data-face="front"]')!;
+    const points = vertices(front.getAttribute("d")!);
+    expect(points).toEqual(expect.arrayContaining([
+      { x: 27.5, y: 20 }, { x: 34.375, y: 45 }, { x: 42.969, y: 70 },
+      { x: -42.969, y: 70 }, { x: -34.375, y: 45 }, { x: -27.5, y: 20 },
+    ]));
+    expect(doc.querySelectorAll('path[data-part="tiered-skirt"]')).toHaveLength(2);
+    expect(doc.querySelectorAll('[data-part="tier-gather-marks"] line')).toHaveLength(36);
+    expect(doc.querySelectorAll('path[data-edge="ease"]')).toHaveLength(0);
+  });
+
+  it("renders a two-tier 1.50 edit and pauses invalid settings with a visible correction state", () => {
+    const edited = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", {
+      [SKIRT_TIER_COUNT_OPTION_ID]: 2,
+      [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.5,
+    }));
+    expect(edited.querySelector('[data-part="tiered-skirt-summary"]')?.textContent)
+      .toContain("2 tiers · gather ratio 1.50");
+    expect(edited.querySelectorAll('[data-part="tier-gather-marks"] line')).toHaveLength(18);
+    const paused = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", {
+      [SKIRT_TIER_COUNT_OPTION_ID]: 5,
+      [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.25,
+    }));
+    expect(paused.querySelector('[data-part="tiered-skirt-preview-paused"]')?.textContent)
+      .toContain("preview paused");
+    expect(paused.querySelector('path[data-part="tiered-skirt"]')).toBeNull();
   });
 });

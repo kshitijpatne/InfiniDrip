@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { CREWNECK, FITTED_PRINCESS_ENTRY_ID, GARMENTS, STANDARD_M, defaultGarmentOptions, pomsForRecipeOptions, pointMark } from "../drafting";
+import { CREWNECK, FITTED_PRINCESS_ENTRY_ID, GARMENTS, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
+  STANDARD_M, defaultGarmentOptions, pomsForRecipeOptions, pointMark } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
 import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, crewneckDetachedBandRoles, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole, wovenCampCollarBaseSeamBoundaries } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
@@ -1428,6 +1429,32 @@ describe("compileTechnicalFlatLiveView", () => {
       expect(outline.commands).not.toEqual(reflected.commands);
       expect(paths.some((primitive) => primitive.kind === "path" && primitive.feature === "seam"
         && primitive.source.sourceId.includes("view-boundary"))).toBe(false);
+    }
+  });
+
+  it("renders maximum K05 tier panels, reflected waistband, and mapped cut-width POMs on both faces", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const options = {
+      ...defaultGarmentOptions(recipe.options ?? []),
+      [SKIRT_TIER_COUNT_OPTION_ID]: 4,
+      [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.5,
+    };
+    const block = recipe.draft(STANDARD_M, options);
+    const liveRecipe = { ...recipe, poms: pomsForRecipeOptions(recipe, options) };
+    for (const [kind, bandRole, lastTierRole] of [
+      ["FRONT_FLAT", "waistbandFront", "tier3Front"],
+      ["BACK_FLAT", "waistbandBack", "tier3Back"],
+    ] as const) {
+      const result = compileTechnicalFlatLiveView({ recipe: liveRecipe, block, revisionId: `live-k05-max-${kind}`, kind,
+        placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+      expect(result.issues, kind).toEqual([]);
+      expect(result.view, kind).not.toBeNull();
+      const paths = result.view!.primitives.filter((primitive) => primitive.kind === "path");
+      expect(paths.some((primitive) => primitive.source.sourceId === `pattern:skirt:role:${lastTierRole}`), kind).toBe(true);
+      expect(paths.some((primitive) => primitive.source.sourceId === `pattern:skirt:role:${bandRole}`
+        && primitive.id.endsWith(":attached-fold-reflection")), kind).toBe(true);
+      expect(result.view!.primitives.some((primitive) => primitive.kind === "callout"
+        && primitive.source.sourceId === "pom:skirt:tier-3-cut-width-before-gathering-digital"), kind).toBe(true);
     }
   });
 

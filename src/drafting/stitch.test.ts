@@ -122,6 +122,47 @@ describe("stitchChecks", () => {
     expect(r.ok).toBe(false);
   });
 
+  it("checks a declared gather as cut-side length divided by sewn target length", () => {
+    const cutSideA: Stitch = {
+      label: "Gather tier 1 (1.20)",
+      a: iface(edgeRef("front", "cap")),
+      b: iface(edgeRef("back", "armhole")),
+      gather: { cutSide: "a", ratio: 1.2 },
+    };
+    const cutSideB: Stitch = {
+      ...cutSideA,
+      label: "Gather tier 1 reversed (1.20)",
+      gather: { cutSide: "b", ratio: 1.2 },
+    };
+    expect(stitchChecks(b, [cutSideA])[0]).toMatchObject({ ok: true, name: cutSideA.label });
+    expect(stitchChecks(b, [cutSideB])[0]).toMatchObject({ ok: false, name: cutSideB.label });
+  });
+
+  it("fails closed for invalid gathered ratios and non-positive interfaces", () => {
+    const invalidRatio: Stitch = {
+      label: "Invalid gathered ratio",
+      a: iface(edgeRef("front", "cap")),
+      b: iface(edgeRef("back", "armhole")),
+      gather: { cutSide: "a", ratio: 1 },
+    };
+    const zeroBlock = block({
+      front: linePiece("Front", { cut: [p(0, 0), p(0, 0)] }),
+      back: linePiece("Back", { target: [p(0, 0), p(0, 5)] }),
+    }, []);
+    const zeroLength: Stitch = {
+      label: "Zero gathered edge",
+      a: iface(edgeRef("front", "cut")),
+      b: iface(edgeRef("back", "target")),
+      gather: { cutSide: "a", ratio: 1.25 },
+    };
+    const nonFiniteRatio = { ...invalidRatio, gather: { cutSide: "a" as const, ratio: Number.NaN } };
+    const mixedEaseAndGather = { ...invalidRatio, gather: { cutSide: "a" as const, ratio: 1.2 }, ease: { lo: 0, hi: 2 } };
+    expect(stitchChecks(b, [invalidRatio])[0]?.ok).toBe(false);
+    expect(stitchChecks(b, [nonFiniteRatio])[0]?.ok).toBe(false);
+    expect(stitchChecks(b, [mixedEaseAndGather])[0]?.ok).toBe(false);
+    expect(stitchChecks(zeroBlock, [zeroLength])[0]).toMatchObject({ ok: false, name: zeroLength.label });
+  });
+
   it("returns one CheckResult per stitch, in the same order they were declared", () => {
     const s1: Stitch = { label: "First", a: iface(edgeRef("front", "shoulder")), b: iface(edgeRef("back", "shoulder")) };
     const s2: Stitch = { label: "Second", a: iface(edgeRef("front", "cap")), b: iface(edgeRef("back", "armhole")), ease: { lo: -1, hi: 4 } };

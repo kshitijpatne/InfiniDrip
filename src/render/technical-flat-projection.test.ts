@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { CREWNECK, draftRecipeAtSize, GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
-import { SKIRT_BOX_PLEAT_ENTRY_ID } from "../drafting/skirt";
+import { SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
 import { edgeEnd, edgeLength, edgeStart } from "../drafting/piece";
 import { draftWovenShirtCollar } from "../drafting/shirt";
 import { cubicPoint } from "../geometry/curve";
@@ -973,6 +973,27 @@ describe("validateTechnicalFlatProjectionMap", () => {
       .toContain("MISSING_EDGE_ACCOUNTING");
   });
 
+  it("projects the K05 waistband reflection from the exact upper-tier seam", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const block = recipe.draft(STANDARD_M, {
+      ...defaultGarmentOptions(recipe.options ?? []),
+      [SKIRT_TIER_COUNT_OPTION_ID]: 4,
+      [SKIRT_TIER_GATHER_RATIO_OPTION_ID]: 1.5,
+    });
+    const map = createG04TechnicalFlatProjectionMap("skirt", block, REVISION)!;
+
+    expect(validateTechnicalFlatProjectionMap("skirt", block, REVISION, map)).toEqual([]);
+    for (const [faceIndex, roleId, axisRoleId] of [
+      [0, "waistbandFront", "front"],
+      [1, "waistbandBack", "back"],
+    ] as const) {
+      expect(map.faces[faceIndex]!.roles.find((role) => role.roleId === roleId)?.foldAxisReflection).toMatchObject({
+        edgeId: "center", axis: "LOCAL_Y", source: "Piece.onFold", axisRoleId,
+        viaStitchLabel: "Waistband (upper tier front + back ↔ matching bands)",
+      });
+    }
+  });
+
   it("creates source-edge maps for every supported recipe and numeric option endpoint", () => {
     for (const recipe of G04_RECIPES) {
       const endpointOptions = [undefined, ...(recipe.options ?? []).filter((option) =>
@@ -1321,9 +1342,13 @@ describe("validateTechnicalFlatProjectionMap", () => {
           const piece = block.roles[role.roleId]!;
           if (recipe.name === "skirt" && (role.roleId === "waistbandFront" || role.roleId === "waistbandBack")) {
             const axisRoleId = role.roleId === "waistbandFront" ? "front" : "back";
+            const isTieredSkirt = block.stitches.some((stitch) =>
+              stitch.label === "Waistband (upper tier front + back ↔ matching bands)");
             expect(role.foldAxisReflection).toMatchObject({
               axis: "LOCAL_Y", source: "Piece.onFold", axisRoleId,
-              viaStitchLabel: "Waistband (front + back ↔ matching bands)",
+              viaStitchLabel: isTieredSkirt
+                ? "Waistband (upper tier front + back ↔ matching bands)"
+                : "Waistband (front + back ↔ matching bands)",
             });
             expect(axisRoleId).toBe(face.kind === "FRONT_FLAT" ? "front" : "back");
             expect(role.runs.some((run) => run.edgeId === "fold")).toBe(false);

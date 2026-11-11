@@ -1153,7 +1153,10 @@ export function createG04TechnicalFlatProjectionMap(
         if (recipeId === "skirt" && (role.roleId === "waistbandFront" || role.roleId === "waistbandBack")) {
           const isFront = role.roleId === "waistbandFront";
           const axisRoleId = isFront ? "front" : "back";
-          const stitchLabel = "Waistband (front + back ↔ matching bands)";
+          const stitchLabel = block.stitches.some((stitch) =>
+            stitch.label === "Waistband (upper tier front + back ↔ matching bands)")
+            ? "Waistband (upper tier front + back ↔ matching bands)"
+            : "Waistband (front + back ↔ matching bands)";
           const axisEdge = block.roles[axisRoleId] && foldAxisEdge(block.roles[axisRoleId]!);
           const heldRoleReason = axisEdge
             ? undefined
