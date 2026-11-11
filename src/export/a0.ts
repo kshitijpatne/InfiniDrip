@@ -25,7 +25,11 @@ import { pt, assemblePdf, polylinePath, PageSize } from "./pdf";
 import { resolveNotch, resolveGrainline } from "../render/notch";
 import { calibrationPdfOps, CALIBRATION_CM } from "./calibration";
 import { FOLD_EPS } from "./unfold";
-import { patternMarksPdfOps, translatePatternMarks } from "./pattern-mark";
+import {
+  patternMarksPdfOps,
+  translatePatternMarks,
+  type PatternMarkPdfLabelLayout,
+} from "./pattern-mark";
 import { patternLabelPose } from "./pattern-label-layout";
 
 export const PAGE_A0: PageSize = { width: 84.1, height: 118.9 };
@@ -106,7 +110,8 @@ function overflowPieceStream(
   original: Piece,
   flat: FlatPiece,
   notches: readonly PieceNotches[],
-  page: PageSize
+  page: PageSize,
+  markLabelLayout: PatternMarkPdfLabelLayout
 ): string {
   const transform = pageTransform(flat, page);
   const cut = transformPolyline(flat.cut, transform);
@@ -114,7 +119,7 @@ function overflowPieceStream(
   const bounds = polylineBounds(cut);
   const lines: string[] = ["0 0 0 RG 1 w", `${polylinePath(cut, page.height)} S`];
   lines.push("0.5 0.5 0.5 RG 0.5 w [3 2] 0 d", `${polylinePath(sew, page.height)} S`, "[] 0 d");
-  lines.push("0 0 0 RG 0.5 w", patternMarksPdfOps(transformMarks(original.marks, transform), page.height));
+  lines.push("0 0 0 RG 0.5 w", patternMarksPdfOps(transformMarks(original.marks, transform), page.height, markLabelLayout, page.width));
 
   const cx = bounds.minX + bounds.width / 2;
   const cy = bounds.minY + bounds.height / 2;
@@ -188,14 +193,15 @@ function overflowA0Pdf(
   pieces: readonly Piece[],
   flats: readonly FlatPiece[],
   notches: readonly PieceNotches[],
-  page: PageSize
+  page: PageSize,
+  markLabelLayout: PatternMarkPdfLabelLayout
 ): string {
   const outputPage: PageSize = {
     width: Math.max(page.width, page.height),
     height: Math.min(page.width, page.height),
   };
   const streams = pieces.map((piece, index) =>
-    overflowPieceStream(piece, flats[index], notches, outputPage)
+    overflowPieceStream(piece, flats[index], notches, outputPage, markLabelLayout)
   );
   return assemblePdf(streams, outputPage);
 }
@@ -211,12 +217,13 @@ export function exportA0Pdf(
   allowance: AllowanceSpec,
   notches: readonly PieceNotches[] = [],
   page: PageSize = PAGE_A0,
-  allowOverflow = false
+  allowOverflow = false,
+  markLabelLayout: PatternMarkPdfLabelLayout = "inline"
 ): string {
   const flats = pieces.map((p) => flattenPiece(p, allowance));
   const nest = nestPieces(flats, page.width, GAP, MARGIN);
   if (allowOverflow && (!nest.fits || nest.fabricLength > page.height - MARGIN)) {
-    return overflowA0Pdf(pieces, flats, notches, page);
+    return overflowA0Pdf(pieces, flats, notches, page, markLabelLayout);
   }
   const ph = page.height;
   const byName = new Map<string, { piece: Piece; flat: FlatPiece }>(
@@ -242,7 +249,7 @@ export function exportA0Pdf(
     const dy = placedB.minY - origB.minY;
 
     lines.push("0 0 0 RG 0.5 w");
-    lines.push(patternMarksPdfOps(translatePatternMarks(original.marks, dx, dy), ph));
+    lines.push(patternMarksPdfOps(translatePatternMarks(original.marks, dx, dy), ph, markLabelLayout, page.width));
 
     // Piece label at the cut-line centre, with shorts-specific clearance.
     const cx = placedB.minX + placedB.width / 2;

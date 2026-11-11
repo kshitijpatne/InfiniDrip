@@ -153,7 +153,7 @@ function tileStream(
     lines.push("0 0 0 RG 0.35 w");
     for (const pieceMarks of marks) {
       const localMarks = localCoordinates ? translatePatternMarks(pieceMarks, -tx, -ty) : pieceMarks;
-      lines.push(patternMarksPdfOps(localMarks, drawHeight, markLabelLayout));
+      lines.push(patternMarksPdfOps(localMarks, drawHeight, markLabelLayout, page.width));
     }
   }
 

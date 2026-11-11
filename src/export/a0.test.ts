@@ -157,6 +157,23 @@ describe("exportA0Pdf construction marks", () => {
     expect(pdf).toContain("CUT SLIT");
     expect(pdf).toContain("BUTTON 1");
   });
+
+  it("supports line-aligned full box-pleat labels when the caller opts in", async () => {
+    const marked = {
+      ...pieces[0],
+      marks: [
+        lineMark("foldLine", "fold", point(3, 0), point(3, 10), "Box pleat 1 fold"),
+        lineMark("foldLine", "roll", point(0, 4), point(10, 4), "Box pleat 1 roll"),
+      ],
+    };
+    const pdf = exportA0Pdf([marked], TEE.allowances, [], PAGE_A0, false, "line-aligned-box-pleat-guides");
+    const text = streamsText(await load(pdf));
+
+    expect(text).toContain("0 1 -1 0");
+    expect(text).toMatch(/Td \(Box pleat 1 roll\) Tj ET/);
+    expect(text).toContain("(Box pleat 1 fold) Tj ET");
+    expect(text).toContain("(Box pleat 1 roll) Tj ET");
+  });
 });
 
 describe("exportA0Pdf — opt-in whole-piece overflow", () => {
