@@ -1,6 +1,40 @@
 # InfiniDrip architecture guide
 
-## EPIC-32/G18 current architecture handoff — S1285 K03 A0 overflow follow-up (2026-11-10)
+## EPIC-32/G18 current architecture handoff — S1292 K04 PDF label repair (2026-11-11)
+
+EPIC-32/G18 remains in progress at **43/56 digitally accepted**; K04 is still
+uncounted. S1292 starts from deployed exact main
+`1ed0fbdbb8e2c3913cc997819cccbcf9d371ee54` and corrects the reproduced valid
+maximum K04 setting (12 guide groups at 1 cm spacing), whose full role/group
+labels collided or clipped in both tiled A4 and A0 PDF output. The correction
+is isolated to the K04 PDF path: full labels are laid out along their guide
+lines with collision-aware placement, while the K04 on-screen key, saved
+project, Tech Pack, SVG, DXF, Projector, generic Skirt, K01–K03, exporter
+defaults and protected output identities remain unchanged. Tiled geometry
+remains a 21-page 7×3 A4 layout; A0 remains one complete page for the reviewed
+fixture settings.
+
+The prior broad focused app/export gate passed 49 files and 816 tests, with
+100% statements, branches, functions and lines for each changed production
+module: `src/ui/app.ts`, `src/export/pdf.ts`, `src/export/a0.ts`, and
+`src/export/pattern-mark.ts`. That run included a temporary PDF sample writer,
+which has since been removed. After that cleanup, the affected regression set
+passed 4 files / 65 tests, including a frozen K04 maximum-setting tiled/A0
+artifact check; the targeted `pattern-mark.ts` coverage run remains 100% on all
+four metrics. Production sources have not changed since the broad coverage run.
+The TypeScript/Vite production build passes. Actual PDF rendering of default
+4/3 cm, edited 4/2.5 cm, minimum-spacing 4/1 cm, maximum 12/1 cm and
+high-count/wide-spacing 12/2.5 cm shows the complete tiled geometry and all
+expected guide labels; PDF text bounds have zero label-label overlaps and zero
+out-of-page labels. These are local digital software outputs, not
+physical-garment evidence. S1292 is not yet merged or deployed; K04 stays at
+43/56.
+
+**Open gates:** hosted global coverage, normal merge, exact-main release,
+stable/immutable asset parity, fresh two-origin acceptance and validated
+S1292/S1291/S1289 closeout. Do not start K05 before K04 closes.
+
+## Historical architecture handoff — S1285 K03 A0 overflow follow-up (2026-11-10)
 
 Canonical SBL board revision 9837 records the digital library at 42/56. S1283's K03 app implementation is merged and deployed, but remains open because the edited gather-ratio 1.75 A0 output clips its back panel; S1285 repairs this as a support-only follow-up. `GarmentRecipe.a0Overflow` remains the static opt-in for recipes whose all-options behavior is unchanged. Shared recipes may additionally provide `a0OverflowForOptions`, and `recipeA0OverflowEnabled` resolves those flags for the active options. Only the gathered K03 profile opts into this option-aware path. Both visible A0 download and frozen selected-size artifact use the same active recipe options; generic Skirt, K01 and K02 remain on their existing one-page behavior. The existing A0 exporter retains whole pieces at true scale and emits one page per piece only when the opted-in combined layout overflows. This digital page-bounds check does not establish physical fit or garment performance. S1285 acceptance and evidence are in `docs/planning/EPIC-32-S1285-ADMISSION.md` and `docs/research/product-evidence/EPIC-32-S1285/`.
 

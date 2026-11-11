@@ -38,7 +38,7 @@ function visiblePdfText(pdf: string): string {
 function expectedSkirtTiledPdf(
   localCoordinates: boolean,
   options: GarmentOptions = {},
-  markLabelLayout: "inline" | "staggered-box-pleat-guides" = "inline",
+  markLabelLayout: "inline" | "staggered-box-pleat-guides" | "line-aligned-box-pleat-guides" = "inline",
 ): string {
   const skirtRecipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
   return exportPdf(
@@ -51,7 +51,11 @@ function expectedSkirtTiledPdf(
   );
 }
 
-function expectedSkirtA0Pdf(allowOverflow: boolean, options: GarmentOptions): string {
+function expectedSkirtA0Pdf(
+  allowOverflow: boolean,
+  options: GarmentOptions,
+  markLabelLayout: "inline" | "staggered-box-pleat-guides" | "line-aligned-box-pleat-guides" = "inline",
+): string {
   const skirtRecipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
   return exportA0Pdf(
     blockPieces(skirtRecipe.draft(STANDARD_M, options)),
@@ -59,6 +63,7 @@ function expectedSkirtA0Pdf(allowOverflow: boolean, options: GarmentOptions): st
     notchesForRecipeOptions(skirtRecipe, options),
     undefined,
     allowOverflow,
+    markLabelLayout,
   );
 }
 
@@ -910,9 +915,9 @@ describe("K04 box-pleat guide skirt starter workflows", () => {
         "pleated-skirt-box-pleat-guide-techpack.pdf",
       ].sort());
       const options = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 4, [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 };
-      expect(files.get("pleated-skirt-box-pleat-guide-M.pdf")).toBe(expectedSkirtTiledPdf(true, options, "staggered-box-pleat-guides"));
+      expect(files.get("pleated-skirt-box-pleat-guide-M.pdf")).toBe(expectedSkirtTiledPdf(true, options, "line-aligned-box-pleat-guides"));
       const a0 = files.get("pleated-skirt-box-pleat-guide-M-A0.pdf")!;
-      expect(a0).toBe(expectedSkirtA0Pdf(false, options));
+      expect(a0).toBe(expectedSkirtA0Pdf(false, options, "line-aligned-box-pleat-guides"));
       expect(a0.match(/\/Type \/Page\b/g)).toHaveLength(1);
 
       const svg = files.get("pleated-skirt-box-pleat-guide-M.svg")!;
@@ -939,6 +944,116 @@ describe("K04 box-pleat guide skirt starter workflows", () => {
       unmountApp();
       root?.remove();
       delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("keeps full K04 PDF labels distinct at 12 groups and 1 cm spacing", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_BOX_PLEAT_ENTRY_ID}`);
+      const count = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_COUNT_OPTION_ID}"]`)!;
+      const spacing = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_SPACING_OPTION_ID}"]`)!;
+      count.value = "12";
+      count.dispatchEvent(new Event("input", { bubbles: true }));
+      spacing.value = "1";
+      spacing.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>("#guidance-host")!.textContent)
+        .not.toContain("overlap or cross the on-fold panel edge");
+
+      reachExportStage(root);
+      clickId(root, "export-pdf");
+      clickId(root, "export-a0");
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+
+      const options = {
+        [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 12,
+        [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 1,
+      };
+      const tiled = files.get("pleated-skirt-box-pleat-guide-M.pdf")!;
+      const a0 = files.get("pleated-skirt-box-pleat-guide-M-A0.pdf")!;
+      expect(tiled).toBe(expectedSkirtTiledPdf(true, options, "line-aligned-box-pleat-guides"));
+      expect(a0).toBe(expectedSkirtA0Pdf(false, options, "line-aligned-box-pleat-guides"));
+      for (const pdf of [tiled, a0]) {
+        const text = visiblePdfText(pdf);
+        expect(text).toContain("Box pleat 3 fold");
+        expect(text).toContain("Box pleat 3 roll");
+        expect(text).toContain("Box pleat 3 placement");
+      }
+      expect(a0.match(/\/Type \/Page\b/g)).toHaveLength(1);
+    } finally {
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("freezes the maximum K04 tiled and A0 PDFs with the repaired labels", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-k04-pdf-freeze-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-11-11T05:12:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_BOX_PLEAT_ENTRY_ID}`);
+      const count = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_COUNT_OPTION_ID}"]`)!;
+      const spacing = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_BOX_PLEAT_SPACING_OPTION_ID}"]`)!;
+      count.value = "12";
+      count.dispatchEvent(new Event("input", { bubbles: true }));
+      spacing.value = "1";
+      spacing.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("saved"),
+        { timeout: 10_000 });
+      reachExportStage(root);
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+      freeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      const manifest = workflow.snapshot.exportManifests[0]!;
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-tiled-pdf");
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-a0-pdf");
+      const options = {
+        [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: 12,
+        [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 1,
+      };
+      const tiled = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-tiled-pdf");
+      const a0 = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-a0-pdf");
+      expect(await tiled.artifact.bytes.text()).toBe(
+        expectedSkirtTiledPdf(true, options, "line-aligned-box-pleat-guides"),
+      );
+      expect(await a0.artifact.bytes.text()).toBe(
+        expectedSkirtA0Pdf(false, options, "line-aligned-box-pleat-guides"),
+      );
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
       localStorage.clear();
     }
   }, 30_000);
