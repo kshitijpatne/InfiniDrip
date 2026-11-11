@@ -1,7 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { point } from "../geometry";
 import { lineMark, pointMark } from "../drafting";
-import { patternMarksDxf, patternMarksPdfOps, translatePatternMarks, unfoldPatternMarks } from "./pattern-mark";
+import {
+  boxPleatGuideKeyPdfOps,
+  compactBoxPleatGuideId,
+  patternMarksDxf,
+  patternMarksPdfOps,
+  translatePatternMarks,
+  unfoldPatternMarks,
+} from "./pattern-mark";
 
 const MARKS = [
   lineMark("cutLine", "slit", point(0, 0), point(0, 14), "CUT SLIT"),
@@ -13,6 +20,26 @@ const MARKS = [
 ] as const;
 
 describe("export pattern marks", () => {
+  it("maps each K04 role and group to a bounded compact identifier", () => {
+    expect(compactBoxPleatGuideId("Box pleat 1 fold")).toBe("F1");
+    expect(compactBoxPleatGuideId("Box pleat 12 roll")).toBe("R12");
+    expect(compactBoxPleatGuideId("Box pleat 12 placement")).toBe("P12");
+    expect(compactBoxPleatGuideId("custom guide")).toBeUndefined();
+    expect(compactBoxPleatGuideId("Box pleat 0 fold")).toBeUndefined();
+    expect(compactBoxPleatGuideId("Box pleat 13 fold")).toBeUndefined();
+    expect(compactBoxPleatGuideId("Box pleat " + "9".repeat(400) + " fold")).toBeUndefined();
+  });
+
+  it("writes the complete K04 role/group key at the requested page position", () => {
+    const key = boxPleatGuideKeyPdfOps(2, 5, 29.7, 9);
+    expect(key).toContain("BOX-PLEAT GUIDE KEY");
+    expect(key).toContain("(F1-F12  Fold guide lines)");
+    expect(key).toContain("(R1-R12  Roll guide lines)");
+    expect(key).toContain("(P1-P12  Placement guide lines)");
+    expect(key).toContain("(The number identifies the box-pleat group.)");
+    expect(key).toMatch(/BT \/F1 11 Tf [\d.]+ [\d.]+ Td \(BOX-PLEAT GUIDE KEY\) Tj ET/);
+  });
+
   it("translates marks and preserves an on-fold mark once when unfolding", () => {
     const translated = translatePatternMarks(MARKS, 5, 6);
     expect((translated[0] as { start: { x: number } }).start.x).toBe(5);
@@ -59,7 +86,7 @@ describe("export pattern marks", () => {
     expect(patternMarksPdfOps(guides, 20)).not.toContain("92.126 462.047 Td");
   });
 
-  it("keeps full box-pleat labels aligned to vertical and horizontal guide lines", () => {
+  it("prints compact role/group IDs beside vertical and horizontal guide lines", () => {
     const guides = [
       lineMark("foldLine", "fold", point(3, 0), point(3, 10), "Box pleat 1 fold"),
       lineMark("foldLine", "roll", point(0, 4), point(10, 4), "Box pleat 2 roll"),
@@ -68,18 +95,20 @@ describe("export pattern marks", () => {
       lineMark("foldLine", "outside", point(-0.4, 0), point(-0.4, 10), "Box pleat 4 fold"),
       lineMark("foldLine", "outside", point(20.4, 0), point(20.4, 10), "Box pleat 5 fold"),
       lineMark("foldLine", "short", point(6, 4), point(6, 5), "Box pleat 6 fold"),
+      lineMark("foldLine", "too-short-vertical", point(7, 4), point(7, 4.5), "Box pleat 7 fold"),
     ];
     const pdf = patternMarksPdfOps(guides, 20, "line-aligned-box-pleat-guides", 20);
 
-    expect(pdf).toMatch(/BT \/F1 7 Tf 0 1 -1 0 [\d.]+ [\d.]+ Tm \(Box pleat 1 fold\) Tj ET/);
-    expect(pdf).toMatch(/BT \/F1 7 Tf [\d.]+ [\d.]+ Td \(Box pleat 2 roll\) Tj ET/);
-    expect(pdf).toMatch(/BT \/F1 7 Tf 0 1 -1 0 11\.339 [\d.]+ Tm \(Box pleat 3 fold\) Tj ET/);
+    expect(pdf).toMatch(/BT \/F1 7 Tf 0 1 -1 0 [\d.]+ [\d.]+ Tm \(F1\) Tj ET/);
+    expect(pdf).toMatch(/BT \/F1 7 Tf [\d.]+ [\d.]+ Td \(R2\) Tj ET/);
+    expect(pdf).toMatch(/BT \/F1 7 Tf 0 1 -1 0 [\d.]+ [\d.]+ Tm \(F3\) Tj ET/);
     expect(pdf).not.toContain("(Box pleat 4 fold) Tj ET");
     expect(pdf).not.toContain("(Box pleat 5 fold) Tj ET");
     expect(pdf).not.toContain("(Box pleat 6 fold) Tj ET");
+    expect(pdf).not.toContain("(F7) Tj ET");
     expect(pdf).toContain("(Custom construction guide) Tj ET");
-    expect(pdf).toContain("Box pleat 1 fold");
-    expect(pdf).toContain("Box pleat 2 roll");
+    expect(pdf).not.toContain("Box pleat 1 fold");
+    expect(pdf).not.toContain("Box pleat 2 roll");
   });
 
   it("keeps the no-page-width aligned-label helper fallback for both line orientations", () => {
@@ -89,8 +118,8 @@ describe("export pattern marks", () => {
     ];
     const pdf = patternMarksPdfOps(guides, 20, "line-aligned-box-pleat-guides");
 
-    expect(pdf).toMatch(/0 1 -1 0 [\d.]+ [\d.]+ Tm \(Box pleat 1 fold\) Tj ET/);
-    expect(pdf).toMatch(/BT \/F1 7 Tf [\d.]+ [\d.]+ Td \(Box pleat 2 roll\) Tj ET/);
+    expect(pdf).toMatch(/0 1 -1 0 [\d.]+ [\d.]+ Tm \(F1\) Tj ET/);
+    expect(pdf).toMatch(/BT \/F1 7 Tf [\d.]+ [\d.]+ Td \(R2\) Tj ET/);
   });
 
   it("keeps horizontal guide labels on-page and omits off-page or too-short fragments", () => {
@@ -100,14 +129,16 @@ describe("export pattern marks", () => {
       lineMark("foldLine", "short", point(0, 10), point(1, 10), "Box pleat 3 fold"),
       lineMark("foldLine", "bottom-edge", point(0, 19.9), point(20, 19.9), "Box pleat 4 fold"),
       lineMark("foldLine", "top-edge", point(0, 0.1), point(20, 0.1), "Box pleat 5 fold"),
+      lineMark("foldLine", "too-short-horizontal", point(0, 10), point(0.5, 10), "Box pleat 6 fold"),
     ];
     const pdf = patternMarksPdfOps(guides, 20, "line-aligned-box-pleat-guides", 20);
 
     expect(pdf).not.toContain("(Box pleat 1 fold) Tj ET");
     expect(pdf).not.toContain("(Box pleat 2 fold) Tj ET");
     expect(pdf).not.toContain("(Box pleat 3 fold) Tj ET");
-    expect(pdf).toContain("(Box pleat 4 fold) Tj ET");
-    expect(pdf).toContain("(Box pleat 5 fold) Tj ET");
+    expect(pdf).toContain("(F4) Tj ET");
+    expect(pdf).toContain("(F5) Tj ET");
+    expect(pdf).not.toContain("(F6) Tj ET");
   });
 
   it("does not place a label on a diagonal guide or duplicate it where no free segment remains", () => {
@@ -119,14 +150,14 @@ describe("export pattern marks", () => {
     const pdf = patternMarksPdfOps(guides, 20, "line-aligned-box-pleat-guides", 20);
 
     expect(pdf).toContain("(Box pleat 1 fold) Tj ET");
-    expect([...pdf.matchAll(/\(Box pleat 2 fold\) Tj ET/g)]).toHaveLength(1);
+    expect([...pdf.matchAll(/\(F2\) Tj ET/g)]).toHaveLength(1);
   });
 
   it("searches within a clipped guide segment without moving its label outside the segment", () => {
     const guide = lineMark("foldLine", "fold", point(3, -3), point(3, 5), "Box pleat 1 fold");
     const pdf = patternMarksPdfOps([guide], 20, "line-aligned-box-pleat-guides", 20);
 
-    expect(pdf).toMatch(/0 1 -1 0 [\d.]+ [\d.]+ Tm \(Box pleat 1 fold\) Tj ET/);
+    expect(pdf).toMatch(/0 1 -1 0 [\d.]+ [\d.]+ Tm \(F1\) Tj ET/);
   });
 
   it("does not misplace a label on a second identical horizontal guide", () => {
@@ -136,7 +167,58 @@ describe("export pattern marks", () => {
     ];
     const pdf = patternMarksPdfOps(guides, 20, "line-aligned-box-pleat-guides", 20);
 
-    expect([...pdf.matchAll(/\(Box pleat 1 roll\) Tj ET/g)]).toHaveLength(1);
+    expect([...pdf.matchAll(/\(R1\) Tj ET/g)]).toHaveLength(1);
+  });
+
+  it("keeps unsupported K04 groups as geometry without inventing a compact ID", () => {
+    const guides = [
+      lineMark("foldLine", "invalid-vertical", point(5, 1), point(5, 9), "Box pleat 13 fold"),
+      lineMark("foldLine", "invalid-horizontal", point(1, 5), point(9, 5), "Box pleat 0 roll"),
+    ];
+    const pdf = patternMarksPdfOps(guides, 20, "line-aligned-box-pleat-guides", 20);
+
+    expect(pdf).toContain("141.732 538.583 m 141.732 311.811 l S");
+    expect(pdf).toContain("28.346 425.197 m 255.118 425.197 l S");
+    expect(pdf).not.toContain("(Box pleat 13 fold) Tj ET");
+    expect(pdf).not.toContain("(Box pleat 0 roll) Tj ET");
+  });
+
+  it("fails explicitly when distinct guide IDs cannot fit on their shared short segment", () => {
+    const shortSegmentCm = 7 / 28.346 + 0.5;
+    const guides = [
+      lineMark("foldLine", "same-geometry-fold", point(10, 2), point(10, 2 + shortSegmentCm), "Box pleat 1 fold"),
+      lineMark("placementLine", "same-geometry-placement", point(10, 2), point(10, 2 + shortSegmentCm), "Box pleat 1 placement"),
+    ];
+
+    expect(() => patternMarksPdfOps(guides, 20, "line-aligned-box-pleat-guides", 20))
+      .toThrow("K04 guide ID has no collision-free segment slot");
+  });
+
+  it("rejects out-of-range alternate positions after all safe slots are occupied", () => {
+    const segmentCm = 7 / 28.346 + 0.5 + 0.8;
+    const guides = [
+      lineMark("foldLine", "shared-slot-one", point(10, 2), point(10, 2 + segmentCm), "Box pleat 1 fold"),
+      lineMark("foldLine", "shared-slot-two", point(10, 2), point(10, 2 + segmentCm), "Box pleat 2 fold"),
+      lineMark("foldLine", "shared-slot-three", point(10, 2), point(10, 2 + segmentCm), "Box pleat 3 fold"),
+    ];
+
+    expect(() => patternMarksPdfOps(guides, 20, "line-aligned-box-pleat-guides", 20))
+      .toThrow("K04 guide ID has no collision-free segment slot");
+  });
+
+  it("fails explicitly when no clear label slot exists instead of dropping a guide ID", () => {
+    const vertical = [
+      lineMark("foldLine", "near-edge-a", point(0.05, 0), point(0.05, 10), "Box pleat 1 fold"),
+      lineMark("foldLine", "near-edge-b", point(0.15, 0), point(0.15, 10), "Box pleat 2 fold"),
+    ];
+    const horizontal = [
+      lineMark("foldLine", "near-edge-a", point(0, 0.05), point(10, 0.05), "Box pleat 1 fold"),
+      lineMark("foldLine", "near-edge-b", point(0, 0.15), point(10, 0.15), "Box pleat 2 fold"),
+    ];
+    expect(() => patternMarksPdfOps(vertical, 20, "line-aligned-box-pleat-guides", 20))
+      .toThrow("K04 guide ID has no clear horizontal slot on the page");
+    expect(() => patternMarksPdfOps(horizontal, 20, "line-aligned-box-pleat-guides", 20))
+      .toThrow("K04 guide ID has no clear vertical slot on the page");
   });
 
   it("separates labels on crowded parallel vertical guides without clipping them", () => {
@@ -145,16 +227,28 @@ describe("export pattern marks", () => {
       lineMark("placementLine", "placement", point(19.45, 0), point(19.45, 20), "Box pleat 2 placement"),
     ];
     const pdf = patternMarksPdfOps(labels, 20, "line-aligned-box-pleat-guides", 20);
-    const starts = Array.from(pdf.matchAll(/0 1 -1 0 ([\d.]+) ([\d.]+) Tm \(Box pleat \d placement\) Tj ET/g), (match) => ({
+    const starts = Array.from(pdf.matchAll(/0 1 -1 0 ([\d.]+) ([\d.]+) Tm \(P\d\) Tj ET/g), (match) => ({
       x: Number(match[1]),
       y: Number(match[2]),
     }));
-    const labelWidth = "Box pleat 1 placement".length * 7 * 0.5;
+    const lineXs = [19.2, 19.45];
+    const ptPerCm = 72 / 2.54;
+    const labelHalfExtentCm = 7 / ptPerCm / 2;
+    const labelClearancePt = (labelHalfExtentCm + 0.05) * ptPerCm;
+    const labelWidth = 7;
 
     expect(starts).toHaveLength(2);
     expect(starts[0].x).toBeGreaterThan(0);
     expect(starts[0].x).toBeLessThan(20 * 72 / 2.54);
-    expect(Math.abs(starts[0].y - starts[1].y)).toBeGreaterThan(labelWidth);
+    for (const start of starts) {
+      const labelCenterXcm = start.x / ptPerCm - labelHalfExtentCm;
+      const labelLeftXcm = start.x / ptPerCm - labelHalfExtentCm * 2;
+      const labelRightXcm = start.x / ptPerCm;
+      expect(labelLeftXcm).toBeGreaterThan(0);
+      expect(labelRightXcm).toBeLessThan(20);
+      expect(Math.min(...lineXs.map((lineX) => Math.abs(labelCenterXcm - lineX))) * ptPerCm)
+        .toBeGreaterThanOrEqual(labelClearancePt);
+    }
     for (const start of starts) {
       expect(start.y).toBeGreaterThan(0);
       expect(start.y + labelWidth).toBeLessThan(20 * 72 / 2.54);
@@ -167,14 +261,24 @@ describe("export pattern marks", () => {
       lineMark("placementLine", "placement", point(0, 10.1), point(20, 10.1), "Box pleat 2 placement"),
     ];
     const pdf = patternMarksPdfOps(labels, 20, "line-aligned-box-pleat-guides", 20);
-    const starts = Array.from(pdf.matchAll(/BT \/F1 7 Tf ([\d.]+) ([\d.]+) Td \(Box pleat \d placement\) Tj ET/g), (match) => ({
+    const starts = Array.from(pdf.matchAll(/BT \/F1 7 Tf ([\d.]+) ([\d.]+) Td \(P\d\) Tj ET/g), (match) => ({
       x: Number(match[1]),
       y: Number(match[2]),
     }));
-    const labelWidth = "Box pleat 1 placement".length * 7 * 0.5;
+    const lineYs = [9.9, 10.1];
+    const ptPerCm = 72 / 2.54;
+    const labelHalfExtentCm = 7 / ptPerCm / 2;
+    const labelClearanceCm = labelHalfExtentCm + 0.05;
+    const labelWidth = 7;
 
     expect(starts).toHaveLength(2);
-    expect(Math.abs(starts[0].x - starts[1].x)).toBeGreaterThan(labelWidth);
+    const labelYsCm = starts.map((start) => 20 - start.y / ptPerCm - labelHalfExtentCm);
+    expect(Math.abs(labelYsCm[0] - labelYsCm[1])).toBeGreaterThanOrEqual(labelClearanceCm * 2);
+    for (const labelY of labelYsCm) {
+      expect(labelY - labelHalfExtentCm).toBeGreaterThan(0);
+      expect(labelY + labelHalfExtentCm).toBeLessThan(20);
+      expect(Math.min(...lineYs.map((lineY) => Math.abs(labelY - lineY)))).toBeGreaterThanOrEqual(labelClearanceCm);
+    }
     for (const start of starts) {
       expect(start.x).toBeGreaterThan(0);
       expect(start.x + labelWidth).toBeLessThan(20 * 72 / 2.54);

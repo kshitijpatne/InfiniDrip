@@ -5,7 +5,18 @@
 import { describe, it, expect } from "vitest";
 import { PDFDocument, PDFRawStream } from "pdf-lib";
 import { point } from "../geometry";
-import { STANDARD_M, TEE, TANK, Piece, blockPieces, lineMark, pointMark } from "../drafting";
+import {
+  STANDARD_M,
+  TEE,
+  TANK,
+  Piece,
+  blockPieces,
+  draftSkirt,
+  lineMark,
+  pointMark,
+  SKIRT_BOX_PLEAT_COUNT_OPTION_ID,
+  SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+} from "../drafting";
 import { exportA0Pdf, PAGE_A0, PAGE_A0_LANDSCAPE } from "./a0";
 import { CALIBRATION_CM } from "./calibration";
 
@@ -18,6 +29,18 @@ const pdfText = exportA0Pdf(pieces, TEE.allowances, TEE.notches);
 async function load(text: string): Promise<PDFDocument> {
   return PDFDocument.load(new TextEncoder().encode(text), { updateMetadata: false });
 }
+
+const boxPleatKeyFixture: Piece = {
+  name: "K04 key placement fixture",
+  onFold: false,
+  edges: [
+    { kind: "line", name: "top", start: point(0, 0), end: point(10, 0) },
+    { kind: "line", name: "right", start: point(10, 0), end: point(10, 10) },
+    { kind: "line", name: "bottom", start: point(10, 10), end: point(0, 10) },
+    { kind: "line", name: "left", start: point(0, 10), end: point(0, 0) },
+  ],
+  marks: [lineMark("foldLine", "key-guide", point(5, 1), point(5, 9), "Box pleat 1 fold")],
+};
 
 /** Every decoded content stream in the parsed document, concatenated. */
 function streamsText(doc: PDFDocument): string {
@@ -158,7 +181,7 @@ describe("exportA0Pdf construction marks", () => {
     expect(pdf).toContain("BUTTON 1");
   });
 
-  it("supports line-aligned full box-pleat labels when the caller opts in", async () => {
+  it("prints compact box-pleat IDs and the complete key on one A0 page", async () => {
     const marked = {
       ...pieces[0],
       marks: [
@@ -167,12 +190,100 @@ describe("exportA0Pdf construction marks", () => {
       ],
     };
     const pdf = exportA0Pdf([marked], TEE.allowances, [], PAGE_A0, false, "line-aligned-box-pleat-guides");
-    const text = streamsText(await load(pdf));
+    const doc = await load(pdf);
+    const text = streamsText(doc);
 
+    expect(doc.getPageCount()).toBe(1);
     expect(text).toContain("0 1 -1 0");
-    expect(text).toMatch(/Td \(Box pleat 1 roll\) Tj ET/);
-    expect(text).toContain("(Box pleat 1 fold) Tj ET");
-    expect(text).toContain("(Box pleat 1 roll) Tj ET");
+    expect(text).toContain("(F1) Tj ET");
+    expect(text).toContain("(R1) Tj ET");
+    expect(text).toContain("BOX-PLEAT GUIDE KEY");
+    expect(text).toContain("F1-F12  Fold guide lines");
+    expect(text).toContain("R1-R12  Roll guide lines");
+    expect(text).toContain("P1-P12  Placement guide lines");
+      expect(text).toContain("The number identifies the box-pleat group.");
+  });
+
+  it("keeps the K04 key and all IDs on one A0 page across count and spacing boundaries", async () => {
+    const measurements = { ...STANDARD_M, waist: 84, hip: 100, hipDepth: 20, length: 70, ease: 10 };
+    const cases = [
+      { count: 4, spacing: 3 },
+      { count: 4, spacing: 2.5 },
+      { count: 4, spacing: 1 },
+      { count: 12, spacing: 1 },
+      { count: 12, spacing: 2.5 },
+    ];
+    for (const { count, spacing } of cases) {
+      const pieces = blockPieces(draftSkirt(measurements, {
+        [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: count,
+        [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: spacing,
+      }));
+      const pdf = exportA0Pdf(pieces, { default: 1 }, [], PAGE_A0, false, "line-aligned-box-pleat-guides");
+      const doc = await load(pdf);
+      const text = streamsText(doc);
+      const groupsPerQuarter = count / 4;
+
+      expect(doc.getPageCount()).toBe(1);
+      expect(text).toContain("BOX-PLEAT GUIDE KEY");
+      expect(text).toContain("F1-F12  Fold guide lines");
+      expect(text).toContain("R1-R12  Roll guide lines");
+      expect(text).toContain("P1-P12  Placement guide lines");
+      for (let group = 1; group <= groupsPerQuarter; group += 1) {
+        for (const role of ["F", "R", "P"]) {
+          expect(text).toContain("(" + role + group + ") Tj ET");
+        }
+      }
+      expect(text).not.toContain("(Box pleat ");
+    }
+  });
+
+  it("moves the K04 key beside calibration when the A0 footer is too short", async () => {
+    const page = { width: 50, height: 21 };
+    const doc = await load(exportA0Pdf(
+      [boxPleatKeyFixture], { default: 1 }, [], page, false, "line-aligned-box-pleat-guides"
+    ));
+    const text = streamsText(doc);
+    const title = /BT \/F1 10 Tf ([\d.]+) ([\d.]+) Td \(BOX-PLEAT GUIDE KEY\) Tj ET/.exec(text);
+
+    expect(doc.getPageCount()).toBe(1);
+    expect(title).not.toBeNull();
+    expect(Number(title?.[1])).toBeGreaterThan(2 * CM_PT);
+  });
+
+  it("starts the K04 key below calibration when the calibration uses the sheet margin", async () => {
+    const page = { width: 20, height: 100 };
+    const doc = await load(exportA0Pdf(
+      [boxPleatKeyFixture], { default: 1 }, [], page, false, "line-aligned-box-pleat-guides"
+    ));
+    const title = /BT \/F1 10 Tf ([\d.]+) ([\d.]+) Td \(BOX-PLEAT GUIDE KEY\) Tj ET/
+      .exec(streamsText(doc));
+
+    expect(doc.getPageCount()).toBe(1);
+    expect(title).not.toBeNull();
+    expect(Number(title?.[1])).toBeCloseTo(2 * CM_PT, 2);
+  });
+
+  it("rejects an A0 page that cannot reserve room for the K04 key", () => {
+    expect(() => exportA0Pdf(
+      [boxPleatKeyFixture], { default: 1 }, [], { width: 50, height: 15 }, false,
+      "line-aligned-box-pleat-guides"
+    )).toThrow("The K04 box-pleat guide key does not fit in the reserved A0 whitespace");
+  });
+
+  it("omits the K04 key when marks have no supported compact guide ID", () => {
+    const unsupported: Piece = {
+      ...boxPleatKeyFixture,
+      marks: [
+        lineMark("foldLine", "unsupported-guide", point(5, 1), point(5, 9), "Box pleat 13 fold"),
+        lineMark("foldLine", "unlabelled-guide", point(6, 1), point(6, 9)),
+      ],
+    };
+    const noMarks: Piece = { ...boxPleatKeyFixture, name: "K04 no-marks fixture", marks: undefined };
+    const pdf = exportA0Pdf(
+      [unsupported, noMarks], { default: 1 }, [], PAGE_A0, false, "line-aligned-box-pleat-guides"
+    );
+
+    expect(pdf).not.toContain("BOX-PLEAT GUIDE KEY");
   });
 });
 

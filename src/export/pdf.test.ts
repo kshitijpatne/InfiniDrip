@@ -1,5 +1,17 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, draftTshirt, rolePiece, AllowanceSpec, lineMark, pointMark } from "../drafting";
+import { PDFDocument } from "pdf-lib";
+import {
+  STANDARD_M,
+  draftTshirt,
+  draftSkirt,
+  blockPieces,
+  rolePiece,
+  AllowanceSpec,
+  lineMark,
+  pointMark,
+  SKIRT_BOX_PLEAT_COUNT_OPTION_ID,
+  SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+} from "../drafting";
 import { point } from "../geometry";
 import {
   tilePlan,
@@ -134,5 +146,51 @@ describe("exportPdf construction marks", () => {
     const pdf = exportPdf([marked], UNIFORM);
     expect(pdf).toContain("CUT SLIT");
     expect(pdf).toContain("BUTTON 1");
+  });
+
+  it("appends one complete key page for every admitted K04 guide boundary", async () => {
+    const measurements = { ...STANDARD_M, waist: 84, hip: 100, hipDepth: 20, length: 70, ease: 10 };
+    const cases = [
+      { count: 4, spacing: 3 },
+      { count: 4, spacing: 2.5 },
+      { count: 4, spacing: 1 },
+      { count: 12, spacing: 1 },
+      { count: 12, spacing: 2.5 },
+    ];
+    for (const { count, spacing } of cases) {
+      const pieces = blockPieces(draftSkirt(measurements, {
+        [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: count,
+        [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: spacing,
+      }));
+      const pdf = exportPdf(pieces, UNIFORM, PAGE_A4, 1, true, "line-aligned-box-pleat-guides");
+      const doc = await PDFDocument.load(new TextEncoder().encode(pdf), { updateMetadata: false });
+      const groupsPerQuarter = count / 4;
+
+      expect(doc.getPageCount()).toBe(22);
+      expect([...pdf.matchAll(/\(BOX-PLEAT GUIDE KEY\) Tj ET/g)]).toHaveLength(1);
+      expect(pdf).toContain("F1-F12  Fold guide lines");
+      expect(pdf).toContain("R1-R12  Roll guide lines");
+      expect(pdf).toContain("P1-P12  Placement guide lines");
+      for (let group = 1; group <= groupsPerQuarter; group += 1) {
+        for (const role of ["F", "R", "P"]) {
+          expect(pdf).toContain("(" + role + group + ") Tj ET");
+        }
+      }
+      expect(pdf).not.toContain("(Box pleat ");
+    }
+  });
+
+  it("does not add the K04 key for unsupported group labels", async () => {
+    const unsupported = {
+      ...pieces[0],
+      marks: [
+        lineMark("foldLine", "unsupported-group", point(2, 1), point(2, 8), "Box pleat 13 fold"),
+        lineMark("foldLine", "unlabelled", point(3, 1), point(3, 8)),
+      ],
+    };
+    const pdf = exportPdf([unsupported], UNIFORM, PAGE_A4, 1, true, "line-aligned-box-pleat-guides");
+
+    expect(pdf).not.toContain("BOX-PLEAT GUIDE KEY");
+    expect(pdf).not.toContain("(F13) Tj ET");
   });
 });
