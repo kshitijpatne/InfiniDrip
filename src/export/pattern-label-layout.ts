@@ -39,6 +39,14 @@ export function patternLabelPose(
       rotation: 0,
     };
   }
+  if (normalizedName === "wrap overlap front" || normalizedName === "wrap underlap front") {
+    return {
+      x: bounds.minX + bounds.width * 0.25,
+      y: centerY,
+      fontSize: baseFontSize,
+      rotation: 0,
+    };
+  }
   if (normalizedName === "wrap waistband front" || normalizedName === "wrap waistband back") {
     return {
       x: bounds.minX + bounds.width * 0.25,

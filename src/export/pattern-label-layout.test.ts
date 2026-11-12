@@ -23,6 +23,17 @@ describe("pattern piece label layout", () => {
       .toBeGreaterThan(label.length * pose.fontSize * (4 / 14) / 2 + 2);
   });
 
+  it.each(["Wrap overlap front", "Wrap underlap front"])(
+    "moves the K06 %s label away from its center grainline",
+    (pieceName) => {
+      const bounds = { minX: 2, minY: 4, width: 40, height: 20 };
+      const pose = patternLabelPose(pieceName, pieceName.toUpperCase(), bounds, 14 / (72 / 2.54));
+      expect(pose).toEqual({ x: 12, y: 14, fontSize: 14 / (72 / 2.54), rotation: 0 });
+      expect(Math.abs(pose.x - (bounds.minX + bounds.width / 2)))
+        .toBeGreaterThan(pieceName.length * pose.fontSize * 0.58 / 2);
+    },
+  );
+
   it("rotates the K06 facing label beside its lengthwise grainline", () => {
     const bounds = { minX: 0, minY: 0, width: 8, height: 70 };
     const label = "WRAP OVERLAP FACING";
