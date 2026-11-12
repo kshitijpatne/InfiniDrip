@@ -881,6 +881,8 @@ describe("K04 box-pleat guide skirt starter workflows", () => {
       expect(files.get("skirt-M.pdf")).toBe(expectedSkirtTiledPdf(false));
       expect(files.has("skirt-techpack.pdf")).toBe(true);
       expect(files.get("skirt-techpack.pdf")).not.toContain("box-pleat");
+      expect(visiblePdfText(files.get("skirt-techpack.pdf")!)).toContain("Skirt");
+      expect(files.get("skirt-techpack.pdf")).not.toContain("Tiered skirt - gathered panels");
       expect(files.get("skirt-projector.svg")).not.toContain("box-pleat");
 
       const skirt = GARMENTS.find((candidate) => candidate.name === "skirt")!;
@@ -1220,6 +1222,9 @@ describe("K05 tiered gathered skirt starter workflows", () => {
       expect(files.get("tiered-gathered-skirt-M.svg")).toContain("TIER3BACK");
       expect(files.get("tiered-gathered-skirt-M.dxf")!.match(/\n0\nPOLYLINE\n/g)).toHaveLength(20);
       const techPack = visiblePdfText(files.get("tiered-gathered-skirt-techpack.pdf")!);
+      expect(techPack).toContain("Tiered skirt - gathered panels");
+      expect(techPack).not.toContain("Tiered skirt ? gathered panels");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Tiered skirt · gathered panels");
       expect(techPack).toContain("4 total tiers");
       expect(techPack).toMatch(/1\.50 software\s+ratio/);
       expect(techPack).toContain("Tier 3 cut width before gathering");
@@ -1237,6 +1242,50 @@ describe("K05 tiered gathered skirt starter workflows", () => {
     }
   }, 60_000);
 
+  it("freezes the K05 Tech Pack with its PDF-safe title", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-k05-techpack-freeze-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-11-12T00:53:55.243Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_TIERED_ENTRY_ID}`);
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Tiered skirt · gathered panels");
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("saved"),
+        { timeout: 10_000 });
+      reachExportStage(root);
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+      freeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      const manifest = workflow.snapshot.exportManifests[0]!;
+      const artifact = await workflow.readFrozenArtifact(manifest.manifestId, "whole-run-tech-pack-pdf");
+      const pdf = await artifact.artifact.bytes.text();
+      expect(pdf).toContain("Tiered skirt - gathered panels");
+      expect(pdf).not.toContain("Tiered skirt ? gathered panels");
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 30_000);
   it("restores K05 identity, measurements and tier settings after local-project switching", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);

@@ -2249,6 +2249,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       },
     });
   };
+  const recipeForTechPackOutputs = (): GarmentRecipe => {
+    const outputRecipe = recipeForCurrentOutputs();
+    return starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID && outputRecipe.name === "skirt"
+      ? { ...outputRecipe, label: "Tiered skirt - gathered panels" }
+      : outputRecipe;
+  };
   const usesLocalTiledPdfCoordinates = (outputRecipe: GarmentRecipe): boolean =>
     outputRecipe.tiledPdfLocalCoordinates === true
     || (outputRecipe.name === "skirt"
@@ -6765,19 +6771,20 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   // graded table), so it uses live measurements and ignores the size picker.
   // The overview is explicitly not to scale; cutting files remain separate.
   onExport("#export-techpack", () => {
+    const techPackRecipe = recipeForTechPackOutputs();
     const planRun = customOneSizeStyle() ? currentGradePlanRun().sizes : null;
     const vNeckActive = isTeeVNeckActive(recipeOptions()) && !hasConflictingTeeNecklineOptions(recipeOptions());
     const wholeRunOptions = vNeckActive
       ? { ...recipeOptions(), ...currentTeeNeckbandOptions() }
       : recipeOptions();
     const output = planRun
-      ? exportTechPackV2ForGradePlan(recipeForCurrentOutputs(), planRun.map((size) => ({
+      ? exportTechPackV2ForGradePlan(techPackRecipe, planRun.map((size) => ({
         label: size.label, measurements: size.measurements!,
         options: vNeckActive ? { ...size.options!, ...currentTeeNeckbandOptions() } : size.options!,
         block: size.block!,
       })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
         pomExceptionRows(planRun), starterOutputStatusNote())
-      : exportTechPackV2(recipeForCurrentOutputs(), measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle,
+      : exportTechPackV2(techPackRecipe, measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle,
         starterOutputStatusNote());
     download(`${exportRecipeName()}-techpack.pdf`, output, "application/pdf");
   }, canExportRun, true);
@@ -7224,6 +7231,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             || (gradePlanSelectedLabel !== null && selectedGradePlanSize()?.poms.some((pom) => pom.exceptionReason !== null) === true)
           : !canExport() || !styleReviewed || !checkReviewed || !baseDesignValid()) return null;
         const currentRecipe = recipeForCurrentOutputs();
+        const techPackRecipe = recipeForTechPackOutputs();
         const selectedPlanSize = customRun
           ? customRun.find((size) => gradePlanLabelKey(size.label)
             === gradePlanLabelKey(gradePlanSelectedLabel ?? gradePlanState!.plan!.baseSizeLabel!))
@@ -7247,13 +7255,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           ? { ...recipeOptions(), ...liveBandOptions }
           : recipeOptions();
         const techPack = customRun
-          ? exportTechPackV2ForGradePlan(currentRecipe, customRun.map((size) => ({
+          ? exportTechPackV2ForGradePlan(techPackRecipe, customRun.map((size) => ({
             label: size.label, measurements: size.measurements!,
             options: vNeckActive && !vNeckConflict ? { ...size.options!, ...liveBandOptions } : size.options!,
             block: size.block!,
           })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
             pomExceptionRows(customRun), starterOutputStatusNote())
-          : exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle,
+          : exportTechPackV2(techPackRecipe, measurements, undefined, stretchFabric, wholeRunOptions, surfacePlacementsNow(), targetStyle,
             starterOutputStatusNote());
         const selectedSizeOptions = recipeOptions(currentRecipe);
         const artifacts = [
