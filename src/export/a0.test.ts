@@ -16,9 +16,14 @@ import {
   pointMark,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID,
   SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+  SKIRT_WRAP_OVERLAP_OPTION_ID,
+  SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
+  SKIRT,
+  notchesForRecipeOptions,
 } from "../drafting";
 import { exportA0Pdf, PAGE_A0, PAGE_A0_LANDSCAPE } from "./a0";
 import { CALIBRATION_CM } from "./calibration";
+import type { PieceNotches } from "../drafting/tshirt-notches";
 
 // Independently derived: 1 cm in PDF points. NOT imported from the writer.
 const CM_PT = 72 / 2.54;
@@ -287,6 +292,29 @@ describe("exportA0Pdf construction marks", () => {
   });
 });
 
+describe("exportA0Pdf K06 facing label", () => {
+  it.each([3, 8])("keeps the %s cm facing label clear of its lengthwise grainline", async (facingWidth) => {
+    const options = { [SKIRT_WRAP_OVERLAP_OPTION_ID]: 40, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: facingWidth };
+    const wrapPieces = blockPieces(SKIRT.draft(STANDARD_M, options));
+    const pdf = exportA0Pdf(wrapPieces, SKIRT.allowances,
+      notchesForRecipeOptions(SKIRT, options), PAGE_A0, true);
+    const doc = await load(pdf);
+    const content = streamsText(doc);
+    expect(doc.getPageCount()).toBe(6);
+    expect(content).toContain("0 1 -1 0");
+    expect(content).toContain("(WRAP OVERLAP FACING) Tj ET");
+  });
+
+  it("keeps both K06 waistband labels clear of their center grainlines", async () => {
+    const options = { [SKIRT_WRAP_OVERLAP_OPTION_ID]: 40, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 8 };
+    const wrapPieces = blockPieces(SKIRT.draft(STANDARD_M, options));
+    const pdf = exportA0Pdf(wrapPieces, SKIRT.allowances, notchesForRecipeOptions(SKIRT, options), PAGE_A0, true);
+    const content = streamsText(await load(pdf));
+    expect(content).toContain("(WRAP WAISTBAND FRONT) Tj ET");
+    expect(content).toContain("(WRAP WAISTBAND BACK) Tj ET");
+  });
+});
+
 describe("exportA0Pdf — opt-in whole-piece overflow", () => {
   const rectanglePiece = (name: string, onFold: boolean, width = 10, height = 116): Piece => ({
     name,
@@ -300,18 +328,31 @@ describe("exportA0Pdf — opt-in whole-piece overflow", () => {
   });
 
   it("keeps overflow opt-in and emits one whole-page stream per piece", async () => {
-    const tall = rectanglePiece("tall", false);
+    const tall = {
+      ...rectanglePiece("tall", false, 10, 116.1),
+      marks: [
+        lineMark("cutLine", "overflow-line", point(2, 10), point(8, 15), "OVERFLOW LINE MARK"),
+        pointMark("button", "overflow-point", point(5, 20), "OVERFLOW POINT MARK"),
+      ],
+    };
     const folded = rectanglePiece("folded", true);
     const wideFold = rectanglePiece("wide fold", true, 70, 20);
-    const doc = await load(exportA0Pdf([tall, folded, wideFold], { default: 1 }, [], PAGE_A0, true));
+    const notchTables: readonly PieceNotches[] = [{
+      pieceName: "tall",
+      notches: [{ edgeName: "right", t: 0.5 }],
+      grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
+    }];
+    const doc = await load(exportA0Pdf([tall, folded, wideFold], { default: 1 }, notchTables, PAGE_A0, true));
     expect(doc.getPageCount()).toBe(3);
     const content = streamsText(doc);
     expect(content).toContain("(TALL) Tj");
+    expect(content).toContain("(OVERFLOW LINE MARK) Tj");
+    expect(content).toContain("(OVERFLOW POINT MARK) Tj");
     expect(content).toContain("(FOLDED) Tj");
     expect(content).toContain("(WIDE FOLD) Tj");
     expect([...content.matchAll(/\(PLACE ON FOLD\) Tj/g)]).toHaveLength(2);
     expect([...content.matchAll(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?) re/g)])
-      .toHaveLength(3);
+      .toHaveLength(4); // Three calibration squares plus the transformed button mark.
   });
 
   it("keeps narrow shorts labels inside the piece on the whole-piece overflow path", async () => {
@@ -328,6 +369,18 @@ describe("exportA0Pdf — opt-in whole-piece overflow", () => {
     const doc = await load(exportA0Pdf([waistband], { default: 1 }, [], page, true));
     expect(doc.getPageCount()).toBe(1);
     expect(streamsText(doc)).toContain("(SHORTS WAISTBAND) Tj");
+  });
+
+  it.each([
+    { name: "shorts waistband", width: 60, height: 10, rotation: false },
+    { name: "shorts fly shield", width: 10, height: 14, rotation: true },
+  ])("uses the fitted $rotation label pose for $name on one-page A0", async ({ name, width, height, rotation }) => {
+    const piece = rectanglePiece(name, false, width, height);
+    const doc = await load(exportA0Pdf([piece], { default: 1 }));
+    const content = streamsText(doc);
+    expect(doc.getPageCount()).toBe(1);
+    expect(content).toContain(`(${name.toUpperCase()}) Tj ET`);
+    expect(content.includes("0 1 -1 0")).toBe(rotation);
   });
 
   it("rejects a piece that cannot fit any A0 orientation at true scale", () => {

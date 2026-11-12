@@ -29,7 +29,7 @@ import { GARMENTS, type GarmentOptions } from "../drafting";
 
 import * as drafting from "../drafting";
 
-import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID, SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID, SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID, SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID, SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID, SKIRT_WRAP_ENTRY_ID, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
 
 import * as editEngine from "../edit";
 
@@ -798,6 +798,14 @@ describe("bundled local artwork library (Slice 203)", () => {
           id: SKIRT_TIER_GATHER_RATIO_OPTION_ID,
           appliesToStarterEntryId: SKIRT_TIERED_ENTRY_ID,
         }),
+        expect.objectContaining({
+          id: SKIRT_WRAP_OVERLAP_OPTION_ID,
+          appliesToStarterEntryId: SKIRT_WRAP_ENTRY_ID,
+        }),
+        expect.objectContaining({
+          id: SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
+          appliesToStarterEntryId: SKIRT_WRAP_ENTRY_ID,
+        }),
       ]);
 
       clickId(root, "journey-guided");
@@ -825,6 +833,12 @@ describe("bundled local artwork library (Slice 203)", () => {
       )).toBeNull();
       expect(root.querySelector<HTMLInputElement>(
         `input[data-option="${SKIRT_TIER_GATHER_RATIO_OPTION_ID}"]`,
+      )).toBeNull();
+      expect(root.querySelector<HTMLInputElement>(
+        `input[data-option="${SKIRT_WRAP_OVERLAP_OPTION_ID}"]`,
+      )).toBeNull();
+      expect(root.querySelector<HTMLInputElement>(
+        `input[data-option="${SKIRT_WRAP_FACING_WIDTH_OPTION_ID}"]`,
       )).toBeNull();
       for (const definition of getCaptureFieldDefinitions("skirt")) {
         const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]

@@ -128,6 +128,8 @@ function overflowPieceStream(
   const cx = bounds.minX + bounds.width / 2;
   const cy = bounds.minY + bounds.height / 2;
   const overflowLabel = original.name.toLowerCase().startsWith("shorts ")
+    || original.name === "Wrap overlap facing"
+    || original.name.startsWith("Wrap waistband ")
     ? patternLabelPose(original.name, original.name.toUpperCase(), bounds, 14 / pt(1)) : undefined;
   if (overflowLabel?.rotation === 90) {
     const labelLength = original.name.length * overflowLabel.fontSize * 0.58;
@@ -258,7 +260,7 @@ export function exportA0Pdf(
     // Piece label at the cut-line centre, with shorts-specific clearance.
     const cx = placedB.minX + placedB.width / 2;
     const cy = placedB.minY + placedB.height / 2;
-    if (placed.name.toLowerCase().startsWith("shorts ")) {
+    if (placed.name.toLowerCase().startsWith("shorts ") || placed.name.startsWith("Wrap waistband ")) {
       const labelPose = patternLabelPose(placed.name, placed.name.toUpperCase(), placedB, 14 / pt(1));
       const labelFont = pt(labelPose.fontSize);
       if (labelPose.rotation === 90) {

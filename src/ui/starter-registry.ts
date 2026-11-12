@@ -24,7 +24,8 @@ import { STANDARD_M } from "../drafting";
 import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
   SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
-  SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
+  SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
+  SKIRT_WRAP_ENTRY_ID, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
 import { FIELDS } from "./controls";
 
 export const POLO_CLASSIC_TWO_BUTTON_ENTRY_ID = "polo-classic-two-button-digital-v1";
@@ -2221,10 +2222,51 @@ const SKIRT_TIERED_BLANK_ENTRY: StarterEntry = {
     "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
   ],
 };
+
+const SKIRT_WRAP_BLANK_ENTRY: StarterEntry = {
+  entryId: SKIRT_WRAP_ENTRY_ID,
+  entryRevision: "2026-11-12.1",
+  recipeId: "skirt",
+  recipeRevision: "skirt-wrap-front-overlap-v1",
+  catalogKind: "blank",
+  label: "Wrap skirt · front overlap",
+  configuration: {
+    targetStyle: "Midi skirt",
+    measurements: { waist: 84, hip: 100, hipDepth: 20, length: 70, ease: 10 },
+    options: { [SKIRT_WRAP_OVERLAP_OPTION_ID]: 20, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 5 },
+  },
+  supportedControls: [
+    { fieldId: "waist", label: "Waist", kind: "measurement", unit: "cm", min: 50, max: 140, step: 1, defaultValue: 84 },
+    { fieldId: "hip", label: "Hip", kind: "measurement", unit: "cm", min: 60, max: 150, step: 1, defaultValue: 100 },
+    { fieldId: "hipDepth", label: "Hip depth", kind: "measurement", unit: "cm", min: 10, max: 40, step: 1, defaultValue: 20 },
+    { fieldId: "length", label: "Total length", kind: "design", unit: "cm", min: 40, max: 100, step: 1, defaultValue: 70 },
+    { fieldId: "ease", label: "Ease", kind: "design", unit: "cm", min: -30, max: 30, step: 1, defaultValue: 10 },
+    { fieldId: SKIRT_WRAP_OVERLAP_OPTION_ID, label: "Front overlap width (software setting)", kind: "option", unit: "cm", min: 10, max: 40, step: 5, defaultValue: 20 },
+    { fieldId: SKIRT_WRAP_FACING_WIDTH_OPTION_ID, label: "Overlap facing width (software setting)", kind: "option", unit: "cm", min: 3, max: 8, step: 0.5, defaultValue: 5 },
+  ],
+  intent: {
+    audience: "Digital front-overlap skirt design candidate; not a representativeness, coverage or fit claim.",
+    use: "Editable software-selected open-front overlap skirt with a separate digital facing.",
+    fit: "Overlap, facing and STANDARD_M-derived starting values are software choices; no physical coverage, fit, comfort, wear or sewn performance is established.",
+    bodyMaterial: "Material compatibility, behavior and consumption are unspecified.",
+    trimMaterial: "No tie, button, buttonhole or trim specification is included.",
+    construction: "Uses separate open front overlap and underlap panels, a separate digital overlap facing, and the existing Skirt waistband/side-zipper path. The side zipper is a retained software path, not a claim of a complete physical wrap closure.",
+    sizeScope: "One software-default profile; generated size-run geometry is not validated grading or a size chart.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The 20 cm overlap, 10–40 cm range in 5 cm steps and 5 cm facing, 3–8 cm range in 0.5 cm steps are InfiniDrip software values, not physical pattern or seam-finishing standards.",
+    "The open asymmetric front edges and facing are digital pattern pieces only. The existing waistband and side-zipper path are retained; no ties, buttons, reversible construction or coverage guarantee is modeled.",
+    "POMs describe digital geometry, not material consumption, marker efficiency or fabric quantities.",
+    "No sewn sample, physical fit, coverage-in-motion, comfort, wear, material behavior, validated grading, B1 approval, supplier suitability or production readiness is established.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v40",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_BLANK_ENTRY, WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY, WOVEN_SHIRT_TUNIC_LONGLINE_BLANK_ENTRY, WOVEN_SHIRT_CAMP_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_DARTED_BLOUSE_BLANK_ENTRY, SKIRT_A_LINE_BLANK_ENTRY, SKIRT_PENCIL_BLANK_ENTRY, SKIRT_GATHERED_BLANK_ENTRY, SKIRT_BOX_PLEAT_BLANK_ENTRY, SKIRT_TIERED_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v41",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_BLANK_ENTRY, WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY, WOVEN_SHIRT_TUNIC_LONGLINE_BLANK_ENTRY, WOVEN_SHIRT_CAMP_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_DARTED_BLOUSE_BLANK_ENTRY, SKIRT_A_LINE_BLANK_ENTRY, SKIRT_PENCIL_BLANK_ENTRY, SKIRT_GATHERED_BLANK_ENTRY, SKIRT_BOX_PLEAT_BLANK_ENTRY, SKIRT_TIERED_BLANK_ENTRY, SKIRT_WRAP_BLANK_ENTRY],
 };
 
 type RecordValue = Record<string, unknown>;

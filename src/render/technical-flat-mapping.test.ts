@@ -7,7 +7,9 @@ import { FITTED_PRINCESS_ENTRY_ID } from "../drafting/fitted";
 import { SKIRT_A_LINE_ENTRY_ID, SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID,
   SKIRT_BOX_PLEAT_SPACING_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_PENCIL_ENTRY_ID,
   SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
 import { draftJogger } from "../drafting/jogger";
+import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import {
   G04_TECHNICAL_FLAT_MAPPINGS,
   type TechnicalFlatRecipeMapping,
@@ -138,6 +140,32 @@ describe("mapTechnicalFlatSources", () => {
     const extraGather = { ...block.stitches.find((stitch) => stitch.gather)!, label: "Unmapped gathered relation" };
     expect(technicalFlatMappingForBlock("skirt", { ...block, stitches: [...block.stitches, extraGather] }))
       .toBeUndefined();
+  });
+
+  it("maps the K06 open front, underlap, visible facing and waistband without a generic fallback", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const options = { [SKIRT_WRAP_OVERLAP_OPTION_ID]: 20, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 5 };
+    const block = recipe.draft(STANDARD_M, options);
+    const mapping = technicalFlatMappingForBlock("skirt", block)!;
+    const sourceMap = mapTechnicalFlatSources("skirt", block, recipe.pomsForOptions!(options));
+
+    expect(mapping.faces.map((face) => face.roles.map((role) => [role.roleId, role.treatment]))).toEqual([
+      [["front", "SHELL"], ["frontUnderlap", "SHELL"], ["overlapFacing", "VISIBLE_OVERLAY"], ["wrapWaistbandFront", "VISIBLE_OVERLAY"]],
+      [["back", "SHELL"], ["waistbandBack", "VISIBLE_OVERLAY"]],
+    ]);
+    expect(sourceMap.issues).toEqual([]);
+    expect(sourceMap.sources.find((source) => source.sourceId === "pattern:skirt:role:overlapFacing"))
+      .toMatchObject({ viewKinds: ["FRONT_FLAT"], treatment: "VISIBLE_OVERLAY" });
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const assembly = assembleTechnicalFlatRoles("skirt", block, kind);
+      expect(assembly.issues).toEqual([]);
+      expect(assembly.transforms).toHaveProperty(kind === "FRONT_FLAT" ? "wrapWaistbandFront" : "waistbandBack");
+      expect(assembly.joinedStitchLabels).toContain("Waistband (front + back ↔ matching bands)");
+    }
+    expect(sourceMap.sources.filter((source) => source.kind === "component")).toHaveLength(6);
+    expect(sourceMap.sources.find((source) => source.sourceId === "pattern:skirt:role:overlapFacing"))
+      .toMatchObject({ viewKinds: ["FRONT_FLAT"], treatment: "VISIBLE_OVERLAY" });
+    expect(sourceMap.sources.filter((source) => source.kind === "pom").length).toBeGreaterThanOrEqual(6);
   });
 
   it("maps all seven hidden Jogger roles to source-aware front and back faces", () => {

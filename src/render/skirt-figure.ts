@@ -24,7 +24,8 @@ import { skirtHemAdjustmentQuarterCm, skirtHemWidthQuarterCm, isGatheredSkirtPro
   isBoxPleatedSkirtProfile, boxPleatGuideGroups, boxPleatGuideProblem,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
   SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_SPACING_OPTION,
-  isTieredSkirtProfile, tieredSkirtOptions, tieredSkirtProblem } from "../drafting/skirt";
+  isTieredSkirtProfile, tieredSkirtOptions, tieredSkirtProblem,
+  isWrapSkirtProfile, wrapSkirtOptions, wrapSkirtProblem } from "../drafting/skirt";
 import { BLUEPRINT as T } from "./theme";
 import { lowerCroquisFigure, lowerCroquisFlareCommand } from "./croquis";
 import type { LowerCroquisAnchors } from "./croquis";
@@ -130,6 +131,43 @@ function renderBoxPleatGuides(m: Measurements, options: GarmentOptions): string 
   })).join("");
 }
 
+function renderWrapSkirtGarment(m: Measurements, fabric: string, options: GarmentOptions): string {
+  const settings = wrapSkirtOptions(options);
+  const { waistHalf, hipHalf } = skirtWidths(m);
+  const top = 14;
+  const margin = 6;
+  const gap = 12;
+  const frontWidth = settings.frontOverlapCm + hipHalf;
+  const backCenter = margin + frontWidth + gap + hipHalf;
+  const width = backCenter + hipHalf + margin;
+  const height = top + m.length + margin;
+  const frontPath = [
+    "M 0 0",
+    `L ${round(settings.frontOverlapCm + waistHalf)} 0`,
+    `L ${round(settings.frontOverlapCm + hipHalf)} ${round(m.hipDepth)}`,
+    `L ${round(settings.frontOverlapCm + hipHalf)} ${round(m.length)}`,
+    `L 0 ${round(m.length)}`,
+    "Z",
+  ].join(" ");
+  const front = `<g data-part="wrap-skirt-front" transform="translate(${margin} ${top})">` +
+    `<path d="${frontPath}" fill="${fabric}" stroke="${T.line}" stroke-width="1.4" ` +
+    `stroke-linejoin="round" vector-effect="non-scaling-stroke"/>` +
+    `<rect data-part="wrap-skirt-facing" x="0" y="0" width="${round(settings.overlapFacingWidthCm)}" ` +
+    `height="${round(m.length)}" fill="${T.marker}" fill-opacity="0.28" stroke="${T.marker}" ` +
+    `stroke-width="0.8" vector-effect="non-scaling-stroke"/>` +
+    `<line data-part="wrap-skirt-underlap-edge" x1="${round(settings.frontOverlapCm)}" y1="0" ` +
+    `x2="${round(settings.frontOverlapCm)}" y2="${round(m.length)}" stroke="${T.marker}" ` +
+    `stroke-width="0.75" stroke-dasharray="2 1.5" vector-effect="non-scaling-stroke"/>` +
+    `</g>` + txt(margin + frontWidth / 2, top - 3, "FRONT · OPEN OVERLAP", "middle", 2.6);
+  const back = renderPanel(waistHalf, hipHalf, hipHalf, m.length, m.hipDepth, fabric, backCenter, top, "BACK");
+  const heading = `<text data-part="wrap-skirt-summary" x="${round(width / 2)}" y="5" fill="${T.label}" ` +
+    `font-size="2.5" ${FONT} text-anchor="middle">DIGITAL WRAP SKIRT · overlap ${settings.frontOverlapCm} cm · ` +
+    `facing ${settings.overlapFacingWidthCm} cm · side-opening path retained</text>`;
+  return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" xmlns="http://www.w3.org/2000/svg" ` +
+    `style="background:${T.background};border-radius:8px"><rect x="0" y="0" width="${round(width)}" ` +
+    `height="${round(height)}" fill="${T.background}"/>${heading}${front}${back}</svg>`;
+}
+
 function renderTieredPanel(waistHalf: number, hipHalf: number, lowerCutHalfWidths: readonly number[], len: number,
   hipDrop: number, fabric: string, cx: number, top: number, label: string): string {
   const lowerLength = (len - hipDrop) / lowerCutHalfWidths.length;
@@ -169,6 +207,15 @@ function renderTieredPanel(waistHalf: number, hipHalf: number, lowerCutHalfWidth
 
 /** The assembled skirt: front and back panels side by side, in fabric colour. */
 export function renderSkirtGarment(m: Measurements, fabric: string, options: GarmentOptions = {}): string {
+  if (isWrapSkirtProfile(options)) {
+    const problem = wrapSkirtProblem(m, options);
+    if (problem) {
+      return `<svg viewBox="0 0 100 24" width="100%" xmlns="http://www.w3.org/2000/svg" ` +
+        `style="background:${T.background};border-radius:8px"><text data-part="wrap-skirt-preview-paused" ` +
+        `x="4" y="14" fill="${T.label}" font-size="3.2" ${FONT}>Wrap-skirt preview paused. See the correction in Guidance.</text></svg>`;
+    }
+    return renderWrapSkirtGarment(m, fabric, options);
+  }
   const tiered = isTieredSkirtProfile(options);
   if (tiered) {
     const problem = tieredSkirtProblem(m, options);

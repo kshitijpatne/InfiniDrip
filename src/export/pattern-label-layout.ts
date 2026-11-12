@@ -39,6 +39,25 @@ export function patternLabelPose(
       rotation: 0,
     };
   }
+  if (normalizedName === "wrap waistband front" || normalizedName === "wrap waistband back") {
+    return {
+      x: bounds.minX + bounds.width * 0.25,
+      y: centerY,
+      fontSize: baseFontSize,
+      rotation: 0,
+    };
+  }
+  if (normalizedName === "wrap overlap facing") {
+    const labelSpan = Math.max(1, labelText.length * 0.58);
+    const heightFit = Math.max(0, bounds.height - 1) / labelSpan;
+    const widthFit = bounds.width * 0.3;
+    return {
+      x: bounds.minX + bounds.width * 0.25,
+      y: bounds.minY + bounds.height * 0.25,
+      fontSize: Math.min(baseFontSize, heightFit, widthFit),
+      rotation: 90,
+    };
+  }
   if (/^(?:shorts|jogger) (?:fly shield|fly underlap|pocket bag (?:left|right))$/iu.test(pieceName)) {
     const labelSpan = Math.max(1, labelText.length * 0.58);
     const isPocketBag = /^(?:shorts|jogger) pocket bag (?:left|right)$/iu.test(pieceName);

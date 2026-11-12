@@ -21,7 +21,8 @@ import { blockPieces } from "../drafting/block";
 
 import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
-  SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
+  SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
+  SKIRT_WRAP_ENTRY_ID, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
 
 import { exportA0Pdf, exportPdf } from "../export";
 
@@ -42,6 +43,30 @@ function expectK04PdfGuideKey(text: string): void {
   expect(text).toContain("R1-R12  Roll guide lines");
   expect(text).toContain("P1-P12  Placement guide lines");
   expect(text).toContain("The number identifies the box-pleat group.");
+}
+
+function stubSvgTextMetrics(): () => void {
+  const getBBoxDescriptor = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getBBox");
+  const getTextLengthDescriptor = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getComputedTextLength");
+  const metrics = function (element: SVGElement) {
+    const fontSize = Number(element.getAttribute("font-size")) || 0;
+    const width = (element.textContent?.length ?? 0) * fontSize * 0.52;
+    return { x: 0, y: -fontSize * 0.75, width, height: fontSize };
+  };
+  Object.defineProperty(SVGElement.prototype, "getBBox", {
+    configurable: true,
+    value(this: SVGElement) { return metrics(this); },
+  });
+  Object.defineProperty(SVGElement.prototype, "getComputedTextLength", {
+    configurable: true,
+    value(this: SVGElement) { return metrics(this).width; },
+  });
+  return () => {
+    if (getBBoxDescriptor) Object.defineProperty(SVGElement.prototype, "getBBox", getBBoxDescriptor);
+    else Reflect.deleteProperty(SVGElement.prototype, "getBBox");
+    if (getTextLengthDescriptor) Object.defineProperty(SVGElement.prototype, "getComputedTextLength", getTextLengthDescriptor);
+    else Reflect.deleteProperty(SVGElement.prototype, "getComputedTextLength");
+  };
 }
 
 function expectedSkirtTiledPdf(
@@ -98,7 +123,13 @@ const addNativeWindowListener = window.addEventListener.bind(window);
 const removeNativeWindowListener = window.removeEventListener.bind(window);
 
 const clickId = (root: HTMLElement, id: string): void => {
-    root.querySelector<HTMLElement>(`#${id}`)!.click();
+    const target = root.querySelector<HTMLElement>(`#${id}`);
+    if (!target) {
+      const blocker = root.querySelector<HTMLElement>("#journey-blocker")?.textContent?.trim() ?? "none";
+      const guidance = root.querySelector<HTMLElement>("#guidance-host")?.textContent?.trim().slice(0, 240) ?? "none";
+      throw new Error(`Expected #${id} to be rendered; blocker: ${blocker}; guidance: ${guidance}`);
+    }
+    target.click();
 };
 
 const clickIfPresent = (root: HTMLElement, id: string): void => {
@@ -1366,4 +1397,149 @@ describe("K05 tiered gathered skirt starter workflows", () => {
       localStorage.clear();
     }
   }, 30_000);
+});
+
+describe("K06 front-overlap wrap-skirt starter workflows", () => {
+  it("selects K06, retains and corrects invalid settings, and saves/reopens its identity", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_WRAP_ENTRY_ID}`);
+      expect(root.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_WRAP_ENTRY_ID}"]`)?.getAttribute("aria-pressed"))
+        .toBe("true");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")!.textContent).toContain("Wrap skirt · front overlap");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Wrap skirt · front overlap");
+      expect(root.querySelector<SVGElement>('#garment-host [data-part="wrap-skirt-facing"]')).not.toBeNull();
+
+      const overlap = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_WRAP_OVERLAP_OPTION_ID}"]`)!;
+      const facing = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_WRAP_FACING_WIDTH_OPTION_ID}"]`)!;
+      expect(overlap).toMatchObject({ value: "20", min: "10", max: "40", step: "5" });
+      expect(facing).toMatchObject({ value: "5", min: "3", max: "8", step: "0.5" });
+      reachExportStage(root);
+
+      overlap.value = "12";
+      overlap.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_WRAP_OVERLAP_OPTION_ID}"]`)!.value).toBe("12");
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_WRAP_OVERLAP_OPTION_ID}"]`)!.textContent)
+        .toContain("use 5 cm increments from 10 cm");
+      expect(root.querySelector<HTMLElement>("#inspection-content [role=status]")?.textContent).toContain("Draft paused");
+      expect(root.querySelector<SVGElement>("#inspection-content svg")).toBeNull();
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+      overlap.value = "25";
+      overlap.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_WRAP_OVERLAP_OPTION_ID}"]`)!.textContent).toBe("");
+      reReviewAndReachExportStage(root);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.skirt).toMatchObject({
+        [SKIRT_WRAP_OVERLAP_OPTION_ID]: 25,
+        [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 5,
+      });
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: SKIRT_WRAP_ENTRY_ID,
+        recipeRevision: "skirt-wrap-front-overlap-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_WRAP_OVERLAP_OPTION_ID}"]`)!.value).toBe("25");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_WRAP_FACING_WIDTH_OPTION_ID}"]`)!.value).toBe("5");
+      expect(reopened.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_WRAP_ENTRY_ID}"]`)!.getAttribute("aria-pressed"))
+        .toBe("true");
+      clickId(reopened, "garment-skirt");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_WRAP_OVERLAP_OPTION_ID}"]`)).toBeNull();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_WRAP_FACING_WIDTH_OPTION_ID}"]`)).toBeNull();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")!.hidden).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 30_000);
+
+  it("exports maximum K06 geometry and digital limits in SVG, DXF, PDFs, Tech Pack and Projector", async () => {
+    localStorage.clear();
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_WRAP_ENTRY_ID}`);
+      for (const [optionId, value] of [[SKIRT_WRAP_OVERLAP_OPTION_ID, "40"], [SKIRT_WRAP_FACING_WIDTH_OPTION_ID, "8"]] as const) {
+        const input = root.querySelector<HTMLInputElement>(`input[data-option="${optionId}"]`)!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      reReviewAndReachExportStage(root);
+      clickId(root, "view-flat");
+      expect(root.querySelector<HTMLButtonElement>("#technical-flat-front")?.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<SVGSVGElement>("#canvas-host svg")).not.toBeNull();
+      expect(root.querySelector<HTMLElement>("#canvas-host")!.textContent).not.toContain("could not be assembled");
+      expect(root.querySelector<HTMLElement>("#canvas-host")!.textContent).not.toContain("Technical flat withheld");
+      const frontFlat = root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='FRONT_FLAT']");
+      expect(frontFlat).not.toBeNull();
+      expect(frontFlat!.outerHTML).toContain("overlapFacing");
+      root.querySelector<HTMLButtonElement>('[data-technical-flat-face="BACK_FLAT"]')!.click();
+      const backFlat = root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='BACK_FLAT']");
+      expect(backFlat).not.toBeNull();
+      expect(backFlat!.outerHTML).toContain("waistbandBack");
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6));
+      expect([...files.keys()].sort()).toEqual([
+        "wrap-skirt-front-overlap-M-A0.pdf",
+        "wrap-skirt-front-overlap-M.dxf",
+        "wrap-skirt-front-overlap-M.pdf",
+        "wrap-skirt-front-overlap-M.svg",
+        "wrap-skirt-front-overlap-projector.svg",
+        "wrap-skirt-front-overlap-techpack.pdf",
+      ].sort());
+
+      const options = { [SKIRT_WRAP_OVERLAP_OPTION_ID]: 40, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 8 };
+      const tiled = files.get("wrap-skirt-front-overlap-M.pdf")!;
+      expect(tiled).toBe(expectedSkirtTiledPdf(true, options));
+      const a0 = files.get("wrap-skirt-front-overlap-M-A0.pdf")!;
+      expect(a0).toBe(expectedSkirtA0Pdf(true, options));
+      for (const roleLabel of ["Wrap overlap front", "Wrap underlap front", "Wrap overlap facing"]) {
+        expect(files.get("wrap-skirt-front-overlap-M.svg")).toContain(roleLabel.toUpperCase());
+      }
+      expect(files.get("wrap-skirt-front-overlap-M.dxf")!.match(/\n0\nPOLYLINE\n/g)).toHaveLength(12);
+      const techPack = visiblePdfText(files.get("wrap-skirt-front-overlap-techpack.pdf")!);
+      expect(techPack).toContain("Wrap skirt - front overlap");
+      expect(techPack).toContain("Digital K06 front-overlap skirt");
+      expect(techPack).toContain("40 cm overlap");
+      expect(techPack).toContain("8 cm facing");
+      expect(techPack).toContain("Physical coverage, fit, materials");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Wrap skirt · front overlap");
+      const projector = new DOMParser().parseFromString(files.get("wrap-skirt-front-overlap-projector.svg")!, "image/svg+xml");
+      const projectorText = [...projector.getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Digital K06 front-overlap skirt");
+      expect(projectorText).toContain("physical coverage, fit");
+    } finally {
+      restoreSvgTextMetrics();
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 60_000);
 });

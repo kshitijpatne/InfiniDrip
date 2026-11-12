@@ -1,6 +1,7 @@
 import { SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
-  SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "./skirt";
+  SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
+  SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "./skirt";
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions, type GarmentOptions } from "./options";
@@ -1572,5 +1573,51 @@ describe("K05 tiered gathered skirt recipe", () => {
     const invalidWidth = SKIRT.draftReview!({ ...STANDARD_M, waist: 50, ease: -60 }, options);
     expect(invalidWidth.block).toBeNull();
     expect(invalidWidth.notes[0]).toMatchObject({ level: "warn", field: "ease" });
+  });
+});
+
+describe("K06 front-overlap Wrap skirt recipe", () => {
+  const options = { [SKIRT_WRAP_OVERLAP_OPTION_ID]: 20, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 5 };
+
+  it("routes K06 geometry, POMs, notches, A0 overflow and digital-only Tech Pack", () => {
+    const block = SKIRT.draft(STANDARD_M, options);
+    expect(block.roles.front?.onFold).toBe(false);
+    expect(block.roles.frontUnderlap?.onFold).toBe(false);
+    expect(block.roles.overlapFacing?.name).toBe("Wrap overlap facing");
+    expect(SKIRT.checks(block, STANDARD_M).every((check) => check.ok)).toBe(true);
+    expect(SKIRT.pomsForOptions!(options).map((pom) => pom.label)).toContain("Front overlap (software setting)");
+    expect(SKIRT.pomsForOptions!(options).map((pom) => pom.label)).toContain("Overlap facing width (software setting)");
+    expect(SKIRT.notchesForOptions!(options).map((notch) => notch.pieceName)).toEqual(blockPieces(block).map((piece) => piece.name));
+    expect(garmentReport(SKIRT, STANDARD_M, options).checks.find((check) =>
+      check.name === "Notches + grainline on every piece")).toMatchObject({ ok: true, detail: "all 6 pieces marked" });
+    expect(recipeA0OverflowEnabled(SKIRT, options)).toBe(true);
+    const techPack = SKIRT.techPackForOptions!(options);
+    expect(techPack.constructionNotice).toContain("Digital K06");
+    expect(techPack.construction.join(" ")).toContain("side-zipper path");
+    expect(techPack.construction.join(" ")).toContain("does not model a tie, button");
+    expect(techPack.construction.join(" ")).toContain("not fabric consumption");
+    expect(techPack.construction.join(" ")).toContain("coverage in motion");
+    expect(SKIRT.draftReview!(STANDARD_M, {}).block?.roles.front?.onFold).toBe(true);
+  });
+
+  it("maps retained invalid K06 values and profile conflicts to actionable controls", () => {
+    const invalidFacing = SKIRT.draftReview!(STANDARD_M, { ...options, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 5.25 });
+    expect(invalidFacing.block).toBeNull();
+    expect(invalidFacing.notes[0]).toMatchObject({ level: "warn", field: `option-${SKIRT_WRAP_FACING_WIDTH_OPTION_ID}` });
+
+    const invalidOverlap = SKIRT.draftReview!(STANDARD_M, { ...options, [SKIRT_WRAP_OVERLAP_OPTION_ID]: 12 });
+    expect(invalidOverlap.block).toBeNull();
+    expect(invalidOverlap.notes[0]).toMatchObject({ level: "warn", field: `option-${SKIRT_WRAP_OVERLAP_OPTION_ID}` });
+
+    const conflict = SKIRT.draftReview!(STANDARD_M, { ...options, [SKIRT_TIER_COUNT_OPTION_ID]: 3 });
+    expect(conflict.block).toBeNull();
+    expect(conflict.notes[0]).toMatchObject({ field: `option-${SKIRT_WRAP_OVERLAP_OPTION_ID}` });
+
+    expect(SKIRT.draftReview!({ ...STANDARD_M, length: STANDARD_M.hipDepth }, options).notes[0])
+      .toMatchObject({ field: "length" });
+    expect(SKIRT.draftReview!({ ...STANDARD_M, hipDepth: 0 }, options).notes[0])
+      .toMatchObject({ field: "hipDepth" });
+    expect(SKIRT.draftReview!({ ...STANDARD_M, waist: 50, ease: -100 }, options).notes[0])
+      .toMatchObject({ field: "ease" });
   });
 });
