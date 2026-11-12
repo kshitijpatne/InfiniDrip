@@ -1,6 +1,6 @@
 # InfiniDrip architecture guide
 
-## EPIC-32/G18 current architecture handoff — S1297 K05 tiered skirt (2026-11-11)
+## EPIC-32/G18 current architecture handoff — S1299 K05 Tech Pack title (2026-11-12)
 
 K05 is a separate selectable profile on the existing Skirt recipe, with stable
 entry ID `skirt-tiered-gathered-digital-v1` and recipe revision
@@ -33,10 +33,16 @@ SVG, DXF, tiled PDF, A0 PDF, Tech Pack PDF and Projector SVG. K05 opts into the
 existing true-scale A0 overflow path, which paginates complete cut pieces when
 the combined layout does not fit; it does not scale a piece to fit a sheet.
 Generic Skirt and K01–K04 retain their own settings, geometry and output paths.
+The UI retains the K05 middle-dot label; direct and frozen Tech Pack PDFs use
+an ASCII hyphen because the shared PDF literal writer is ASCII-only. This is a
+K05-only Tech Pack input projection.
 
-S1297 is still the app implementation candidate at this handoff; K05 remains
-uncounted until the hosted gate, normal merge, exact-main release, asset parity,
-fresh two-origin acceptance and validated board closeout pass. The digital
+S1297's product implementation is merged at
+`dbcfc2179a66055a95f779b1e8e1872513c61c5a` and deployed. Fresh two-origin
+review exposed the K05 Tech Pack title artifact addressed by S1299. K05 remains
+uncounted at 44/56 until S1299's hosted gate, normal merge, exact-main release,
+asset parity, renewed two-origin acceptance, and validated S1297/S1299 closeout
+pass. The digital
 draft and virtual views do not validate K05 grading, physical fit, comfort,
 wear, fabric behavior, consumption, supplier suitability or production.
 
