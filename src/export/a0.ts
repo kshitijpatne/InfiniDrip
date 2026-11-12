@@ -128,6 +128,8 @@ function overflowPieceStream(
   const cx = bounds.minX + bounds.width / 2;
   const cy = bounds.minY + bounds.height / 2;
   const overflowLabel = original.name.toLowerCase().startsWith("shorts ")
+    || original.name === "Wrap overlap front"
+    || original.name === "Wrap underlap front"
     || original.name === "Wrap overlap facing"
     || original.name.startsWith("Wrap waistband ")
     ? patternLabelPose(original.name, original.name.toUpperCase(), bounds, 14 / pt(1)) : undefined;
@@ -257,10 +259,13 @@ export function exportA0Pdf(
     lines.push("0 0 0 RG 0.5 w");
     lines.push(patternMarksPdfOps(translatePatternMarks(original.marks, dx, dy), ph, markLabelLayout, page.width));
 
-    // Piece label at the cut-line centre, with shorts-specific clearance.
+    // Piece label with recipe-specific clearance where a grainline crosses its center.
     const cx = placedB.minX + placedB.width / 2;
     const cy = placedB.minY + placedB.height / 2;
-    if (placed.name.toLowerCase().startsWith("shorts ") || placed.name.startsWith("Wrap waistband ")) {
+    if (placed.name.toLowerCase().startsWith("shorts ")
+      || placed.name === "Wrap overlap front"
+      || placed.name === "Wrap underlap front"
+      || placed.name.startsWith("Wrap waistband ")) {
       const labelPose = patternLabelPose(placed.name, placed.name.toUpperCase(), placedB, 14 / pt(1));
       const labelFont = pt(labelPose.fontSize);
       if (labelPose.rotation === 90) {

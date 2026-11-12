@@ -315,6 +315,51 @@ describe("exportA0Pdf K06 facing label", () => {
   });
 });
 
+describe("exportA0Pdf K06 front-panel labels", () => {
+  const panel = (name: string): Piece => ({
+    name,
+    onFold: false,
+    edges: [
+      { kind: "line", name: "top", start: point(0, 0), end: point(40, 0) },
+      { kind: "line", name: "right", start: point(40, 0), end: point(40, 20) },
+      { kind: "line", name: "bottom", start: point(40, 20), end: point(0, 20) },
+      { kind: "line", name: "left", start: point(0, 20), end: point(0, 0) },
+    ],
+  });
+
+  it.each(["Wrap overlap front", "Wrap underlap front"])(
+    "keeps the %s label clear of its vertical grainline in one-page and overflow A0",
+    async (name) => {
+      const piece = panel(name);
+      const notches: PieceNotches[] = [{
+        pieceName: name,
+        notches: [],
+        grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
+      }];
+      const outputs = [
+        { page: PAGE_A0, allowOverflow: false, expectedLabelCenterCm: 12.5, grainlineXcm: 23 },
+        { page: { width: 45, height: 24 }, allowOverflow: true, expectedLabelCenterCm: 10.9, grainlineXcm: 21.4 },
+      ];
+
+      for (const { page, allowOverflow, expectedLabelCenterCm, grainlineXcm } of outputs) {
+        const doc = await load(exportA0Pdf([piece], { default: 1 }, notches, page, allowOverflow));
+        const content = streamsText(doc);
+        const label = new RegExp(
+          `BT /F1 14 Tf ([\\d.]+) ([\\d.]+) Td \\(${name.toUpperCase()}\\) Tj ET`,
+        ).exec(content);
+        expect(doc.getPageCount()).toBe(1);
+        expect(label).not.toBeNull();
+        expect(content).toContain("0.5 w");
+
+        const labelCenterPt = Number(label?.[1]) + name.length * 4;
+        const grainlineXPt = grainlineXcm * CM_PT;
+        expect(labelCenterPt).toBeCloseTo(expectedLabelCenterCm * CM_PT, 2);
+        expect(Math.abs(labelCenterPt - grainlineXPt)).toBeGreaterThan(name.length * 4);
+      }
+    },
+  );
+});
+
 describe("exportA0Pdf — opt-in whole-piece overflow", () => {
   const rectanglePiece = (name: string, onFold: boolean, width = 10, height = 116): Piece => ({
     name,

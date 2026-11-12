@@ -1,6 +1,6 @@
 # InfiniDrip architecture guide
 
-## EPIC-32/G18 current architecture handoff — S1301 K06 front-overlap Wrap skirt
+## EPIC-32/G18 current architecture handoff — S1302 K06 A0 label clearance
 
 K06 is a separate Starter Blank profile on the existing `skirt` recipe, with
 entry ID `skirt-wrap-front-overlap-digital-v1` and recipe revision
@@ -31,9 +31,13 @@ waistband on the back flat. Invalid inputs keep the editor preview paused.
 The A0 overflow facing page uses a lengthwise waist-to-hem grainline and a
 rotated label placed away from both that line and the midpoint join notch.
 K06 waistband labels sit away from their center grainlines in both A0 paths.
-This K06-specific pose is handled by `src/export/pattern-label-layout.ts` and
-the existing A0 overflow path; shared exporter defaults and other profiles are
-unchanged.
+The exact “Wrap overlap front” and “Wrap underlap front” labels sit at
+quarter-width in both the one-page and whole-piece overflow A0 paths, clear of
+their vertical center grainlines. These poses use
+`src/export/pattern-label-layout.ts` and exact-name routing in `src/export/a0.ts`.
+The tiled PDF renderer does not currently emit Skirt piece-name labels; S1302
+does not add them or change tiled PDF bytes. Shared exporter defaults and other
+profiles remain unchanged.
 
 `src/ui/starter-registry.ts` owns the K06 card, measurements, defaults and claim
 limits. `src/ui/app.ts` keeps the label and output filenames specific to K06,
@@ -42,13 +46,14 @@ construction limits in Tech Pack and Projector output. Switching to generic
 Skirt removes K06-only controls and starter identity; generic Skirt and K01–K05
 retain their own construction and output routes.
 
-S1301 remains an unmerged candidate and K06 is uncounted at 45/56 until focused
-changed-module 100% coverage, actual rendered/output review, hosted global
-coverage, normal merge, exact-main release/deployment, stable/immutable parity,
-fresh two-origin acceptance and validated closeout all pass. The digital draft
-and virtual views do not establish sewn fit, coverage in motion, comfort, wear,
-material behavior, validated grading, B1 approval, supplier suitability or
-production readiness.
+S1301 is merged and released at `145fd7efbe02677d3aeef01e56eed16c39fdae6f`.
+S1302 is the A0-only label-clearance correction candidate; K06 remains
+uncounted at 45/56 until its focused changed-module 100% coverage, actual
+rendered/output review, hosted global coverage, normal merge, exact-main
+release/deployment, stable/immutable parity, fresh two-origin acceptance and
+validated closeout all pass. The digital draft and virtual views do not
+establish sewn fit, coverage in motion, comfort, wear, material behavior,
+validated grading, B1 approval, supplier suitability or production readiness.
 
 ## EPIC-32/G18 current architecture handoff — S1299 K05 Tech Pack title (2026-11-12)
 
