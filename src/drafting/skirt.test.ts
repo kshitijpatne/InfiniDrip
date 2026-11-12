@@ -5,13 +5,17 @@ import { pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES, skirtPanel,
   SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_A_LINE_HEM_POM, skirtHemSweepQuarterCm,
   SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_PENCIL_HEM_POM, skirtHemTaperQuarterCm,
+  skirtHemWidthQuarterCm,
   SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_GATHERED_POMS, SKIRT_GATHERED_NOTCHES, gatheredSkirtOptions, isGatheredSkirtProfile,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
   boxPleatGuideGroups, boxPleatGuideProblem, isBoxPleatedSkirtProfile,
   SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
   tieredSkirtOptions, tieredSkirtProblem, isTieredSkirtProfile, tieredSkirtNotches, tieredSkirtPoms,
-  tieredSkirtPanel } from "./skirt";
+  tieredSkirtPanel,
+  SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
+  isWrapSkirtProfile, wrapSkirtOptions, wrapSkirtProblem, wrapSkirtFrontPanels,
+  wrapSkirtNotches, wrapSkirtPoms, wrapSkirtTopology } from "./skirt";
 import { stitchChecks } from "./stitch";
 import { resolveNotch } from "../render/notch";
 import { SKIRT, gradeRun, specSheet } from "./index";
@@ -370,6 +374,16 @@ describe("skirtPanel — the Component contract (Phase C1, Slice 58)", () => {
   });
 });
 
+describe("skirtHemWidthQuarterCm defensive width guard", () => {
+  it("returns a positive width and rejects a direct taper that collapses the quarter-panel", () => {
+    expect(skirtHemWidthQuarterCm(STANDARD_M)).toBe((STANDARD_M.hip + STANDARD_M.ease) / 4);
+    expect(() => skirtHemWidthQuarterCm(
+      { ...STANDARD_M, hip: 60, ease: 0 },
+      { [SKIRT_PENCIL_HEM_TAPER_OPTION_ID]: 110 },
+    )).toThrow("A skirt hem taper must leave a positive finite quarter-panel width");
+  });
+});
+
 describe("K03 gathered pull-on skirt draft", () => {
   const options = { [SKIRT_GATHER_RATIO_OPTION_ID]: 1.5, [SKIRT_CASING_DEPTH_OPTION_ID]: 4 };
 
@@ -564,11 +578,21 @@ describe("K05 gathered tier skirt draft", () => {
       previousHalfWidth = cutHalfWidth;
     }
     const poms = tieredSkirtPoms(tierCount);
+    expect(poms[0]!.measure(drafted)).toBeCloseTo(
+      4 * edgeLength(pieceEdge(rolePiece(drafted, "front"), "waist")), 8,
+    );
+    expect(poms[1]!.measure(drafted)).toBeCloseTo(
+      4 * edgeLength(pieceEdge(rolePiece(drafted, "front"), "hem")), 8,
+    );
+    const firstLowerTierCutWidth = poms.find((pom) => pom.label.includes("Tier 1 cut width before gathering"))!;
+    expect(firstLowerTierCutWidth.measure(drafted)).toBeCloseTo(
+      4 * edgeLength(pieceEdge(rolePiece(drafted, "tier1Front"), "waist")), 8,
+    );
     expect(poms[poms.length - 1]?.label).toBe("Total modeled skirt length (digital)");
     expect(poms[poms.length - 1]?.measure(drafted)).toBeCloseTo(STANDARD_M.length, 8);
     expect(poms.filter((pom) => pom.label.includes("cut width before gathering"))).toHaveLength(lowerTierCount);
     const notches = tieredSkirtNotches(options);
-    expect(notches.map((item) => item.pieceName)).toEqual(Object.keys(drafted.roles));
+    expect(notches.map((item) => item.pieceName)).toEqual(blockPieces(drafted).map((piece) => piece.name));
     expect(notches.every((item) => item.notches.length > 0)).toBe(true);
     expect(notches.find((item) => item.pieceName === "waistbandFront")?.grainline)
       .toEqual({ topEdge: "top", topT: 0.5, bottomEdge: "seam", bottomT: 0.5 });
@@ -634,5 +658,109 @@ describe("K05 gathered tier skirt draft", () => {
     }
     expect(() => tieredSkirtPanel(STANDARD_M, { ...lowerPanel, bottomHalfWidthCm: 21 }))
       .toThrow(/must keep constant width/);
+  });
+});
+
+describe("K06 front-overlap Wrap skirt draft", () => {
+  const defaults = { [SKIRT_WRAP_OVERLAP_OPTION_ID]: 20, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 5 };
+
+  it("drafts two open asymmetric front panels, a separate facing, matched waistbands, checks and POMs", () => {
+    const drafted = draftSkirt(STANDARD_M, defaults);
+    expect(isWrapSkirtProfile(defaults)).toBe(true);
+    expect(isWrapSkirtProfile({})).toBe(false);
+    expect(wrapSkirtOptions({})).toEqual({ frontOverlapCm: 20, overlapFacingWidthCm: 5 });
+    expect(wrapSkirtProblem(STANDARD_M, defaults)).toBeNull();
+    expect(Object.keys(drafted.roles)).toEqual([
+      "front", "frontUnderlap", "overlapFacing", "back", "wrapWaistbandFront", "waistbandBack",
+    ]);
+    expect(rolePiece(drafted, "front").onFold).toBe(false);
+    expect(rolePiece(drafted, "frontUnderlap").onFold).toBe(false);
+    expect(rolePiece(drafted, "overlapFacing").onFold).toBe(false);
+    expect(rolePiece(drafted, "back").onFold).toBe(true);
+    expect(rolePiece(drafted, "wrapWaistbandFront").onFold).toBe(false);
+    expect(rolePiece(drafted, "waistbandBack").onFold).toBe(true);
+    expect(edgeStart(pieceEdge(rolePiece(drafted, "front"), "centerFront")).x).toBe(-20);
+    expect(edgeEnd(pieceEdge(rolePiece(drafted, "front"), "centerFront")).x).toBe(-20);
+    expect(edgeStart(pieceEdge(rolePiece(drafted, "frontUnderlap"), "centerFront")).x).toBe(0);
+    expect(edgeLength(pieceEdge(rolePiece(drafted, "front"), "centerFront"))).toBe(STANDARD_M.length);
+    expect(edgeLength(pieceEdge(rolePiece(drafted, "overlapFacing"), "join"))).toBe(STANDARD_M.length);
+    expect(edgeLength(pieceEdge(rolePiece(drafted, "overlapFacing"), "free"))).toBe(STANDARD_M.length);
+    expect(edgeLength(pieceEdge(rolePiece(drafted, "front"), "waist"))
+      + edgeLength(pieceEdge(rolePiece(drafted, "frontUnderlap"), "waist")))
+      .toBeCloseTo(edgeLength(pieceEdge(rolePiece(drafted, "wrapWaistbandFront"), "seam")), 8);
+    expect(drafted.stitches.map((stitch) => stitch.label)).toContain("Side zipper path (waistband → hip)");
+    expect(drafted.stitches.map((stitch) => stitch.label)).toContain("Overlap facing (open center-front edge ↔ facing join)");
+    expect(wrapSkirtTopology(drafted)).toBe(true);
+    expect(wrapSkirtTopology(draftSkirt(STANDARD_M))).toBe(false);
+    expect(allSkirtChecks(drafted).every((check) => check.ok)).toBe(true);
+    const poms = wrapSkirtPoms(defaults);
+    expect(poms.map((pom) => pom.label)).toEqual([
+      "Front waist width including digital overlap",
+      "Back waist width (modeled digital)",
+      "Front hip width including digital overlap",
+      "Front overlap (software setting)",
+      "Overlap facing width (software setting)",
+      "Total modeled skirt length (digital)",
+    ]);
+    expect(poms.map((pom) => pom.measure(drafted))).toEqual([67, 47, 75, 20, 5, STANDARD_M.length]);
+    const notches = wrapSkirtNotches();
+    expect(notches.map((item) => item.pieceName)).toEqual(blockPieces(drafted).map((piece) => piece.name));
+    expect(notches.find((item) => item.pieceName === "Wrap waistband front")?.notches)
+      .toContainEqual({ edgeName: "side", t: 0.5 });
+    expect(notches.find((item) => item.pieceName === "Wrap waistband back")?.notches)
+      .toContainEqual({ edgeName: "side", t: 0.5 });
+    expect(notches.find((item) => item.pieceName === "Wrap overlap facing")?.grainline)
+      .toEqual({ topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 });
+    for (const item of notches) {
+      const piece = blockPieces(drafted).find((candidate) => candidate.name === item.pieceName)!;
+      for (const notch of item.notches) expect(() => resolveNotch(piece, notch)).not.toThrow();
+    }
+  });
+
+  it("keeps minimum and maximum software settings in range without changing the generic skirt", () => {
+    const minimum = { [SKIRT_WRAP_OVERLAP_OPTION_ID]: 10, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 3 };
+    const maximum = { [SKIRT_WRAP_OVERLAP_OPTION_ID]: 40, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 8 };
+    expect(wrapSkirtProblem(STANDARD_M, minimum)).toBeNull();
+    expect(wrapSkirtProblem(STANDARD_M, maximum)).toBeNull();
+    const low = draftSkirt(STANDARD_M, minimum);
+    const high = draftSkirt(STANDARD_M, maximum);
+    expect(edgeStart(pieceEdge(rolePiece(low, "front"), "centerFront")).x).toBe(-10);
+    expect(edgeStart(pieceEdge(rolePiece(high, "front"), "centerFront")).x).toBe(-40);
+    expect(edgeLength(pieceEdge(rolePiece(high, "overlapFacing"), "free"))).toBe(STANDARD_M.length);
+    expect(draftSkirt(STANDARD_M)).toEqual(draftSkirt(STANDARD_M, {}));
+    expect(Object.keys(draftSkirt(STANDARD_M).roles)).toEqual(["front", "back", "waistbandFront", "waistbandBack"]);
+  });
+
+  it("retains and reports invalid settings, conflicts, and impossible digital overlap geometry", () => {
+    expect(() => wrapSkirtOptions({ [SKIRT_WRAP_OVERLAP_OPTION_ID]: 12 })).toThrow(/10–40 cm in 5 cm steps/);
+    expect(wrapSkirtProblem(STANDARD_M, { ...defaults, [SKIRT_WRAP_OVERLAP_OPTION_ID]: 12 })).toContain("10–40 cm in 5 cm steps");
+    expect(() => wrapSkirtOptions({ ...defaults, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 5.25 }))
+      .toThrow(/3–8 cm in 0.5 cm steps/);
+    expect(wrapSkirtProblem(STANDARD_M, { ...defaults, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: Number.NaN }))
+      .toContain("3–8 cm in 0.5 cm steps");
+    expect(wrapSkirtProblem(STANDARD_M, {
+      ...defaults,
+      [SKIRT_TIER_COUNT_OPTION_ID]: 3,
+    })).toContain("cannot be combined with another skirt profile");
+    expect(wrapSkirtProblem({ ...STANDARD_M, waist: 50, ease: -100 }, defaults))
+      .toContain("positive finite waist-plus-ease and hip-plus-ease widths");
+    expect(wrapSkirtProblem({ ...STANDARD_M, hipDepth: 0 }, defaults)).toContain("hip depth must be positive");
+    expect(wrapSkirtProblem({ ...STANDARD_M, length: STANDARD_M.hipDepth }, defaults)).toContain("must exceed hip depth");
+    expect(wrapSkirtProblem({ ...STANDARD_M, hip: 60, ease: -30 }, defaults)).toContain("must be smaller than the 15 cm");
+    expect(() => draftSkirt({ ...STANDARD_M, hip: 60, ease: -30 }, defaults)).toThrow(/must be smaller than the 15 cm/);
+    expect(() => wrapSkirtFrontPanels({ ...STANDARD_M, length: STANDARD_M.hipDepth }, {
+      frontOverlapCm: 20,
+      overlapFacingWidthCm: 5,
+    })).toThrow(/must exceed hip depth/);
+    expect(wrapSkirtProblem(STANDARD_M, {})).toBeNull();
+  });
+
+  it("returns actionable fallback guidance for a non-Error option failure", () => {
+    const options = { ...defaults };
+    Object.defineProperty(options, SKIRT_WRAP_OVERLAP_OPTION_ID, {
+      get: () => { throw "unavailable option value"; },
+    });
+    expect(wrapSkirtProblem(STANDARD_M, options))
+      .toBe("K06 overlap settings are invalid; correct them to restore the digital draft.");
   });
 });

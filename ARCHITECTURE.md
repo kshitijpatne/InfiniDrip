@@ -1,5 +1,55 @@
 # InfiniDrip architecture guide
 
+## EPIC-32/G18 current architecture handoff — S1301 K06 front-overlap Wrap skirt
+
+K06 is a separate Starter Blank profile on the existing `skirt` recipe, with
+entry ID `skirt-wrap-front-overlap-digital-v1` and recipe revision
+`skirt-wrap-front-overlap-v1`. Its editable front-overlap setting defaults to
+20 cm (10–40 cm by 5 cm); its separate facing-width setting defaults to 5 cm
+(3–8 cm by 0.5 cm). These are InfiniDrip software settings, not physical pattern,
+coverage, seam-finish, fit or sewing standards.
+
+`draftSkirt` routes K06 options through a dedicated grammar. It produces an
+open, non-fold overlap front, a separate non-fold underlap front, a distinct
+digital facing, the existing on-fold back, and matching front/back waistband
+pieces. The existing waistband and side-zipper path remain software choices.
+Ties, buttons, reversibility and back-wrap variants are not modeled. The
+overlap guard rejects conflicting skirt profiles, invalid saved values, and
+overlap geometry that consumes the modeled front width; it preserves the value
+and guidance while withholding dependent draft/output instead of clamping.
+
+The K06 recipe supplies front/back digital-width POMs, overlap/facing settings,
+grainlines and notches for the authored piece names, plus K06-specific digital
+Tech Pack limits. Matching notches use actual `Piece.name` values because the
+shared garment-readiness check resolves marks by piece name rather than block
+role ID. The option-aware A0 overflow and local tiled-PDF coordinates are scoped
+to K06. `src/render/skirt-figure.ts` draws the open-front relationship, separate
+facing and setting summary; `src/render/technical-flat-mapping.ts` maps the two
+front panels, visible facing overlay and waistband to the front flat, with the back and
+waistband on the back flat. Invalid inputs keep the editor preview paused.
+
+The A0 overflow facing page uses a lengthwise waist-to-hem grainline and a
+rotated label placed away from both that line and the midpoint join notch.
+K06 waistband labels sit away from their center grainlines in both A0 paths.
+This K06-specific pose is handled by `src/export/pattern-label-layout.ts` and
+the existing A0 overflow path; shared exporter defaults and other profiles are
+unchanged.
+
+`src/ui/starter-registry.ts` owns the K06 card, measurements, defaults and claim
+limits. `src/ui/app.ts` keeps the label and output filenames specific to K06,
+preserves the starter identity through save/reopen, and includes the digital
+construction limits in Tech Pack and Projector output. Switching to generic
+Skirt removes K06-only controls and starter identity; generic Skirt and K01–K05
+retain their own construction and output routes.
+
+S1301 remains an unmerged candidate and K06 is uncounted at 45/56 until focused
+changed-module 100% coverage, actual rendered/output review, hosted global
+coverage, normal merge, exact-main release/deployment, stable/immutable parity,
+fresh two-origin acceptance and validated closeout all pass. The digital draft
+and virtual views do not establish sewn fit, coverage in motion, comfort, wear,
+material behavior, validated grading, B1 approval, supplier suitability or
+production readiness.
+
 ## EPIC-32/G18 current architecture handoff — S1299 K05 Tech Pack title (2026-11-12)
 
 K05 is a separate selectable profile on the existing Skirt recipe, with stable

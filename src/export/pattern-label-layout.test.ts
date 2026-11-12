@@ -14,6 +14,30 @@ describe("pattern piece label layout", () => {
     expect(Math.abs(pose.x - 36)).toBeGreaterThan(17);
   });
 
+  it.each(["Wrap waistband front", "Wrap waistband back"])("moves the K06 %s label away from its center grainline", (pieceName) => {
+    const bounds = { minX: 2, minY: 4, width: 48, height: 5.5 };
+    const label = pieceName.toUpperCase();
+    const pose = patternLabelPose(pieceName, label, bounds, 14 / (72 / 2.54));
+    expect(pose).toEqual({ x: 14, y: 6.75, fontSize: 14 / (72 / 2.54), rotation: 0 });
+    expect(Math.abs(pose.x - (bounds.minX + bounds.width / 2)))
+      .toBeGreaterThan(label.length * pose.fontSize * (4 / 14) / 2 + 2);
+  });
+
+  it("rotates the K06 facing label beside its lengthwise grainline", () => {
+    const bounds = { minX: 0, minY: 0, width: 8, height: 70 };
+    const label = "WRAP OVERLAP FACING";
+    const pose = patternLabelPose("Wrap overlap facing", label, bounds, 14 / (72 / 2.54));
+    expect(pose.rotation).toBe(90);
+    expect(pose.x).toBe(bounds.minX + bounds.width * 0.25);
+    expect(pose.y).toBe(bounds.minY + bounds.height * 0.25);
+    expect(Math.abs(pose.x - (bounds.minX + bounds.width / 2)))
+      .toBeGreaterThan(pose.fontSize / 2);
+    expect(label.length * pose.fontSize * 0.58).toBeLessThanOrEqual(bounds.height - 1);
+    expect(Math.abs(pose.y - (bounds.minY + bounds.height / 2)))
+      .toBeGreaterThan(label.length * pose.fontSize * 0.58 / 2);
+    expect(pose.fontSize).toBeGreaterThan(0);
+  });
+
   it("puts the Jogger casing title below its construction channels", () => {
     expect(patternLabelPose("jogger waistband casing", "JOGGER WAISTBAND CASING",
       { minX: 4, minY: 2, width: 72, height: 5.5 }, 1))

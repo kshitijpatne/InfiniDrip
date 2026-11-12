@@ -135,6 +135,23 @@ function hasTieredSkirtTopology(block: Block): boolean {
     || block.stitches.some((stitch) => stitch.label.startsWith("Gathered tier "));
 }
 
+function wrapSkirtTechnicalFlatMapping(block: Block): TechnicalFlatRecipeMapping | undefined {
+  const front = block.roles.front;
+  const underlap = block.roles.frontUnderlap;
+  const facing = block.roles.overlapFacing;
+  const back = block.roles.back;
+  const hasOpenFront = front?.onFold === false && underlap?.onFold === false
+    && front.edges.some((edge) => edge.name === "centerFront")
+    && underlap.edges.some((edge) => edge.name === "centerFront");
+  const hasSeparateFacing = facing?.onFold === false && facing.edges.some((edge) => edge.name === "join")
+    && block.stitches.some((stitch) => stitch.label === "Overlap facing (open center-front edge ↔ facing join)");
+  if (!hasOpenFront || !hasSeparateFacing || !back) return undefined;
+  return makeMapping("skirt",
+    [shell("front"), shell("frontUnderlap"), overlay("overlapFacing"), overlay("wrapWaistbandFront")],
+    [shell("back"), overlay("waistbandBack")],
+    "front", "back");
+}
+
 /** Resolve topology-specific role membership while preserving the legacy
  * single-front map for F01/F02 and other recipes using the same root. */
 export function technicalFlatMappingForBlock(recipeId: string, block: Block): TechnicalFlatRecipeMapping | undefined {
@@ -145,6 +162,7 @@ export function technicalFlatMappingForBlock(recipeId: string, block: Block): Te
     && hasIntegratedGatheredCasingPanel(roles.back);
   const hasTieredSkirt = recipeId === "skirt" && hasTieredSkirtTopology(block);
   const tieredSkirtMapping = recipeId === "skirt" ? tieredSkirtTechnicalFlatMapping(block) : undefined;
+  const wrapSkirtMapping = recipeId === "skirt" ? wrapSkirtTechnicalFlatMapping(block) : undefined;
   const hasW07BandCollar = roles?.outerStand?.name === "outer woven collar band"
     && roles?.innerStand?.name === "inner woven collar band"
     && !roles?.upperCollar && !roles?.underCollar;
@@ -168,6 +186,7 @@ export function technicalFlatMappingForBlock(recipeId: string, block: Block): Te
     });
     return { ...mapping, faces: [withoutStandRoles(front), withoutStandRoles(back)] };
   }
+  if (wrapSkirtMapping) return wrapSkirtMapping;
   if (tieredSkirtMapping) return tieredSkirtMapping;
   if (hasTieredSkirt) return undefined;
   if (mapping && hasIntegratedGatheredCasing) return GATHERED_SKIRT_TECHNICAL_FLAT_MAPPING;

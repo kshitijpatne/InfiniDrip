@@ -145,6 +145,90 @@ export const SKIRT_TIER_GATHER_RATIO_OPTION: GarmentOption = {
   step: 0.25,
 };
 
+export const SKIRT_WRAP_ENTRY_ID = "skirt-wrap-front-overlap-digital-v1";
+export const SKIRT_WRAP_OVERLAP_OPTION_ID = "frontOverlapCm";
+export const SKIRT_WRAP_FACING_WIDTH_OPTION_ID = "overlapFacingWidthCm";
+export const SKIRT_WRAP_OVERLAP_OPTION: GarmentOption = {
+  id: SKIRT_WRAP_OVERLAP_OPTION_ID,
+  label: "Front overlap width (software setting)",
+  unit: "cm",
+  help: "Adds a digital extension at the open center-front edge. This is an InfiniDrip setting, not a physical coverage or fit guarantee.",
+  group: "Wrap front",
+  appliesToStarterEntryId: SKIRT_WRAP_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 20,
+  min: 10,
+  max: 40,
+  step: 5,
+};
+export const SKIRT_WRAP_FACING_WIDTH_OPTION: GarmentOption = {
+  id: SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
+  label: "Overlap facing width (software setting)",
+  unit: "cm",
+  help: "Sets the separate digital facing width along the open overlap edge. This is not a physical finishing or seam-allowance standard.",
+  group: "Wrap front",
+  appliesToStarterEntryId: SKIRT_WRAP_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 5,
+  min: 3,
+  max: 8,
+  step: 0.5,
+};
+
+export interface WrapSkirtSettings {
+  readonly frontOverlapCm: number;
+  readonly overlapFacingWidthCm: number;
+}
+
+export function isWrapSkirtProfile(options: GarmentOptions = {}): boolean {
+  return Object.prototype.hasOwnProperty.call(options, SKIRT_WRAP_OVERLAP_OPTION_ID)
+    || Object.prototype.hasOwnProperty.call(options, SKIRT_WRAP_FACING_WIDTH_OPTION_ID);
+}
+
+export function wrapSkirtOptions(options: GarmentOptions = {}): WrapSkirtSettings {
+  const frontOverlapCm = options[SKIRT_WRAP_OVERLAP_OPTION_ID] ?? SKIRT_WRAP_OVERLAP_OPTION.defaultValue;
+  const overlapFacingWidthCm = options[SKIRT_WRAP_FACING_WIDTH_OPTION_ID] ?? SKIRT_WRAP_FACING_WIDTH_OPTION.defaultValue;
+  if (![10, 15, 20, 25, 30, 35, 40].includes(frontOverlapCm)) {
+    throw new RangeError("K06 front overlap must be 10–40 cm in 5 cm steps; keep the saved value and choose a supported setting to restore the digital draft");
+  }
+  if (!Number.isFinite(overlapFacingWidthCm) || overlapFacingWidthCm < 3 || overlapFacingWidthCm > 8
+    || Math.round((overlapFacingWidthCm - 3) * 2) !== (overlapFacingWidthCm - 3) * 2) {
+    throw new RangeError("K06 overlap facing width must be 3–8 cm in 0.5 cm steps; keep the saved value and choose a supported setting to restore the digital draft");
+  }
+  return { frontOverlapCm, overlapFacingWidthCm };
+}
+
+export function wrapSkirtProblem(m: Measurements, options: GarmentOptions = {}): string | null {
+  if (!isWrapSkirtProfile(options)) return null;
+  if (Object.prototype.hasOwnProperty.call(options, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID)
+    || Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)
+    || Object.prototype.hasOwnProperty.call(options, SKIRT_GATHER_RATIO_OPTION_ID)
+    || Object.prototype.hasOwnProperty.call(options, SKIRT_CASING_DEPTH_OPTION_ID)
+    || Object.prototype.hasOwnProperty.call(options, SKIRT_BOX_PLEAT_COUNT_OPTION_ID)
+    || Object.prototype.hasOwnProperty.call(options, SKIRT_BOX_PLEAT_SPACING_OPTION_ID)
+    || Object.prototype.hasOwnProperty.call(options, SKIRT_TIER_COUNT_OPTION_ID)
+    || Object.prototype.hasOwnProperty.call(options, SKIRT_TIER_GATHER_RATIO_OPTION_ID)) {
+    return "K06 front-overlap construction cannot be combined with another skirt profile. Keep only the K06 overlap and facing settings; the preview and outputs stay paused.";
+  }
+  let settings: WrapSkirtSettings;
+  try {
+    settings = wrapSkirtOptions(options);
+  } catch (error) {
+    return error instanceof Error ? error.message : "K06 overlap settings are invalid; correct them to restore the digital draft.";
+  }
+  const { waistHalf, hipHalf } = skirtWidths(m);
+  if (![m.waist, m.hip, m.hipDepth, m.length, m.ease, waistHalf, hipHalf]
+    .every(Number.isFinite) || waistHalf <= 0 || hipHalf <= 0) {
+    return "K06 needs positive finite waist-plus-ease and hip-plus-ease widths. Correct the measurements to restore the preview and outputs.";
+  }
+  if (m.hipDepth <= 0) return "K06 hip depth must be positive so both front panels and the facing can be drafted.";
+  if (m.length <= m.hipDepth) return "K06 skirt length must exceed hip depth so the open front edge and side opening run below the hip. Increase length or reduce hip depth.";
+  if (settings.frontOverlapCm >= 2 * hipHalf) {
+    return `K06 front overlap (${settings.frontOverlapCm} cm) must be smaller than the ${2 * hipHalf} cm modeled digital front width. Reduce overlap or increase the modeled hip/ease width; the preview and outputs stay paused.`;
+  }
+  return null;
+}
+
 export interface TieredSkirtSettings {
   readonly tierCount: number;
   readonly gatherRatio: number;
@@ -762,6 +846,202 @@ export function tieredSkirtPoms(tierCount: number): readonly Pom[] {
   return poms;
 }
 
+function wrapSkirtFrontPanel(m: Measurements, name: string, centerFrontX: number): Piece {
+  const { waistHalf, hipHalf } = skirtWidths(m);
+  const centerWaist = point(centerFrontX, 0);
+  const sideWaist = point(waistHalf, 0);
+  const sideHip = point(hipHalf, m.hipDepth);
+  const sideHem = point(hipHalf, m.length);
+  const centerHem = point(centerFrontX, m.length);
+  return {
+    name,
+    onFold: false,
+    edges: [
+      { kind: "line", name: "waist", start: centerWaist, end: sideWaist },
+      { kind: "line", name: "sideUpper", start: sideWaist, end: sideHip },
+      { kind: "line", name: "sideLower", start: sideHip, end: sideHem },
+      { kind: "line", name: "hem", start: sideHem, end: centerHem },
+      { kind: "line", name: "centerFront", start: centerHem, end: centerWaist },
+    ],
+  };
+}
+
+function wrapSkirtFacing(m: Measurements, settings: WrapSkirtSettings): Piece {
+  const outerX = -settings.frontOverlapCm + settings.overlapFacingWidthCm;
+  return {
+    name: "Wrap overlap facing",
+    onFold: false,
+    edges: [
+      { kind: "line", name: "join", start: point(-settings.frontOverlapCm, 0), end: point(-settings.frontOverlapCm, m.length) },
+      { kind: "line", name: "hem", start: point(-settings.frontOverlapCm, m.length), end: point(outerX, m.length) },
+      { kind: "line", name: "free", start: point(outerX, m.length), end: point(outerX, 0) },
+      { kind: "line", name: "waist", start: point(outerX, 0), end: point(-settings.frontOverlapCm, 0) },
+    ],
+  };
+}
+
+export const wrapSkirtFrontPanels: Component<WrapSkirtSettings> = (m, settings) => {
+  const options = {
+    [SKIRT_WRAP_OVERLAP_OPTION_ID]: settings.frontOverlapCm,
+    [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: settings.overlapFacingWidthCm,
+  };
+  const problem = wrapSkirtProblem(m, options);
+  if (problem) throw new RangeError(problem);
+  return {
+    pieces: {
+      front: wrapSkirtFrontPanel(m, "Wrap overlap front", -settings.frontOverlapCm),
+      frontUnderlap: wrapSkirtFrontPanel(m, "Wrap underlap front", 0),
+      overlapFacing: wrapSkirtFacing(m, settings),
+    },
+    stitches: [],
+    interfaces: {
+      frontWaist: iface(edgeRef("front", "waist"), edgeRef("frontUnderlap", "waist")),
+      overlapEdge: iface(edgeRef("front", "centerFront")),
+      facingJoin: iface(edgeRef("overlapFacing", "join")),
+    },
+  };
+};
+
+export interface WrapSkirtWaistbandParams {
+  readonly depth: number;
+  readonly frontSeamLength: number;
+  readonly backSeamLength: number;
+}
+
+export const wrapSkirtWaistband: Component<WrapSkirtWaistbandParams> = (m, params) => {
+  const bands = waistband(m, params);
+  const front = bands.pieces.waistbandFront!;
+  const back = bands.pieces.waistbandBack!;
+  return {
+    ...bands,
+    pieces: {
+      wrapWaistbandFront: {
+        ...front,
+        name: "Wrap waistband front",
+        onFold: false,
+        edges: front.edges.map((edge) => edge.name === "fold" ? { ...edge, name: "sideLeft" } : edge),
+      },
+      waistbandBack: { ...back, name: "Wrap waistband back" },
+    },
+    interfaces: {
+      ...bands.interfaces,
+      frontWaist: iface(edgeRef("wrapWaistbandFront", "seam", true)),
+      frontSide: iface(edgeRef("wrapWaistbandFront", "side")),
+      backWaist: iface(edgeRef("waistbandBack", "seam", true)),
+      backSide: iface(edgeRef("waistbandBack", "side")),
+      frontSideLeft: iface(edgeRef("wrapWaistbandFront", "sideLeft")),
+    },
+  };
+};
+
+export function wrapSkirtStitches(): readonly Stitch[] {
+  return [
+    {
+      label: "Side seam (overlap front ↔ back)",
+      a: iface(edgeRef("front", "sideUpper"), edgeRef("front", "sideLower")),
+      b: iface(edgeRef("back", "sideUpper"), edgeRef("back", "sideLower")),
+    },
+    {
+      label: "Side seam (underlap front ↔ back)",
+      a: iface(edgeRef("frontUnderlap", "sideUpper"), edgeRef("frontUnderlap", "sideLower")),
+      b: iface(edgeRef("back", "sideUpper"), edgeRef("back", "sideLower")),
+    },
+    {
+      label: "Waistband (front + back ↔ matching bands)",
+      a: iface(edgeRef("front", "waist"), edgeRef("frontUnderlap", "waist"), edgeRef("back", "waist", true)),
+      b: iface(edgeRef("wrapWaistbandFront", "seam", true), edgeRef("waistbandBack", "seam")),
+    },
+    {
+      label: "Waistband side seam (front ↔ back)",
+      a: iface(edgeRef("wrapWaistbandFront", "side")),
+      b: iface(edgeRef("waistbandBack", "side")),
+    },
+    {
+      label: "Side zipper path (waistband → hip)",
+      a: iface(edgeRef("wrapWaistbandFront", "side"), edgeRef("front", "sideUpper")),
+      b: iface(edgeRef("waistbandBack", "side"), edgeRef("back", "sideUpper")),
+    },
+    {
+      label: "Overlap facing (open center-front edge ↔ facing join)",
+      a: iface(edgeRef("front", "centerFront")),
+      b: iface(edgeRef("overlapFacing", "join", true)),
+    },
+  ];
+}
+
+export function wrapSkirtGrammar(options: GarmentOptions = {}) {
+  const settings = wrapSkirtOptions(options);
+  return garmentGrammar("skirt-wrap-front-overlap", [
+    componentNode("frontPanels", "wrap-skirt-front-panels", wrapSkirtFrontPanels, () => settings),
+    componentNode("back", "skirt-panel", skirtPanel, () => ({ position: "back" as const, silhouette: "straight" as const })),
+    componentNode("waistband", "wrap-skirt-waistband", wrapSkirtWaistband, (context) => ({
+      ...WAISTBAND_DEFAULT,
+      frontSeamLength: context.interfaceLength("frontPanels", "frontWaist"),
+      backSeamLength: context.interfaceLength("back", "waist"),
+    }), ["frontPanels", "back"]),
+  ], () => wrapSkirtStitches());
+}
+
+export function wrapSkirtNotches(): readonly PieceNotches[] {
+  const stitches = wrapSkirtStitches();
+  const overlapSide = stitches[0]!;
+  const underlapSide = stitches[1]!;
+  const waist = stitches[2]!;
+  const bandSide = stitches[3]!;
+  const zipper = stitches[4]!;
+  const facing = stitches[5]!;
+  return [
+    { pieceName: "Wrap overlap front", notches: [matchedNotch(overlapSide, "a", 0.5), matchedNotch(facing, "a", 0.5)],
+      grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 } },
+    { pieceName: "Wrap underlap front", notches: [matchedNotch(underlapSide, "a", 0.5)],
+      grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 } },
+    { pieceName: "Wrap overlap facing", notches: [matchedNotch(facing, "b", 0.5)],
+      grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 } },
+    { pieceName: "back", notches: [matchedNotch(overlapSide, "b", 0.5), matchedNotch(underlapSide, "b", 0.75)],
+      grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 } },
+    { pieceName: "Wrap waistband front", notches: [matchedNotch(waist, "b", 0.25), matchedNotch(bandSide, "a", 0.5), matchedNotch(zipper, "a", 1)],
+      grainline: { topEdge: "top", topT: 0.5, bottomEdge: "seam", bottomT: 0.5 } },
+    { pieceName: "Wrap waistband back", notches: [matchedNotch(waist, "b", 0.9), matchedNotch(bandSide, "b", 0.5), matchedNotch(zipper, "b", 1)],
+      grainline: { topEdge: "top", topT: 0.5, bottomEdge: "seam", bottomT: 0.5 } },
+  ];
+}
+
+export function wrapSkirtPoms(options: GarmentOptions = {}): readonly Pom[] {
+  const settings = wrapSkirtOptions(options);
+  return [
+    { label: "Front waist width including digital overlap", measure: (b) =>
+      edgeLength(pieceEdge(rolePiece(b, "front"), "waist"))
+        + edgeLength(pieceEdge(rolePiece(b, "frontUnderlap"), "waist")) },
+    { label: "Back waist width (modeled digital)", measure: (b) => 2 * edgeLength(pieceEdge(rolePiece(b, "back"), "waist")) },
+    { label: "Front hip width including digital overlap", measure: (b) =>
+      spanX(rolePiece(b, "front"), { edge: "sideLower", at: "start" }, { edge: "centerFront", at: "start" })
+        + spanX(rolePiece(b, "frontUnderlap"), { edge: "sideLower", at: "start" }, { edge: "centerFront", at: "start" }) },
+    { label: "Front overlap (software setting)", measure: () => settings.frontOverlapCm },
+    { label: "Overlap facing width (software setting)", measure: () => settings.overlapFacingWidthCm },
+    { label: "Total modeled skirt length (digital)", measure: (b) =>
+      spanY(rolePiece(b, "front"), { edge: "centerFront", at: "start" }, { edge: "centerFront", at: "end" }) },
+  ];
+}
+
+export function wrapSkirtChecks(b: Block): CheckResult[] {
+  return (["front", "frontUnderlap"] as const).flatMap((role) => {
+    const panel = rolePiece(b, role);
+    const hem = pieceEdge(panel, "hem");
+    const waist = pieceEdge(panel, "waist");
+    const centerFront = pieceEdge(panel, "centerFront");
+    return [
+      squareCorner(`${panel.name} hem square to open center front`, edgeStart(hem), edgeEnd(hem), edgeEnd(centerFront)),
+      squareCorner(`${panel.name} waist square to open center front`, edgeEnd(waist), edgeStart(waist), edgeStart(centerFront)),
+    ];
+  });
+}
+
+export function wrapSkirtTopology(b: Block): boolean {
+  return Object.prototype.hasOwnProperty.call(b.roles, "frontUnderlap")
+    && Object.prototype.hasOwnProperty.call(b.roles, "overlapFacing")
+    && b.roles.front?.edges.some((edge) => edge.name === "centerFront") === true;
+}
+
 /** The skirt's stitches preserve the original panel side-seam check, attach
  *  separate front/back waistband pieces to their matching body panels, and
  *  describe the single side zipper path from the band through the upper body
@@ -795,6 +1075,11 @@ const SKIRT_STITCHES: readonly Stitch[] = [
 ];
 
 export function draftSkirt(m: Measurements, options: GarmentOptions = {}): Block {
+  if (isWrapSkirtProfile(options)) {
+    const problem = wrapSkirtProblem(m, options);
+    if (problem) throw new RangeError(problem);
+    return composeBlock(wrapSkirtGrammar(options), m, options);
+  }
   if (isTieredSkirtProfile(options)) {
     const problem = tieredSkirtProblem(m, options);
     if (problem) throw new RangeError(problem);
@@ -857,6 +1142,7 @@ export const SKIRT_GRAMMAR = garmentGrammar(
  *  each meeting the fold square — panel properties, not seams between two
  *  pieces, so `stitchChecks` can't express them. No sleeve is ever named. */
 export function skirtPanelChecks(b: Block): CheckResult[] {
+  if (wrapSkirtTopology(b)) return wrapSkirtChecks(b);
   const front = rolePiece(b, "front");
   const hem = pieceEdge(front, "hem");
   const waist = pieceEdge(front, "waist");

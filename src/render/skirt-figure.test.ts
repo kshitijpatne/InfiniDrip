@@ -5,6 +5,7 @@ import { renderSkirtGarment, renderSkirtBody } from "./skirt-figure";
 import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "../drafting/skirt";
 import { SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
 import { lowerCroquisFigure } from "./croquis";
 
 const parse = (svg: string): Document => new DOMParser().parseFromString(svg, "image/svg+xml");
@@ -129,6 +130,38 @@ describe("renderSkirtGarment (assembled view)", () => {
     const path = [...flared.querySelectorAll('path[data-edge="ease"]')][0]!;
     const hem = vertices(path.getAttribute("d")!).filter((vertex) => vertex.y === STANDARD_M.length);
     expect(Math.max(...hem.map(({ x }) => x))).toBeCloseTo((STANDARD_M.hip + STANDARD_M.ease) / 4 + sweep / 4, 8);
+  });
+});
+
+describe("K06 front-overlap wrap-skirt preview", () => {
+  it("shows the open overlap, separate facing and editable software widths", () => {
+    const defaultOptions = { [SKIRT_WRAP_OVERLAP_OPTION_ID]: 20, [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 5 };
+    const defaultDoc = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", defaultOptions));
+    expect(defaultDoc.querySelector('[data-part="wrap-skirt-front"]')).not.toBeNull();
+    expect(defaultDoc.querySelector('[data-part="wrap-skirt-facing"]')?.getAttribute("width")).toBe("5");
+    expect(defaultDoc.querySelector('[data-part="wrap-skirt-underlap-edge"]')?.getAttribute("x1")).toBe("20");
+    expect(defaultDoc.querySelector('[data-part="wrap-skirt-summary"]')?.textContent)
+      .toContain("overlap 20 cm · facing 5 cm");
+
+    const editedDoc = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", {
+      [SKIRT_WRAP_OVERLAP_OPTION_ID]: 35,
+      [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 7.5,
+    }));
+    expect(editedDoc.querySelector('[data-part="wrap-skirt-facing"]')?.getAttribute("width")).toBe("7.5");
+    expect(editedDoc.querySelector('[data-part="wrap-skirt-underlap-edge"]')?.getAttribute("x1")).toBe("35");
+    expect(editedDoc.querySelector('[data-part="wrap-skirt-summary"]')?.textContent)
+      .toContain("overlap 35 cm · facing 7.5 cm");
+  });
+
+  it("withholds the wrap preview when a retained setting is invalid", () => {
+    const doc = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", {
+      [SKIRT_WRAP_OVERLAP_OPTION_ID]: 50,
+      [SKIRT_WRAP_FACING_WIDTH_OPTION_ID]: 5,
+    }));
+    expect(doc.querySelector('[data-part="wrap-skirt-preview-paused"]')?.textContent)
+      .toContain("Wrap-skirt preview paused");
+    expect(doc.querySelector('[data-part="wrap-skirt-front"]')).toBeNull();
+    expect(doc.querySelector('[data-part="wrap-skirt-facing"]')).toBeNull();
   });
 });
 
