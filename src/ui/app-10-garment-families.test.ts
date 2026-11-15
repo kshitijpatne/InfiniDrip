@@ -7,7 +7,7 @@ import { webcrypto } from "node:crypto";
 
 import { mountApp, unmountApp } from "./app";
 
-import { GARMENTS, STANDARD_M, TANK, notchesForRecipeOptions, type GarmentOptions } from "../drafting";
+import { GARMENTS, STANDARD_M, TANK, notchesForRecipeOptions, type GarmentOptions, type GarmentRecipe } from "../drafting";
 
 import { TANK_N04_ENTRY_ID, TANK_N05_ENTRY_ID, TANK_N05_PROFILE_ROUTE_KEY, TANK_N06_ENTRY_ID, TANK_N06_PROFILE_ROUTE_KEY, TANK_N07_ENTRY_ID, TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY, TANK_N08_SHELF_DROP_OPTION_ID, TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID } from "../drafting/tank";
 
@@ -77,6 +77,30 @@ const reachExportStage = (root: HTMLElement): void => {
     clickId(root, "journey-next"); // accept the current Style choices → Check
     clickId(root, "journey-next"); // reviewed Check → Export
 };
+
+function stubSvgTextMetrics(): () => void {
+  const getBBoxDescriptor = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getBBox");
+  const getTextLengthDescriptor = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getComputedTextLength");
+  const metrics = function (element: SVGElement) {
+    const fontSize = Number(element.getAttribute("font-size")) || 0;
+    const width = (element.textContent?.length ?? 0) * fontSize * 0.52;
+    return { x: 0, y: -fontSize * 0.75, width, height: fontSize };
+  };
+  Object.defineProperty(SVGElement.prototype, "getBBox", {
+    configurable: true,
+    value(this: SVGElement) { return metrics(this); },
+  });
+  Object.defineProperty(SVGElement.prototype, "getComputedTextLength", {
+    configurable: true,
+    value(this: SVGElement) { return metrics(this).width; },
+  });
+  return () => {
+    if (getBBoxDescriptor) Object.defineProperty(SVGElement.prototype, "getBBox", getBBoxDescriptor);
+    else Reflect.deleteProperty(SVGElement.prototype, "getBBox");
+    if (getTextLengthDescriptor) Object.defineProperty(SVGElement.prototype, "getComputedTextLength", getTextLengthDescriptor);
+    else Reflect.deleteProperty(SVGElement.prototype, "getComputedTextLength");
+  };
+}
 
 beforeEach(() => {
   trackedWindowListeners.length = 0;
@@ -1065,6 +1089,99 @@ describe("K01 A-line-like skirt starter workflow", () => {
       expect(genericProjectorText).not.toContain("Digital A-line-like hem sweep; grading is not validated.");
     } finally {
       unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+});
+
+describe("route-backed Tank technical-flat workflows", () => {
+  it("renders technical flats when the recipe omits authored option definitions", () => {
+    localStorage.clear();
+    const teeIndex = GARMENTS.findIndex((candidate) => candidate.name === "tee");
+    const tee = GARMENTS[teeIndex]!;
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    let root: HTMLDivElement | null = null;
+    try {
+      (GARMENTS as GarmentRecipe[])[teeIndex] = { ...tee, options: undefined };
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      reachExportStage(root);
+
+      root.querySelector<HTMLDetailsElement>("#advanced-views")!.open = true;
+      clickId(root, "view-flat");
+      clickId(root, "technical-flat-front");
+      const canvas = root.querySelector<HTMLElement>("#canvas-inspection")!;
+      expect(canvas.querySelector("svg.inspection-svg[data-view-kind='FRONT_FLAT']")).not.toBeNull();
+      expect(canvas.textContent).not.toContain("UNKNOWN_OPTION");
+    } finally {
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+      restoreSvgTextMetrics();
+      (GARMENTS as GarmentRecipe[])[teeIndex] = tee;
+    }
+  });
+
+  it.each([
+    { entryId: TANK_N05_ENTRY_ID, label: "N05 V-neck Tank" },
+    { entryId: TANK_N06_ENTRY_ID, label: "N06 Cropped Tank" },
+  ])("renders both technical-flat faces for $label", ({ entryId }) => {
+    localStorage.clear();
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${entryId}`);
+      reachExportStage(root);
+
+      root.querySelector<HTMLDetailsElement>("#advanced-views")!.open = true;
+      clickId(root, "view-flat");
+      for (const face of [
+        { button: "technical-flat-front", kind: "FRONT_FLAT", role: "front" },
+        { button: "technical-flat-back", kind: "BACK_FLAT", role: "back" },
+      ] as const) {
+        clickId(root, face.button);
+        const canvas = root.querySelector<HTMLElement>("#canvas-inspection")!;
+        const flat = canvas.querySelector<SVGSVGElement>(
+          `svg.inspection-svg[data-view-kind='${face.kind}']`,
+        );
+        expect(flat?.getAttribute("data-view-kind")).toBe(face.kind);
+        expect(flat?.outerHTML).toContain(`pattern:tank:role:${face.role}`);
+        expect(canvas.textContent).not.toContain("Technical flat withheld");
+        expect(canvas.textContent).not.toContain("UNKNOWN_OPTION");
+      }
+    } finally {
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+      restoreSvgTextMetrics();
+    }
+  });
+
+  it("keeps N08 fail-closed on unmapped shelf roles without leaking its private route marker", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${TANK_N08_ENTRY_ID}`);
+      reachExportStage(root);
+
+      root.querySelector<HTMLDetailsElement>("#advanced-views")!.open = true;
+      clickId(root, "view-flat");
+      for (const button of ["technical-flat-front", "technical-flat-back"]) {
+        clickId(root, button);
+        const canvas = root.querySelector<HTMLElement>("#canvas-inspection")!;
+        expect(canvas.textContent).toContain("UNMAPPED_BLOCK_ROLE");
+        expect(canvas.textContent).toContain("shelfFront");
+        expect(canvas.textContent).toContain("shelfBack");
+        expect(canvas.textContent).not.toContain("UNKNOWN_OPTION");
+        expect(canvas.querySelector("[data-technical-flat-svg] svg")).toBeNull();
+      }
+    } finally {
       root?.remove();
       delete window.electronAPI;
       localStorage.clear();

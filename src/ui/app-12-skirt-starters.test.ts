@@ -1814,6 +1814,7 @@ describe("K07 Circle-skirt starter workflows", () => {
 describe("K08 Bias-cut skirt starter workflows", () => {
   it("shows only the four editable inputs, preserves identity, and clears K08 on generic Skirt", () => {
     localStorage.clear();
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
     let root: HTMLDivElement | null = null;
     let reopened: HTMLDivElement | null = null;
     try {
@@ -1834,6 +1835,26 @@ describe("K08 Bias-cut skirt starter workflows", () => {
       expect(pattern!.outerHTML).toContain("<line x1=");
 
       reachExportStage(root);
+
+      root.querySelector<HTMLDetailsElement>("#advanced-views")!.open = true;
+      clickId(root, "view-flat");
+      clickId(root, "technical-flat-front");
+      const frontFlat = root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='FRONT_FLAT']");
+      expect(frontFlat?.getAttribute("data-view-kind")).toBe("FRONT_FLAT");
+      expect(frontFlat?.outerHTML).toContain("pattern:skirt:role:front");
+      expect(root.querySelector<HTMLElement>("#canvas-inspection")!.textContent)
+        .not.toContain("Technical flat withheld");
+      expect(root.querySelector<HTMLElement>("#canvas-inspection")!.textContent).not.toContain("UNKNOWN_OPTION");
+
+      clickId(root, "technical-flat-back");
+      const backFlat = root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='BACK_FLAT']");
+      expect(backFlat?.getAttribute("data-view-kind")).toBe("BACK_FLAT");
+      expect(backFlat?.outerHTML).toContain("pattern:skirt:role:back");
+      expect(root.querySelector<HTMLElement>("#canvas-inspection")!.textContent)
+        .not.toContain("Technical flat withheld");
+      expect(root.querySelector<HTMLElement>("#canvas-inspection")!.textContent).not.toContain("UNKNOWN_OPTION");
+
+      clickId(root, "view-pattern");
       clickId(root, "save-pattern");
       const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
         workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
@@ -1865,6 +1886,7 @@ describe("K08 Bias-cut skirt starter workflows", () => {
       reopened?.remove();
       delete window.electronAPI;
       localStorage.clear();
+      restoreSvgTextMetrics();
     }
   });
 

@@ -602,6 +602,16 @@ Source-to-view identity reads complete colon-delimited `role`, `mark`, and
 example, `sleeve` and `sleeveBand`) from inheriting the other role's placement
 or moving its geometry and anchored annotations.
 
+Slice 1308 keeps app-private starter route markers in the route-aware recipe
+options used for draft selection, pattern preview, persistence and exports. The
+Technical-flat boundary receives only the style-applicable recipe user options
+plus the selected starter identity, so its strict validator can still apply
+starter-specific declared options without treating an internal route key as a
+user input. This removes route-marker `UNKNOWN_OPTION` holds for K08 and Tank
+N05/N06 while preserving their source-role geometry. Tank N08 remains held by
+`UNMAPPED_BLOCK_ROLE` for `shelfFront` and `shelfBack`; S1308 does not infer a
+placement or claim N08 Technical-flat support.
+
 Slice 457 adds two approved Woven view conventions bound to the exact pattern
 revision. FRONT_FLAT clips the source `front.neckline` strokes only inside the
 rendered upper/under collar leaf fills, leaving the open-V segment visible.
