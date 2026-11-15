@@ -142,7 +142,8 @@ function pieceMarkup(
       { top: { x: gl.top.x + dx, y: gl.top.y + dy }, bottom: { x: gl.bottom.x + dx, y: gl.bottom.y + dy } },
       SEW,
       SEW_W,
-      0.8
+      0.8,
+      table.grainline.chevronsFollowGrainline
     );
   }
 

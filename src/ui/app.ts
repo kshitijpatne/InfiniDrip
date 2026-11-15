@@ -6479,7 +6479,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const rule = grainlines.find((entry) => entry.pieceName === piece.name);
       if (!rule || (piece.name !== "front" && piece.name !== "back")) return piece;
       const grainline = resolveGrainline(piece, rule.grainline);
-      const marks = grainlineMarkSegments(grainline, 0.3).map((segment, index) => lineMark(
+      const marks = grainlineMarkSegments(grainline, 0.3, rule.grainline.chevronsFollowGrainline).map((segment, index) => lineMark(
         "placementLine",
         `k08-${piece.name}-grainline-${index + 1}`,
         segment.start,

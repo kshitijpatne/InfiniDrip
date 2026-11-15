@@ -1709,6 +1709,7 @@ export function biasCutSkirtNotches(): readonly PieceNotches[] {
         topT: 0.5,
         bottomEdge: "center",
         bottomT: 0.5,
+        chevronsFollowGrainline: true,
         resolve: (piece: Piece) => biasCutBodyGrainline(piece),
       },
     }

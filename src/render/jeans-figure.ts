@@ -163,7 +163,7 @@ function recipeRoleMarks(piece: Piece, role: string, notchTable: readonly PieceN
   const rule = notchTable.find((entry) => entry.pieceName === piece.name);
   if (!rule) throw new Error(`Jeans view requires notch and grainline rules for ${piece.name}.`);
   const notches = rule.notches.map((notch) => notchSvg(resolveNotch(piece, notch), 1.5, T.marker, 1.1)).join("");
-  const grainline = grainlineSvg(resolveGrainline(piece, rule.grainline), T.marker, 1.0, 1.2);
+  const grainline = grainlineSvg(resolveGrainline(piece, rule.grainline), T.marker, 1.0, 1.2, rule.grainline.chevronsFollowGrainline);
   return `<g data-role-mark="notch" data-source-role="${role}" data-mark-count="${rule.notches.length}">${notches}</g>` +
     `<g data-role-mark="grainline" data-source-role="${role}">${grainline}</g>`;
 }

@@ -137,7 +137,7 @@ function renderPiece(
       }).join("")
     : "";
   const grain = recipe
-    ? grainlineSvg(resolveGrainline(p.piece, recipe.grainline), T.marker, 1, 1.2)
+    ? grainlineSvg(resolveGrainline(p.piece, recipe.grainline), T.marker, 1, 1.2, recipe.grainline.chevronsFollowGrainline)
     : "";
 
   // A dart's legs already draw as part of the outline; mark its apex so it reads.

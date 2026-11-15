@@ -118,22 +118,48 @@ describe("grainlineSvg", () => {
     );
   });
 
-  it("aligns both chevrons to a diagonal grainline and its endpoints", () => {
+  it("preserves legacy horizontal chevrons for a diagonal grainline by default", () => {
     expect(grainlineSvg({ top: { x: 0, y: 0 }, bottom: { x: 10, y: 10 } }, "#123", 0.5, 1)).toBe(
+      '<line x1="0" y1="0" x2="10" y2="10" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>' +
+      '<path d="M 4 1 L 5 0 L 6 1" fill="none" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>' +
+      '<path d="M 4 9 L 5 10 L 6 9" fill="none" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>'
+    );
+  });
+
+  it("aligns both chevrons to a diagonal grainline when the rule opts in", () => {
+    expect(grainlineSvg({ top: { x: 0, y: 0 }, bottom: { x: 10, y: 10 } }, "#123", 0.5, 1, true)).toBe(
       '<line x1="0" y1="0" x2="10" y2="10" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>' +
       '<path d="M 0 1.414 L 0 0 L 1.414 0" fill="none" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>' +
       '<path d="M 8.586 10 L 10 10 L 10 8.586" fill="none" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>'
     );
   });
 
-  it("emits only the line when the grainline has no direction", () => {
+  it("preserves legacy chevrons for a zero-length default grainline", () => {
     expect(grainlineSvg({ top: { x: 2, y: 3 }, bottom: { x: 2, y: 3 } }, "#123", 0.5, 1)).toBe(
+      '<line x1="2" y1="3" x2="2" y2="3" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>' +
+      '<path d="M 1 4 L 2 3 L 3 4" fill="none" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>' +
+      '<path d="M 1 2 L 2 3 L 3 2" fill="none" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>'
+    );
+  });
+
+  it("emits only the line for a zero-length grainline opted into directional chevrons", () => {
+    expect(grainlineSvg({ top: { x: 2, y: 3 }, bottom: { x: 2, y: 3 } }, "#123", 0.5, 1, true)).toBe(
       '<line x1="2" y1="3" x2="2" y2="3" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>'
     );
   });
 
-  it("exposes the same diagonal spine and chevron segments to other exporters", () => {
-    const segments = grainlineMarkSegments({ top: { x: 0, y: 0 }, bottom: { x: 10, y: 10 } }, 1);
+  it("keeps the legacy horizontal DXF chevron segments by default", () => {
+    expect(grainlineMarkSegments({ top: { x: 0, y: 0 }, bottom: { x: 10, y: 10 } }, 1)).toEqual([
+      { start: { x: 0, y: 0 }, end: { x: 10, y: 10 } },
+      { start: { x: 4, y: 1 }, end: { x: 0, y: 0 } },
+      { start: { x: 6, y: 1 }, end: { x: 0, y: 0 } },
+      { start: { x: 4, y: 9 }, end: { x: 10, y: 10 } },
+      { start: { x: 6, y: 9 }, end: { x: 10, y: 10 } },
+    ]);
+  });
+
+  it("exposes the same directional diagonal spine and chevron segments to opted-in exporters", () => {
+    const segments = grainlineMarkSegments({ top: { x: 0, y: 0 }, bottom: { x: 10, y: 10 } }, 1, true);
     expect(segments).toHaveLength(5);
     expect(segments[0]).toEqual({ start: { x: 0, y: 0 }, end: { x: 10, y: 10 } });
     expect(segments[1]?.start.x).toBeCloseTo(0, 10);
@@ -147,8 +173,8 @@ describe("grainlineSvg", () => {
     expect(segments[4]?.end.y).toBeCloseTo(10 - Math.SQRT2, 10);
   });
 
-  it("exposes only the spine segment for a zero-length grainline", () => {
-    expect(grainlineMarkSegments({ top: { x: 2, y: 3 }, bottom: { x: 2, y: 3 } }, 1)).toEqual([
+  it("exposes only the spine segment for a zero-length directional grainline", () => {
+    expect(grainlineMarkSegments({ top: { x: 2, y: 3 }, bottom: { x: 2, y: 3 } }, 1, true)).toEqual([
       { start: { x: 2, y: 3 }, end: { x: 2, y: 3 } },
     ]);
   });

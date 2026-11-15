@@ -56,7 +56,7 @@ function pieceSvg(
           top: { x: gl.top.x + dx, y: gl.top.y + dy },
           bottom: { x: gl.bottom.x + dx, y: gl.bottom.y + dy },
         };
-        return grainlineSvg(translated, SEW, STROKE, 0.3);
+        return grainlineSvg(translated, SEW, STROKE, 0.3, recipe.grainline.chevronsFollowGrainline);
       })()
     : "";
   const marks = patternMarksSvg(originalPiece.marks, {

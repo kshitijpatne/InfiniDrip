@@ -12,8 +12,11 @@ The front and back body pieces receive a fixed 45-degree digital grainline
 relative to their center-front/center-back references. That direction is
 intended to align parallel to a fabric selvage. `biasCutBodyGrainline` derives
 an in-bounds line from the current panel geometry, and the shared grainline
-renderer supplies the directional marker. SVG, DXF, tiled PDF, A0 PDF, Tech
-Pack overview, Projector, and pattern preview carry that same body-panel mark;
+renderer supplies the directional marker through the K08 rule's explicit
+`chevronsFollowGrainline` opt-in. The renderer and line-mark exporters preserve
+their legacy chevrons by default so existing recipe exports remain byte-stable.
+SVG, DXF, tiled PDF, A0 PDF, Tech Pack overview, Projector, and pattern
+preview carry that same body-panel mark;
 K08 uses the existing page-local tiled-PDF route so each printable tile places
 its contours and marker within the page. The centimeter CAD-exchange DXF and
 frozen selected-size project artifacts also use the K08 grainline rules; the
