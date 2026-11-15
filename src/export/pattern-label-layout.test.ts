@@ -7,6 +7,12 @@ describe("pattern piece label layout", () => {
       .toEqual({ x: 6, y: 10, fontSize: 1, rotation: 0 });
   });
 
+  it("uses an explicit piece-coordinate anchor for a curved band label", () => {
+    expect(patternLabelPose("waistbandFront", "WAISTBANDFRONT",
+      { minX: 1, minY: 2, width: 40, height: 24 }, 1, { x: 19, y: 24.5 }))
+      .toEqual({ x: 19, y: 24.5, fontSize: 1, rotation: 0 });
+  });
+
   it("moves the shorts waistband label away from its center grainline", () => {
     const pose = patternLabelPose("shorts waistband", "SHORTS WAISTBAND",
       { minX: 0, minY: 0, width: 72, height: 4 }, 1);

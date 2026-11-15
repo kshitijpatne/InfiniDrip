@@ -22,6 +22,8 @@ import {
   notchesForRecipeOptions,
 } from "../drafting";
 import { exportA0Pdf, PAGE_A0, PAGE_A0_LANDSCAPE } from "./a0";
+import { flattenPiece, polylineBounds } from "./layout";
+import { nestPieces } from "./nesting";
 import { CALIBRATION_CM } from "./calibration";
 import type { PieceNotches } from "../drafting/tshirt-notches";
 
@@ -160,6 +162,38 @@ describe("exportA0Pdf — whole pieces, print-oriented", () => {
     expect(rects).toHaveLength(1);
     // Fallback puts the square's left edge at the sheet margin (2 cm, in points).
     expect(Number(rects[0][1])).toBeCloseTo(2 * CM_PT, 2);
+  });
+});
+
+describe("exportA0Pdf — registered tile fallback for oversized pieces", () => {
+  it("tiles an oversized whole piece at A0 scale and retains its notch, grainline, label and scale check", async () => {
+    const oversizedPanel: Piece = {
+      name: "Oversize panel",
+      onFold: false,
+      edges: [
+        { kind: "line", name: "top", start: point(0, 0), end: point(160, 0) },
+        { kind: "line", name: "right", start: point(160, 0), end: point(160, 30) },
+        { kind: "line", name: "bottom", start: point(160, 30), end: point(0, 30) },
+        { kind: "line", name: "left", start: point(0, 30), end: point(0, 0) },
+      ],
+    };
+    const notchTable: PieceNotches[] = [{
+      pieceName: oversizedPanel.name,
+      notches: [{ edgeName: "top", t: 0.5 }],
+      grainline: { topEdge: "left", topT: 0, bottomEdge: "left", bottomT: 1 },
+    }];
+    const pdf = exportA0Pdf([oversizedPanel], { default: 1 }, notchTable, PAGE_A0, true);
+    const doc = await load(pdf);
+    const content = streamsText(doc);
+    const { width, height } = doc.getPage(0).getSize();
+
+    expect(doc.getPageCount()).toBeGreaterThan(2);
+    expect(width).toBe(Math.round(PAGE_A0.width * CM_PT));
+    expect(height).toBe(Math.round(PAGE_A0.height * CM_PT));
+    expect(content).toContain("Tile 1-1 of");
+    expect(content).toContain("(OVERSIZE PANEL) Tj");
+    expect(content).toContain("(10 cm) Tj");
+    expect(content).toContain("A0 tiled pattern scale check - print at 100%");
   });
 });
 
@@ -361,9 +395,16 @@ describe("exportA0Pdf K06 front-panel labels", () => {
 });
 
 describe("exportA0Pdf — opt-in whole-piece overflow", () => {
-  const rectanglePiece = (name: string, onFold: boolean, width = 10, height = 116): Piece => ({
+  const rectanglePiece = (
+    name: string,
+    onFold: boolean,
+    width = 10,
+    height = 116,
+    labelAnchor?: Piece["labelAnchor"],
+  ): Piece => ({
     name,
     onFold,
+    ...(labelAnchor ? { labelAnchor } : {}),
     edges: [
       { kind: "line", name: "top", start: point(0, 0), end: point(width, 0) },
       { kind: "line", name: "right", start: point(width, 0), end: point(width, height) },
@@ -416,6 +457,41 @@ describe("exportA0Pdf — opt-in whole-piece overflow", () => {
     expect(streamsText(doc)).toContain("(SHORTS WAISTBAND) Tj");
   });
 
+  it("uses a drafted piece-coordinate label anchor on normal and whole-piece A0 pages", async () => {
+    const name = "waistbandFront";
+    const allowance = { default: 0 };
+    const anchor = point(5, 2);
+    const normalPiece = rectanglePiece(name, false, 12, 4, anchor);
+    const normalDoc = await load(exportA0Pdf([normalPiece], allowance));
+    const normalContent = streamsText(normalDoc);
+    const normalLabel = new RegExp(
+      `BT /F1 14 Tf ([\\d.]+) ([\\d.]+) Td \\(${name.toUpperCase()}\\) Tj ET`,
+    ).exec(normalContent)!;
+    const flat = flattenPiece(normalPiece, allowance);
+    const placed = nestPieces([flat], PAGE_A0.width, 3, 2).placed[0]!;
+    const sourceBounds = polylineBounds(flat.cut);
+    const placedBounds = polylineBounds(placed.cut);
+    const dx = placedBounds.minX - sourceBounds.minX;
+    const dy = placedBounds.minY - sourceBounds.minY;
+    expect(Number(normalLabel[1]) + name.length * 4).toBeCloseTo((anchor.x + dx) * CM_PT, 2);
+    expect(Number(normalLabel[2])).toBeCloseTo((PAGE_A0.height - anchor.y - dy) * CM_PT, 2);
+
+    const overflowAnchor = point(9, 24);
+    const overflowPieces = [
+      rectanglePiece(name, false, 40, 80, overflowAnchor),
+      rectanglePiece("overflow second", false, 40, 80),
+      rectanglePiece("overflow third", false, 40, 80),
+    ];
+    const overflowDoc = await load(exportA0Pdf(overflowPieces, allowance, [], PAGE_A0, true));
+    const overflowContent = streamsText(overflowDoc);
+    const overflowLabel = new RegExp(
+      `BT /F1 14 Tf ([\\d.]+) ([\\d.]+) Td \\(${name.toUpperCase()}\\) Tj ET`,
+    ).exec(overflowContent)!;
+    expect(overflowDoc.getPageCount()).toBe(3);
+    expect(Number(overflowLabel[1]) + name.length * 4).toBeCloseTo((0.4 + overflowAnchor.x) * CM_PT, 2);
+    expect(Number(overflowLabel[2])).toBeCloseTo((Math.min(PAGE_A0.width, PAGE_A0.height) - 0.4 - overflowAnchor.y) * CM_PT, 2);
+  });
+
   it.each([
     { name: "shorts waistband", width: 60, height: 10, rotation: false },
     { name: "shorts fly shield", width: 10, height: 14, rotation: true },
@@ -428,7 +504,7 @@ describe("exportA0Pdf — opt-in whole-piece overflow", () => {
     expect(content.includes("0 1 -1 0")).toBe(rotation);
   });
 
-  it("rejects a piece that cannot fit any A0 orientation at true scale", () => {
+  it("routes a piece that cannot fit any A0 orientation into registered true-scale tiles", async () => {
     const oversized: Piece = {
       name: "oversized",
       onFold: false,
@@ -439,7 +515,9 @@ describe("exportA0Pdf — opt-in whole-piece overflow", () => {
         { kind: "line", name: "left", start: point(0, 10), end: point(0, 0) },
       ],
     };
-    expect(() => exportA0Pdf([oversized], { default: 1 }, [], PAGE_A0, true))
-      .toThrow("cannot fit on an A0 sheet at true scale");
+    const pdf = exportA0Pdf([oversized], { default: 1 }, [], PAGE_A0, true);
+    const doc = await load(pdf);
+    expect(doc.getPageCount()).toBeGreaterThan(2);
+    expect(streamsText(doc)).toContain("A0 tiled pattern scale check - print at 100%");
   });
 });

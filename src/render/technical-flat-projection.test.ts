@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { CREWNECK, draftRecipeAtSize, GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
-import { SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
+import { circleSkirtTopology, SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
 import { edgeEnd, edgeLength, edgeStart } from "../drafting/piece";
 import { draftWovenShirtCollar } from "../drafting/shirt";
 import { cubicPoint } from "../geometry/curve";
@@ -1340,6 +1340,13 @@ describe("validateTechnicalFlatProjectionMap", () => {
         expect(validateTechnicalFlatProjectionMap(recipe.name, block, REVISION, map), recipe.name).toEqual([]);
         for (const face of map.faces) for (const role of face.roles) {
           const piece = block.roles[role.roleId]!;
+          if (recipe.name === "skirt" && circleSkirtTopology(block)) {
+            expect(piece.onFold).toBe(false);
+            expect(role.foldAxisReflection).toBeUndefined();
+            expect(role.runs.some((run) => run.edgeId === "fold")).toBe(false);
+            expect(role.faceExcludedEdges ?? []).not.toContainEqual(expect.objectContaining({ edgeId: "fold" }));
+            continue;
+          }
           if (recipe.name === "skirt" && (role.roleId === "waistbandFront" || role.roleId === "waistbandBack")) {
             const axisRoleId = role.roleId === "waistbandFront" ? "front" : "back";
             const isTieredSkirt = block.stitches.some((stitch) =>

@@ -5,7 +5,7 @@ import { renderSkirtGarment, renderSkirtBody } from "./skirt-figure";
 import { SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID } from "../drafting/skirt";
 import { SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
-import { SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
+import { SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID, SKIRT_CIRCLE_FULLNESS_OPTION_ID } from "../drafting/skirt";
 import { lowerCroquisFigure } from "./croquis";
 
 const parse = (svg: string): Document => new DOMParser().parseFromString(svg, "image/svg+xml");
@@ -162,6 +162,29 @@ describe("K06 front-overlap wrap-skirt preview", () => {
       .toContain("Wrap-skirt preview paused");
     expect(doc.querySelector('[data-part="wrap-skirt-front"]')).toBeNull();
     expect(doc.querySelector('[data-part="wrap-skirt-facing"]')).toBeNull();
+  });
+});
+
+describe("K07 Circle-skirt preview", () => {
+  it("renders the curved front, back and software fullness summary", () => {
+    const doc = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", {
+      [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 75,
+    }));
+    expect(doc.querySelector('[data-part="circle-skirt-front"]')?.getAttribute("d")).toContain("C");
+    expect(doc.querySelector('[data-part="circle-skirt-back"]')?.getAttribute("d")).toContain("C");
+    expect(doc.querySelector('[data-part="circle-skirt-summary"]')?.textContent)
+      .toContain("75% SOFTWARE FULLNESS");
+    expect(doc.querySelector('[data-part="circle-skirt-side-opening"]')).not.toBeNull();
+  });
+
+  it("pauses the preview when retained Circle settings conflict with another profile", () => {
+    const doc = wellFormed(renderSkirtGarment(STANDARD_M, "#3A4150", {
+      [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 75,
+      [SKIRT_WRAP_OVERLAP_OPTION_ID]: 20,
+    }));
+    expect(doc.querySelector('[data-part="circle-skirt-preview-paused"]')?.textContent)
+      .toContain("Circle-skirt preview paused");
+    expect(doc.querySelector('[data-part="circle-skirt-front"]')).toBeNull();
   });
 });
 

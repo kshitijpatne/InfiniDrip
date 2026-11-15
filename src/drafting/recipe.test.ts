@@ -1,7 +1,7 @@
 import { SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
   SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
-  SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "./skirt";
+  SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID, SKIRT_CIRCLE_FULLNESS_OPTION_ID } from "./skirt";
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { defaultGarmentOptions, type GarmentOptions } from "./options";
@@ -1619,5 +1619,51 @@ describe("K06 front-overlap Wrap skirt recipe", () => {
       .toMatchObject({ field: "hipDepth" });
     expect(SKIRT.draftReview!({ ...STANDARD_M, waist: 50, ease: -100 }, options).notes[0])
       .toMatchObject({ field: "ease" });
+  });
+});
+
+describe("K07 Circle skirt recipe outputs", () => {
+  const options = { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 75 };
+
+  it("routes geometry, POMs, notches, size metric and digital-only Tech Pack wording", () => {
+    const block = SKIRT.draft(STANDARD_M, options);
+    const poms = pomsForRecipeOptions(SKIRT, options);
+    const notches = notchesForRecipeOptions(SKIRT, options);
+    const techPack = SKIRT.techPackForOptions!(options);
+
+    expect(block.roles.front?.edges.some((edge) => edge.kind === "curve" && edge.name === "hemRight")).toBe(true);
+    expect(SKIRT.checks(block, STANDARD_M).every((check) => check.ok)).toBe(true);
+    expect(poms.map((pom) => pom.label)).toEqual([
+      "Waist circumference (modeled waist + ease)", "Hem circumference (modeled digital arc)",
+      "Radial skirt length (digital)", "Circle fullness (software setting)",
+    ]);
+    expect(poms[0]!.measure(block)).toBeCloseTo(STANDARD_M.waist + STANDARD_M.ease, 2);
+    expect(poms[3]!.measure(block)).toBe(75);
+    expect(notches.map((entry) => entry.pieceName)).toEqual(blockPieces(block).map((piece) => piece.name));
+    expect(SKIRT.sizeMetric(block)).toBeCloseTo(poms[1]!.measure(block), 7);
+    expect(recipeA0OverflowEnabled(SKIRT, options)).toBe(true);
+    expect(techPack.bom).toEqual([]);
+    expect(techPack.constructionNotice).toContain("digital-pattern model");
+    expect(techPack.construction.join(" ")).toContain("no zipper product, hardware");
+    expect(techPack.construction.join(" ")).toContain("do not preserve circle semantics");
+    expect(techPack.measurementSpecNote).toContain("not validated K07 grading");
+    expect(techPack.measurementSpecToleranceColumn).toBe(false);
+    expect(techPack.fitRecordPassColumn).toBe(false);
+    expect(techPack.fitRecordToleranceColumn).toBe(false);
+  });
+
+  it("holds invalid fullness, conflicting profiles and invalid active dimensions at draft review", () => {
+    const invalidFullness = SKIRT.draftReview!(STANDARD_M, { ...options, [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 40 });
+    expect(invalidFullness.block).toBeNull();
+    expect(invalidFullness.notes[0]).toMatchObject({ level: "warn", field: `option-${SKIRT_CIRCLE_FULLNESS_OPTION_ID}` });
+
+    const conflict = SKIRT.draftReview!(STANDARD_M, { ...options, [SKIRT_WRAP_OVERLAP_OPTION_ID]: 20 });
+    expect(conflict.block).toBeNull();
+    expect(conflict.notes[0]).toMatchObject({ field: `option-${SKIRT_CIRCLE_FULLNESS_OPTION_ID}` });
+
+    expect(SKIRT.draftReview!({ ...STANDARD_M, length: 0 }, options).notes[0]).toMatchObject({ field: "length" });
+    expect(SKIRT.draftReview!({ ...STANDARD_M, ease: Number.NaN }, options).notes[0]).toMatchObject({ field: "ease" });
+    expect(SKIRT.draftReview!({ ...STANDARD_M, waist: Number.NaN }, options).notes[0]).toMatchObject({ field: "waist" });
+    expect(SKIRT.draftReview!({ ...STANDARD_M, waist: 20, ease: -30 }, options).notes[0]).toMatchObject({ field: "ease" });
   });
 });

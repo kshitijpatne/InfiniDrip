@@ -21,7 +21,7 @@ import {
 } from "../drafting/tshirt";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
-import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
+import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportTechPackV2ForSelectedSize, exportProjectorSvg, exportA0Pdf, a0OversizedPieceNames, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
 import { renderBlueprint, renderGarment, renderCrewneckFigure, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderShortsGarment, renderShortsBody, renderShortsBodyPair, renderShortsSide, renderJoggerGarment, renderJoggerBody, renderJoggerBodyPair, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { renderHoodieBody, renderHoodieBodyPair, renderHoodieGarment } from "../render";
 import { renderJeansBody, renderJeansBodyPair, renderJeansAssembled } from "../render";
@@ -56,8 +56,9 @@ import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeStat
 import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObservationSummary, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, customOneSizeSpecMarkup, checkMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
 import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
+import { a0ExportStatus } from "./a0-export-status";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterMeasurementFields, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
 import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
@@ -66,7 +67,8 @@ import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_E
   SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
   SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
-  SKIRT_WRAP_ENTRY_ID, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
+  SKIRT_WRAP_ENTRY_ID, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
+  SKIRT_CIRCLE_ENTRY_ID } from "../drafting/skirt";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -902,6 +904,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   // Persist deserialization normalizes legacy workspaces to Set-in before mount.
   let teeConstruction: TeeConstruction = initialWorkspace.teeConstruction!;
   let recipe: GarmentRecipe = garmentForConstruction(initialWorkspace.garment, teeConstruction);
+  const activeMeasurementFields = (forRecipe: GarmentRecipe = recipe) =>
+    starterMeasurementFields(starterOrigin?.recipeId === forRecipe.name ? starterOrigin.entryId : null, forRecipe.fields);
   const initialTeeNeckbandOptions: GarmentOptions = Object.fromEntries(
     TEE_NECKBAND_OPTIONS.map((option) => [
       option.id,
@@ -917,7 +921,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const artworkAssetStore = options.artworkAssetStore ?? defaultArtworkAssetStore();
   const artworkInspector = options.inspectArtworkFile ?? inspectArtworkFile;
   let appearanceOpen = false;
-  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields,
+  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, activeMeasurementFields(),
     initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations(), uiqMaterialEnabled,
     uiqOperationalClarityEnabled, initialTeeNeckbandOptions, starterOrigin?.entryId ?? null, teeConstruction,
     starterFieldLabelOverrides(starterOrigin?.entryId));
@@ -934,6 +938,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let teeVBandOutputError = "";
   const teeNeckbandHelp = root.querySelector<HTMLElement>("#tee-neckband-control-help")!;
   const teeNeckbandDescription = root.querySelector<HTMLElement>("#export-tee-neckband-description")!;
+  const a0Description = root.querySelector<HTMLElement>("#export-a0-description")!;
   let technicalFlatTextMeasurer: TechnicalFlatMeasureText | null = null;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
@@ -1712,7 +1717,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt" ? "pencil-like-skirt"
+    starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && recipe.name === "skirt" ? "circle-skirt"
+      : starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt" ? "pencil-like-skirt"
       : starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt" ? "a-line-like-skirt"
       : starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID && recipe.name === "skirt" ? "gathered-pull-on-skirt"
       : starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && recipe.name === "skirt" ? "pleated-skirt-box-pleat-guide"
@@ -1932,7 +1938,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && forRecipe.name === "skirt"
+    starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && forRecipe.name === "skirt"
+      ? "Circle skirt · software-defined fullness"
+      : starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && forRecipe.name === "skirt"
       ? "Pleated skirt · box-pleat guide"
       : starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID && forRecipe.name === "skirt"
       ? "Tiered skirt · gathered panels"
@@ -1997,12 +2005,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const isK04Starter = starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && recipe.name === "skirt";
     const isK05Starter = starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID && recipe.name === "skirt";
     const isK06Starter = starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID && recipe.name === "skirt";
+    const isK07Starter = starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && recipe.name === "skirt";
     const isW03Starter = starterOrigin?.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID && recipe.name === "woven-shirt";
     const isW04Starter = starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && recipe.name === "woven-shirt";
     const isW05Starter = starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt";
     const isW06Starter = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
     const isW07Starter = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
-    if (format === "projector") return isK06Starter
+    if (format === "projector") return isK07Starter
+      ? "Digital K07 circle-skirt geometry; fullness is a software setting, curves are flattened in outputs, and grading, material behavior and physical fit are not validated."
+      : isK06Starter
       ? "Digital K06 front-overlap skirt with separate facing; overlap/facing widths are software settings, and physical coverage, fit, material behavior and grading are not validated."
       : isK05Starter
       ? "Digital K05 tiered skirt; gather ratios are software settings, and size grading, material behavior and physical fit are not validated."
@@ -2016,6 +2027,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? "W04 grade is not validated. The W04 hip station is a digital crop reference, not a physical hip-location or fit measure."
       : isW05Starter ? "W05 grade is not validated." : isW06Starter ? "W06 grade is not validated."
         : isW07Starter ? "W07 grade is not validated." : undefined;
+    if (isK07Starter) {
+      return "Digital K07 circle-skirt geometry only. Fullness is an editable software setting; waist and hem POMs follow modeled curves. SVG, DXF, PDF and projector paths approximate curves with output points. The shared size run and grading are not validated for K07. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval or production readiness is established.";
+    }
     if (isW03Starter) {
       return "Digital W03 oversized loose-drop woven Shirt. The 28 cm ease default, 4 cm shoulder extension and 3 cm shoulder drop are InfiniDrip software choices, not physical standards. Multi-size values in these whole-run files have not been validated for W03 grading; the default run uses the generic Woven Shirt size range. Physical fit, comfort, wear, materials, grading, sewing and production remain unvalidated.";
     }
@@ -2103,7 +2117,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     return Object.keys(overrides).length === 0 ? measurements : { ...measurements, ...overrides };
   };
   const currentSemanticSourceInputs = (): SemanticEditSourceInputs => {
-    const sourceMeasurements = new Set<string>(recipe.fields);
+    const sourceMeasurements = new Set<string>(activeMeasurementFields());
     // Tank shoulderWidth is deliberately not converted to strapWidth, but it is
     // a visible fit input that must still trigger explicit edit review/rebase.
     if (recipe.name === "tank") sourceMeasurements.add("shoulderWidth");
@@ -2262,7 +2276,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
   const recipeForTechPackOutputs = (): GarmentRecipe => {
     const outputRecipe = recipeForCurrentOutputs();
-    return starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID && outputRecipe.name === "skirt"
+    return starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && outputRecipe.name === "skirt"
+      ? { ...outputRecipe, label: "Circle skirt - software-defined fullness" }
+      : starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID && outputRecipe.name === "skirt"
       ? { ...outputRecipe, label: "Tiered skirt - gathered panels" }
       : starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID && outputRecipe.name === "skirt"
       ? { ...outputRecipe, label: "Wrap skirt - front overlap" }
@@ -2273,11 +2289,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     || (outputRecipe.name === "skirt"
       && (starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID || starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID
         || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
-        || starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID || starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID));
+        || starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID || starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID
+        || starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID));
   const pdfMarkLabelLayout = (outputRecipe: GarmentRecipe): "inline" | "staggered-box-pleat-guides" | "line-aligned-box-pleat-guides" =>
     outputRecipe.name === "skirt" && starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
       ? "line-aligned-box-pleat-guides"
       : "inline";
+  const tiledPdfOptionsFor = (outputRecipe: GarmentRecipe) => ({
+    labelAllPieces: outputRecipe.name === "skirt" && starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID,
+  });
   const guideCurrentRecipe = (value: Measurements, options: GarmentOptions = recipeOptions()): Note[] => {
     const guidanceRecipe = starterOrigin?.entryId === POLO_LOW_EASE_ENTRY_ID && recipe.name === "polo"
       ? poloLowEaseRecipeForOutput(recipe, options)
@@ -2492,7 +2512,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const inputErrors = (): Map<string, string> => {
     const errors = new Map<string, string>();
     const activeStarterId = activeStarterEntry()?.entryId ?? null;
-    for (const field of FIELDS.filter((f) => recipe.fields.includes(f.id))) {
+    const activeFields = new Set<string>(activeMeasurementFields());
+    for (const field of FIELDS.filter((candidate) => activeFields.has(candidate.id))) {
       const error = starterControlError(activeStarterId, field.id, measurements[field.id])
         ?? inputError(measurements[field.id], field);
       if (error) errors.set(field.id, error);
@@ -2803,7 +2824,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         && measurementCapture.recipeId === recipe.name
         && measurementCaptureReadiness(measurementCapture).ready))
       && inputErrors().size === 0
-      && implausibleFields(measurements, recipe.fields).length === 0,
+      && implausibleFields(measurements, activeMeasurementFields()).length === 0,
     styleReviewed,
     checksOk: designValid(),
     checkReviewed,
@@ -3125,7 +3146,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       if (captureBlocker) return captureBlocker;
     }
     const error = inputErrors().entries().next().value;
-    const implausible = implausibleFields(measurements, recipe.fields)[0];
+    const implausible = implausibleFields(measurements, activeMeasurementFields())[0];
     if (error) return { message: error[1], field: error[0], step: correctionStepForField(error[0]) };
     if (implausible) return {
       message: "Review the highlighted measurement before continuing.", field: implausible, step: "measure",
@@ -3849,6 +3870,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       markerControl.disabled = markerSelectionBlocked();
       markerControl.title = markerAvailabilityTitle();
     }
+    let oversizedA0Names: string[] = [];
+    let a0CanOverflow = false;
+    if (canExport()) {
+      oversizedA0Names = a0OversizedPieceNames(exportPieces(), exportAllowances());
+      a0CanOverflow = recipeA0OverflowEnabled(recipe, recipeOptions());
+    }
+    const a0Status = a0ExportStatus(oversizedA0Names, a0CanOverflow);
+    a0Description.textContent = a0Status.description;
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
       const needsArtwork = button.id === "export-surface-sheet" && surfacePlacementsNow().length === 0;
       const packageSizeUnsupported = customOneSizeStyle()
@@ -3866,8 +3895,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const neckbandTechPackUnavailable = button.id === "export-tee-selected-techpack" && hasSelectedSizeVBandControls()
         && (hasConflictingTeeNecklineOptions(recipeOptions())
           || (necklineOutputActive && teeVBandOutputError !== ""));
-      button.disabled = !allowed || needsArtwork || neckbandOutputUnavailable || neckbandTechPackUnavailable;
-      button.title = !allowed
+      button.disabled = !allowed || needsArtwork || neckbandOutputUnavailable || neckbandTechPackUnavailable
+        || (button.id === "export-a0" && a0Status.disabled);
+      button.title = button.id === "export-a0" && a0Status.title !== null
+        ? a0Status.title
+        : !allowed
         ? packageSizeUnsupported
           ? "CAD exchange packages currently support registered recipe sizes, not custom one-size styles."
           : customOneSizeStyle() && (button.id === "export-techpack" || button.id === "export-projector")
@@ -4298,7 +4330,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // Amber-outline any measurement input whose value is out of plausible range
     // (same outline convention as the fabric swatches). Controls aren't re-rendered
     // per draw, so this is applied imperatively.
-    const flagged = new Set<string>(implausibleFields(measurements, recipe.fields));
+    const flagged = new Set<string>(implausibleFields(measurements, activeMeasurementFields()));
     root.querySelectorAll<HTMLInputElement>("[data-field]").forEach((inp) => {
       inp.style.outline = flagged.has(inp.dataset.field!) ? `2px solid ${BLUEPRINT.lineActive}` : "";
     });
@@ -5306,7 +5338,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // Re-render the measurement panel to this garment's fields (a skirt shows
     // waist/hip, not chest/sleeve), then re-attach its listeners.
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
+      measurements, activeMeasurementFields(), activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
       starterFieldLabelOverrides(starterOrigin?.entryId));
     wireMeasurementInputs();
     const constructionSelect = root.querySelector<HTMLSelectElement>("#tee-construction");
@@ -5354,7 +5386,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID
             || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
             || starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID
-            || starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID)) starterOrigin = null;
+            || starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID
+            || starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID)) starterOrigin = null;
         setGarment(g.name);
       });
   });
@@ -5862,7 +5895,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (sel.id === "style-target") {
       targetStyle = sel.value;
       root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-        measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
+        measurements, activeMeasurementFields(), activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
         starterFieldLabelOverrides(starterOrigin?.entryId));
       wireMeasurementInputs();
       markOutputDirty();
@@ -6745,7 +6778,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   onExport("#export-pdf", () => {
     const outputRecipe = recipeForCurrentOutputs();
     download(`${exportRecipeName()}-${exportSizeLabel()}.pdf`, exportPdf(
-      exportPieces(), exportAllowances(), undefined, 1.0, usesLocalTiledPdfCoordinates(outputRecipe), pdfMarkLabelLayout(outputRecipe)
+      exportPieces(), exportAllowances(), undefined, 1.0, usesLocalTiledPdfCoordinates(outputRecipe),
+      pdfMarkLabelLayout(outputRecipe), tiledPdfOptionsFor(outputRecipe),
     ), "application/pdf");
   });
   onExport("#export-tee-selected-techpack", () => {
@@ -6960,7 +6994,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     hoveredDim = null;
     focusedDim = null;
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
+      measurements, activeMeasurementFields(), activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
       starterFieldLabelOverrides(starterOrigin?.entryId));
     wireMeasurementInputs();
     GARMENTS.forEach((g) => {
@@ -7085,7 +7119,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       button.setAttribute("aria-pressed", String(selected));
     });
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-      measurements, recipe.fields, activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
+      measurements, activeMeasurementFields(), activeOptionDefinitions(), recipeOptions(), recipe.name, activeFieldObservations(),
       starterFieldLabelOverrides(starterOrigin?.entryId));
     wireMeasurementInputs();
     syncGarmentChoices();
@@ -7281,7 +7315,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const artifacts = [
           { artifactId: "selected-size-svg", extension: "svg", displayName: `${exportRecipeName()}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, notchesForRecipeOptions(currentRecipe, selectedSizeOptions)) },
           { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${exportRecipeName()}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
-          { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, usesLocalTiledPdfCoordinates(currentRecipe), pdfMarkLabelLayout(currentRecipe)) },
+          { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(
+            pieces, allowances, undefined, 1.0, usesLocalTiledPdfCoordinates(currentRecipe),
+            pdfMarkLabelLayout(currentRecipe), tiledPdfOptionsFor(currentRecipe),
+          ) },
           { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, notchesForRecipeOptions(currentRecipe, selectedSizeOptions), undefined, recipeA0OverflowEnabled(currentRecipe, selectedSizeOptions), pdfMarkLabelLayout(currentRecipe)) },
           { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${exportRecipeName()}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
           { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${exportRecipeName()}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : [], starterOutputStatusNote("projector")) },

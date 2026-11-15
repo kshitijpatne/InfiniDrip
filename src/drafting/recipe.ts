@@ -24,7 +24,10 @@ import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE
   tieredSkirtProblem, tieredSkirtNotches, tieredSkirtPoms,
   SKIRT_WRAP_OVERLAP_OPTION, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION,
   SKIRT_WRAP_FACING_WIDTH_OPTION_ID, isWrapSkirtProfile, wrapSkirtOptions, wrapSkirtProblem,
-  wrapSkirtNotches, wrapSkirtPoms } from "./skirt";
+  wrapSkirtNotches, wrapSkirtPoms,
+  SKIRT_CIRCLE_FULLNESS_OPTION, SKIRT_CIRCLE_FULLNESS_OPTION_ID, isCircleSkirtProfile,
+  circleSkirtOptions, circleSkirtProblem, circleSkirtNotches, circleSkirtPoms, circleSkirtTopology,
+  circleSkirtHemSizeMetric } from "./skirt";
 import { StyleDef, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES, JEANS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
@@ -1083,6 +1086,24 @@ const SKIRT_TECH_PACK: TechPack = {
 };
 
 function skirtTechPackForOptions(options: GarmentOptions): TechPack {
+  if (isCircleSkirtProfile(options)) {
+    const { fullnessPercent } = circleSkirtOptions(options);
+    return {
+      bom: [],
+      constructionNotice: "K07 Circle is an InfiniDrip digital-pattern model. Its fullness and retained waistband/side-opening path are software choices; physical fit, comfort, wear, fabric behavior, materials, sewn construction and production are not validated.",
+      construction: [
+        `K07 drafts two equal annular-sector panels at ${fullnessPercent}% software fullness. The modeled waist radius is derived from waist plus ease; radial length follows the editable skirt length.`,
+        "The two curved front/back waistband panels use inner edges matched to the modeled waist arcs; their 3.5 cm band depth is a software default, not a sewn construction standard. The right radial edge is a digital side-opening path; no zipper product, hardware or sewn method is specified.",
+        "Waist and hem POMs report cubic-curve geometry. DXF and polyline outputs approximate those curves; they do not preserve circle semantics or promise lossless CLO interchange.",
+        "The shared size run and grade rules are not validated for K07. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval, supplier suitability or production readiness is established.",
+      ],
+      measurementSpecNote: "K07 values describe the modeled digital waist-plus-ease, curve lengths and software fullness. The shared size run is not validated K07 grading or a physical size chart.",
+      measurementSpecToleranceColumn: false,
+      fitRecordStatusNote: "Digital circle-skirt geometry only; no sewn K07 sample or physical fit assessment is recorded.",
+      fitRecordPassColumn: false,
+      fitRecordToleranceColumn: false,
+    };
+  }
   if (isWrapSkirtProfile(options)) {
     const { frontOverlapCm, overlapFacingWidthCm } = wrapSkirtOptions(options);
     return {
@@ -1176,7 +1197,9 @@ export const SKIRT: GarmentRecipe = {
   grammar: SKIRT_GRAMMAR,
   notches: SKIRT_NOTCHES,
   poms: SKIRT_POMS,
-  pomsForOptions: (options) => isWrapSkirtProfile(options)
+  pomsForOptions: (options) => isCircleSkirtProfile(options)
+    ? circleSkirtPoms(options)
+    : isWrapSkirtProfile(options)
     ? wrapSkirtPoms(options)
     : isTieredSkirtProfile(options)
     ? tieredSkirtPoms(tieredSkirtOptions(options).tierCount)
@@ -1187,7 +1210,9 @@ export const SKIRT: GarmentRecipe = {
     : Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)
       ? [...SKIRT_POMS, SKIRT_PENCIL_HEM_POM]
       : SKIRT_POMS,
-  notchesForOptions: (options) => isWrapSkirtProfile(options)
+  notchesForOptions: (options) => isCircleSkirtProfile(options)
+    ? circleSkirtNotches()
+    : isWrapSkirtProfile(options)
     ? wrapSkirtNotches()
     : isTieredSkirtProfile(options)
     ? tieredSkirtNotches(options)
@@ -1196,17 +1221,26 @@ export const SKIRT: GarmentRecipe = {
   sizes: TSHIRT_SIZES, // the same size run drives every garment
   checks: skirtPanelChecks,
   guidance: skirtGuidance,
-  sizeMetric: frontHemWidth, // the front hem grows with the hip → orders the run
+  sizeMetric: (block) => circleSkirtTopology(block) ? circleSkirtHemSizeMetric(block) : frontHemWidth(block),
   allowances: WOVEN_SKIRT_ALLOWANCES,
   techPack: SKIRT_TECH_PACK,
   techPackForOptions: skirtTechPackForOptions,
-  a0OverflowForOptions: (options) => isGatheredSkirtProfile(options) || isTieredSkirtProfile(options) || isWrapSkirtProfile(options),
+  a0OverflowForOptions: (options) => isCircleSkirtProfile(options) || isGatheredSkirtProfile(options)
+    || isTieredSkirtProfile(options) || isWrapSkirtProfile(options),
   options: [SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION,
     SKIRT_GATHER_RATIO_OPTION, SKIRT_CASING_DEPTH_OPTION,
     SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_SPACING_OPTION,
     SKIRT_TIER_COUNT_OPTION, SKIRT_TIER_GATHER_RATIO_OPTION,
-    SKIRT_WRAP_OVERLAP_OPTION, SKIRT_WRAP_FACING_WIDTH_OPTION],
+    SKIRT_WRAP_OVERLAP_OPTION, SKIRT_WRAP_FACING_WIDTH_OPTION, SKIRT_CIRCLE_FULLNESS_OPTION],
   draftReview: (m, options = {}) => {
+    const circleProblem = circleSkirtProblem(m, options);
+    if (circleProblem) {
+      const field = circleProblem.includes("fullness") || circleProblem.includes("setting") || circleProblem.includes("profile")
+        ? `option-${SKIRT_CIRCLE_FULLNESS_OPTION_ID}`
+        : circleProblem.includes("length") ? "length"
+        : circleProblem.includes("ease") ? "ease" : "waist";
+      return { block: null, notes: [{ level: "warn", field, text: circleProblem }] };
+    }
     const wrapProblem = wrapSkirtProblem(m, options);
     if (wrapProblem) {
       const field = wrapProblem.includes("facing width") ? `option-${SKIRT_WRAP_FACING_WIDTH_OPTION_ID}`

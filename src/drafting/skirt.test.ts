@@ -15,9 +15,12 @@ import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, S
   tieredSkirtPanel,
   SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
   isWrapSkirtProfile, wrapSkirtOptions, wrapSkirtProblem, wrapSkirtFrontPanels,
-  wrapSkirtNotches, wrapSkirtPoms, wrapSkirtTopology } from "./skirt";
+  wrapSkirtNotches, wrapSkirtPoms, wrapSkirtTopology,
+  SKIRT_CIRCLE_FULLNESS_OPTION_ID, circleSkirtOptions, circleSkirtProblem, circleSkirtNotches,
+  circleSkirtPoms, circleSkirtTopology, circleSkirtHemSizeMetric } from "./skirt";
 import { stitchChecks } from "./stitch";
 import { resolveNotch } from "../render/notch";
+import { outlineSamples } from "../render/allowance";
 import { SKIRT, gradeRun, specSheet } from "./index";
 
 /** The whole sewability surface for a skirt — stitches plus panel checks
@@ -762,5 +765,156 @@ describe("K06 front-overlap Wrap skirt draft", () => {
     });
     expect(wrapSkirtProblem(STANDARD_M, options))
       .toBe("K06 overlap settings are invalid; correct them to restore the digital draft.");
+  });
+});
+
+describe("K07 Circle skirt digital geometry", () => {
+  const circumference = STANDARD_M.waist + STANDARD_M.ease;
+
+  it.each([
+    [25, 0.25], [50, 0.5], [75, 0.75], [100, 1],
+  ] as const)("uses measured annular geometry at %i percent fullness", (fullnessPercent, fraction) => {
+    const options = { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: fullnessPercent };
+    const block = draftSkirt(STANDARD_M, options);
+    const front = rolePiece(block, "front");
+    const back = rolePiece(block, "back");
+    const innerRadius = circumference / (2 * Math.PI * fraction);
+    const outerRadius = innerRadius + STANDARD_M.length;
+    const circumferencePom = circleSkirtPoms(options)[0]!;
+    const hemPom = circleSkirtPoms(options)[1]!;
+
+    expect(circleSkirtTopology(block)).toBe(true);
+    expect(blockPieces(block).map((piece) => piece.name).sort())
+      .toEqual(["Circle skirt back", "Circle skirt front", "waistbandBack", "waistbandFront"]);
+    for (const panel of [front, back]) {
+      expect(panel.onFold).toBe(false);
+      expect(panel.curveSamplingSegments).toBe(64);
+      expect(["waistRight", "waistLeft", "hemLeft", "hemRight"]
+        .every((name) => pieceEdge(panel, name).kind === "curve")).toBe(true);
+      const waistEdge = pieceEdge(panel, "waistRight");
+      const waistPoint = waistEdge.kind === "curve" ? waistEdge.curve.start : waistEdge.start;
+      expect(Math.hypot(waistPoint.x, waistPoint.y)).toBeCloseTo(innerRadius, 7);
+      expect(edgeLength(pieceEdge(panel, "sideRight"))).toBeCloseTo(STANDARD_M.length, 7);
+    }
+    const frontOuter = pieceEdge(front, "hemRight");
+    const outerPoint = frontOuter.kind === "curve" ? frontOuter.curve.start : frontOuter.start;
+    expect(Math.hypot(outerPoint.x, outerPoint.y)).toBeCloseTo(outerRadius, 7);
+    expect(Math.abs(circumferencePom.measure(block) - circumference)).toBeLessThanOrEqual(circumference * 0.0005);
+    const expectedHem = circumference + 2 * Math.PI * fraction * STANDARD_M.length;
+    expect(Math.abs(hemPom.measure(block) - expectedHem)).toBeLessThanOrEqual(expectedHem * 0.0005);
+    expect(circleSkirtHemSizeMetric(block)).toBeCloseTo(hemPom.measure(block), 7);
+    const frontBand = rolePiece(block, "waistbandFront");
+    const backBand = rolePiece(block, "waistbandBack");
+    const actualBandSeam = edgeLength(pieceEdge(frontBand, "seamRight")) + edgeLength(pieceEdge(frontBand, "seamLeft"));
+    const actualBandTop = edgeLength(pieceEdge(frontBand, "topLeft")) + edgeLength(pieceEdge(frontBand, "topRight"));
+    expect(frontBand.labelAnchor?.x).toBeCloseTo(0, 7);
+    expect(Math.hypot(frontBand.labelAnchor!.x, frontBand.labelAnchor!.y))
+      .toBeCloseTo(innerRadius + edgeLength(pieceEdge(frontBand, "sideRight")) / 2, 7);
+    expect(backBand.labelAnchor).toEqual(frontBand.labelAnchor);
+    expect(Math.abs(actualBandSeam - circumference / 2)).toBeLessThanOrEqual(circumference * 0.0005 / 2);
+    expect(actualBandTop).toBeGreaterThan(actualBandSeam);
+    expect(circumferencePom.anchor?.(block)).toEqual(edgeEnd(pieceEdge(front, "waistRight")));
+    expect(circumferencePom.backAnchor?.(block)).toEqual(edgeEnd(pieceEdge(back, "waistRight")));
+    expect(hemPom.anchor?.(block)).toEqual(edgeStart(pieceEdge(front, "hemRight")));
+    expect(hemPom.backAnchor?.(block)).toEqual(edgeStart(pieceEdge(back, "hemRight")));
+    const lengthPom = circleSkirtPoms(options)[2]!;
+    expect(lengthPom.measure(block)).toBeCloseTo(STANDARD_M.length, 7);
+    expect(lengthPom.anchor?.(block)).toEqual(edgeStart(pieceEdge(front, "sideRight")));
+    expect([...stitchChecks(block, block.stitches), ...skirtPanelChecks(block)].every((check) => check.ok)).toBe(true);
+  });
+
+  it.each([
+    25, 50, 75, 100,
+  ] as const)("keeps 64-point Circle arc samples within 0.05% radial error at %i percent fullness", (fullnessPercent) => {
+    const block = draftSkirt(STANDARD_M, { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: fullnessPercent });
+    for (const panel of [rolePiece(block, "front"), rolePiece(block, "back")]) {
+      const samples = outlineSamples(panel);
+      for (const edgeName of ["waistRight", "waistLeft", "hemLeft", "hemRight"]) {
+        const edge = pieceEdge(panel, edgeName);
+        expect(edge.kind).toBe("curve");
+        if (edge.kind !== "curve") continue;
+        const radius = Math.hypot(edge.curve.start.x, edge.curve.start.y);
+        const radialErrors = samples.filter((sample) => sample.edgeName === edgeName)
+          .map(({ point: sample }) => Math.abs(Math.hypot(sample.x, sample.y) - radius));
+        radialErrors.push(Math.abs(Math.hypot(edge.curve.end.x, edge.curve.end.y) - radius));
+        expect(radialErrors).toHaveLength(65);
+        expect(Math.max(...radialErrors) / radius).toBeLessThanOrEqual(0.0005);
+      }
+    }
+  });
+
+  it("keeps the four named notches and grainlines attached to actual piece edges", () => {
+    const block = draftSkirt(STANDARD_M, { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 100 });
+    const notches = circleSkirtNotches();
+    expect(notches.map((entry) => entry.pieceName)).toEqual([
+      "Circle skirt front", "Circle skirt back", "waistbandFront", "waistbandBack",
+    ]);
+    for (const entry of notches) {
+      const piece = blockPieces(block).find((candidate) => candidate.name === entry.pieceName)!;
+      expect(entry.notches.length).toBeGreaterThan(0);
+      expect(entry.notches.every(({ edgeName }) => piece.edges.some((edge) => edge.name === edgeName))).toBe(true);
+      expect(piece.edges.some((edge) => edge.name === entry.grainline.topEdge)).toBe(true);
+      expect(piece.edges.some((edge) => edge.name === entry.grainline.bottomEdge)).toBe(true);
+    }
+  });
+
+  it("reports a mismatched paired panel while preserving positive topology detection", () => {
+    const block = draftSkirt(STANDARD_M, { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 100 });
+    const back = rolePiece(block, "back");
+    const changedBack = {
+      ...block,
+      roles: {
+        ...block.roles,
+        back: { ...back, edges: back.edges.map((edge) => edge.name === "sideRight" && edge.kind === "line"
+          ? { ...edge, end: { x: edge.end.x + 2, y: edge.end.y } }
+          : edge) },
+      },
+    };
+    expect(circleSkirtTopology(changedBack)).toBe(true);
+    expect(skirtPanelChecks(changedBack).find((check) => check.name === "Circle skirt front and back dimensions match")?.ok)
+      .toBe(false);
+    expect(circleSkirtTopology({ ...block, roles: { front: rolePiece(block, "front") } })).toBe(false);
+  });
+
+  it("validates editable inputs and keeps unrelated hip guidance out of K07", () => {
+    const options = { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 100 };
+    expect(circleSkirtOptions().fullnessPercent).toBe(100);
+    expect(circleSkirtProblem(STANDARD_M, {})).toBeNull();
+    expect(circleSkirtProblem(STANDARD_M, { ...options, [SKIRT_A_LINE_HEM_SWEEP_OPTION_ID]: 8 }))
+      .toContain("cannot be combined");
+    expect(circleSkirtProblem(STANDARD_M, { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 12 }))
+      .toContain("25, 50, 75 or 100 percent");
+    expect(circleSkirtProblem({ ...STANDARD_M, waist: Number.NaN }, options)).toContain("waist must be finite");
+    expect(circleSkirtProblem({ ...STANDARD_M, ease: Number.NaN }, options)).toContain("ease must be finite");
+    expect(circleSkirtProblem({ ...STANDARD_M, length: Number.POSITIVE_INFINITY }, options)).toContain("finite");
+    expect(circleSkirtProblem({ ...STANDARD_M, waist: 1e308, ease: 1e308 }, options)).toContain("waist plus ease");
+    expect(circleSkirtProblem({ ...STANDARD_M, waist: 20, ease: -30 }, options)).toContain("must stay positive");
+    expect(circleSkirtProblem({ ...STANDARD_M, length: 0 }, options)).toContain("length must be positive");
+    expect(circleSkirtProblem({ ...STANDARD_M, waist: 1e308, ease: 0, length: 1.79e308 }, options))
+      .toContain("derived circle radii");
+    expect(() => draftSkirt(STANDARD_M, { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 12 })).toThrow(RangeError);
+
+    const easeError = { ...options };
+    Object.defineProperty(easeError, SKIRT_CIRCLE_FULLNESS_OPTION_ID, { get: () => { throw "unavailable setting"; } });
+    expect(circleSkirtProblem(STANDARD_M, easeError)).toContain("fullness is invalid");
+
+    const unrelatedHip = { ...STANDARD_M, hip: 40, hipDepth: 100 };
+    const guidance = skirtGuidance(draftSkirt(unrelatedHip, options), unrelatedHip, options);
+    expect(guidance).toHaveLength(1);
+    expect(guidance[0]?.field).toBe("ease");
+    expect(guidance.map(({ text }) => text).join(" ")).not.toMatch(/hip/i);
+    expect(skirtGuidance(draftSkirt({ ...STANDARD_M, ease: 1 }, options), { ...STANDARD_M, ease: 1 }, options)[0])
+      .toMatchObject({ field: "ease", level: "warn" });
+    expect(skirtGuidance(draftSkirt({ ...STANDARD_M, ease: 13 }, options), { ...STANDARD_M, ease: 13 }, options)[0])
+      .toMatchObject({ field: "ease", level: "info" });
+    expect(skirtGuidance({} as ReturnType<typeof draftSkirt>, STANDARD_M, {
+      ...options, [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 12,
+    })[0]).toMatchObject({ field: `option-${SKIRT_CIRCLE_FULLNESS_OPTION_ID}`, level: "warn" });
+    expect(skirtGuidance({} as ReturnType<typeof draftSkirt>, { ...STANDARD_M, ease: Number.NaN }, options)[0])
+      .toMatchObject({ field: "ease", level: "warn" });
+    expect(skirtGuidance({} as ReturnType<typeof draftSkirt>, { ...STANDARD_M, waist: Number.NaN }, options)[0])
+      .toMatchObject({ field: "waist", level: "warn" });
+    const invalidGuidance = skirtGuidance({} as ReturnType<typeof draftSkirt>, { ...STANDARD_M, length: 0 }, options);
+    expect(invalidGuidance[0]).toMatchObject({ field: "length", level: "warn" });
   });
 });

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { CREWNECK, FITTED_PRINCESS_ENTRY_ID, GARMENTS, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
+import { CREWNECK, FITTED_PRINCESS_ENTRY_ID, GARMENTS, SKIRT_CIRCLE_FULLNESS_OPTION_ID,
+  SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
   STANDARD_M, defaultGarmentOptions, pomsForRecipeOptions, pointMark } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
 import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, crewneckDetachedBandRoles, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole, wovenCampCollarBaseSeamBoundaries } from "./technical-flat-live";
@@ -1429,6 +1430,30 @@ describe("compileTechnicalFlatLiveView", () => {
       expect(outline.commands).not.toEqual(reflected.commands);
       expect(paths.some((primitive) => primitive.kind === "path" && primitive.feature === "seam"
         && primitive.source.sourceId.includes("view-boundary"))).toBe(false);
+    }
+  });
+
+  it("overlays K07 circle waist arcs with matching waistband seams on both faces", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    for (const fullness of [25, 50, 75, 100]) {
+      const options = { ...defaultGarmentOptions(recipe.options ?? []), [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: fullness };
+      const block = recipe.draft(STANDARD_M, options);
+      const liveRecipe = { ...recipe, poms: pomsForRecipeOptions(recipe, options) };
+      for (const [kind, bandRole] of [
+        ["FRONT_FLAT", "waistbandFront"],
+        ["BACK_FLAT", "waistbandBack"],
+      ] as const) {
+        const result = compileTechnicalFlatLiveView({ recipe: liveRecipe, block, revisionId: `live-k07-${fullness}-${kind}`, kind,
+          placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+        expect(result.issues, `${fullness}% ${kind}`).toEqual([]);
+        expect(result.view, `${fullness}% ${kind}`).not.toBeNull();
+        expect(result.view!.notices, `${fullness}% ${kind}`).not.toContainEqual(expect.objectContaining({
+          sourceId: expect.stringMatching(/^stitch:Circle (front|back) waist ↔ waistband seam$/),
+          message: expect.stringContaining("RMS separation across matched seam landmarks"),
+        }));
+        expect(result.view!.primitives.some((primitive) => primitive.kind === "path"
+          && primitive.source.sourceId === `pattern:skirt:role:${bandRole}`), `${fullness}% ${kind}`).toBe(true);
+      }
     }
   });
 

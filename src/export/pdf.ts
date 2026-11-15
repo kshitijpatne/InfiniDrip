@@ -55,6 +55,13 @@ export interface Tile {
   readonly h: number; // cm: printable height
 }
 
+export interface TiledPdfOptions {
+  /** Print every pattern-piece name on the tile containing its center. */
+  readonly labelAllPieces?: boolean;
+  /** Append document-level pages, such as a scale-check sheet. */
+  readonly trailingPageStreams?: readonly string[];
+}
+
 /**
  * Split a sheet of `sheetW × sheetH` cm into tiles that fit on `page`, each
  * overlapping the next by `overlap` cm so taped seams align.
@@ -116,11 +123,13 @@ function tileStream(
   tile: Tile,
   layout: { pieces: readonly { sew: Polyline; cut: Polyline; name: string }[]; height: number },
   marks: readonly (readonly import("../drafting").PatternMark[])[],
+  labelAnchors: readonly ({ readonly x: number; readonly y: number } | undefined)[],
   totalCols: number,
   totalRows: number,
   page: PageSize,
   localCoordinates = false,
-  markLabelLayout: PatternMarkPdfLabelLayout = "inline"
+  markLabelLayout: PatternMarkPdfLabelLayout = "inline",
+  labelAllPieces = false
 ): string {
   const { x: tx, y: ty, w: tw, h: th } = tile;
   const sh = layout.height;
@@ -163,11 +172,11 @@ function tileStream(
     }
   }
 
-  for (const piece of layout.pieces) {
-    if (!piece.name.toLowerCase().startsWith("shorts ")) continue;
+  for (const [pieceIndex, piece] of layout.pieces.entries()) {
+    if (!labelAllPieces && !piece.name.toLowerCase().startsWith("shorts ")) continue;
     const bounds = polylineBounds(piece.cut);
     const labelText = piece.name.toUpperCase();
-    const pose = patternLabelPose(piece.name, labelText, bounds, 14 / pt(1));
+    const pose = patternLabelPose(piece.name, labelText, bounds, 14 / pt(1), labelAnchors[pieceIndex]);
     if (pose.x < tx || pose.x > tx + tw || pose.y < ty || pose.y > ty + th) continue;
     let x = localCoordinates ? pose.x - tx : pose.x;
     let y = localCoordinates ? pose.y - ty : pose.y;
@@ -305,24 +314,36 @@ export function exportPdf(
   page: PageSize = PAGE_A4,
   overlap = 1.0,
   localCoordinates = false,
-  markLabelLayout: PatternMarkPdfLabelLayout = "inline"
+  markLabelLayout: PatternMarkPdfLabelLayout = "inline",
+  options: TiledPdfOptions = {}
 ): string {
   const layout = layoutPieces(pieces.map((p) => flattenPiece(p, allowance)));
-  const marks = layout.pieces.map((placed, i) => {
+  const positioned = layout.pieces.map((placed, i) => {
     const flat = flattenPiece(pieces[i], allowance);
     const originalBounds = polylineBounds(flat.cut);
     const placedBounds = polylineBounds(placed.cut);
-    return translatePatternMarks(pieces[i].marks,
-      placedBounds.minX - originalBounds.minX, placedBounds.minY - originalBounds.minY);
+    const dx = placedBounds.minX - originalBounds.minX;
+    const dy = placedBounds.minY - originalBounds.minY;
+    return {
+      marks: translatePatternMarks(pieces[i].marks, dx, dy),
+      labelAnchor: pieces[i].labelAnchor
+        ? { x: pieces[i].labelAnchor.x + dx, y: pieces[i].labelAnchor.y + dy }
+        : undefined,
+    };
   });
+  const marks = positioned.map((entry) => entry.marks);
+  const labelAnchors = positioned.map((entry) => entry.labelAnchor);
   const tiles = tilePlan(layout.width, layout.height, page, overlap);
   const cols = Math.max(...tiles.map((t) => t.col)) + 1;
   const rows = Math.max(...tiles.map((t) => t.row)) + 1;
-  const streams = tiles.map((tile) => tileStream(tile, layout, marks, cols, rows, page, localCoordinates, markLabelLayout));
+  const streams = tiles.map((tile) => tileStream(
+    tile, layout, marks, labelAnchors, cols, rows, page, localCoordinates, markLabelLayout, options.labelAllPieces === true
+  ));
   const hasBoxPleatGuides = markLabelLayout === "line-aligned-box-pleat-guides"
     && marks.some((pieceMarks) => pieceMarks.some((mark) => compactBoxPleatGuideId(mark.label ?? "") !== undefined));
   if (hasBoxPleatGuides) {
     streams.push(boxPleatGuideKeyPdfOps(2, 5, page.height, 9));
   }
+  streams.push(...(options.trailingPageStreams ?? []));
   return assemblePdf(streams, page);
 }

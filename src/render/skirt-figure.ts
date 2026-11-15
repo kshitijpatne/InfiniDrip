@@ -19,13 +19,16 @@
 //
 // Pure: measurements in, one SVG string out.
 
-import { Measurements, skirtWidths, type GarmentOptions } from "../drafting";
+import { Measurements, skirtWidths, draftSkirt, type GarmentOptions } from "../drafting";
+import type { Edge } from "../drafting/piece";
 import { skirtHemAdjustmentQuarterCm, skirtHemWidthQuarterCm, isGatheredSkirtProfile, gatheredSkirtOptions,
   isBoxPleatedSkirtProfile, boxPleatGuideGroups, boxPleatGuideProblem,
   SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
   SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_SPACING_OPTION,
   isTieredSkirtProfile, tieredSkirtOptions, tieredSkirtProblem,
-  isWrapSkirtProfile, wrapSkirtOptions, wrapSkirtProblem } from "../drafting/skirt";
+  isWrapSkirtProfile, wrapSkirtOptions, wrapSkirtProblem,
+  isCircleSkirtProfile, circleSkirtProblem, circleSkirtOptions } from "../drafting/skirt";
+import { pieceBounds, pieceToPath } from "./shape";
 import { BLUEPRINT as T } from "./theme";
 import { lowerCroquisFigure, lowerCroquisFlareCommand } from "./croquis";
 import type { LowerCroquisAnchors } from "./croquis";
@@ -168,6 +171,54 @@ function renderWrapSkirtGarment(m: Measurements, fabric: string, options: Garmen
     `height="${round(height)}" fill="${T.background}"/>${heading}${front}${back}</svg>`;
 }
 
+function renderCircleSkirtGarment(m: Measurements, fabric: string, options: GarmentOptions): string {
+  const { fullnessPercent } = circleSkirtOptions(options);
+  const block = draftSkirt(m, options);
+  const front = block.roles.front!;
+  const back = block.roles.back!;
+  const bandFront = block.roles.waistbandFront!;
+  const bandBack = block.roles.waistbandBack!;
+  const bounds = pieceBounds(front);
+  const margin = 8;
+  const top = 20;
+  const gap = 14;
+  const width = margin * 2 + bounds.width * 2 + gap;
+  const height = top + bounds.height + margin;
+  const frontX = margin - bounds.minX;
+  const backX = margin + bounds.width + gap - bounds.minX;
+  const panelY = top - bounds.minY;
+  // The Circle recipe authors each radial opening as a straight side edge.
+  type CircleSide = Extract<Edge, { kind: "line" }>;
+  const frontSide = front.edges.find((edge) => edge.name === "sideRight") as CircleSide;
+  const backSide = back.edges.find((edge) => edge.name === "sideRight") as CircleSide;
+  const sidePath = (edge: CircleSide, x: number): string =>
+    `M ${round(edge.start.x + x)} ${round(edge.start.y + panelY)} L ${round(edge.end.x + x)} ${round(edge.end.y + panelY)}`;
+  const heading = `<text data-part="circle-skirt-summary" x="${round(width / 2)}" y="7" fill="${T.label}" ` +
+    `font-size="2.5" ${FONT} text-anchor="middle">DIGITAL CIRCLE SKIRT · ${fullnessPercent}% SOFTWARE FULLNESS · ` +
+    `CURVE OUTPUTS ARE APPROXIMATED</text>`;
+  const frontGroup = `<g data-part="circle-skirt-front-group" transform="translate(${round(frontX)} ${round(panelY)})">` +
+    `<path data-part="circle-skirt-front" d="${pieceToPath(front)}" fill="${fabric}" stroke="${T.line}" ` +
+    `stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>` +
+    `<path data-part="circle-skirt-waistband-front" d="${pieceToPath(bandFront)}" fill="${T.marker}" fill-opacity="0.3" ` +
+    `stroke="${T.line}" stroke-width="0.9" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>` +
+    `</g>` +
+    `<path data-part="circle-skirt-side-opening" d="${sidePath(frontSide, frontX)}" fill="none" stroke="${T.marker}" ` +
+    `stroke-width="0.8" stroke-dasharray="2 1.5" vector-effect="non-scaling-stroke"/>` +
+    txt(margin + bounds.width / 2, top - 5, "FRONT");
+  const backGroup = `<g data-part="circle-skirt-back-group" transform="translate(${round(backX)} ${round(panelY)})">` +
+    `<path data-part="circle-skirt-back" d="${pieceToPath(back)}" fill="${fabric}" stroke="${T.line}" ` +
+    `stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>` +
+    `<path data-part="circle-skirt-waistband-back" d="${pieceToPath(bandBack)}" fill="${T.marker}" fill-opacity="0.3" ` +
+    `stroke="${T.line}" stroke-width="0.9" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></g>` +
+    `<path data-part="circle-skirt-side-opening" d="${sidePath(backSide, backX)}" fill="none" stroke="${T.marker}" ` +
+    `stroke-width="0.8" stroke-dasharray="2 1.5" vector-effect="non-scaling-stroke"/>` +
+    txt(margin + bounds.width + gap + bounds.width / 2, top - 5, "BACK");
+  const openingNote = txt(width / 2, height - 2, "Dashed edge marks a digital side-opening path; no zipper hardware is specified.", "middle", 2.2);
+  return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" xmlns="http://www.w3.org/2000/svg" ` +
+    `style="background:${T.background};border-radius:8px"><rect x="0" y="0" width="${round(width)}" ` +
+    `height="${round(height)}" fill="${T.background}"/>${heading}${frontGroup}${backGroup}${openingNote}</svg>`;
+}
+
 function renderTieredPanel(waistHalf: number, hipHalf: number, lowerCutHalfWidths: readonly number[], len: number,
   hipDrop: number, fabric: string, cx: number, top: number, label: string): string {
   const lowerLength = (len - hipDrop) / lowerCutHalfWidths.length;
@@ -207,6 +258,15 @@ function renderTieredPanel(waistHalf: number, hipHalf: number, lowerCutHalfWidth
 
 /** The assembled skirt: front and back panels side by side, in fabric colour. */
 export function renderSkirtGarment(m: Measurements, fabric: string, options: GarmentOptions = {}): string {
+  if (isCircleSkirtProfile(options)) {
+    const problem = circleSkirtProblem(m, options);
+    if (problem) {
+      return `<svg viewBox="0 0 100 24" width="100%" xmlns="http://www.w3.org/2000/svg" ` +
+        `style="background:${T.background};border-radius:8px"><text data-part="circle-skirt-preview-paused" ` +
+        `x="4" y="14" fill="${T.label}" font-size="3.2" ${FONT}>Circle-skirt preview paused. See the correction in Guidance.</text></svg>`;
+    }
+    return renderCircleSkirtGarment(m, fabric, options);
+  }
   if (isWrapSkirtProfile(options)) {
     const problem = wrapSkirtProblem(m, options);
     if (problem) {

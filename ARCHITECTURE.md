@@ -1,5 +1,38 @@
 # InfiniDrip architecture guide
 
+## EPIC-32/G18 current architecture handoff — S1304 K07 Circle skirt implementation
+
+K07 is a separate Starter Blank profile over the existing `skirt` recipe, with
+stable entry ID `skirt-circle-digital-v1` and recipe revision
+`skirt-circle-sector-v1`. It exposes only waist, ease, length and software
+fullness (25%, 50%, 75% or 100%; default 100%). Shared hip measurements remain
+in saved projects but do not affect K07 geometry or validation.
+
+The draft uses two equal annular-sector panels and the existing two-piece
+software waistband/side-zip path. For fullness fraction `q`, modeled waist
+circumference is `C = waist + ease`, each half-panel sweep is `πq`, inner radius
+is `C / (2πq)`, and radial length is the active skirt length. Waist and hem
+measures follow the modeled curves. K07 alone requests 64-point curve sampling;
+other skirt profiles retain their previous sampling and protected output bytes.
+These are explicit digital-model choices, not construction standards or
+validated sewn geometry.
+
+`src/render/skirt-figure.ts` draws the front/back Circle panels and their curved
+edges. Technical-flat projection treats them as non-fold pieces. SVG, DXF,
+PDF, Tech Pack and Projector paths use the same drafted block and its digital
+limits. Oversized A0 is blocked with local guidance unless registered tiling is
+enabled; permitted output uses the existing registered-page fallback. This
+does not establish print efficiency or production performance.
+
+The Circle card and entry-scoped controls live in `src/ui/starter-registry.ts`;
+`src/ui/app.ts` routes active measurement fields, keeps the starter identity
+through local save/reopen and clears it on switching to generic Skirt. Invalid
+Circle settings remain visible with corrective guidance and pause the draft
+and dependent exports. K07 shared size-run/grading behavior, B1 approval,
+physical fit, comfort, wear, material performance, supplier suitability and
+production readiness remain unvalidated. K07 is not digitally accepted until
+its merge/release, output parity, two-origin acceptance and board closeout pass.
+
 ## EPIC-32/G18 current architecture handoff — S1302 K06 A0 label clearance
 
 K06 is a separate Starter Blank profile on the existing `skirt` recipe, with
