@@ -75,7 +75,7 @@ export function exportDxfCentimeters(
     }
 
     const grainline = resolveGrainline(piece, table.grainline);
-    for (const segment of grainlineMarkSegments(grainline, 0.3)) {
+    for (const segment of grainlineMarkSegments(grainline, 0.3, table.grainline.chevronsFollowGrainline)) {
       output += line(segment.start, segment.end, "MARK_GRAINLINE");
     }
     return output;

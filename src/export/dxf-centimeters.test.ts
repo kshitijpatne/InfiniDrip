@@ -71,7 +71,7 @@ describe("exportDxfCentimeters", () => {
     const frontIndex = pieces.findIndex((piece) => piece.name === "front");
     const front = pieces[frontIndex]!;
     const table = notchTables.find((entry) => entry.pieceName === "front")!;
-    const segments = grainlineMarkSegments(resolveGrainline(front, table.grainline), 0.3);
+    const segments = grainlineMarkSegments(resolveGrainline(front, table.grainline), 0.3, table.grainline.chevronsFollowGrainline);
     const flats = pieces.map((piece) => flattenPiece(piece, recipe.allowances));
     const layout = layoutPieces(flats);
     const originalBounds = polylineBounds(flats[frontIndex]!.cut);

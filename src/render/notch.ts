@@ -75,6 +75,8 @@ export interface GrainlineRule {
   readonly topT: number;
   readonly bottomEdge: string;
   readonly bottomT: number;
+  /** Opt in when the recipe requires grainline chevrons to follow a diagonal line. */
+  readonly chevronsFollowGrainline?: boolean;
   /** Optional recipe resolver for a grainline that must follow live geometry
    * while retaining a specific direction, such as a vertical side-front grain. */
   readonly resolve?: (piece: Piece) => Grainline;
@@ -129,8 +131,23 @@ function grainlineChevronGeometry(gl: Grainline, chevronSize: number): Grainline
   };
 }
 
-/** Resolve the grainline spine and its two endpoint chevrons as line segments. */
-export function grainlineMarkSegments(gl: Grainline, chevronSize: number): readonly GrainlineSegment[] {
+/** Resolve the grainline spine and its endpoint chevrons as line segments. */
+export function grainlineMarkSegments(
+  gl: Grainline,
+  chevronSize: number,
+  chevronsFollowGrainline = false,
+): readonly GrainlineSegment[] {
+  if (!chevronsFollowGrainline) {
+    const centerX = (gl.top.x + gl.bottom.x) / 2;
+    return [
+      { start: gl.top, end: gl.bottom },
+      { start: { x: centerX - chevronSize, y: gl.top.y + chevronSize }, end: gl.top },
+      { start: { x: centerX + chevronSize, y: gl.top.y + chevronSize }, end: gl.top },
+      { start: { x: centerX - chevronSize, y: gl.bottom.y - chevronSize }, end: gl.bottom },
+      { start: { x: centerX + chevronSize, y: gl.bottom.y - chevronSize }, end: gl.bottom },
+    ];
+  }
+
   const geometry = grainlineChevronGeometry(gl, chevronSize);
   if (!geometry) return [{ start: gl.top, end: gl.bottom }];
   return [
@@ -162,25 +179,43 @@ export function grainlineSvg(
   gl: Grainline,
   stroke: string,
   strokeWidth: number,
-  chevronSize: number
+  chevronSize: number,
+  chevronsFollowGrainline = false,
 ): string {
   const { top: t, bottom: b } = gl;
-  const geometry = grainlineChevronGeometry(gl, chevronSize);
 
   const line = `<line x1="${round(t.x)}" y1="${round(t.y)}" x2="${round(b.x)}" y2="${round(b.y)}" ` +
     `stroke="${stroke}" stroke-width="${strokeWidth}" vector-effect="non-scaling-stroke"/>`;
 
-  // A zero-length rule has no direction to orient chevrons against.
-  if (!geometry) return line;
+  if (chevronsFollowGrainline) {
+    const geometry = grainlineChevronGeometry(gl, chevronSize);
+    // A zero-length opt-in rule has no direction to orient chevrons against.
+    if (!geometry) return line;
+
+    const chevronUp =
+      `<path d="M ${round(geometry.topLeft.x)} ${round(geometry.topLeft.y)} L ${round(t.x)} ${round(t.y)} ` +
+      `L ${round(geometry.topRight.x)} ${round(geometry.topRight.y)}" fill="none" stroke="${stroke}" ` +
+      `stroke-width="${strokeWidth}" vector-effect="non-scaling-stroke"/>`;
+
+    const chevronDown =
+      `<path d="M ${round(geometry.bottomLeft.x)} ${round(geometry.bottomLeft.y)} L ${round(b.x)} ${round(b.y)} ` +
+      `L ${round(geometry.bottomRight.x)} ${round(geometry.bottomRight.y)}" fill="none" stroke="${stroke}" ` +
+      `stroke-width="${strokeWidth}" vector-effect="non-scaling-stroke"/>`;
+
+    return line + chevronUp + chevronDown;
+  }
+
+  const c = chevronSize;
+  const cx = (t.x + b.x) / 2;
 
   const chevronUp =
-    `<path d="M ${round(geometry.topLeft.x)} ${round(geometry.topLeft.y)} L ${round(t.x)} ${round(t.y)} ` +
-    `L ${round(geometry.topRight.x)} ${round(geometry.topRight.y)}" fill="none" stroke="${stroke}" ` +
+    `<path d="M ${round(cx - c)} ${round(t.y + c)} L ${round(cx)} ${round(t.y)} ` +
+    `L ${round(cx + c)} ${round(t.y + c)}" fill="none" stroke="${stroke}" ` +
     `stroke-width="${strokeWidth}" vector-effect="non-scaling-stroke"/>`;
 
   const chevronDown =
-    `<path d="M ${round(geometry.bottomLeft.x)} ${round(geometry.bottomLeft.y)} L ${round(b.x)} ${round(b.y)} ` +
-    `L ${round(geometry.bottomRight.x)} ${round(geometry.bottomRight.y)}" fill="none" stroke="${stroke}" ` +
+    `<path d="M ${round(cx - c)} ${round(b.y - c)} L ${round(cx)} ${round(b.y)} ` +
+    `L ${round(cx + c)} ${round(b.y - c)}" fill="none" stroke="${stroke}" ` +
     `stroke-width="${strokeWidth}" vector-effect="non-scaling-stroke"/>`;
 
   return line + chevronUp + chevronDown;

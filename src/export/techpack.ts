@@ -224,7 +224,7 @@ function overviewSketchStreams(
       const grainlineRule = grainlines.find((entry) => entry.pieceName === piece.source.name);
       if (grainlineRule) {
         const grainline = resolveGrainline(piece.source, grainlineRule.grainline);
-        const marks = grainlineMarkSegments(grainline, 0.3).map((segment, index) => lineMark(
+        const marks = grainlineMarkSegments(grainline, 0.3, grainlineRule.grainline.chevronsFollowGrainline).map((segment, index) => lineMark(
           "placementLine",
           `tech-pack-grainline-${index + 1}`,
           { x: left + (segment.start.x - bounds.minX) * scale, y: top + (segment.start.y - bounds.minY) * scale },
