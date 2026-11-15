@@ -1,6 +1,6 @@
 import { AllowanceSpec, Piece } from "../drafting";
 import { PieceNotches } from "../drafting/tshirt-notches";
-import { resolveGrainline, resolveNotch } from "../render/notch";
+import { grainlineMarkSegments, resolveGrainline, resolveNotch } from "../render/notch";
 import { outlinePoints } from "../render";
 import { exportDxf } from "./dxf";
 import { flattenPiece, layoutPieces, polylineBounds, Polyline } from "./layout";
@@ -75,13 +75,9 @@ export function exportDxfCentimeters(
     }
 
     const grainline = resolveGrainline(piece, table.grainline);
-    const chevron = 0.3;
-    const centerX = (grainline.top.x + grainline.bottom.x) / 2;
-    output += line(grainline.top, grainline.bottom, "MARK_GRAINLINE");
-    output += line({ x: centerX - chevron, y: grainline.top.y + chevron }, grainline.top, "MARK_GRAINLINE");
-    output += line({ x: centerX + chevron, y: grainline.top.y + chevron }, grainline.top, "MARK_GRAINLINE");
-    output += line({ x: centerX - chevron, y: grainline.bottom.y - chevron }, grainline.bottom, "MARK_GRAINLINE");
-    output += line({ x: centerX + chevron, y: grainline.bottom.y - chevron }, grainline.bottom, "MARK_GRAINLINE");
+    for (const segment of grainlineMarkSegments(grainline, 0.3)) {
+      output += line(segment.start, segment.end, "MARK_GRAINLINE");
+    }
     return output;
   }).join("");
 

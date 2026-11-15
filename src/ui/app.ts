@@ -2,9 +2,10 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, JeansOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, wovenShirtBodyHalfWidths, wovenShirtHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, recipeA0OverflowEnabled, optionalOptionStatusMessage, optionalOptionActionLabel, draftJeansWithGuidance, jeansSizeRunWithGuidance, dartOf } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, JeansOptions, defaultGarmentOptions, garmentOptionsForStyle, optionAppliesToStarterEntry, wovenHipStationY, wovenShirtBodyHalfWidths, wovenShirtHipStationY, withModeledPomLabels, pomsForRecipeOptions, notchesForRecipeOptions, piecesForRecipeBlock, recipeA0OverflowEnabled, optionalOptionStatusMessage, optionalOptionActionLabel, draftJeansWithGuidance, jeansSizeRunWithGuidance, dartOf, lineMark } from "../drafting";
 import { gradeRecipeRun, gradeMeasurements, draftRecipeAtSize, draftRecipeReviewAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName, garmentForConstruction } from "../drafting";
 import { block, blockPieces } from "../drafting";
+import { grainlineMarkSegments, resolveGrainline } from "../render/notch";
 import { teeNeckbandTechPackOptions, teeVBandTechPackOptions } from "../drafting/vneck-band-output";
 import {
   TEE_NECKBAND_OPTIONS,
@@ -68,7 +69,8 @@ import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_E
   SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
   SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
   SKIRT_WRAP_ENTRY_ID, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
-  SKIRT_CIRCLE_ENTRY_ID } from "../drafting/skirt";
+  SKIRT_CIRCLE_ENTRY_ID, SKIRT_BIAS_CUT_ENTRY_ID, SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY,
+  biasCutSkirtNotches } from "../drafting/skirt";
 import { guidedCapturePresetForEntry } from "./guided-capture-preset";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -1717,7 +1719,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && recipe.name === "skirt" ? "circle-skirt"
+    starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && recipe.name === "skirt" ? "bias-cut-skirt"
+      : starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && recipe.name === "skirt" ? "circle-skirt"
       : starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt" ? "pencil-like-skirt"
       : starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt" ? "a-line-like-skirt"
       : starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID && recipe.name === "skirt" ? "gathered-pull-on-skirt"
@@ -1907,6 +1910,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (forRecipe.name === "polo" && starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID) {
       return { ...options, [POLO_BAND_COLLAR_PROFILE_OPTION_ID]: POLO_BAND_COLLAR_PROFILE_VALUE };
     }
+    if (forRecipe.name === "skirt" && starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID) {
+      return { ...options, [SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY]: 1 };
+    }
     if (forRecipe.name !== "tank") return options;
     if (starterOrigin?.entryId === TANK_N05_ENTRY_ID) return { ...options, [TANK_N05_PROFILE_ROUTE_KEY]: 1 };
     if (starterOrigin?.entryId === TANK_N08_ENTRY_ID) return { ...options, [TANK_N08_PROFILE_ROUTE_KEY]: 1 };
@@ -1938,7 +1944,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && forRecipe.name === "skirt"
+    starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && forRecipe.name === "skirt"
+      ? "Bias-cut skirt · 45° grainline"
+      : starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && forRecipe.name === "skirt"
       ? "Circle skirt · software-defined fullness"
       : starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID && forRecipe.name === "skirt"
       ? "Pleated skirt · box-pleat guide"
@@ -2006,12 +2014,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const isK05Starter = starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID && recipe.name === "skirt";
     const isK06Starter = starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID && recipe.name === "skirt";
     const isK07Starter = starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && recipe.name === "skirt";
+    const isK08Starter = starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && recipe.name === "skirt";
     const isW03Starter = starterOrigin?.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID && recipe.name === "woven-shirt";
     const isW04Starter = starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && recipe.name === "woven-shirt";
     const isW05Starter = starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt";
     const isW06Starter = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
     const isW07Starter = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
-    if (format === "projector") return isK07Starter
+    if (format === "projector") return isK08Starter
+      ? "Digital K08 bias-cut skirt markers: the body-panel grainline is fixed at 45° to the CF/CB reference and intended to align parallel to selvage. Fabric response, nap/print direction and cutting layout are not modeled; grading and physical fit are not validated."
+      : isK07Starter
       ? "Digital K07 circle-skirt geometry; fullness is a software setting, curves are flattened in outputs, and grading, material behavior and physical fit are not validated."
       : isK06Starter
       ? "Digital K06 front-overlap skirt with separate facing; overlap/facing widths are software settings, and physical coverage, fit, material behavior and grading are not validated."
@@ -2027,6 +2038,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? "W04 grade is not validated. The W04 hip station is a digital crop reference, not a physical hip-location or fit measure."
       : isW05Starter ? "W05 grade is not validated." : isW06Starter ? "W06 grade is not validated."
         : isW07Starter ? "W07 grade is not validated." : undefined;
+    if (isK08Starter) {
+      return "Digital K08 bias-cut skirt profile. Front and back body-panel grainline markers are fixed at 45° to the CF/CB reference and intended to align parallel to fabric selvage. Fabric response, bias stretch, drape, recovery, nap/print direction and cutting layout are not modeled. The generic Skirt size run is not validated grading for K08. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval or production readiness is established.";
+    }
     if (isK07Starter) {
       return "Digital K07 circle-skirt geometry only. Fullness is an editable software setting; waist and hem POMs follow modeled curves. SVG, DXF, PDF and projector paths approximate curves with output points. The shared size run and grading are not validated for K07. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval or production readiness is established.";
     }
@@ -2258,6 +2272,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : starterOrigin?.entryId === "tank-classic-scoop-digital-v1"
           || starterOrigin?.entryId === "tank-high-neck-digital-v1"
           ? tankStarterRecipeForOutput(outputRecipe, stretchFabric)
+          : starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && recipe.name === "skirt"
+          ? { ...outputRecipe, notchesForOptions: () => biasCutSkirtNotches() }
           : outputRecipe;
     if (!semanticEdits) return withStarterTechPack({ ...recipe, allowances, poms, label });
     const evaluation = requireSemanticEditEvaluation(currentSemanticState()?.evaluation);
@@ -2276,7 +2292,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
   const recipeForTechPackOutputs = (): GarmentRecipe => {
     const outputRecipe = recipeForCurrentOutputs();
-    return starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && outputRecipe.name === "skirt"
+    return starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && outputRecipe.name === "skirt"
+      ? {
+        ...outputRecipe,
+        label: "Bias-cut skirt - 45-degree digital grainline",
+        techPackOverviewGrainlines: biasCutSkirtNotches().filter((entry) =>
+          entry.pieceName === "front" || entry.pieceName === "back"),
+      }
+      : starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && outputRecipe.name === "skirt"
       ? { ...outputRecipe, label: "Circle skirt - software-defined fullness" }
       : starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID && outputRecipe.name === "skirt"
       ? { ...outputRecipe, label: "Tiered skirt - gathered panels" }
@@ -2290,7 +2313,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       && (starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID || starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID
         || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
         || starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID || starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID
-        || starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID));
+        || starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID || starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID));
   const pdfMarkLabelLayout = (outputRecipe: GarmentRecipe): "inline" | "staggered-box-pleat-guides" | "line-aligned-box-pleat-guides" =>
     outputRecipe.name === "skirt" && starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
       ? "line-aligned-box-pleat-guides"
@@ -5387,7 +5410,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
             || starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID
             || starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID
-            || starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID)) starterOrigin = null;
+            || starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID
+            || starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID)) starterOrigin = null;
         setGarment(g.name);
       });
   });
@@ -6448,6 +6472,22 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : semanticSizeBlock(step));
     return exportablePieces(drafted, customPlanSize ? customPlanSize.ready : semanticSizeReady(step));
   };
+  const withBiasCutGrainlineMarks = (pieces: readonly Piece[], options: GarmentOptions): Piece[] => {
+    if (starterOrigin?.entryId !== SKIRT_BIAS_CUT_ENTRY_ID || recipe.name !== "skirt") return [...pieces];
+    const grainlines = notchesForRecipeOptions(recipe, options);
+    return pieces.map((piece) => {
+      const rule = grainlines.find((entry) => entry.pieceName === piece.name);
+      if (!rule || (piece.name !== "front" && piece.name !== "back")) return piece;
+      const grainline = resolveGrainline(piece, rule.grainline);
+      const marks = grainlineMarkSegments(grainline, 0.3).map((segment, index) => lineMark(
+        "placementLine",
+        `k08-${piece.name}-grainline-${index + 1}`,
+        segment.start,
+        segment.end,
+      ));
+      return { ...piece, marks: [...(piece.marks ?? []), ...marks] };
+    });
+  };
   const exportAllowances = (): AllowanceSpec => {
     const planned = customOneSizeStyle() ? selectedGradePlanSize() : null;
     return planned?.options ? allowancesForOptions(planned.options) : currentAllowances();
@@ -6461,6 +6501,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID) delete packageOptions[POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID];
     if (starterOrigin?.entryId === POLO_BAND_COLLAR_ENTRY_ID) delete packageOptions[POLO_BAND_COLLAR_PROFILE_OPTION_ID];
     if (starterOrigin?.entryId === TANK_N08_ENTRY_ID) delete packageOptions[TANK_N08_PROFILE_ROUTE_KEY];
+    if (starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID) delete packageOptions[SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY];
     return createDxfInterchangePackage(outputRecipe, {
       label: selectedSizeLabel(recipe.sizes, step),
       step,
@@ -6759,7 +6800,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     && (!(hasActiveVBand(recipe, recipeOptions()) || hasActiveFittedScoopNeckband(recipe, recipeOptions()))
       || teeVBandOutputError === "") && canExport());
   onExport("#export-dxf", () => {
-    download(`${exportRecipeName()}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
+    download(`${exportRecipeName()}-${exportSizeLabel()}.dxf`, exportDxf(
+      withBiasCutGrainlineMarks(exportPieces(), recipeOptions()), exportAllowances(),
+    ), "image/vnd.dxf");
   });
   onExport("#export-cad-dxf", () => {
     void createPackageForCurrentSelection().then((candidate) =>
@@ -6778,7 +6821,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   onExport("#export-pdf", () => {
     const outputRecipe = recipeForCurrentOutputs();
     download(`${exportRecipeName()}-${exportSizeLabel()}.pdf`, exportPdf(
-      exportPieces(), exportAllowances(), undefined, 1.0, usesLocalTiledPdfCoordinates(outputRecipe),
+      withBiasCutGrainlineMarks(exportPieces(), recipeOptions()), exportAllowances(), undefined, 1.0, usesLocalTiledPdfCoordinates(outputRecipe),
       pdfMarkLabelLayout(outputRecipe), tiledPdfOptionsFor(outputRecipe),
     ), "application/pdf");
   });
@@ -7314,9 +7357,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const selectedSizeOptions = recipeOptions(currentRecipe);
         const artifacts = [
           { artifactId: "selected-size-svg", extension: "svg", displayName: `${exportRecipeName()}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, notchesForRecipeOptions(currentRecipe, selectedSizeOptions)) },
-          { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${exportRecipeName()}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
+          { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${exportRecipeName()}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(withBiasCutGrainlineMarks(pieces, selectedSizeOptions), allowances) },
           { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(
-            pieces, allowances, undefined, 1.0, usesLocalTiledPdfCoordinates(currentRecipe),
+            withBiasCutGrainlineMarks(pieces, selectedSizeOptions), allowances, undefined, 1.0, usesLocalTiledPdfCoordinates(currentRecipe),
             pdfMarkLabelLayout(currentRecipe), tiledPdfOptionsFor(currentRecipe),
           ) },
           { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${exportRecipeName()}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, notchesForRecipeOptions(currentRecipe, selectedSizeOptions), undefined, recipeA0OverflowEnabled(currentRecipe, selectedSizeOptions), pdfMarkLabelLayout(currentRecipe)) },

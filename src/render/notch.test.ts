@@ -8,6 +8,7 @@ import {
   resolveGrainline,
   notchSvg,
   grainlineSvg,
+  grainlineMarkSegments,
 } from "./notch";
 import { Edge } from "../drafting";
 
@@ -76,6 +77,18 @@ describe("resolveGrainline", () => {
     expect(typeof gl.bottom.y).toBe("number");
     expect(gl.top.y).toBeLessThan(gl.bottom.y);
   });
+
+  it("uses a custom live-geometry resolver when supplied", () => {
+    const piece = rolePiece(block, "front");
+    const resolved = { top: point(2, 3), bottom: point(12, 13) };
+    expect(resolveGrainline(piece, {
+      topEdge: "unused",
+      topT: 0,
+      bottomEdge: "unused",
+      bottomT: 1,
+      resolve: () => resolved,
+    })).toBe(resolved);
+  });
 });
 
 describe("notchSvg", () => {
@@ -95,6 +108,49 @@ describe("grainlineSvg", () => {
     const svg = grainlineSvg(gl, "#888", 1, 1.2);
     expect(svg).toContain("<line");
     expect(svg).toContain("<path");
+  });
+
+  it("preserves the exact vertical grainline SVG bytes", () => {
+    expect(grainlineSvg({ top: { x: 10, y: 10 }, bottom: { x: 10, y: 30 } }, "#123", 0.5, 2)).toBe(
+      '<line x1="10" y1="10" x2="10" y2="30" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>' +
+      '<path d="M 8 12 L 10 10 L 12 12" fill="none" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>' +
+      '<path d="M 8 28 L 10 30 L 12 28" fill="none" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>'
+    );
+  });
+
+  it("aligns both chevrons to a diagonal grainline and its endpoints", () => {
+    expect(grainlineSvg({ top: { x: 0, y: 0 }, bottom: { x: 10, y: 10 } }, "#123", 0.5, 1)).toBe(
+      '<line x1="0" y1="0" x2="10" y2="10" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>' +
+      '<path d="M 0 1.414 L 0 0 L 1.414 0" fill="none" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>' +
+      '<path d="M 8.586 10 L 10 10 L 10 8.586" fill="none" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>'
+    );
+  });
+
+  it("emits only the line when the grainline has no direction", () => {
+    expect(grainlineSvg({ top: { x: 2, y: 3 }, bottom: { x: 2, y: 3 } }, "#123", 0.5, 1)).toBe(
+      '<line x1="2" y1="3" x2="2" y2="3" stroke="#123" stroke-width="0.5" vector-effect="non-scaling-stroke"/>'
+    );
+  });
+
+  it("exposes the same diagonal spine and chevron segments to other exporters", () => {
+    const segments = grainlineMarkSegments({ top: { x: 0, y: 0 }, bottom: { x: 10, y: 10 } }, 1);
+    expect(segments).toHaveLength(5);
+    expect(segments[0]).toEqual({ start: { x: 0, y: 0 }, end: { x: 10, y: 10 } });
+    expect(segments[1]?.start.x).toBeCloseTo(0, 10);
+    expect(segments[1]?.start.y).toBeCloseTo(Math.SQRT2, 10);
+    expect(segments[1]?.end).toEqual({ x: 0, y: 0 });
+    expect(segments[2]?.end.x).toBeCloseTo(Math.SQRT2, 10);
+    expect(segments[2]?.end.y).toBeCloseTo(0, 10);
+    expect(segments[3]?.start.x).toBeCloseTo(10 - Math.SQRT2, 10);
+    expect(segments[3]?.start.y).toBeCloseTo(10, 10);
+    expect(segments[4]?.end.x).toBeCloseTo(10, 10);
+    expect(segments[4]?.end.y).toBeCloseTo(10 - Math.SQRT2, 10);
+  });
+
+  it("exposes only the spine segment for a zero-length grainline", () => {
+    expect(grainlineMarkSegments({ top: { x: 2, y: 3 }, bottom: { x: 2, y: 3 } }, 1)).toEqual([
+      { start: { x: 2, y: 3 }, end: { x: 2, y: 3 } },
+    ]);
   });
 });
 

@@ -15,7 +15,7 @@ import { openProjectWorkflow } from "./project-workflow";
 
 import { migrateLegacySaveFile } from "./project-records";
 
-import { GARMENTS, STANDARD_M, notchesForRecipeOptions, type GarmentOptions } from "../drafting";
+import { GARMENTS, STANDARD_M, notchesForRecipeOptions, lineMark, type GarmentOptions } from "../drafting";
 
 import { blockPieces } from "../drafting/block";
 
@@ -23,13 +23,18 @@ import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_E
   SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
   SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
   SKIRT_WRAP_ENTRY_ID, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
-  SKIRT_CIRCLE_ENTRY_ID, SKIRT_CIRCLE_FULLNESS_OPTION_ID } from "../drafting/skirt";
+  SKIRT_CIRCLE_ENTRY_ID, SKIRT_CIRCLE_FULLNESS_OPTION_ID, SKIRT_BIAS_CUT_ENTRY_ID,
+  SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY, biasCutSkirtNotches } from "../drafting/skirt";
 
-import { exportA0Pdf, exportPdf } from "../export";
+import { exportA0Pdf, exportDxf, exportPdf, exportSvg, exportTechPackV2 } from "../export";
 
 import { serialize } from "./persist";
 
 import { createFieldObservationRecord } from "./field-provenance";
+
+import { grainlineMarkSegments, resolveGrainline } from "../render/notch";
+
+import { readNamedDxfDrawing } from "../export/named-dxf-blocks";
 
 function visiblePdfText(pdf: string): string {
   const streams = [...pdf.matchAll(/>>\nstream\n([\s\S]*?)\nendstream/g)].map((match) => match[1]!);
@@ -102,6 +107,42 @@ function expectedSkirtA0Pdf(
     undefined,
     allowOverflow,
     markLabelLayout,
+  );
+}
+
+function expectedK08MarkedPieces(measurements: typeof STANDARD_M = STANDARD_M) {
+  const skirtRecipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+  const options = { [SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY]: 1 };
+  const block = skirtRecipe.draft(measurements, options);
+  const grainlines = notchesForRecipeOptions(skirtRecipe, options, block);
+  return blockPieces(block).map((piece) => {
+    if (piece.name !== "front" && piece.name !== "back") return piece;
+    const rule = grainlines.find((entry) => entry.pieceName === piece.name)!;
+    const grainline = resolveGrainline(piece, rule.grainline);
+    const marks = grainlineMarkSegments(grainline, 0.3).map((segment, index) => lineMark(
+      "placementLine", `k08-${piece.name}-grainline-${index + 1}`, segment.start, segment.end,
+    ));
+    return { ...piece, marks: [...(piece.marks ?? []), ...marks] };
+  });
+}
+
+function expectedK08TechPack(measurements: typeof STANDARD_M, options: GarmentOptions, targetStyle = "Midi skirt") {
+  const source = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+  const recipe = {
+    ...source,
+    label: "Bias-cut skirt - 45-degree digital grainline",
+    techPackOverviewGrainlines: biasCutSkirtNotches().filter((entry) =>
+      entry.pieceName === "front" || entry.pieceName === "back"),
+  };
+  return exportTechPackV2(
+    recipe,
+    measurements,
+    undefined,
+    undefined,
+    options,
+    [],
+    targetStyle,
+    "Digital K08 bias-cut skirt profile. Front and back body-panel grainline markers are fixed at 45° to the CF/CB reference and intended to align parallel to fabric selvage. Fabric response, bias stretch, drape, recovery, nap/print direction and cutting layout are not modeled. The generic Skirt size run is not validated grading for K08. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval or production readiness is established.",
   );
 }
 
@@ -1768,4 +1809,227 @@ describe("K07 Circle-skirt starter workflows", () => {
       localStorage.clear();
     }
   }, 60_000);
+});
+
+describe("K08 Bias-cut skirt starter workflows", () => {
+  it("shows only the four editable inputs, preserves identity, and clears K08 on generic Skirt", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_BIAS_CUT_ENTRY_ID}`);
+      expect(root.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_BIAS_CUT_ENTRY_ID}"]`)
+        ?.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent)
+        .toBe("Bias-cut skirt · 45° grainline");
+      expect([...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-field]")]
+        .map((input) => input.dataset.field)).toEqual(["waist", "hip", "length", "ease"]);
+      expect(root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-option]")).toHaveLength(0);
+      clickId(root, "view-pattern");
+      const pattern = root.querySelector<SVGSVGElement>("#inspection-content svg");
+      expect(pattern).not.toBeNull();
+      expect(pattern!.outerHTML).toContain("<path d=\"M ");
+      expect(pattern!.outerHTML).toContain("<line x1=");
+
+      reachExportStage(root);
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: SKIRT_BIAS_CUT_ENTRY_ID,
+        recipeRevision: "skirt-bias-cut-45-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")!.textContent)
+        .toBe("Bias-cut skirt · 45° grainline");
+      clickId(reopened, `starter-${SKIRT_CIRCLE_ENTRY_ID}`);
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)?.value)
+        .toBe("100");
+      clickId(reopened, `starter-${SKIRT_BIAS_CUT_ENTRY_ID}`);
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`))
+        .toBeNull();
+      expect(reopened.querySelectorAll<HTMLInputElement>("#controls-panel input[data-option]")).toHaveLength(0);
+      clickId(reopened, "garment-skirt");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(true);
+      expect(reopened.querySelector<HTMLElement>("#current-garment")!.textContent).toBe("Skirt");
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("carries the same fixed body grainline through preview and all six outputs at default, edited and maximum dimensions", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_BIAS_CUT_ENTRY_ID}`);
+      reachExportStage(root);
+
+      const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+      const options = { [SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY]: 1 };
+      let targetStyle = "Midi skirt";
+      const assertOutputs = (measurements: typeof STANDARD_M): void => {
+        const plainPieces = blockPieces(recipe.draft(measurements, options));
+        const markedPieces = expectedK08MarkedPieces(measurements);
+        const grainlines = notchesForRecipeOptions(recipe, options);
+        expect(files.get("bias-cut-skirt-M.svg")).toBe(exportSvg(plainPieces, recipe.allowances!, grainlines));
+        expect(files.get("bias-cut-skirt-M.dxf")).toBe(exportDxf(markedPieces, recipe.allowances!));
+        expect((files.get("bias-cut-skirt-M.dxf")!.match(/\n0\nLINE\n8\nMARK_PLACEMENTLINE\n/g) ?? []))
+          .toHaveLength(10);
+        expect(files.get("bias-cut-skirt-M.pdf")).toBe(exportPdf(
+          markedPieces, recipe.allowances!, undefined, 1, true,
+        ));
+        expect(files.get("bias-cut-skirt-M-A0.pdf")).toBe(expectedSkirtA0Pdf(true, options, "inline", measurements));
+        const techPack = files.get("bias-cut-skirt-techpack.pdf")!;
+        expect(techPack).toBe(expectedK08TechPack(measurements, options, targetStyle));
+        expect(visiblePdfText(techPack)).toContain("Bias-cut skirt - 45-degree digital grainline");
+        expect(visiblePdfText(techPack)).toContain("parallel to fabric selvage");
+        expect(visiblePdfText(techPack)).toContain("nap/print direction and cutting layout are not modeled");
+        const projector = files.get("bias-cut-skirt-projector.svg")!;
+        const projectorText = [...new DOMParser().parseFromString(projector, "image/svg+xml")
+          .getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+        expect(projectorText).toContain("Digital K08 bias-cut skirt markers");
+        expect(projectorText).toContain("parallel to selvage");
+        expect(projectorText).toContain("cutting layout are not modeled");
+      };
+
+      const exportSix = async (expectedCalls: number): Promise<void> => {
+        for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+          clickId(root!, id);
+        }
+        await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(expectedCalls));
+      };
+
+      expect(root.querySelector<HTMLInputElement>('input[data-field="waist"]')?.value).toBe("84");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="hip"]')?.value).toBe("100");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="length"]')?.value).toBe("70");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="ease"]')?.value).toBe("10");
+      await exportSix(6);
+      assertOutputs(STANDARD_M);
+
+      const setMeasurement = (field: "waist" | "hip" | "length" | "ease", value: number): void => {
+        const input = root!.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!;
+        input.value = String(value);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      };
+      clickId(root, "journey-step-fit");
+      setMeasurement("waist", 96);
+      setMeasurement("hip", 112);
+      setMeasurement("length", 82);
+      setMeasurement("ease", 12);
+      reReviewAndReachExportStage(root);
+      await exportSix(12);
+      assertOutputs({ ...STANDARD_M, waist: 96, hip: 112, length: 82, ease: 12 });
+
+      clickId(root, "journey-step-fit");
+      const styleTarget = root.querySelector<HTMLSelectElement>("#style-target")!;
+      styleTarget.value = "Maxi skirt";
+      styleTarget.dispatchEvent(new Event("change", { bubbles: true }));
+      targetStyle = "Maxi skirt";
+      setMeasurement("waist", 140);
+      setMeasurement("hip", 150);
+      setMeasurement("length", 95);
+      setMeasurement("ease", 30);
+      let warningsSetAside = 0;
+      while (root.querySelector<HTMLButtonElement>("#guidance-host button[data-ignore-guidance]")) {
+        root.querySelector<HTMLButtonElement>("#guidance-host button[data-ignore-guidance]")!.click();
+        warningsSetAside += 1;
+        if (warningsSetAside > 8) throw new Error("K08 maximum-size review exposed an unexpected guidance loop");
+      }
+      reReviewAndReachExportStage(root);
+      await exportSix(18);
+      assertOutputs({ ...STANDARD_M, waist: 140, hip: 150, length: 95, ease: 30 });
+      clickId(root, "export-dxf-source-package");
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(19), { timeout: 20_000 });
+      const sourcePackage = JSON.parse(files.get("bias-cut-skirt-M-cad-exchange-source.json")!) as {
+        dxf: string;
+        manifest: { options: Record<string, number> };
+      };
+      expect(sourcePackage.manifest.options).not.toHaveProperty(SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY);
+      const packagedGrainlineEntities = readNamedDxfDrawing(sourcePackage.dxf).blocks
+        .flatMap((pieceBlock) => pieceBlock.entities)
+        .filter((entity) => entity.includes("MARK_GRAINLINE"));
+      expect(packagedGrainlineEntities).toHaveLength(20);
+    } finally {
+      restoreSvgTextMetrics();
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 90_000);
+
+  it("freezes K08 selected-size project outputs with local tiled coordinates and the body markers", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-k08-project-output-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-11-15T12:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_BIAS_CUT_ENTRY_ID}`);
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("saved"),
+        { timeout: 10_000 });
+      reachExportStage(root);
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+      freeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      const manifest = workflow.snapshot.exportManifests[0]!;
+      const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+      const options = { [SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY]: 1 };
+      const plainPieces = blockPieces(recipe.draft(STANDARD_M, options));
+      const markedPieces = expectedK08MarkedPieces(STANDARD_M);
+      const svg = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-svg");
+      const dxf = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-dxf");
+      const tiled = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-tiled-pdf");
+      expect(await svg.artifact.bytes.text()).toBe(exportSvg(
+        plainPieces, recipe.allowances!, notchesForRecipeOptions(recipe, options),
+      ));
+      expect(await dxf.artifact.bytes.text()).toBe(exportDxf(markedPieces, recipe.allowances!));
+      expect(await tiled.artifact.bytes.text()).toBe(exportPdf(markedPieces, recipe.allowances!, undefined, 1, true));
+    } finally {
+      workflow.close();
+      unmountApp();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  }, 40_000);
 });

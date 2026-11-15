@@ -40,11 +40,15 @@ import {
   NO_ALLOWANCE,
   sampleSpec,
   pomsForRecipeOptions,
+  PieceNotches,
+  lineMark,
   StretchFabric,
   GarmentOptions,
 } from "../drafting";
 import { flattenPiece, layoutPieces, polylineBounds } from "./layout";
 import { assemblePdf, pt, PAGE_A4, PageSize } from "./pdf";
+import { grainlineMarkSegments, resolveGrainline } from "../render/notch";
+import { patternMarksPdfOps } from "./pattern-mark";
 import type { ArtworkPlacement } from "../surface/placement";
 import { effectiveSize, placementError } from "../surface/placement";
 import { surfacePlaceable } from "../surface/store";
@@ -159,9 +163,15 @@ function sketchStream(
  * from this page. The old sketchStream remains byte-compatible for the
  * protected legacy export contract.
  */
-function overviewSketchStreams(block: Block, label: string, page: PageSize): string[] {
+function overviewSketchStreams(
+  block: Block,
+  label: string,
+  page: PageSize,
+  grainlines: readonly PieceNotches[] = [],
+): string[] {
   const pieces = blockPieces(block).map((piece) => ({
     name: piece.name.toUpperCase(),
+    source: piece,
     outline: flattenPiece(piece, NO_ALLOWANCE).sew,
   }));
   const columns = 2;
@@ -211,6 +221,17 @@ function overviewSketchStreams(block: Block, label: string, page: PageSize): str
       const head = `${mx(piece.outline[0].x)} ${my(piece.outline[0].y)} m`;
       const rest = piece.outline.slice(1).map((point) => `${mx(point.x)} ${my(point.y)} l`).join(" ");
       lines.push(`0.6 w ${head} ${rest} h S`);
+      const grainlineRule = grainlines.find((entry) => entry.pieceName === piece.source.name);
+      if (grainlineRule) {
+        const grainline = resolveGrainline(piece.source, grainlineRule.grainline);
+        const marks = grainlineMarkSegments(grainline, 0.3).map((segment, index) => lineMark(
+          "placementLine",
+          `tech-pack-grainline-${index + 1}`,
+          { x: left + (segment.start.x - bounds.minX) * scale, y: top + (segment.start.y - bounds.minY) * scale },
+          { x: left + (segment.end.x - bounds.minX) * scale, y: top + (segment.end.y - bounds.minY) * scale },
+        ));
+        lines.push(`0 0 0 RG 0.5 w ${patternMarksPdfOps(marks, page.height)}`);
+      }
     });
     pages.push(lines.join("\n"));
   }
@@ -687,7 +708,7 @@ export function exportTechPackV2(
   const sizes = graded.map((g) => g.label);
   return assemblePdf(
     [
-      ...overviewSketchStreams(block, recipe.label, page),
+      ...overviewSketchStreams(block, recipe.label, page, recipe.techPackOverviewGrainlines),
       tableStream(sizes, rows, page, outputTechPack.measurementSpecNote,
         outputTechPack.measurementSpecToleranceColumn !== false),
       ...bomStreamsV2(outputTechPack, recipe.label, page),
@@ -765,7 +786,9 @@ export function exportTechPackV2ForGradePlan(
   });
   return assemblePdf(
     [
-      ...run.flatMap((size) => overviewSketchStreams(size.block, `${recipe.label} — ${size.label}`, page)),
+      ...run.flatMap((size) => overviewSketchStreams(
+        size.block, `${recipe.label} — ${size.label}`, page, recipe.techPackOverviewGrainlines,
+      )),
       ...gradePlanTableStreams(run.map((size) => size.label), rows, page, exactValues,
         outputTechPack.measurementSpecNote, outputTechPack.measurementSpecToleranceColumn !== false),
       ...run.flatMap((size) => {

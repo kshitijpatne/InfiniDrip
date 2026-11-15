@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { STANDARD_M, blockPieces, defaultGarmentOptions, draftAtSize, garmentByName, GARMENTS, notchesForRecipeOptions } from "../drafting";
+import { biasCutSkirtNotches, SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY } from "../drafting/skirt";
 import { exportDxf } from "./dxf";
 import { exportDxfCentimeters } from "./dxf-centimeters";
 import { flattenPiece, layoutPieces, polylineBounds } from "./layout";
-import { resolveNotch } from "../render/notch";
+import { grainlineMarkSegments, resolveGrainline, resolveNotch } from "../render/notch";
 
 describe("exportDxfCentimeters", () => {
   it("declares centimeter units in the opt-in candidate", () => {
@@ -58,6 +59,39 @@ describe("exportDxfCentimeters", () => {
       expect(output.indexOf("0\nENDSEC\n0\nEOF\n")).toBeGreaterThan(output.indexOf("MARK_GRAINLINE"));
       expect(output).toContain("9\n$INSUNITS\n70\n5\n");
     }
+  });
+
+  it("matches the K08 diagonal grainline and chevron coordinates in the centimeter package DXF", () => {
+    const recipe = garmentByName("skirt");
+    const options = { [SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY]: 1 };
+    const block = recipe.draft(STANDARD_M, options);
+    const pieces = blockPieces(block);
+    const notchTables = biasCutSkirtNotches();
+    const output = exportDxfCentimeters(pieces, recipe.allowances, notchTables);
+    const frontIndex = pieces.findIndex((piece) => piece.name === "front");
+    const front = pieces[frontIndex]!;
+    const table = notchTables.find((entry) => entry.pieceName === "front")!;
+    const segments = grainlineMarkSegments(resolveGrainline(front, table.grainline), 0.3);
+    const flats = pieces.map((piece) => flattenPiece(piece, recipe.allowances));
+    const layout = layoutPieces(flats);
+    const originalBounds = polylineBounds(flats[frontIndex]!.cut);
+    const placedBounds = polylineBounds(layout.pieces[frontIndex]!.cut);
+    const dx = placedBounds.minX - originalBounds.minX;
+    const dy = placedBounds.minY - originalBounds.minY;
+    const number = (value: number) => (Math.round(value * 1_000_000) / 1_000_000).toString();
+    const expectedLine = (start: { readonly x: number; readonly y: number }, end: { readonly x: number; readonly y: number }): string => {
+      const cad = (point: { readonly x: number; readonly y: number }) => ({
+        x: point.x + dx,
+        y: layout.height - (point.y + dy),
+      });
+      const a = cad(start);
+      const b = cad(end);
+      return `0\nLINE\n8\nMARK_GRAINLINE\n10\n${number(a.x)}\n20\n${number(a.y)}\n11\n${number(b.x)}\n21\n${number(b.y)}\n`;
+    };
+
+    expect(segments).toHaveLength(5);
+    for (const segment of segments) expect(output).toContain(expectedLine(segment.start, segment.end));
+    expect(output.match(/0\nLINE\n8\nMARK_GRAINLINE\n/g) ?? []).toHaveLength(notchTables.length * 5);
   });
 
   it("maps the first resolved notch to its placed CAD coordinate and flips Y", () => {

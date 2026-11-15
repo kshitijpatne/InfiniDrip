@@ -17,11 +17,14 @@ import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, S
   isWrapSkirtProfile, wrapSkirtOptions, wrapSkirtProblem, wrapSkirtFrontPanels,
   wrapSkirtNotches, wrapSkirtPoms, wrapSkirtTopology,
   SKIRT_CIRCLE_FULLNESS_OPTION_ID, circleSkirtOptions, circleSkirtProblem, circleSkirtNotches,
-  circleSkirtPoms, circleSkirtTopology, circleSkirtHemSizeMetric } from "./skirt";
+  circleSkirtPoms, circleSkirtTopology, circleSkirtHemSizeMetric,
+  SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY, isBiasCutSkirtProfile, biasCutSkirtProblem } from "./skirt";
 import { stitchChecks } from "./stitch";
-import { resolveNotch } from "../render/notch";
+import type { GarmentOptions } from "./options";
+import { resolveNotch, resolveGrainline } from "../render/notch";
 import { outlineSamples } from "../render/allowance";
 import { SKIRT, gradeRun, specSheet } from "./index";
+import { notchesForRecipeOptions } from "./recipe";
 
 /** The whole sewability surface for a skirt — stitches plus panel checks
  *  together, the same combination garmentReport assembles in production. */
@@ -517,6 +520,12 @@ describe("K04 box-pleat guide skirt draft", () => {
     })).toContain("positive finite waist-plus-ease width");
   });
 
+  it("uses the configured defaults when a saved guide profile has unset values", () => {
+    const partiallySaved = { [SKIRT_BOX_PLEAT_COUNT_OPTION_ID]: undefined } as unknown as GarmentOptions;
+    expect(boxPleatGuideProblem(STANDARD_M, partiallySaved)).toBeNull();
+    expect(rolePiece(draftSkirt(STANDARD_M, partiallySaved), "front").marks).toHaveLength(5);
+  });
+
   it("does not let K04 marks or settings leak into generic or incompatible skirt profiles", () => {
     const genericWithStaleSpacing = draftSkirt(STANDARD_M, { [SKIRT_BOX_PLEAT_SPACING_OPTION_ID]: 3 });
     expect(rolePiece(genericWithStaleSpacing, "front").marks).toBeUndefined();
@@ -916,5 +925,80 @@ describe("K07 Circle skirt digital geometry", () => {
       .toMatchObject({ field: "waist", level: "warn" });
     const invalidGuidance = skirtGuidance({} as ReturnType<typeof draftSkirt>, { ...STANDARD_M, length: 0 }, options);
     expect(invalidGuidance[0]).toMatchObject({ field: "length", level: "warn" });
+  });
+});
+
+describe("K08 Bias-cut skirt grainline", () => {
+  it("uses only its internal starter route and leaves generic skirt notches unchanged", () => {
+    const options = { [SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY]: 1 };
+    expect(isBiasCutSkirtProfile()).toBe(false);
+    expect(isBiasCutSkirtProfile({ [SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY]: 0 })).toBe(false);
+    expect(isBiasCutSkirtProfile(options)).toBe(true);
+    expect(biasCutSkirtProblem()).toBeNull();
+    expect(biasCutSkirtProblem(options)).toBeNull();
+    expect(notchesForRecipeOptions(SKIRT, {}).map(({ pieceName, grainline }) => ({ pieceName, grainline })))
+      .toEqual(SKIRT_NOTCHES.map(({ pieceName, grainline }) => ({ pieceName, grainline })));
+    const biasNotches = notchesForRecipeOptions(SKIRT, options);
+    expect(biasNotches.map(({ pieceName }) => pieceName)).toEqual(SKIRT_NOTCHES.map(({ pieceName }) => pieceName));
+    expect(biasNotches.find(({ pieceName }) => pieceName === "waistbandFront")?.grainline)
+      .toBe(SKIRT_NOTCHES.find(({ pieceName }) => pieceName === "waistbandFront")?.grainline);
+  });
+
+  it("blocks every conflicting K01–K07 profile setting with a visible recovery warning", () => {
+    const siblingProfileOptionIds = [
+      SKIRT_A_LINE_HEM_SWEEP_OPTION_ID,
+      SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
+      SKIRT_GATHER_RATIO_OPTION_ID,
+      SKIRT_CASING_DEPTH_OPTION_ID,
+      SKIRT_BOX_PLEAT_COUNT_OPTION_ID,
+      SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+      SKIRT_TIER_COUNT_OPTION_ID,
+      SKIRT_TIER_GATHER_RATIO_OPTION_ID,
+      SKIRT_WRAP_OVERLAP_OPTION_ID,
+      SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
+      SKIRT_CIRCLE_FULLNESS_OPTION_ID,
+    ];
+    for (const optionId of siblingProfileOptionIds) {
+      const options = { [SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY]: 1, [optionId]: 1 };
+      expect(biasCutSkirtProblem(options)).toContain("cannot be combined with saved settings");
+      expect(() => draftSkirt(STANDARD_M, options)).toThrow(/cannot be combined with saved settings/);
+      const review = SKIRT.draftReview!(STANDARD_M, options);
+      expect(review.block).toBeNull();
+      expect(review.notes[0]).toMatchObject({ level: "warn", field: "waist" });
+      expect(review.notes[0]?.text).toContain("Switch to generic Skirt, then reselect K08");
+    }
+  });
+
+  it.each([
+    ["default", STANDARD_M],
+    ["minimum supported body", { ...STANDARD_M, waist: 50, hip: 60, hipDepth: 10, length: 40, ease: 0 }],
+    ["maximum supported body", { ...STANDARD_M, waist: 140, hip: 150, hipDepth: 40, length: 100, ease: 0 }],
+  ] as const)("keeps front and back markers at 45° and inside the %s pieces", (_label, measurements) => {
+    const block = draftSkirt(measurements);
+    const options = { [SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY]: 1 };
+    const tables = notchesForRecipeOptions(SKIRT, options, block);
+    for (const pieceName of ["front", "back"] as const) {
+      const piece = rolePiece(block, pieceName);
+      const rule = tables.find((entry) => entry.pieceName === pieceName)!.grainline;
+      const line = resolveGrainline(piece, rule);
+      const angle = Math.atan2(line.bottom.x - line.top.x, line.bottom.y - line.top.y) * 180 / Math.PI;
+      expect(angle).toBeCloseTo(45, 10);
+
+      const vertices = piece.edges.map(edgeStart);
+      const contains = (query: { readonly x: number; readonly y: number }): boolean => {
+        let inside = false;
+        for (let i = 0, j = vertices.length - 1; i < vertices.length; j = i, i += 1) {
+          const a = vertices[i]!;
+          const b = vertices[j]!;
+          if ((a.y > query.y) !== (b.y > query.y)
+              && query.x < ((b.x - a.x) * (query.y - a.y)) / (b.y - a.y) + a.x) inside = !inside;
+        }
+        return inside;
+      };
+      for (const point of [line.top, {
+        x: (line.top.x + line.bottom.x) / 2,
+        y: (line.top.y + line.bottom.y) / 2,
+      }, line.bottom]) expect(contains(point)).toBe(true);
+    }
   });
 });
