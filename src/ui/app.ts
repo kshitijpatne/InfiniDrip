@@ -1899,10 +1899,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         }
         return option;
       });
-  const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => {
-    const options = garmentOptionsForStyle(
+  const recipeUserOptions = (forRecipe: GarmentRecipe): GarmentOptions =>
+    garmentOptionsForStyle(
       forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle, true, starterOrigin?.entryId,
     );
+  const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => {
+    const options = recipeUserOptions(forRecipe);
     if (forRecipe.name === "polo" && starterOrigin?.entryId === POLO_ZIP_PLACKET_ENTRY_ID) {
       const zipperOptions = Object.fromEntries(Object.entries(options).filter(([id]) => id !== "buttonCount")) as GarmentOptions;
       return { ...zipperOptions, [POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID]: POLO_ZIPPER_CLOSURE_PROFILE_VALUE };
@@ -4219,7 +4221,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : technicalFlatPanelMarkup({
         recipe: outputRecipe,
         measurements: gradeMeasurements(measurements, recipe.grade, outputStep),
-        rawOptions: recipeOptions(outputRecipe),
+        rawOptions: recipeUserOptions(outputRecipe),
         starterEntryId: starterOrigin?.entryId,
         style: targetStyle,
         revisionId: flatRevisionId,
