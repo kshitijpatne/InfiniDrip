@@ -12,15 +12,21 @@ export interface PatternLabelPose {
   readonly rotation: 0 | 90;
 }
 
+export interface PatternLabelAnchor {
+  readonly x: number;
+  readonly y: number;
+}
+
 /** Keep recipe-specific narrow-piece labels inside their cut bounds and clear of marks. */
 export function patternLabelPose(
   pieceName: string,
   labelText: string,
   bounds: PatternLabelBounds,
   baseFontSize: number,
+  anchor?: PatternLabelAnchor,
 ): PatternLabelPose {
-  const centerX = bounds.minX + bounds.width / 2;
-  const centerY = bounds.minY + bounds.height / 2;
+  const centerX = anchor?.x ?? bounds.minX + bounds.width / 2;
+  const centerY = anchor?.y ?? bounds.minY + bounds.height / 2;
   const normalizedName = pieceName.toLowerCase();
   if (normalizedName === "jogger waistband casing") {
     return {

@@ -7,7 +7,7 @@
 // This is a dartless block: the waist is eased in at the side seam rather than
 // darted. K01 adds a bounded digital hem sweep; it does not transfer a dart.
 
-import { point } from "../geometry";
+import { point, type CubicBezier, type Point } from "../geometry";
 import { Measurements } from "./measurements";
 import { Edge, Piece, edgeLength, pieceEdge, edgeStart, edgeEnd } from "./piece";
 import { Block, rolePiece } from "./block";
@@ -175,6 +175,42 @@ export const SKIRT_WRAP_FACING_WIDTH_OPTION: GarmentOption = {
   step: 0.5,
 };
 
+export const SKIRT_CIRCLE_ENTRY_ID = "skirt-circle-digital-v1";
+export const SKIRT_CIRCLE_FULLNESS_OPTION_ID = "circleFullnessPercent";
+export const SKIRT_CIRCLE_FULLNESS_OPTION: GarmentOption = {
+  id: SKIRT_CIRCLE_FULLNESS_OPTION_ID,
+  label: "Circle fullness (software setting)",
+  unit: "%",
+  help: "Sets the modeled annular-sector fullness at 25, 50, 75 or 100 percent. This is an InfiniDrip geometry choice, not a construction or fit standard.",
+  group: "Circle geometry",
+  appliesToStarterEntryId: SKIRT_CIRCLE_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 100,
+  min: 25,
+  max: 100,
+  step: 25,
+};
+
+export interface CircleSkirtSettings {
+  readonly fullnessPercent: 25 | 50 | 75 | 100;
+  readonly fraction: 0.25 | 0.5 | 0.75 | 1;
+}
+
+export function isCircleSkirtProfile(options: GarmentOptions = {}): boolean {
+  return Object.prototype.hasOwnProperty.call(options, SKIRT_CIRCLE_FULLNESS_OPTION_ID);
+}
+
+export function circleSkirtOptions(options: GarmentOptions = {}): CircleSkirtSettings {
+  const fullnessPercent = options[SKIRT_CIRCLE_FULLNESS_OPTION_ID] ?? SKIRT_CIRCLE_FULLNESS_OPTION.defaultValue;
+  if (![25, 50, 75, 100].includes(fullnessPercent)) {
+    throw new RangeError("K07 circle fullness must be 25, 50, 75 or 100 percent; the saved value is retained until corrected");
+  }
+  return {
+    fullnessPercent: fullnessPercent as CircleSkirtSettings["fullnessPercent"],
+    fraction: (fullnessPercent / 100) as CircleSkirtSettings["fraction"],
+  };
+}
+
 export interface WrapSkirtSettings {
   readonly frontOverlapCm: number;
   readonly overlapFacingWidthCm: number;
@@ -225,6 +261,45 @@ export function wrapSkirtProblem(m: Measurements, options: GarmentOptions = {}):
   if (m.length <= m.hipDepth) return "K06 skirt length must exceed hip depth so the open front edge and side opening run below the hip. Increase length or reduce hip depth.";
   if (settings.frontOverlapCm >= 2 * hipHalf) {
     return `K06 front overlap (${settings.frontOverlapCm} cm) must be smaller than the ${2 * hipHalf} cm modeled digital front width. Reduce overlap or increase the modeled hip/ease width; the preview and outputs stay paused.`;
+  }
+  return null;
+}
+
+export function circleSkirtProblem(m: Measurements, options: GarmentOptions = {}): string | null {
+  if (!isCircleSkirtProfile(options)) return null;
+  const conflictingOptions = [
+    SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
+    SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
+    SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+    SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
+    SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
+  ];
+  if (conflictingOptions.some((id) => Object.prototype.hasOwnProperty.call(options, id))) {
+    return "K07 Circle construction cannot be combined with another Skirt profile. Keep only the Circle fullness setting; the preview and outputs stay paused.";
+  }
+  try {
+    circleSkirtOptions(options);
+  } catch (error) {
+    return error instanceof Error ? error.message : "K07 Circle fullness is invalid; correct it to restore the digital draft.";
+  }
+  if (!Number.isFinite(m.waist)) return "K07 waist must be finite. Correct the active measurement to restore the digital draft and outputs.";
+  if (!Number.isFinite(m.ease)) return "K07 ease must be finite. Correct the active measurement to restore the digital draft and outputs.";
+  if (!Number.isFinite(m.length)) return "K07 length must be finite. Correct the active measurement to restore the digital draft and outputs.";
+  const waistPlusEase = m.waist + m.ease;
+  if (!Number.isFinite(waistPlusEase)) {
+    return "K07 waist plus ease must remain finite. Correct the active measurements to restore the digital draft and outputs.";
+  }
+  if (waistPlusEase <= 0) {
+    return "K07 waist plus ease must stay positive. Correct waist or ease to restore the digital draft and outputs.";
+  }
+  if (m.length <= 0) {
+    return "K07 skirt length must be positive. Correct length to restore the digital draft and outputs.";
+  }
+  const { fraction } = circleSkirtOptions(options);
+  const innerRadius = waistPlusEase / (2 * Math.PI * fraction);
+  const outerRadius = innerRadius + m.length;
+  if (![innerRadius, outerRadius].every((value) => Number.isFinite(value) && value > 0)) {
+    return "K07 derived circle radii must remain finite and positive. Correct waist, ease or length to restore the digital draft and outputs.";
   }
   return null;
 }
@@ -1074,7 +1149,275 @@ const SKIRT_STITCHES: readonly Stitch[] = [
   },
 ];
 
+function circlePoint(radius: number, angle: number): Point {
+  return point(radius * Math.sin(angle), radius * Math.cos(angle));
+}
+
+/** One exact-circle cubic approximation. Callers split every arc at <=90°. */
+function circleArc(radius: number, name: string, from: number, to: number): Edge {
+  const start = circlePoint(radius, from);
+  const end = circlePoint(radius, to);
+  const delta = to - from;
+  const controlScale = (4 / 3) * Math.tan(delta / 4) * radius;
+  const tangent = (angle: number): Point => point(Math.cos(angle), -Math.sin(angle));
+  const fromTangent = tangent(from);
+  const toTangent = tangent(to);
+  const curve: CubicBezier = {
+    start,
+    control1: point(start.x + fromTangent.x * controlScale, start.y + fromTangent.y * controlScale),
+    control2: point(end.x - toTangent.x * controlScale, end.y - toTangent.y * controlScale),
+    end,
+  };
+  return { kind: "curve", name, curve };
+}
+
+interface CirclePanelParams {
+  readonly position: "front" | "back";
+  readonly fraction: CircleSkirtSettings["fraction"];
+}
+
+const circleSkirtPanel: Component<CirclePanelParams> = (m, { position, fraction }) => {
+  const innerRadius = (m.waist + m.ease) / (2 * Math.PI * fraction);
+  const outerRadius = innerRadius + m.length;
+  const halfSweep = Math.PI * fraction / 2;
+  const leftAngle = -halfSweep;
+  const rightAngle = halfSweep;
+  const innerLeft = circlePoint(innerRadius, leftAngle);
+  const innerRight = circlePoint(innerRadius, rightAngle);
+  const outerLeft = circlePoint(outerRadius, leftAngle);
+  const outerRight = circlePoint(outerRadius, rightAngle);
+  const piece: Piece = {
+    name: `Circle skirt ${position}`,
+    onFold: false,
+    curveSamplingSegments: 64,
+    edges: [
+      circleArc(innerRadius, "waistRight", rightAngle, 0),
+      circleArc(innerRadius, "waistLeft", 0, leftAngle),
+      { kind: "line", name: "sideLeft", start: innerLeft, end: outerLeft },
+      circleArc(outerRadius, "hemLeft", leftAngle, 0),
+      circleArc(outerRadius, "hemRight", 0, rightAngle),
+      { kind: "line", name: "sideRight", start: outerRight, end: innerRight },
+    ],
+  };
+  return {
+    pieces: { [position]: piece },
+    stitches: [],
+    interfaces: {
+      waist: iface(edgeRef(position, "waistRight"), edgeRef(position, "waistLeft")),
+      sideLeft: iface(edgeRef(position, "sideLeft")),
+      sideRight: iface(edgeRef(position, "sideRight")),
+    },
+  };
+};
+
+interface CircleWaistbandParams {
+  readonly fraction: CircleSkirtSettings["fraction"];
+  readonly depth: number;
+}
+
+const circleWaistband: Component<CircleWaistbandParams> = (m, { fraction, depth }) => {
+  const innerRadius = (m.waist + m.ease) / (2 * Math.PI * fraction);
+  const outerRadius = innerRadius + depth;
+  const halfSweep = Math.PI * fraction / 2;
+  const leftAngle = -halfSweep;
+  const rightAngle = halfSweep;
+  const bandPiece = (name: string): Piece => {
+    const innerLeft = circlePoint(innerRadius, leftAngle);
+    const innerRight = circlePoint(innerRadius, rightAngle);
+    const outerLeft = circlePoint(outerRadius, leftAngle);
+    const outerRight = circlePoint(outerRadius, rightAngle);
+    return {
+      name,
+      onFold: false,
+      labelAnchor: circlePoint((innerRadius + outerRadius) / 2, 0),
+      curveSamplingSegments: 64,
+      edges: [
+        circleArc(innerRadius, "seamRight", rightAngle, 0),
+        circleArc(innerRadius, "seamLeft", 0, leftAngle),
+        { kind: "line", name: "sideLeft", start: innerLeft, end: outerLeft },
+        circleArc(outerRadius, "topLeft", leftAngle, 0),
+        circleArc(outerRadius, "topRight", 0, rightAngle),
+        { kind: "line", name: "sideRight", start: outerRight, end: innerRight },
+      ],
+    };
+  };
+  return {
+    pieces: {
+      waistbandFront: bandPiece("waistbandFront"),
+      waistbandBack: bandPiece("waistbandBack"),
+    },
+    stitches: [],
+    interfaces: {
+      // Technical-flat assembly overlays this matching seam on the body arc.
+      // Keep its traversal aligned with the panel interface so rigid placement
+      // pairs like endpoints and does not flip the band to the opposite arc.
+      frontWaist: iface(edgeRef("waistbandFront", "seamRight"), edgeRef("waistbandFront", "seamLeft")),
+      backWaist: iface(edgeRef("waistbandBack", "seamRight"), edgeRef("waistbandBack", "seamLeft")),
+      frontSideLeft: iface(edgeRef("waistbandFront", "sideLeft")),
+      frontSideRight: iface(edgeRef("waistbandFront", "sideRight")),
+      backSideLeft: iface(edgeRef("waistbandBack", "sideLeft")),
+      backSideRight: iface(edgeRef("waistbandBack", "sideRight")),
+    },
+  };
+};
+
+const CIRCLE_SKIRT_GRAMMAR = garmentGrammar(
+  "skirt-circle-sector",
+  [
+    componentNode("front", "circle-skirt-panel", circleSkirtPanel, (context) => ({
+      position: "front" as const,
+      fraction: circleSkirtOptions(context.options).fraction,
+    })),
+    componentNode("back", "circle-skirt-panel", circleSkirtPanel, (context) => ({
+      position: "back" as const,
+      fraction: circleSkirtOptions(context.options).fraction,
+    })),
+    componentNode("waistband", "circle-skirt-waistband", circleWaistband, (context) => ({
+      fraction: circleSkirtOptions(context.options).fraction,
+      depth: WAISTBAND_DEFAULT.depth,
+    }), ["front", "back"]),
+  ],
+  (context) => [
+    {
+      label: "Circle left panel side seam (front ↔ back)",
+      a: iface(edgeRef("front", "sideLeft")),
+      b: iface(edgeRef("back", "sideLeft")),
+    },
+    {
+      label: "Circle left waistband side seam (front ↔ back)",
+      a: context.interfaceOf("waistband", "frontSideLeft"),
+      b: context.interfaceOf("waistband", "backSideLeft"),
+    },
+    {
+      label: "Circle front waist ↔ waistband seam",
+      a: context.interfaceOf("front", "waist"),
+      b: context.interfaceOf("waistband", "frontWaist"),
+    },
+    {
+      label: "Circle back waist ↔ waistband seam",
+      a: context.interfaceOf("back", "waist"),
+      b: context.interfaceOf("waistband", "backWaist"),
+    },
+    {
+      label: "Circle right panel side-opening path",
+      a: iface(edgeRef("front", "sideRight")),
+      b: iface(edgeRef("back", "sideRight")),
+    },
+    {
+      label: "Circle right waistband side-opening path",
+      a: context.interfaceOf("waistband", "frontSideRight"),
+      b: context.interfaceOf("waistband", "backSideRight"),
+    },
+  ],
+);
+
+export function circleSkirtTopology(b: Block): boolean {
+  const requiredCurves = ["waistRight", "waistLeft", "hemLeft", "hemRight"];
+  const requiredLines = ["sideLeft", "sideRight"];
+  return (["front", "back"] as const).every((role) => {
+    const panel = b.roles[role];
+    if (!panel || panel.onFold || panel.curveSamplingSegments !== 64) return false;
+    const band = b.roles[role === "front" ? "waistbandFront" : "waistbandBack"];
+    if (!band || band.onFold || band.curveSamplingSegments !== 64) return false;
+    return requiredCurves.every((name) => panel.edges.some((edge) => edge.name === name && edge.kind === "curve"))
+      && requiredLines.every((name) => panel.edges.some((edge) => edge.name === name && edge.kind === "line"))
+      && ["seamRight", "seamLeft", "topLeft", "topRight"].every((name) =>
+        band.edges.some((edge) => edge.name === name && edge.kind === "curve"))
+      && ["sideLeft", "sideRight"].every((name) => band.edges.some((edge) => edge.name === name && edge.kind === "line"));
+  });
+}
+
+function circleSkirtChecks(b: Block): CheckResult[] {
+  const front = rolePiece(b, "front");
+  const back = rolePiece(b, "back");
+  const frontBand = rolePiece(b, "waistbandFront");
+  const backBand = rolePiece(b, "waistbandBack");
+  const lengthsMatch = (left: Piece, right: Piece, names: readonly string[]) => names
+    .every((name) => Math.abs(edgeLength(pieceEdge(left, name)) - edgeLength(pieceEdge(right, name))) <= 0.1);
+  const matchedLengths = lengthsMatch(front, back, ["waistRight", "waistLeft", "hemLeft", "hemRight", "sideLeft", "sideRight"])
+    && lengthsMatch(frontBand, backBand, ["seamRight", "seamLeft", "topLeft", "topRight", "sideLeft", "sideRight"]);
+  return [
+    { name: "Circle skirt uses two curved annular-sector panels", ok: true,
+      detail: "Front and back each contain circular waist/hem arcs and two radial sides." },
+    { name: "Circle skirt front and back dimensions match", ok: matchedLengths,
+      detail: matchedLengths ? "Paired panel edge lengths match within 0.1 cm."
+        : "Correct the circle settings so the paired panel dimensions match." },
+  ];
+}
+
+export function circleSkirtNotches(): readonly PieceNotches[] {
+  return [
+    {
+      pieceName: "Circle skirt front",
+      notches: [{ edgeName: "sideLeft", t: 0.5 }, { edgeName: "sideRight", t: 0 }, { edgeName: "sideRight", t: 1 }],
+      grainline: { topEdge: "waistRight", topT: 1, bottomEdge: "hemRight", bottomT: 0 },
+    },
+    {
+      pieceName: "Circle skirt back",
+      notches: [{ edgeName: "sideLeft", t: 0.5 },
+        { edgeName: "sideRight", t: 0 }, { edgeName: "sideRight", t: 1 }],
+      grainline: { topEdge: "waistRight", topT: 1, bottomEdge: "hemRight", bottomT: 0 },
+    },
+    {
+      pieceName: "waistbandFront",
+      notches: [{ edgeName: "sideLeft", t: 0.5 }, { edgeName: "sideRight", t: 0 }, { edgeName: "sideRight", t: 1 }],
+      grainline: { topEdge: "seamRight", topT: 0.5, bottomEdge: "topRight", bottomT: 0.5 },
+    },
+    {
+      pieceName: "waistbandBack",
+      notches: [{ edgeName: "sideLeft", t: 0.5 }, { edgeName: "sideRight", t: 0 }, { edgeName: "sideRight", t: 1 }],
+      grainline: { topEdge: "seamRight", topT: 0.5, bottomEdge: "topRight", bottomT: 0.5 },
+    },
+  ];
+}
+
+export function circleSkirtPoms(options: GarmentOptions = {}): readonly Pom[] {
+  const settings = circleSkirtOptions(options);
+  const panelArc = (b: Block, role: "front" | "back", edges: readonly string[]): number =>
+    edges.reduce((sum, name) => sum + edgeLength(pieceEdge(rolePiece(b, role), name)), 0);
+  const waistAnchor = (b: Block, role: "front" | "back"): Point =>
+    edgeEnd(pieceEdge(rolePiece(b, role), "waistRight"));
+  const hemAnchor = (b: Block, role: "front" | "back"): Point =>
+    edgeStart(pieceEdge(rolePiece(b, role), "hemRight"));
+  return [
+    {
+      label: "Waist circumference (modeled waist + ease)",
+      measure: (b) => panelArc(b, "front", ["waistRight", "waistLeft"])
+        + panelArc(b, "back", ["waistRight", "waistLeft"]),
+      anchor: (b) => waistAnchor(b, "front"), backAnchor: (b) => waistAnchor(b, "back"),
+      anchorRoleId: "front", anchorEdgeId: "waistRight", backAnchorRoleId: "back", backAnchorEdgeId: "waistRight",
+    },
+    {
+      label: "Hem circumference (modeled digital arc)",
+      measure: (b) => panelArc(b, "front", ["hemLeft", "hemRight"])
+        + panelArc(b, "back", ["hemLeft", "hemRight"]),
+      anchor: (b) => hemAnchor(b, "front"), backAnchor: (b) => hemAnchor(b, "back"),
+      anchorRoleId: "front", anchorEdgeId: "hemRight", backAnchorRoleId: "back", backAnchorEdgeId: "hemRight",
+    },
+    {
+      label: "Radial skirt length (digital)",
+      measure: (b) => edgeLength(pieceEdge(rolePiece(b, "front"), "sideRight")),
+      anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "sideRight")),
+      anchorRoleId: "front", anchorEdgeId: "sideRight",
+    },
+    { label: "Circle fullness (software setting)", measure: () => settings.fullnessPercent },
+  ];
+}
+
+export function circleSkirtHemSizeMetric(b: Block): number {
+  const panelArc = (role: "front" | "back"): number => {
+    const piece = rolePiece(b, role);
+    return edgeLength(pieceEdge(piece, "hemLeft")) + edgeLength(pieceEdge(piece, "hemRight"));
+  };
+  return panelArc("front") + panelArc("back");
+}
+
 export function draftSkirt(m: Measurements, options: GarmentOptions = {}): Block {
+  if (isCircleSkirtProfile(options)) {
+    const problem = circleSkirtProblem(m, options);
+    if (problem) throw new RangeError(problem);
+    return composeBlock(CIRCLE_SKIRT_GRAMMAR, m, options);
+  }
   if (isWrapSkirtProfile(options)) {
     const problem = wrapSkirtProblem(m, options);
     if (problem) throw new RangeError(problem);
@@ -1142,6 +1485,7 @@ export const SKIRT_GRAMMAR = garmentGrammar(
  *  each meeting the fold square — panel properties, not seams between two
  *  pieces, so `stitchChecks` can't express them. No sleeve is ever named. */
 export function skirtPanelChecks(b: Block): CheckResult[] {
+  if (circleSkirtTopology(b)) return circleSkirtChecks(b);
   if (wrapSkirtTopology(b)) return wrapSkirtChecks(b);
   const front = rolePiece(b, "front");
   const hem = pieceEdge(front, "hem");
@@ -1157,8 +1501,25 @@ export function skirtPanelChecks(b: Block): CheckResult[] {
 
 /** Skirt-specific advice: the waist must be smaller than the hip, the hem must
  *  clear the hip line, and a sane ease. */
-export function skirtGuidance(_b: Block, m: Measurements): Note[] {
+export function skirtGuidance(_b: Block, m: Measurements, options: GarmentOptions = {}): Note[] {
   const notes: Note[] = [];
+  if (isCircleSkirtProfile(options)) {
+    const problem = circleSkirtProblem(m, options);
+    if (problem) {
+      const field = problem.includes("fullness") ? `option-${SKIRT_CIRCLE_FULLNESS_OPTION_ID}`
+        : problem.includes("length") ? "length" : problem.includes("ease") ? "ease" : "waist";
+      notes.push({ field, level: "warn", text: problem });
+      return notes;
+    }
+    if (m.ease < 2) {
+      notes.push({ field: "ease", level: "warn", text: `Ease is ${m.ease} cm — below the 2 cm software check threshold. Increase the digital value to at least 2 cm; physical fit, comfort and wear remain unvalidated.` });
+    } else if (m.ease > 12) {
+      notes.push({ field: "ease", level: "info", text: `Ease is ${m.ease} cm — above the 12 cm software review threshold. Adjust the digital value if unintended; physical fit, comfort and wear remain unvalidated.` });
+    } else {
+      notes.push({ field: "ease", level: "ok", text: `Ease is ${m.ease} cm — inside the 2–12 cm software check range; physical fit, comfort and wear remain unvalidated.` });
+    }
+    return notes;
+  }
   if (m.waist >= m.hip) {
     notes.push({
       field: "waist",

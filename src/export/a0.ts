@@ -16,12 +16,12 @@
 // recipe gets one whole piece per A0 page when its long layout cannot fit.
 // Geometry is NEVER scaled to fit — true scale is the point.
 
-import { Piece, AllowanceSpec, PatternMark } from "../drafting";
+import { Piece, AllowanceSpec, PatternMark, lineMark } from "../drafting";
 import { Point } from "../geometry";
 import { PieceNotches } from "../drafting/tshirt-notches";
 import { flattenPiece, polylineBounds, FlatPiece } from "./layout";
 import { nestPieces } from "./nesting";
-import { pt, assemblePdf, polylinePath, PageSize } from "./pdf";
+import { pt, assemblePdf, exportPdf, polylinePath, PageSize } from "./pdf";
 import { resolveNotch, resolveGrainline } from "../render/notch";
 import { calibrationPdfOps, CALIBRATION_CM } from "./calibration";
 import { FOLD_EPS } from "./unfold";
@@ -68,10 +68,6 @@ function pageTransform(flat: FlatPiece, page: PageSize): A0Transform {
   const usableWidth = page.width - OVERFLOW_MARGIN * 2;
   const usableHeight = page.height - OVERFLOW_MARGIN * 2;
   const fitsNormal = bounds.width <= usableWidth && bounds.height <= usableHeight;
-  const fitsRotated = bounds.height <= usableWidth && bounds.width <= usableHeight;
-  if (!fitsNormal && !fitsRotated) {
-    throw new Error(`${flat.name} cannot fit on an A0 sheet at true scale`);
-  }
   return {
     rotate: !fitsNormal,
     minX: bounds.minX,
@@ -79,6 +75,71 @@ function pageTransform(flat: FlatPiece, page: PageSize): A0Transform {
     width: bounds.width,
     height: bounds.height,
   };
+}
+
+function fitsWholePiece(flat: FlatPiece, page: PageSize): boolean {
+  const bounds = polylineBounds(flat.cut);
+  const usableWidth = page.width - OVERFLOW_MARGIN * 2;
+  const usableHeight = page.height - OVERFLOW_MARGIN * 2;
+  return (bounds.width <= usableWidth && bounds.height <= usableHeight)
+    || (bounds.height <= usableWidth && bounds.width <= usableHeight);
+}
+
+/** Names of pattern pieces that cannot be kept whole on one A0 sheet at true scale. */
+export function a0OversizedPieceNames(
+  pieces: readonly Piece[],
+  allowance: AllowanceSpec,
+  page: PageSize = PAGE_A0,
+): string[] {
+  return pieces.filter((piece) => !fitsWholePiece(flattenPiece(piece, allowance), page))
+    .map((piece) => piece.name);
+}
+
+function marksForTiledA0Piece(piece: Piece, notches: readonly PieceNotches[]): PatternMark[] {
+  const table = notches.find((candidate) => candidate.pieceName === piece.name);
+  if (!table) return [];
+  const marks: PatternMark[] = table.notches.map((rule, index) => {
+    const notch = resolveNotch(piece, rule);
+    return lineMark("placementLine", `a0-notch-${index + 1}`,
+      notch.point, {
+        x: notch.point.x - notch.normal.x * NOTCH_LEN,
+        y: notch.point.y - notch.normal.y * NOTCH_LEN,
+      });
+  });
+  const grainline = resolveGrainline(piece, table.grainline);
+  const centerX = (grainline.top.x + grainline.bottom.x) / 2;
+  marks.push(lineMark("placementLine", "a0-grainline", grainline.top, grainline.bottom));
+  marks.push(
+    lineMark("placementLine", "a0-grainline-top-left",
+      { x: centerX - 0.8, y: grainline.top.y + 0.8 }, grainline.top),
+    lineMark("placementLine", "a0-grainline-top-right",
+      grainline.top, { x: centerX + 0.8, y: grainline.top.y + 0.8 }),
+    lineMark("placementLine", "a0-grainline-bottom-left",
+      { x: centerX - 0.8, y: grainline.bottom.y - 0.8 }, grainline.bottom),
+    lineMark("placementLine", "a0-grainline-bottom-right",
+      grainline.bottom, { x: centerX + 0.8, y: grainline.bottom.y - 0.8 }),
+  );
+  return marks;
+}
+
+function tiledA0Pdf(
+  pieces: readonly Piece[],
+  allowance: AllowanceSpec,
+  notches: readonly PieceNotches[],
+  page: PageSize,
+  markLabelLayout: PatternMarkPdfLabelLayout,
+): string {
+  const markedPieces = pieces.map((piece) => ({
+    ...piece,
+    marks: [...(piece.marks ?? []), ...marksForTiledA0Piece(piece, notches)],
+  }));
+  const calibration = calibrationPdfOps(OVERFLOW_MARGIN, OVERFLOW_MARGIN, page.height) +
+    `\nBT /F1 10 Tf ${pt(OVERFLOW_MARGIN)} ${pt(page.height - OVERFLOW_MARGIN - 13)} Td ` +
+    `(A0 tiled pattern scale check - print at 100%) Tj ET`;
+  return exportPdf(markedPieces, allowance, page, 1, true, markLabelLayout, {
+    labelAllPieces: true,
+    trailingPageStreams: [calibration],
+  });
 }
 
 /** Translate a flattened point into the selected A0 page, rotating the layout
@@ -127,12 +188,13 @@ function overflowPieceStream(
 
   const cx = bounds.minX + bounds.width / 2;
   const cy = bounds.minY + bounds.height / 2;
-  const overflowLabel = original.name.toLowerCase().startsWith("shorts ")
+  const labelAnchor = original.labelAnchor ? transformPoint(original.labelAnchor, transform) : undefined;
+  const overflowLabel = labelAnchor || original.name.toLowerCase().startsWith("shorts ")
     || original.name === "Wrap overlap front"
     || original.name === "Wrap underlap front"
     || original.name === "Wrap overlap facing"
     || original.name.startsWith("Wrap waistband ")
-    ? patternLabelPose(original.name, original.name.toUpperCase(), bounds, 14 / pt(1)) : undefined;
+    ? patternLabelPose(original.name, original.name.toUpperCase(), bounds, 14 / pt(1), labelAnchor) : undefined;
   if (overflowLabel?.rotation === 90) {
     const labelLength = original.name.length * overflowLabel.fontSize * 0.58;
     lines.push(`BT /F1 ${pt(overflowLabel.fontSize)} Tf 0 1 -1 0 ${pt(overflowLabel.x)} ` +
@@ -216,8 +278,9 @@ function overflowA0Pdf(
 
 /**
  * The A0 export. Pieces are shelf-packed at true scale when the whole layout
- * fits one sheet. If a long layout exceeds one sheet, the export becomes a
- * multi-page A0 set with one whole piece per page; geometry is never scaled or
+ * fits one sheet. Overflow recipes use whole-piece pages when each piece fits;
+ * an individual piece that exceeds A0 is exported as registered, overlapping
+ * A0 tiles with a separate scale-check page. Geometry is never scaled or
  * silently clipped.
  */
 export function exportA0Pdf(
@@ -230,6 +293,9 @@ export function exportA0Pdf(
 ): string {
   const flats = pieces.map((p) => flattenPiece(p, allowance));
   const nest = nestPieces(flats, page.width, GAP, MARGIN);
+  if (allowOverflow && flats.some((flat) => !fitsWholePiece(flat, page))) {
+    return tiledA0Pdf(pieces, allowance, notches, page, markLabelLayout);
+  }
   if (allowOverflow && (!nest.fits || nest.fabricLength > page.height - MARGIN)) {
     return overflowA0Pdf(pieces, flats, notches, page, markLabelLayout);
   }
@@ -262,11 +328,14 @@ export function exportA0Pdf(
     // Piece label with recipe-specific clearance where a grainline crosses its center.
     const cx = placedB.minX + placedB.width / 2;
     const cy = placedB.minY + placedB.height / 2;
-    if (placed.name.toLowerCase().startsWith("shorts ")
+    const labelAnchor = original.labelAnchor
+      ? { x: original.labelAnchor.x + dx, y: original.labelAnchor.y + dy }
+      : undefined;
+    if (labelAnchor || placed.name.toLowerCase().startsWith("shorts ")
       || placed.name === "Wrap overlap front"
       || placed.name === "Wrap underlap front"
       || placed.name.startsWith("Wrap waistband ")) {
-      const labelPose = patternLabelPose(placed.name, placed.name.toUpperCase(), placedB, 14 / pt(1));
+      const labelPose = patternLabelPose(placed.name, placed.name.toUpperCase(), placedB, 14 / pt(1), labelAnchor);
       const labelFont = pt(labelPose.fontSize);
       if (labelPose.rotation === 90) {
         const labelLength = placed.name.length * labelPose.fontSize * 0.58;

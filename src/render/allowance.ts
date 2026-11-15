@@ -43,10 +43,14 @@ export interface OutlineSample {
  */
 export function outlineSamples(piece: Piece): OutlineSample[] {
   const out: OutlineSample[] = [];
+  const curveSamples = piece.curveSamplingSegments ?? SAMPLES;
+  if (!Number.isInteger(curveSamples) || curveSamples < 1) {
+    throw new RangeError(`Piece "${piece.name}" curve sampling must be a positive whole number`);
+  }
   for (const e of piece.edges) {
     if (e.kind === "line") out.push({ point: e.start, edgeName: e.name });
-    else for (let i = 0; i < SAMPLES; i++) {
-      out.push({ point: cubicPoint(e.curve, i / SAMPLES), edgeName: e.name });
+    else for (let i = 0; i < curveSamples; i++) {
+      out.push({ point: cubicPoint(e.curve, i / curveSamples), edgeName: e.name });
     }
   }
   return out;

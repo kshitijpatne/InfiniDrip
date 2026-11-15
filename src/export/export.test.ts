@@ -4,7 +4,8 @@
 // file is plain string/number checks that don't care about the environment.
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { Piece, STANDARD_M, TANK, POLO, draftTshirt, rolePiece, blockPieces, AllowanceSpec, lineMark, pointMark } from "../drafting";
+import { Piece, STANDARD_M, TANK, POLO, draftTshirt, draftSkirt, rolePiece, blockPieces, AllowanceSpec, lineMark, pointMark } from "../drafting";
+import { SKIRT_CIRCLE_FULLNESS_OPTION_ID } from "../drafting/skirt";
 import {
   flattenPiece,
   polylineBounds,
@@ -111,6 +112,27 @@ describe("exportSvg with non-tshirt pieces", () => {
     const svg = exportSvg([unknown], UNIFORM);
     expect(svg).toContain("UNKNOWN-PIECE");
     expect(svg).toContain("viewBox");
+  });
+});
+
+describe("exportSvg K07 label anchors", () => {
+  it("places each circle waistband title at its drafted mid-band point after layout", () => {
+    const block = draftSkirt(STANDARD_M, { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 100 });
+    const bands = [rolePiece(block, "waistbandFront"), rolePiece(block, "waistbandBack")];
+    const svg = exportSvg(bands, UNIFORM);
+    const doc = new DOMParser().parseFromString(svg, "image/svg+xml");
+    const layout = layoutPieces(bands.map((piece) => flattenPiece(piece, UNIFORM)));
+
+    bands.forEach((piece, index) => {
+      const label = [...doc.getElementsByTagName("text")]
+        .find((element) => element.textContent === piece.name.toUpperCase())!;
+      const sourceBounds = polylineBounds(flattenPiece(piece, UNIFORM).cut);
+      const placedBounds = polylineBounds(layout.pieces[index]!.cut);
+      expect(Number(label.getAttribute("x"))).toBeCloseTo(
+        piece.labelAnchor!.x + placedBounds.minX - sourceBounds.minX, 3);
+      expect(Number(label.getAttribute("y"))).toBeCloseTo(
+        piece.labelAnchor!.y + placedBounds.minY - sourceBounds.minY, 3);
+    });
   });
 });
 

@@ -64,6 +64,22 @@ describe("outlineSamples", () => {
     expect(armhole.length).toBeGreaterThan(1); // a curve, not a single vertex
   });
 
+  it("uses the legacy curve count by default and an explicit per-piece output count when requested", () => {
+    const piece = draftFront(STANDARD_M);
+    const legacyCurve = outlineSamples(piece).filter((sample) => sample.edgeName === "armhole");
+    const denseCurve = outlineSamples({ ...piece, curveSamplingSegments: 64 })
+      .filter((sample) => sample.edgeName === "armhole");
+    expect(legacyCurve).toHaveLength(14);
+    expect(denseCurve).toHaveLength(64);
+    expect(denseCurve[0]).toEqual(legacyCurve[0]);
+  });
+
+  it("rejects nonpositive and fractional per-piece curve counts", () => {
+    const piece = draftFront(STANDARD_M);
+    expect(() => outlineSamples({ ...piece, curveSamplingSegments: 0 })).toThrow(RangeError);
+    expect(() => outlineSamples({ ...piece, curveSamplingSegments: 1.5 })).toThrow(RangeError);
+  });
+
   it("outlinePoints is the same walk without the tags", () => {
     const piece = draftFront(STANDARD_M);
     expect(outlinePoints(piece)).toEqual(outlineSamples(piece).map((s) => s.point));

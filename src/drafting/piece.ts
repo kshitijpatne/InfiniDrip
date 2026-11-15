@@ -21,6 +21,10 @@ export interface Piece {
   readonly name: string;
   readonly onFold: boolean; // true => the left edge is a fold (a half-piece)
   readonly edges: readonly Edge[];
+  /** Optional output-label point in piece coordinates for narrow curved pieces. */
+  readonly labelAnchor?: Point;
+  /** Per-piece output curve resolution; omitted pieces keep the shared legacy sampler. */
+  readonly curveSamplingSegments?: number;
   readonly dart?: Dart; // optional: a piece may carry one marked dart
   /** Construction data inside the outline: never part of seam allowance. */
   readonly marks?: readonly PatternMark[];

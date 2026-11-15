@@ -121,6 +121,17 @@ describe("exportPdf", () => {
     expect(letter).toContain("%%EOF");
   });
 
+  it("can label every piece and append an explicit scale-check page", async () => {
+    const pdfWithScalePage = exportPdf([pieces[0]], UNIFORM, PAGE_A4, 1, true, "inline", {
+      labelAllPieces: true,
+      trailingPageStreams: ["A0 tiled pattern scale check"],
+    });
+    const parsed = await PDFDocument.load(new TextEncoder().encode(pdfWithScalePage), { updateMetadata: false });
+    expect(parsed.getPageCount()).toBeGreaterThan(1);
+    expect(pdfWithScalePage).toContain("(FRONT) Tj");
+    expect(pdfWithScalePage).toContain("A0 tiled pattern scale check");
+  });
+
   it("works with a custom overlap value", () => {
     const tight = exportPdf(pieces, UNIFORM, PAGE_A4, 0.5);
     expect(tight).toContain("%PDF-1.4");

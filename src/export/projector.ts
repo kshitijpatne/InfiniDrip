@@ -150,11 +150,12 @@ function pieceMarkup(
   // Other recipe labels retain the established size, center, and grade stagger.
   const labelText = `${sizeLabel} ${flat.name.toUpperCase()}`;
   const labelPose = patternLabelPose(piece.name, labelText, b,
-    piece.name.toLowerCase().startsWith("shorts ") ? 0.7 : LABEL_SIZE);
+    piece.name.toLowerCase().startsWith("shorts ") ? 0.7 : LABEL_SIZE, piece.labelAnchor);
   const labelX = labelPose.x + dx;
-  const labelY = labelPose.y + dy + step * (labelPose.rotation === 90
+  const labelStep = piece.labelAnchor ? 0 : labelPose.rotation === 90
     ? labelPose.fontSize * 0.28 : labelPose.rotation === 0 && piece.name.toLowerCase().startsWith("shorts ")
-      ? labelPose.fontSize * 0.28 : LABEL_SIZE * 1.4);
+      ? labelPose.fontSize * 0.28 : LABEL_SIZE * 1.4;
+  const labelY = labelPose.y + dy + step * labelStep;
   const rotation = labelPose.rotation === 0 ? "" : ` transform="rotate(${labelPose.rotation} ${round(labelX)} ${round(labelY)})"`;
   const label = `<text x="${round(labelX)}" y="${round(labelY)}"${rotation} fill="${CUT}" ` +
     `font-size="${round(labelPose.fontSize)}" font-weight="bold" font-family="sans-serif" ` +

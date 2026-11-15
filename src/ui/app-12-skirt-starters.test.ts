@@ -22,7 +22,8 @@ import { blockPieces } from "../drafting/block";
 import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_ENTRY_ID, SKIRT_PENCIL_HEM_TAPER_OPTION_ID, SKIRT_GATHERED_ENTRY_ID, SKIRT_GATHER_RATIO_OPTION_ID, SKIRT_CASING_DEPTH_OPTION_ID,
   SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_OPTION_ID, SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
   SKIRT_TIERED_ENTRY_ID, SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
-  SKIRT_WRAP_ENTRY_ID, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
+  SKIRT_WRAP_ENTRY_ID, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
+  SKIRT_CIRCLE_ENTRY_ID, SKIRT_CIRCLE_FULLNESS_OPTION_ID } from "../drafting/skirt";
 
 import { exportA0Pdf, exportPdf } from "../export";
 
@@ -73,15 +74,17 @@ function expectedSkirtTiledPdf(
   localCoordinates: boolean,
   options: GarmentOptions = {},
   markLabelLayout: "inline" | "staggered-box-pleat-guides" | "line-aligned-box-pleat-guides" = "inline",
+  measurements: typeof STANDARD_M = STANDARD_M,
 ): string {
   const skirtRecipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
   return exportPdf(
-    blockPieces(skirtRecipe.draft(STANDARD_M, options)),
+    blockPieces(skirtRecipe.draft(measurements, options)),
     skirtRecipe.allowances!,
     undefined,
     1,
     localCoordinates,
     markLabelLayout,
+    { labelAllPieces: options[SKIRT_CIRCLE_FULLNESS_OPTION_ID] !== undefined },
   );
 }
 
@@ -89,10 +92,11 @@ function expectedSkirtA0Pdf(
   allowOverflow: boolean,
   options: GarmentOptions,
   markLabelLayout: "inline" | "staggered-box-pleat-guides" | "line-aligned-box-pleat-guides" = "inline",
+  measurements: typeof STANDARD_M = STANDARD_M,
 ): string {
   const skirtRecipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
   return exportA0Pdf(
-    blockPieces(skirtRecipe.draft(STANDARD_M, options)),
+    blockPieces(skirtRecipe.draft(measurements, options)),
     skirtRecipe.allowances!,
     notchesForRecipeOptions(skirtRecipe, options),
     undefined,
@@ -1534,6 +1538,228 @@ describe("K06 front-overlap wrap-skirt starter workflows", () => {
       const projectorText = [...projector.getElementsByTagName("text")].map((element) => element.textContent).join(" ");
       expect(projectorText).toContain("Digital K06 front-overlap skirt");
       expect(projectorText).toContain("physical coverage, fit");
+    } finally {
+      restoreSvgTextMetrics();
+      unmountApp();
+      root?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  }, 60_000);
+});
+
+describe("K07 Circle-skirt starter workflows", () => {
+  it("routes K07 controls to active measurements, preserves its identity, and clears it on generic Skirt", () => {
+    localStorage.clear();
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_CIRCLE_ENTRY_ID}`);
+
+      expect(root.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${SKIRT_CIRCLE_ENTRY_ID}"]`)
+        ?.getAttribute("aria-pressed")).toBe("true");
+      expect([...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-field]")]
+        .map((input) => input.dataset.field)).toEqual(["waist", "length", "ease"]);
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)?.value)
+        .toBe("100");
+      const preview = root.querySelector<SVGSVGElement>("#garment-host svg")!;
+      expect(preview.querySelectorAll('path[data-part="circle-skirt-front"], path[data-part="circle-skirt-back"]'))
+        .toHaveLength(2);
+      expect(preview.querySelector('path[data-part="circle-skirt-front"]')?.getAttribute("d")).toContain(" C ");
+      expect(preview.querySelector('[data-part="circle-skirt-summary"]')?.textContent)
+        .toContain("100% SOFTWARE FULLNESS");
+      expect(preview.querySelector('[data-part="circle-skirt-side-opening"]')).not.toBeNull();
+
+      const fullness = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)!;
+      fullness.value = "62.5";
+      fullness.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)?.textContent)
+        .toContain("use 25 % increments");
+      fullness.value = "75";
+      fullness.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLElement>(`[data-input-error="option-${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)?.textContent)
+        .toBe("");
+      clickId(root, "undo-pattern");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)?.value)
+        .toBe("62.5");
+      clickId(root, "undo-pattern");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)?.value)
+        .toBe("100");
+      clickId(root, "redo-pattern");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)?.value)
+        .toBe("62.5");
+      clickId(root, "redo-pattern");
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)?.value)
+        .toBe("75");
+      clickId(root, "journey-step-fit");
+      const styleTarget = root.querySelector<HTMLSelectElement>("#style-target")!;
+      const otherStyle = [...styleTarget.options].find((option) => option.value !== styleTarget.value);
+      expect(otherStyle).toBeDefined();
+      styleTarget.value = otherStyle!.value;
+      styleTarget.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)?.value)
+        .toBe("75");
+      reReviewAndReachExportStage(root);
+      clickId(root, "save-pattern");
+
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: Record<string, Record<string, number>>;
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.skirt?.[SKIRT_CIRCLE_FULLNESS_OPTION_ID]).toBe(75);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: SKIRT_CIRCLE_ENTRY_ID,
+        recipeRevision: "skirt-circle-sector-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)?.value)
+        .toBe("75");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(false);
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")?.textContent).toContain("Circle skirt");
+      clickId(reopened, "garment-skirt");
+      expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`))
+        .toBeNull();
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(true);
+    } finally {
+      unmountApp();
+      root?.remove();
+      reopened?.remove();
+      delete window.electronAPI;
+      localStorage.clear();
+    }
+  });
+
+  it("shows K07 front/back technical flats and exports six consistent digital outputs", async () => {
+    localStorage.clear();
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickIfPresent(root, "welcome-start");
+      clickId(root, `starter-${SKIRT_CIRCLE_ENTRY_ID}`);
+      reReviewAndReachExportStage(root);
+      clickId(root, "view-flat");
+      expect(root.querySelector<HTMLElement>("#canvas-host")!.textContent).not.toContain("Technical flat withheld");
+      const frontFlat = root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='FRONT_FLAT']");
+      expect(frontFlat).not.toBeNull();
+      expect(frontFlat!.outerHTML).toContain("waistbandFront");
+      root.querySelector<HTMLButtonElement>('[data-technical-flat-face="BACK_FLAT"]')!.click();
+      const backFlat = root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='BACK_FLAT']");
+      expect(backFlat).not.toBeNull();
+      expect(backFlat!.outerHTML).toContain("waistbandBack");
+      expect(root.querySelector<HTMLButtonElement>("#export-a0")!.disabled).toBe(false);
+      expect(root.querySelector<HTMLElement>("#export-a0-description")!.textContent).toContain("tile oversized pieces");
+
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6));
+      expect([...files.keys()].sort()).toEqual([
+        "circle-skirt-M-A0.pdf", "circle-skirt-M.dxf", "circle-skirt-M.pdf", "circle-skirt-M.svg",
+        "circle-skirt-projector.svg", "circle-skirt-techpack.pdf",
+      ].sort());
+      const options = { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 100 };
+      const defaultTiled = files.get("circle-skirt-M.pdf")!;
+      expect(defaultTiled).toBe(expectedSkirtTiledPdf(true, options));
+      expect(visiblePdfText(defaultTiled)).toContain("CIRCLE SKIRT FRONT");
+      expect(visiblePdfText(defaultTiled)).toContain("CIRCLE SKIRT BACK");
+      expect(visiblePdfText(defaultTiled)).toContain("WAISTBANDFRONT");
+      expect(visiblePdfText(defaultTiled)).toContain("WAISTBANDBACK");
+      const a0 = files.get("circle-skirt-M-A0.pdf")!;
+      expect(a0).toBe(expectedSkirtA0Pdf(true, options));
+      expect(visiblePdfText(a0)).toContain("A0 tiled pattern scale check - print at 100%");
+      expect(visiblePdfText(a0)).toContain("CIRCLE SKIRT FRONT");
+      expect(visiblePdfText(a0)).toContain("WAISTBANDFRONT");
+      expect(visiblePdfText(a0)).toContain("WAISTBANDBACK");
+      expect(files.get("circle-skirt-M.svg")).toContain("CIRCLE SKIRT FRONT");
+      expect(files.get("circle-skirt-M.svg")).toContain("CIRCLE SKIRT BACK");
+      expect(files.get("circle-skirt-M.svg")).toContain("WAISTBANDFRONT");
+      expect(files.get("circle-skirt-M.svg")).toContain("WAISTBANDBACK");
+      expect((files.get("circle-skirt-M.dxf")!.match(/\n0\nVERTEX\n/g) ?? []).length).toBeGreaterThan(400);
+
+      const techPack = visiblePdfText(files.get("circle-skirt-techpack.pdf")!);
+      expect(techPack).toContain("Circle skirt - software-defined fullness");
+      expect(techPack).toContain("K07 Circle is an InfiniDrip digital-pattern model");
+      expect(techPack).toContain("no zipper product, hardware");
+      expect(techPack).toContain("not validated K07 grading");
+      const projector = new DOMParser().parseFromString(files.get("circle-skirt-projector.svg")!, "image/svg+xml");
+      const projectorText = [...projector.getElementsByTagName("text")].map((element) => element.textContent).join(" ");
+      expect(projectorText).toContain("Digital K07 circle-skirt geometry");
+      expect(projectorText).toContain("WAISTBANDFRONT");
+      expect(projectorText).toContain("WAISTBANDBACK");
+      expect(projectorText).toContain("not validated");
+      expect(root.querySelector<HTMLElement>("#current-garment")!.textContent)
+        .toBe("Circle skirt · software-defined fullness");
+
+      clickId(root, "journey-step-fit");
+      const fullness = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)!;
+      fullness.value = "75";
+      fullness.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "journey-next");
+      clickId(root, "view-check");
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("output");
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(12));
+      const editedOptions = { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 75 };
+      const editedTiled = files.get("circle-skirt-M.pdf")!;
+      expect(editedTiled).toBe(expectedSkirtTiledPdf(true, editedOptions));
+      expect(visiblePdfText(editedTiled)).toContain("CIRCLE SKIRT FRONT");
+      expect(visiblePdfText(editedTiled)).toContain("CIRCLE SKIRT BACK");
+      expect(visiblePdfText(editedTiled)).toContain("WAISTBANDFRONT");
+      expect(visiblePdfText(editedTiled)).toContain("WAISTBANDBACK");
+      const editedA0 = files.get("circle-skirt-M-A0.pdf")!;
+      expect(editedA0).toBe(expectedSkirtA0Pdf(true, editedOptions));
+      expect(visiblePdfText(editedA0)).toContain("A0 tiled pattern scale check - print at 100%");
+      expect(visiblePdfText(editedA0)).toContain("CIRCLE SKIRT BACK");
+
+      const maximumAcceptedMeasurements = { ...STANDARD_M, waist: 140, length: 95, ease: 12 };
+      const setMeasurement = (field: "waist" | "length" | "ease", value: number): void => {
+        const input = root!.querySelector<HTMLInputElement>(`input[data-field="${field}"]`)!;
+        input.value = String(value);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      };
+      clickId(root, "journey-step-fit");
+      const maximumFullness = root.querySelector<HTMLInputElement>(`input[data-option="${SKIRT_CIRCLE_FULLNESS_OPTION_ID}"]`)!;
+      maximumFullness.value = "100";
+      maximumFullness.dispatchEvent(new Event("input", { bubbles: true }));
+      setMeasurement("waist", maximumAcceptedMeasurements.waist);
+      setMeasurement("length", maximumAcceptedMeasurements.length);
+      setMeasurement("ease", maximumAcceptedMeasurements.ease);
+      clickId(root, "journey-next");
+      clickId(root, "view-check");
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("output");
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(18));
+      const maximumOptions = { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 100 };
+      expect(files.get("circle-skirt-M.pdf"))
+        .toBe(expectedSkirtTiledPdf(true, maximumOptions, "inline", maximumAcceptedMeasurements));
+      expect(visiblePdfText(files.get("circle-skirt-M.pdf")!)).toContain("CIRCLE SKIRT FRONT");
+      expect(visiblePdfText(files.get("circle-skirt-M.pdf")!)).toContain("CIRCLE SKIRT BACK");
+      expect(visiblePdfText(files.get("circle-skirt-M.pdf")!)).toContain("WAISTBANDFRONT");
+      expect(visiblePdfText(files.get("circle-skirt-M.pdf")!)).toContain("WAISTBANDBACK");
+      const maximumA0 = files.get("circle-skirt-M-A0.pdf")!;
+      expect(maximumA0).toBe(expectedSkirtA0Pdf(true, maximumOptions, "inline", maximumAcceptedMeasurements));
+      expect(visiblePdfText(maximumA0)).toContain("A0 tiled pattern scale check - print at 100%");
+      expect(visiblePdfText(maximumA0)).toContain("CIRCLE SKIRT FRONT");
+      expect((files.get("circle-skirt-M.dxf")!.match(/\n0\nVERTEX\n/g) ?? []).length).toBeGreaterThan(400);
     } finally {
       restoreSvgTextMetrics();
       unmountApp();

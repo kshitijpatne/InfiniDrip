@@ -7,6 +7,7 @@ import {
   STANDARD_M,
   TEE,
   TANK,
+  SKIRT,
   FITTED,
   GarmentRecipe,
   derive,
@@ -17,6 +18,7 @@ import {
   defaultGarmentOptions,
   FITTED_PRINCESS_ENTRY_ID,
 } from "../drafting";
+import { SKIRT_CIRCLE_FULLNESS_OPTION_ID } from "../drafting/skirt";
 import { resolveNotch } from "../render/notch";
 import { flattenPiece, polylineBounds } from "./layout";
 import { unfoldFlat } from "./unfold";
@@ -244,6 +246,36 @@ describe("exportProjectorSvg — other garments and sparse recipes", () => {
       return Number(label.getAttribute("x"));
     });
     for (const c of centers) expect(c).toBeCloseTo(centers[0], 6);
+  });
+});
+
+describe("exportProjectorSvg — K07 Circle label anchors", () => {
+  it("places the waistband label at the supplied curved-band anchor", () => {
+    const options = { [SKIRT_CIRCLE_FULLNESS_OPTION_ID]: 100 };
+    const block = SKIRT.draft(STANDARD_M, options);
+    const waistband = rolePiece(block, "waistbandFront");
+    const anchor = waistband.labelAnchor;
+    expect(anchor).toBeDefined();
+    const sourceBounds = polylineBounds(flattenPiece(waistband, SKIRT.allowances).cut);
+
+    const parsed = new DOMParser().parseFromString(
+      exportProjectorSvg(SKIRT, STANDARD_M, options),
+      "image/svg+xml",
+    );
+    expect(parsed.querySelector("parsererror")).toBeNull();
+    const mediumLayer = parsed.querySelector('[id="size-M"]')!;
+    const label = [...mediumLayer.querySelectorAll("text")]
+      .find((element) => element.textContent === "M WAISTBANDFRONT")!;
+    const labelIndex = [...mediumLayer.children].indexOf(label);
+    const precedingPolygons = [...mediumLayer.children].slice(0, labelIndex)
+      .filter((element) => element.tagName.toLowerCase() === "polygon");
+    const cutPolygon = precedingPolygons[precedingPolygons.length - 2]!;
+    const cutPoints = cutPolygon.getAttribute("points")!;
+    const outputMinY = Math.min(...cutPoints.split(" ")
+      .map((pair: string) => Number(pair.split(",")[1])));
+
+    expect(Number(label.getAttribute("y")) - outputMinY)
+      .toBeCloseTo(anchor!.y - sourceBounds.minY, 2);
   });
 });
 

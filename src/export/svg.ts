@@ -33,7 +33,9 @@ function pieceSvg(
     `stroke-width="${STROKE}" stroke-dasharray="0.3 0.2"/>`;
   const b = polylineBounds(p.cut);
   const labelText = p.name.toUpperCase();
-  const labelPose = patternLabelPose(p.name, labelText, b, 1);
+  const labelPose = patternLabelPose(p.name, labelText, b, 1, originalPiece.labelAnchor
+    ? { x: originalPiece.labelAnchor.x + dx, y: originalPiece.labelAnchor.y + dy }
+    : undefined);
   const rotation = labelPose.rotation === 0 ? "" : ` transform="rotate(${labelPose.rotation} ${round(labelPose.x)} ${round(labelPose.y)})"`;
   const label = `<text x="${round(labelPose.x)}" y="${round(labelPose.y)}"${rotation} ` +
     `fill="${CUT}" font-size="${round(labelPose.fontSize)}" font-family="sans-serif" text-anchor="middle">` +

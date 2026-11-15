@@ -295,6 +295,17 @@ function foldAxisEdge(piece: Piece): Edge | undefined {
   return points.every((point) => point.x >= 0) ? edge : undefined;
 }
 
+function isCircleSkirtProjectionTopology(block: Block): boolean {
+  return (["front", "back"] as const).every((role) => {
+    const panel = block.roles[role];
+    const band = block.roles[role === "front" ? "waistbandFront" : "waistbandBack"];
+    return panel?.onFold === false && panel.curveSamplingSegments === 64
+      && panel.edges.some((edge) => edge.kind === "curve" && edge.name === "waistRight")
+      && band?.onFold === false && band.curveSamplingSegments === 64
+      && band.edges.some((edge) => edge.kind === "curve" && edge.name === "seamRight");
+  });
+}
+
 function wovenFrontPairAxis(piece: Piece): Edge | undefined {
   const candidates = piece.edges.filter((edge) => edge.name === "centerFront");
   if (candidates.length !== 1 || candidates[0]?.kind !== "line") return undefined;
@@ -1151,6 +1162,22 @@ export function createG04TechnicalFlatProjectionMap(
           return wovenCollarRoleProjection(role.roleId, face.kind, block, piece, role.treatment);
         }
         if (recipeId === "skirt" && (role.roleId === "waistbandFront" || role.roleId === "waistbandBack")) {
+          if (isCircleSkirtProjectionTopology(block)) {
+            const endpoint = (edgeId: string, endpointName: "start" | "end"): FlatProjectionLandmark => ({
+              kind: "edge-endpoint", edgeId, endpoint: endpointName,
+            });
+            return {
+              roleId: role.roleId,
+              instanceId: role.roleId,
+              treatment: role.treatment,
+              runs: piece.edges.map((edge) => ({
+                edgeId: edge.name,
+                from: endpoint(edge.name, "start"),
+                to: endpoint(edge.name, "end"),
+              })),
+              heldEdges: [],
+            };
+          }
           const isFront = role.roleId === "waistbandFront";
           const axisRoleId = isFront ? "front" : "back";
           const stitchLabel = block.stitches.some((stitch) =>
