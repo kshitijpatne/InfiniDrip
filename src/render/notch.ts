@@ -98,6 +98,50 @@ export function resolveGrainline(piece: Piece, rule: GrainlineRule): Grainline {
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
+export interface GrainlineSegment {
+  readonly start: Point;
+  readonly end: Point;
+}
+
+interface GrainlineChevronGeometry {
+  readonly topLeft: Point;
+  readonly topRight: Point;
+  readonly bottomLeft: Point;
+  readonly bottomRight: Point;
+}
+
+function grainlineChevronGeometry(gl: Grainline, chevronSize: number): GrainlineChevronGeometry | null {
+  const { top, bottom } = gl;
+  const dx = bottom.x - top.x;
+  const dy = bottom.y - top.y;
+  const length = Math.hypot(dx, dy);
+  if (length === 0) return null;
+
+  const ux = dx / length;
+  const uy = dy / length;
+  const nx = -uy;
+  const ny = ux;
+  return {
+    topLeft: { x: top.x + ux * chevronSize + nx * chevronSize, y: top.y + uy * chevronSize + ny * chevronSize },
+    topRight: { x: top.x + ux * chevronSize - nx * chevronSize, y: top.y + uy * chevronSize - ny * chevronSize },
+    bottomLeft: { x: bottom.x - ux * chevronSize + nx * chevronSize, y: bottom.y - uy * chevronSize + ny * chevronSize },
+    bottomRight: { x: bottom.x - ux * chevronSize - nx * chevronSize, y: bottom.y - uy * chevronSize - ny * chevronSize },
+  };
+}
+
+/** Resolve the grainline spine and its two endpoint chevrons as line segments. */
+export function grainlineMarkSegments(gl: Grainline, chevronSize: number): readonly GrainlineSegment[] {
+  const geometry = grainlineChevronGeometry(gl, chevronSize);
+  if (!geometry) return [{ start: gl.top, end: gl.bottom }];
+  return [
+    { start: gl.top, end: gl.bottom },
+    { start: geometry.topLeft, end: gl.top },
+    { start: gl.top, end: geometry.topRight },
+    { start: geometry.bottomLeft, end: gl.bottom },
+    { start: gl.bottom, end: geometry.bottomRight },
+  ];
+}
+
 /** SVG for a single notch tick of length `len` cm. */
 export function notchSvg(
   notch: Notch,
@@ -121,20 +165,22 @@ export function grainlineSvg(
   chevronSize: number
 ): string {
   const { top: t, bottom: b } = gl;
-  const c = chevronSize;
-  const cx = (t.x + b.x) / 2;
+  const geometry = grainlineChevronGeometry(gl, chevronSize);
 
   const line = `<line x1="${round(t.x)}" y1="${round(t.y)}" x2="${round(b.x)}" y2="${round(b.y)}" ` +
     `stroke="${stroke}" stroke-width="${strokeWidth}" vector-effect="non-scaling-stroke"/>`;
 
+  // A zero-length rule has no direction to orient chevrons against.
+  if (!geometry) return line;
+
   const chevronUp =
-    `<path d="M ${round(cx - c)} ${round(t.y + c)} L ${round(cx)} ${round(t.y)} ` +
-    `L ${round(cx + c)} ${round(t.y + c)}" fill="none" stroke="${stroke}" ` +
+    `<path d="M ${round(geometry.topLeft.x)} ${round(geometry.topLeft.y)} L ${round(t.x)} ${round(t.y)} ` +
+    `L ${round(geometry.topRight.x)} ${round(geometry.topRight.y)}" fill="none" stroke="${stroke}" ` +
     `stroke-width="${strokeWidth}" vector-effect="non-scaling-stroke"/>`;
 
   const chevronDown =
-    `<path d="M ${round(cx - c)} ${round(b.y - c)} L ${round(cx)} ${round(b.y)} ` +
-    `L ${round(cx + c)} ${round(b.y - c)}" fill="none" stroke="${stroke}" ` +
+    `<path d="M ${round(geometry.bottomLeft.x)} ${round(geometry.bottomLeft.y)} L ${round(b.x)} ${round(b.y)} ` +
+    `L ${round(geometry.bottomRight.x)} ${round(geometry.bottomRight.y)}" fill="none" stroke="${stroke}" ` +
     `stroke-width="${strokeWidth}" vector-effect="non-scaling-stroke"/>`;
 
   return line + chevronUp + chevronDown;

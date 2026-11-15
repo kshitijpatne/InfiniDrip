@@ -27,7 +27,7 @@ import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE
   wrapSkirtNotches, wrapSkirtPoms,
   SKIRT_CIRCLE_FULLNESS_OPTION, SKIRT_CIRCLE_FULLNESS_OPTION_ID, isCircleSkirtProfile,
   circleSkirtOptions, circleSkirtProblem, circleSkirtNotches, circleSkirtPoms, circleSkirtTopology,
-  circleSkirtHemSizeMetric } from "./skirt";
+  circleSkirtHemSizeMetric, isBiasCutSkirtProfile, biasCutSkirtNotches, biasCutSkirtProblem } from "./skirt";
 import { StyleDef, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES, SHORTS_STYLES, JEANS_STYLES } from "../style";
 import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
@@ -221,6 +221,8 @@ export interface GarmentRecipe {
   readonly resolveOptionsForSize?: GradeOptionResolver;
   /** Option-aware production notes/BOM; absent keeps the static tech pack. */
   readonly techPackForOptions?: (this: GarmentRecipe, options: GarmentOptions) => TechPack;
+  /** Optional live grainline rules for the readable Tech Pack pattern overview. */
+  readonly techPackOverviewGrainlines?: readonly PieceNotches[];
   /** Optional material variant selected from the live fabric family. */
   readonly techPackForFabric?: (fabric: StretchFabric) => TechPack;
   readonly allowances: AllowanceSpec;
@@ -1210,7 +1212,9 @@ export const SKIRT: GarmentRecipe = {
     : Object.prototype.hasOwnProperty.call(options, SKIRT_PENCIL_HEM_TAPER_OPTION_ID)
       ? [...SKIRT_POMS, SKIRT_PENCIL_HEM_POM]
       : SKIRT_POMS,
-  notchesForOptions: (options) => isCircleSkirtProfile(options)
+  notchesForOptions: (options) => isBiasCutSkirtProfile(options)
+    ? biasCutSkirtNotches()
+    : isCircleSkirtProfile(options)
     ? circleSkirtNotches()
     : isWrapSkirtProfile(options)
     ? wrapSkirtNotches()
@@ -1226,13 +1230,17 @@ export const SKIRT: GarmentRecipe = {
   techPack: SKIRT_TECH_PACK,
   techPackForOptions: skirtTechPackForOptions,
   a0OverflowForOptions: (options) => isCircleSkirtProfile(options) || isGatheredSkirtProfile(options)
-    || isTieredSkirtProfile(options) || isWrapSkirtProfile(options),
+    || isTieredSkirtProfile(options) || isWrapSkirtProfile(options) || isBiasCutSkirtProfile(options),
   options: [SKIRT_A_LINE_HEM_SWEEP_OPTION, SKIRT_PENCIL_HEM_TAPER_OPTION,
     SKIRT_GATHER_RATIO_OPTION, SKIRT_CASING_DEPTH_OPTION,
     SKIRT_BOX_PLEAT_COUNT_OPTION, SKIRT_BOX_PLEAT_SPACING_OPTION,
     SKIRT_TIER_COUNT_OPTION, SKIRT_TIER_GATHER_RATIO_OPTION,
     SKIRT_WRAP_OVERLAP_OPTION, SKIRT_WRAP_FACING_WIDTH_OPTION, SKIRT_CIRCLE_FULLNESS_OPTION],
   draftReview: (m, options = {}) => {
+    const biasCutProblem = biasCutSkirtProblem(options);
+    if (biasCutProblem) {
+      return { block: null, notes: [{ level: "warn", field: "waist", text: biasCutProblem }] };
+    }
     const circleProblem = circleSkirtProblem(m, options);
     if (circleProblem) {
       const field = circleProblem.includes("fullness") || circleProblem.includes("setting") || circleProblem.includes("profile")

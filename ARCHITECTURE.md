@@ -1,5 +1,43 @@
 # InfiniDrip architecture guide
 
+## EPIC-32/G18 current architecture handoff — S1306 K08 Bias-cut skirt candidate
+
+K08 is a separate Starter Blank profile over the existing `skirt` recipe, with
+stable entry ID `skirt-bias-cut-45-digital-v1` and recipe revision
+`skirt-bias-cut-45-v1`. Its only editable inputs are waist, hip, total length,
+and ease. The skirt retains the existing two-panel, waistband, and side-opening
+route; hip depth remains the shared software default.
+
+The front and back body pieces receive a fixed 45-degree digital grainline
+relative to their center-front/center-back references. That direction is
+intended to align parallel to a fabric selvage. `biasCutBodyGrainline` derives
+an in-bounds line from the current panel geometry, and the shared grainline
+renderer supplies the directional marker. SVG, DXF, tiled PDF, A0 PDF, Tech
+Pack overview, Projector, and pattern preview carry that same body-panel mark;
+K08 uses the existing page-local tiled-PDF route so each printable tile places
+its contours and marker within the page. The centimeter CAD-exchange DXF and
+frozen selected-size project artifacts also use the K08 grainline rules; the
+internal profile-routing key is omitted from public package options. The
+profile models neither fabric response, bias stretch, drape, recovery,
+nap/print direction, nor a cutting layout.
+
+The card, four-field control list, starter identity, and digital-only limits
+are owned by `src/ui/starter-registry.ts` and `src/ui/app.ts`. Save/reopen keeps
+K08 scoped to its starter identity; choosing generic Skirt clears the profile.
+If a K08 route receives stale settings from K02–K07, the shared Skirt review
+shows a recovery warning and pauses the draft and outputs; direct drafting also
+fails closed.
+The K08 Tech Pack and Projector disclose that this is a digital convention and
+that the generic Skirt size run is not validated grading for K08. The synthetic
+CLO fixture does not validate K08 geometry or fabric behavior. No sewn sample,
+physical fit, comfort, wear, validated grading, B1 approval, supplier
+suitability, or production readiness is established.
+
+S1306 remains an implementation candidate and K08 remains uncounted until its
+focused changed-code coverage, rendered-output review, hosted global coverage,
+normal merge, exact-main release/deployment, output parity, fresh two-origin
+acceptance, and validated board closeout pass.
+
 ## EPIC-32/G18 current architecture handoff — S1304 K07 Circle skirt implementation
 
 K07 is a separate Starter Blank profile over the existing `skirt` recipe, with

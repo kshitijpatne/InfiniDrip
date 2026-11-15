@@ -176,6 +176,9 @@ export const SKIRT_WRAP_FACING_WIDTH_OPTION: GarmentOption = {
 };
 
 export const SKIRT_CIRCLE_ENTRY_ID = "skirt-circle-digital-v1";
+export const SKIRT_BIAS_CUT_ENTRY_ID = "skirt-bias-cut-45-digital-v1";
+/** Internal route marker derived from saved starter identity; never a user option or persisted value. */
+export const SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY = "__skirtBiasCutProfile";
 export const SKIRT_CIRCLE_FULLNESS_OPTION_ID = "circleFullnessPercent";
 export const SKIRT_CIRCLE_FULLNESS_OPTION: GarmentOption = {
   id: SKIRT_CIRCLE_FULLNESS_OPTION_ID,
@@ -198,6 +201,33 @@ export interface CircleSkirtSettings {
 
 export function isCircleSkirtProfile(options: GarmentOptions = {}): boolean {
   return Object.prototype.hasOwnProperty.call(options, SKIRT_CIRCLE_FULLNESS_OPTION_ID);
+}
+
+export function isBiasCutSkirtProfile(options: GarmentOptions = {}): boolean {
+  return options[SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY] === 1;
+}
+
+const SKIRT_BIAS_CUT_CONFLICTING_OPTION_IDS = [
+  SKIRT_A_LINE_HEM_SWEEP_OPTION_ID,
+  SKIRT_PENCIL_HEM_TAPER_OPTION_ID,
+  SKIRT_GATHER_RATIO_OPTION_ID,
+  SKIRT_CASING_DEPTH_OPTION_ID,
+  SKIRT_BOX_PLEAT_COUNT_OPTION_ID,
+  SKIRT_BOX_PLEAT_SPACING_OPTION_ID,
+  SKIRT_TIER_COUNT_OPTION_ID,
+  SKIRT_TIER_GATHER_RATIO_OPTION_ID,
+  SKIRT_WRAP_OVERLAP_OPTION_ID,
+  SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
+  SKIRT_CIRCLE_FULLNESS_OPTION_ID,
+] as const;
+
+/** Fail closed when a hidden/stale sibling-profile value reaches the K08 route. */
+export function biasCutSkirtProblem(options: GarmentOptions = {}): string | null {
+  if (!isBiasCutSkirtProfile(options)) return null;
+  if (SKIRT_BIAS_CUT_CONFLICTING_OPTION_IDS.some((id) => Object.prototype.hasOwnProperty.call(options, id))) {
+    return "K08 bias-cut markers cannot be combined with saved settings from another Skirt profile. Switch to generic Skirt, then reselect K08 to clear the conflicting profile; the preview and outputs stay paused.";
+  }
+  return null;
 }
 
 export function circleSkirtOptions(options: GarmentOptions = {}): CircleSkirtSettings {
@@ -1413,6 +1443,11 @@ export function circleSkirtHemSizeMetric(b: Block): number {
 }
 
 export function draftSkirt(m: Measurements, options: GarmentOptions = {}): Block {
+  if (isBiasCutSkirtProfile(options)) {
+    const problem = biasCutSkirtProblem(options);
+    if (problem) throw new RangeError(problem);
+    return composeBlock(SKIRT_GRAMMAR, m, options);
+  }
   if (isCircleSkirtProfile(options)) {
     const problem = circleSkirtProblem(m, options);
     if (problem) throw new RangeError(problem);
@@ -1642,3 +1677,40 @@ export const SKIRT_NOTCHES: readonly PieceNotches[] = [
     grainline: { topEdge: "top", topT: 0.5, bottomEdge: "seam", bottomT: 0.5 },
   },
 ];
+
+function biasCutBodyGrainline(piece: Piece): { top: Point; bottom: Point } {
+  const center = pieceEdge(piece, "center");
+  const centerStart = edgeStart(center);
+  const centerEnd = edgeEnd(center);
+  const topY = Math.min(centerStart.y, centerEnd.y);
+  const bodyHeight = Math.abs(centerEnd.y - centerStart.y);
+  const narrowestWidth = Math.min(
+    edgeLength(pieceEdge(piece, "waist")),
+    edgeLength(pieceEdge(piece, "hem")),
+  );
+  const span = Math.min(10, narrowestWidth * 0.6, bodyHeight * 0.25);
+  const centerX = (centerStart.x + centerEnd.x) / 2;
+  const xInset = (narrowestWidth - span) / 2;
+  const yInset = (bodyHeight - span) / 2;
+
+  return {
+    top: { x: centerX + xInset, y: topY + yInset },
+    bottom: { x: centerX + xInset + span, y: topY + yInset + span },
+  };
+}
+
+/** Existing straight-skirt notches with a fixed, live-geometry 45° body grainline. */
+export function biasCutSkirtNotches(): readonly PieceNotches[] {
+  return SKIRT_NOTCHES.map((entry) => entry.pieceName === "front" || entry.pieceName === "back"
+    ? {
+      ...entry,
+      grainline: {
+        topEdge: "center",
+        topT: 0.5,
+        bottomEdge: "center",
+        bottomT: 0.5,
+        resolve: (piece: Piece) => biasCutBodyGrainline(piece),
+      },
+    }
+    : entry);
+}
