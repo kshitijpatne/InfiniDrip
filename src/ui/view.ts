@@ -425,8 +425,9 @@ export function fabricSwatchesMarkup(current: string, appearance: Appearance = D
 
 // "Length +8 cm" — a single change, using the measurement's friendly label.
 function deltaText(d: Delta): string {
+  if ("label" in d) return d.label + " " + (d.change > 0 ? "+" : "") + d.change + " " + d.unit;
   const label = FIELDS.find((f) => f.id === d.id)!.label;
-  return `${label} ${d.change > 0 ? "+" : ""}${d.change} cm`;
+  return label + " " + (d.change > 0 ? "+" : "") + d.change + " cm";
 }
 
 const GARMENT_UI: Readonly<Record<string, { region: string; summary: string; detail: string }>> = {
@@ -446,6 +447,7 @@ const GARMENT_UI: Readonly<Record<string, { region: string; summary: string; det
 
 function styleDescription(name: string): string {
   const lower = name.toLowerCase();
+  if (lower.includes("wide-leg")) return "Wider digital leg at thigh, knee and hem";
   if (lower.includes("fitted")) return "Close, shaped ease";
   if (lower.includes("oversized")) return "Maximum wearing room";
   if (lower.includes("relaxed")) return "More room to move";
@@ -486,7 +488,10 @@ export function styleMarkup(
     `</div>`;
 
   let body: string;
-  if (match.deltas.length === 0 && !plausible) {
+  if (!match.optionsComplete) {
+    body = '<div role="status" style="font-size:12.5px;color:' + T.lineActive + '">' +
+      "Option values are unavailable, so " + targetName + " cannot be confirmed.</div>";
+  } else if (match.deltas.length === 0 && !plausible) {
     // The measurements hit the target on every axis, but at least one is implausible
     // — so "you're making a X" would be a green lie. Withhold it until they're sane.
     body = `<div style="font-size:12.5px;color:${T.lineActive}">` +

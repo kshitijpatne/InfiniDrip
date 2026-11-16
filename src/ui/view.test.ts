@@ -2,7 +2,8 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTION_DEFINITIONS, draftTshirt, rolePiece, type Piece } from "../drafting";
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup, fieldHistoryDialogContent, fieldObservationSummary, patternAnnotationKeyMarkup, customOneSizeSpecMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
-import { matchStyle, styleNames, TEE_STYLES } from "../style";
+import { matchStyle, styleNames, TEE_STYLES, TROUSER_STYLES } from "../style";
+import { DEFAULT_TROUSER_OPTIONS } from "../drafting/trouser-contract";
 import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, technicalFlatFaceToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
 import { ARTWORK_CATALOG, ARTWORK_CATEGORIES } from "../surface/artwork-library/catalog";
 import { assessArtworkUse } from "../surface/artwork-library/search";
@@ -871,6 +872,42 @@ describe("styleMarkup", () => {
     const html = styleMarkup("Classic tee", matchStyle(STANDARD_M, "Classic tee", TEE_STYLES), styleNames(TEE_STYLES), false);
     expect(html).not.toContain("✓ You're making a Classic tee");
     expect(html).toContain("matches Classic tee on paper");
+  });
+
+  it("withholds style confirmation when a target requires unavailable option context", () => {
+    const html = styleMarkup(
+      "Wide-leg trouser",
+      matchStyle(STANDARD_M, "Wide-leg trouser", TROUSER_STYLES),
+      styleNames(TROUSER_STYLES),
+      true,
+    );
+    expect(html).toContain("Wider digital leg at thigh, knee and hem");
+    expect(html).toContain("Option values are unavailable");
+    expect(html).not.toContain("You're making a Wide-leg trouser");
+  });
+
+  it("renders option-target corrections with their field labels and units", () => {
+    const options = { ...DEFAULT_TROUSER_OPTIONS, thighEase: 12, kneeEase: 12, legOpening: 52 };
+    const html = styleMarkup(
+      "Relaxed straight trouser",
+      matchStyle(STANDARD_M, "Relaxed straight trouser", TROUSER_STYLES, options),
+      styleNames(TROUSER_STYLES),
+      true,
+    );
+    expect(html).toContain("Thigh ease -0.5 cm");
+    expect(html).toContain("Knee ease -0.5 cm");
+    expect(html).toContain("Leg opening -0.5 cm");
+    expect(html).not.toContain("You're making a Relaxed straight trouser");
+
+    const wideLeg = styleMarkup(
+      "Wide-leg trouser",
+      matchStyle(STANDARD_M, "Wide-leg trouser", TROUSER_STYLES, { ...DEFAULT_TROUSER_OPTIONS }),
+      styleNames(TROUSER_STYLES),
+      true,
+    );
+    expect(wideLeg).toContain("Thigh ease +4 cm");
+    expect(wideLeg).toContain("Knee ease +7 cm");
+    expect(wideLeg).toContain("Leg opening +12 cm");
   });
 });
 

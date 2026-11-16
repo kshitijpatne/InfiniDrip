@@ -12,10 +12,17 @@
 // does not change when the numbers do.
 
 import type { Measurements } from "../drafting";
+import type { GarmentOptions } from "../drafting/options";
 
 export interface StyleDef {
   readonly name: string;
   readonly ranges: Partial<Record<keyof Measurements, readonly [number, number]>>;
+  readonly optionRanges?: readonly {
+    readonly id: string;
+    readonly label: string;
+    readonly unit: string;
+    readonly range: readonly [number, number];
+  }[];
 }
 
 /** The tee/fitted style table (upper-body: ease, length, sleeve). */
@@ -80,8 +87,22 @@ export const WOVEN_SHIRT_STYLES: readonly StyleDef[] = [
 /** The first trouser style table. Inseam is the finished lower-body length;
  * these names describe the target silhouette/fit envelope, not a fit claim. */
 export const TROUSER_STYLES: readonly StyleDef[] = [
-  { name: "Relaxed straight trouser", ranges: { ease: [8, 14], inseam: [72, 84] } },
-  { name: "Classic straight trouser", ranges: { ease: [4, 8], inseam: [72, 84] } },
+  // These option bands are digital category boundaries, not construction or fit standards.
+  { name: "Relaxed straight trouser", ranges: { ease: [8, 14], inseam: [72, 84] }, optionRanges: [
+    { id: "thighEase", label: "Thigh ease", unit: "cm", range: [0, 11.5] },
+    { id: "kneeEase", label: "Knee ease", unit: "cm", range: [0, 11.5] },
+    { id: "legOpening", label: "Leg opening", unit: "cm", range: [25, 51.5] },
+  ] },
+  { name: "Classic straight trouser", ranges: { ease: [4, 8], inseam: [72, 84] }, optionRanges: [
+    { id: "thighEase", label: "Thigh ease", unit: "cm", range: [0, 11.5] },
+    { id: "kneeEase", label: "Knee ease", unit: "cm", range: [0, 11.5] },
+    { id: "legOpening", label: "Leg opening", unit: "cm", range: [25, 51.5] },
+  ] },
+  { name: "Wide-leg trouser", ranges: { ease: [8, 14], inseam: [72, 84] }, optionRanges: [
+    { id: "thighEase", label: "Thigh ease", unit: "cm", range: [12, 20] },
+    { id: "kneeEase", label: "Knee ease", unit: "cm", range: [12, 15] },
+    { id: "legOpening", label: "Leg opening", unit: "cm", range: [52, 65] },
+  ] },
   { name: "Cropped straight trouser", ranges: { ease: [8, 18], inseam: [55, 71] } },
   { name: "Long straight trouser", ranges: { ease: [8, 18], inseam: [85, 105] } },
 ];
@@ -97,20 +118,25 @@ export const SHORTS_STYLES: readonly StyleDef[] = [
   { name: "Relaxed woven shorts", ranges: { ease: [8, 16] } },
 ];
 
-/** One measurement change needed to move toward a style (signed, in cm). */
-export interface Delta {
-  readonly id: keyof Measurements;
-  readonly change: number;
-}
+/** One signed change needed to move toward a style. */
+export type Delta =
+  | { readonly id: keyof Measurements; readonly change: number }
+  | { readonly id: string; readonly label: string; readonly unit: string; readonly change: number };
 
 export interface StyleMatch {
   readonly name: string;
   readonly deltas: readonly Delta[]; // empty means you are already in this style
-  readonly distance: number;         // total cm of change to reach it
+  readonly distance: number;         // total change across ranged dimensions/options
+  /** False means a required option is absent, so this target cannot be confirmed. */
+  readonly optionsComplete: boolean;
 }
 
 // How far the measurements sit from a style, and the smallest nudge to enter it.
-function measureAgainst(m: Measurements, def: StyleDef): StyleMatch {
+function measureAgainst(m: Measurements, def: StyleDef, options?: GarmentOptions): StyleMatch {
+  const optionRanges = def.optionRanges ?? [];
+  if (optionRanges.some(({ id }) => !Number.isFinite(options?.[id]))) {
+    return { name: def.name, deltas: [], distance: Infinity, optionsComplete: false };
+  }
   const entries = Object.entries(def.ranges) as [keyof Measurements, readonly [number, number]][];
   const deltas: Delta[] = [];
   let distance = 0;
@@ -124,12 +150,24 @@ function measureAgainst(m: Measurements, def: StyleDef): StyleMatch {
       distance += v - max;
     }
   }
-  return { name: def.name, deltas, distance };
+  for (const { id, label, unit, range: [min, max] } of optionRanges) {
+    const value = options![id]!;
+    if (value < min) {
+      const change = min - value;
+      deltas.push({ id: "option:" + id, label, unit, change });
+      distance += change;
+    } else if (value > max) {
+      const change = max - value;
+      deltas.push({ id: "option:" + id, label, unit, change });
+      distance += value - max;
+    }
+  }
+  return { name: def.name, deltas, distance, optionsComplete: true };
 }
 
 /** Names of the styles the current measurements already match. */
-export function currentStyles(m: Measurements, styles: readonly StyleDef[]): string[] {
-  return styles.filter((s) => measureAgainst(m, s).distance === 0).map((s) => s.name);
+export function currentStyles(m: Measurements, styles: readonly StyleDef[], options?: GarmentOptions): string[] {
+  return styles.filter((s) => measureAgainst(m, s, options).distance === 0).map((s) => s.name);
 }
 
 /** All style names, in table order — the selectable list of target fits. */
@@ -142,16 +180,20 @@ export function styleNames(styles: readonly StyleDef[]): string[] {
  * target). Returns the signed deltas to reach it and whether you're already there.
  * Unknown names throw.
  */
-export function matchStyle(m: Measurements, styleName: string, styles: readonly StyleDef[]): StyleMatch {
+export function matchStyle(
+  m: Measurements, styleName: string, styles: readonly StyleDef[], options?: GarmentOptions,
+): StyleMatch {
   const def = styles.find((s) => s.name === styleName);
   if (!def) throw new Error(`Unknown style: "${styleName}"`);
-  return measureAgainst(m, def);
+  return measureAgainst(m, def, options);
 }
 
 /** The closest styles you are not yet in, nearest first. */
-export function nearbyStyles(m: Measurements, styles: readonly StyleDef[], limit = 3): StyleMatch[] {
-  return styles.map((s) => measureAgainst(m, s))
-    .filter((match) => match.distance > 0)
+export function nearbyStyles(
+  m: Measurements, styles: readonly StyleDef[], limit = 3, options?: GarmentOptions,
+): StyleMatch[] {
+  return styles.map((s) => measureAgainst(m, s, options))
+    .filter((match) => match.optionsComplete && match.distance > 0)
     .sort((a, b) => a.distance - b.distance)
     .slice(0, limit);
 }
@@ -161,6 +203,8 @@ export interface StyleSuggestions {
   readonly nearby: StyleMatch[];
 }
 
-export function styleSuggestions(m: Measurements, styles: readonly StyleDef[]): StyleSuggestions {
-  return { current: currentStyles(m, styles), nearby: nearbyStyles(m, styles) };
+export function styleSuggestions(
+  m: Measurements, styles: readonly StyleDef[], options?: GarmentOptions,
+): StyleSuggestions {
+  return { current: currentStyles(m, styles, options), nearby: nearbyStyles(m, styles, 3, options) };
 }

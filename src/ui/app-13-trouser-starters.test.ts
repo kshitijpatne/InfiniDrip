@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob } from "node:buffer";
 import { webcrypto } from "node:crypto";
 import { mountApp, unmountApp } from "./app";
-import { STARTER_REGISTRY, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID } from "./starter-registry";
+import { STARTER_REGISTRY, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
 
 const mountedRoots = new Set<HTMLDivElement>();
 type TrackedListener = { type: string; listener: EventListenerOrEventListenerObject; options?: boolean | AddEventListenerOptions };
@@ -35,6 +35,14 @@ const reachExportStage = (root: HTMLElement): void => {
 const setField = (root: HTMLElement, id: string, value: string): HTMLInputElement => {
   const input = root.querySelector<HTMLInputElement>(`input[data-field="${id}"]`);
   if (!input) throw new Error(`Expected measurement control ${id}`);
+  input.value = value;
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+  return input;
+};
+
+const setOption = (root: HTMLElement, id: string, value: string): HTMLInputElement => {
+  const input = root.querySelector<HTMLInputElement>('input[data-option="' + id + '"]');
+  if (!input) throw new Error("Expected option control " + id);
   input.value = value;
   input.dispatchEvent(new Event("input", { bubbles: true }));
   return input;
@@ -219,6 +227,167 @@ describe("R01 Classic straight trouser starter app", () => {
       expect(projector).toContain("physical fit and grading are not validated");
     } finally {
       root?.remove();
+    }
+  });
+});
+
+describe("R02 Wide-leg trouser starter app", () => {
+  it("preserves generic Trouser output names and status after adding the profile starter", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    try {
+      root = mount();
+      clickId(root, "welcome-start");
+      clickId(root, "garment-trouser");
+      reachExportStage(root);
+      for (const id of ["export-techpack", "export-projector"]) clickId(root, id);
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2), { timeout: 20000 });
+
+      expect([...files.keys()].sort()).toEqual(["trouser-projector.svg", "trouser-techpack.pdf"]);
+      expect(files.get("trouser-techpack.pdf")).toMatch(/^%PDF/);
+      expect(files.get("trouser-projector.svg")).toContain("<svg");
+      expect(files.get("trouser-projector.svg")).not.toContain("Digital R02 Wide-leg trouser");
+    } finally {
+      unmountApp();
+      root?.remove();
+    }
+  });
+
+  it("selects, edits, recovers, saves, reopens and exports the existing Trouser profile", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    try {
+      root = mount();
+      clickId(root, "welcome-start");
+      clickId(root, "garment-trouser");
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("You're making a Relaxed straight trouser");
+      expect(root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-option]")).toHaveLength(11);
+
+      clickId(root, "starter-" + TROUSER_CLASSIC_STRAIGHT_ENTRY_ID);
+      expect(root.querySelector<HTMLSelectElement>("#style-target")?.value).toBe("Classic straight trouser");
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("You're making a Classic straight trouser");
+
+      clickId(root, "starter-" + TROUSER_WIDE_LEG_ENTRY_ID);
+      expect(root.querySelector<HTMLButtonElement>('[data-starter-entry-id="' + TROUSER_WIDE_LEG_ENTRY_ID + '"]')?.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Wide-leg trouser");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")?.value).toBe("Wide-leg trouser");
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("You're making a Wide-leg trouser");
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("Wider digital leg at thigh, knee and hem");
+      expect([...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-field]")].map((input) => input.dataset.field))
+        .toEqual(["waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease"]);
+      expect(Object.fromEntries([...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-field]")].map((input) => [input.dataset.field, input.value])))
+        .toEqual({ waist: "84", hip: "100", hipDepth: "20", crotchDepth: "27", thigh: "58", knee: "40", inseam: "78", ease: "10" });
+      const r02Options = root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-option]");
+      expect(r02Options).toHaveLength(11);
+      expect([...r02Options].every((input) => !input.disabled)).toBe(true);
+      expect(Object.fromEntries([...r02Options].map((input) => [input.dataset.option, input.value]))).toMatchObject({
+        thighEase: "12", kneeEase: "12", legOpening: "52",
+      });
+
+      root.querySelector<HTMLButtonElement>('[data-style-target="Relaxed straight trouser"]')?.click();
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("Thigh ease -0.5 cm");
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("Knee ease -0.5 cm");
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("Leg opening -0.5 cm");
+      root.querySelector<HTMLButtonElement>('[data-style-target="Wide-leg trouser"]')?.click();
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("You're making a Wide-leg trouser");
+
+      clickId(root, "view-pattern");
+      const defaultPattern = root.querySelector<SVGSVGElement>("#inspection-content svg")?.outerHTML;
+      expect(defaultPattern).toBeTruthy();
+      expect(setOption(root, "thighEase", "13").value).toBe("13");
+      const editedPattern = root.querySelector<SVGSVGElement>("#inspection-content svg")?.outerHTML;
+      expect(editedPattern).toBeTruthy();
+      expect(editedPattern).not.toBe(defaultPattern);
+
+      reachExportStage(root);
+      const invalidOpening = setOption(root, "legOpening", "66");
+      expect(invalidOpening.value).toBe("66");
+      expect(invalidOpening.getAttribute("aria-invalid")).toBe("true");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+      expect(setOption(root, "legOpening", "52").value).toBe("52");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="legOpening"]')?.getAttribute("aria-invalid")).not.toBe("true");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+      clickId(root, "journey-step-fit");
+      clickId(root, "journey-next");
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(false);
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        measurements: { ease: number; inseam: number };
+        garmentOptions: { trouser: { thighEase: number; kneeEase: number; legOpening: number } };
+        workspace: { starterOrigin: { entryId: string; entryRevision: string; recipeRevision: string } };
+      };
+      expect(saved.measurements).toMatchObject({ ease: 10, inseam: 78 });
+      expect(saved.garmentOptions.trouser).toMatchObject({ thighEase: 13, kneeEase: 12, legOpening: 52 });
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TROUSER_WIDE_LEG_ENTRY_ID,
+        entryRevision: "2026-11-16.2",
+        recipeRevision: "trouser-wide-leg-v1",
+      });
+
+      const advanced = root.querySelector<HTMLDetailsElement>("#advanced-views");
+      expect(advanced).not.toBeNull();
+      advanced!.open = true;
+      clickId(root, "view-flat");
+      clickId(root, "technical-flat-front");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='FRONT_FLAT']")).not.toBeNull();
+      clickId(root, "technical-flat-back");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='BACK_FLAT']")).not.toBeNull();
+
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) clickId(root, id);
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "wide-leg-trouser-M-A0.pdf",
+        "wide-leg-trouser-M.dxf",
+        "wide-leg-trouser-M.pdf",
+        "wide-leg-trouser-M.svg",
+        "wide-leg-trouser-projector.svg",
+        "wide-leg-trouser-techpack.pdf",
+      ].sort());
+      expect(files.get("wide-leg-trouser-M.svg")).toContain("<svg");
+      expect(files.get("wide-leg-trouser-M.dxf")).toContain("SECTION");
+      expect(files.get("wide-leg-trouser-M.pdf")).toMatch(/^%PDF/);
+      expect(files.get("wide-leg-trouser-M-A0.pdf")).toMatch(/^%PDF/);
+      const r02TechPackText = visiblePdfText(files.get("wide-leg-trouser-techpack.pdf")!);
+      expect(r02TechPackText).toContain("Wide-leg trouser");
+      expect(r02TechPackText).toContain("Digital R02 Wide-leg trouser profile");
+      expect(r02TechPackText).toContain("not sourced standards");
+      expect(files.get("wide-leg-trouser-projector.svg")).toContain("Digital R02 Wide-leg trouser");
+      expect(files.get("wide-leg-trouser-projector.svg")).toContain("physical fit and grading are not validated");
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Wide-leg trouser");
+      expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="' + TROUSER_WIDE_LEG_ENTRY_ID + '"]')?.getAttribute("aria-pressed")).toBe("true");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="thighEase"]')?.value).toBe("13");
+      clickId(reopened, "garment-trouser");
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Trouser");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(true);
+      expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="' + TROUSER_WIDE_LEG_ENTRY_ID + '"]')?.getAttribute("aria-pressed")).toBe("false");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="thighEase"]')?.value).toBe("13");
+    } finally {
+      restoreSvgTextMetrics();
+      root?.remove();
+      reopened?.remove();
     }
   });
 });
