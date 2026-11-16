@@ -1,7 +1,16 @@
 # InfiniDrip architecture guide
 
-## EPIC-32/G18 current architecture handoff — S1311 R01 Classic straight trouser candidate
+## EPIC-32/G18 current architecture handoff — S1315 R03 Tapered trouser app candidate, locally verified; hosted PR pending
 
+R03 reuses the existing `trouser` recipe. Its stable identity is `trouser-tapered-digital-v1`, with STANDARD_M, ease 7 cm, inseam 78 cm, and leg opening 36 cm; current formulas yield digital finished thigh/knee/opening values of 66/45/36 cm. A non-overlapping Tapered style band distinguishes the profile from generic Trouser, R01 Classic straight, and R02 Wide-leg.
+
+Balanced taper geometry routes only from the saved R03 starter identity: each front/back panel centers a hem width of `legOpening / 4` at its knee station. At the contracted seed, each panel narrows from 11.25 cm to 9 cm and both hem endpoints move 1.125 cm toward the knee midpoint. The internal route is not a user control or persisted raw option; switching to generic clears the route. Generic, R01, and R02 geometry and protected output bytes remain unchanged.
+
+Visible leg-opening help describes circumference and knee comparison across straight and tapered profiles. Invalid inputs remain visible with corrective guidance and gate output. The local app workflow, six digital output formats, representative PDF pages, global test/coverage gate, changed-module coverage, and production build have passed. R03 remains uncredited at 50/56 while hosted PR, merge, exact-main release, live-output acceptance, and canonical board closeout remain pending. No sewn garment or physical validation is claimed.
+
+Foot clearance, physical fit, comfort, wear, material response, validated grading, B1, supplier suitability, and production readiness remain unestablished.
+
+## Previous EPIC-32/G18 architecture handoff — S1311 R01 Classic straight trouser candidate
 R01 is a separate Starter Blank profile on the existing `trouser` recipe, with
 stable entry ID `trouser-classic-straight-digital-v1` and recipe revision
 `trouser-classic-straight-v1`. It defaults to software-selected ease of 7 cm

@@ -6,6 +6,8 @@ import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg, expor
 import { DEFAULT_WOVEN_SHIRT_OPTIONS } from "../drafting/shirt-contract";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import { TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY } from "../drafting/tank";
+import { TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { TROUSER_TAPERED_ENTRY_ID } from "./starter-registry";
 import {
   assertFieldArtifactCoverage,
   describeFieldArtifactImpact,
@@ -25,6 +27,9 @@ function defaultOptions(recipeName: string, starterEntryId?: string, style?: str
       && optionAppliesToStyle(option, style))
     .map((option) => [option.id, option.defaultValue])) as GarmentOptions;
   // The real N08 path derives this internal route marker from the saved starter identity.
+  if (recipeName === "trouser" && starterEntryId === TROUSER_TAPERED_ENTRY_ID) {
+    return { ...options, legOpening: 36, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 };
+  }
   return recipeName === "tank" && starterEntryId === TANK_N08_ENTRY_ID
     ? { ...options, [TANK_N08_PROFILE_ROUTE_KEY]: 1 }
     : options;
@@ -70,6 +75,24 @@ describe("field-to-artifact invalidation graph", () => {
       );
       expect(matrix.every((row) => row.recipeId === recipe.name && row.affected.length > 0 && row.unaffected.length > 0)).toBe(true);
     }
+  });
+
+  it("derives R03 output probes from the saved starter identity and balanced taper route", () => {
+    const options = defaultOptions("trouser", TROUSER_TAPERED_ENTRY_ID, "Tapered trouser");
+    expect(options).toMatchObject({ legOpening: 36, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 });
+    const tapered = derivedOutputs("trouser", options);
+    const generic = derivedOutputs("trouser", defaultOptions("trouser"));
+    expect(tapered.pattern).not.toEqual(generic.pattern);
+    expect(tapered.exports.svg).toContain("<svg");
+    expect(tapered.exports.dxf).toContain("SECTION");
+    expect(tapered.exports.tiledPdf).toMatch(/^%PDF/);
+    expect(tapered.exports.a0Pdf).toMatch(/^%PDF/);
+    expect(tapered.exports.techPackPdf).toMatch(/^%PDF/);
+    expect(tapered.exports.projectorSvg).toContain("<svg");
+    expect(tapered.exports.svg).not.toBe(generic.exports.svg);
+    expect(tapered.exports.dxf).not.toBe(generic.exports.dxf);
+    expect(tapered.exports.tiledPdf).not.toBe(generic.exports.tiledPdf);
+    expect(tapered.exports.a0Pdf).not.toBe(generic.exports.a0Pdf);
   });
 
   it("rejects a recipe whose newly added input has no field definition and dependency row", () => {
