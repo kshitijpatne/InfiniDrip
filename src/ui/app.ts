@@ -59,7 +59,7 @@ import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { a0ExportStatus } from "./a0-export-status";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterMeasurementFields, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterMeasurementFields, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
 import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
 import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
@@ -1719,7 +1719,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && recipe.name === "skirt" ? "bias-cut-skirt"
+    starterOrigin?.entryId === TROUSER_CLASSIC_STRAIGHT_ENTRY_ID && recipe.name === "trouser" ? "classic-straight-trouser"
+      : starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && recipe.name === "skirt" ? "bias-cut-skirt"
       : starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && recipe.name === "skirt" ? "circle-skirt"
       : starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt" ? "pencil-like-skirt"
       : starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt" ? "a-line-like-skirt"
@@ -1946,7 +1947,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && forRecipe.name === "skirt"
+    starterOrigin?.entryId === TROUSER_CLASSIC_STRAIGHT_ENTRY_ID && forRecipe.name === "trouser"
+      ? "Classic straight trouser"
+      : starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && forRecipe.name === "skirt"
       ? "Bias-cut skirt · 45° grainline"
       : starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && forRecipe.name === "skirt"
       ? "Circle skirt · software-defined fullness"
@@ -2017,12 +2020,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const isK06Starter = starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID && recipe.name === "skirt";
     const isK07Starter = starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID && recipe.name === "skirt";
     const isK08Starter = starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && recipe.name === "skirt";
+    const isR01Starter = starterOrigin?.entryId === TROUSER_CLASSIC_STRAIGHT_ENTRY_ID && recipe.name === "trouser";
     const isW03Starter = starterOrigin?.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID && recipe.name === "woven-shirt";
     const isW04Starter = starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && recipe.name === "woven-shirt";
     const isW05Starter = starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt";
     const isW06Starter = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
     const isW07Starter = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
-    if (format === "projector") return isK08Starter
+    if (format === "projector") return isR01Starter
+      ? "Digital R01 Classic straight trouser; ease and dimensions are software defaults, and physical fit and grading are not validated."
+      : isK08Starter
       ? "Digital K08 bias-cut skirt markers: the body-panel grainline is fixed at 45° to the CF/CB reference and intended to align parallel to selvage. Fabric response, nap/print direction and cutting layout are not modeled; grading and physical fit are not validated."
       : isK07Starter
       ? "Digital K07 circle-skirt geometry; fullness is a software setting, curves are flattened in outputs, and grading, material behavior and physical fit are not validated."
@@ -2040,6 +2046,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? "W04 grade is not validated. The W04 hip station is a digital crop reference, not a physical hip-location or fit measure."
       : isW05Starter ? "W05 grade is not validated." : isW06Starter ? "W06 grade is not validated."
         : isW07Starter ? "W07 grade is not validated." : undefined;
+    if (isR01Starter) {
+      return "Digital R01 Classic straight trouser profile. The 7 cm ease and 78 cm inseam defaults are editable product software choices, not fit standards. The generic Trouser size run is not validated grading for R01. No sewn sample, physical fit, comfort, wear, material behavior, B1 approval or production readiness is established.";
+    }
     if (isK08Starter) {
       return "Digital K08 bias-cut skirt profile. Front and back body-panel grainline markers are fixed at 45 degrees to the CF/CB reference and intended to align parallel to fabric selvage. Fabric response, bias stretch, drape, recovery, nap/print direction and cutting layout are not modeled. The generic Skirt size run is not validated grading for K08. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval or production readiness is established.";
     }
@@ -5414,6 +5423,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             || starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID
             || starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID
             || starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID)) starterOrigin = null;
+        // A Trouser blank shares its recipe root with the generic selector.
+        // Selecting the root clears only the catalog identity and keeps the
+        // maker's current editable measurements and options.
+        if (g.name === "trouser" && starterOrigin?.entryId === TROUSER_CLASSIC_STRAIGHT_ENTRY_ID) starterOrigin = null;
         setGarment(g.name);
       });
   });

@@ -1,6 +1,31 @@
 # InfiniDrip architecture guide
 
-## EPIC-32/G18 current architecture handoff — S1306 K08 Bias-cut skirt candidate
+## EPIC-32/G18 current architecture handoff — S1311 R01 Classic straight trouser candidate
+
+R01 is a separate Starter Blank profile on the existing `trouser` recipe, with
+stable entry ID `trouser-classic-straight-digital-v1` and recipe revision
+`trouser-classic-straight-v1`. It defaults to software-selected ease of 7 cm
+and inseam of 78 cm; the other lower-body measurements remain at
+`STANDARD_M`, and the eleven existing Trouser options are unchanged. All eight
+existing lower-body fields and eleven Trouser options remain editable. The
+profile adds no tailoring construction or engine geometry.
+
+The existing style ranges classify this profile as Classic straight. The
+existing lower-body calculation yields digital finished waist/seat dimensions
+of 91/107 cm at the standard seed, compared with 94/110 cm for generic Trouser.
+These values describe the software draft only. Save/reopen retains the R01
+starter identity; selecting generic Trouser clears that identity while keeping
+the current editable measurements and options. The six existing output routes
+use the profile-specific name and disclose that the defaults and generic size
+run do not validate fit or grading.
+
+Ease and inseam are product software choices, not source-derived body
+measurements or fit standards. No sewn sample, physical fit, comfort, wear,
+material behavior, validated grading, B1 approval, supplier suitability, or
+production readiness is established. R01 remains uncredited until the hosted
+coverage gate, exact-main release and fresh two-origin acceptance pass.
+
+## EPIC-32/G18 established architecture — S1306 K08 Bias-cut skirt
 
 K08 is a separate Starter Blank profile over the existing `skirt` recipe, with
 stable entry ID `skirt-bias-cut-45-digital-v1` and recipe revision
