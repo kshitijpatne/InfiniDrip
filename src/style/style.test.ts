@@ -156,12 +156,16 @@ describe("TROUSER_STYLES (recipe-owned, Slice 100)", () => {
     expect(nearbyStyles(STANDARD_M, TROUSER_STYLES)).not.toContainEqual(expect.objectContaining({ name: "Wide-leg trouser" }));
   });
 
-  it("classifies generic, R01 and R02 profiles uniquely from measurements and current options", () => {
+  it("classifies generic, R01, R02 and R03 profiles uniquely from measurements and current options", () => {
     const r01: GarmentOptions = { thighEase: 8, kneeEase: 5, legOpening: 40 };
     const r02: GarmentOptions = { ...r01, thighEase: 12, kneeEase: 12, legOpening: 52 };
+    const r03: GarmentOptions = { ...r01, legOpening: 36 };
     expect(currentStyles(STANDARD_M, TROUSER_STYLES, defaultTrouserStyleOptions)).toEqual(["Relaxed straight trouser"]);
     expect(currentStyles({ ...STANDARD_M, ease: 7 }, TROUSER_STYLES, r01)).toEqual(["Classic straight trouser"]);
     expect(currentStyles(STANDARD_M, TROUSER_STYLES, r02)).toEqual(["Wide-leg trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7 }, TROUSER_STYLES, r03)).toEqual(["Tapered trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7 }, TROUSER_STYLES, { ...r03, legOpening: 37.5 })).toEqual(["Tapered trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7 }, TROUSER_STYLES, { ...r03, legOpening: 38 })).toEqual(["Classic straight trouser"]);
   });
 
   it("reports labeled option corrections when a wide-leg profile targets a straight silhouette", () => {

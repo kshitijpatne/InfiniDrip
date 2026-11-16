@@ -91,12 +91,17 @@ export const TROUSER_STYLES: readonly StyleDef[] = [
   { name: "Relaxed straight trouser", ranges: { ease: [8, 14], inseam: [72, 84] }, optionRanges: [
     { id: "thighEase", label: "Thigh ease", unit: "cm", range: [0, 11.5] },
     { id: "kneeEase", label: "Knee ease", unit: "cm", range: [0, 11.5] },
-    { id: "legOpening", label: "Leg opening", unit: "cm", range: [25, 51.5] },
+    { id: "legOpening", label: "Leg opening", unit: "cm", range: [38, 51.5] },
   ] },
   { name: "Classic straight trouser", ranges: { ease: [4, 8], inseam: [72, 84] }, optionRanges: [
     { id: "thighEase", label: "Thigh ease", unit: "cm", range: [0, 11.5] },
     { id: "kneeEase", label: "Knee ease", unit: "cm", range: [0, 11.5] },
-    { id: "legOpening", label: "Leg opening", unit: "cm", range: [25, 51.5] },
+    { id: "legOpening", label: "Leg opening", unit: "cm", range: [38, 51.5] },
+  ] },
+  { name: "Tapered trouser", ranges: { ease: [4, 14], inseam: [72, 84] }, optionRanges: [
+    { id: "thighEase", label: "Thigh ease", unit: "cm", range: [0, 11.5] },
+    { id: "kneeEase", label: "Knee ease", unit: "cm", range: [0, 11.5] },
+    { id: "legOpening", label: "Leg opening", unit: "cm", range: [25, 37.5] },
   ] },
   { name: "Wide-leg trouser", ranges: { ease: [8, 14], inseam: [72, 84] }, optionRanges: [
     { id: "thighEase", label: "Thigh ease", unit: "cm", range: [12, 20] },

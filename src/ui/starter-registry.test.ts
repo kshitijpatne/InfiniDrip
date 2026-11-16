@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   STARTER_REGISTRY,
   TROUSER_CLASSIC_STRAIGHT_ENTRY_ID,
+  TROUSER_TAPERED_ENTRY_ID,
   TROUSER_WIDE_LEG_ENTRY_ID,
   POLO_BAND_COLLAR_ENTRY_ID,
   POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID,
@@ -79,7 +80,7 @@ const validOrigin = starterOriginForEntry(entry);
 
 describe("Tee Classic starter registry", () => {
   it("preserves the bounded existing custom-measurement candidate and its claim limits", () => {
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
     expect(entry).toMatchObject({
       entryId: "tee-classic-custom-v1",
       entryRevision: "2026-10-19.3",
@@ -119,7 +120,7 @@ describe("Tee Classic starter registry", () => {
   });
 
   it("defines one complete editable T01 blank with explicit software-only defaults and gates", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
     expect(blankEntry).toMatchObject({
       entryId: "tee-classic-digital-v1",
       entryRevision: "2026-10-20.1",
@@ -146,7 +147,7 @@ describe("Tee Classic starter registry", () => {
     }
     expect(blankEntry.supportedControls.find((control) => control.fieldId === "shoulderWidth"))
       .toMatchObject({ kind: "measurement", min: 30, max: 70, step: 0.1, defaultValue: 45 });
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -187,8 +188,8 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(poloEntry.entryId, "buttonCount", 4)).toContain("2–3 buttons");
     expect(starterControlError(poloEntry.entryId, "buttonCount", 2.5))
       .toBe("Front button count: choose 2 or 3 whole buttons.");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
   });
 
   it("defines P02 as an editable long-sleeve Polo profile with bounded digital controls", () => {
@@ -255,9 +256,9 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(POLO_RELAXED_ENTRY_ID, "ease", 19)).toContain("13–18 cm");
     expect(starterControlError(POLO_RELAXED_ENTRY_ID, "length", 78)).toBeNull();
     expect(starterControlError(POLO_RELAXED_ENTRY_ID, "length", 79)).toContain("59–78 cm");
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
   });
 
   it("defines P04 as a Cropped Polo profile on the two-button recipe with an editable software length", () => {
@@ -290,9 +291,9 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(POLO_CROPPED_ENTRY_ID, "length", 43)).toContain("44–57 cm");
     expect(starterControlError(POLO_CROPPED_ENTRY_ID, "length", 58)).toContain("44–57 cm");
     expect(starterControlError(POLO_CROPPED_ENTRY_ID, "length", 44.5)).toContain("1 cm increments");
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
   });
 
   it("defines P05 as a Low-ease Polo profile with a bounded software ease choice", () => {
@@ -323,9 +324,9 @@ describe("Tee Classic starter registry", () => {
     for (const value of [3, 5, 6]) expect(starterControlError(POLO_LOW_EASE_ENTRY_ID, "ease", value)).toBeNull();
     expect(starterControlError(POLO_LOW_EASE_ENTRY_ID, "ease", 2)).toContain("3–6 cm");
     expect(starterControlError(POLO_LOW_EASE_ENTRY_ID, "ease", 7)).toContain("3–6 cm");
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
   });
 
   it("defines P06 as an editable Longline Polo profile with bounded software defaults", () => {
@@ -362,9 +363,9 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(POLO_LONGLINE_ENTRY_ID, "ease", 19)).toContain("7–18 cm");
     expect(starterControlError(POLO_LONGLINE_ENTRY_ID, "length", 77)).toContain("78–100 cm");
     expect(starterControlError(POLO_LONGLINE_ENTRY_ID, "length", 101)).toContain("78–100 cm");
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
   });
 
   it("defines P07 as a distinct zipper-closure Polo with no button-count control", () => {
@@ -405,9 +406,9 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(POLO_ZIP_PLACKET_ENTRY_ID, "placketLength", 14.25)).toContain("0.5 cm increments");
     expect(starterControlError(POLO_ZIP_PLACKET_ENTRY_ID, "placketWidth", 4.5)).toContain("2–4 cm");
     expect(starterControlError(POLO_ZIP_PLACKET_ENTRY_ID, "placketWidth", 3.25)).toContain("0.5 cm increments");
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
   });
 
   it("defines P08 as an editable band-collar half-placket Polo digital blank", () => {
@@ -451,9 +452,9 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(POLO_BAND_COLLAR_ENTRY_ID, "standHeight", 3.5)).toContain("1–3 cm");
     for (const value of [14, 22, 30]) expect(starterControlError(POLO_BAND_COLLAR_ENTRY_ID, "placketLength", value)).toBeNull();
     for (const value of [2, 3, 4]) expect(starterControlError(POLO_BAND_COLLAR_ENTRY_ID, "placketWidth", value)).toBeNull();
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
   });
   it("defines N01 as an editable Classic scoop Tank with software-only defaults and honest limits", () => {
     expect(tankEntry).toMatchObject({
@@ -501,8 +502,8 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(tankEntry.entryId, "strapWidth", 8)).toBeNull();
     expect(starterControlError(tankEntry.entryId, "strapWidth", 16)).toContain("0–15 cm");
     expect(starterControlError(tankEntry.entryId, "strapWidth", 8.2)).toContain("0.5 cm increments from 0 cm");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
   });
 
   it("defines N02 as a distinct editable higher-round Tank profile relative to N01", () => {
@@ -543,8 +544,8 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(tankHighNeckEntry.entryId, "neckDrop", 0.5)).toBeNull();
     expect(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId).length)
       .toBe(new Set(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId)).size);
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
   it("defines N03 as an editable racerback Tank with a scoped digital back curve", () => {
@@ -576,8 +577,8 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(tankRacerbackEntry.entryId, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, 5.25)).toContain("0.5 cm increments");
     expect(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId).length)
       .toBe(new Set(STARTER_REGISTRY.entries.map((candidate) => candidate.entryId)).size);
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
   });
 
   it("defines N04 as a distinct editable Square-neck Tank with an entry-only corner control", () => {
@@ -616,9 +617,9 @@ describe("Tee Classic starter registry", () => {
     expect(tankEntry.supportedControls.find((control) => control.fieldId === TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID)).toBeUndefined();
     expect(tankHighNeckEntry.supportedControls.find((control) => control.fieldId === TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID)).toBeUndefined();
     expect(tankRacerbackEntry.supportedControls.find((control) => control.fieldId === TANK_SQUARE_NECK_CORNER_RADIUS_OPTION_ID)).toBeUndefined();
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -648,9 +649,9 @@ describe("Tee Classic starter registry", () => {
     expect(starterEntryById(TANK_N05_ENTRY_ID)).toBe(tankVNeckEntry);
     expect(starterOriginError(starterOriginForEntry(tankVNeckEntry))).toBeNull();
     expect(tankVNeckEntry.supportedControls).toHaveLength(tankEntry.supportedControls.length);
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -681,9 +682,9 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(TANK_N06_ENTRY_ID, "length", 58)).toContain("40–57 cm");
     expect(starterControlError(TANK_N06_ENTRY_ID, "ease", 0)).toBeNull();
     expect(starterControlError(TANK_N06_ENTRY_ID, "ease", 11)).toContain("0–10 cm");
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -720,9 +721,9 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(TANK_N07_ENTRY_ID, "ease", 14)).toBeNull();
     expect(starterControlError(TANK_N07_ENTRY_ID, "ease", 4)).toContain("5–14 cm");
     expect(starterControlError(TANK_N07_ENTRY_ID, "ease", 15)).toContain("5–14 cm");
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -754,9 +755,9 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(TANK_N08_ENTRY_ID, TANK_N08_SHELF_DROP_OPTION_ID, 15)).toBeNull();
     expect(starterControlError(TANK_N08_ENTRY_ID, TANK_N08_SHELF_DROP_OPTION_ID, 1)).toContain("2–15 cm");
     expect(starterControlError(TANK_N08_ENTRY_ID, TANK_N08_SHELF_DROP_OPTION_ID, 14.5)).toContain("1 cm increments");
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -962,7 +963,7 @@ describe("Tee Classic starter registry", () => {
     expect(starterControlError(fittedThreeQuarterSleeveEntry.entryId, "sleeveLength", 34.5)).toContain("1 cm increments");
     expect(starterControlError(fittedThreeQuarterSleeveEntry.entryId, "sleeveLength", 44)).toBeNull();
     expect(starterOriginError(starterOriginForEntry(fittedThreeQuarterSleeveEntry))).toBeNull();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -1025,7 +1026,7 @@ describe("Tee Classic starter registry", () => {
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "ease"))
       .toMatchObject({ kind: "design", min: 13, max: 18, step: 1, defaultValue: 13 });
     expect(relaxedEntry.supportedControls.find((control) => control.fieldId === "chestEase")).toBeUndefined();
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "custom-measurement")).toHaveLength(1);
   });
 
@@ -1394,9 +1395,9 @@ describe("W01 Classic button-front Shirt starter registry", () => {
   )!;
 
   it("registers a complete woven-shirt blank with explicit software defaults", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_ENTRY_ID,
       entryRevision: "2026-11-02.1",
@@ -1480,9 +1481,9 @@ describe("W02 Relaxed button-front Shirt starter registry", () => {
   )!;
 
   it("registers a complete relaxed woven-shirt blank with explicit software defaults", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: WOVEN_SHIRT_RELAXED_BUTTON_FRONT_ENTRY_ID,
       entryRevision: "2026-11-02.1",
@@ -1567,9 +1568,9 @@ describe("W03 Oversized loose-drop Woven Shirt starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID)!;
 
   it("registers a separate editable digital profile with the selected software defaults", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID,
       entryRevision: "2026-11-02.1",
@@ -1621,9 +1622,9 @@ describe("W04 Cropped Boxy Woven Shirt starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID)!;
 
   it("registers W04 as a separate editable digital starter with the contracted software defaults", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID,
       entryRevision: "2026-11-03.1",
@@ -1671,9 +1672,9 @@ describe("W05 Tunic / Longline Woven Shirt starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID)!;
 
   it("registers one distinct longline digital starter with bounded controls and truthful limits", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID,
       entryRevision: "2026-11-03.1",
@@ -1728,9 +1729,9 @@ describe("W06 Camp-collar Woven Shirt starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID)!;
 
   it("registers the standless digital profile with W02 defaults and a dedicated collar-depth control", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID,
       entryRevision: "2026-11-03.1",
@@ -1776,9 +1777,9 @@ describe("W07 Band-collar Woven Shirt starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID)!;
 
   it("registers a distinct W02-based two-band digital profile and scoped height control", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID,
       entryRevision: "2026-11-04.1",
@@ -1819,9 +1820,9 @@ describe("W08 Darted blouse starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID)!;
 
   it("registers a distinct W02-based digital blank with only three additional dart controls", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID,
       entryRevision: "2026-11-08.1",
@@ -1877,9 +1878,9 @@ describe("K01 A-line-like skirt starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === SKIRT_A_LINE_ENTRY_ID)!;
 
   it("registers K01 as the next digital blank with the contracted software defaults", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: SKIRT_A_LINE_ENTRY_ID,
       entryRevision: "2026-11-08.1",
@@ -1918,9 +1919,9 @@ describe("K02 Pencil-like skirt starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === SKIRT_PENCIL_ENTRY_ID)!;
 
   it("registers K02 with distinct identity, isolated option and software-only defaults", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: SKIRT_PENCIL_ENTRY_ID,
       entryRevision: "2026-11-09.1",
@@ -1961,9 +1962,9 @@ describe("K03 gathered pull-on skirt starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === SKIRT_GATHERED_ENTRY_ID)!;
 
   it("registers K03 as a distinct digital blank with scoped gathered-waist settings", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: SKIRT_GATHERED_ENTRY_ID,
       entryRevision: "2026-11-09.1",
@@ -2004,9 +2005,9 @@ describe("K04 box-pleat guide skirt starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === SKIRT_BOX_PLEAT_ENTRY_ID)!;
 
   it("registers K04 with only digital guide defaults and explicit claim limits", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryRevision: "2026-11-10.1",
       recipeId: "skirt",
@@ -2082,7 +2083,7 @@ describe("K06 front-overlap Wrap skirt starter registry", () => {
   const entry = STARTER_REGISTRY.entries.find((candidate) => candidate.entryId === SKIRT_WRAP_ENTRY_ID)!;
 
   it("registers the bounded, digital-only K06 profile and exact editable defaults", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
     expect(entry).toMatchObject({
       entryId: SKIRT_WRAP_ENTRY_ID,
       entryRevision: "2026-11-12.1",
@@ -2124,7 +2125,7 @@ describe("K07 Circle skirt starter registry", () => {
   const entry = starterEntryById(SKIRT_CIRCLE_ENTRY_ID)!;
 
   it("registers the two-panel digital profile with only its active controls", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
     expect(entry).toMatchObject({
       entryRevision: "2026-11-12.1",
       recipeId: "skirt",
@@ -2164,9 +2165,9 @@ describe("K07 Circle skirt starter registry", () => {
 describe("K08 Bias-cut skirt registry", () => {
   it("registers a distinct editable 45-degree digital profile with only the approved controls", () => {
     const biasEntry = starterEntryById(SKIRT_BIAS_CUT_ENTRY_ID)!;
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(biasEntry).toMatchObject({
       entryId: SKIRT_BIAS_CUT_ENTRY_ID,
       entryRevision: "2026-11-15.1",
@@ -2203,9 +2204,9 @@ describe("R01 Classic straight trouser starter registry", () => {
     candidate.entryId === TROUSER_CLASSIC_STRAIGHT_ENTRY_ID)!;
 
   it("defines the contracted profile, keeps all current controls, and changes only its digital ease profile", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: TROUSER_CLASSIC_STRAIGHT_ENTRY_ID,
       entryRevision: "2026-11-16.1",
@@ -2259,9 +2260,9 @@ describe("R02 Wide-leg trouser starter registry", () => {
     candidate.entryId === TROUSER_WIDE_LEG_ENTRY_ID)!;
 
   it("defines a uniquely matched digital profile with all existing measurements and options editable", () => {
-    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v45");
-    expect(STARTER_REGISTRY.entries).toHaveLength(51);
-    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(50);
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
     expect(entry).toMatchObject({
       entryId: TROUSER_WIDE_LEG_ENTRY_ID,
       entryRevision: "2026-11-16.2",
@@ -2300,6 +2301,58 @@ describe("R02 Wide-leg trouser starter registry", () => {
     }
     expect(entry.intent.construction).toContain("existing Trouser recipe");
     expect(entry.limits.join(" ")).toContain("not sourced construction standards");
+    expect(starterEntryById(entry.entryId)).toBe(entry);
+    expect(starterOriginError(starterOriginForEntry(entry))).toBeNull();
+  });
+});
+
+describe("R03 Tapered trouser starter registry", () => {
+  const entry = STARTER_REGISTRY.entries.find((candidate) =>
+    candidate.entryId === TROUSER_TAPERED_ENTRY_ID)!;
+
+  it("defines the contracted digital profile with editable controls and explicit physical limits", () => {
+    expect(STARTER_REGISTRY.catalogRevision).toBe("g18-catalog-v46");
+    expect(STARTER_REGISTRY.entries).toHaveLength(52);
+    expect(STARTER_REGISTRY.entries.filter((candidate) => candidate.catalogKind === "blank")).toHaveLength(51);
+    expect(entry).toMatchObject({
+      entryId: TROUSER_TAPERED_ENTRY_ID,
+      entryRevision: "2026-11-16.3",
+      recipeId: "trouser",
+      recipeRevision: "trouser-tapered-v1",
+      catalogKind: "blank",
+      label: "Tapered trouser",
+      configuration: {
+        targetStyle: "Tapered trouser",
+        measurements: {
+          waist: 84, hip: 100, hipDepth: 20, crotchDepth: 27,
+          thigh: 58, knee: 40, inseam: 78, ease: 7,
+        },
+        options: { ...DEFAULT_TROUSER_OPTIONS, legOpening: 36 },
+      },
+      gates: { b1: "pending", physical: "not-validated" },
+    });
+    expect(entry.supportedControls.map((control) => control.fieldId))
+      .toEqual([...TROUSER_FIELDS, ...TROUSER_OPTION_DEFINITIONS.map((option) => option.id)]);
+    expect(entry.supportedControls).toHaveLength(19);
+    expect(entry.supportedControls.find((control) => control.fieldId === "legOpening")?.defaultValue).toBe(36);
+    expect(currentStyles(
+      { ...STANDARD_M, ...entry.configuration.measurements },
+      TROUSER_STYLES,
+      entry.configuration.options,
+    )).toEqual(["Tapered trouser"]);
+    expect(trouserMetrics(
+      { ...STANDARD_M, ...entry.configuration.measurements },
+      entry.configuration.options,
+    )).toMatchObject({ finishedThigh: 66, finishedKnee: 45 });
+    expect(entry.intent.fit).toContain("foot clearance");
+    expect(entry.limits.join(" ")).toContain("no instep measurement exists");
+    expect(entry.supportedControls.some((control) => control.fieldId.startsWith("__"))).toBe(false);
+    for (const control of entry.supportedControls) {
+      expect(control.defaultValue).not.toBeNull();
+      if (control.defaultValue !== null) {
+        expect(starterControlError(entry.entryId, control.fieldId, control.defaultValue)).toBeNull();
+      }
+    }
     expect(starterEntryById(entry.entryId)).toBe(entry);
     expect(starterOriginError(starterOriginForEntry(entry))).toBeNull();
   });

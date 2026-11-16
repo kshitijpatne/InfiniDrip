@@ -11,6 +11,7 @@ import { Measurements } from "./measurements";
 import {
   TROUSER_OPTION_DEFINITIONS,
   resolveTrouserOptions,
+  TROUSER_TAPERED_PROFILE_ROUTE_KEY,
   TrouserOptions,
 } from "./trouser-contract";
 import { trouserMetrics, trouserPocketGuidance } from "./trouser";
@@ -18,7 +19,7 @@ import { trouserMetrics, trouserPocketGuidance } from "./trouser";
 function optionRangeNotes(options: TrouserOptions): Note[] {
   const notes: Note[] = [];
   for (const definition of TROUSER_OPTION_DEFINITIONS.filter((d) => d.group !== "Pocket")) {
-    const value = options[definition.id as keyof TrouserOptions];
+    const value = options[definition.id as Exclude<keyof TrouserOptions, typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY>];
     if (value < definition.min || value > definition.max) {
       notes.push({
         field: `option-${definition.id}`,

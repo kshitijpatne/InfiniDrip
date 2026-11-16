@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 import { renderBlueprint } from "../render/canvas";
 import { blockPieces, rolePiece, stitchChecks, pieceEdge, edgeStart, edgeEnd, edgeLength } from "./index";
 import { STANDARD_M } from "./measurements";
-import { draftTrouserLegs, trouserMetrics } from "./trouser";
-import { DEFAULT_TROUSER_OPTIONS } from "./trouser-contract";
+import { draftTrouserLegs, draftTrouserWithPockets, trouserMetrics } from "./trouser";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "./trouser-contract";
 
 describe("trouser leg block", () => {
   it("drafts four explicit off-fold leg panels with construction landmarks", () => {
@@ -56,6 +56,37 @@ describe("trouser leg block", () => {
       expect(left.edges.map(edgeLength)).toEqual(right.edges.map(edgeLength));
       expect(right.marks![0]).toMatchObject({ start: { x: expect.any(Number) }, end: { x: expect.any(Number) } });
     }
+  });
+
+  it("centers the R03 hem reduction at every knee and preserves the route through full assembly", () => {
+    const tapered = draftTrouserWithPockets(STANDARD_M, {
+      ...DEFAULT_TROUSER_OPTIONS,
+      legOpening: 36,
+      [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1,
+    });
+    expect(stitchChecks(tapered, tapered.stitches).every((check) => check.ok)).toBe(true);
+
+    for (const role of ["frontLeft", "frontRight", "backLeft", "backRight"] as const) {
+      const piece = rolePiece(tapered, role);
+      const sideKnee = edgeStart(pieceEdge(piece, "sideKneeToHem"));
+      const innerKnee = edgeEnd(pieceEdge(piece, "inseamLower"));
+      const sideHem = edgeStart(pieceEdge(piece, "hem"));
+      const innerHem = edgeEnd(pieceEdge(piece, "hem"));
+      const kneeMidpoint = (sideKnee.x + innerKnee.x) / 2;
+      const hemMidpoint = (sideHem.x + innerHem.x) / 2;
+
+      expect(Math.abs(sideHem.x - innerHem.x)).toBeCloseTo(9);
+      expect(hemMidpoint).toBeCloseTo(kneeMidpoint);
+      expect(Math.abs(sideKnee.x - sideHem.x)).toBeCloseTo(1.125);
+      expect(Math.abs(innerKnee.x - innerHem.x)).toBeCloseTo(1.125);
+    }
+
+    const legacy = rolePiece(draftTrouserLegs(STANDARD_M, { ...DEFAULT_TROUSER_OPTIONS, legOpening: 36 }), "frontLeft");
+    const legacySideKnee = edgeStart(pieceEdge(legacy, "sideKneeToHem"));
+    const legacyInnerKnee = edgeEnd(pieceEdge(legacy, "inseamLower"));
+    const legacySideHem = edgeStart(pieceEdge(legacy, "hem"));
+    const legacyInnerHem = edgeEnd(pieceEdge(legacy, "hem"));
+    expect((legacySideHem.x + legacyInnerHem.x) / 2).not.toBeCloseTo((legacySideKnee.x + legacyInnerKnee.x) / 2);
   });
 
   it("takes live measurements/options into the real drafted stations", () => {

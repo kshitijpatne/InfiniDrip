@@ -1,10 +1,11 @@
 // @vitest-environment jsdom
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { Blob as NodeBlob } from "node:buffer";
-import { webcrypto } from "node:crypto";
+import { Blob as NodeBlob, Buffer } from "node:buffer";
+import { createHash, webcrypto } from "node:crypto";
 import { mountApp, unmountApp } from "./app";
-import { STARTER_REGISTRY, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
+import { STARTER_REGISTRY, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
+import { TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 
 const mountedRoots = new Set<HTMLDivElement>();
 type TrackedListener = { type: string; listener: EventListenerOrEventListenerObject; options?: boolean | AddEventListenerOptions };
@@ -53,6 +54,16 @@ function visiblePdfText(pdf: string): string {
   return streams.flatMap((stream) =>
     [...stream.matchAll(/\(((?:[^()\\]|\\.)*)\) Tj/g)].map((match) => match[1]!.replace(/\\(.)/g, "$1")),
   ).join(" ");
+}
+
+function expectOutputHashes(files: Map<string, string>, expected: Record<string, string>): void {
+  const actual = Object.fromEntries(Object.entries(expected).map(([filename]) => {
+    const content = files.get(filename);
+    expect(content, `Expected ${filename} to be exported`).toBeDefined();
+    const bytes = Buffer.from(content!, filename.endsWith(".pdf") ? "latin1" : "utf8");
+    return [filename, createHash("sha256").update(bytes).digest("hex").toUpperCase()];
+  }));
+  expect(actual).toEqual(expected);
 }
 
 function stubSvgTextMetrics(): () => void {
@@ -225,6 +236,14 @@ describe("R01 Classic straight trouser starter app", () => {
       expect(projector).toContain("<svg");
       expect(projector).toContain("Digital R01 Classic straight trouser");
       expect(projector).toContain("physical fit and grading are not validated");
+      expectOutputHashes(files, {
+        "classic-straight-trouser-M-A0.pdf": "C7516CAB9714E5175177FB994C1BC2F0B9DD8A44F1706D60458592F884C64D73",
+        "classic-straight-trouser-M.dxf": "7CDCA871DDF217C7DABD00AE7546E66DEC73C6B3591FFC2726B989EC8F3F77A8",
+        "classic-straight-trouser-M.pdf": "EDAD074D9DBD5AB43884DD5ED02F2B5430126AF77A72818DD08E881EB5CFC01C",
+        "classic-straight-trouser-M.svg": "5D719B3709D02A0F2A34A5F1CC6789EB7ECDD5264A2C2BAAAB2ECC8FBD24DDC0",
+        "classic-straight-trouser-projector.svg": "DD60A1F1A62FA9867C34581826981B35648CC6B4B438DF2A9507224F9766CCBF",
+        "classic-straight-trouser-techpack.pdf": "C7313D3C7804545DCC78748F47DEB1ED634EA7EFA31E43A8496D19BEFE89DC30",
+      });
     } finally {
       root?.remove();
     }
@@ -247,14 +266,51 @@ describe("R02 Wide-leg trouser starter app", () => {
       clickId(root, "welcome-start");
       clickId(root, "garment-trouser");
       reachExportStage(root);
-      for (const id of ["export-techpack", "export-projector"]) clickId(root, id);
-      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2), { timeout: 20000 });
+      for (const id of ["export-pdf", "export-techpack", "export-projector"]) clickId(root, id);
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(3), { timeout: 20000 });
 
-      expect([...files.keys()].sort()).toEqual(["trouser-projector.svg", "trouser-techpack.pdf"]);
+      expect([...files.keys()].sort()).toEqual(["trouser-M.pdf", "trouser-projector.svg", "trouser-techpack.pdf"]);
+      expectOutputHashes(files, {
+        "trouser-M.pdf": "DCCF16DF74F000D3D5A814636B234FFBFEA3AE458EEFC89941E21EBB2EC2BA30",
+      });
       expect(files.get("trouser-techpack.pdf")).toMatch(/^%PDF/);
       expect(files.get("trouser-projector.svg")).toContain("<svg");
       expect(files.get("trouser-projector.svg")).not.toContain("Digital R02 Wide-leg trouser");
     } finally {
+      unmountApp();
+      root?.remove();
+    }
+  });
+
+  it("keeps all six accepted R02 default output bytes unchanged", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    try {
+      root = mount();
+      clickId(root, "welcome-start");
+      clickId(root, "garment-trouser");
+      clickId(root, "starter-" + TROUSER_WIDE_LEG_ENTRY_ID);
+      reachExportStage(root);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector"]) clickId(root, id);
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(6), { timeout: 20000 });
+      expectOutputHashes(files, {
+        "wide-leg-trouser-M-A0.pdf": "0868A2966063C78068DF228982E0D2297723254577553AF4BA85C3A59996BC24",
+        "wide-leg-trouser-M.dxf": "9B62F790FEDB82D342DE09E38525F9509EAE03ED768B1943CEAAEE43884CEC81",
+        "wide-leg-trouser-M.pdf": "ADE42AF19027853F25B3279371A6E980A364ADF4AA8BA6C777EAB93858A22A97",
+        "wide-leg-trouser-M.svg": "5FCA93DB24CAEF05008FC4770E719651969A661C9FEED8867BCE2881FC736DE1",
+        "wide-leg-trouser-projector.svg": "64EA2D3DB63A5D58D66FB705AEBABCCC5B876D818B5D1FDF2D92160826FFEAF3",
+        "wide-leg-trouser-techpack.pdf": "9DD47810501DC14D39F2635C472337F390ED6C98AF9196C4DF862A359CD114E2",
+      });
+    } finally {
+      restoreSvgTextMetrics();
       unmountApp();
       root?.remove();
     }
@@ -390,4 +446,117 @@ describe("R02 Wide-leg trouser starter app", () => {
       reopened?.remove();
     }
   });
+});
+
+describe("R03 Tapered trouser starter app", () => {
+  it("selects, edits, recovers, saves, reopens and exports the identity-routed profile", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    try {
+      root = mount();
+      clickId(root, "welcome-start");
+      clickId(root, "garment-trouser");
+      clickId(root, "starter-" + TROUSER_TAPERED_ENTRY_ID);
+      expect(root.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Tapered trouser");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")?.value).toBe("Tapered trouser");
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("You're making a Tapered trouser");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="legOpening"]')?.value).toBe("36");
+      expect(root.querySelector<HTMLElement>("#controls-panel")?.textContent).toContain("finished leg-opening circumference");
+      expect(root.querySelector<HTMLElement>("#controls-panel")?.textContent).not.toContain(TROUSER_TAPERED_PROFILE_ROUTE_KEY);
+
+      clickId(root, "view-pattern");
+      expect(root.querySelector<SVGSVGElement>("#inspection-content svg")?.outerHTML).toContain("TROUSER FRONT LEFT");
+      reachExportStage(root);
+      const invalidOpening = setOption(root, "legOpening", "66");
+      expect(invalidOpening.value).toBe("66");
+      expect(invalidOpening.getAttribute("aria-invalid")).toBe("true");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+      expect(root.querySelector<HTMLElement>("#journey-blocker")?.textContent).toMatch(/Leg opening|leg opening/u);
+      expect(setOption(root, "legOpening", "36").value).toBe("36");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="legOpening"]')?.getAttribute("aria-invalid")).not.toBe("true");
+      clickId(root, "journey-step-fit");
+      clickId(root, "journey-next");
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(false);
+
+      const advanced = root.querySelector<HTMLDetailsElement>("#advanced-views");
+      expect(advanced).not.toBeNull();
+      advanced!.open = true;
+      clickId(root, "view-flat");
+      clickId(root, "technical-flat-front");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='FRONT_FLAT']")).not.toBeNull();
+      clickId(root, "technical-flat-back");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='BACK_FLAT']")).not.toBeNull();
+
+      expect(root.querySelector<HTMLButtonElement>("#export-dxf-source-package")?.disabled).toBe(false);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector", "export-dxf-source-package"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(7), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "tapered-trouser-M-A0.pdf",
+        "tapered-trouser-M-cad-exchange-source.json",
+        "tapered-trouser-M.dxf",
+        "tapered-trouser-M.pdf",
+        "tapered-trouser-M.svg",
+        "tapered-trouser-projector.svg",
+        "tapered-trouser-techpack.pdf",
+      ].sort());
+      expect(files.get("tapered-trouser-M.svg")).toContain("<svg");
+      expect(files.get("tapered-trouser-M.dxf")).toContain("SECTION");
+      expect(files.get("tapered-trouser-M.pdf")).toMatch(/^%PDF/);
+      expect(files.get("tapered-trouser-M-A0.pdf")).toMatch(/^%PDF/);
+      const techPackText = visiblePdfText(files.get("tapered-trouser-techpack.pdf")!);
+      expect(techPackText).toContain("Tapered trouser");
+      expect(techPackText).toContain("Digital R03 Tapered trouser profile");
+      expect(techPackText).toContain("No instep measurement or sewn sample is available");
+      expect(files.get("tapered-trouser-projector.svg")).toContain("Digital R03 Tapered trouser");
+      expect(files.get("tapered-trouser-projector.svg")).toContain("Foot clearance, physical fit and grading are not validated");
+      const packageJson = JSON.parse(files.get("tapered-trouser-M-cad-exchange-source.json")!) as {
+        manifest: { options: Record<string, number> };
+      };
+      expect(packageJson.manifest.options.legOpening).toBe(36);
+      expect(packageJson.manifest.options).not.toHaveProperty(TROUSER_TAPERED_PROFILE_ROUTE_KEY);
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        measurements: { ease: number; inseam: number };
+        garmentOptions: { trouser: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; entryRevision: string; recipeRevision: string } };
+      };
+      expect(saved.measurements).toMatchObject({ ease: 7, inseam: 78 });
+      expect(saved.garmentOptions.trouser).toMatchObject({ thighEase: 8, kneeEase: 5, legOpening: 36 });
+      expect(saved.garmentOptions.trouser).not.toHaveProperty(TROUSER_TAPERED_PROFILE_ROUTE_KEY);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TROUSER_TAPERED_ENTRY_ID,
+        entryRevision: "2026-11-16.3",
+        recipeRevision: "trouser-tapered-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Tapered trouser");
+      expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="' + TROUSER_TAPERED_ENTRY_ID + '"]')?.getAttribute("aria-pressed")).toBe("true");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="legOpening"]')?.value).toBe("36");
+      clickId(reopened, "garment-trouser");
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Trouser");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(true);
+      expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="' + TROUSER_TAPERED_ENTRY_ID + '"]')?.getAttribute("aria-pressed")).toBe("false");
+    } finally {
+      restoreSvgTextMetrics();
+      root?.remove();
+      reopened?.remove();
+    }
+  }, 60_000);
 });

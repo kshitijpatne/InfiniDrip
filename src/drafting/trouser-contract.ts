@@ -8,6 +8,9 @@ export const TROUSER_FIELDS = [
   "waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease",
 ] as const satisfies readonly (keyof Measurements)[];
 
+/** Internal geometry route derived from the selected R03 starter identity. */
+export const TROUSER_TAPERED_PROFILE_ROUTE_KEY = "__trouserTaperedProfile" as const;
+
 export interface TrouserOptions {
   readonly frontRiseEase: number;
   readonly backRiseEase: number;
@@ -20,6 +23,7 @@ export interface TrouserOptions {
   readonly pocketAngle: number;
   readonly pocketBagDepth: number;
   readonly pocketDrop: number;
+  readonly [TROUSER_TAPERED_PROFILE_ROUTE_KEY]?: 1;
 }
 
 /** V1 construction dimensions. Ranges are visible guardrails; live controls
@@ -30,7 +34,7 @@ export const TROUSER_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "waistbandDepth", label: "Waistband depth", unit: "cm", group: "Rise & waistband", help: "Sets the separate finished waistband height; keep it below each finished rise.", defaultValue: 4, min: 2, max: 8, step: 0.5 },
   { id: "thighEase", label: "Thigh ease", unit: "cm", group: "Leg fit", help: "Adds finished room at the upper thigh only; it is separate from waist/seat ease.", defaultValue: 8, min: 0, max: 20, step: 0.5 },
   { id: "kneeEase", label: "Knee ease", unit: "cm", group: "Leg fit", help: "Adds finished room at the knee; adjust it if the straight-leg transition is not coherent.", defaultValue: 5, min: 0, max: 15, step: 0.5 },
-  { id: "legOpening", label: "Leg opening", unit: "cm", group: "Leg fit", help: "Sets the finished straight-leg opening circumference; keep it near the finished knee circumference.", defaultValue: 40, min: 25, max: 65, step: 0.5 },
+  { id: "legOpening", label: "Leg opening", unit: "cm", group: "Leg fit", help: "Sets the finished leg-opening circumference; compare it with the finished knee circumference.", defaultValue: 40, min: 25, max: 65, step: 0.5 },
   { id: "flyLength", label: "Fly length", unit: "cm", group: "Front closure", help: "Sets the front fly length; shorten it if it reaches beyond the front rise after the waistband.", defaultValue: 15, min: 8, max: 25, step: 0.5 },
   { id: "pocketOpening", label: "Pocket opening", unit: "cm", group: "Pocket", help: "Sets each angled front pocket opening; shorten it if it leaves the front panel.", defaultValue: 16, min: 8, max: 25, step: 0.5 },
   { id: "pocketAngle", label: "Pocket angle", unit: "°", group: "Pocket", help: "Sets the opening angle down from the side waist; reduce it if the opening approaches the front rise or centre front.", defaultValue: 58, min: 35, max: 70, step: 1 },
@@ -49,8 +53,11 @@ function finiteOr(value: number | undefined, fallback: number): number {
 /** Preserve finite work-in-progress option values verbatim. Range guidance is
  * deliberately separate so an invalid combination remains visible. */
 export function resolveTrouserOptions(values: Partial<TrouserOptions> = {}): TrouserOptions {
-  return Object.fromEntries(TROUSER_OPTION_DEFINITIONS.map((definition) => [
+  const options = Object.fromEntries(TROUSER_OPTION_DEFINITIONS.map((definition) => [
     definition.id,
     finiteOr(values[definition.id as keyof TrouserOptions], definition.defaultValue),
   ])) as unknown as TrouserOptions;
+  return values[TROUSER_TAPERED_PROFILE_ROUTE_KEY] === 1
+    ? { ...options, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 }
+    : options;
 }

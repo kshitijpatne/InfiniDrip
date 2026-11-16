@@ -19,6 +19,7 @@ import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import {
   DEFAULT_TROUSER_OPTIONS,
   resolveTrouserOptions,
+  TROUSER_TAPERED_PROFILE_ROUTE_KEY,
   TROUSER_OPTION_DEFINITIONS,
   TrouserOptions,
 } from "./trouser-contract";
@@ -70,7 +71,10 @@ const profilePoints = (
   const crotchX = seatQ * 0.32;
   const innerThighX = crotchX - 1.5;
   const innerKneeX = crotchX - 1.8;
-  const innerHemX = crotchX - 2;
+  const tapered = options[TROUSER_TAPERED_PROFILE_ROUTE_KEY] === 1;
+  const kneeMidpointX = innerKneeX + kneeQ / 2;
+  const innerHemX = tapered ? kneeMidpointX - openingQ / 2 : crotchX - 2;
+  const sideHemX = tapered ? kneeMidpointX + openingQ / 2 : innerHemX + openingQ;
   return {
     waistQ,
     seatQ,
@@ -78,7 +82,7 @@ const profilePoints = (
     sideHip: point(seatQ, m.hipDepth),
     sideThigh: point(innerThighX + thighQ, metrics.thighY),
     sideKnee: point(innerKneeX + kneeQ, metrics.kneeY),
-    sideHem: point(innerHemX + openingQ, metrics.hemY),
+    sideHem: point(sideHemX, metrics.hemY),
     crotch: point(crotchX, metrics.backCrotchY),
     innerThigh: point(innerThighX, metrics.thighY),
     innerKnee: point(innerKneeX, metrics.kneeY),
@@ -637,7 +641,7 @@ export function trouserPocketGuidance(
   const options = resolveTrouserOptions(rawOptions);
   const notes: Note[] = [];
   for (const definition of TROUSER_OPTION_DEFINITIONS.filter((d) => d.group === "Pocket")) {
-    const value = options[definition.id as keyof TrouserOptions];
+    const value = options[definition.id as Exclude<keyof TrouserOptions, typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY>];
     if (value < definition.min || value > definition.max) {
       notes.push({
         field: `option-${definition.id}`,
