@@ -1,6 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
+import { DEFAULT_TROUSER_OPTIONS } from "../drafting/trouser-contract";
+import type { GarmentOptions } from "../drafting/options";
 import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TROUSER_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES } from "./style";
+
+const defaultTrouserStyleOptions: GarmentOptions = { ...DEFAULT_TROUSER_OPTIONS };
 
 describe("FITTED_STYLES", () => {
   it("classifies the darted construction without using ease as a fit standard", () => {
@@ -132,16 +136,44 @@ describe("SKIRT_STYLES (recipe-owned, Slice 39)", () => {
 
 describe("TROUSER_STYLES (recipe-owned, Slice 100)", () => {
   it("classifies the standard lower-body block as relaxed straight", () => {
-    expect(currentStyles(STANDARD_M, TROUSER_STYLES)).toContain("Relaxed straight trouser");
+    expect(currentStyles(STANDARD_M, TROUSER_STYLES, defaultTrouserStyleOptions)).toEqual(["Relaxed straight trouser"]);
   });
 
   it("uses inseam for lower-body length and keeps targets trouser-specific", () => {
     const names = styleNames(TROUSER_STYLES);
     expect(names).toContain("Cropped straight trouser");
     expect(names).toContain("Long straight trouser");
+    expect(names).toContain("Wide-leg trouser");
     expect(names.join(" ")).not.toContain("tee");
-    expect(matchStyle({ ...STANDARD_M, inseam: 60 }, "Long straight trouser", TROUSER_STYLES).deltas)
+    expect(matchStyle({ ...STANDARD_M, inseam: 60 }, "Long straight trouser", TROUSER_STYLES, defaultTrouserStyleOptions).deltas)
       .toContainEqual({ id: "inseam", change: 25 });
+  });
+
+  it("requires complete option context before confirming straight or wide-leg styles", () => {
+    const missing = matchStyle(STANDARD_M, "Wide-leg trouser", TROUSER_STYLES);
+    expect(missing).toMatchObject({ optionsComplete: false, distance: Infinity, deltas: [] });
+    expect(currentStyles(STANDARD_M, TROUSER_STYLES)).toEqual([]);
+    expect(nearbyStyles(STANDARD_M, TROUSER_STYLES)).not.toContainEqual(expect.objectContaining({ name: "Wide-leg trouser" }));
+  });
+
+  it("classifies generic, R01 and R02 profiles uniquely from measurements and current options", () => {
+    const r01: GarmentOptions = { thighEase: 8, kneeEase: 5, legOpening: 40 };
+    const r02: GarmentOptions = { ...r01, thighEase: 12, kneeEase: 12, legOpening: 52 };
+    expect(currentStyles(STANDARD_M, TROUSER_STYLES, defaultTrouserStyleOptions)).toEqual(["Relaxed straight trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7 }, TROUSER_STYLES, r01)).toEqual(["Classic straight trouser"]);
+    expect(currentStyles(STANDARD_M, TROUSER_STYLES, r02)).toEqual(["Wide-leg trouser"]);
+  });
+
+  it("reports labeled option corrections when a wide-leg profile targets a straight silhouette", () => {
+    const r02: GarmentOptions = { ...defaultTrouserStyleOptions, thighEase: 12, kneeEase: 12, legOpening: 52 };
+    const match = matchStyle(STANDARD_M, "Relaxed straight trouser", TROUSER_STYLES, r02);
+    expect(match.deltas).toEqual([
+      { id: "option:thighEase", label: "Thigh ease", unit: "cm", change: -0.5 },
+      { id: "option:kneeEase", label: "Knee ease", unit: "cm", change: -0.5 },
+      { id: "option:legOpening", label: "Leg opening", unit: "cm", change: -0.5 },
+    ]);
+    expect(match.distance).toBe(1.5);
+    expect(styleSuggestions(STANDARD_M, TROUSER_STYLES, r02).current).toEqual(["Wide-leg trouser"]);
   });
 });
 
