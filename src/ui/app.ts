@@ -2041,7 +2041,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       : isW05Starter ? "W05 grade is not validated." : isW06Starter ? "W06 grade is not validated."
         : isW07Starter ? "W07 grade is not validated." : undefined;
     if (isK08Starter) {
-      return "Digital K08 bias-cut skirt profile. Front and back body-panel grainline markers are fixed at 45° to the CF/CB reference and intended to align parallel to fabric selvage. Fabric response, bias stretch, drape, recovery, nap/print direction and cutting layout are not modeled. The generic Skirt size run is not validated grading for K08. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval or production readiness is established.";
+      return "Digital K08 bias-cut skirt profile. Front and back body-panel grainline markers are fixed at 45 degrees to the CF/CB reference and intended to align parallel to fabric selvage. Fabric response, bias stretch, drape, recovery, nap/print direction and cutting layout are not modeled. The generic Skirt size run is not validated grading for K08. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval or production readiness is established.";
     }
     if (isK07Starter) {
       return "Digital K07 circle-skirt geometry only. Fullness is an editable software setting; waist and hem POMs follow modeled curves. SVG, DXF, PDF and projector paths approximate curves with output points. The shared size run and grading are not validated for K07. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval or production readiness is established.";

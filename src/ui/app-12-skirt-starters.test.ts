@@ -142,7 +142,7 @@ function expectedK08TechPack(measurements: typeof STANDARD_M, options: GarmentOp
     options,
     [],
     targetStyle,
-    "Digital K08 bias-cut skirt profile. Front and back body-panel grainline markers are fixed at 45° to the CF/CB reference and intended to align parallel to fabric selvage. Fabric response, bias stretch, drape, recovery, nap/print direction and cutting layout are not modeled. The generic Skirt size run is not validated grading for K08. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval or production readiness is established.",
+    "Digital K08 bias-cut skirt profile. Front and back body-panel grainline markers are fixed at 45 degrees to the CF/CB reference and intended to align parallel to fabric selvage. Fabric response, bias stretch, drape, recovery, nap/print direction and cutting layout are not modeled. The generic Skirt size run is not validated grading for K08. No sewn sample, physical fit, coverage, comfort, wear, material behavior, B1 approval or production readiness is established.",
   );
 }
 
@@ -1924,10 +1924,13 @@ describe("K08 Bias-cut skirt starter workflows", () => {
         ));
         expect(files.get("bias-cut-skirt-M-A0.pdf")).toBe(expectedSkirtA0Pdf(true, options, "inline", measurements));
         const techPack = files.get("bias-cut-skirt-techpack.pdf")!;
+        const techPackText = visiblePdfText(techPack);
+        expect(techPackText).toContain("Bias-cut skirt - 45-degree digital grainline");
+        expect(techPackText).toContain("fixed at 45 degrees to the CF/CB reference");
+        expect(techPackText).not.toContain("45?");
+        expect(techPackText).toContain("parallel to fabric selvage");
+        expect(techPackText).toContain("nap/print direction and cutting layout are not modeled");
         expect(techPack).toBe(expectedK08TechPack(measurements, options, targetStyle));
-        expect(visiblePdfText(techPack)).toContain("Bias-cut skirt - 45-degree digital grainline");
-        expect(visiblePdfText(techPack)).toContain("parallel to fabric selvage");
-        expect(visiblePdfText(techPack)).toContain("nap/print direction and cutting layout are not modeled");
         const projector = files.get("bias-cut-skirt-projector.svg")!;
         const projectorText = [...new DOMParser().parseFromString(projector, "image/svg+xml")
           .getElementsByTagName("text")].map((element) => element.textContent).join(" ");
