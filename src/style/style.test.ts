@@ -1,10 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
-import { DEFAULT_TROUSER_OPTIONS } from "../drafting/trouser-contract";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import type { GarmentOptions } from "../drafting/options";
 import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TROUSER_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES } from "./style";
 
 const defaultTrouserStyleOptions: GarmentOptions = { ...DEFAULT_TROUSER_OPTIONS };
+const genericTrouserStyles = TROUSER_STYLES.filter((style) => style.appliesToStarterEntryId === undefined);
 
 describe("FITTED_STYLES", () => {
   it("classifies the darted construction without using ease as a fit standard", () => {
@@ -136,7 +137,7 @@ describe("SKIRT_STYLES (recipe-owned, Slice 39)", () => {
 
 describe("TROUSER_STYLES (recipe-owned, Slice 100)", () => {
   it("classifies the standard lower-body block as relaxed straight", () => {
-    expect(currentStyles(STANDARD_M, TROUSER_STYLES, defaultTrouserStyleOptions)).toEqual(["Relaxed straight trouser"]);
+    expect(currentStyles(STANDARD_M, genericTrouserStyles, defaultTrouserStyleOptions)).toEqual(["Relaxed straight trouser"]);
   });
 
   it("uses inseam for lower-body length and keeps targets trouser-specific", () => {
@@ -160,12 +161,26 @@ describe("TROUSER_STYLES (recipe-owned, Slice 100)", () => {
     const r01: GarmentOptions = { thighEase: 8, kneeEase: 5, legOpening: 40 };
     const r02: GarmentOptions = { ...r01, thighEase: 12, kneeEase: 12, legOpening: 52 };
     const r03: GarmentOptions = { ...r01, legOpening: 36 };
-    expect(currentStyles(STANDARD_M, TROUSER_STYLES, defaultTrouserStyleOptions)).toEqual(["Relaxed straight trouser"]);
-    expect(currentStyles({ ...STANDARD_M, ease: 7 }, TROUSER_STYLES, r01)).toEqual(["Classic straight trouser"]);
-    expect(currentStyles(STANDARD_M, TROUSER_STYLES, r02)).toEqual(["Wide-leg trouser"]);
-    expect(currentStyles({ ...STANDARD_M, ease: 7 }, TROUSER_STYLES, r03)).toEqual(["Tapered trouser"]);
-    expect(currentStyles({ ...STANDARD_M, ease: 7 }, TROUSER_STYLES, { ...r03, legOpening: 37.5 })).toEqual(["Tapered trouser"]);
-    expect(currentStyles({ ...STANDARD_M, ease: 7 }, TROUSER_STYLES, { ...r03, legOpening: 38 })).toEqual(["Classic straight trouser"]);
+    expect(currentStyles(STANDARD_M, genericTrouserStyles, defaultTrouserStyleOptions)).toEqual(["Relaxed straight trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7 }, genericTrouserStyles, r01)).toEqual(["Classic straight trouser"]);
+    expect(currentStyles(STANDARD_M, genericTrouserStyles, r02)).toEqual(["Wide-leg trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7 }, genericTrouserStyles, r03)).toEqual(["Tapered trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7 }, genericTrouserStyles, { ...r03, legOpening: 37.5 })).toEqual(["Tapered trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7 }, genericTrouserStyles, { ...r03, legOpening: 38 })).toEqual(["Classic straight trouser"]);
+  });
+
+  it("keeps the Bootcut target specific to the R05 catalog identity", () => {
+    const bootcutStyles = TROUSER_STYLES.filter((style) => style.appliesToStarterEntryId === TROUSER_BOOTCUT_ENTRY_ID);
+    const bootcutOptions = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      legOpening: 52,
+      [TROUSER_BOOTCUT_PROFILE_ROUTE_KEY]: 1,
+    };
+    expect(styleNames(bootcutStyles)).toEqual(["Bootcut trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7, inseam: 78 }, bootcutStyles, bootcutOptions))
+      .toEqual(["Bootcut trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7, inseam: 78 }, genericTrouserStyles, bootcutOptions))
+      .not.toContain("Bootcut trouser");
   });
 
   it("reports labeled option corrections when a wide-leg profile targets a straight silhouette", () => {
@@ -177,7 +192,7 @@ describe("TROUSER_STYLES (recipe-owned, Slice 100)", () => {
       { id: "option:legOpening", label: "Leg opening", unit: "cm", change: -0.5 },
     ]);
     expect(match.distance).toBe(1.5);
-    expect(styleSuggestions(STANDARD_M, TROUSER_STYLES, r02).current).toEqual(["Wide-leg trouser"]);
+    expect(styleSuggestions(STANDARD_M, genericTrouserStyles, r02).current).toEqual(["Wide-leg trouser"]);
   });
 });
 

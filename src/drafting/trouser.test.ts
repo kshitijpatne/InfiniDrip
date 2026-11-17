@@ -3,7 +3,7 @@ import { renderBlueprint } from "../render/canvas";
 import { blockPieces, rolePiece, stitchChecks, pieceEdge, edgeStart, edgeEnd, edgeLength } from "./index";
 import { STANDARD_M } from "./measurements";
 import { draftTrouserLegs, draftTrouserWithPockets, trouserMetrics } from "./trouser";
-import { DEFAULT_TROUSER_OPTIONS, TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY, resolveTrouserOptions } from "./trouser-contract";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY, resolveTrouserOptions } from "./trouser-contract";
 import { trouserGuidance } from "./trouser-guidance";
 
 describe("trouser leg block", () => {
@@ -90,6 +90,44 @@ describe("trouser leg block", () => {
     expect((legacySideHem.x + legacyInnerHem.x) / 2).not.toBeCloseTo((legacySideKnee.x + legacyInnerKnee.x) / 2);
   });
 
+  it("expands the R05 hem evenly from the existing knee station across four panels", () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      legOpening: 52,
+      [TROUSER_BOOTCUT_PROFILE_ROUTE_KEY]: 1 as const,
+    };
+    const bootcut = draftTrouserWithPockets(STANDARD_M, options);
+    const metrics = trouserMetrics(STANDARD_M, options);
+    expect(metrics).toMatchObject({ finishedThigh: 66, finishedKnee: 45 });
+    expect(options.legOpening).toBe(52);
+    expect(stitchChecks(bootcut, bootcut.stitches).every((check) => check.ok)).toBe(true);
+
+    for (const role of ["frontLeft", "frontRight", "backLeft", "backRight"] as const) {
+      const piece = rolePiece(bootcut, role);
+      const sideKneeToHem = pieceEdge(piece, "sideKneeToHem");
+      const innerKneeToThigh = pieceEdge(piece, "inseamLower");
+      const hem = pieceEdge(piece, "hem");
+      expect(sideKneeToHem.kind).toBe("line");
+      if (sideKneeToHem.kind !== "line") continue;
+      const sideKnee = edgeStart(sideKneeToHem);
+      const sideHem = edgeEnd(sideKneeToHem);
+      const innerKnee = edgeEnd(innerKneeToThigh);
+      const innerHem = edgeEnd(hem);
+      expect(Math.abs(sideHem.x - innerHem.x)).toBeCloseTo(13);
+      expect(Math.abs(sideHem.x - sideKnee.x)).toBeCloseTo(0.875);
+      expect(Math.abs(innerHem.x - innerKnee.x)).toBeCloseTo(0.875);
+      expect((sideHem.x + innerHem.x) / 2).toBeCloseTo((sideKnee.x + innerKnee.x) / 2);
+    }
+
+    const straightAt52 = rolePiece(
+      draftTrouserLegs(STANDARD_M, { ...DEFAULT_TROUSER_OPTIONS, legOpening: 52 }), "frontLeft",
+    );
+    const bootcutFront = rolePiece(bootcut, "frontLeft");
+    expect(edgeEnd(pieceEdge(straightAt52, "hem")).x).not.toBeCloseTo(
+      edgeEnd(pieceEdge(bootcutFront, "hem")).x,
+    );
+  });
+
   it("adds an R04 outer-leg curve while retaining the existing stations, four panels, and matched seams", () => {
     const options = {
       ...DEFAULT_TROUSER_OPTIONS,
@@ -174,6 +212,23 @@ describe("trouser leg block", () => {
     expect(nonFiniteNotes).toEqual(expect.arrayContaining([
       expect.objectContaining({ field: "option-barrelBowCm", text: expect.stringContaining("outside V1's 0.5–4 cm range") }),
     ]));
+  });
+
+  it.each([45, 44])("retains R05 opening %i cm and guides the user to restore the flare", (legOpening) => {
+    const invalidOptions = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      legOpening,
+      [TROUSER_BOOTCUT_PROFILE_ROUTE_KEY]: 1 as const,
+    };
+    const notes = trouserGuidance(
+      draftTrouserWithPockets(STANDARD_M, invalidOptions), STANDARD_M, invalidOptions,
+    );
+    expect(resolveTrouserOptions(invalidOptions)[TROUSER_BOOTCUT_PROFILE_ROUTE_KEY]).toBe(1);
+    expect(notes).toContainEqual(expect.objectContaining({
+      field: "option-legOpening",
+      text: expect.stringContaining(`Bootcut opening (${legOpening} cm) must be wider than the finished knee (45.0 cm)`),
+    }));
+    expect(notes.some((note) => note.text.includes("knee-to-opening drop"))).toBe(false);
   });
 
   it("takes live measurements/options into the real drafted stations", () => {

@@ -21,6 +21,7 @@ import {
   resolveTrouserOptions,
   TROUSER_TAPERED_PROFILE_ROUTE_KEY,
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
+  TROUSER_BOOTCUT_PROFILE_ROUTE_KEY,
   TROUSER_OPTION_DEFINITIONS,
   TrouserOptions,
 } from "./trouser-contract";
@@ -72,10 +73,11 @@ const profilePoints = (
   const crotchX = seatQ * 0.32;
   const innerThighX = crotchX - 1.5;
   const innerKneeX = crotchX - 1.8;
-  const tapered = options[TROUSER_TAPERED_PROFILE_ROUTE_KEY] === 1;
+  const centerHemOnKnee = options[TROUSER_TAPERED_PROFILE_ROUTE_KEY] === 1
+    || options[TROUSER_BOOTCUT_PROFILE_ROUTE_KEY] === 1;
   const kneeMidpointX = innerKneeX + kneeQ / 2;
-  const innerHemX = tapered ? kneeMidpointX - openingQ / 2 : crotchX - 2;
-  const sideHemX = tapered ? kneeMidpointX + openingQ / 2 : innerHemX + openingQ;
+  const innerHemX = centerHemOnKnee ? kneeMidpointX - openingQ / 2 : crotchX - 2;
+  const sideHemX = centerHemOnKnee ? kneeMidpointX + openingQ / 2 : innerHemX + openingQ;
   return {
     waistQ,
     seatQ,
@@ -705,6 +707,7 @@ export function trouserPocketGuidance(
     const value = options[definition.id as Exclude<
       keyof TrouserOptions,
       typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY | typeof TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY
+        | typeof TROUSER_BOOTCUT_PROFILE_ROUTE_KEY
     >];
     if (typeof value !== "number" || !Number.isFinite(value) || value < definition.min || value > definition.max) {
       notes.push({

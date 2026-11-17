@@ -10,10 +10,13 @@ export const TROUSER_FIELDS = [
 
 /** Stable R04 registry identity shared by the drafting and app boundaries. */
 export const TROUSER_BARREL_LEG_ENTRY_ID = "trouser-barrel-leg-digital-v1" as const;
+/** Stable R05 registry identity shared by the drafting and app boundaries. */
+export const TROUSER_BOOTCUT_ENTRY_ID = "trouser-bootcut-digital-v1" as const;
 
 /** Internal geometry routes are derived from the selected saved starter identity. */
 export const TROUSER_TAPERED_PROFILE_ROUTE_KEY = "__trouserTaperedProfile" as const;
 export const TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY = "__trouserBarrelLegProfile" as const;
+export const TROUSER_BOOTCUT_PROFILE_ROUTE_KEY = "__trouserBootcutProfile" as const;
 
 export interface TrouserOptions {
   readonly frontRiseEase: number;
@@ -30,6 +33,7 @@ export interface TrouserOptions {
   readonly barrelBowCm?: number;
   readonly [TROUSER_TAPERED_PROFILE_ROUTE_KEY]?: 1;
   readonly [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]?: 1;
+  readonly [TROUSER_BOOTCUT_PROFILE_ROUTE_KEY]?: 1;
 }
 
 export const TROUSER_BARREL_BOW_OPTION: GarmentOption = {
@@ -91,7 +95,10 @@ export function resolveTrouserOptions(values: Partial<TrouserOptions> = {}): Tro
       [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1,
     };
   }
-  return values[TROUSER_TAPERED_PROFILE_ROUTE_KEY] === 1
-    ? { ...options, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 }
+  if (values[TROUSER_TAPERED_PROFILE_ROUTE_KEY] === 1) {
+    return { ...options, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 };
+  }
+  return values[TROUSER_BOOTCUT_PROFILE_ROUTE_KEY] === 1
+    ? { ...options, [TROUSER_BOOTCUT_PROFILE_ROUTE_KEY]: 1 }
     : options;
 }
