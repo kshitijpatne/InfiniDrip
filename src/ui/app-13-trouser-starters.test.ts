@@ -686,4 +686,48 @@ describe("R04 Barrel-leg trouser starter app", () => {
       reopened?.remove();
     }
   }, 60_000);
+
+  it("clears R04 routing when a reopened partial save has no Trouser option map", () => {
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    try {
+      root = mount();
+      clickId(root, "welcome-start");
+      clickId(root, "garment-trouser");
+      clickId(root, `starter-${TROUSER_BARREL_LEG_ENTRY_ID}`);
+      expect(root.querySelector<HTMLInputElement>('input[data-option="barrelBowCm"]')?.value).toBe("2");
+      clickId(root, "save-pattern");
+
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: Record<string, Record<string, number>>;
+      };
+      delete saved.garmentOptions.trouser;
+      localStorage.setItem("patternworks_save_v1", JSON.stringify(saved));
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Barrel-leg trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="barrelBowCm"]')?.value).toBe("2");
+
+      clickId(reopened, "garment-trouser");
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Trouser");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(true);
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="barrelBowCm"]')).toBeNull();
+
+      clickId(reopened, "save-pattern");
+      const genericSaved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: Record<string, Record<string, number>>;
+      };
+      expect(genericSaved.garmentOptions.trouser).toEqual({});
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty("barrelBowCm");
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty(TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY);
+    } finally {
+      restoreSvgTextMetrics();
+      root?.remove();
+      reopened?.remove();
+    }
+  });
 });

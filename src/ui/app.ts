@@ -2345,6 +2345,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       },
     });
   };
+  // Both callers route only the canonical Trouser recipe, which declares its shared option list.
+  const barrelLegRecipeForOutput = (canonicalTrouserRecipe: GarmentRecipe): GarmentRecipe => ({
+    ...canonicalTrouserRecipe,
+    options: [...canonicalTrouserRecipe.options!, TROUSER_BARREL_BOW_OPTION],
+    draft: (value: Measurements, options: GarmentOptions = {}) =>
+      canonicalTrouserRecipe.draft(value, { ...options, [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 }),
+  });
   const recipeForTechPackOutputs = (): GarmentRecipe => {
     const outputRecipe = recipeForCurrentOutputs();
     return starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && outputRecipe.name === "skirt"
@@ -4271,12 +4278,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const outputRecipe = recipeForCurrentOutputs();
       const technicalFlatRecipe = starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID
         && outputRecipe.name === "trouser"
-        ? {
-          ...outputRecipe,
-          options: [...(outputRecipe.options ?? []), TROUSER_BARREL_BOW_OPTION],
-          draft: (value: Measurements, options: GarmentOptions = {}) =>
-            outputRecipe.draft(value, { ...options, [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 }),
-        }
+        ? barrelLegRecipeForOutput(outputRecipe)
         : outputRecipe;
       const outputStep = selectedOutputStep();
       const k04Problem = k04SizeProblem(outputStep);
@@ -6587,12 +6589,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const sourceBlock = requireDxfInterchangeSourceBlock(semanticSizeBlock(step));
     const sourceRecipe = recipeForCurrentOutputs();
     const outputRecipe = starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID && sourceRecipe.name === "trouser"
-      ? {
-        ...sourceRecipe,
-        options: [...(sourceRecipe.options ?? []), TROUSER_BARREL_BOW_OPTION],
-        draft: (sizeMeasurements: Measurements, options: GarmentOptions = {}) =>
-          sourceRecipe.draft(sizeMeasurements, { ...options, [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 }),
-      }
+      ? barrelLegRecipeForOutput(sourceRecipe)
       : starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID && sourceRecipe.name === "trouser"
       ? { ...sourceRecipe, draft: (sizeMeasurements: Measurements, options: GarmentOptions = {}) =>
         sourceRecipe.draft(sizeMeasurements, { ...options, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 }) }
