@@ -1,6 +1,16 @@
 # InfiniDrip architecture guide
 
-## EPIC-32/G18 current architecture handoff — S1315 R03 Tapered trouser app candidate, locally verified; hosted PR pending
+## EPIC-32/G18 current architecture handoff — S1321 R05 Bootcut trouser app candidate, local review passed; hosted PR pending
+
+R05 is a separate digital Starter Blank over the existing four-panel `trouser` recipe. Its stable starter identity is `trouser-bootcut-digital-v1`, with the contracted R01-derived measurement defaults, 7 cm ease, 78 cm inseam and a 52 cm editable leg opening. These are software defaults; no sourced Bootcut or footwear dimensions are implied.
+
+Only the R05 starter identity enables the knee-centered flare. It reuses the existing knee station and panel seams: at the default 45 cm finished knee and 52 cm opening, each front/back panel widens symmetrically by 0.875 cm at each endpoint. Generic Trouser and R01–R04 retain their existing geometry. The private runtime route marker is derived from the saved starter identity and is removed before save and source-package output; choosing generic Trouser clears the R05 identity while retaining shared editable values.
+
+R05 has its own identity-scoped Bootcut style target and display/output labels. When the opening is equal to or narrower than the finished knee, the entered value stays visible, actionable guidance explains the constraint, and drafting/exports are blocked. A valid wider opening restores the route without clamping or changing other options. Pattern view, technical flats, POMs, SVG, DXF, tiled A4 PDF, A0 PDF, Tech Pack PDF, Projector SVG and the available CAD source package use the same profile identity.
+
+The local candidate passed 128 focused tests, 100% four-metric coverage for the changed domain modules, the production build, 390 px UI review and generated-output review. R05 remains uncredited at 52/56 while the hosted global gate, merge, exact-main release/deployment and stable/immutable live acceptance are pending. The Tech Pack and Projector state that no sewn sample, boot clearance, physical fit, comfort, wear, material behavior, validated grading, B1, supplier suitability or production readiness is established.
+
+## Previous EPIC-32/G18 architecture handoff — S1315 R03 Tapered trouser app candidate
 
 R03 reuses the existing `trouser` recipe. Its stable identity is `trouser-tapered-digital-v1`, with STANDARD_M, ease 7 cm, inseam 78 cm, and leg opening 36 cm; current formulas yield digital finished thigh/knee/opening values of 66/45/36 cm. A non-overlapping Tapered style band distinguishes the profile from generic Trouser, R01 Classic straight, and R02 Wide-leg.
 

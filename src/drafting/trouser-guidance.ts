@@ -13,6 +13,7 @@ import {
   resolveTrouserOptions,
   TROUSER_TAPERED_PROFILE_ROUTE_KEY,
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
+  TROUSER_BOOTCUT_PROFILE_ROUTE_KEY,
   TrouserOptions,
 } from "./trouser-contract";
 import { trouserMetrics, trouserPocketGuidance } from "./trouser";
@@ -25,6 +26,7 @@ function optionRangeNotes(options: TrouserOptions): Note[] {
     const value = options[definition.id as Exclude<
       keyof TrouserOptions,
       typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY | typeof TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY
+        | typeof TROUSER_BOOTCUT_PROFILE_ROUTE_KEY
     >];
     if (typeof value !== "number" || !Number.isFinite(value) || value < definition.min || value > definition.max) {
       notes.push({
@@ -109,18 +111,23 @@ export function trouserGuidance(
     });
   }
   const isBarrelLeg = options[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY] === 1;
-  if (isBarrelLeg
+  const isBootcut = options[TROUSER_BOOTCUT_PROFILE_ROUTE_KEY] === 1;
+  if (isBootcut
+    ? options.legOpening <= metrics.finishedKnee
+    : isBarrelLeg
     ? metrics.finishedKnee <= options.legOpening
     : metrics.finishedKnee < options.legOpening) {
     notes.push({
       field: "option-legOpening",
       level: "warn",
-      text: isBarrelLeg
+      text: isBootcut
+        ? `Bootcut opening (${options.legOpening} cm) must be wider than the finished knee (${metrics.finishedKnee.toFixed(1)} cm) — increase the opening or reduce knee ease to restore the flare.`
+        : isBarrelLeg
         ? "Barrel-leg opening (" + options.legOpening + " cm) must be smaller than the finished knee (" + metrics.finishedKnee.toFixed(1) + " cm) — reduce the opening or increase knee girth/ease to retain the ankle taper."
         : "Leg opening (" + options.legOpening + " cm) is wider than the finished knee (" + metrics.finishedKnee.toFixed(1) + " cm) — reduce the opening or increase knee girth/ease for a straight leg.",
     });
   }
-  if (metrics.finishedKnee - options.legOpening > 12) {
+  if (!isBootcut && metrics.finishedKnee - options.legOpening > 12) {
     notes.push({
       field: "option-legOpening",
       level: "warn",

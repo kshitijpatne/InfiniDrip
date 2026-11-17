@@ -4,8 +4,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob, Buffer } from "node:buffer";
 import { createHash, webcrypto } from "node:crypto";
 import { mountApp, unmountApp } from "./app";
-import { STARTER_REGISTRY, TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
-import { TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { STARTER_REGISTRY, TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
+import { TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 
 const mountedRoots = new Set<HTMLDivElement>();
 type TrackedListener = { type: string; listener: EventListenerOrEventListenerObject; options?: boolean | AddEventListenerOptions };
@@ -730,4 +730,142 @@ describe("R04 Barrel-leg trouser starter app", () => {
       reopened?.remove();
     }
   });
+});
+
+describe("R05 Bootcut trouser starter app", () => {
+  it("routes the selected identity through editing, invalid recovery, outputs, save/reopen and generic Trouser", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    try {
+      root = mount();
+      clickId(root, "welcome-start");
+      clickId(root, "garment-trouser");
+      clickId(root, "starter-" + TROUSER_BOOTCUT_ENTRY_ID);
+      expect(root.querySelector<HTMLButtonElement>('[data-starter-entry-id="' + TROUSER_BOOTCUT_ENTRY_ID + '"]')?.getAttribute("aria-pressed")).toBe("true");
+      expect(root.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Bootcut trouser");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")?.value).toBe("Bootcut trouser");
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("You're making a Bootcut trouser");
+      expect(root.querySelector<HTMLElement>("#starter-origin-status")?.textContent)
+        .toContain("Starting design: Bootcut trouser · software defaults");
+      expect(Object.fromEntries([...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-field]")]
+        .map((input) => [input.dataset.field, input.value]))).toMatchObject({
+        waist: "84", hip: "100", thigh: "58", knee: "40", inseam: "78", ease: "7",
+      });
+      expect(root.querySelector<HTMLInputElement>('input[data-option="thighEase"]')?.value).toBe("8");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="kneeEase"]')?.value).toBe("5");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="legOpening"]')?.value).toBe("52");
+      expect(root.querySelector<HTMLElement>("#controls-panel")?.textContent).not.toContain(TROUSER_BOOTCUT_PROFILE_ROUTE_KEY);
+
+      clickId(root, "view-pattern");
+      const defaultPattern = root.querySelector<SVGSVGElement>("#inspection-content svg")?.outerHTML ?? "";
+      expect(defaultPattern).toContain("TROUSER FRONT LEFT");
+      expect(defaultPattern).not.toBe("");
+      expect(setOption(root, "legOpening", "54").value).toBe("54");
+      const editedPattern = root.querySelector<SVGSVGElement>("#inspection-content svg")?.outerHTML ?? "";
+      expect(editedPattern).not.toBe(defaultPattern);
+      expect(editedPattern).toContain("TROUSER FRONT LEFT");
+
+      reachExportStage(root);
+      for (const opening of ["45", "44"]) {
+        const invalidOpening = setOption(root, "legOpening", opening);
+        expect(invalidOpening.value).toBe(opening);
+        expect(root.querySelector<HTMLElement>("#guidance-host")?.textContent)
+          .toContain("Bootcut opening (" + opening + " cm) must be wider than the finished knee (45.0 cm)");
+        expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+      }
+      const recovered = setOption(root, "legOpening", "54");
+      expect(recovered.value).toBe("54");
+      expect(recovered.getAttribute("aria-invalid")).not.toBe("true");
+      clickId(root, "journey-step-fit");
+      clickId(root, "journey-next");
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(false);
+
+      const advanced = root.querySelector<HTMLDetailsElement>("#advanced-views");
+      expect(advanced).not.toBeNull();
+      advanced!.open = true;
+      clickId(root, "view-flat");
+      clickId(root, "technical-flat-front");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='FRONT_FLAT']")).not.toBeNull();
+      clickId(root, "technical-flat-back");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='BACK_FLAT']")).not.toBeNull();
+      expect(root.querySelector<HTMLButtonElement>("#export-dxf-source-package")?.disabled).toBe(false);
+
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector", "export-dxf-source-package"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(7), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "bootcut-trouser-M-A0.pdf",
+        "bootcut-trouser-M-cad-exchange-source.json",
+        "bootcut-trouser-M.dxf",
+        "bootcut-trouser-M.pdf",
+        "bootcut-trouser-M.svg",
+        "bootcut-trouser-projector.svg",
+        "bootcut-trouser-techpack.pdf",
+      ].sort());
+      expect(files.get("bootcut-trouser-M.svg")).toContain("<svg");
+      expect(files.get("bootcut-trouser-M.dxf")).toContain("SECTION");
+      expect(files.get("bootcut-trouser-M.pdf")).toMatch(/^%PDF/);
+      expect(files.get("bootcut-trouser-M-A0.pdf")).toMatch(/^%PDF/);
+      const techPackText = visiblePdfText(files.get("bootcut-trouser-techpack.pdf")!);
+      expect(techPackText).toContain("Digital R05 Bootcut trouser profile");
+      expect(techPackText).toContain("54 cm opening and knee-starting flare");
+      expect(techPackText).toContain("not footwear measurements or fit targets");
+      expect(techPackText).toContain("No sewn sample");
+      expect(files.get("bootcut-trouser-projector.svg")).toContain("Digital R05 Bootcut trouser");
+      expect(files.get("bootcut-trouser-projector.svg")).toContain("not footwear measurements or fit claims");
+      const packageJson = JSON.parse(files.get("bootcut-trouser-M-cad-exchange-source.json")!) as {
+        manifest: { options: Record<string, number>; recipe: { id: string; label: string } };
+      };
+      expect(packageJson.manifest.options.legOpening).toBe(54);
+      expect(packageJson.manifest.options).not.toHaveProperty(TROUSER_BOOTCUT_PROFILE_ROUTE_KEY);
+      expect(packageJson.manifest.recipe).toEqual({ id: "trouser", label: "Bootcut trouser" });
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; entryRevision: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.trouser).toMatchObject({ thighEase: 8, kneeEase: 5, legOpening: 54 });
+      expect(saved.garmentOptions.trouser).not.toHaveProperty(TROUSER_BOOTCUT_PROFILE_ROUTE_KEY);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TROUSER_BOOTCUT_ENTRY_ID,
+        entryRevision: "2026-11-17.1",
+        recipeRevision: "trouser-bootcut-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Bootcut trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="legOpening"]')?.value).toBe("54");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="thighEase"]')?.value).toBe("8");
+      clickId(reopened, "garment-trouser");
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Trouser");
+      expect(reopened.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(true);
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="legOpening"]')?.value).toBe("54");
+      expect(reopened.querySelector<HTMLSelectElement>("#style-target")?.value).not.toBe("Bootcut trouser");
+      clickId(reopened, "save-pattern");
+      const genericSaved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+      };
+      expect(genericSaved.garmentOptions.trouser).toMatchObject({ legOpening: 54, thighEase: 8, kneeEase: 5 });
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty(TROUSER_BOOTCUT_PROFILE_ROUTE_KEY);
+    } finally {
+      restoreSvgTextMetrics();
+      root?.remove();
+      reopened?.remove();
+    }
+  }, 60_000);
 });
