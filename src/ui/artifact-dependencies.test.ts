@@ -6,8 +6,13 @@ import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg, expor
 import { DEFAULT_WOVEN_SHIRT_OPTIONS } from "../drafting/shirt-contract";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import { TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY } from "../drafting/tank";
-import { TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
-import { TROUSER_TAPERED_ENTRY_ID } from "./starter-registry";
+import {
+  TROUSER_BARREL_BOW_OPTION,
+  TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
+  TROUSER_OPTION_DEFINITIONS,
+  TROUSER_TAPERED_PROFILE_ROUTE_KEY,
+} from "../drafting/trouser-contract";
+import { TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID } from "./starter-registry";
 import {
   assertFieldArtifactCoverage,
   describeFieldArtifactImpact,
@@ -29,6 +34,14 @@ function defaultOptions(recipeName: string, starterEntryId?: string, style?: str
   // The real N08 path derives this internal route marker from the saved starter identity.
   if (recipeName === "trouser" && starterEntryId === TROUSER_TAPERED_ENTRY_ID) {
     return { ...options, legOpening: 36, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 };
+  }
+  if (recipeName === "trouser" && starterEntryId === TROUSER_BARREL_LEG_ENTRY_ID) {
+    return {
+      ...options,
+      legOpening: 38,
+      [TROUSER_BARREL_BOW_OPTION.id]: TROUSER_BARREL_BOW_OPTION.defaultValue,
+      [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1,
+    };
   }
   return recipeName === "tank" && starterEntryId === TANK_N08_ENTRY_ID
     ? { ...options, [TANK_N08_PROFILE_ROUTE_KEY]: 1 }
@@ -65,7 +78,8 @@ function derivedOutputs(recipeName: string, options: GarmentOptions, measurement
 describe("field-to-artifact invalidation graph", () => {
   it("covers every measurement and construction option across all eleven recipes exactly once", () => {
     assertFieldArtifactCoverage();
-    const total = GARMENTS.reduce((sum, recipe) => sum + recipe.fields.length + (recipe.options?.length ?? 0), 0);
+    const total = GARMENTS.reduce((sum, recipe) => sum + recipe.fields.length
+      + (recipe.name === "trouser" ? TROUSER_OPTION_DEFINITIONS.length : recipe.options?.length ?? 0), 0);
     expect(getAllFieldDefinitions()).toHaveLength(total);
     for (const recipe of GARMENTS) {
       const definitions = getFieldDefinitions(recipe.name);
@@ -118,12 +132,13 @@ describe("field-to-artifact invalidation graph", () => {
   it("probes every field against the real recipe draft and records hem-turn cut dependencies", () => {
     for (const recipe of GARMENTS) {
       for (const definition of getFieldDefinitions(recipe.name)) {
-        const starterEntryId = definition.inputKind === "option"
-          ? recipe.options?.find((option) => option.id === definition.inputKey)?.appliesToStarterEntryId
+        const optionDefinition = definition.inputKind === "option"
+          ? recipe.options?.find((option) => option.id === definition.inputKey)
+            ?? (recipe.name === "trouser" && definition.inputKey === TROUSER_BARREL_BOW_OPTION.id
+              ? TROUSER_BARREL_BOW_OPTION : undefined)
           : undefined;
-        const style = definition.inputKind === "option"
-          ? recipe.options?.find((option) => option.id === definition.inputKey)?.appliesToStyle
-          : undefined;
+        const starterEntryId = optionDefinition?.appliesToStarterEntryId;
+        const style = optionDefinition?.appliesToStyle;
         const options = defaultOptions(recipe.name, starterEntryId, style);
         const baselineBlock = recipe.draft(STANDARD_M, options);
         const dependency = getFieldArtifactDependency(recipe.name, definition.inputKind, definition.inputKey)!;
@@ -140,6 +155,30 @@ describe("field-to-artifact invalidation graph", () => {
           ? { ...options, [definition.inputKey]: changed }
           : options;
         const nextBlock = recipe.draft(nextMeasurements, nextOptions);
+        if (recipe.name === "trouser" && definition.inputKey === TROUSER_BARREL_BOW_OPTION.id) {
+          expect(starterEntryId).toBe(TROUSER_BARREL_LEG_ENTRY_ID);
+          expect(options).toMatchObject({
+            [TROUSER_BARREL_BOW_OPTION.id]: TROUSER_BARREL_BOW_OPTION.defaultValue,
+            [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1,
+          });
+          expect(nextBlock).not.toEqual(baselineBlock);
+          expect(dependency.affected.map((artifact) => artifact.id)).toEqual([
+            "pattern", "pom-spec", "grade-run", "nesting", "views", "garment-exports",
+          ]);
+          expect(dependency.unaffected.map((artifact) => artifact.id)).toEqual(["surface-sheet-svg"]);
+          expect(dependency.notRepresented).toEqual([]);
+          const baselineOutputs = derivedOutputs(recipe.name, options);
+          const changedOutputs = derivedOutputs(recipe.name, nextOptions);
+          expect(changedOutputs.pattern).not.toEqual(baselineOutputs.pattern);
+          expect(changedOutputs.grade).not.toEqual(baselineOutputs.grade);
+          expect(changedOutputs.nesting).not.toEqual(baselineOutputs.nesting);
+          const outseamLabel = "Outseam (finished incl. waistband)";
+          expect(changedOutputs.pomSpec.find((pom) => pom.label === outseamLabel)?.values)
+            .not.toEqual(baselineOutputs.pomSpec.find((pom) => pom.label === outseamLabel)?.values);
+          expect(changedOutputs.pomSpec.filter((pom) => pom.label !== outseamLabel))
+            .toEqual(baselineOutputs.pomSpec.filter((pom) => pom.label !== outseamLabel));
+          continue;
+        }
         if (recipe.name === "jogger" && definition.inputKey === "drawcordLength") {
           const dependency = getFieldArtifactDependency(recipe.name, definition.inputKind, definition.inputKey)!;
           expect(nextBlock).toEqual(baselineBlock);

@@ -11,7 +11,11 @@ import type { TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { cubicPoint } from "../geometry";
 import { transformFlatPoint } from "./technical-flat-transform";
-import { TROUSER_OPTION_DEFINITIONS } from "../drafting/trouser-contract";
+import {
+  TROUSER_BARREL_BOW_OPTION,
+  TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
+  TROUSER_SHARED_OPTION_DEFINITIONS,
+} from "../drafting/trouser-contract";
 import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection";
 import { draftJogger } from "../drafting/jogger";
 import { SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
@@ -108,15 +112,33 @@ describe("assembleTechnicalFlatRoles", () => {
     const baseOptions = defaultGarmentOptions(TROUSER.options ?? []);
     const fixtures: Array<{ readonly name: string; readonly options: Record<string, number> }> = [
       { name: "default", options: baseOptions },
-      ...TROUSER_OPTION_DEFINITIONS.flatMap((definition) => [
+      ...TROUSER_SHARED_OPTION_DEFINITIONS.flatMap((definition) => [
         { name: `${definition.id}-min`, options: { ...baseOptions, [definition.id]: definition.min } },
         { name: `${definition.id}-max`, options: { ...baseOptions, [definition.id]: definition.max } },
       ]),
       { name: "combined-supported", options: {
         ...baseOptions, frontRiseEase: 2, backRiseEase: 11, thighEase: 10, kneeEase: 7, legOpening: 48,
       } },
+      {
+        name: "R04-barrelBowCm-min",
+        options: {
+          ...baseOptions,
+          legOpening: 38,
+          [TROUSER_BARREL_BOW_OPTION.id]: TROUSER_BARREL_BOW_OPTION.min,
+          [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1,
+        },
+      },
+      {
+        name: "R04-barrelBowCm-max",
+        options: {
+          ...baseOptions,
+          legOpening: 38,
+          [TROUSER_BARREL_BOW_OPTION.id]: TROUSER_BARREL_BOW_OPTION.max,
+          [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1,
+        },
+      },
     ];
-    expect(fixtures).toHaveLength(24);
+    expect(fixtures).toHaveLength(26);
 
     for (const fixture of fixtures) {
       const source = TROUSER.draft(STANDARD_M, fixture.options);
@@ -571,9 +593,9 @@ describe("assembleTechnicalFlatRoles", () => {
   });
 
   it("keeps source intervals and rigid attachments valid at every Trouser option endpoint", () => {
-    for (const option of TROUSER_OPTION_DEFINITIONS) {
+    for (const option of TROUSER_SHARED_OPTION_DEFINITIONS) {
       for (const value of [option.min, option.max]) {
-        const options = { ...defaultGarmentOptions(TROUSER_OPTION_DEFINITIONS), [option.id]: value };
+        const options = { ...defaultGarmentOptions(TROUSER_SHARED_OPTION_DEFINITIONS), [option.id]: value };
         const source = TROUSER.draft(STANDARD_M, options);
         const stitch = source.stitches.find((candidate) => candidate.label === "Waistband (four legs ↔ separate waistband)")!;
         const waistLengths = stitch.a.edges.map((ref) => {
@@ -598,6 +620,27 @@ describe("assembleTechnicalFlatRoles", () => {
             expect(fragment.sourceInterval[1]).toBeCloseTo(1 - prefix / totalWaist, 12);
           }
         }
+      }
+    }
+  });
+
+  it("keeps R04 waist-fragment placement valid at both barrel-curve control endpoints", () => {
+    const baseOptions = {
+      ...defaultGarmentOptions(TROUSER_SHARED_OPTION_DEFINITIONS),
+      legOpening: 38,
+      [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1,
+    };
+    for (const value of [TROUSER_BARREL_BOW_OPTION.min, TROUSER_BARREL_BOW_OPTION.max]) {
+      const options = { ...baseOptions, [TROUSER_BARREL_BOW_OPTION.id]: value };
+      const source = TROUSER.draft(STANDARD_M, options);
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const result = assembleTechnicalFlatRoles("trouser", source, kind);
+        expect(result.issues, `R04 barrelBowCm=${value}.${kind}`).toEqual([]);
+        expect(result.sourceFragments, `R04 barrelBowCm=${value}.${kind}`).toHaveLength(2);
+        expect(result.sourceFragments.every((fragment) => fragment.sourceInterval[0] >= 0
+          && fragment.sourceInterval[1] <= 1 && fragment.sourceInterval[0] < fragment.sourceInterval[1]
+          && Number.isFinite(fragment.transform.offset.x) && Number.isFinite(fragment.transform.offset.y)
+          && Number.isFinite(fragment.transform.rotationDegrees))).toBe(true);
       }
     }
   });
