@@ -3,7 +3,8 @@ import { DEFAULT_APPEARANCE } from "./appearance";
 import { FITTED_PRINCESS_ENTRY_ID, GARMENTS, HOODIE_FIELDS, HOODIE_OPTION_DEFINITIONS, JEANS_FIELDS, STANDARD_M, TANK_RACERBACK_BACK_CUT_IN_OPTION_ID, TANK_RACERBACK_ENTRY_ID, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
 import { DEFAULT_WORKSPACE, deserializeRecovery, serialize, serializeRecovery } from "./persist";
 import { migrateLegacySaveFile, type RecoveryPayload, type StyleRecord } from "./project-records";
-import { starterEntryById, starterOriginForEntry } from "./starter-registry";
+import { TROUSER_BARREL_LEG_ENTRY_ID, starterEntryById, starterOriginForEntry } from "./starter-registry";
+import { TROUSER_OPTION_DEFINITIONS } from "../drafting/trouser-contract";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
 import {
   appendRecoveryFieldObservations,
@@ -88,7 +89,8 @@ describe("C03 field definitions and append-only observations", () => {
     expect(GARMENTS).toHaveLength(12);
     expect(() => assertRecipeFieldCoverage()).not.toThrow();
     expect(getAllFieldDefinitions().length).toBe(
-      GARMENTS.reduce((sum, recipe) => sum + recipe.fields.length + (recipe.options?.length ?? 0), 0),
+      GARMENTS.reduce((sum, recipe) => sum + recipe.fields.length
+        + (recipe.name === "trouser" ? TROUSER_OPTION_DEFINITIONS.length : recipe.options?.length ?? 0), 0),
     );
     for (const recipe of GARMENTS) {
       const definitions = getFieldDefinitions(recipe.name);
@@ -143,6 +145,63 @@ describe("C03 field definitions and append-only observations", () => {
     expect(reconciledPlain.observations.some((observation) => observation.inputKey === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID)).toBe(false);
     expect(recoveredRacerback.observations.some((observation) => observation.inputKey === TANK_RACERBACK_BACK_CUT_IN_OPTION_ID)).toBe(true);
     expect(currentFieldObservation(reconciledRacerback, option!)?.canonicalValue).toBe(4.5);
+  });
+
+  it("records the R04-only Trouser curve control without adding it to generic or capture inputs", () => {
+    const definition = getFieldDefinition("trouser", "barrelBowCm", "option", TROUSER_BARREL_LEG_ENTRY_ID);
+    expect(definition).toMatchObject({
+      id: "style.trouser.barrel-bow-cm",
+      semanticKind: "STYLE_CONTROL",
+      referenceFrame: "design-control",
+      min: 0.5,
+      max: 4,
+      step: 0.5,
+      defaultValue: 2,
+    });
+    expect(getFieldDefinition("trouser", "barrelBowCm", "option", null)).toBeUndefined();
+    expect(getFieldDefinitions("trouser")).toContainEqual(definition);
+    expect(getCaptureFieldDefinitions("trouser").some((field) => field.inputKey === "barrelBowCm")).toBe(false);
+
+    const plainTrouser = styleFor("trouser");
+    const entry = starterEntryById(TROUSER_BARREL_LEG_ENTRY_ID)!;
+    const barrelLeg: StyleRecord = {
+      ...plainTrouser,
+      design: {
+        ...plainTrouser.design,
+        measurements: { ...plainTrouser.design.measurements, ...entry.configuration.measurements },
+        workspace: {
+          ...plainTrouser.design.workspace,
+          targetStyle: entry.configuration.targetStyle,
+          starterOrigin: starterOriginForEntry(entry),
+        },
+        garmentOptions: {
+          ...plainTrouser.design.garmentOptions,
+          trouser: { ...entry.configuration.options },
+        },
+      },
+    };
+    const initial = createFieldObservationRecord(barrelLeg, TIME, "first-run-default");
+    expect(currentFieldObservation(initial, definition!)).toMatchObject({ rawValue: "2", canonicalValue: 2 });
+    const recovered = recoveryFor(barrelLeg, { rawOptions: { trouser: { barrelBowCm: "3" } } });
+    const changedPayload: RecoveryPayload = {
+      ...recovered,
+      garmentOptions: {
+        ...recovered.garmentOptions,
+        trouser: { ...recovered.garmentOptions.trouser, barrelBowCm: 3 },
+      },
+    };
+    const next = appendRecoveryFieldObservations(
+      initial,
+      barrelLeg,
+      changedPayload,
+      "2026-09-24T16:00:01.000Z",
+      { recipeId: "trouser", inputKind: "option", inputKey: "barrelBowCm" },
+    );
+    expect(currentFieldObservation(next, definition!)).toMatchObject({
+      rawValue: "3",
+      canonicalValue: 3,
+      provenance: "USER_SELECTED",
+    });
   });
 
   it("builds Hoodie measurement and option provenance from its recipe-owned contract", () => {

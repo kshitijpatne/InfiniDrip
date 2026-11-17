@@ -8,8 +8,12 @@ export const TROUSER_FIELDS = [
   "waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease",
 ] as const satisfies readonly (keyof Measurements)[];
 
-/** Internal geometry route derived from the selected R03 starter identity. */
+/** Stable R04 registry identity shared by the drafting and app boundaries. */
+export const TROUSER_BARREL_LEG_ENTRY_ID = "trouser-barrel-leg-digital-v1" as const;
+
+/** Internal geometry routes are derived from the selected saved starter identity. */
 export const TROUSER_TAPERED_PROFILE_ROUTE_KEY = "__trouserTaperedProfile" as const;
+export const TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY = "__trouserBarrelLegProfile" as const;
 
 export interface TrouserOptions {
   readonly frontRiseEase: number;
@@ -23,8 +27,24 @@ export interface TrouserOptions {
   readonly pocketAngle: number;
   readonly pocketBagDepth: number;
   readonly pocketDrop: number;
+  readonly barrelBowCm?: number;
   readonly [TROUSER_TAPERED_PROFILE_ROUTE_KEY]?: 1;
+  readonly [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]?: 1;
 }
+
+export const TROUSER_BARREL_BOW_OPTION: GarmentOption = {
+  id: "barrelBowCm",
+  label: "Barrel-leg curve",
+  unit: "cm",
+  group: "Leg fit",
+  help: "Sets the digital outer-leg curve control offset; it is not a body measurement, ease or fit target.",
+  appliesToStarterEntryId: TROUSER_BARREL_LEG_ENTRY_ID,
+  preserveInvalidWhenRestored: true,
+  defaultValue: 2,
+  min: 0.5,
+  max: 4,
+  step: 0.5,
+};
 
 /** V1 construction dimensions. Ranges are visible guardrails; live controls
  * retain an invalid value and let guidance explain how to correct it. */
@@ -40,10 +60,17 @@ export const TROUSER_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "pocketAngle", label: "Pocket angle", unit: "°", group: "Pocket", help: "Sets the opening angle down from the side waist; reduce it if the opening approaches the front rise or centre front.", defaultValue: 58, min: 35, max: 70, step: 1 },
   { id: "pocketBagDepth", label: "Pocket bag depth", unit: "cm", group: "Pocket", help: "Sets the pocket bag depth; reduce it if the bag reaches the hem or knee region.", defaultValue: 23, min: 12, max: 35, step: 0.5 },
   { id: "pocketDrop", label: "Pocket drop", unit: "cm", group: "Pocket", help: "Moves the pocket opening below the waistband; keep the opening inside the front panel.", defaultValue: 2, min: 0, max: 15, step: 0.5 },
+  TROUSER_BARREL_BOW_OPTION,
 ];
 
+/** Options available to the shared Trouser recipe; profile-only controls enter
+ * through the selected starter identity in the app. */
+export const TROUSER_SHARED_OPTION_DEFINITIONS = TROUSER_OPTION_DEFINITIONS.filter(
+  (definition) => definition.appliesToStarterEntryId === undefined,
+);
+
 export const DEFAULT_TROUSER_OPTIONS: TrouserOptions = Object.fromEntries(
-  TROUSER_OPTION_DEFINITIONS.map((definition) => [definition.id, definition.defaultValue])
+  TROUSER_SHARED_OPTION_DEFINITIONS.map((definition) => [definition.id, definition.defaultValue])
 ) as unknown as TrouserOptions;
 
 function finiteOr(value: number | undefined, fallback: number): number {
@@ -53,10 +80,17 @@ function finiteOr(value: number | undefined, fallback: number): number {
 /** Preserve finite work-in-progress option values verbatim. Range guidance is
  * deliberately separate so an invalid combination remains visible. */
 export function resolveTrouserOptions(values: Partial<TrouserOptions> = {}): TrouserOptions {
-  const options = Object.fromEntries(TROUSER_OPTION_DEFINITIONS.map((definition) => [
+  const options = Object.fromEntries(TROUSER_SHARED_OPTION_DEFINITIONS.map((definition) => [
     definition.id,
     finiteOr(values[definition.id as keyof TrouserOptions], definition.defaultValue),
   ])) as unknown as TrouserOptions;
+  if (values[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY] === 1) {
+    return {
+      ...options,
+      barrelBowCm: values.barrelBowCm === undefined ? TROUSER_BARREL_BOW_OPTION.defaultValue : values.barrelBowCm,
+      [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1,
+    };
+  }
   return values[TROUSER_TAPERED_PROFILE_ROUTE_KEY] === 1
     ? { ...options, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 }
     : options;

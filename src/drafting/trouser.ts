@@ -8,7 +8,7 @@
 // profile are shared so the sewn inseams and side seams match exactly. It is a
 // coherent approximation, not a universal fit formula.
 
-import { point } from "../geometry";
+import { cubicPoint, point } from "../geometry";
 import { Block, block, rolePiece } from "./block";
 import { Edge, Piece } from "./piece";
 import { lineMark, pointMark, PatternMark } from "./pattern-mark";
@@ -20,6 +20,7 @@ import {
   DEFAULT_TROUSER_OPTIONS,
   resolveTrouserOptions,
   TROUSER_TAPERED_PROFILE_ROUTE_KEY,
+  TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TROUSER_OPTION_DEFINITIONS,
   TrouserOptions,
 } from "./trouser-contract";
@@ -129,12 +130,57 @@ function legPiece(
   const sideThigh = p.sideThigh;
   const sideKnee = p.sideKnee;
   const sideHem = p.sideHem;
+  const barrelLeg = options[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY] === 1;
+  const barrelBow = options.barrelBowCm ?? 2;
+  const upperSideSlope = sideKnee.y === sideThigh.y ? 0
+    : (sideKnee.x - sideThigh.x) / (sideKnee.y - sideThigh.y);
+  const lowerSideSlope = sideHem.y === sideKnee.y ? 0
+    : (sideHem.x - sideKnee.x) / (sideHem.y - sideKnee.y);
+  const kneeSideSlope = (upperSideSlope + lowerSideSlope) / 2;
+  const upperSideHeight = sideKnee.y - sideThigh.y;
+  const lowerSideHeight = sideHem.y - sideKnee.y;
+  const sideThighToKnee: Edge = barrelLeg
+    ? {
+        kind: "curve",
+        name: "sideThighToKnee",
+        curve: {
+          start: sideThigh,
+          control1: point(
+            sideThigh.x + (sideKnee.x - sideThigh.x) / 3 + barrelBow,
+            sideThigh.y + upperSideHeight / 3,
+          ),
+          control2: point(
+            sideKnee.x - kneeSideSlope * upperSideHeight / 3,
+            sideKnee.y - upperSideHeight / 3,
+          ),
+          end: sideKnee,
+        },
+      }
+    : { kind: "line", name: "sideThighToKnee", start: sideThigh, end: sideKnee };
+  const sideKneeToHem: Edge = barrelLeg
+    ? {
+        kind: "curve",
+        name: "sideKneeToHem",
+        curve: {
+          start: sideKnee,
+          control1: point(
+            sideKnee.x + kneeSideSlope * lowerSideHeight / 3,
+            sideKnee.y + lowerSideHeight / 3,
+          ),
+          control2: point(
+            sideHem.x - (sideHem.x - sideKnee.x) / 3 + barrelBow,
+            sideHem.y - lowerSideHeight / 3,
+          ),
+          end: sideHem,
+        },
+      }
+    : { kind: "line", name: "sideKneeToHem", start: sideKnee, end: sideHem };
   const edges: Edge[] = [
     { kind: "line", name: "waist", start: point(0, 0), end: p.sideWaist },
     { kind: "line", name: "sideUpper", start: p.sideWaist, end: p.sideHip },
     { kind: "line", name: "sideHipToThigh", start: p.sideHip, end: sideThigh },
-    { kind: "line", name: "sideThighToKnee", start: sideThigh, end: sideKnee },
-    { kind: "line", name: "sideKneeToHem", start: sideKnee, end: sideHem },
+    sideThighToKnee,
+    sideKneeToHem,
     { kind: "line", name: "hem", start: sideHem, end: p.innerHem },
     { kind: "line", name: "inseamLower", start: p.innerHem, end: p.innerKnee },
     { kind: "line", name: "inseamUpper", start: p.innerKnee, end: p.innerThigh },
@@ -615,14 +661,29 @@ export const TROUSER_NOTCHES: readonly PieceNotches[] = [
 
 function sideBoundaryXAtY(piece: Piece, y: number): number | null {
   for (const edge of piece.edges) {
-    if (!edge.name.startsWith("side") || edge.kind !== "line") continue;
-    const low = Math.min(edge.start.y, edge.end.y);
-    const high = Math.max(edge.start.y, edge.end.y);
+    if (!edge.name.startsWith("side")) continue;
+    const start = edge.kind === "line" ? edge.start : edge.curve.start;
+    const end = edge.kind === "line" ? edge.end : edge.curve.end;
+    const low = Math.min(start.y, end.y);
+    const high = Math.max(start.y, end.y);
     if (y < low || y > high) continue;
-    const dy = edge.end.y - edge.start.y;
-    if (Math.abs(dy) < 1e-9) continue;
-    const t = (y - edge.start.y) / dy;
-    return edge.start.x + (edge.end.x - edge.start.x) * t;
+    if (edge.kind === "line") {
+      const dy = edge.end.y - edge.start.y;
+      if (Math.abs(dy) < 1e-9) continue;
+      const t = (y - edge.start.y) / dy;
+      return edge.start.x + (edge.end.x - edge.start.x) * t;
+    }
+    if (Math.abs(edge.curve.end.y - edge.curve.start.y) < 1e-9) continue;
+    let lowT = 0;
+    let highT = 1;
+    const increasing = edge.curve.end.y > edge.curve.start.y;
+    for (let iteration = 0; iteration < 32; iteration++) {
+      const middleT = (lowT + highT) / 2;
+      const middle = cubicPoint(edge.curve, middleT);
+      if ((middle.y < y) === increasing) lowT = middleT;
+      else highT = middleT;
+    }
+    return cubicPoint(edge.curve, (lowT + highT) / 2).x;
   }
   return null;
 }
@@ -641,8 +702,11 @@ export function trouserPocketGuidance(
   const options = resolveTrouserOptions(rawOptions);
   const notes: Note[] = [];
   for (const definition of TROUSER_OPTION_DEFINITIONS.filter((d) => d.group === "Pocket")) {
-    const value = options[definition.id as Exclude<keyof TrouserOptions, typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY>];
-    if (value < definition.min || value > definition.max) {
+    const value = options[definition.id as Exclude<
+      keyof TrouserOptions,
+      typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY | typeof TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY
+    >];
+    if (typeof value !== "number" || !Number.isFinite(value) || value < definition.min || value > definition.max) {
       notes.push({
         field: `option-${definition.id}`,
         level: "warn",

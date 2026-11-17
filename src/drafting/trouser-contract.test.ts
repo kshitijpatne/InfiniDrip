@@ -4,7 +4,10 @@ import {
   DEFAULT_TROUSER_OPTIONS,
   resolveTrouserOptions,
   TROUSER_FIELDS,
+  TROUSER_BARREL_BOW_OPTION,
+  TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TROUSER_OPTION_DEFINITIONS,
+  TROUSER_SHARED_OPTION_DEFINITIONS,
 } from "./trouser-contract";
 
 describe("trouser contract", () => {
@@ -17,8 +20,12 @@ describe("trouser contract", () => {
   });
 
   it("has a complete option table with defaults in each declared range", () => {
-    expect(TROUSER_OPTION_DEFINITIONS).toHaveLength(11);
-    for (const definition of TROUSER_OPTION_DEFINITIONS) {
+    expect(TROUSER_SHARED_OPTION_DEFINITIONS).toHaveLength(11);
+    expect(TROUSER_OPTION_DEFINITIONS).toHaveLength(12);
+    expect(TROUSER_OPTION_DEFINITIONS).toContain(TROUSER_BARREL_BOW_OPTION);
+    expect(TROUSER_BARREL_BOW_OPTION.appliesToStarterEntryId).toBe("trouser-barrel-leg-digital-v1");
+    expect(resolveTrouserOptions({ [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 }).barrelBowCm).toBe(2);
+    for (const definition of TROUSER_SHARED_OPTION_DEFINITIONS) {
       expect(definition.min).toBeLessThan(definition.defaultValue);
       expect(definition.defaultValue).toBeLessThan(definition.max);
       expect(["cm", "°"]).toContain(definition.unit);

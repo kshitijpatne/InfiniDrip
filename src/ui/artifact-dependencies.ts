@@ -78,7 +78,6 @@ const TANK_SHOULDER_CURRENTLY_AFFECTED = Object.freeze([
     label: "the body/assembled illustration and shoulder-width guidance/check status",
   }),
 ]);
-
 export interface FieldArtifactDependency {
   readonly recipeId: string;
   readonly inputKind: FieldInputKind;
@@ -110,30 +109,30 @@ export function getFieldArtifactDependency(
   const isPreviewOnlyInput = isTankShoulderWidth;
   const affected = isWovenHemTurn
     ? WOVEN_HEM_TURN_AFFECTED
-    : isTankShoulderWidth
-      ? TANK_SHOULDER_CURRENTLY_AFFECTED
-      : isWovenButtonCount
-        ? BUTTON_COUNT_AFFECTED
-        : isWovenButtonSpacing
-          ? BUTTON_SPACING_AFFECTED
-          : isJoggerDrawcordLength
-            ? JOGGER_DRAWCORD_LENGTH_AFFECTED
-            : isHoodieDrawcordLength
-              ? HOODIE_DRAWCORD_LENGTH_AFFECTED
-        : FIELD_DEPENDENT_ARTIFACTS;
+      : isTankShoulderWidth
+        ? TANK_SHOULDER_CURRENTLY_AFFECTED
+        : isWovenButtonCount
+          ? BUTTON_COUNT_AFFECTED
+          : isWovenButtonSpacing
+            ? BUTTON_SPACING_AFFECTED
+            : isJoggerDrawcordLength
+              ? JOGGER_DRAWCORD_LENGTH_AFFECTED
+              : isHoodieDrawcordLength
+                ? HOODIE_DRAWCORD_LENGTH_AFFECTED
+                : FIELD_DEPENDENT_ARTIFACTS;
   const unaffected = isWovenHemTurn
     ? WOVEN_HEM_TURN_UNAFFECTED
-    : isPreviewOnlyInput
-      ? FIELD_INDEPENDENT_ARTIFACTS
-    : isWovenButtonCount
-      ? BUTTON_COUNT_UNAFFECTED
-      : isWovenButtonSpacing
-        ? MARK_ONLY_UNAFFECTED
-        : isJoggerDrawcordLength
-          ? JOGGER_DRAWCORD_LENGTH_UNAFFECTED
-          : isHoodieDrawcordLength
-            ? HOODIE_DRAWCORD_LENGTH_UNAFFECTED
-      : FIELD_INDEPENDENT_ARTIFACTS;
+      : isPreviewOnlyInput
+        ? FIELD_INDEPENDENT_ARTIFACTS
+        : isWovenButtonCount
+          ? BUTTON_COUNT_UNAFFECTED
+          : isWovenButtonSpacing
+            ? MARK_ONLY_UNAFFECTED
+            : isJoggerDrawcordLength
+              ? JOGGER_DRAWCORD_LENGTH_UNAFFECTED
+              : isHoodieDrawcordLength
+                ? HOODIE_DRAWCORD_LENGTH_UNAFFECTED
+                : FIELD_INDEPENDENT_ARTIFACTS;
   return {
     recipeId,
     inputKind,
@@ -161,10 +160,15 @@ export function assertFieldArtifactCoverage(recipes: readonly GarmentRecipe[] = 
   for (const recipe of recipes) {
     const definitions = getFieldDefinitions(recipe.name);
     const matrix = getRecipeFieldArtifactMatrix(recipe.name);
-    const expectedInputs = recipe.fields.length + (recipe.options?.length ?? 0);
-    if (definitions.length !== expectedInputs || matrix.length !== definitions.length
+    const declaredInputKeys = [
+      ...recipe.fields.map((inputKey) => `measurement/${inputKey}`),
+      ...(recipe.options ?? []).map((option) => `option/${option.id}`),
+    ];
+    const dependencyKeys = new Set(matrix.map((row) => `${row.inputKind}/${row.inputKey}`));
+    if (matrix.length !== definitions.length
       || matrix.some((row) => row.affected.length === 0 || row.unaffected.length === 0)
-      || new Set(matrix.map((row) => `${row.inputKind}/${row.inputKey}`)).size !== definitions.length) {
+      || dependencyKeys.size !== definitions.length
+      || declaredInputKeys.some((key) => !dependencyKeys.has(key))) {
       throw new Error(`${recipe.name} field inputs do not have a complete artifact dependency row.`);
     }
   }

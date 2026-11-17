@@ -1063,6 +1063,7 @@ describe("Trouser recipe integration (Slice 100)", () => {
       "waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease",
     ]);
     expect(TROUSER.options?.map((option) => option.id)).toHaveLength(11);
+    expect(TROUSER.options?.some((option) => option.id === "barrelBowCm")).toBe(false);
     expect(TROUSER.styles.map((style) => style.name)).toContain("Relaxed straight trouser");
   });
 

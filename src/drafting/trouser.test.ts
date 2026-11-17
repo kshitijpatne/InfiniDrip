@@ -3,7 +3,8 @@ import { renderBlueprint } from "../render/canvas";
 import { blockPieces, rolePiece, stitchChecks, pieceEdge, edgeStart, edgeEnd, edgeLength } from "./index";
 import { STANDARD_M } from "./measurements";
 import { draftTrouserLegs, draftTrouserWithPockets, trouserMetrics } from "./trouser";
-import { DEFAULT_TROUSER_OPTIONS, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "./trouser-contract";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY, resolveTrouserOptions } from "./trouser-contract";
+import { trouserGuidance } from "./trouser-guidance";
 
 describe("trouser leg block", () => {
   it("drafts four explicit off-fold leg panels with construction landmarks", () => {
@@ -87,6 +88,92 @@ describe("trouser leg block", () => {
     const legacySideHem = edgeStart(pieceEdge(legacy, "hem"));
     const legacyInnerHem = edgeEnd(pieceEdge(legacy, "hem"));
     expect((legacySideHem.x + legacyInnerHem.x) / 2).not.toBeCloseTo((legacySideKnee.x + legacyInnerKnee.x) / 2);
+  });
+
+  it("adds an R04 outer-leg curve while retaining the existing stations, four panels, and matched seams", () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      legOpening: 38,
+      barrelBowCm: 2,
+      [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 as const,
+    };
+    const barrel = draftTrouserLegs(STANDARD_M, options);
+    const straight = draftTrouserLegs(STANDARD_M, { ...DEFAULT_TROUSER_OPTIONS, legOpening: 38 });
+    expect(blockPieces(barrel)).toHaveLength(4);
+    expect(stitchChecks(barrel, barrel.stitches).every((check) => check.ok)).toBe(true);
+    for (const role of ["frontLeft", "frontRight", "backLeft", "backRight"] as const) {
+      const barrelPiece = rolePiece(barrel, role);
+      const straightPiece = rolePiece(straight, role);
+      const thighToKnee = pieceEdge(barrelPiece, "sideThighToKnee");
+      const kneeToHem = pieceEdge(barrelPiece, "sideKneeToHem");
+      const straightThighToKnee = pieceEdge(straightPiece, "sideThighToKnee");
+      const straightKneeToHem = pieceEdge(straightPiece, "sideKneeToHem");
+      expect(thighToKnee.kind).toBe("curve");
+      expect(kneeToHem.kind).toBe("curve");
+      expect(straightThighToKnee.kind).toBe("line");
+      expect(straightKneeToHem.kind).toBe("line");
+      expect(edgeStart(thighToKnee)).toEqual(edgeStart(straightThighToKnee));
+      expect(edgeEnd(thighToKnee)).toEqual(edgeEnd(straightThighToKnee));
+      expect(edgeStart(kneeToHem)).toEqual(edgeStart(straightKneeToHem));
+      expect(edgeEnd(kneeToHem)).toEqual(edgeEnd(straightKneeToHem));
+      if (thighToKnee.kind === "curve" && straightThighToKnee.kind === "line") {
+        expect(thighToKnee.curve.control1.x)
+          .toBeCloseTo(straightThighToKnee.start.x + (straightThighToKnee.end.x - straightThighToKnee.start.x) / 3
+            + (straightThighToKnee.start.x < 0 ? -2 : 2));
+      }
+    }
+    const front = rolePiece(barrel, "frontLeft");
+    const back = rolePiece(barrel, "backLeft");
+    expect(pieceEdge(front, "sideThighToKnee")).toEqual(pieceEdge(back, "sideThighToKnee"));
+    expect(pieceEdge(front, "sideKneeToHem")).toEqual(pieceEdge(back, "sideKneeToHem"));
+    expect(trouserGuidance(barrel, STANDARD_M, options)
+      .filter((note) => note.field === "option-pocketOpening" || note.field === "option-pocketBagDepth")).toEqual([]);
+  });
+
+  it("keeps R04 curve controls finite when adjacent stations share a vertical coordinate", () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      legOpening: 38,
+      barrelBowCm: 2,
+      [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 as const,
+    };
+    for (const inseam of [0, 2.5 / 0.52]) {
+      const drafted = draftTrouserLegs({ ...STANDARD_M, inseam }, options);
+      const side = pieceEdge(rolePiece(drafted, "frontLeft"), "sideThighToKnee");
+      const lower = pieceEdge(rolePiece(drafted, "frontLeft"), "sideKneeToHem");
+      for (const edge of [side, lower]) {
+        expect(edge.kind).toBe("curve");
+        if (edge.kind !== "curve") continue;
+        expect([edge.curve.control1.x, edge.curve.control1.y, edge.curve.control2.x, edge.curve.control2.y]
+          .every(Number.isFinite)).toBe(true);
+      }
+    }
+  });
+
+  it("retains invalid R04 curve input and guides users instead of clamping it", () => {
+    const invalidOptions = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      legOpening: 45,
+      barrelBowCm: 4.5,
+      [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 as const,
+    };
+    expect(resolveTrouserOptions(invalidOptions).barrelBowCm).toBe(4.5);
+    expect(resolveTrouserOptions({ barrelBowCm: 4.5 })).not.toHaveProperty("barrelBowCm");
+    const notes = trouserGuidance(
+      draftTrouserWithPockets(STANDARD_M, invalidOptions), STANDARD_M, invalidOptions,
+    );
+    expect(notes).toEqual(expect.arrayContaining([
+      expect.objectContaining({ field: "option-barrelBowCm", text: expect.stringContaining("0.5–4 cm range") }),
+      expect.objectContaining({ field: "option-legOpening", text: expect.stringContaining("must be smaller than the finished knee") }),
+    ]));
+    const nonFiniteNotes = trouserGuidance(
+      draftTrouserWithPockets(STANDARD_M, { ...invalidOptions, barrelBowCm: 2, legOpening: 38 }),
+      STANDARD_M,
+      { ...invalidOptions, barrelBowCm: Number.NaN, legOpening: 38 },
+    );
+    expect(nonFiniteNotes).toEqual(expect.arrayContaining([
+      expect.objectContaining({ field: "option-barrelBowCm", text: expect.stringContaining("outside V1's 0.5–4 cm range") }),
+    ]));
   });
 
   it("takes live measurements/options into the real drafted stations", () => {

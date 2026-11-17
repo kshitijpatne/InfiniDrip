@@ -78,7 +78,7 @@ import {
 } from "./trouser";
 import {
   TROUSER_FIELDS,
-  TROUSER_OPTION_DEFINITIONS,
+  TROUSER_SHARED_OPTION_DEFINITIONS,
   TrouserOptions,
 } from "./trouser-contract";
 import {
@@ -1294,7 +1294,7 @@ export const TROUSER: GarmentRecipe = {
   guidance: (block, m, options = {}) => trouserGuidance(block, m, options as Partial<TrouserOptions>),
   sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "frontLeft"), "waist")),
   techPack: TROUSER_TECH_PACK,
-  options: TROUSER_OPTION_DEFINITIONS,
+  options: TROUSER_SHARED_OPTION_DEFINITIONS,
   allowances: TROUSER_ALLOWANCES,
 };
 

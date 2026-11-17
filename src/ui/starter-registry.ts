@@ -29,12 +29,13 @@ import { SKIRT_A_LINE_ENTRY_ID, SKIRT_A_LINE_HEM_SWEEP_OPTION_ID, SKIRT_PENCIL_E
   SKIRT_WRAP_ENTRY_ID, SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID,
   SKIRT_CIRCLE_ENTRY_ID, SKIRT_CIRCLE_FULLNESS_OPTION_ID, SKIRT_BIAS_CUT_ENTRY_ID } from "../drafting/skirt";
 import { FIELDS } from "./controls";
-import { DEFAULT_TROUSER_OPTIONS, TROUSER_FIELDS, TROUSER_OPTION_DEFINITIONS, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_BARREL_BOW_OPTION, TROUSER_BARREL_LEG_ENTRY_ID as TROUSER_BARREL_LEG_PROFILE_ENTRY_ID, TROUSER_FIELDS, TROUSER_OPTION_DEFINITIONS } from "../drafting/trouser-contract";
 
 export const POLO_CLASSIC_TWO_BUTTON_ENTRY_ID = "polo-classic-two-button-digital-v1";
 export const TROUSER_CLASSIC_STRAIGHT_ENTRY_ID = "trouser-classic-straight-digital-v1";
 export const TROUSER_WIDE_LEG_ENTRY_ID = "trouser-wide-leg-digital-v1";
 export const TROUSER_TAPERED_ENTRY_ID = "trouser-tapered-digital-v1";
+export const TROUSER_BARREL_LEG_ENTRY_ID = TROUSER_BARREL_LEG_PROFILE_ENTRY_ID;
 export const POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID = "polo-classic-long-sleeve-digital-v1";
 export const POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL = "Sleeve length below cap base";
 export const POLO_RELAXED_ENTRY_ID = "polo-relaxed-digital-v1";
@@ -2369,7 +2370,9 @@ const TROUSER_CLASSIC_STRAIGHT_CONTROLS: readonly StarterControl[] = [
       defaultValue: TROUSER_CLASSIC_STRAIGHT_MEASUREMENTS[fieldId],
     };
   }),
-  ...TROUSER_OPTION_DEFINITIONS.map((option): StarterControl => ({
+  ...TROUSER_OPTION_DEFINITIONS.filter((option) =>
+    option.appliesToStarterEntryId === undefined || option.appliesToStarterEntryId === TROUSER_CLASSIC_STRAIGHT_ENTRY_ID)
+    .map((option): StarterControl => ({
     fieldId: option.id,
     label: option.label,
     kind: "option",
@@ -2377,7 +2380,7 @@ const TROUSER_CLASSIC_STRAIGHT_CONTROLS: readonly StarterControl[] = [
     min: option.min,
     max: option.max,
     step: option.step,
-    defaultValue: DEFAULT_TROUSER_OPTIONS[option.id as Exclude<keyof typeof DEFAULT_TROUSER_OPTIONS, typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY>],
+    defaultValue: option.defaultValue,
   })),
 ];
 
@@ -2445,7 +2448,9 @@ const TROUSER_WIDE_LEG_CONTROLS: readonly StarterControl[] = [
       defaultValue: TROUSER_WIDE_LEG_MEASUREMENTS[fieldId],
     };
   }),
-  ...TROUSER_OPTION_DEFINITIONS.map((option): StarterControl => ({
+  ...TROUSER_OPTION_DEFINITIONS.filter((option) =>
+    option.appliesToStarterEntryId === undefined || option.appliesToStarterEntryId === TROUSER_WIDE_LEG_ENTRY_ID)
+    .map((option): StarterControl => ({
     fieldId: option.id,
     label: option.label,
     kind: "option",
@@ -2453,7 +2458,7 @@ const TROUSER_WIDE_LEG_CONTROLS: readonly StarterControl[] = [
     min: option.min,
     max: option.max,
     step: option.step,
-    defaultValue: TROUSER_WIDE_LEG_OPTIONS[option.id as Exclude<keyof typeof TROUSER_WIDE_LEG_OPTIONS, typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY>],
+    defaultValue: option.defaultValue,
   })),
 ];
 
@@ -2528,10 +2533,63 @@ const TROUSER_TAPERED_BLANK_ENTRY: StarterEntry = {
   ],
 };
 
+const TROUSER_BARREL_LEG_OPTIONS = {
+  ...DEFAULT_TROUSER_OPTIONS,
+  legOpening: 38,
+  barrelBowCm: TROUSER_BARREL_BOW_OPTION.defaultValue,
+} as const;
+
+const TROUSER_BARREL_LEG_CONTROLS: readonly StarterControl[] = [
+  ...TROUSER_CLASSIC_STRAIGHT_CONTROLS.map((control) =>
+    control.fieldId === "legOpening" ? { ...control, defaultValue: TROUSER_BARREL_LEG_OPTIONS.legOpening } : control),
+  {
+    fieldId: TROUSER_BARREL_BOW_OPTION.id,
+    label: TROUSER_BARREL_BOW_OPTION.label,
+    kind: "option",
+    unit: "cm",
+    min: TROUSER_BARREL_BOW_OPTION.min,
+    max: TROUSER_BARREL_BOW_OPTION.max,
+    step: TROUSER_BARREL_BOW_OPTION.step,
+    defaultValue: TROUSER_BARREL_LEG_OPTIONS.barrelBowCm,
+  },
+];
+
+const TROUSER_BARREL_LEG_BLANK_ENTRY: StarterEntry = {
+  entryId: TROUSER_BARREL_LEG_ENTRY_ID,
+  entryRevision: "2026-11-16.4",
+  recipeId: "trouser",
+  recipeRevision: "trouser-barrel-leg-v1",
+  catalogKind: "blank",
+  label: "Barrel-leg trouser",
+  configuration: {
+    targetStyle: "Barrel-leg trouser",
+    measurements: TROUSER_CLASSIC_STRAIGHT_MEASUREMENTS,
+    options: TROUSER_BARREL_LEG_OPTIONS,
+  },
+  supportedControls: TROUSER_BARREL_LEG_CONTROLS,
+  intent: {
+    audience: "Digital Trouser design candidate; not a representativeness or fit claim.",
+    use: "Editable Barrel-leg trouser software profile with an identity-scoped rounded outer-leg curve.",
+    fit: "Curve and dimensions are software choices; physical fit, comfort and wear are not established.",
+    bodyMaterial: "Fabric response and compatibility are not modeled.",
+    trimMaterial: "Existing digital closure and pocket settings do not specify a physical trim product.",
+    construction: "Uses the existing Trouser recipe and four panels; the R04-only digital curve control adds no physical construction specification.",
+    sizeScope: "One software-default profile; the generic Trouser size run is not validated grading or a physical size chart for R04.",
+  },
+  gates: { b1: "pending", physical: "not-validated" },
+  limits: [
+    "The 38 cm opening and 2 cm curve-control default are product software choices, not sourced standards or fit targets.",
+    "The barrel-leg curve control is a digital control-point offset, not a body measurement, ease or finished circumference.",
+    "The existing four-panel draft remains digital; curve continuity does not validate a sewn seam or material response.",
+    "No sewn sample, physical fit, comfort, wear, material behavior, validated grading, B1 approval, supplier suitability or production readiness is established.",
+    "No garment artwork or aggregate survey data are included; imported artwork requires separate rights clearance.",
+  ],
+};
+
 export const STARTER_REGISTRY: StarterRegistry = {
   schemaVersion: 1,
-  catalogRevision: "g18-catalog-v46",
-  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_BLANK_ENTRY, WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY, WOVEN_SHIRT_TUNIC_LONGLINE_BLANK_ENTRY, WOVEN_SHIRT_CAMP_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_DARTED_BLOUSE_BLANK_ENTRY, SKIRT_A_LINE_BLANK_ENTRY, SKIRT_PENCIL_BLANK_ENTRY, SKIRT_GATHERED_BLANK_ENTRY, SKIRT_BOX_PLEAT_BLANK_ENTRY, SKIRT_TIERED_BLANK_ENTRY, SKIRT_WRAP_BLANK_ENTRY, SKIRT_CIRCLE_BLANK_ENTRY, SKIRT_BIAS_CUT_BLANK_ENTRY, TROUSER_CLASSIC_STRAIGHT_BLANK_ENTRY, TROUSER_WIDE_LEG_BLANK_ENTRY, TROUSER_TAPERED_BLANK_ENTRY],
+  catalogRevision: "g18-catalog-v47",
+  entries: [TEE_CLASSIC_ENTRY, TEE_CLASSIC_BLANK_ENTRY, TEE_RELAXED_BLANK_ENTRY, TEE_BOXY_CROP_BLANK_ENTRY, TEE_CROP_BLANK_ENTRY, TEE_LONGLINE_BLANK_ENTRY, TEE_VNECK_BLANK_ENTRY, TEE_SCOOP_BLANK_ENTRY, TEE_RAGLAN_BLANK_ENTRY, FITTED_TEE_BLANK_ENTRY, FITTED_WAIST_DART_TEE_BLANK_ENTRY, FITTED_PRINCESS_TEE_BLANK_ENTRY, FITTED_VNECK_TEE_BLANK_ENTRY, FITTED_SCOOP_TEE_BLANK_ENTRY, FITTED_CAP_SLEEVE_TEE_BLANK_ENTRY, FITTED_THREE_QUARTER_SLEEVE_TEE_BLANK_ENTRY, FITTED_CROPPED_TEE_BLANK_ENTRY, TANK_CLASSIC_SCOOP_BLANK_ENTRY, TANK_HIGH_NECK_BLANK_ENTRY, TANK_RACERBACK_BLANK_ENTRY, TANK_SQUARE_NECK_BLANK_ENTRY, TANK_V_NECK_BLANK_ENTRY, TANK_CROPPED_BLANK_ENTRY, TANK_LONGLINE_BLANK_ENTRY, TANK_SHELF_LINED_BLANK_ENTRY, POLO_CLASSIC_TWO_BUTTON_BLANK_ENTRY, POLO_CLASSIC_LONG_SLEEVE_BLANK_ENTRY, POLO_RELAXED_BLANK_ENTRY, POLO_CROPPED_BLANK_ENTRY, POLO_LOW_EASE_BLANK_ENTRY, POLO_LONGLINE_BLANK_ENTRY, POLO_ZIP_PLACKET_BLANK_ENTRY, POLO_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_CLASSIC_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_RELAXED_BUTTON_FRONT_BLANK_ENTRY, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_BLANK_ENTRY, WOVEN_SHIRT_CROPPED_BOXY_BLANK_ENTRY, WOVEN_SHIRT_TUNIC_LONGLINE_BLANK_ENTRY, WOVEN_SHIRT_CAMP_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_BAND_COLLAR_BLANK_ENTRY, WOVEN_SHIRT_DARTED_BLOUSE_BLANK_ENTRY, SKIRT_A_LINE_BLANK_ENTRY, SKIRT_PENCIL_BLANK_ENTRY, SKIRT_GATHERED_BLANK_ENTRY, SKIRT_BOX_PLEAT_BLANK_ENTRY, SKIRT_TIERED_BLANK_ENTRY, SKIRT_WRAP_BLANK_ENTRY, SKIRT_CIRCLE_BLANK_ENTRY, SKIRT_BIAS_CUT_BLANK_ENTRY, TROUSER_CLASSIC_STRAIGHT_BLANK_ENTRY, TROUSER_WIDE_LEG_BLANK_ENTRY, TROUSER_TAPERED_BLANK_ENTRY, TROUSER_BARREL_LEG_BLANK_ENTRY],
 };
 
 /** Active UI inputs may be narrower than the shared saved measurement record. */
