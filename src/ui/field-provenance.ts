@@ -1,5 +1,6 @@
 /** C03-aligned definitions and append-only value observations for current recipe inputs. */
 import { GARMENTS, JEANS_FIELDS, STANDARD_M, type GarmentRecipe } from "../drafting";
+import { TROUSER_OPTION_DEFINITIONS } from "../drafting/trouser-contract";
 import { FIELDS } from "./controls";
 import type { RecoveryPayload, SavedDesign, StyleRecord } from "./project-records";
 import type { MeasurementCaptureSession } from "./measurement-capture";
@@ -291,6 +292,10 @@ const definitionsByRecipe = new Map<string, readonly FieldDefinition[]>();
 const OPTIONAL_INHERITANCE_SOURCE = "Optional control is unset and inherits the shared measurement; it is not an independent user selection or fit validation.";
 const OPTIONAL_INACTIVE_SOURCE = "Optional control is not selected; its software default is inactive and is not an independent user selection or fit validation.";
 
+function optionDefinitionsForRecipe(recipe: GarmentRecipe) {
+  return recipe.name === "trouser" ? TROUSER_OPTION_DEFINITIONS : recipe.options ?? [];
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -437,7 +442,7 @@ export function getFieldDefinitions(recipeId: string, starterEntryId?: string | 
       limitBasis: "existing-ui-guardrail-not-industry-standard",
     });
   }
-  for (const option of recipe.options ?? []) {
+  for (const option of optionDefinitionsForRecipe(recipe)) {
     if (option.appliesToStarterEntryId !== undefined && starterEntryId !== undefined
       && option.appliesToStarterEntryId !== starterEntryId) continue;
     const slug = option.id.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
@@ -477,7 +482,8 @@ export function getCaptureFieldDefinitions(recipeId: string): readonly FieldDefi
   // Custom-size capture starts from a saved design seed. Starter-scoped
   // topology and style-scoped construction controls remain part of that seed
   // instead of being recaptured as generic inputs for an unbound custom style.
-  const nonGenericOptions = new Set((recipe?.options ?? [])
+  const optionDefinitions = recipe ? optionDefinitionsForRecipe(recipe) : [];
+  const nonGenericOptions = new Set(optionDefinitions
     .filter((option) => option.appliesToStarterEntryId !== undefined || option.appliesToStyle !== undefined)
     .map((option) => option.id));
   return getFieldDefinitions(recipeId).filter((definition) => !definition.optional
@@ -784,7 +790,7 @@ export function assertRecipeFieldCoverage(recipes: readonly GarmentRecipe[] = GA
   for (const recipe of recipes) {
     const definitions = getFieldDefinitions(recipe.name);
     const expectedMeasurements = recipe.fields.length;
-    const expectedOptions = recipe.options?.length ?? 0;
+    const expectedOptions = optionDefinitionsForRecipe(recipe).length;
     if (definitions.length !== expectedMeasurements + expectedOptions
       || new Set(definitions.map((definition) => `${definition.inputKind}/${definition.inputKey}`)).size !== definitions.length) {
       throw new Error(`${recipe.name} field definitions do not exactly cover its recipe inputs.`);

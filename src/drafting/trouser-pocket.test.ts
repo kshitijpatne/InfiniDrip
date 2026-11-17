@@ -15,6 +15,7 @@ import {
 import { STANDARD_M } from "./measurements";
 import {
   DEFAULT_TROUSER_OPTIONS,
+  TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TrouserOptions,
 } from "./trouser-contract";
 import {
@@ -144,6 +145,39 @@ describe("trouser pocket component", () => {
     };
     const degenerateNotes = trouserPocketGuidance(degenerateSideBlock, STANDARD_M);
     expect(degenerateNotes.some((note) => note.text.includes("leaves the front panel"))).toBe(true);
+
+    const barrelOptions = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      barrelBowCm: 2,
+      [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 as const,
+    };
+    const barrel = draftTrouserWithPockets(STANDARD_M, barrelOptions);
+    const barrelFront = rolePiece(barrel, "frontLeft");
+    const repositionAtY = (edge: typeof barrelFront.edges[number], startY: number, endY: number) => edge.kind === "line"
+      ? { ...edge, start: { ...edge.start, y: startY }, end: { ...edge.end, y: endY } }
+      : {
+        ...edge,
+        curve: {
+          ...edge.curve,
+          start: { ...edge.curve.start, y: startY },
+          control1: { ...edge.curve.control1, y: startY },
+          control2: { ...edge.curve.control2, y: endY },
+          end: { ...edge.curve.end, y: endY },
+        },
+      };
+    const flatBarrelSide = barrelFront.edges.map((edge) => edge.name === "sideUpper" || edge.name === "sideHipToThigh"
+      ? repositionAtY(edge, 20, 30)
+      : edge.name === "sideThighToKnee"
+        ? repositionAtY(edge, 2, 2)
+        : edge.name === "sideKneeToHem"
+          ? repositionAtY(edge, 40, 50)
+          : edge);
+    const flatCurveBlock = {
+      ...barrel,
+      roles: { ...barrel.roles, frontLeft: { ...barrelFront, edges: flatBarrelSide } },
+    };
+    const flatCurveNotes = trouserPocketGuidance(flatCurveBlock, STANDARD_M, barrelOptions);
+    expect(flatCurveNotes.some((note) => note.text.includes("leaves the front panel"))).toBe(true);
 
     const reachesHemMeasurements = { ...STANDARD_M, inseam: 40 };
     const reachesHemOptions = {

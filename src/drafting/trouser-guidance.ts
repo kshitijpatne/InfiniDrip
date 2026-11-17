@@ -12,6 +12,7 @@ import {
   TROUSER_OPTION_DEFINITIONS,
   resolveTrouserOptions,
   TROUSER_TAPERED_PROFILE_ROUTE_KEY,
+  TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TrouserOptions,
 } from "./trouser-contract";
 import { trouserMetrics, trouserPocketGuidance } from "./trouser";
@@ -19,8 +20,13 @@ import { trouserMetrics, trouserPocketGuidance } from "./trouser";
 function optionRangeNotes(options: TrouserOptions): Note[] {
   const notes: Note[] = [];
   for (const definition of TROUSER_OPTION_DEFINITIONS.filter((d) => d.group !== "Pocket")) {
-    const value = options[definition.id as Exclude<keyof TrouserOptions, typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY>];
-    if (value < definition.min || value > definition.max) {
+    if (definition.appliesToStarterEntryId !== undefined
+      && options[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY] !== 1) continue;
+    const value = options[definition.id as Exclude<
+      keyof TrouserOptions,
+      typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY | typeof TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY
+    >];
+    if (typeof value !== "number" || !Number.isFinite(value) || value < definition.min || value > definition.max) {
       notes.push({
         field: `option-${definition.id}`,
         level: "warn",
@@ -102,11 +108,16 @@ export function trouserGuidance(
       text: `Finished thigh (${metrics.finishedThigh.toFixed(1)} cm) is not wider than the knee (${metrics.finishedKnee.toFixed(1)} cm) — increase thigh room or reduce knee ease.`,
     });
   }
-  if (metrics.finishedKnee < options.legOpening) {
+  const isBarrelLeg = options[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY] === 1;
+  if (isBarrelLeg
+    ? metrics.finishedKnee <= options.legOpening
+    : metrics.finishedKnee < options.legOpening) {
     notes.push({
       field: "option-legOpening",
       level: "warn",
-      text: `Leg opening (${options.legOpening} cm) is wider than the finished knee (${metrics.finishedKnee.toFixed(1)} cm) — reduce the opening or increase knee girth/ease for a straight leg.`,
+      text: isBarrelLeg
+        ? "Barrel-leg opening (" + options.legOpening + " cm) must be smaller than the finished knee (" + metrics.finishedKnee.toFixed(1) + " cm) — reduce the opening or increase knee girth/ease to retain the ankle taper."
+        : "Leg opening (" + options.legOpening + " cm) is wider than the finished knee (" + metrics.finishedKnee.toFixed(1) + " cm) — reduce the opening or increase knee girth/ease for a straight leg.",
     });
   }
   if (metrics.finishedKnee - options.legOpening > 12) {

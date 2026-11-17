@@ -59,8 +59,8 @@ import "./enhancements/inspection/inspection-toolbar.css";
 import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { a0ExportStatus } from "./a0-export-status";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
-import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterMeasurementFields, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
-import { TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { FITTED_CAP_SLEEVE_LENGTH_LABEL, FITTED_SLEEVE_LENGTH_BELOW_CAP_BASE_LABEL, POLO_BAND_COLLAR_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_ENTRY_ID, POLO_CLASSIC_LONG_SLEEVE_LENGTH_LABEL, POLO_CLASSIC_TWO_BUTTON_ENTRY_ID, POLO_CROPPED_ENTRY_ID, POLO_LONGLINE_ENTRY_ID, POLO_LOW_EASE_ENTRY_ID, POLO_RELAXED_ENTRY_ID, POLO_ZIP_PLACKET_ENTRY_ID, TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID, WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID, WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID, WOVEN_SHIRT_DARTED_BLOUSE_ENTRY_ID, WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID, WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID, WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID, starterControlError, starterEntryById, starterMeasurementFields, starterOriginForEntry, type StarterOrigin } from "./starter-registry";
+import { TROUSER_BARREL_BOW_OPTION, TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import { poloBandCollarRecipeForOutput, poloClassicLongSleeveRecipeForOutput, poloCroppedRecipeForOutput, poloLonglineRecipeForOutput, poloLowEaseRecipeForOutput, poloRelaxedRecipeForOutput, poloZipPlacketRecipeForOutput } from "./polo-starter-output";
 import { DEFAULT_POLO_OPTIONS, POLO_BAND_COLLAR_PROFILE_OPTION_ID, POLO_BAND_COLLAR_PROFILE_VALUE, POLO_ZIPPER_CLOSURE_PROFILE_OPTION_ID, POLO_ZIPPER_CLOSURE_PROFILE_VALUE } from "../drafting/polo";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_THREE_QUARTER_SLEEVE_ENTRY_ID } from "../drafting/fitted";
@@ -1720,7 +1720,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope, starterOrigin, teeConstruction });
   const exportRecipeName = (): string =>
-    starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID && recipe.name === "trouser" ? "tapered-trouser"
+    starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID && recipe.name === "trouser" ? "barrel-leg-trouser"
+      : starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID && recipe.name === "trouser" ? "tapered-trouser"
       : starterOrigin?.entryId === TROUSER_WIDE_LEG_ENTRY_ID && recipe.name === "trouser" ? "wide-leg-trouser"
       : starterOrigin?.entryId === TROUSER_CLASSIC_STRAIGHT_ENTRY_ID && recipe.name === "trouser" ? "classic-straight-trouser"
       : starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID && recipe.name === "skirt" ? "bias-cut-skirt"
@@ -1783,11 +1784,18 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const currentRawMeasurements = (): Partial<Record<keyof Measurements, string>> =>
     Object.fromEntries([...root.querySelectorAll<HTMLInputElement>("input[data-field]")]
       .map((input) => [input.dataset.field, input.value])) as Partial<Record<keyof Measurements, string>>;
+  const optionDefinitionsForRecipe = (forRecipe: GarmentRecipe = recipe) => {
+    const definitions = forRecipe.options ?? [];
+    return forRecipe.name === "trouser" && starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID
+      && !definitions.some((option) => option.id === TROUSER_BARREL_BOW_OPTION.id)
+      ? [...definitions, TROUSER_BARREL_BOW_OPTION]
+      : definitions;
+  };
   const currentRawOptions = (): Record<string, Record<string, string>> => ({
     [recipe.name]: Object.fromEntries([...root.querySelectorAll<HTMLInputElement>("input[data-option]")]
       .filter((input) => {
         const id = input.dataset.option!;
-        const definition = recipe.options?.find((option) => option.id === id);
+        const definition = optionDefinitionsForRecipe().find((option) => option.id === id);
         return !definition?.optional || Object.prototype.hasOwnProperty.call(garmentOptions[recipe.name] ?? {}, id);
       })
       .map((input) => [input.dataset.option, input.value])),
@@ -1878,7 +1886,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   /** Design options live per recipe, never in body measurements. Existing saved
    * values stay verbatim so guidance can explain an invalid combination. */
   const activeOptionDefinitions = (forRecipe: GarmentRecipe = recipe) =>
-    (forRecipe.options ?? []).filter((option) =>
+    optionDefinitionsForRecipe(forRecipe).filter((option) =>
       (option.appliesToStyle === undefined || option.appliesToStyle === targetStyle)
         && optionAppliesToStarterEntry(option, starterOrigin?.entryId))
       .map((option) => {
@@ -1905,10 +1913,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       });
   const recipeUserOptions = (forRecipe: GarmentRecipe): GarmentOptions =>
     garmentOptionsForStyle(
-      forRecipe.options ?? [], garmentOptions[forRecipe.name] ?? {}, targetStyle, true, starterOrigin?.entryId,
+      optionDefinitionsForRecipe(forRecipe), garmentOptions[forRecipe.name] ?? {}, targetStyle, true, starterOrigin?.entryId,
     );
   const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => {
     const options = recipeUserOptions(forRecipe);
+    if (forRecipe.name === "trouser" && starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID) {
+      return { ...options, [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 };
+    }
     if (forRecipe.name === "trouser" && starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID) {
       return { ...options, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 };
     }
@@ -1953,7 +1964,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       || hasActiveFittedScoopNeckband(forRecipe, options)));
   const recipeDisplayLabel = (forRecipe: GarmentRecipe = recipe,
     options: GarmentOptions = recipeOptions(forRecipe)): string =>
-    starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID && forRecipe.name === "trouser"
+    starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID && forRecipe.name === "trouser"
+      ? "Barrel-leg trouser"
+      : starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID && forRecipe.name === "trouser"
       ? "Tapered trouser"
       : starterOrigin?.entryId === TROUSER_WIDE_LEG_ENTRY_ID && forRecipe.name === "trouser"
       ? "Wide-leg trouser"
@@ -2021,6 +2034,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? "Fitted V-neck Tee"
         : forRecipe.name === "fitted" && hasActiveFittedScoopNeckband(forRecipe, options)
           ? "Fitted Scoop-neck Tee" : forRecipe.label;
+  const stylesForCurrentStarter = (forRecipe: GarmentRecipe = recipe) => forRecipe.styles.filter((style) =>
+    style.appliesToStarterEntryId === undefined || style.appliesToStarterEntryId === starterOrigin?.entryId);
   const starterOutputStatusNote = (format: "tech-pack" | "projector" = "tech-pack"): string | undefined => {
     const isK01Starter = starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID && recipe.name === "skirt";
     const isK02Starter = starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID && recipe.name === "skirt";
@@ -2033,12 +2048,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const isR01Starter = starterOrigin?.entryId === TROUSER_CLASSIC_STRAIGHT_ENTRY_ID && recipe.name === "trouser";
     const isR02Starter = starterOrigin?.entryId === TROUSER_WIDE_LEG_ENTRY_ID && recipe.name === "trouser";
     const isR03Starter = starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID && recipe.name === "trouser";
+    const isR04Starter = starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID && recipe.name === "trouser";
     const isW03Starter = starterOrigin?.entryId === WOVEN_SHIRT_OVERSIZED_LOOSE_DROP_ENTRY_ID && recipe.name === "woven-shirt";
     const isW04Starter = starterOrigin?.entryId === WOVEN_SHIRT_CROPPED_BOXY_ENTRY_ID && recipe.name === "woven-shirt";
     const isW05Starter = starterOrigin?.entryId === WOVEN_SHIRT_TUNIC_LONGLINE_ENTRY_ID && recipe.name === "woven-shirt";
     const isW06Starter = starterOrigin?.entryId === WOVEN_SHIRT_CAMP_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
     const isW07Starter = starterOrigin?.entryId === WOVEN_SHIRT_BAND_COLLAR_ENTRY_ID && recipe.name === "woven-shirt";
-    if (format === "projector") return isR03Starter
+    if (format === "projector") return isR04Starter
+      ? "Digital R04 Barrel-leg trouser; the outer-leg curve control is a software control-point offset. Physical fit, material behavior and grading are not validated."
+      : isR03Starter
       ? "Digital R03 Tapered trouser; the balanced four-panel taper is software geometry. Foot clearance, physical fit and grading are not validated."
       : isR02Starter
       ? "Digital R02 Wide-leg trouser; option values are editable software choices, and physical fit and grading are not validated."
@@ -2064,6 +2082,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : isW07Starter ? "W07 grade is not validated." : undefined;
     if (isR03Starter) {
       return "Digital R03 Tapered trouser profile. Ease, dimensions and taper are editable software choices, not sourced standards or fit claims. No instep measurement or sewn sample is available; foot clearance, physical fit, comfort, wear, grading, B1 approval and production readiness are not established.";
+    }
+    if (isR04Starter) {
+      const options = recipeOptions();
+      return `Digital R04 Barrel-leg trouser profile. The ${options.barrelBowCm} cm outer-leg curve control and dimensions are editable software choices, not sourced standards or fit claims. The R04 profile uses the existing four-panel Trouser draft. No sewn sample, physical fit, comfort, wear, material behavior, validated grading, B1 approval or production readiness is established.`;
     }
     if (isR01Starter) {
       return "Digital R01 Classic straight trouser profile. The 7 cm ease and 78 cm inseam defaults are editable product software choices, not fit standards. The generic Trouser size run is not validated grading for R01. No sewn sample, physical fit, comfort, wear, material behavior, B1 approval or production readiness is established.";
@@ -2170,7 +2192,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (recipe.name === "tank") sourceMeasurements.add("shoulderWidth");
     const optionValues = recipeOptions();
     const sourceOptions: Record<string, number> = {};
-    for (const option of recipe.options ?? []) {
+    for (const option of optionDefinitionsForRecipe()) {
       const value = optionValues[option.id];
       if (value !== undefined) sourceOptions[option.id] = value;
     }
@@ -2864,6 +2886,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       } else {
         const storedOptions = { ...recipeOptions(), [definition.inputKey]: canonicalValue };
         delete storedOptions[TROUSER_TAPERED_PROFILE_ROUTE_KEY];
+        delete storedOptions[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY];
         garmentOptions = {
           ...garmentOptions,
           [recipe.name]: storedOptions,
@@ -3997,7 +4020,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         canvasHost.querySelector<HTMLElement>("#inspection-toolbar")!.classList.add("uiq-inspection-toolbar--opaque");
       }
       renderGuidance([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
-      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(styleMatchMeasurements(), targetStyle, recipe.styles, recipeOptions()), styleNames(recipe.styles), false) + gradePlanPanel() + renderSurface();
+      const visibleStyles = stylesForCurrentStarter();
+      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(styleMatchMeasurements(), targetStyle, visibleStyles, recipeOptions()), styleNames(visibleStyles), false) + gradePlanPanel() + renderSurface();
       syncSurfaceValidity();
       syncSurfaceAssetPreviews();
       renderJourney();
@@ -4014,7 +4038,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const materialNote = materialCompatibilityNote();
       renderGuidance(materialNote ? [...notes, materialNote] : notes);
       updateMaterialClarity(materialNote ? [...notes, materialNote] : notes);
-      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(styleMatchMeasurements(), targetStyle, recipe.styles), styleNames(recipe.styles), false) + gradePlanPanel() + renderSurface();
+      const visibleStyles = stylesForCurrentStarter();
+      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(styleMatchMeasurements(), targetStyle, visibleStyles), styleNames(visibleStyles), false) + gradePlanPanel() + renderSurface();
       syncSurfaceValidity();
       syncSurfaceAssetPreviews();
       renderJourney();
@@ -4244,6 +4269,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       }
     } else if (view === "flat") {
       const outputRecipe = recipeForCurrentOutputs();
+      const technicalFlatRecipe = starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID
+        && outputRecipe.name === "trouser"
+        ? {
+          ...outputRecipe,
+          options: [...(outputRecipe.options ?? []), TROUSER_BARREL_BOW_OPTION],
+          draft: (value: Measurements, options: GarmentOptions = {}) =>
+            outputRecipe.draft(value, { ...options, [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 }),
+        }
+        : outputRecipe;
       const outputStep = selectedOutputStep();
       const k04Problem = k04SizeProblem(outputStep);
       const flatRevisionId = `live-draft:${recipe.name}:${designRevision}:${outputRevision}`;
@@ -4252,9 +4286,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       canvasContent = k04Problem
         ? `<p role="alert" data-box-pleat-output-paused>${escapeUiText(k04Problem.text)}</p>`
         : technicalFlatPanelMarkup({
-        recipe: outputRecipe,
+        recipe: technicalFlatRecipe,
         measurements: gradeMeasurements(measurements, recipe.grade, outputStep),
-        rawOptions: recipeUserOptions(outputRecipe),
+        rawOptions: recipeUserOptions(technicalFlatRecipe),
         starterEntryId: starterOrigin?.entryId,
         style: targetStyle,
         revisionId: flatRevisionId,
@@ -4382,7 +4416,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     renderGuidance(guidanceNotes);
     updateMaterialClarity(guidanceNotes);
     // Style = prescriptive: the gap from current measurements to the chosen target.
-    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(styleMatchMeasurements(), targetStyle, recipe.styles, recipeOptions()), styleNames(recipe.styles), plausible) + gradePlanPanel() + renderSurface();
+    const visibleStyles = stylesForCurrentStarter();
+    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(styleMatchMeasurements(), targetStyle, visibleStyles, recipeOptions()), styleNames(visibleStyles), plausible) + gradePlanPanel() + renderSurface();
     syncSurfaceValidity();
     syncSurfaceAssetPreviews();
     // Amber-outline any measurement input whose value is out of plausible range
@@ -5373,7 +5408,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     syncBodyCroquisButton(bodyCroquisBtns.front, bodyCroquisView === "front");
     syncBodyCroquisButton(bodyCroquisBtns.back, bodyCroquisView === "back");
     syncBodyCroquisButton(bodyCroquisBtns.side, bodyCroquisView === "side");
-    if (!recipe.styles.some((style) => style.name === targetStyle)) targetStyle = recipe.styles[0].name;
+    const availableStyles = stylesForCurrentStarter();
+    if (!availableStyles.some((style) => style.name === targetStyle)) targetStyle = availableStyles[0].name;
     afterSelection?.();
     GARMENTS.forEach((g) => {
       const btn = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
@@ -5452,7 +5488,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         // maker's current editable measurements and options.
         if (g.name === "trouser" && (starterOrigin?.entryId === TROUSER_CLASSIC_STRAIGHT_ENTRY_ID
           || starterOrigin?.entryId === TROUSER_WIDE_LEG_ENTRY_ID
-          || starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID)) starterOrigin = null;
+          || starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID
+          || starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID)) {
+          if (starterOrigin.entryId === TROUSER_BARREL_LEG_ENTRY_ID) {
+            const trouserOptions = { ...(garmentOptions.trouser ?? {}) };
+            delete trouserOptions.barrelBowCm;
+            delete trouserOptions[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY];
+            garmentOptions = { ...garmentOptions, trouser: trouserOptions };
+          }
+          starterOrigin = null;
+        }
         setGarment(g.name);
       });
   });
@@ -5672,6 +5717,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const value = input.value.trim() === "" ? NaN : Number(input.value);
         const storedOptions = { ...(garmentOptions[recipe.name] ?? {}), ...recipeOptions(), [id]: value };
         delete storedOptions[TROUSER_TAPERED_PROFILE_ROUTE_KEY];
+        delete storedOptions[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY];
         garmentOptions = {
           ...garmentOptions,
           [recipe.name]: storedOptions,
@@ -5695,7 +5741,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     root.querySelectorAll<HTMLButtonElement>("[data-set-option]").forEach((button) => {
       button.addEventListener("click", () => {
         const id = button.dataset.setOption!;
-        const definition = recipe.options!.find((option) => option.id === id)!;
+        const definition = optionDefinitionsForRecipe().find((option) => option.id === id)!;
         const input = root.querySelector<HTMLInputElement>(`input[data-option="${id}"]`);
         if (!input) return;
         input.disabled = false;
@@ -5707,7 +5753,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     root.querySelectorAll<HTMLButtonElement>("[data-reset-option]").forEach((button) => {
       button.addEventListener("click", () => {
         const id = button.dataset.resetOption!;
-        const definition = recipe.options!.find((option) => option.id === id)!;
+        const definition = optionDefinitionsForRecipe().find((option) => option.id === id)!;
         if (definition.appliesToStyle !== undefined && definition.appliesToStyle !== targetStyle) return;
         const explicit = { ...garmentOptions[recipe.name]! };
         delete explicit[id];
@@ -6540,7 +6586,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const step = selectedOutputStep();
     const sourceBlock = requireDxfInterchangeSourceBlock(semanticSizeBlock(step));
     const sourceRecipe = recipeForCurrentOutputs();
-    const outputRecipe = starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID && sourceRecipe.name === "trouser"
+    const outputRecipe = starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID && sourceRecipe.name === "trouser"
+      ? {
+        ...sourceRecipe,
+        options: [...(sourceRecipe.options ?? []), TROUSER_BARREL_BOW_OPTION],
+        draft: (sizeMeasurements: Measurements, options: GarmentOptions = {}) =>
+          sourceRecipe.draft(sizeMeasurements, { ...options, [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 }),
+      }
+      : starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID && sourceRecipe.name === "trouser"
       ? { ...sourceRecipe, draft: (sizeMeasurements: Measurements, options: GarmentOptions = {}) =>
         sourceRecipe.draft(sizeMeasurements, { ...options, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 }) }
       : sourceRecipe;
@@ -6550,6 +6603,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (starterOrigin?.entryId === TANK_N08_ENTRY_ID) delete packageOptions[TANK_N08_PROFILE_ROUTE_KEY];
     if (starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID) delete packageOptions[SKIRT_BIAS_CUT_PROFILE_ROUTE_KEY];
     if (starterOrigin?.entryId === TROUSER_TAPERED_ENTRY_ID) delete packageOptions[TROUSER_TAPERED_PROFILE_ROUTE_KEY];
+    if (starterOrigin?.entryId === TROUSER_BARREL_LEG_ENTRY_ID) delete packageOptions[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY];
     return createDxfInterchangePackage(outputRecipe, {
       label: selectedSizeLabel(recipe.sizes, step),
       step,

@@ -4,8 +4,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob, Buffer } from "node:buffer";
 import { createHash, webcrypto } from "node:crypto";
 import { mountApp, unmountApp } from "./app";
-import { STARTER_REGISTRY, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
-import { TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { STARTER_REGISTRY, TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
+import { TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 
 const mountedRoots = new Set<HTMLDivElement>();
 type TrackedListener = { type: string; listener: EventListenerOrEventListenerObject; options?: boolean | AddEventListenerOptions };
@@ -553,6 +553,133 @@ describe("R03 Tapered trouser starter app", () => {
       expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Trouser");
       expect(reopened.querySelector<HTMLElement>("#starter-origin-status")?.hidden).toBe(true);
       expect(reopened.querySelector<HTMLButtonElement>('[data-starter-entry-id="' + TROUSER_TAPERED_ENTRY_ID + '"]')?.getAttribute("aria-pressed")).toBe("false");
+    } finally {
+      restoreSvgTextMetrics();
+      root?.remove();
+      reopened?.remove();
+    }
+  }, 60_000);
+});
+
+describe("R04 Barrel-leg trouser starter app", () => {
+  it("renders the identity-routed curve, preserves editable values and exports digital-only output", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    try {
+      root = mount();
+      clickId(root, "welcome-start");
+      clickId(root, "garment-trouser");
+      clickId(root, "starter-" + TROUSER_BARREL_LEG_ENTRY_ID);
+      expect(root.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Barrel-leg trouser");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")?.value).toBe("Barrel-leg trouser");
+      expect(root.querySelector<HTMLElement>("#style-host")?.textContent).toContain("You're making a Barrel-leg trouser");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="legOpening"]')?.value).toBe("38");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="barrelBowCm"]')?.value).toBe("2");
+      expect(root.querySelector<HTMLElement>("#controls-panel")?.textContent).toContain("control offset");
+      expect(root.querySelector<HTMLElement>("#controls-panel")?.textContent).not.toContain(TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY);
+      expect(root.querySelector<HTMLElement>("#controls-panel")?.querySelector('[data-option="barrelBowCm"]')).not.toBeNull();
+
+      clickId(root, "view-pattern");
+      const patternBefore = root.querySelector<SVGSVGElement>("#inspection-content svg")?.outerHTML ?? "";
+      expect(patternBefore).toContain("TROUSER FRONT LEFT");
+      expect(patternBefore).toContain(" C ");
+      expect(setOption(root, "barrelBowCm", "3").value).toBe("3");
+      const patternAfter = root.querySelector<SVGSVGElement>("#inspection-content svg")?.outerHTML ?? "";
+      expect(patternAfter).not.toBe(patternBefore);
+
+      reachExportStage(root);
+      const invalidOpening = setOption(root, "legOpening", "45");
+      expect(invalidOpening.value).toBe("45");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+      expect(root.querySelector<HTMLElement>("#guidance-host")?.textContent).toContain("must be smaller than the finished knee");
+      expect(setOption(root, "legOpening", "38").value).toBe("38");
+      expect(setOption(root, "barrelBowCm", "4.5").getAttribute("aria-invalid")).toBe("true");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+      expect(setOption(root, "barrelBowCm", "3").value).toBe("3");
+      clickId(root, "journey-step-fit");
+      clickId(root, "journey-next");
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(false);
+
+      const advanced = root.querySelector<HTMLDetailsElement>("#advanced-views");
+      expect(advanced).not.toBeNull();
+      advanced!.open = true;
+      clickId(root, "view-flat");
+      clickId(root, "technical-flat-front");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='FRONT_FLAT']")).not.toBeNull();
+      clickId(root, "technical-flat-back");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='BACK_FLAT']")).not.toBeNull();
+
+      expect(root.querySelector<HTMLButtonElement>("#export-dxf-source-package")?.disabled).toBe(false);
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector", "export-dxf-source-package"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(7), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "barrel-leg-trouser-M-A0.pdf",
+        "barrel-leg-trouser-M-cad-exchange-source.json",
+        "barrel-leg-trouser-M.dxf",
+        "barrel-leg-trouser-M.pdf",
+        "barrel-leg-trouser-M.svg",
+        "barrel-leg-trouser-projector.svg",
+        "barrel-leg-trouser-techpack.pdf",
+      ].sort());
+      const exportedPatternPolygons = files.get("barrel-leg-trouser-M.svg")!.match(/<polygon points="[^"]+"/gu) ?? [];
+      expect(exportedPatternPolygons.length).toBeGreaterThan(3);
+      expect(exportedPatternPolygons[0]!.split(" ").length).toBeGreaterThan(35);
+      expect(files.get("barrel-leg-trouser-M.dxf")).toContain("SECTION");
+      expect(files.get("barrel-leg-trouser-M.pdf")).toMatch(/^%PDF/);
+      expect(files.get("barrel-leg-trouser-M-A0.pdf")).toMatch(/^%PDF/);
+      const techPackText = visiblePdfText(files.get("barrel-leg-trouser-techpack.pdf")!);
+      expect(techPackText).toContain("Digital R04 Barrel-leg trouser profile");
+      expect(techPackText).toContain("3 cm outer-leg curve control");
+      expect(techPackText).toContain("No sewn sample");
+      expect(files.get("barrel-leg-trouser-projector.svg")).toContain("Digital R04 Barrel-leg trouser");
+      expect(files.get("barrel-leg-trouser-projector.svg")).toContain("Physical fit, material behavior and grading are not validated");
+      const packageJson = JSON.parse(files.get("barrel-leg-trouser-M-cad-exchange-source.json")!) as {
+        manifest: { options: Record<string, number> };
+      };
+      expect(packageJson.manifest.options.legOpening).toBe(38);
+      expect(packageJson.manifest.options.barrelBowCm).toBe(3);
+      expect(packageJson.manifest.options).not.toHaveProperty(TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY);
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; entryRevision: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.trouser).toMatchObject({ legOpening: 38, barrelBowCm: 3 });
+      expect(saved.garmentOptions.trouser).not.toHaveProperty(TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TROUSER_BARREL_LEG_ENTRY_ID,
+        entryRevision: "2026-11-16.4",
+        recipeRevision: "trouser-barrel-leg-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Barrel-leg trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="barrelBowCm"]')?.value).toBe("3");
+      clickId(reopened, "garment-trouser");
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="barrelBowCm"]')).toBeNull();
+      expect(reopened.querySelector<HTMLSelectElement>("#style-target")?.value).not.toBe("Barrel-leg trouser");
+      clickId(reopened, "save-pattern");
+      const genericSaved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+      };
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty("barrelBowCm");
     } finally {
       restoreSvgTextMetrics();
       root?.remove();
