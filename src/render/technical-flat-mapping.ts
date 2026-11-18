@@ -359,10 +359,11 @@ export function mapTechnicalFlatSources(
       for (const mark of piece.marks ?? []) {
         const isClosure = mark.kind === "button" || mark.kind === "buttonhole";
         const isPocket = /pocket/i.test(role.roleId) || /pocket/i.test(mark.name);
+        const isPleat = mark.name.startsWith("frontPleat");
         sources.push({
           id: `flat:${recipeId}:${faceMapping.kind}:mark:${role.roleId}:${mark.name}`,
-          kind: "mark", feature: isClosure ? "closure" : isPocket ? "pocket" : "annotation",
-          layer: isClosure ? "CLOSURE" : isPocket ? "CONSTRUCTION" : "ANNOTATION",
+          kind: "mark", feature: isClosure ? "closure" : isPocket ? "pocket" : isPleat ? "pleat" : "annotation",
+          layer: isClosure ? "CLOSURE" : isPocket ? "CONSTRUCTION" : isPleat ? "PLEAT" : "ANNOTATION",
           sourceId: `pattern:${recipeId}:mark:${role.roleId}:${mark.name}`,
           viewKinds: [faceMapping.kind], treatment: role.treatment,
         });
@@ -504,7 +505,7 @@ export function mapTechnicalFlatSources(
   const featurePresent = (feature: TechnicalFlatFeature): boolean => sources.some((source) => source.feature === feature);
   for (const [feature, message] of [
     ["topstitch", "Topstitch geometry is not represented by the current pattern model."],
-    ["pleat", "Pleat geometry is not represented by the current pattern model."],
+    ["pleat", "No pleat cut or placement guides are represented by the current pattern model."],
     ["dart", "No dart is declared for this drafted recipe block."],
     ["pocket", "No pocket shape or opening is represented by this drafted recipe block."],
     ["closure", "No closure marks are represented by this drafted recipe block."],
@@ -512,6 +513,12 @@ export function mapTechnicalFlatSources(
     if (!featurePresent(feature)) {
       notices.push({ id: `notice:${recipeId}:${feature}`, feature, reason: "SOURCE_NOT_REPRESENTED", message });
     }
+  }
+  if (featurePresent("pleat")) {
+    notices.push({ id: `notice:${recipeId}:pleat-digital-guides-only`, feature: "pleat",
+      reason: "SOURCE_NOT_REPRESENTED",
+      sourceId: `pattern:${recipeId}:pleat-guides`,
+      message: "Digital cut, fold and placement guides only; fabric folding, sewn behavior and fit are not simulated." });
   }
 
   return { recipeId, faces: mapping.faces, sources, notices, issues };

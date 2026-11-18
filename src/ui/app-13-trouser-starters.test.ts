@@ -4,8 +4,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob, Buffer } from "node:buffer";
 import { createHash, webcrypto } from "node:crypto";
 import { mountApp, unmountApp } from "./app";
-import { STARTER_REGISTRY, TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
-import { TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { STARTER_REGISTRY, TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_PLEATED_FRONT_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
+import { TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 
 const mountedRoots = new Set<HTMLDivElement>();
 type TrackedListener = { type: string; listener: EventListenerOrEventListenerObject; options?: boolean | AddEventListenerOptions };
@@ -862,6 +862,131 @@ describe("R05 Bootcut trouser starter app", () => {
       };
       expect(genericSaved.garmentOptions.trouser).toMatchObject({ legOpening: 54, thighEase: 8, kneeEase: 5 });
       expect(genericSaved.garmentOptions.trouser).not.toHaveProperty(TROUSER_BOOTCUT_PROFILE_ROUTE_KEY);
+    } finally {
+      restoreSvgTextMetrics();
+      root?.remove();
+      reopened?.remove();
+    }
+  }, 60_000);
+});
+
+describe("R06 Pleated-front trouser starter app", () => {
+  it("keeps the post-fold waist, correction guidance, outputs, save/reopen and generic switch on the R06 identity", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const files = new Map<string, string>();
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    try {
+      root = mount();
+      clickId(root, "welcome-start");
+      clickId(root, "garment-trouser");
+      clickId(root, "starter-" + TROUSER_PLEATED_FRONT_ENTRY_ID);
+      expect(root.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Pleated-front trouser");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")?.value).toBe("Pleated-front trouser");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="frontPleatIntakeCm"]')?.value).toBe("4");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="frontPleatOffsetCm"]')?.value).toBe("6");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="frontPleatStitchDepthCm"]')?.value).toBe("8");
+      expect(root.querySelector<HTMLElement>("#controls-panel")?.textContent).not.toContain(TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY);
+
+      clickId(root, "view-pattern");
+      const pattern = root.querySelector<SVGSVGElement>("#inspection-content svg")?.outerHTML ?? "";
+      expect(pattern).toContain('data-pattern-mark-name="frontWaistAfterPleat"');
+      expect(pattern).toContain('data-pattern-mark-name="frontPleatFold"');
+      expect(pattern).toContain('data-pattern-mark-name="frontPleatRoll"');
+
+      reachExportStage(root);
+      setOption(root, "frontPleatIntakeCm", "8");
+      setOption(root, "frontPleatOffsetCm", "12");
+      setOption(root, "frontPleatStitchDepthCm", "16");
+      expect(root.querySelector<HTMLElement>("#guidance-host")?.textContent).toContain("crosses the pocket opening");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+      setOption(root, "frontPleatIntakeCm", "4");
+      setOption(root, "frontPleatOffsetCm", "6");
+      setOption(root, "frontPleatStitchDepthCm", "8");
+      clickId(root, "journey-step-fit");
+      clickId(root, "journey-next");
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(false);
+
+      const advanced = root.querySelector<HTMLDetailsElement>("#advanced-views");
+      expect(advanced).not.toBeNull();
+      advanced!.open = true;
+      clickId(root, "view-flat");
+      clickId(root, "technical-flat-front");
+      const frontFlat = root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='FRONT_FLAT']");
+      expect(frontFlat, [...root.querySelectorAll<HTMLElement>("#analysis-host, #garment-host")]
+        .map((host) => host.textContent).join(" ").slice(0, 1000)).not.toBeNull();
+      clickId(root, "technical-flat-back");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='BACK_FLAT']")).not.toBeNull();
+      expect(root.querySelector<HTMLButtonElement>("#export-dxf-source-package")?.disabled).toBe(false);
+
+      for (const id of ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack", "export-projector", "export-dxf-source-package"]) {
+        clickId(root, id);
+      }
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(7), { timeout: 20000 });
+      expect([...files.keys()].sort()).toEqual([
+        "pleated-front-trouser-M-A0.pdf",
+        "pleated-front-trouser-M-cad-exchange-source.json",
+        "pleated-front-trouser-M.dxf",
+        "pleated-front-trouser-M.pdf",
+        "pleated-front-trouser-M.svg",
+        "pleated-front-trouser-projector.svg",
+        "pleated-front-trouser-techpack.pdf",
+      ].sort());
+      expect(files.get("pleated-front-trouser-M.svg")).toContain("frontWaistAfterPleat");
+      expect(files.get("pleated-front-trouser-M.dxf")).toContain("SECTION");
+      expect(files.get("pleated-front-trouser-M.pdf")).toMatch(/^%PDF/);
+      expect(files.get("pleated-front-trouser-M.pdf")).toContain("(fold toward pocket) Tj ET");
+      expect(files.get("pleated-front-trouser-M.pdf")).toContain("(pleat roll) Tj ET");
+      expect(files.get("pleated-front-trouser-M.pdf")).toContain("(place on fold) Tj ET");
+      expect(files.get("pleated-front-trouser-M.pdf")).toContain("0 1 -1 0");
+      expect(files.get("pleated-front-trouser-M-A0.pdf")).toMatch(/^%PDF/);
+      expect(visiblePdfText(files.get("pleated-front-trouser-techpack.pdf")!)).toContain("Digital R06 pleated-front trouser profile");
+      expect(visiblePdfText(files.get("pleated-front-trouser-techpack.pdf")!)).toContain("4 cm digital cut intake at 6 cm from centre front");
+      expect(visiblePdfText(files.get("pleated-front-trouser-techpack.pdf")!)).toContain("physical fit");
+      expect(files.get("pleated-front-trouser-projector.svg")).toContain("Digital R06 pleated-front trouser");
+      const packageJson = JSON.parse(files.get("pleated-front-trouser-M-cad-exchange-source.json")!) as {
+        manifest: { options: Record<string, number>; recipe: { id: string; label: string } };
+      };
+      expect(packageJson.manifest.options).toMatchObject({ frontPleatIntakeCm: 4, frontPleatOffsetCm: 6, frontPleatStitchDepthCm: 8 });
+      expect(packageJson.manifest.options).not.toHaveProperty(TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY);
+      expect(packageJson.manifest.recipe).toEqual({ id: "trouser", label: "Pleated-front trouser" });
+
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; entryRevision: string; recipeRevision: string } };
+      };
+      expect(saved.garmentOptions.trouser).toMatchObject({ frontPleatIntakeCm: 4, frontPleatOffsetCm: 6, frontPleatStitchDepthCm: 8 });
+      expect(saved.garmentOptions.trouser).not.toHaveProperty(TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY);
+      expect(saved.workspace.starterOrigin).toMatchObject({
+        entryId: TROUSER_PLEATED_FRONT_ENTRY_ID,
+        entryRevision: "2026-11-17.2",
+        recipeRevision: "trouser-pleated-front-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Pleated-front trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="frontPleatIntakeCm"]')?.value).toBe("4");
+      clickId(reopened, "garment-trouser");
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="frontPleatIntakeCm"]')).toBeNull();
+      clickId(reopened, "save-pattern");
+      const genericSaved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+      };
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty("frontPleatIntakeCm");
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty(TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY);
     } finally {
       restoreSvgTextMetrics();
       root?.remove();

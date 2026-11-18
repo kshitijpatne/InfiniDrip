@@ -122,6 +122,38 @@ describe("export pattern marks", () => {
     expect(pdf).toMatch(/BT \/F1 7 Tf [\d.]+ [\d.]+ Td \(R2\) Tj ET/);
   });
 
+  it("line-aligns R06 knife-pleat labels beside their vertical guide lines", () => {
+    const guides = [
+      lineMark("foldLine", "frontPleatFold", point(6, 4), point(6, 12), "fold toward pocket"),
+      lineMark("placementLine", "frontPleatRoll", point(7, 4), point(7, 12), "pleat roll"),
+      lineMark("placementLine", "frontPleatPlacement", point(8, 4), point(8, 12), "place on fold"),
+      lineMark("placementLine", "unrelatedGuide", point(2, 4), point(2, 12), "unrelated guide"),
+      lineMark("placementLine", "unlabeledGuide", point(3, 4), point(3, 12)),
+      pointMark("button", "frontPleatFold", point(1, 1), "BUTTON 1"),
+    ];
+    const pdf = patternMarksPdfOps(guides, 29.7, "line-aligned-pleated-front-guides", 21);
+
+    expect(pdf.match(/0 1 -1 0/gu)).toHaveLength(3);
+    expect(pdf).toContain("(fold toward pocket) Tj ET");
+    expect(pdf).toContain("(pleat roll) Tj ET");
+    expect(pdf).toContain("(place on fold) Tj ET");
+  });
+
+  it("keeps the R06 guide-label fallback when no page width is supplied", () => {
+    const guide = lineMark("foldLine", "frontPleatFold", point(6, 4), point(6, 12), "fold toward pocket");
+    const pdf = patternMarksPdfOps([guide], 29.7, "line-aligned-pleated-front-guides");
+
+    expect(pdf).toMatch(/0 1 -1 0 [\d.]+ [\d.]+ Tm \(fold toward pocket\) Tj ET/);
+  });
+
+  it("omits an R06 guide label when its vertical line is outside the page width", () => {
+    const guide = lineMark("foldLine", "frontPleatFold", point(25, 4), point(25, 12), "fold toward pocket");
+    const pdf = patternMarksPdfOps([guide], 29.7, "line-aligned-pleated-front-guides", 21);
+
+    expect(pdf).toContain("708.661 728.504 m 708.661 501.732 l S");
+    expect(pdf).not.toContain("(fold toward pocket) Tj ET");
+  });
+
   it("keeps horizontal guide labels on-page and omits off-page or too-short fragments", () => {
     const guides = [
       lineMark("foldLine", "outside", point(0, -0.1), point(20, -0.1), "Box pleat 1 fold"),

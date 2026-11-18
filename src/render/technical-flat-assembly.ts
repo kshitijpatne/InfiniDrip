@@ -1,7 +1,7 @@
 import type { Block } from "../drafting/block";
 import type { Edge, Piece } from "../drafting/piece";
 import type { PatternMark } from "../drafting/pattern-mark";
-import type { EdgeRef, InterfaceRef, Stitch } from "../drafting/stitch";
+import type { InterfaceRef, Stitch } from "../drafting/stitch";
 import { cubicLength, cubicPoint } from "../geometry";
 import type { FlatPoint, TechnicalFlatViewKind } from "./technical-flat";
 import { technicalFlatMappingForBlock } from "./technical-flat-mapping";
@@ -366,14 +366,22 @@ function waistbandFragments(block: Block, kind: TechnicalFlatViewKind, recipeId:
   if (!band || band.kind !== "line" || !finitePoint(band.start) || !finitePoint(band.end)) return [];
   const refs = stitch.a.edges;
   const expected = ["backLeft", "frontLeft", "frontRight", "backRight"];
-  const panelRefs: EdgeRef[] = [];
+  const panelRefs: InterfaceRef[] = [];
   for (const [index, ref] of refs.entries()) {
-    if (!("edge" in ref) || ref.piece !== expected[index] || ref.edge !== "waist") return [];
+    if (ref.piece !== expected[index]
+      || ("edge" in ref ? ref.edge !== "waist" : ref.mark !== "frontWaistAfterPleat")) return [];
     panelRefs.push(ref);
   }
   const panelEdges = panelRefs.map((ref) => {
-    const edge = block.roles[ref.piece]?.edges.find((candidate) => candidate.name === ref.edge);
-    return edge?.kind === "line" && finitePoint(edge.start) && finitePoint(edge.end) ? { ref, edge } : undefined;
+    const piece = block.roles[ref.piece];
+    const edge = "edge" in ref
+      ? piece?.edges.find((candidate) => candidate.name === ref.edge)
+      : piece?.marks?.find((candidate) => candidate.name === ref.mark);
+    const start = edge && "start" in edge ? edge.start : undefined;
+    const end = edge && "start" in edge ? edge.end : undefined;
+    return start && end && finitePoint(start) && finitePoint(end)
+      ? { ref, edge: { kind: "line" as const, name: "waist", start, end } }
+      : undefined;
   });
   if (panelEdges.some((entry) => !entry)) return [];
   const lengths = panelEdges.map((entry) => Math.hypot(entry!.edge.end.x - entry!.edge.start.x,
