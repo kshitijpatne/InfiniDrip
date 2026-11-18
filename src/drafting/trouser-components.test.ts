@@ -12,7 +12,7 @@ import {
   trouserLegsComponent,
   trouserWaistband,
 } from "./trouser";
-import { DEFAULT_TROUSER_OPTIONS } from "./trouser-contract";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "./trouser-contract";
 import { STANDARD_M } from "./measurements";
 
 describe("trouser waistband and closure components", () => {
@@ -28,6 +28,31 @@ describe("trouser waistband and closure components", () => {
       "centerBack", "centerFront", "waistbandButton",
     ]);
     expect(band.marks?.find((mark) => mark.name === "waistbandButton")?.kind).toBe("button");
+  });
+
+  it("combines coincident R06 waistband labels and anchors the title without changing mark geometry", () => {
+    const generic = trouserWaistband(STANDARD_M, DEFAULT_TROUSER_OPTIONS).pieces.waistband;
+    const pleated = trouserWaistband(STANDARD_M, {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1,
+    }).pieces.waistband;
+    const markGeometry = (marks: NonNullable<typeof generic.marks>) => marks.map((mark) => ({
+      kind: mark.kind,
+      name: mark.name,
+      point: "at" in mark ? mark.at : undefined,
+      start: "start" in mark ? mark.start : undefined,
+      end: "end" in mark ? mark.end : undefined,
+    }));
+
+    expect(generic.labelAnchor).toBeUndefined();
+    expect(generic.marks?.find((mark) => mark.name === "centerFront")?.label).toBe("center front");
+    expect(generic.marks?.find((mark) => mark.name === "waistbandButton")?.label).toBe("waistband button");
+    expect(pleated.labelAnchor?.x).toBeCloseTo(edgeLength(pieceEdge(pleated, "bottom")) / 4);
+    expect(pleated.labelAnchor?.y).toBeCloseTo(edgeLength(pieceEdge(pleated, "endRight")) / 2);
+    expect(pleated.edges).toEqual(generic.edges);
+    expect(markGeometry(pleated.marks ?? [])).toEqual(markGeometry(generic.marks ?? []));
+    expect(pleated.marks?.find((mark) => mark.name === "centerFront")?.label).toBeUndefined();
+    expect(pleated.marks?.find((mark) => mark.name === "waistbandButton")?.label).toBe("center front button");
   });
 
   it("keeps waistband depth and the fly length live", () => {

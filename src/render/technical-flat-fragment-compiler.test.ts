@@ -3,6 +3,7 @@ import { GARMENTS, STANDARD_M, TROUSER_OPTION_DEFINITIONS, defaultGarmentOptions
 import { draftJogger } from "../drafting/jogger";
 import { assembleTechnicalFlatRoles, type FlatRoleTransform, type TechnicalFlatSourceFragment } from "./technical-flat-assembly";
 import { compileJoggerWaistbandFragments, compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
+import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 
 const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
 const defaultOptions = defaultGarmentOptions(TROUSER_OPTION_DEFINITIONS);
@@ -53,6 +54,31 @@ describe("compileTrouserWaistbandFragments", () => {
     expect(compile(draft(), "FRONT_FLAT", movedRight).issues).toContainEqual(expect.objectContaining({
       code: "UNRESOLVED_FRAGMENT_JOIN", sourceId: "view:trouser:waistband:center-front",
     }));
+  });
+
+  it("compiles R06 waist-band fragments against the authored post-fold line marks", () => {
+    const pleatedOptions = {
+      ...defaultOptions,
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1,
+      frontPleatIntakeCm: 4,
+      frontPleatOffsetCm: 6,
+      frontPleatStitchDepthCm: 8,
+    };
+    const source = draft(pleatedOptions);
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const result = compile(source, kind);
+      expect(result.issues, kind).toEqual([]);
+      expect(result.primitives.filter((primitive) => primitive.kind === "path" && primitive.source.sourceId.startsWith("view:")))
+        .toHaveLength(2);
+      expect(result.primitives.some((primitive) => primitive.source.sourceId === "pattern:trouser:mark:frontLeft:frontWaistAfterPleat"))
+        .toBe(false);
+    }
+    const front = compile(source, "FRONT_FLAT");
+    expect(front.primitives.filter((primitive) => primitive.kind === "path" && primitive.source.sourceId.startsWith("view:")))
+      .toMatchObject([
+        { id: expect.stringContaining("frontLeft"), commands: [{ op: "move", point: expect.any(Object) }, { op: "line", point: expect.any(Object) }] },
+        { id: expect.stringContaining("frontRight"), commands: [{ op: "move", point: expect.any(Object) }, { op: "line", point: expect.any(Object) }] },
+      ]);
   });
 
   it("compiles the back fragments at every declared Trouser option endpoint", () => {

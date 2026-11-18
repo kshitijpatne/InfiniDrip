@@ -13,7 +13,7 @@
 
 import type { Measurements } from "../drafting";
 import type { GarmentOptions } from "../drafting/options";
-import { TROUSER_BOOTCUT_ENTRY_ID } from "../drafting/trouser-contract";
+import { TROUSER_BOOTCUT_ENTRY_ID, TROUSER_PLEATED_FRONT_ENTRY_ID } from "../drafting/trouser-contract";
 
 export interface StyleDef {
   readonly name: string;
@@ -116,6 +116,14 @@ export const TROUSER_STYLES: readonly StyleDef[] = [
     { id: "thighEase", label: "Thigh ease", unit: "cm", range: [0, 20] },
     { id: "kneeEase", label: "Knee ease", unit: "cm", range: [0, 15] },
     { id: "legOpening", label: "Leg opening", unit: "cm", range: [25, 65] },
+  ] },
+  { name: "Pleated-front trouser", appliesToStarterEntryId: TROUSER_PLEATED_FRONT_ENTRY_ID, ranges: { ease: [4, 14], inseam: [72, 84] }, optionRanges: [
+    { id: "thighEase", label: "Thigh ease", unit: "cm", range: [0, 20] },
+    { id: "kneeEase", label: "Knee ease", unit: "cm", range: [0, 15] },
+    { id: "legOpening", label: "Leg opening", unit: "cm", range: [25, 65] },
+    { id: "frontPleatIntakeCm", label: "Front pleat intake", unit: "cm", range: [2, 8] },
+    { id: "frontPleatOffsetCm", label: "Front pleat position", unit: "cm", range: [4, 12] },
+    { id: "frontPleatStitchDepthCm", label: "Front pleat stitch-down depth", unit: "cm", range: [4, 16] },
   ] },
   { name: "Wide-leg trouser", ranges: { ease: [8, 14], inseam: [72, 84] }, optionRanges: [
     { id: "thighEase", label: "Thigh ease", unit: "cm", range: [12, 20] },

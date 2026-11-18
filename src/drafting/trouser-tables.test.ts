@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { edgeStart, pieceEdge } from "./piece";
+import { edgeEnd, edgeLength, edgeStart, pieceEdge } from "./piece";
 import {
   draftTrouserWithPockets,
   TROUSER_GRADE,
@@ -15,6 +15,8 @@ import {
   gradeRun,
   specSheet,
 } from "./index";
+import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "./trouser-contract";
+import { trouserPomsForOptions, trouserTechPackForOptions, trouserWaistSizeMetric } from "./trouser-tables";
 
 describe("trouser grading, POM, and tech-pack tables", () => {
   it("grades body fields while keeping ease and construction options constant", () => {
@@ -86,6 +88,44 @@ describe("trouser grading, POM, and tech-pack tables", () => {
     }
     const backRise = TROUSER_POMS.find((pom) => pom.label === "Back rise (finished incl. waistband)");
     expect(backRise?.backAnchor?.(b)).toEqual(edgeStart(pieceEdge(b.roles.backLeft, "centerBack")));
+  });
+
+  it("measures R06 from its post-fold waist mark and identifies the digital pleat limits", () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 as const,
+      frontPleatIntakeCm: 4,
+      frontPleatOffsetCm: 6,
+      frontPleatStitchDepthCm: 8,
+    };
+    const b = draftTrouserWithPockets(STANDARD_M, options);
+    const poms = trouserPomsForOptions(options);
+    const rows = specSheet([{ label: "M", step: 0, measurements: STANDARD_M, block: b }], poms);
+    const waistPom = poms.find((pom) => pom.label === "Waist (finished)")!;
+    const waistMark = b.roles.frontLeft!.marks!.find((mark) => mark.name === "frontWaistAfterPleat")!;
+    const pack = trouserTechPackForOptions(options);
+
+    expect(rows.find((row) => row.label === "Waist (finished)")?.values[0]).toBeCloseTo(94);
+    expect(waistPom.frontMarkAnchor).toEqual({ roleId: "frontLeft", markName: "frontWaistAfterPleat", point: "end" });
+    expect(waistPom.anchor?.(b)).toEqual("start" in waistMark ? waistMark.end : undefined);
+    expect(trouserWaistSizeMetric(b)).toBeCloseTo(23.5);
+    expect(trouserPomsForOptions(DEFAULT_TROUSER_OPTIONS)).toBe(TROUSER_POMS);
+    expect(pack.constructionNotice).toContain("Fabric response");
+    expect(pack.construction.join(" ")).toContain("digital knife-pleat intake is 4 cm at 6 cm from centre front");
+    expect(pack.construction.join(" ")).toContain("sewn sample");
+    expect(trouserTechPackForOptions(DEFAULT_TROUSER_OPTIONS)).toBe(TROUSER_TECH_PACK);
+  });
+
+  it("keeps the R06 POM and tech-pack defaults safe for partial route options", () => {
+    const routeOnly = { [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 as const };
+    const b = draftTrouserWithPockets(STANDARD_M, DEFAULT_TROUSER_OPTIONS);
+    const waistPom = trouserPomsForOptions(routeOnly).find((pom) => pom.label === "Waist (finished)")!;
+    const front = b.roles.frontLeft!;
+
+    expect(waistPom.measure(b)).toBeCloseTo(4 * edgeLength(pieceEdge(front, "waist")));
+    expect(waistPom.anchor?.(b)).toEqual(edgeEnd(pieceEdge(front, "waist")));
+    expect(trouserTechPackForOptions(routeOnly).construction.join(" "))
+      .toContain("digital knife-pleat intake is 4 cm at 6 cm from centre front, with an 8 cm stitch-down guide");
   });
 
   it("keeps the BOM and construction order aligned with the emitted V1 roles", () => {

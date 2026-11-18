@@ -6,6 +6,7 @@ import {
   draftTrouserWithPockets,
   rolePiece,
 } from "../drafting";
+import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import {
   renderTrouserBody,
   renderTrouserBodyPair,
@@ -85,5 +86,27 @@ describe("trouser render integration (Slice 100)", () => {
     const changedBody = renderTrouserBody(STANDARD_M, { ...DEFAULT_TROUSER_OPTIONS, flyLength: 19 }, "front");
     expect(changed).not.toBe(base);
     expect(changedBody).not.toBe(body);
+  });
+
+  it("renders the R06 cut-intake contour, all pleat option overlays and the post-fold waist dimension", () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 as const,
+      frontPleatIntakeCm: 4,
+      frontPleatOffsetCm: 6,
+      frontPleatStitchDepthCm: 8,
+    };
+    const body = renderTrouserBody(STANDARD_M, options, "front");
+    const bodyDoc = parse(body);
+    const waist = bodyDoc.querySelector('[data-edge="waist"]');
+    const side = parse(renderTrouserSide(STANDARD_M, options));
+
+    expect(bodyDoc.querySelector("parsererror")).toBeNull();
+    expect(waist?.querySelectorAll("line")).toHaveLength(10);
+    expect(body).toContain('data-edge="option-frontPleatOffsetCm"');
+    expect(body).toContain('data-edge="option-frontPleatIntakeCm"');
+    expect(body).toContain('data-edge="option-frontPleatStitchDepthCm"');
+    expect(body).toContain('data-pattern-mark-name="frontWaistAfterPleat"');
+    expect(side.querySelector('[data-part="side-silhouette"]')?.getAttribute("d")).toContain("6 -2");
   });
 });

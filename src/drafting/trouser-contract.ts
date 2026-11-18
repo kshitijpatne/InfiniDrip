@@ -12,11 +12,14 @@ export const TROUSER_FIELDS = [
 export const TROUSER_BARREL_LEG_ENTRY_ID = "trouser-barrel-leg-digital-v1" as const;
 /** Stable R05 registry identity shared by the drafting and app boundaries. */
 export const TROUSER_BOOTCUT_ENTRY_ID = "trouser-bootcut-digital-v1" as const;
+/** Stable R06 registry identity shared by the drafting and app boundaries. */
+export const TROUSER_PLEATED_FRONT_ENTRY_ID = "trouser-pleated-front-digital-v1" as const;
 
 /** Internal geometry routes are derived from the selected saved starter identity. */
 export const TROUSER_TAPERED_PROFILE_ROUTE_KEY = "__trouserTaperedProfile" as const;
 export const TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY = "__trouserBarrelLegProfile" as const;
 export const TROUSER_BOOTCUT_PROFILE_ROUTE_KEY = "__trouserBootcutProfile" as const;
+export const TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY = "__trouserPleatedFrontProfile" as const;
 
 export interface TrouserOptions {
   readonly frontRiseEase: number;
@@ -34,6 +37,10 @@ export interface TrouserOptions {
   readonly [TROUSER_TAPERED_PROFILE_ROUTE_KEY]?: 1;
   readonly [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]?: 1;
   readonly [TROUSER_BOOTCUT_PROFILE_ROUTE_KEY]?: 1;
+  readonly frontPleatIntakeCm?: number;
+  readonly frontPleatOffsetCm?: number;
+  readonly frontPleatStitchDepthCm?: number;
+  readonly [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]?: 1;
 }
 
 export const TROUSER_BARREL_BOW_OPTION: GarmentOption = {
@@ -65,6 +72,9 @@ export const TROUSER_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "pocketBagDepth", label: "Pocket bag depth", unit: "cm", group: "Pocket", help: "Sets the pocket bag depth; reduce it if the bag reaches the hem or knee region.", defaultValue: 23, min: 12, max: 35, step: 0.5 },
   { id: "pocketDrop", label: "Pocket drop", unit: "cm", group: "Pocket", help: "Moves the pocket opening below the waistband; keep the opening inside the front panel.", defaultValue: 2, min: 0, max: 15, step: 0.5 },
   TROUSER_BARREL_BOW_OPTION,
+  { id: "frontPleatIntakeCm", label: "Front pleat intake", unit: "cm", group: "Front construction", help: "Sets the added digital cut width in each front knife pleat; it is not finished waist ease.", appliesToStarterEntryId: TROUSER_PLEATED_FRONT_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 4, min: 2, max: 8, step: 0.5 },
+  { id: "frontPleatOffsetCm", label: "Front pleat position", unit: "cm", group: "Front construction", help: "Places each fold line from centre front; keep it clear of the fly and pocket opening.", appliesToStarterEntryId: TROUSER_PLEATED_FRONT_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 6, min: 4, max: 12, step: 0.5 },
+  { id: "frontPleatStitchDepthCm", label: "Front pleat stitch-down depth", unit: "cm", group: "Front construction", help: "Sets the digital distance the pleat guide is stitched down from the waist.", appliesToStarterEntryId: TROUSER_PLEATED_FRONT_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 8, min: 4, max: 16, step: 0.5 },
 ];
 
 /** Options available to the shared Trouser recipe; profile-only controls enter
@@ -98,7 +108,17 @@ export function resolveTrouserOptions(values: Partial<TrouserOptions> = {}): Tro
   if (values[TROUSER_TAPERED_PROFILE_ROUTE_KEY] === 1) {
     return { ...options, [TROUSER_TAPERED_PROFILE_ROUTE_KEY]: 1 };
   }
-  return values[TROUSER_BOOTCUT_PROFILE_ROUTE_KEY] === 1
-    ? { ...options, [TROUSER_BOOTCUT_PROFILE_ROUTE_KEY]: 1 }
-    : options;
+  if (values[TROUSER_BOOTCUT_PROFILE_ROUTE_KEY] === 1) {
+    return { ...options, [TROUSER_BOOTCUT_PROFILE_ROUTE_KEY]: 1 };
+  }
+  if (values[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] === 1) {
+    return {
+      ...options,
+      frontPleatIntakeCm: finiteOr(values.frontPleatIntakeCm, 4),
+      frontPleatOffsetCm: finiteOr(values.frontPleatOffsetCm, 6),
+      frontPleatStitchDepthCm: finiteOr(values.frontPleatStitchDepthCm, 8),
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1,
+    };
+  }
+  return options;
 }

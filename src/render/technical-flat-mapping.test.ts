@@ -9,6 +9,8 @@ import { SKIRT_A_LINE_ENTRY_ID, SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_
   SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
 import { SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
 import { draftJogger } from "../drafting/jogger";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { draftTrouserWithPockets } from "../drafting/trouser";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import {
   G04_TECHNICAL_FLAT_MAPPINGS,
@@ -423,6 +425,30 @@ describe("mapTechnicalFlatSources", () => {
     expect(woven.sources.some((source) => source.feature === "closure")).toBe(true);
     expect(trouser.sources.some((source) => source.feature === "pocket" && source.sourceId.includes("pocketOpening"))).toBe(true);
     expect(trouser.sources.some((source) => source.feature === "closure")).toBe(true);
+  });
+
+  it("maps R06 cut and placement guides as pleat sources and states the simulation limit", () => {
+    const block = draftTrouserWithPockets(STANDARD_M, {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1,
+    });
+    const mapping = mapTechnicalFlatSources("trouser", block);
+    const guides = mapping.sources.filter((source) => source.feature === "pleat");
+
+    expect(mapping.issues).toEqual([]);
+    expect(guides).toHaveLength(6);
+    expect(guides.every((source) => source.layer === "PLEAT" && source.treatment === "SHELL")).toBe(true);
+    expect(guides.map((source) => source.sourceId)).toEqual(expect.arrayContaining([
+      "pattern:trouser:mark:frontLeft:frontPleatFold",
+      "pattern:trouser:mark:frontLeft:frontPleatRoll",
+      "pattern:trouser:mark:frontLeft:frontPleatPlacement",
+      "pattern:trouser:mark:frontRight:frontPleatFold",
+      "pattern:trouser:mark:frontRight:frontPleatRoll",
+      "pattern:trouser:mark:frontRight:frontPleatPlacement",
+    ]));
+    expect(mapping.notices.find((notice) => notice.id === "notice:trouser:pleat-digital-guides-only")?.message)
+      .toBe("Digital cut, fold and placement guides only; fabric folding, sewn behavior and fit are not simulated.");
+    expect(mapping.notices.some((notice) => notice.message.includes("No pleat cut or placement guides"))).toBe(false);
   });
 
   it("rejects an unadmitted recipe instead of inferring a similar map", () => {

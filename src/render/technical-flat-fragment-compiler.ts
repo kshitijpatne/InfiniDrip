@@ -1,7 +1,7 @@
 import type { Block } from "../drafting/block";
 import type { Edge, Piece } from "../drafting/piece";
 import type { PatternMark } from "../drafting/pattern-mark";
-import type { EdgeRef } from "../drafting/stitch";
+import type { InterfaceRef } from "../drafting/stitch";
 import type { FlatPoint, FlatPathPrimitive, FlatPointMarkPrimitive, TechnicalFlatPrimitive, TechnicalFlatViewKind } from "./technical-flat";
 import type { FlatRoleTransform, TechnicalFlatSourceFragment } from "./technical-flat-assembly";
 import { transformFlatPoint } from "./technical-flat-transform";
@@ -33,6 +33,16 @@ function line(piece: Piece | undefined, name: string): LineEdge | undefined {
   const edge = piece?.edges.find((candidate) => candidate.name === name);
   if (edge?.kind !== "line" || !closePoint(edge.start, edge.start) || !closePoint(edge.end, edge.end)) return undefined;
   return edge;
+}
+
+function interfaceLine(block: Block, ref: InterfaceRef): Pick<LineEdge, "start" | "end"> | undefined {
+  const piece = block.roles[ref.piece];
+  const source = "edge" in ref
+    ? piece?.edges.find((candidate) => candidate.name === ref.edge)
+    : piece?.marks?.find((candidate) => candidate.name === ref.mark);
+  return source && "start" in source && closePoint(source.start, source.start) && closePoint(source.end, source.end)
+    ? { start: source.start, end: source.end }
+    : undefined;
 }
 
 function at(edge: LineEdge, fraction: number): FlatPoint {
@@ -77,8 +87,9 @@ function expectedIntervals(block: Block, bottom: LineEdge, stitchLabel: string, 
   const expected = ["backLeft", "frontLeft", "frontRight", "backRight"];
   const lengths: number[] = [];
   for (const [index, ref] of stitch.a.edges.entries()) {
-    if (!("edge" in ref) || ref.piece !== expected[index] || ref.edge !== "waist") return undefined;
-    const edge = line(block.roles[ref.piece], ref.edge);
+    if (ref.piece !== expected[index]
+      || ("edge" in ref ? ref.edge !== "waist" : ref.mark !== "frontWaistAfterPleat")) return undefined;
+    const edge = interfaceLine(block, ref);
     if (!edge) return undefined;
     const length = Math.hypot(edge.end.x - edge.start.x, edge.end.y - edge.start.y);
     if (!(length > 0) || !Number.isFinite(length)) return undefined;
@@ -154,15 +165,15 @@ function compileWaistbandFragments(
     const bandEnd = fragment.sourceInterval?.[1];
     const panel = placements[fragment.attachedRoleId];
     const panelPiece = block.roles[fragment.attachedRoleId];
-    const panelEdge = line(panelPiece, "waist");
     const stitch = block.stitches.find((candidate) => candidate.label === stitchLabel);
-    const ref = stitch?.a.edges.find((candidate) => "edge" in candidate
-      && candidate.piece === fragment.attachedRoleId && candidate.edge === "waist") as EdgeRef | undefined;
+    const ref = stitch!.a.edges.find((candidate) => candidate.piece === fragment.attachedRoleId
+      && ("edge" in candidate ? candidate.edge === "waist" : candidate.mark === "frontWaistAfterPleat"))!;
+    const panelEdge = interfaceLine(block, ref);
     if (fragment.roleId !== "waistband" || fragment.edgeId !== "bottom" || fragment.attachedEdgeId !== "waist"
       || fragment.stitchLabel !== stitchLabel || !expected || !Array.isArray(fragment.sourceInterval)
       || !Number.isFinite(bandStart) || !Number.isFinite(bandEnd) || bandStart! < 0 || bandEnd! > 1
       || !(bandEnd! > bandStart!) || Math.abs(bandStart! - expected[0]) > TOLERANCE
-      || Math.abs(bandEnd! - expected[1]) > TOLERANCE || !panel || !panelPiece || !panelEdge || !ref) {
+      || Math.abs(bandEnd! - expected[1]) > TOLERANCE || !panel || !panelPiece || !panelEdge) {
       addIssue(issues, "INVALID_FRAGMENT_SOURCE", edgeSource(recipeId, "bottom"),
         `Fragment for “${fragment.attachedRoleId}” does not preserve its exact source interval, sewn role, or panel transform.`);
       continue;

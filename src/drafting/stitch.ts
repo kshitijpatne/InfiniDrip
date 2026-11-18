@@ -35,9 +35,11 @@ export interface MarkRef {
   readonly piece: string;
   readonly mark: string;
   readonly side: "left" | "right";
+  /** Traverse the authored mark from its end toward its start in an ordered interface. */
+  readonly reversed?: true;
 }
-export const markRef = (piece: string, mark: string, side: "left" | "right"): MarkRef =>
-  ({ piece, mark, side });
+export const markRef = (piece: string, mark: string, side: "left" | "right", reversed = false): MarkRef =>
+  reversed ? { piece, mark, side, reversed: true } : { piece, mark, side };
 
 export type InterfaceRef = EdgeRef | MarkRef;
 

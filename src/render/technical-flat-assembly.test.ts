@@ -3,7 +3,7 @@ import { CREWNECK, GARMENTS, TEE, TROUSER } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { block } from "../drafting/block";
 import { defaultGarmentOptions } from "../drafting/options";
-import { edgeRef, iface, markRef, type Stitch } from "../drafting/stitch";
+import { edgeRef, iface, interfaceLength, markRef, type Stitch } from "../drafting/stitch";
 import { edgeLength, pieceEdge, type Edge, type Piece } from "../drafting/piece";
 import { assembleTechnicalFlatRoles, hasExactMirroredPanelPair, isApprovedPoloEaseResidualDisplay,
   isApprovedWovenBaseSeamDisplay, isApprovedWovenCampCollarBaseSeamDisplay } from "./technical-flat-assembly";
@@ -14,6 +14,7 @@ import { transformFlatPoint } from "./technical-flat-transform";
 import {
   TROUSER_BARREL_BOW_OPTION,
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
+  TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
   TROUSER_SHARED_OPTION_DEFINITIONS,
 } from "../drafting/trouser-contract";
 import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection";
@@ -642,6 +643,32 @@ describe("assembleTechnicalFlatRoles", () => {
           && Number.isFinite(fragment.transform.offset.x) && Number.isFinite(fragment.transform.offset.y)
           && Number.isFinite(fragment.transform.rotationDegrees))).toBe(true);
       }
+    }
+  });
+
+  it("assembles R06 waistband fragments against both post-fold waist marks without changing the sewn quarter", () => {
+    const options = {
+      ...defaultGarmentOptions(TROUSER_SHARED_OPTION_DEFINITIONS),
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1,
+      frontPleatIntakeCm: 4,
+      frontPleatOffsetCm: 6,
+      frontPleatStitchDepthCm: 8,
+    };
+    const source = TROUSER.draft(STANDARD_M, options);
+    const waist = source.stitches.find((stitch) => stitch.label === "Waistband (four legs ↔ separate waistband)")!;
+    const seamLength = interfaceLength(source, waist.a);
+    expect(seamLength).toBeCloseTo(4 * 23.5);
+    expect(waist.a.edges.filter((ref) => ref.piece.startsWith("front"))).toEqual([
+      { piece: "frontLeft", mark: "frontWaistAfterPleat", side: "left", reversed: true },
+      { piece: "frontRight", mark: "frontWaistAfterPleat", side: "right" },
+    ]);
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const result = assembleTechnicalFlatRoles("trouser", source, kind);
+      expect(result.issues, kind).toEqual([]);
+      expect(result.sourceFragments, kind).toHaveLength(2);
+      expect(result.sourceFragments.every((fragment) => fragment.attachedEdgeId === "waist"
+        && fragment.sourceInterval[0] >= 0 && fragment.sourceInterval[1] <= 1
+        && Number.isFinite(fragment.transform.rotationDegrees))).toBe(true);
     }
   });
 

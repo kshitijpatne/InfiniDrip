@@ -6,11 +6,12 @@
 
 import { distance } from "../geometry";
 import { Block, rolePiece } from "./block";
-import { edgeEnd, edgeStart, pieceEdge } from "./piece";
+import { edgeEnd, edgeLength, edgeStart, pieceEdge } from "./piece";
 import { GradeRule, SizeStep } from "./grading";
 import { TSHIRT_SIZES } from "./tshirt-grade";
 import { Pom, seam, spanY } from "./pom";
 import type { TechPack } from "./recipe";
+import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, type TrouserOptions } from "./trouser-contract";
 
 /** cm added per +1 size step. Ease and recipe options remain constant in V1. */
 export const TROUSER_GRADE: GradeRule = {
@@ -139,6 +140,36 @@ export const TROUSER_POMS: readonly Pom[] = [
   },
 ];
 
+function postPleatWaistMark(b: Block) {
+  const mark = front(b).marks?.find((candidate) => candidate.name === "frontWaistAfterPleat");
+  return mark && "start" in mark ? mark : undefined;
+}
+
+/** Keep the shared Trouser POMs unchanged; R06 measures its folded waist from
+ * the authored post-fold reference line rather than the short cut edge. */
+export function trouserPomsForOptions(rawOptions: Partial<TrouserOptions> = {}): readonly Pom[] {
+  if (rawOptions[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] !== 1) return TROUSER_POMS;
+  return TROUSER_POMS.map((pom) => pom.label !== "Waist (finished)" ? pom : {
+    ...pom,
+    measure: (b: Block) => {
+      const mark = postPleatWaistMark(b);
+      return 4 * (mark ? distance(mark.start, mark.end) : seam(front(b), "waist"));
+    },
+    anchor: (b: Block) => {
+      const mark = postPleatWaistMark(b);
+      return mark?.end ?? edgeEnd(pieceEdge(front(b), "waist"));
+    },
+    frontMarkAnchor: { roleId: "frontLeft", markName: "frontWaistAfterPleat", point: "end" as const },
+  });
+}
+
+/** Quarter-waist size ordering follows the post-fold seam only when the R06
+ * construction mark exists; all existing Trouser profiles remain edge based. */
+export function trouserWaistSizeMetric(b: Block): number {
+  const mark = postPleatWaistMark(b);
+  return mark ? distance(mark.start, mark.end) : edgeLength(pieceEdge(front(b), "waist"));
+}
+
 /** V1 woven-trouser bill of materials and ordered operations. Quantities and
  * hardware remain provisional until a physical/material sample exists. */
 export const TROUSER_TECH_PACK: TechPack = {
@@ -159,3 +190,20 @@ export const TROUSER_TECH_PACK: TechPack = {
     "Press the seams, turn up the deeper hem allowance, and inspect the pocket openings and waistband ends.",
   ],
 };
+
+/** Add explicit digital pleat details only for the R06 profile. */
+export function trouserTechPackForOptions(options: Partial<TrouserOptions>): TechPack {
+  if (options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] !== 1) return TROUSER_TECH_PACK;
+  const intake = options.frontPleatIntakeCm ?? 4;
+  const offset = options.frontPleatOffsetCm ?? 6;
+  const depth = options.frontPleatStitchDepthCm ?? 8;
+  return {
+    ...TROUSER_TECH_PACK,
+    constructionNotice: "Digital pleat construction guide only. Fabric response, stitched behavior, and physical fit have not been validated.",
+    construction: [
+      ...TROUSER_TECH_PACK.construction,
+      `On each front panel, the digital knife-pleat intake is ${intake} cm at ${offset} cm from centre front, with an ${depth} cm stitch-down guide; fold toward the pocket.`,
+      "The waist measurement is the post-fold digital reference; the cut pattern adds the selected intake. Verify the pleat on a sewn sample before production use.",
+    ],
+  };
+}

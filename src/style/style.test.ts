@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
-import { DEFAULT_TROUSER_OPTIONS, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY,
+  TROUSER_PLEATED_FRONT_ENTRY_ID, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import type { GarmentOptions } from "../drafting/options";
 import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, FITTED_STYLES, SKIRT_STYLES, TROUSER_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES } from "./style";
 
@@ -181,6 +182,23 @@ describe("TROUSER_STYLES (recipe-owned, Slice 100)", () => {
       .toEqual(["Bootcut trouser"]);
     expect(currentStyles({ ...STANDARD_M, ease: 7, inseam: 78 }, genericTrouserStyles, bootcutOptions))
       .not.toContain("Bootcut trouser");
+  });
+
+  it("keeps the pleated-front style specific to R06 and its three active controls", () => {
+    const r06Styles = TROUSER_STYLES.filter((style) => style.appliesToStarterEntryId === TROUSER_PLEATED_FRONT_ENTRY_ID);
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      frontPleatIntakeCm: 4,
+      frontPleatOffsetCm: 6,
+      frontPleatStitchDepthCm: 8,
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1,
+    };
+    expect(styleNames(r06Styles)).toEqual(["Pleated-front trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7, inseam: 78 }, r06Styles, options)).toEqual(["Pleated-front trouser"]);
+    expect(currentStyles({ ...STANDARD_M, ease: 7, inseam: 78 }, genericTrouserStyles, options))
+      .not.toContain("Pleated-front trouser");
+    expect(matchStyle({ ...STANDARD_M, ease: 7, inseam: 78 }, "Pleated-front trouser", r06Styles, options).optionsComplete)
+      .toBe(true);
   });
 
   it("reports labeled option corrections when a wide-leg profile targets a straight silhouette", () => {

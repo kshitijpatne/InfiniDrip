@@ -14,19 +14,27 @@ import {
   TROUSER_TAPERED_PROFILE_ROUTE_KEY,
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TROUSER_BOOTCUT_PROFILE_ROUTE_KEY,
+  TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
+  TROUSER_BARREL_LEG_ENTRY_ID,
+  TROUSER_PLEATED_FRONT_ENTRY_ID,
   TrouserOptions,
 } from "./trouser-contract";
-import { trouserMetrics, trouserPocketGuidance } from "./trouser";
+import { trouserMetrics, trouserPocketGuidance, trouserPocketOpening } from "./trouser";
 
 function optionRangeNotes(options: TrouserOptions): Note[] {
   const notes: Note[] = [];
+  const activeEntryId = options[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY] === 1
+    ? TROUSER_BARREL_LEG_ENTRY_ID
+    : options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] === 1
+      ? TROUSER_PLEATED_FRONT_ENTRY_ID
+      : undefined;
   for (const definition of TROUSER_OPTION_DEFINITIONS.filter((d) => d.group !== "Pocket")) {
     if (definition.appliesToStarterEntryId !== undefined
-      && options[TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY] !== 1) continue;
+      && definition.appliesToStarterEntryId !== activeEntryId) continue;
     const value = options[definition.id as Exclude<
       keyof TrouserOptions,
       typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY | typeof TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY
-        | typeof TROUSER_BOOTCUT_PROFILE_ROUTE_KEY
+        | typeof TROUSER_BOOTCUT_PROFILE_ROUTE_KEY | typeof TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY
     >];
     if (typeof value !== "number" || !Number.isFinite(value) || value < definition.min || value > definition.max) {
       notes.push({
@@ -74,6 +82,37 @@ export function trouserGuidance(
       level: "warn",
       text: "Finished waist and seat must stay positive — increase the body measurement or ease instead of drafting a reversed panel.",
     });
+  }
+  if (options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] === 1) {
+    // The profile resolver supplies all three software defaults for this identity.
+    const offset = options.frontPleatOffsetCm!;
+    const intake = options.frontPleatIntakeCm!;
+    const depth = options.frontPleatStitchDepthCm!;
+    const waistQuarter = metrics.finishedWaist / 4;
+    if (offset + intake >= waistQuarter) {
+      notes.push({
+        field: "option-frontPleatOffsetCm",
+        level: "warn",
+        text: `Pleat placement plus intake (${(offset + intake).toFixed(1)} cm) reaches the side waist (${waistQuarter.toFixed(1)} cm) — move the pleat toward centre front or reduce its intake.`,
+      });
+    }
+    const opening = trouserPocketOpening(m, options);
+    const pleatX = [offset, offset + intake / 2, offset + intake];
+    const crossesPocket = pleatX.some((x) => {
+      const minX = Math.min(opening.start.x, opening.end.x);
+      const maxX = Math.max(opening.start.x, opening.end.x);
+      if (x < minX || x > maxX || opening.end.x === opening.start.x) return false;
+      const y = opening.start.y + ((x - opening.start.x) / (opening.end.x - opening.start.x))
+        * (opening.end.y - opening.start.y);
+      return y >= 0 && y <= depth;
+    });
+    if (crossesPocket) {
+      notes.push({
+        field: "option-frontPleatOffsetCm",
+        level: "warn",
+        text: "The pleat fold, roll, or placement guide crosses the pocket opening — move the pleat toward centre front or shorten its stitch-down depth.",
+      });
+    }
   }
   if (metrics.backRise <= metrics.frontRise) {
     notes.push({

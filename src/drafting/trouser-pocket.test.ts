@@ -5,6 +5,7 @@ import { flattenPiece, layoutPieces, polylineBounds } from "../export/layout";
 import { exportDxf } from "../export/dxf";
 import { renderBlueprint } from "../render/canvas";
 import { resolveGrainline, resolveNotch } from "../render/notch";
+import { edgeEnd, edgeStart } from "./piece";
 import {
   blockPieces,
   edgeLength,
@@ -15,7 +16,9 @@ import {
 import { STANDARD_M } from "./measurements";
 import {
   DEFAULT_TROUSER_OPTIONS,
+  resolveTrouserOptions,
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
+  TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
   TrouserOptions,
 } from "./trouser-contract";
 import {
@@ -23,9 +26,11 @@ import {
   trouserPocket,
   trouserPocketGuidance,
   trouserPocketOpening,
+  trouserNotchesForOptions,
   TROUSER_ALLOWANCES,
   TROUSER_NOTCHES,
 } from "./trouser";
+import { trouserGuidance } from "./trouser-guidance";
 import { allowanceFor } from "./allowance";
 
 function lineMarkOf(piece: ReturnType<typeof rolePiece>, name: string) {
@@ -253,5 +258,93 @@ describe("trouser pocket component", () => {
 
     const dxf = exportDxf(blockPieces(b), TROUSER_ALLOWANCES);
     expect(dxf.match(/\nPOLYLINE\n/gu)).toHaveLength(blockPieces(b).length * 2);
+  });
+
+  it("adds one real mirrored R06 cut intake while preserving the post-fold sewn waist and back panels", () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 as const,
+      frontPleatIntakeCm: 4,
+      frontPleatOffsetCm: 6,
+      frontPleatStitchDepthCm: 8,
+    };
+    const base = draftTrouserWithPockets(STANDARD_M, DEFAULT_TROUSER_OPTIONS);
+    const pleated = draftTrouserWithPockets(STANDARD_M, options);
+    const baseFront = rolePiece(base, "frontLeft");
+    const front = rolePiece(pleated, "frontLeft");
+    const right = rolePiece(pleated, "frontRight");
+    const cutWaistNames = ["waist", "pleatCutFoldSide", "pleatCutTop", "pleatCutPlacementSide", "waistAfterPleat"];
+    const cutWaistLength = cutWaistNames.reduce((sum, name) => sum + edgeLength(pieceEdge(front, name)), 0);
+    const baseQuarterWaist = edgeLength(pieceEdge(baseFront, "waist"));
+    const waistMark = lineMarkOf(front, "frontWaistAfterPleat");
+    const rightWaistMark = lineMarkOf(right, "frontWaistAfterPleat");
+    const waistStitch = pleated.stitches.find((stitch) => stitch.label === "Waistband (four legs ↔ separate waistband)")!;
+    const frontRefs = waistStitch.a.edges.filter((ref) => ref.piece.startsWith("front"));
+
+    expect(cutWaistLength).toBeCloseTo(baseQuarterWaist + options.frontPleatIntakeCm);
+    expect(distance(waistMark.start, waistMark.end)).toBeCloseTo(baseQuarterWaist);
+    expect(waistMark.start).toEqual(point(0, 0));
+    expect(waistMark.end.x).toBeCloseTo(baseQuarterWaist);
+    expect(rightWaistMark.end.x).toBeCloseTo(-baseQuarterWaist);
+    expect(frontRefs).toEqual([
+      { piece: "frontLeft", mark: "frontWaistAfterPleat", side: "left", reversed: true },
+      { piece: "frontRight", mark: "frontWaistAfterPleat", side: "right" },
+    ]);
+    expect(stitchChecks(pleated, pleated.stitches).every((check) => check.ok)).toBe(true);
+    expect(rolePiece(pleated, "backLeft").edges).toEqual(rolePiece(base, "backLeft").edges);
+    expect(rolePiece(pleated, "backRight").edges).toEqual(rolePiece(base, "backRight").edges);
+
+    const notches = trouserNotchesForOptions(options);
+    const frontRule = notches.find((entry) => entry.pieceName === front.name)!;
+    const grainline = resolveGrainline(front, frontRule.grainline);
+    expect(grainline.top.x).toBeCloseTo(baseQuarterWaist / 2);
+    expect(grainline.top.y).toBe(0);
+    expect(notches.find((entry) => entry.pieceName === "trouser back left")?.grainline)
+      .toEqual(TROUSER_NOTCHES.find((entry) => entry.pieceName === "trouser back left")?.grainline);
+  });
+
+  it("resolves R06 grainlines from safe waist and hem fallbacks when the post-fold mark is absent", () => {
+    const routeOnly = { [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 as const };
+    const generic = draftTrouserWithPockets(STANDARD_M, DEFAULT_TROUSER_OPTIONS);
+    const front = rolePiece(generic, "frontLeft");
+    const frontRule = trouserNotchesForOptions(routeOnly)
+      .find((entry) => entry.pieceName === front.name)!;
+    const waist = pieceEdge(front, "waist");
+    const hem = pieceEdge(front, "hem");
+    const edgeFallback = resolveGrainline(front, frontRule.grainline);
+
+    expect(edgeFallback.top.x).toBeCloseTo((edgeStart(waist).x + edgeEnd(waist).x) / 2);
+    expect(edgeFallback.top.y).toBeCloseTo((edgeStart(waist).y + edgeEnd(waist).y) / 2);
+    expect(edgeFallback.bottom.x).toBeCloseTo((edgeStart(hem).x + edgeEnd(hem).x) / 2);
+    expect(edgeFallback.bottom.y).toBeCloseTo((edgeStart(hem).y + edgeEnd(hem).y) / 2);
+
+    const originFallbackPiece = {
+      ...front,
+      edges: front.edges.filter((edge) => edge.name !== "waist" && edge.name !== "hem"),
+      marks: front.marks?.filter((mark) => mark.name !== "frontWaistAfterPleat"),
+    };
+    expect(resolveGrainline(originFallbackPiece, frontRule.grainline)).toEqual({
+      top: { x: 0, y: 0 }, bottom: { x: 0, y: 0 },
+    });
+  });
+
+  it("flags R06 pleat-to-pocket and pleat-to-side conflicts without clamping the option values", () => {
+    const crossingOptions = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 as const,
+      frontPleatIntakeCm: 8,
+      frontPleatOffsetCm: 12,
+      frontPleatStitchDepthCm: 16,
+    };
+    const crossingBlock = draftTrouserWithPockets(STANDARD_M, crossingOptions);
+    const pocketNotes = trouserGuidance(crossingBlock, STANDARD_M, crossingOptions);
+    expect(pocketNotes.some((note) => note.field === "option-frontPleatOffsetCm"
+      && note.text.includes("crosses the pocket opening"))).toBe(true);
+    expect(resolveTrouserOptions(crossingOptions).frontPleatOffsetCm).toBe(12);
+
+    const narrow = { ...STANDARD_M, waist: 40 };
+    const narrowBlock = draftTrouserWithPockets(narrow, crossingOptions);
+    expect(trouserGuidance(narrowBlock, narrow, crossingOptions).some((note) =>
+      note.field === "option-frontPleatOffsetCm" && note.text.includes("reaches the side waist"))).toBe(true);
   });
 });

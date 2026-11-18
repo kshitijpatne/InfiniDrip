@@ -106,6 +106,7 @@ function optionOverlays(block: Block, position: Position): string {
   const knee = both((piece) => lineBetween(piece, "sideThighToKnee", "inseamLower", "end"));
   const riseName = position === "front" ? "frontRiseEase" : "backRiseEase";
   const riseEdge = position === "front" ? "centerFront" : "centerBack";
+  const hasPleat = position === "front" && !!left.marks?.some((mark) => mark.name === "frontWaistAfterPleat");
   return option(riseName, edgeBoth(riseEdge)) +
     option("thighEase", thigh) +
     option("kneeEase", knee) +
@@ -114,7 +115,12 @@ function optionOverlays(block: Block, position: Position): string {
       ? option("flyLength", marksBoth(["flyEdge"])) +
         option("pocketOpening", marksBoth(["pocketOpening", "pocketOpeningStart"])) +
         option("pocketAngle", marksBoth(["pocketOpening"])) +
-        option("pocketDrop", marksBoth(["pocketOpeningStart"]))
+        option("pocketDrop", marksBoth(["pocketOpeningStart"])) +
+        (hasPleat
+          ? option("frontPleatOffsetCm", marksBoth(["frontPleatFold"])) +
+            option("frontPleatIntakeCm", marksBoth(["frontPleatRoll", "frontPleatPlacement"])) +
+            option("frontPleatStitchDepthCm", marksBoth(["frontPleatFold", "frontPleatRoll", "frontPleatPlacement"]))
+          : "")
       : "");
 }
 
@@ -217,7 +223,12 @@ function rawMeasurementEdges(block: Block, position: Position): string {
   const knee = lineBetween(front, "sideThighToKnee", "inseamLower", "end") +
     lineBetween(right, "sideThighToKnee", "inseamLower", "end");
   const center = position === "front" ? "centerFront" : "centerBack";
-  return edgeGroup("waist", paired("waist")) +
+  const hasPleat = position === "front" && !!front.marks?.some((mark) => mark.name === "frontWaistAfterPleat");
+  const waist = hasPleat
+    ? [front, right].map((piece) => ["waist", "pleatCutFoldSide", "pleatCutTop", "pleatCutPlacementSide", "waistAfterPleat"]
+      .map((name) => edgePath(piece, name)).join("")).join("")
+    : paired("waist");
+  return edgeGroup("waist", waist) +
     edgeGroup("hip", paired("sideUpper") + paired("sideHipToThigh")) +
     edgeGroup("hipDepth", line(hipLeft.x, hipLeft.y, hipRight.x, hipRight.y, T.line, 1.1)) +
     edgeGroup("crotchDepth", edgePath(front, center) + edgePath(right, center)) +
@@ -236,6 +247,10 @@ export function renderTrouserBody(
   const metrics = trouserMetrics(m, rawOptions);
   const half = panelPairHalf(block, position);
   const front = rolePiece(block, "frontLeft");
+  const postPleatWaist = front.marks?.find((mark) => mark.name === "frontWaistAfterPleat");
+  const waistHalf = postPleatWaist && "start" in postPleatWaist
+    ? Math.abs(postPleatWaist.end.x)
+    : Math.abs(edgeEnd(pieceEdge(front, "waist")).x);
   const side = edgeEnd(pieceEdge(front, "sideUpper"));
   const thighInner = edgeStart(pieceEdge(front, "innerThighToCrotch"));
   const kneeInner = edgeEnd(pieceEdge(front, "inseamLower"));
@@ -259,7 +274,7 @@ export function renderTrouserBody(
   const riseField = position === "front" ? "frontRiseEase" : "backRiseEase";
   const riseLabel = position === "front" ? "Front" : "Back";
   const dimensions =
-    dim("waist", dimH(-edgeEnd(pieceEdge(front, "waist")).x, edgeEnd(pieceEdge(front, "waist")).x, -6, `Waist ${m.waist} (circ)`)) +
+    dim("waist", dimH(-waistHalf, waistHalf, -6, `Waist ${m.waist} (circ)`)) +
     dim("hip", dimH(-side.x, side.x, m.hipDepth - 2.5, `Hip ${m.hip} (circ)`)) +
     dim("hipDepth", dimV(leftDimX, 0, m.hipDepth, `Hip depth ${m.hipDepth}`, -1)) +
     dim("crotchDepth", dimV(leftDimX - 6, 0, m.crotchDepth, `Crotch depth ${m.crotchDepth}`, -1)) +
@@ -328,8 +343,20 @@ export function renderTrouserSide(m: Measurements, rawOptions: Partial<TrouserOp
   const piece = rolePiece(block, "frontLeft");
   const pointAt = (edge: string, at: "start" | "end") => at === "start"
     ? edgeStart(pieceEdge(piece, edge)) : edgeEnd(pieceEdge(piece, edge));
+  const pleatWaistEdges = ["waist", "pleatCutFoldSide", "pleatCutTop", "pleatCutPlacementSide", "waistAfterPleat"]
+    .map((name) => piece.edges.find((edge) => edge.name === name));
+  const waistContour: { readonly x: number; readonly y: number }[] = [];
+  if (piece.marks?.some((mark) => mark.name === "frontWaistAfterPleat")
+    && pleatWaistEdges.length === 5 && pleatWaistEdges.every((edge) => edge?.kind === "line")) {
+    const first = pleatWaistEdges[0];
+    if (first?.kind === "line") {
+      waistContour.push(first.start);
+      for (const edge of pleatWaistEdges) if (edge?.kind === "line") waistContour.push(edge.end);
+    }
+  }
   const points = [
-    pointAt("waist", "start"), pointAt("waist", "end"), pointAt("sideUpper", "end"),
+    ...(waistContour.length ? waistContour : [pointAt("waist", "start"), pointAt("waist", "end")]),
+    pointAt("sideUpper", "end"),
     pointAt("sideHipToThigh", "end"), pointAt("sideThighToKnee", "end"), pointAt("sideKneeToHem", "end"),
     pointAt("hem", "end"), pointAt("inseamLower", "end"), pointAt("inseamUpper", "end"),
     pointAt("innerThighToCrotch", "end"), pointAt("crotch", "end"), pointAt("centerFront", "end"),

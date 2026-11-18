@@ -10,6 +10,8 @@ import {
   TROUSER_BARREL_BOW_OPTION,
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TROUSER_OPTION_DEFINITIONS,
+  TROUSER_PLEATED_FRONT_ENTRY_ID,
+  TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
   TROUSER_TAPERED_PROFILE_ROUTE_KEY,
 } from "../drafting/trouser-contract";
 import { TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID } from "./starter-registry";
@@ -23,11 +25,16 @@ import {
 } from "./artifact-dependencies";
 import { getAllFieldDefinitions, getFieldDefinitions } from "./field-provenance";
 
+function recipeOptionDefinitions(recipe: GarmentRecipe) {
+  return recipe.name === "trouser" ? TROUSER_OPTION_DEFINITIONS : recipe.options ?? [];
+}
+
 function defaultOptions(recipeName: string, starterEntryId?: string, style?: string): GarmentOptions {
   const recipe = GARMENTS.find((item) => item.name === recipeName)!;
   // Optional choices are inactive until explicitly selected; loading all their
   // software defaults together can create impossible conflicting states.
-  const options = Object.fromEntries((recipe.options ?? [])
+  // Trouser profile-only controls are not part of the shared recipe catalog.
+  const options = Object.fromEntries(recipeOptionDefinitions(recipe)
     .filter((option) => !option.optional && optionAppliesToStarterEntry(option, starterEntryId)
       && optionAppliesToStyle(option, style))
     .map((option) => [option.id, option.defaultValue])) as GarmentOptions;
@@ -42,6 +49,9 @@ function defaultOptions(recipeName: string, starterEntryId?: string, style?: str
       [TROUSER_BARREL_BOW_OPTION.id]: TROUSER_BARREL_BOW_OPTION.defaultValue,
       [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1,
     };
+  }
+  if (recipeName === "trouser" && starterEntryId === TROUSER_PLEATED_FRONT_ENTRY_ID) {
+    return { ...options, [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 };
   }
   return recipeName === "tank" && starterEntryId === TANK_N08_ENTRY_ID
     ? { ...options, [TANK_N08_PROFILE_ROUTE_KEY]: 1 }
@@ -132,14 +142,16 @@ describe("field-to-artifact invalidation graph", () => {
   it("probes every field against the real recipe draft and records hem-turn cut dependencies", () => {
     for (const recipe of GARMENTS) {
       for (const definition of getFieldDefinitions(recipe.name)) {
+        const availableOptionDefinitions = recipeOptionDefinitions(recipe);
         const optionDefinition = definition.inputKind === "option"
-          ? recipe.options?.find((option) => option.id === definition.inputKey)
-            ?? (recipe.name === "trouser" && definition.inputKey === TROUSER_BARREL_BOW_OPTION.id
-              ? TROUSER_BARREL_BOW_OPTION : undefined)
+          ? availableOptionDefinitions.find((option) => option.id === definition.inputKey)
           : undefined;
         const starterEntryId = optionDefinition?.appliesToStarterEntryId;
         const style = optionDefinition?.appliesToStyle;
         const options = defaultOptions(recipe.name, starterEntryId, style);
+        if (recipe.name === "trouser" && starterEntryId === TROUSER_PLEATED_FRONT_ENTRY_ID) {
+          expect(options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]).toBe(1);
+        }
         const baselineBlock = recipe.draft(STANDARD_M, options);
         const dependency = getFieldArtifactDependency(recipe.name, definition.inputKind, definition.inputKey)!;
         const measured = definition.inputKind === "measurement"

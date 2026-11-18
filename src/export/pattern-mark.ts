@@ -10,9 +10,11 @@ const pt = (cm: number): number => round(cm * 72 / 2.54);
 export type PatternMarkPdfLabelLayout =
   | "inline"
   | "staggered-box-pleat-guides"
-  | "line-aligned-box-pleat-guides";
+  | "line-aligned-box-pleat-guides"
+  | "line-aligned-pleated-front-guides";
 
 const BOX_PLEAT_GUIDE_LABEL = /^Box pleat (\d+) (fold|roll|placement)$/i;
+const PLEATED_FRONT_GUIDE_NAMES = new Set(["frontPleatFold", "frontPleatRoll", "frontPleatPlacement"]);
 const BOX_PLEAT_GUIDE_FONT_PT = 7;
 export const BOX_PLEAT_GUIDE_KEY_WIDTH_CM = 22;
 export const BOX_PLEAT_GUIDE_KEY_HEIGHT_CM = 4.5;
@@ -26,6 +28,10 @@ export function compactBoxPleatGuideId(label: string): string | undefined {
   const role = match[2].toLowerCase();
   const prefix = role === "fold" ? "F" : role === "roll" ? "R" : "P";
   return prefix + group;
+}
+
+function pleatedFrontGuideLabel(mark: PatternMark): string | undefined {
+  return "start" in mark && PLEATED_FRONT_GUIDE_NAMES.has(mark.name) ? mark.label : undefined;
 }
 
 /** Shared printed legend; topY is measured down from the top edge. */
@@ -146,12 +152,14 @@ export function patternMarksPdfOps(
     }
     return undefined;
   };
-  if (labelLayout === "line-aligned-box-pleat-guides" && sheetWidth !== undefined) {
+  if ((labelLayout === "line-aligned-box-pleat-guides"
+      || labelLayout === "line-aligned-pleated-front-guides") && sheetWidth !== undefined) {
     const occupied: Array<{ x: number; y: number; halfWidth: number; halfHeight: number }> = [];
     const seenGuideLines = new Set<string>();
     const candidates = marks.flatMap((mark, index) => {
       if (!("start" in mark) || !mark.label) return [];
-      const id = compactBoxPleatGuideId(mark.label);
+      const id = labelLayout === "line-aligned-pleated-front-guides"
+        ? pleatedFrontGuideLabel(mark) : compactBoxPleatGuideId(mark.label);
       if (!id) return [];
       const dx = Math.abs(mark.start.x - mark.end.x);
       const dy = Math.abs(mark.start.y - mark.end.y);
@@ -268,6 +276,19 @@ export function patternMarksPdfOps(
     if ("start" in mark) {
       const line = `${pt(mark.start.x)} ${y(mark.start.y)} m ${pt(mark.end.x)} ${y(mark.end.y)} l S`;
       if (!mark.label) return line;
+      const pleatedFrontLabel = labelLayout === "line-aligned-pleated-front-guides"
+        ? pleatedFrontGuideLabel(mark) : undefined;
+      if (pleatedFrontLabel && Math.abs(mark.start.x - mark.end.x) < 0.01) {
+        const labelWidth = pleatedFrontLabel.length * BOX_PLEAT_GUIDE_FONT_PT * 0.5;
+        const allocated = lineAlignedLabelOrigins.get(index);
+        if (allocated?.vertical) return line + " BT /F1 " + BOX_PLEAT_GUIDE_FONT_PT + " Tf 0 1 -1 0 "
+          + allocated.x + " " + allocated.y + " Tm (" + safe(pleatedFrontLabel) + ") Tj ET";
+        if (sheetWidth !== undefined) return line;
+        const labelX = pt((mark.start.x + mark.end.x) / 2 + 0.4);
+        const labelY = round(y((mark.start.y + mark.end.y) / 2) - labelWidth / 2);
+        return line + " BT /F1 " + BOX_PLEAT_GUIDE_FONT_PT + " Tf 0 1 -1 0 " + labelX + " "
+          + labelY + " Tm (" + safe(pleatedFrontLabel) + ") Tj ET";
+      }
       const boxPleatLabel = /^Box pleat \d+ (fold|roll|placement)$/i.test(mark.label);
       const dx = Math.abs(mark.start.x - mark.end.x);
       const dy = Math.abs(mark.start.y - mark.end.y);

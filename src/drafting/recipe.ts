@@ -75,6 +75,7 @@ import {
   TROUSER_GRAMMAR,
   TROUSER_ALLOWANCES,
   TROUSER_NOTCHES,
+  trouserNotchesForOptions,
 } from "./trouser";
 import {
   TROUSER_FIELDS,
@@ -86,6 +87,9 @@ import {
   TROUSER_POMS,
   TROUSER_SIZES,
   TROUSER_TECH_PACK,
+  trouserPomsForOptions,
+  trouserTechPackForOptions,
+  trouserWaistSizeMetric,
 } from "./trouser-tables";
 import { trouserGuidance } from "./trouser-guidance";
 import { draftShortsWithComponents, SHORTS_GRAMMAR, shortsComponentGuidance } from "./shorts-components";
@@ -1292,8 +1296,11 @@ export const TROUSER: GarmentRecipe = {
   sizes: TROUSER_SIZES,
   checks: () => [],
   guidance: (block, m, options = {}) => trouserGuidance(block, m, options as Partial<TrouserOptions>),
-  sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "frontLeft"), "waist")),
+  sizeMetric: trouserWaistSizeMetric,
+  pomsForOptions: (options) => trouserPomsForOptions(options as Partial<TrouserOptions>),
+  notchesForOptions: (options) => trouserNotchesForOptions(options as Partial<TrouserOptions>),
   techPack: TROUSER_TECH_PACK,
+  techPackForOptions: trouserTechPackForOptions,
   options: TROUSER_SHARED_OPTION_DEFINITIONS,
   allowances: TROUSER_ALLOWANCES,
 };

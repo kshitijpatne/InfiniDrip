@@ -289,8 +289,19 @@ function colorwayFillPaths(view: TechnicalFlatView, colorway: TechnicalFlatColor
           primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE"
           && primitive.source.sourceId === `pattern:trouser:role:${panelRole}`);
         if (!panelOutline) continue;
+        const postFoldWaist = view.primitives.find((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+          primitive.kind === "path"
+          && primitive.source.sourceId === `pattern:trouser:mark:${panelRole}:frontWaistAfterPleat`);
         const seamEdgeId = `pattern:trouser:role:${panelRole}:edge:waist`;
-        const seamPath = selectSourceEdgeSubpaths(panelOutline, [seamEdgeId]);
+        const seamPath = postFoldWaist ? {
+          ...postFoldWaist,
+          id: `${postFoldWaist.id}:waistband-colorway-boundary`,
+          layer: "GARMENT_SILHOUETTE" as const,
+          feature: "silhouette" as const,
+          source: { ...postFoldWaist.source, sourceId: `view:trouser:role:waistband:post-fold-waist:${panelRole}` },
+          sourceEdgeIds: [postFoldWaist.source.sourceId],
+          colorwayBoundaryOnly: true,
+        } : selectSourceEdgeSubpaths(panelOutline, [seamEdgeId]);
         if (seamPath) contourPaths.push(seamPath);
       }
     }

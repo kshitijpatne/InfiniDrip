@@ -22,6 +22,7 @@ import {
   TROUSER_TAPERED_PROFILE_ROUTE_KEY,
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TROUSER_BOOTCUT_PROFILE_ROUTE_KEY,
+  TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
   TROUSER_OPTION_DEFINITIONS,
   TrouserOptions,
 } from "./trouser-contract";
@@ -105,6 +106,19 @@ function legMarks(
   ];
 }
 
+function frontPleatMarks(waistQ: number, options: TrouserOptions): PatternMark[] {
+  // draftTrouserLegs resolves the identity defaults before the piece is built.
+  const offset = options.frontPleatOffsetCm!;
+  const intake = options.frontPleatIntakeCm!;
+  const depth = options.frontPleatStitchDepthCm!;
+  return [
+    lineMark("placementLine", "frontWaistAfterPleat", point(0, 0), point(waistQ, 0), "post-fold waist seam"),
+    lineMark("foldLine", "frontPleatFold", point(offset, 0), point(offset, depth), "fold toward pocket"),
+    lineMark("placementLine", "frontPleatRoll", point(offset + intake / 2, 0), point(offset + intake / 2, depth), "pleat roll"),
+    lineMark("placementLine", "frontPleatPlacement", point(offset + intake, 0), point(offset + intake, depth), "place on fold"),
+  ];
+}
+
 function legPiece(
   m: Measurements, metrics: TrouserDraftMetrics, options: TrouserOptions,
   position: "front" | "back", name: string
@@ -177,8 +191,20 @@ function legPiece(
         },
       }
     : { kind: "line", name: "sideKneeToHem", start: sideKnee, end: sideHem };
+  const pleatedFront = position === "front" && options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] === 1;
+  const pleatOffset = options.frontPleatOffsetCm ?? 6;
+  const pleatIntake = options.frontPleatIntakeCm ?? 4;
+  const waistEdges: Edge[] = pleatedFront
+    ? [
+      { kind: "line", name: "waist", start: point(0, 0), end: point(pleatOffset, 0) },
+      { kind: "line", name: "pleatCutFoldSide", start: point(pleatOffset, 0), end: point(pleatOffset, -pleatIntake / 2) },
+      { kind: "line", name: "pleatCutTop", start: point(pleatOffset, -pleatIntake / 2), end: point(pleatOffset + pleatIntake, -pleatIntake / 2) },
+      { kind: "line", name: "pleatCutPlacementSide", start: point(pleatOffset + pleatIntake, -pleatIntake / 2), end: point(pleatOffset + pleatIntake, 0) },
+      { kind: "line", name: "waistAfterPleat", start: point(pleatOffset + pleatIntake, 0), end: p.sideWaist },
+    ]
+    : [{ kind: "line", name: "waist", start: point(0, 0), end: p.sideWaist }];
   const edges: Edge[] = [
-    { kind: "line", name: "waist", start: point(0, 0), end: p.sideWaist },
+    ...waistEdges,
     { kind: "line", name: "sideUpper", start: p.sideWaist, end: p.sideHip },
     { kind: "line", name: "sideHipToThigh", start: p.sideHip, end: sideThigh },
     sideThighToKnee,
@@ -194,7 +220,10 @@ function legPiece(
     name,
     onFold: false,
     edges,
-    marks: legMarks(metrics.finishedWaist / 4, sideHem.x, metrics, name),
+    marks: [
+      ...legMarks(metrics.finishedWaist / 4, sideHem.x, metrics, name),
+      ...(pleatedFront ? frontPleatMarks(metrics.finishedWaist / 4, options) : []),
+    ],
   };
 }
 
@@ -274,6 +303,7 @@ export interface TrouserWaistbandParams extends TrouserOptions {
 
 export const trouserWaistband: Component<TrouserWaistbandParams> = (m, rawOptions) => {
   const options = resolveTrouserOptions(rawOptions);
+  const pleatedFront = options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] === 1;
   const finishedWaist = rawOptions.targetWaist ?? (m.waist + m.ease);
   const depth = options.waistbandDepth;
   const end = point(finishedWaist, 0);
@@ -284,6 +314,7 @@ export const trouserWaistband: Component<TrouserWaistbandParams> = (m, rawOption
       waistband: {
         name: "trouser waistband",
         onFold: false,
+        ...(pleatedFront ? { labelAnchor: point(finishedWaist / 4, depth / 2) } : {}),
         edges: [
           { kind: "line", name: "top", start: point(0, 0), end },
           { kind: "line", name: "endRight", start: end, end: endBottom },
@@ -292,8 +323,10 @@ export const trouserWaistband: Component<TrouserWaistbandParams> = (m, rawOption
         ],
         marks: [
           pointMark("placementPoint", "centerBack", point(0, depth / 2), "center back"),
-          pointMark("placementPoint", "centerFront", point(finishedWaist / 2, depth / 2), "center front"),
-          pointMark("button", "waistbandButton", point(finishedWaist / 2, depth / 2), "waistband button"),
+          pointMark("placementPoint", "centerFront", point(finishedWaist / 2, depth / 2),
+            pleatedFront ? undefined : "center front"),
+          pointMark("button", "waistbandButton", point(finishedWaist / 2, depth / 2),
+            pleatedFront ? "center front button" : "waistband button"),
         ],
       },
     },
@@ -463,17 +496,22 @@ export const trouserPocket: Component<TrouserOptions> = (m, rawOptions) => {
   };
 };
 
-const trouserWaistInterface = () => iface(
-    edgeRef("backLeft", "waist"), edgeRef("frontLeft", "waist", true),
-    edgeRef("frontRight", "waist"), edgeRef("backRight", "waist", true),
+const trouserWaistInterface = (options: Partial<TrouserOptions> = {}) => {
+  const pleatedFront = options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] === 1;
+  return iface(
+    edgeRef("backLeft", "waist"),
+    pleatedFront ? markRef("frontLeft", "frontWaistAfterPleat", "left", true) : edgeRef("frontLeft", "waist", true),
+    pleatedFront ? markRef("frontRight", "frontWaistAfterPleat", "right") : edgeRef("frontRight", "waist"),
+    edgeRef("backRight", "waist", true),
   );
+};
 
-const trouserWaistStitch = (): Stitch => ({
+const trouserWaistStitch = (options: Partial<TrouserOptions> = {}): Stitch => ({
   label: "Waistband (four legs ↔ separate waistband)",
   // Trace one continuous waist seam from center back, around the left side,
   // across center front, and back around the right side. The authored front
   // left and back right edges run opposite to that perimeter direction.
-  a: trouserWaistInterface(),
+  a: trouserWaistInterface(options),
   b: iface(edgeRef("waistband", "bottom")),
 });
 
@@ -481,13 +519,14 @@ const trouserGrammarLegs = (m: Measurements, options: TrouserOptions): Component
   const opening = trouserPocketOpening(m, options);
   const withFly = addFlyMarks(draftTrouserLegs(m, options), options.flyLength);
   const legs = addPocketMarks(withFly, opening);
+  const pleatedFront = options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] === 1;
   return {
     pieces: legs.roles,
     stitches: legs.stitches,
     interfaces: {
       waist: iface(
-        edgeRef("frontLeft", "waist"),
-        edgeRef("frontRight", "waist"),
+        pleatedFront ? markRef("frontLeft", "frontWaistAfterPleat", "left") : edgeRef("frontLeft", "waist"),
+        pleatedFront ? markRef("frontRight", "frontWaistAfterPleat", "right") : edgeRef("frontRight", "waist"),
         edgeRef("backLeft", "waist"),
         edgeRef("backRight", "waist"),
       ),
@@ -534,7 +573,7 @@ export const TROUSER_GRAMMAR = garmentGrammar(
   (context) => [
     {
       label: "Waistband (four legs ↔ separate waistband)",
-      a: trouserWaistInterface(),
+      a: trouserWaistInterface(context.options as Partial<TrouserOptions>),
       b: context.interfaceOf("waistband", "bottom"),
     },
     {
@@ -573,7 +612,7 @@ export function draftTrouserWithClosure(
   ]);
   const stitches: Stitch[] = [
     ...combined.stitches,
-    trouserWaistStitch(),
+    trouserWaistStitch(options),
     { label: "Left front fly ↔ shield", a: iface(markRef("frontLeft", "flyEdge", "left")), b: iface(edgeRef("flyShield", "left")) },
     { label: "Right front fly ↔ underlap", a: iface(markRef("frontRight", "flyEdge", "right")), b: iface(edgeRef("flyUnderlap", "frontEdge")) },
   ];
@@ -660,6 +699,36 @@ export const TROUSER_NOTCHES: readonly PieceNotches[] = [
     grainline: { topEdge: "opening", topT: 0.5, bottomEdge: "bagOuter", bottomT: 0.5 },
   })),
 ];
+
+/** Route front grainlines to the post-fold waist reference for R06 while the
+ * existing trouser profiles keep the edge-based rule above unchanged. */
+export function trouserNotchesForOptions(rawOptions: Partial<TrouserOptions> = {}): readonly PieceNotches[] {
+  if (rawOptions[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] !== 1) return TROUSER_NOTCHES;
+  return TROUSER_NOTCHES.map((rule) => {
+    if (!rule.pieceName.startsWith("trouser front ")) return rule;
+    return {
+      ...rule,
+      grainline: {
+        ...rule.grainline,
+        resolve: (piece) => {
+          const waist = piece.marks?.find((mark) => mark.name === "frontWaistAfterPleat");
+          const waistEdge = piece.edges.find((edge) => edge.name === "waist");
+          const hem = piece.edges.find((edge) => edge.name === "hem");
+          const topStart = waist && "start" in waist ? waist.start
+            : waistEdge?.kind === "line" ? waistEdge.start : { x: 0, y: 0 };
+          const topEnd = waist && "start" in waist ? waist.end
+            : waistEdge?.kind === "line" ? waistEdge.end : topStart;
+          const bottomStart = hem?.kind === "line" ? hem.start : topStart;
+          const bottomEnd = hem?.kind === "line" ? hem.end : bottomStart;
+          return {
+            top: { x: (topStart.x + topEnd.x) / 2, y: (topStart.y + topEnd.y) / 2 },
+            bottom: { x: (bottomStart.x + bottomEnd.x) / 2, y: (bottomStart.y + bottomEnd.y) / 2 },
+          };
+        },
+      },
+    };
+  });
+}
 
 function sideBoundaryXAtY(piece: Piece, y: number): number | null {
   for (const edge of piece.edges) {

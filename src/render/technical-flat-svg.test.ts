@@ -1,6 +1,7 @@
 import { createRequire } from "node:module";
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, TROUSER_OPTION_DEFINITIONS, defaultGarmentOptions } from "../drafting";
+import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import { TECHNICAL_FLAT_SCHEMA_VERSION, type TechnicalFlatPrimitive, type TechnicalFlatView } from "./technical-flat";
 import { technicalFlatLeaderSegmentsCross } from "./technical-flat-poms";
 import { compileTechnicalFlatLiveView } from "./technical-flat-live";
@@ -862,6 +863,39 @@ describe("renderTechnicalFlatSvg", () => {
       .toHaveLength(4);
     expect(parsed.querySelectorAll('[data-source-id^="view:trouser:stitch:Waistband "][data-layer="GARMENT_SILHOUETTE"]'))
       .toHaveLength(2);
+  });
+
+  it("closes R06 waistband color from the post-fold seam marks rather than the cut-intake outline", () => {
+    const baseRecipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const options = {
+      ...defaultGarmentOptions(TROUSER_OPTION_DEFINITIONS),
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1,
+      frontPleatIntakeCm: 4,
+      frontPleatOffsetCm: 6,
+      frontPleatStitchDepthCm: 8,
+    };
+    const block = baseRecipe.draft(STANDARD_M, options);
+    const recipe = { ...baseRecipe, poms: baseRecipe.pomsForOptions?.(options) ?? baseRecipe.poms };
+
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const live = compileTechnicalFlatLiveView({ recipe, block, revisionId: `${revisionId}-${kind}-r06`, kind,
+        placements: [], colorHex: "#3669a4", texture: "woven", shine: 24 });
+      expect(live.issues, kind).toEqual([]);
+      expect(live.view).not.toBeNull();
+      const rendered = renderTechnicalFlatSvg(live.view!, { measureText: measure, colorway: live.colorway! });
+      expect(rendered.issues, kind).toEqual([]);
+      expect(rendered.svg, kind).not.toBeNull();
+      if (kind === "FRONT_FLAT") {
+        const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+          .parseFromString(rendered.svg!, "image/svg+xml");
+        const fill = parsed.querySelector('[data-colorway-fill-for^="live-flat:trouser:FRONT_FLAT:waistband:"]');
+        expect(fill?.getAttribute("d")).toMatch(/Z$/u);
+        expect(fill?.getAttribute("data-colorway-contour-sources"))
+          .toContain("pattern:trouser:mark:frontLeft:frontWaistAfterPleat");
+        expect(fill?.getAttribute("data-colorway-contour-sources"))
+          .toContain("pattern:trouser:mark:frontRight:frontWaistAfterPleat");
+      }
+    }
   });
 
   it("renders Tee/Fitted sleeve fill closures after source endpoint traversal is resolved", () => {
