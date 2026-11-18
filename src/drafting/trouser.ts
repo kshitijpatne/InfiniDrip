@@ -303,6 +303,7 @@ export interface TrouserWaistbandParams extends TrouserOptions {
 
 export const trouserWaistband: Component<TrouserWaistbandParams> = (m, rawOptions) => {
   const options = resolveTrouserOptions(rawOptions);
+  const pleatedFront = options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] === 1;
   const finishedWaist = rawOptions.targetWaist ?? (m.waist + m.ease);
   const depth = options.waistbandDepth;
   const end = point(finishedWaist, 0);
@@ -313,6 +314,7 @@ export const trouserWaistband: Component<TrouserWaistbandParams> = (m, rawOption
       waistband: {
         name: "trouser waistband",
         onFold: false,
+        ...(pleatedFront ? { labelAnchor: point(finishedWaist / 4, depth / 2) } : {}),
         edges: [
           { kind: "line", name: "top", start: point(0, 0), end },
           { kind: "line", name: "endRight", start: end, end: endBottom },
@@ -321,8 +323,10 @@ export const trouserWaistband: Component<TrouserWaistbandParams> = (m, rawOption
         ],
         marks: [
           pointMark("placementPoint", "centerBack", point(0, depth / 2), "center back"),
-          pointMark("placementPoint", "centerFront", point(finishedWaist / 2, depth / 2), "center front"),
-          pointMark("button", "waistbandButton", point(finishedWaist / 2, depth / 2), "waistband button"),
+          pointMark("placementPoint", "centerFront", point(finishedWaist / 2, depth / 2),
+            pleatedFront ? undefined : "center front"),
+          pointMark("button", "waistbandButton", point(finishedWaist / 2, depth / 2),
+            pleatedFront ? "center front button" : "waistband button"),
         ],
       },
     },

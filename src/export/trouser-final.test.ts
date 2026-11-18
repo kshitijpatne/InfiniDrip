@@ -15,6 +15,7 @@ import {
   gradeRun,
   stitchChecks,
 } from "../drafting";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import { garmentReport } from "../guidance/garment-check";
 import { gradedMarker } from "./marker";
 import { exportA0Pdf } from "./a0";
@@ -144,6 +145,49 @@ describe("Slice 101 — trouser output consumers", () => {
     for (const pom of TROUSER.poms) expect(techText).toContain(`(${pdfString(pom.label)})`);
     expect(techText).toContain("Midweight woven fabric");
     expect(techText).toContain("Install the zipper behind the marked front fly");
+  });
+
+  it("separates the R06 waistband title from one combined center-front button label in every shared output", async () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 as const,
+    };
+    const pieces = blockPieces(TROUSER.draft(STANDARD_M, options));
+    const a0 = await parsePdf(exportA0Pdf(
+      pieces, TROUSER.allowances, TROUSER.notches, undefined, true, "line-aligned-pleated-front-guides"
+    ));
+    const tiled = await parsePdf(exportPdf(
+      pieces, TROUSER.allowances, undefined, 1.0, true, "line-aligned-pleated-front-guides", { labelAllPieces: true }
+    ));
+    const titleAndMarkPattern = /BT \/F1 14 Tf ([\d.]+) ([\d.]+) Td \(TROUSER WAISTBAND\) Tj ET/;
+    const buttonMarkPattern = /BT \/F1 7 Tf ([\d.]+) ([\d.]+) Td \(center front button\) Tj ET/;
+
+    for (const doc of [a0, tiled]) {
+      const contents = streamText(doc);
+      const title = titleAndMarkPattern.exec(contents);
+      const button = buttonMarkPattern.exec(contents);
+      expect(title).not.toBeNull();
+      expect(button).not.toBeNull();
+      expect(Number(button?.[1]) - Number(title?.[1])).toBeGreaterThan(500);
+      expect(contents).not.toContain("(center front) Tj");
+      expect(contents).not.toContain("(waistband button) Tj");
+    }
+
+    const svg = parseSvg(exportSvg(pieces, TROUSER.allowances, TROUSER.notches));
+    const svgTexts = [...svg.querySelectorAll("text")];
+    const svgTitle = svgTexts.find((element) => element.textContent?.trim() === "TROUSER WAISTBAND");
+    const svgButton = svgTexts.find((element) => element.textContent?.trim() === "center front button");
+    expect(svgTitle).not.toBeUndefined();
+    expect(svgButton).not.toBeUndefined();
+    expect(Number(svgButton?.getAttribute("x")) - Number(svgTitle?.getAttribute("x"))).toBeGreaterThan(15);
+
+    const projector = parseSvg(exportProjectorSvg(TROUSER, STANDARD_M, options));
+    const projectorTexts = [...projector.querySelectorAll("text")];
+    const projectorTitle = projectorTexts.find((element) => element.textContent?.trim() === "M TROUSER WAISTBAND");
+    const projectorButton = projectorTexts.find((element) => element.textContent?.trim() === "center front button");
+    expect(projectorTitle).not.toBeUndefined();
+    expect(projectorButton).not.toBeUndefined();
+    expect(Number(projectorButton?.getAttribute("x")) - Number(projectorTitle?.getAttribute("x"))).toBeGreaterThan(15);
   });
 
   it("packs all five sizes without losing any trouser piece", () => {
