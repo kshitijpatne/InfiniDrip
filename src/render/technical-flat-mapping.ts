@@ -152,6 +152,22 @@ function wrapSkirtTechnicalFlatMapping(block: Block): TechnicalFlatRecipeMapping
     "front", "back");
 }
 
+function elasticPullonTrouserMapping(block: Block): TechnicalFlatRecipeMapping | undefined {
+  const legRoles = ["frontLeft", "frontRight", "backLeft", "backRight"] as const;
+  const hasCasingPanels = legRoles.every((role) => {
+    const piece = block.roles[role];
+    const hasWaist = piece?.edges.some((edge) => edge.name === "waist" && edge.kind === "line");
+    const hasFold = piece?.marks?.some((mark) => mark.name === "casingFold");
+    const hasStitchGuide = piece?.marks?.some((mark) => mark.name === "casingStitchGuide");
+    return hasWaist && hasFold && hasStitchGuide;
+  });
+  if (!hasCasingPanels || block.roles.waistband || block.roles.flyShield || block.roles.flyUnderlap) return undefined;
+  return makeMapping("trouser",
+    [shell("frontLeft"), shell("frontRight"), interior("pocketBagLeft"), interior("pocketBagRight")],
+    [shell("backLeft"), shell("backRight"), interior("pocketBagLeft"), interior("pocketBagRight")],
+    "frontLeft", "backLeft");
+}
+
 /** Resolve topology-specific role membership while preserving the legacy
  * single-front map for F01/F02 and other recipes using the same root. */
 export function technicalFlatMappingForBlock(recipeId: string, block: Block): TechnicalFlatRecipeMapping | undefined {
@@ -168,6 +184,10 @@ export function technicalFlatMappingForBlock(recipeId: string, block: Block): Te
     && !roles?.upperCollar && !roles?.underCollar;
   const hasW06CampCollarNeckline = block.stitches.some((stitch) => stitch.label === "Upper camp collar ↔ woven neckline")
     && block.stitches.some((stitch) => stitch.label === "Under camp collar ↔ woven neckline");
+  const elasticPullonMapping = recipeId === "trouser"
+    && block.roles.frontLeft?.marks?.some((mark) => mark.name === "casingFold")
+    ? elasticPullonTrouserMapping(block)
+    : undefined;
   if (mapping && recipeId === "woven-shirt" && hasW07BandCollar) {
     const [front, back] = mapping.faces;
     const withoutPointedLeaves = (face: FlatFaceMapping): FlatFaceMapping => ({
@@ -187,6 +207,7 @@ export function technicalFlatMappingForBlock(recipeId: string, block: Block): Te
     return { ...mapping, faces: [withoutStandRoles(front), withoutStandRoles(back)] };
   }
   if (wrapSkirtMapping) return wrapSkirtMapping;
+  if (elasticPullonMapping) return elasticPullonMapping;
   if (tieredSkirtMapping) return tieredSkirtMapping;
   if (hasTieredSkirt) return undefined;
   if (mapping && hasIntegratedGatheredCasing) return GATHERED_SKIRT_TECHNICAL_FLAT_MAPPING;

@@ -6,7 +6,7 @@ import {
   draftTrouserWithPockets,
   rolePiece,
 } from "../drafting";
-import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import {
   renderTrouserBody,
   renderTrouserBodyPair,
@@ -108,5 +108,29 @@ describe("trouser render integration (Slice 100)", () => {
     expect(body).toContain('data-edge="option-frontPleatStitchDepthCm"');
     expect(body).toContain('data-pattern-mark-name="frontWaistAfterPleat"');
     expect(side.querySelector('[data-part="side-silhouette"]')?.getAttribute("d")).toContain("6 -2");
+  });
+
+  it("renders R07 casing marks and digital dimensions without separate waistband or fly pieces", () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 as const,
+      waistGatherRatio: 1.4,
+      casingDepthCm: 5.5,
+    };
+    const assembled = renderTrouserGarment(STANDARD_M, "#123456", options);
+    const body = parse(renderTrouserBody(STANDARD_M, options, "front"));
+    const side = parse(renderTrouserSide(STANDARD_M, options));
+
+    expect(parse(assembled).querySelector("parsererror")).toBeNull();
+    expect(assembled).toContain('data-pattern-mark-name="casingFold"');
+    expect(assembled).toContain('data-pattern-mark-name="casingStitchGuide"');
+    expect(assembled).not.toContain('data-role="trouser waistband"');
+    expect(assembled).not.toContain('data-role="trouser fly shield"');
+    expect(body.querySelector("parsererror")).toBeNull();
+    expect(body.querySelector('[data-dim="casingDepthCm"]')?.textContent).toContain("Digital casing depth 5.5");
+    expect(body.querySelector('[data-edge="option-waistGatherRatio"]')).not.toBeNull();
+    expect(body.querySelector('[data-edge="option-casingDepthCm"]')).not.toBeNull();
+    expect(side.querySelector("parsererror")).toBeNull();
+    expect(side.querySelector('[data-part="side-silhouette"]')?.getAttribute("d")).toContain("-6.1");
   });
 });

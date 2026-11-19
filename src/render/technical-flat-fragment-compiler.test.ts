@@ -3,7 +3,7 @@ import { GARMENTS, STANDARD_M, TROUSER_OPTION_DEFINITIONS, defaultGarmentOptions
 import { draftJogger } from "../drafting/jogger";
 import { assembleTechnicalFlatRoles, type FlatRoleTransform, type TechnicalFlatSourceFragment } from "./technical-flat-assembly";
 import { compileJoggerWaistbandFragments, compileShortsWaistbandFragments, compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
-import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 
 const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
 const defaultOptions = defaultGarmentOptions(TROUSER_OPTION_DEFINITIONS);
@@ -17,6 +17,42 @@ const compile = (block: Block, kind: "FRONT_FLAT" | "BACK_FLAT", placements?: Re
 };
 
 describe("compileTrouserWaistbandFragments", () => {
+  it("skips separate-band fragments for R07 integrated casing topology", () => {
+    const options = { ...defaultOptions, [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 as const,
+      waistGatherRatio: 1.25, casingDepthCm: 4 };
+    const block = recipe.draft(STANDARD_M, options);
+    const assembly = assembleTechnicalFlatRoles("trouser", block, "FRONT_FLAT");
+    const result = compileTrouserWaistbandFragments(block, "revision-r07", "FRONT_FLAT",
+      assembly.sourceFragments, assembly.transforms);
+
+    expect(assembly.issues).toEqual([]);
+    expect(assembly.sourceFragments).toEqual([]);
+    expect(result).toEqual({ primitives: [], issues: [] });
+  });
+
+  it("keeps legacy missing-band and incomplete R07 topology diagnostics fail-closed", () => {
+    const source = draft();
+    const missingLegacy = { ...source,
+      roles: { ...source.roles, waistband: undefined },
+      stitches: source.stitches.filter((stitch) => stitch.label !== "Waistband (four legs ↔ separate waistband)"),
+    } as unknown as Block;
+    expect(compile(missingLegacy, "BACK_FLAT").issues).not.toEqual([]);
+
+    const options = { ...defaultOptions, [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 as const,
+      waistGatherRatio: 1.25, casingDepthCm: 4 };
+    const r07 = recipe.draft(STANDARD_M, options);
+    const backRight = r07.roles.backRight!;
+    const incompleteR07 = { ...r07, roles: { ...r07.roles,
+      backRight: { ...backRight, marks: backRight.marks?.filter((mark) => mark.name !== "casingFold") },
+    } };
+    expect(compile(incompleteR07, "BACK_FLAT").issues).not.toEqual([]);
+
+    const assembly = assembleTechnicalFlatRoles("trouser", r07, "BACK_FLAT");
+    const missingPanel = { ...r07, roles: { ...r07.roles, backRight: undefined } } as unknown as Block;
+    expect(compileTrouserWaistbandFragments(missingPanel, "revision-r07-missing-panel", "BACK_FLAT",
+      assembly.sourceFragments, assembly.transforms).issues).not.toEqual([]);
+  });
+
   it("emits exact revision-bound back top, side, closure, and mark geometry for the single source band", () => {
     const block = draft();
     const result = compile(block, "BACK_FLAT");

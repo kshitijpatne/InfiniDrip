@@ -404,6 +404,15 @@ export function compileTrouserWaistbandFragments(
   fragments: readonly TechnicalFlatSourceFragment[],
   placements: Readonly<Record<string, FlatRoleTransform>>,
 ): TechnicalFlatFragmentCompilation {
+  const hasIntegratedCasing = ["frontLeft", "frontRight", "backLeft", "backRight"].every((roleId) => {
+    const marks = block.roles[roleId]?.marks ?? [];
+    return marks.some((mark) => mark.name === "casingFold")
+      && marks.some((mark) => mark.name === "casingStitchGuide");
+  });
+  if (hasIntegratedCasing && !block.roles.waistband && !block.roles.flyShield && !block.roles.flyUnderlap
+    && !block.stitches.some((stitch) => stitch.label === TROUSER_WAIST_STITCH)) {
+    return { primitives: [], issues: [] };
+  }
   return compileWaistbandFragments(block, revisionId, kind, fragments, placements, "trouser", TROUSER_WAIST_STITCH);
 }
 

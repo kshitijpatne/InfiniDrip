@@ -23,6 +23,8 @@ import {
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TROUSER_BOOTCUT_PROFILE_ROUTE_KEY,
   TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
+  TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY,
+  TROUSER_CASING_TURN_UNDER_CM,
   TROUSER_OPTION_DEFINITIONS,
   TrouserOptions,
 } from "./trouser-contract";
@@ -119,6 +121,20 @@ function frontPleatMarks(waistQ: number, options: TrouserOptions): PatternMark[]
   ];
 }
 
+function elasticCasingMarks(waistQ: number, options: TrouserOptions): PatternMark[] {
+  const ratio = options.waistGatherRatio!;
+  const depth = options.casingDepthCm!;
+  const openingQ = waistQ * ratio;
+  const topY = -(depth + TROUSER_CASING_TURN_UNDER_CM);
+  const foldY = -depth;
+  const foldX = openingQ + (waistQ - openingQ) * ((foldY - topY) / -topY);
+  return [
+    lineMark("foldLine", "casingFold", point(0, foldY), point(foldX, foldY), "digital casing fold"),
+    lineMark("placementLine", "casingStitchGuide", point(0, 0), point(waistQ, 0),
+      "digital gather-to waist reference and casing stitch guide"),
+  ];
+}
+
 function legPiece(
   m: Measurements, metrics: TrouserDraftMetrics, options: TrouserOptions,
   position: "front" | "back", name: string
@@ -194,7 +210,16 @@ function legPiece(
   const pleatedFront = position === "front" && options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] === 1;
   const pleatOffset = options.frontPleatOffsetCm ?? 6;
   const pleatIntake = options.frontPleatIntakeCm ?? 4;
-  const waistEdges: Edge[] = pleatedFront
+  const elasticPullon = options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1;
+  const casingDepth = options.casingDepthCm!;
+  const openingQ = metrics.finishedWaist / 4 * options.waistGatherRatio!;
+  const casingTopY = -(casingDepth + TROUSER_CASING_TURN_UNDER_CM);
+  const waistEdges: Edge[] = elasticPullon
+    ? [
+      { kind: "line", name: "waist", start: point(0, casingTopY), end: point(openingQ, casingTopY) },
+      { kind: "line", name: "casingSide", start: point(openingQ, casingTopY), end: p.sideWaist },
+    ]
+    : pleatedFront
     ? [
       { kind: "line", name: "waist", start: point(0, 0), end: point(pleatOffset, 0) },
       { kind: "line", name: "pleatCutFoldSide", start: point(pleatOffset, 0), end: point(pleatOffset, -pleatIntake / 2) },
@@ -214,7 +239,8 @@ function legPiece(
     { kind: "line", name: "inseamUpper", start: p.innerKnee, end: p.innerThigh },
     { kind: "line", name: "innerThighToCrotch", start: p.innerThigh, end: p.crotch },
     crotch,
-    { kind: "line", name: centerName, start: point(0, centerY), end: point(0, 0) },
+    { kind: "line", name: centerName, start: point(0, centerY),
+      end: point(0, elasticPullon ? casingTopY : 0) },
   ];
   return {
     name,
@@ -222,6 +248,7 @@ function legPiece(
     edges,
     marks: [
       ...legMarks(metrics.finishedWaist / 4, sideHem.x, metrics, name),
+      ...(elasticPullon ? elasticCasingMarks(metrics.finishedWaist / 4, options) : []),
       ...(pleatedFront ? frontPleatMarks(metrics.finishedWaist / 4, options) : []),
     ],
   };
@@ -250,7 +277,8 @@ function mirrorPiece(piece: Piece, name: string): Piece {
   };
 }
 
-const sideInterface = (role: string) => iface(
+const sideInterface = (role: string, options: Partial<TrouserOptions> = {}) => iface(
+  ...(options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1 ? [edgeRef(role, "casingSide")] : []),
   edgeRef(role, "sideUpper"),
   edgeRef(role, "sideHipToThigh"),
   edgeRef(role, "sideThighToKnee"),
@@ -275,10 +303,15 @@ export function draftTrouserLegs(
   const backRight = mirrorPiece(back, "trouser back right");
   const roles = { frontLeft: front, frontRight, backLeft: back, backRight };
   const stitches: readonly Stitch[] = [
-    { label: "Left side seam (front ↔ back)", a: sideInterface("frontLeft"), b: sideInterface("backLeft") },
-    { label: "Right side seam (front ↔ back)", a: sideInterface("frontRight"), b: sideInterface("backRight") },
+    { label: "Left side seam (front ↔ back)", a: sideInterface("frontLeft", options), b: sideInterface("backLeft", options) },
+    { label: "Right side seam (front ↔ back)", a: sideInterface("frontRight", options), b: sideInterface("backRight", options) },
     { label: "Left inseam (front ↔ back)", a: inseamInterface("frontLeft"), b: inseamInterface("backLeft") },
     { label: "Right inseam (front ↔ back)", a: inseamInterface("frontRight"), b: inseamInterface("backRight") },
+    ...(options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1 ? [{
+      label: "Center-front seam (left ↔ right)",
+      a: iface(edgeRef("frontLeft", "centerFront")),
+      b: iface(edgeRef("frontRight", "centerFront", true)),
+    }] : []),
     { label: "Center-back seam (left ↔ right)", a: iface(edgeRef("backLeft", "centerBack")), b: iface(edgeRef("backRight", "centerBack")) },
   ];
   return block(roles, stitches);
@@ -624,6 +657,22 @@ export function draftTrouserWithClosure(
 export function draftTrouserWithPockets(
   m: Measurements, rawOptions: Partial<TrouserOptions> = {}
 ): Block {
+  const options = resolveTrouserOptions(rawOptions);
+  if (options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1) {
+    const opening = trouserPocketOpening(m, options);
+    const legs = addPocketMarks(draftTrouserLegs(m, options), opening);
+    const combined = assembleComponents([
+      { pieces: legs.roles, stitches: legs.stitches, interfaces: {} },
+      trouserPocket(m, options),
+    ]);
+    return block(combined.roles, [
+      ...combined.stitches,
+      { label: "Left pocket opening ↔ bag", a: iface(markRef("frontLeft", "pocketOpening", "left")),
+        b: iface(edgeRef("pocketBagLeft", "opening")) },
+      { label: "Right pocket opening ↔ bag", a: iface(markRef("frontRight", "pocketOpening", "right")),
+        b: iface(edgeRef("pocketBagRight", "opening")) },
+    ]);
+  }
   return composeBlock(TROUSER_GRAMMAR, m, rawOptions);
 }
 
@@ -700,9 +749,14 @@ export const TROUSER_NOTCHES: readonly PieceNotches[] = [
   })),
 ];
 
-/** Route front grainlines to the post-fold waist reference for R06 while the
+/** Route each profile's grainline to its authored waist reference while the
  * existing trouser profiles keep the edge-based rule above unchanged. */
 export function trouserNotchesForOptions(rawOptions: Partial<TrouserOptions> = {}): readonly PieceNotches[] {
+  if (rawOptions[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1) {
+    return TROUSER_NOTCHES.filter((rule) => rule.pieceName.startsWith("trouser front ")
+      || rule.pieceName.startsWith("trouser back ")
+      || rule.pieceName.startsWith("trouser pocket bag "));
+  }
   if (rawOptions[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] !== 1) return TROUSER_NOTCHES;
   return TROUSER_NOTCHES.map((rule) => {
     if (!rule.pieceName.startsWith("trouser front ")) return rule;

@@ -13,6 +13,7 @@ import {
   trouserMetrics,
 } from "../drafting";
 import type { Piece, PatternMark, TrouserOptions } from "../drafting";
+import { TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import { pieceBounds, pieceToPath } from "./shape";
 import { patternMarksSvg } from "./pattern-mark";
 import { BLUEPRINT as T } from "./theme";
@@ -107,12 +108,16 @@ function optionOverlays(block: Block, position: Position): string {
   const riseName = position === "front" ? "frontRiseEase" : "backRiseEase";
   const riseEdge = position === "front" ? "centerFront" : "centerBack";
   const hasPleat = position === "front" && !!left.marks?.some((mark) => mark.name === "frontWaistAfterPleat");
+  const hasElasticCasing = !!left.marks?.some((mark) => mark.name === "casingFold");
   return option(riseName, edgeBoth(riseEdge)) +
     option("thighEase", thigh) +
     option("kneeEase", knee) +
     option("legOpening", edgeBoth("hem")) +
     (position === "front"
-      ? option("flyLength", marksBoth(["flyEdge"])) +
+      ? (hasElasticCasing
+        ? option("waistGatherRatio", marksBoth(["casingStitchGuide"])) +
+          option("casingDepthCm", marksBoth(["casingFold"]))
+        : option("flyLength", marksBoth(["flyEdge"]))) +
         option("pocketOpening", marksBoth(["pocketOpening", "pocketOpeningStart"])) +
         option("pocketAngle", marksBoth(["pocketOpening"])) +
         option("pocketDrop", marksBoth(["pocketOpeningStart"])) +
@@ -155,14 +160,16 @@ interface TrayLayout {
 }
 
 function trayLayout(block: Block): TrayLayout {
-  const band = pieceBounds(rolePiece(block, "waistband"));
-  const fly = pieceBounds(rolePiece(block, "flyShield"));
+  const band = block.roles.waistband ? pieceBounds(block.roles.waistband) : undefined;
+  const fly = block.roles.flyShield ? pieceBounds(block.roles.flyShield) : undefined;
   const leftBag = pieceBounds(rolePiece(block, "pocketBagLeft"));
   const rightBag = pieceBounds(rolePiece(block, "pocketBagRight"));
-  const rowWidth = fly.width + leftBag.width + rightBag.width + GAP * 2;
+  const rowPieces = [...(fly ? [fly] : []), leftBag, rightBag];
+  const rowWidth = rowPieces.reduce((total, piece) => total + piece.width, 0)
+    + Math.max(0, rowPieces.length - 1) * GAP;
   return {
-    width: Math.max(band.width, rowWidth) + MARGIN * 2,
-    height: 6 + band.height + GAP + Math.max(fly.height, leftBag.height, rightBag.height) + MARGIN,
+    width: Math.max(band?.width ?? 0, rowWidth) + MARGIN * 2,
+    height: 6 + (band?.height ?? 0) + (band ? GAP : 0) + Math.max(...rowPieces.map((piece) => piece.height)) + MARGIN,
   };
 }
 
@@ -183,22 +190,24 @@ function componentPiece(
 }
 
 function componentTray(block: Block, color: string, width: number, y: number): string {
-  const band = rolePiece(block, "waistband");
-  const fly = rolePiece(block, "flyShield");
+  const band = block.roles.waistband;
+  const fly = block.roles.flyShield;
   const leftBag = rolePiece(block, "pocketBagLeft");
   const rightBag = rolePiece(block, "pocketBagRight");
-  const bandBounds = pieceBounds(band);
-  const flyBounds = pieceBounds(fly);
+  const bandBounds = band ? pieceBounds(band) : undefined;
+  const flyBounds = fly ? pieceBounds(fly) : undefined;
   const leftBounds = pieceBounds(leftBag);
   const rightBounds = pieceBounds(rightBag);
-  const rowWidth = flyBounds.width + leftBounds.width + rightBounds.width + GAP * 2;
+  const rowWidth = (flyBounds?.width ?? 0) + leftBounds.width + rightBounds.width + GAP * (fly ? 2 : 1);
   let x = MARGIN + (width - rowWidth) / 2;
-  const rowY = y + 6 + bandBounds.height + GAP;
-  const parts = [
-    componentPiece(band, "trouser waistband", (width - bandBounds.width) / 2, y + 6, color, { "option-waistbandDepth": ["endRight"] }),
-    componentPiece(fly, "trouser fly shield", x, rowY, color, { "option-flyLength": ["left", "right"] }),
-  ];
-  x += flyBounds.width + GAP;
+  const rowY = y + 6 + (bandBounds?.height ?? 0) + (band ? GAP : 0);
+  const parts: string[] = [];
+  if (band && bandBounds) parts.push(componentPiece(band, "trouser waistband", (width - bandBounds.width) / 2,
+    y + 6, color, { "option-waistbandDepth": ["endRight"] }));
+  if (fly && flyBounds) {
+    parts.push(componentPiece(fly, "trouser fly shield", x, rowY, color, { "option-flyLength": ["left", "right"] }));
+    x += flyBounds.width + GAP;
+  }
   parts.push(componentPiece(leftBag, "trouser pocket bag left", x, rowY, color, {
     "option-pocketOpening": ["opening"], "option-pocketAngle": ["opening"],
     "option-pocketDrop": ["opening"], "option-pocketBagDepth": ["bagLower"],
@@ -248,6 +257,9 @@ export function renderTrouserBody(
   const half = panelPairHalf(block, position);
   const front = rolePiece(block, "frontLeft");
   const postPleatWaist = front.marks?.find((mark) => mark.name === "frontWaistAfterPleat");
+  const elasticCasing = rawOptions[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1;
+  const waistOpening = metrics.finishedWaist * (rawOptions.waistGatherRatio ?? 1.25);
+  const casingDepth = rawOptions.casingDepthCm ?? 4;
   const waistHalf = postPleatWaist && "start" in postPleatWaist
     ? Math.abs(postPleatWaist.end.x)
     : Math.abs(edgeEnd(pieceEdge(front, "waist")).x);
@@ -274,7 +286,8 @@ export function renderTrouserBody(
   const riseField = position === "front" ? "frontRiseEase" : "backRiseEase";
   const riseLabel = position === "front" ? "Front" : "Back";
   const dimensions =
-    dim("waist", dimH(-waistHalf, waistHalf, -6, `Waist ${m.waist} (circ)`)) +
+    dim("waist", dimH(-waistHalf, waistHalf, -6, elasticCasing
+      ? `Digital opening before gathering ${waistOpening.toFixed(1)} (circ)` : `Waist ${m.waist} (circ)`)) +
     dim("hip", dimH(-side.x, side.x, m.hipDepth - 2.5, `Hip ${m.hip} (circ)`)) +
     dim("hipDepth", dimV(leftDimX, 0, m.hipDepth, `Hip depth ${m.hipDepth}`, -1)) +
     dim("crotchDepth", dimV(leftDimX - 6, 0, m.crotchDepth, `Crotch depth ${m.crotchDepth}`, -1)) +
@@ -282,7 +295,9 @@ export function renderTrouserBody(
     dim("knee", dimH(-kneeHalf, kneeHalf, metrics.kneeY - 2.5, `Knee ${m.knee} (circ)`)) +
     dim("inseam", dimV(rightDimX, metrics.backCrotchY, metrics.hemY, `Inseam ${m.inseam}`, 1)) +
     dim(riseField, dimV(rightDimX + 6, 0, position === "front" ? metrics.frontRise : metrics.backRise,
-      `${riseLabel} rise ${position === "front" ? metrics.frontRise : metrics.backRise}`, 1));
+      `${riseLabel} rise ${position === "front" ? metrics.frontRise : metrics.backRise}`, 1)) +
+    (elasticCasing ? dim("casingDepthCm", dimV(leftDimX - 8, -casingDepth, 0,
+      `Digital casing depth ${casingDepth}`, -1)) : "");
   const bodyEdges = rawMeasurementEdges(block, position);
   const optionsSvg = optionOverlays(block, position);
   const body = panelPair(block, position, T.cloth, 0, 0, position.toUpperCase(), false);

@@ -9,7 +9,8 @@ import { SKIRT_A_LINE_ENTRY_ID, SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_
   SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID } from "../drafting/skirt";
 import { SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
 import { draftJogger } from "../drafting/jogger";
-import { DEFAULT_TROUSER_OPTIONS, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
+  TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import { draftTrouserWithPockets } from "../drafting/trouser";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import {
@@ -59,6 +60,35 @@ describe("mapTechnicalFlatSources", () => {
     expect(mapping.faces.flatMap((face) => face.roles.map((role) => role.roleId)))
       .not.toContain("underCollar");
     expect(sources.issues).toEqual([]);
+  });
+
+  it("maps R07 casing panels and pocket bags without a separate waistband or fly", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 as const,
+      waistGatherRatio: 1.25,
+      casingDepthCm: 4,
+    };
+    const block = draftTrouserWithPockets(STANDARD_M, options);
+    const mapping = technicalFlatMappingForBlock("trouser", block)!;
+    const sources = mapTechnicalFlatSources("trouser", block, recipe.pomsForOptions!(options));
+
+    expect(mapping.faces.map((face) => face.roles.map((role) => [role.roleId, role.treatment])))
+      .toEqual([
+        [["frontLeft", "SHELL"], ["frontRight", "SHELL"], ["pocketBagLeft", "INTERIOR_HIDDEN"], ["pocketBagRight", "INTERIOR_HIDDEN"]],
+        [["backLeft", "SHELL"], ["backRight", "SHELL"], ["pocketBagLeft", "INTERIOR_HIDDEN"], ["pocketBagRight", "INTERIOR_HIDDEN"]],
+      ]);
+    expect(sources.issues).toEqual([]);
+    expect(sources.sources.filter((source) => source.kind === "component").map((source) => source.sourceId))
+      .not.toContain("pattern:trouser:role:waistband");
+    expect(sources.sources.some((source) => source.sourceId === "pattern:trouser:mark:frontLeft:casingFold")).toBe(true);
+    expect(assembleTechnicalFlatRoles("trouser", block, "FRONT_FLAT").issues).toEqual([]);
+    expect(assembleTechnicalFlatRoles("trouser", block, "BACK_FLAT").issues).toEqual([]);
+
+    const generic = draftTrouserWithPockets(STANDARD_M, DEFAULT_TROUSER_OPTIONS);
+    expect(technicalFlatMappingForBlock("trouser", generic)?.faces[0]?.roles.map((role) => role.roleId))
+      .toContain("waistband");
   });
 
   it("maps K03 integrated-casing panels from their positive structure", () => {

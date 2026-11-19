@@ -4,8 +4,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob, Buffer } from "node:buffer";
 import { createHash, webcrypto } from "node:crypto";
 import { mountApp, unmountApp } from "./app";
-import { STARTER_REGISTRY, TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_PLEATED_FRONT_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
-import { TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { STARTER_REGISTRY, TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_PLEATED_FRONT_ENTRY_ID, TROUSER_ELASTIC_PULLON_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
+import { TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 
 const mountedRoots = new Set<HTMLDivElement>();
 type TrackedListener = { type: string; listener: EventListenerOrEventListenerObject; options?: boolean | AddEventListenerOptions };
@@ -993,4 +993,174 @@ describe("R06 Pleated-front trouser starter app", () => {
       reopened?.remove();
     }
   }, 60_000);
+});
+
+describe("R07 Elastic-waist pull-on trouser starter app", () => {
+  it("keeps identity, controls, digital guidance, flats and all eight outputs on the R07 route", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const downloads: { filename: string; content: string }[] = [];
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      downloads.push({ filename, content });
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    const exportIds = ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack",
+      "export-projector", "export-cad-dxf", "export-dxf-source-package"];
+    const exportAll = async (target: HTMLElement) => {
+      const start = downloads.length;
+      for (const id of exportIds) clickId(target, id);
+      await vi.waitFor(() => expect(downloads).toHaveLength(start + exportIds.length), { timeout: 30_000 });
+      return downloads.slice(start);
+    };
+    const byName = (batch: readonly { filename: string; content: string }[], filename: string) => {
+      const output = batch.find((item) => item.filename === filename);
+      expect(output, `Expected ${filename}`).toBeDefined();
+      return output!.content;
+    };
+    try {
+      root = mount();
+      clickId(root, "welcome-start");
+      clickId(root, "garment-trouser");
+      clickId(root, `starter-${TROUSER_ELASTIC_PULLON_ENTRY_ID}`);
+      expect(root.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Elastic-waist pull-on trouser");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")?.value).toBe("Classic straight trouser");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="waistGatherRatio"]')?.value).toBe("1.25");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="casingDepthCm"]')?.value).toBe("4");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="waistbandDepth"]')).toBeNull();
+      expect(root.querySelector<HTMLInputElement>('input[data-option="flyLength"]')).toBeNull();
+      expect(root.querySelector<HTMLElement>("#controls-panel")?.textContent).not.toContain(TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY);
+
+      clickId(root, "view-pattern");
+      const pattern = root.querySelector<SVGSVGElement>("#inspection-content svg")?.outerHTML ?? "";
+      expect(pattern).toContain('data-pattern-mark-name="casingFold"');
+      expect(pattern).toContain('data-pattern-mark-name="casingStitchGuide"');
+      expect(pattern).not.toContain("waistband");
+      expect(pattern).not.toContain("fly shield");
+
+      const advanced = root.querySelector<HTMLDetailsElement>("#advanced-views");
+      expect(advanced).not.toBeNull();
+      advanced!.open = true;
+      clickId(root, "view-flat");
+      clickId(root, "technical-flat-front");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='FRONT_FLAT']"),
+        [...root.querySelectorAll<HTMLElement>("#analysis-host, #garment-host")].map((host) => host.textContent).join(" ").slice(0, 1400))
+        .not.toBeNull();
+      clickId(root, "technical-flat-back");
+      expect(root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='BACK_FLAT']"))
+        .not.toBeNull();
+
+      reachExportStage(root);
+      for (const id of exportIds) expect(root.querySelector<HTMLButtonElement>(`#${id}`)?.disabled).toBe(false);
+      const defaultBatch = await exportAll(root);
+      const expectedNames = [
+        "elastic-pullon-trouser-M.svg", "elastic-pullon-trouser-M.dxf", "elastic-pullon-trouser-M.pdf",
+        "elastic-pullon-trouser-M-A0.pdf", "elastic-pullon-trouser-techpack.pdf",
+        "elastic-pullon-trouser-projector.svg", "elastic-pullon-trouser-M-cad-exchange.dxf",
+        "elastic-pullon-trouser-M-cad-exchange-source.json",
+      ];
+      expect(defaultBatch.map((item) => item.filename).sort()).toEqual(expectedNames.sort());
+      expect(byName(defaultBatch, "elastic-pullon-trouser-M.svg")).toContain("casingFold");
+      expect(byName(defaultBatch, "elastic-pullon-trouser-M.dxf")).toContain("SECTION");
+      expect(byName(defaultBatch, "elastic-pullon-trouser-M-cad-exchange.dxf")).toContain("SECTION");
+      expect(byName(defaultBatch, "elastic-pullon-trouser-M.pdf")).toMatch(/^%PDF/);
+      expect(byName(defaultBatch, "elastic-pullon-trouser-M-A0.pdf")).toMatch(/^%PDF/);
+      expect(visiblePdfText(byName(defaultBatch, "elastic-pullon-trouser-techpack.pdf")))
+        .toContain("Elastic width, length, material, channel compatibility and quantity remain unspecified");
+      expect(byName(defaultBatch, "elastic-pullon-trouser-projector.svg"))
+        .toContain("Digital R07 elastic-waist pull-on Trouser");
+      const defaultPackage = JSON.parse(byName(defaultBatch, "elastic-pullon-trouser-M-cad-exchange-source.json")) as {
+        manifest: { options: Record<string, number>; recipe: { id: string; label: string }; pieces: readonly { role: string }[] };
+      };
+      expect(defaultPackage.manifest.options).toMatchObject({ waistGatherRatio: 1.25, casingDepthCm: 4 });
+      expect(defaultPackage.manifest.options).not.toHaveProperty(TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY);
+      expect(defaultPackage.manifest.options).not.toHaveProperty("waistbandDepth");
+      expect(defaultPackage.manifest.options).not.toHaveProperty("flyLength");
+      expect(defaultPackage.manifest.recipe).toEqual({ id: "trouser", label: "Elastic-waist pull-on trouser" });
+      expect(defaultPackage.manifest.pieces.map((piece) => piece.role).sort()).toEqual([
+        "backLeft", "backRight", "frontLeft", "frontRight", "pocketBagLeft", "pocketBagRight",
+      ]);
+
+      setOption(root, "waistGatherRatio", "1");
+      setOption(root, "casingDepthCm", "2");
+      expect(root.querySelector<HTMLElement>("#guidance-host")?.textContent).toContain("below the hip + existing ease reference");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="waistGatherRatio"]')?.value).toBe("1");
+      setOption(root, "waistGatherRatio", "1.8");
+      setOption(root, "casingDepthCm", "8");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="waistGatherRatio"]')?.value).toBe("1.8");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="casingDepthCm"]')?.value).toBe("8");
+      setOption(root, "waistGatherRatio", "1.23");
+      setOption(root, "casingDepthCm", "4.25");
+      expect(root.querySelector<HTMLElement>("#guidance-host")?.textContent).toContain("0.05");
+      expect(root.querySelector<HTMLElement>("#guidance-host")?.textContent).toContain("0.5");
+      clickId(root, "save-pattern");
+      const invalidSaved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(invalidSaved.garmentOptions.trouser).toMatchObject({ waistGatherRatio: 1.23, casingDepthCm: 4.25 });
+      expect(invalidSaved.garmentOptions.trouser).not.toHaveProperty(TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY);
+      expect(invalidSaved.workspace.starterOrigin).toMatchObject({
+        entryId: TROUSER_ELASTIC_PULLON_ENTRY_ID, recipeRevision: "trouser-elastic-pullon-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Elastic-waist pull-on trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="waistGatherRatio"]')?.value).toBe("1.23");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="casingDepthCm"]')?.value).toBe("4.25");
+      expect(reopened.querySelector<HTMLElement>("#guidance-host")?.textContent).toContain("0.05");
+
+      setOption(reopened, "waistGatherRatio", "1.4");
+      setOption(reopened, "casingDepthCm", "5.5");
+      clickId(reopened, "save-pattern");
+      reachExportStage(reopened);
+      for (const id of exportIds) expect(reopened.querySelector<HTMLButtonElement>(`#${id}`)?.disabled).toBe(false);
+      const editedBatch = await exportAll(reopened);
+      for (const filename of expectedNames) {
+        expect(byName(editedBatch, filename)).not.toBe(byName(defaultBatch, filename));
+      }
+      const editedPackage = JSON.parse(byName(editedBatch, "elastic-pullon-trouser-M-cad-exchange-source.json")) as {
+        manifest: { options: Record<string, number> };
+      };
+      expect(editedPackage.manifest.options).toMatchObject({ waistGatherRatio: 1.4, casingDepthCm: 5.5 });
+
+      clickId(reopened, "garment-trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="waistGatherRatio"]')).toBeNull();
+      clickId(reopened, "save-pattern");
+      const genericSaved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+      };
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty("waistGatherRatio");
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty("casingDepthCm");
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty(TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY);
+
+      for (const entryId of [TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID,
+        TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_PLEATED_FRONT_ENTRY_ID]) {
+        clickId(reopened, `starter-${TROUSER_ELASTIC_PULLON_ENTRY_ID}`);
+        expect(reopened.querySelector<HTMLInputElement>('input[data-option="waistGatherRatio"]')).not.toBeNull();
+        clickId(reopened, `starter-${entryId}`);
+        expect(reopened.querySelector<HTMLInputElement>('input[data-option="waistGatherRatio"]')).toBeNull();
+        expect(reopened.querySelector<HTMLInputElement>('input[data-option="casingDepthCm"]')).toBeNull();
+        clickId(reopened, "save-pattern");
+        const switched = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+          garmentOptions: { trouser: Record<string, number> };
+          workspace: { starterOrigin: { entryId: string } };
+        };
+        expect(switched.workspace.starterOrigin.entryId).toBe(entryId);
+        expect(switched.garmentOptions.trouser).not.toHaveProperty("waistGatherRatio");
+        expect(switched.garmentOptions.trouser).not.toHaveProperty("casingDepthCm");
+        expect(switched.garmentOptions.trouser).not.toHaveProperty(TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY);
+      }
+    } finally {
+      restoreSvgTextMetrics();
+      root?.remove();
+      reopened?.remove();
+    }
+  }, 90_000);
 });
