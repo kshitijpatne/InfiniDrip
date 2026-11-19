@@ -8,9 +8,9 @@
 // profile are shared so the sewn inseams and side seams match exactly. It is a
 // coherent approximation, not a universal fit formula.
 
-import { cubicPoint, point } from "../geometry";
+import { cubicPoint, point, type Point } from "../geometry";
 import { Block, block, rolePiece } from "./block";
-import { Edge, Piece } from "./piece";
+import { Edge, Piece, edgeEnd, pieceEdge } from "./piece";
 import { lineMark, pointMark, PatternMark } from "./pattern-mark";
 import { edgeRef, iface, markRef, Stitch } from "./stitch";
 import { Component, assembleComponents } from "./component";
@@ -24,6 +24,7 @@ import {
   TROUSER_BOOTCUT_PROFILE_ROUTE_KEY,
   TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
   TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY,
+  TROUSER_CARGO_PROFILE_ROUTE_KEY,
   TROUSER_CASING_TURN_UNDER_CM,
   TROUSER_OPTION_DEFINITIONS,
   TrouserOptions,
@@ -258,6 +259,12 @@ function mirrorPoint(p: { readonly x: number; readonly y: number }) {
   return point(-p.x, p.y);
 }
 
+function mirrorPatternMark(mark: PatternMark): PatternMark {
+  return "at" in mark
+    ? { ...mark, at: mirrorPoint(mark.at) }
+    : { ...mark, start: mirrorPoint(mark.start), end: mirrorPoint(mark.end) };
+}
+
 function mirrorPiece(piece: Piece, name: string): Piece {
   return {
     ...piece,
@@ -271,9 +278,7 @@ function mirrorPiece(piece: Piece, name: string): Piece {
           control2: mirrorPoint(edge.curve.control2),
           end: mirrorPoint(edge.curve.end),
         } }),
-    marks: piece.marks?.map((mark): PatternMark => "at" in mark
-      ? { ...mark, at: mirrorPoint(mark.at) }
-      : { ...mark, start: mirrorPoint(mark.start), end: mirrorPoint(mark.end) }),
+    marks: piece.marks?.map(mirrorPatternMark),
   };
 }
 
@@ -673,7 +678,259 @@ export function draftTrouserWithPockets(
         b: iface(edgeRef("pocketBagRight", "opening")) },
     ]);
   }
+  if (options[TROUSER_CARGO_PROFILE_ROUTE_KEY] === 1) {
+    return draftTrouserCargoBlock(m, options);
+  }
   return composeBlock(TROUSER_GRAMMAR, m, rawOptions);
+}
+
+interface CargoRect {
+  readonly left: number;
+  readonly right: number;
+  readonly top: number;
+  readonly bottom: number;
+}
+
+interface CargoLayout {
+  readonly cutWidth: number;
+  readonly finishedWidth: number;
+  readonly bodyHeight: number;
+  readonly pleatIntake: number;
+  readonly flapDepth: number;
+  readonly bodyRect: CargoRect;
+  readonly flapRect: CargoRect;
+  readonly hipY: number;
+  readonly kneeY: number;
+  readonly hemY: number;
+}
+
+function normalizedCargoRect(rect: CargoRect): CargoRect {
+  return {
+    left: Math.min(rect.left, rect.right),
+    right: Math.max(rect.left, rect.right),
+    top: Math.min(rect.top, rect.bottom),
+    bottom: Math.max(rect.top, rect.bottom),
+  };
+}
+
+function cargoLayout(front: Piece, m: Measurements, options: TrouserOptions): CargoLayout {
+  const metrics = trouserMetrics(m, options);
+  const hipY = edgeEnd(pieceEdge(front, "sideUpper")).y;
+  const kneeY = edgeEnd(pieceEdge(front, "sideThighToKnee")).y;
+  const centerY = (hipY + kneeY) / 2 + options.cargoPocketVerticalOffsetCm!;
+  const finishedWidth = options.cargoPocketWidthCm!;
+  const pleatIntake = options.cargoPleatIntakeCm!;
+  const cutWidth = finishedWidth + pleatIntake;
+  const bodyHeight = options.cargoPocketHeightCm!;
+  const flapDepth = options.cargoFlapDepthCm!;
+  const bodyTop = centerY - bodyHeight / 2;
+  const bodyBottom = bodyTop + bodyHeight;
+  const flapTop = bodyTop - flapDepth;
+  const boundaryYs = [flapTop, (flapTop + bodyTop) / 2, bodyTop,
+    (bodyTop + bodyBottom) / 2, bodyBottom];
+  const boundaryXs = boundaryYs.map((y) => sideBoundaryXAtY(front, y));
+  const sideLimit = boundaryXs.every((x): x is number => x !== null)
+    ? Math.min(...boundaryXs)
+    : sideBoundaryXAtY(front, centerY);
+  // The cuttable cargo pieces span the side seam. Each technical face and
+  // panel receives its own inward half-width placement outline. Use the most
+  // restrictive sampled side-seam position across both outlines so their
+  // placement edges remain inside the curved panel envelope.
+  const bodyRight = (sideLimit ?? edgeEnd(pieceEdge(front, "sideUpper")).x) - 1;
+  const bodyLeft = bodyRight - cutWidth / 2;
+  const flapWidth = finishedWidth / 2;
+  const flapRect = {
+    left: bodyRight - flapWidth,
+    right: bodyRight,
+    top: flapTop,
+    bottom: bodyTop,
+  };
+  return {
+    cutWidth,
+    finishedWidth,
+    bodyHeight,
+    pleatIntake,
+    flapDepth,
+    bodyRect: { left: bodyLeft, right: bodyRight, top: bodyTop, bottom: bodyBottom },
+    flapRect,
+    hipY,
+    kneeY,
+    hemY: metrics.hemY,
+  };
+}
+
+function cargoRectFitsPanel(piece: Piece, rawRect: CargoRect): boolean {
+  const rect = normalizedCargoRect(rawRect);
+  const sampleYs = [rect.top, (rect.top + rect.bottom) / 2, rect.bottom];
+  return rect.left > 0 && sampleYs.every((y) => {
+    const side = sideBoundaryXAtY(piece, y);
+    return side !== null && rect.right <= side - 1 + 1e-6;
+  });
+}
+
+function cargoBodyPiece(layout: CargoLayout, name: string): Piece {
+  const width = layout.cutWidth;
+  const height = layout.bodyHeight;
+  const centerX = width / 2;
+  const leftFoldX = centerX - layout.pleatIntake / 2;
+  const rightFoldX = centerX + layout.pleatIntake / 2;
+  return {
+    name,
+    onFold: false,
+    edges: [
+      { kind: "line", name: "top", start: point(0, 0), end: point(width, 0) },
+      { kind: "line", name: "right", start: point(width, 0), end: point(width, height) },
+      { kind: "line", name: "bottom", start: point(width, height), end: point(0, height) },
+      { kind: "line", name: "left", start: point(0, height), end: point(0, 0) },
+    ],
+    marks: [
+      lineMark("foldLine", "cargoPleatLeftFold", point(leftFoldX, 0), point(leftFoldX, height), "fold toward center"),
+      lineMark("foldLine", "cargoPleatRightFold", point(rightFoldX, 0), point(rightFoldX, height), "fold toward center"),
+      lineMark("placementLine", "cargoPleatCenter", point(centerX, 0), point(centerX, height), "centered box-pleat reference"),
+    ],
+  };
+}
+
+function cargoFlapPiece(layout: CargoLayout, name: string): Piece {
+  const width = layout.finishedWidth;
+  const height = layout.flapDepth;
+  return {
+    name,
+    onFold: false,
+    edges: [
+      { kind: "line", name: "top", start: point(0, 0), end: point(width, 0) },
+      { kind: "line", name: "right", start: point(width, 0), end: point(width, height) },
+      { kind: "line", name: "bottom", start: point(width, height), end: point(0, height) },
+      { kind: "line", name: "left", start: point(0, height), end: point(0, 0) },
+    ],
+    marks: [lineMark("placementLine", "cargoHookLoopPlacement", point(0, height / 2),
+      point(width, height / 2), "hook-and-loop placement reference")],
+  };
+}
+
+function cargoLegPlacementMarks(layout: CargoLayout): readonly PatternMark[] {
+  const { bodyRect, flapRect } = layout;
+  return [
+    lineMark("placementLine", "cargoBodyPlacementTop", point(bodyRect.left, bodyRect.top), point(bodyRect.right, bodyRect.top), "cargo pocket body placement half at side seam"),
+    lineMark("placementLine", "cargoBodyPlacementRight", point(bodyRect.right, bodyRect.top), point(bodyRect.right, bodyRect.bottom)),
+    lineMark("placementLine", "cargoBodyPlacementBottom", point(bodyRect.right, bodyRect.bottom), point(bodyRect.left, bodyRect.bottom)),
+    lineMark("placementLine", "cargoBodyPlacementLeft", point(bodyRect.left, bodyRect.bottom), point(bodyRect.left, bodyRect.top)),
+    lineMark("placementLine", "cargoFlapPlacementTop", point(flapRect.left, flapRect.top), point(flapRect.right, flapRect.top), "cargo flap placement half at side seam"),
+    lineMark("placementLine", "cargoFlapPlacementBase", point(flapRect.left, flapRect.bottom), point(flapRect.right, flapRect.bottom)),
+    pointMark("placementPoint", "cargoPocketPlacementCenter", point((bodyRect.left + bodyRect.right) / 2,
+      (bodyRect.top + bodyRect.bottom) / 2), "digital mid-thigh placement anchor"),
+  ];
+}
+
+function draftTrouserCargoBlock(m: Measurements, options: TrouserOptions): Block {
+  const base = composeBlock(TROUSER_GRAMMAR, m, { ...options });
+  const front = rolePiece(base, "frontLeft");
+  const frontRight = rolePiece(base, "frontRight");
+  const back = rolePiece(base, "backLeft");
+  const backRight = rolePiece(base, "backRight");
+  const frontMarks = cargoLegPlacementMarks(cargoLayout(front, m, options));
+  const backMarks = cargoLegPlacementMarks(cargoLayout(back, m, options));
+  const layout = cargoLayout(front, m, options);
+  const bodyLeft = cargoBodyPiece(layout, "cargo pocket body left");
+  const flapLeft = cargoFlapPiece(layout, "cargo pocket flap left");
+  return block({
+    ...base.roles,
+    frontLeft: { ...front, marks: [...front.marks!, ...frontMarks] },
+    frontRight: { ...frontRight, marks: [...frontRight.marks!, ...frontMarks.map(mirrorPatternMark)] },
+    backLeft: { ...back, marks: [...back.marks!, ...backMarks] },
+    backRight: { ...backRight, marks: [...backRight.marks!, ...backMarks.map(mirrorPatternMark)] },
+    cargoPocketBodyLeft: bodyLeft,
+    cargoPocketBodyRight: mirrorPiece(bodyLeft, "cargo pocket body right"),
+    cargoPocketFlapLeft: flapLeft,
+    cargoPocketFlapRight: mirrorPiece(flapLeft, "cargo pocket flap right"),
+  }, base.stitches);
+}
+
+function cargoSegmentsIntersect(a: Point, b: Point, c: Point, d: Point): boolean {
+  const cross = (first: Point, second: Point, third: Point) =>
+    (second.x - first.x) * (third.y - first.y) - (second.y - first.y) * (third.x - first.x);
+  const onSegment = (start: Point, end: Point, candidate: Point) =>
+    candidate.x >= Math.min(start.x, end.x) - 1e-8 && candidate.x <= Math.max(start.x, end.x) + 1e-8
+    && candidate.y >= Math.min(start.y, end.y) - 1e-8 && candidate.y <= Math.max(start.y, end.y) + 1e-8;
+  const abC = cross(a, b, c);
+  const abD = cross(a, b, d);
+  const cdA = cross(c, d, a);
+  const cdB = cross(c, d, b);
+  if (((abC > 1e-8 && abD < -1e-8) || (abC < -1e-8 && abD > 1e-8))
+    && ((cdA > 1e-8 && cdB < -1e-8) || (cdA < -1e-8 && cdB > 1e-8))) return true;
+  return (Math.abs(abC) <= 1e-8 && onSegment(a, b, c))
+    || (Math.abs(abD) <= 1e-8 && onSegment(a, b, d))
+    || (Math.abs(cdA) <= 1e-8 && onSegment(c, d, a))
+    || (Math.abs(cdB) <= 1e-8 && onSegment(c, d, b));
+}
+
+function cargoSegmentIntersectsRect(start: Point, end: Point, rawRect: CargoRect): boolean {
+  const rect = normalizedCargoRect(rawRect);
+  const inside = (candidate: Point) => candidate.x >= rect.left && candidate.x <= rect.right
+    && candidate.y >= rect.top && candidate.y <= rect.bottom;
+  if (inside(start) || inside(end)) return true;
+  const corners = [point(rect.left, rect.top), point(rect.right, rect.top),
+    point(rect.right, rect.bottom), point(rect.left, rect.bottom)];
+  return corners.some((corner, index) => cargoSegmentsIntersect(start, end, corner, corners[(index + 1) % corners.length]!));
+}
+
+/** Deterministic R08 construction checks. They use the authored block and
+ * retain invalid option values; output gating is applied by the recipe review. */
+export function trouserCargoNotes(
+  drafted: Block, m: Measurements, rawOptions: Partial<TrouserOptions> = {}
+): Note[] {
+  const options = resolveTrouserOptions(rawOptions);
+  if (options[TROUSER_CARGO_PROFILE_ROUTE_KEY] !== 1) return [];
+  const front = rolePiece(drafted, "frontLeft");
+  const frontLayout = cargoLayout(front, m, options);
+  const back = rolePiece(drafted, "backLeft");
+  const backLayout = cargoLayout(back, m, options);
+  const layout = backLayout;
+  const notes: Note[] = [];
+  if (layout.finishedWidth <= 0) {
+    notes.push({ field: "option-cargoPocketWidthCm", level: "warn",
+      text: "The cargo pocket has no positive finished body width — increase the finished pocket width; the value is retained." });
+  }
+  if (layout.flapDepth >= layout.bodyHeight) {
+    notes.push({ field: "option-cargoFlapDepthCm", level: "warn",
+      text: "The cargo flap depth must stay smaller than the pocket body height — reduce flap depth or increase body height; the values are retained." });
+  }
+  const bodyFits = cargoRectFitsPanel(front, frontLayout.bodyRect) && cargoRectFitsPanel(back, backLayout.bodyRect);
+  const flapFits = cargoRectFitsPanel(front, frontLayout.flapRect) && cargoRectFitsPanel(back, backLayout.flapRect);
+  if (!bodyFits) {
+    const field = layout.bodyRect.left <= 0 ? "option-cargoPocketWidthCm"
+      : options.cargoPocketVerticalOffsetCm !== 0 ? "option-cargoPocketVerticalOffsetCm" : "option-cargoPocketHeightCm";
+    const correction = field === "option-cargoPocketWidthCm"
+      ? "reduce the finished pocket width or pleat intake"
+      : field === "option-cargoPocketVerticalOffsetCm"
+        ? "move the vertical offset toward the mid-thigh anchor"
+        : "reduce pocket height";
+    notes.push({ field, level: "warn",
+      text: `The cargo body leaves the drafted leg-panel envelope — ${correction}; no automatic resizing or repositioning is applied.` });
+  } else if (!flapFits) {
+    const field = options.cargoPocketVerticalOffsetCm !== 0
+      ? "option-cargoPocketVerticalOffsetCm" : "option-cargoFlapDepthCm";
+    const correction = field === "option-cargoPocketVerticalOffsetCm"
+      ? "move the vertical offset toward the mid-thigh anchor"
+      : "reduce flap depth";
+    notes.push({ field, level: "warn",
+      text: `The cargo flap leaves the drafted leg-panel envelope — ${correction}; no automatic resizing or repositioning is applied.` });
+  }
+  if (layout.flapRect.top <= options.waistbandDepth + 1) {
+    notes.push({ field: "option-cargoPocketVerticalOffsetCm", level: "warn",
+      text: "The cargo flap is too close to the waistband — move the vertical offset down toward the mid-thigh anchor or reduce the flap depth." });
+  }
+  if (layout.bodyRect.bottom >= layout.kneeY - 1 || layout.bodyRect.bottom >= layout.hemY - 1) {
+    notes.push({ field: "option-cargoPocketVerticalOffsetCm", level: "warn",
+      text: "The cargo body reaches the knee or hem clearance — move the vertical offset up toward the mid-thigh anchor or reduce pocket height." });
+  }
+  const opening = trouserPocketOpening(m, options);
+  if (cargoSegmentIntersectsRect(opening.start, opening.end, frontLayout.bodyRect)
+    || cargoSegmentIntersectsRect(opening.start, opening.end, frontLayout.flapRect)) {
+    notes.push({ field: "option-cargoPocketWidthCm", level: "warn",
+      text: "The cargo placement crosses the front pocket opening — reduce the cargo width or move the pocket toward the side seam; values are retained." });
+  }
+  return notes;
 }
 
 /** V1 woven trouser cutting allowances. All roles are off-fold; a future
@@ -681,6 +938,12 @@ export function draftTrouserWithPockets(
  * geometry. */
 export const TROUSER_ALLOWANCES: AllowanceSpec = {
   default: 1,
+  byPieceEdge: {
+    "cargo pocket body left": { top: 1, right: 1, bottom: 1, left: 1 },
+    "cargo pocket body right": { top: 1, right: 1, bottom: 1, left: 1 },
+    "cargo pocket flap left": { top: 1, right: 1, bottom: 1, left: 1 },
+    "cargo pocket flap right": { top: 1, right: 1, bottom: 1, left: 1 },
+  },
   byEdge: {
     hem: 2,
     waist: 1,
@@ -749,9 +1012,27 @@ export const TROUSER_NOTCHES: readonly PieceNotches[] = [
   })),
 ];
 
+/** R08 placement notches identify the body/flap center alignment. They do not
+ * describe an edge-to-edge seam interface with the trouser leg. */
+const TROUSER_CARGO_NOTCHES: readonly PieceNotches[] = [
+  ...["cargo pocket body left", "cargo pocket body right"].map((pieceName) => ({
+    pieceName,
+    notches: [{ edgeName: "top", t: 0.5 }],
+    grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
+  })),
+  ...["cargo pocket flap left", "cargo pocket flap right"].map((pieceName) => ({
+    pieceName,
+    notches: [{ edgeName: "bottom", t: 0.5 }],
+    grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
+  })),
+];
+
 /** Route each profile's grainline to its authored waist reference while the
  * existing trouser profiles keep the edge-based rule above unchanged. */
 export function trouserNotchesForOptions(rawOptions: Partial<TrouserOptions> = {}): readonly PieceNotches[] {
+  if (rawOptions[TROUSER_CARGO_PROFILE_ROUTE_KEY] === 1) {
+    return [...TROUSER_NOTCHES, ...TROUSER_CARGO_NOTCHES];
+  }
   if (rawOptions[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1) {
     return TROUSER_NOTCHES.filter((rule) => rule.pieceName.startsWith("trouser front ")
       || rule.pieceName.startsWith("trouser back ")

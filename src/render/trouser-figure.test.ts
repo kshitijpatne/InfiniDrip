@@ -6,7 +6,7 @@ import {
   draftTrouserWithPockets,
   rolePiece,
 } from "../drafting";
-import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { TROUSER_CARGO_PROFILE_ROUTE_KEY, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import {
   renderTrouserBody,
   renderTrouserBodyPair,
@@ -132,5 +132,31 @@ describe("trouser render integration (Slice 100)", () => {
     expect(body.querySelector('[data-edge="option-casingDepthCm"]')).not.toBeNull();
     expect(side.querySelector("parsererror")).toBeNull();
     expect(side.querySelector('[data-part="side-silhouette"]')?.getAttribute("d")).toContain("-6.1");
+  });
+
+  it("renders the R08 pocket cut pieces, placement references, and live dimensions on the actual trouser views", () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_CARGO_PROFILE_ROUTE_KEY]: 1 as const,
+      cargoPocketWidthCm: 19,
+      cargoPocketHeightCm: 21,
+      cargoPleatIntakeCm: 3,
+      cargoFlapDepthCm: 6,
+      cargoPocketVerticalOffsetCm: 1.5,
+    };
+    const garment = renderTrouserGarment(STANDARD_M, "#123456", options);
+    const body = parse(renderTrouserBody(STANDARD_M, options, "front"));
+
+    expect(parse(garment).querySelector("parsererror")).toBeNull();
+    for (const role of ["trouser cargo pocket body left", "trouser cargo pocket body right",
+      "trouser cargo pocket flap left", "trouser cargo pocket flap right"]) {
+      expect(garment).toContain(`data-role="${role}"`);
+    }
+    expect(body.querySelector("parsererror")).toBeNull();
+    for (const field of ["cargoPocketWidthCm", "cargoPocketHeightCm", "cargoFlapDepthCm", "cargoPocketVerticalOffsetCm"]) {
+      expect(body.querySelector(`[data-edge="option-${field}"]`), field).not.toBeNull();
+    }
+    expect(body.querySelector('[data-pattern-mark-name="cargoBodyPlacementTop"]')).not.toBeNull();
+    expect(body.querySelector('[data-pattern-mark-name="cargoFlapPlacementTop"]')).not.toBeNull();
   });
 });

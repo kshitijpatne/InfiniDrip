@@ -15,6 +15,7 @@ import {
   TROUSER_BARREL_BOW_OPTION,
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY,
+  TROUSER_CARGO_PROFILE_ROUTE_KEY,
   TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
   TROUSER_SHARED_OPTION_DEFINITIONS,
 } from "../drafting/trouser-contract";
@@ -26,6 +27,26 @@ const draft = (recipe: typeof GARMENTS[number]) => recipe.draft(STANDARD_M, defa
 const G04_RECIPES = GARMENTS.filter((recipe) => G04_TECHNICAL_FLAT_MAPPINGS[recipe.name] !== undefined);
 
 describe("assembleTechnicalFlatRoles", () => {
+  it("keeps R08 cut pieces separate while assembling panel placement marks on both flat faces", () => {
+    const options = { ...defaultGarmentOptions(TROUSER.options ?? []), [TROUSER_CARGO_PROFILE_ROUTE_KEY]: 1 as const };
+    const block = TROUSER.draft(STANDARD_M, options);
+    const cargoRoles = ["cargoPocketBodyLeft", "cargoPocketBodyRight", "cargoPocketFlapLeft", "cargoPocketFlapRight"];
+    for (const [kind, panelRoles] of [
+      ["FRONT_FLAT", ["frontLeft", "frontRight"]], ["BACK_FLAT", ["backLeft", "backRight"]],
+    ] as const) {
+      const assembly = assembleTechnicalFlatRoles("trouser", block, kind);
+      expect(assembly.issues, kind).toEqual([]);
+      expect(Object.keys(assembly.transforms).filter((roleId) => cargoRoles.includes(roleId))).toEqual([]);
+      for (const roleId of panelRoles) {
+        expect(block.roles[roleId]!.marks?.map((mark) => mark.name)).toEqual(expect.arrayContaining([
+          "cargoBodyPlacementTop", "cargoFlapPlacementTop",
+        ]));
+      }
+    }
+    expect(block.stitches.flatMap((stitch) => [...stitch.a.edges, ...stitch.b.edges])
+      .some((ref) => ref.piece.startsWith("cargoPocket"))).toBe(false);
+  });
+
   it("assembles each crewneck body and one source sleeve per view while keeping detached bands outside the solver", () => {
     const source = CREWNECK.draft(STANDARD_M, defaultGarmentOptions(CREWNECK.options ?? []));
     const projection = createG04TechnicalFlatProjectionMap("crewneck", source, "assembly-crewneck-s1113-r1")!;

@@ -16,6 +16,8 @@ export const TROUSER_BOOTCUT_ENTRY_ID = "trouser-bootcut-digital-v1" as const;
 export const TROUSER_PLEATED_FRONT_ENTRY_ID = "trouser-pleated-front-digital-v1" as const;
 /** Stable R07 registry identity shared by the drafting and app boundaries. */
 export const TROUSER_ELASTIC_PULLON_ENTRY_ID = "trouser-elastic-pullon-digital-v1" as const;
+/** Stable R08 registry identity shared by the drafting and app boundaries. */
+export const TROUSER_CARGO_ENTRY_ID = "trouser-cargo-digital-v1" as const;
 
 /** Internal geometry routes are derived from the selected saved starter identity. */
 export const TROUSER_TAPERED_PROFILE_ROUTE_KEY = "__trouserTaperedProfile" as const;
@@ -23,6 +25,7 @@ export const TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY = "__trouserBarrelLegProfile" 
 export const TROUSER_BOOTCUT_PROFILE_ROUTE_KEY = "__trouserBootcutProfile" as const;
 export const TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY = "__trouserPleatedFrontProfile" as const;
 export const TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY = "__trouserElasticPullonProfile" as const;
+export const TROUSER_CARGO_PROFILE_ROUTE_KEY = "__trouserCargoProfile" as const;
 export const TROUSER_CASING_TURN_UNDER_CM = 0.6;
 
 export interface TrouserOptions {
@@ -48,6 +51,12 @@ export interface TrouserOptions {
   readonly waistGatherRatio?: number;
   readonly casingDepthCm?: number;
   readonly [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]?: 1;
+  readonly cargoPocketWidthCm?: number;
+  readonly cargoPocketHeightCm?: number;
+  readonly cargoPleatIntakeCm?: number;
+  readonly cargoFlapDepthCm?: number;
+  readonly cargoPocketVerticalOffsetCm?: number;
+  readonly [TROUSER_CARGO_PROFILE_ROUTE_KEY]?: 1;
 }
 
 export const TROUSER_BARREL_BOW_OPTION: GarmentOption = {
@@ -84,6 +93,11 @@ export const TROUSER_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "frontPleatStitchDepthCm", label: "Front pleat stitch-down depth", unit: "cm", group: "Front construction", help: "Sets the digital distance the pleat guide is stitched down from the waist.", appliesToStarterEntryId: TROUSER_PLEATED_FRONT_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 8, min: 4, max: 16, step: 0.5 },
   { id: "waistGatherRatio", label: "Digital waist opening ratio", unit: "×", group: "Elastic casing", help: "Sets the digital waist opening before gathering as a ratio of the gather-to waist reference; it does not specify an elastic length.", appliesToStarterEntryId: TROUSER_ELASTIC_PULLON_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 1.25, min: 1, max: 1.8, step: 0.05 },
   { id: "casingDepthCm", label: "Digital casing depth", unit: "cm", group: "Elastic casing", help: "Sets the digital fold-down casing depth; elastic width, compatibility and physical sewn depth are not validated.", appliesToStarterEntryId: TROUSER_ELASTIC_PULLON_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 4, min: 2, max: 8, step: 0.5 },
+  { id: "cargoPocketWidthCm", label: "Cargo pocket finished width", unit: "cm", group: "Cargo pocket", help: "Sets the digital finished-width reference after subtracting the centered pleat intake; it is not a sewn-capacity or fit claim.", appliesToStarterEntryId: TROUSER_CARGO_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 18, min: 12, max: 24, step: 0.5 },
+  { id: "cargoPocketHeightCm", label: "Cargo pocket body height", unit: "cm", group: "Cargo pocket", help: "Sets the digital cut-body height; it does not establish usable volume or retention.", appliesToStarterEntryId: TROUSER_CARGO_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 20, min: 14, max: 26, step: 0.5 },
+  { id: "cargoPleatIntakeCm", label: "Cargo pocket box-pleat intake", unit: "cm", group: "Cargo pocket", help: "Sets the centered digital cut intake; reduce it if no positive finished body width remains.", appliesToStarterEntryId: TROUSER_CARGO_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 4, min: 0, max: 8, step: 0.5 },
+  { id: "cargoFlapDepthCm", label: "Cargo pocket flap depth", unit: "cm", group: "Cargo pocket", help: "Sets the digital flap depth; keep it smaller than the pocket body height.", appliesToStarterEntryId: TROUSER_CARGO_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 5, min: 3, max: 9, step: 0.5 },
+  { id: "cargoPocketVerticalOffsetCm", label: "Cargo pocket vertical offset", unit: "cm", group: "Cargo pocket", help: "Moves the paired pocket placement from the digital mid-thigh anchor; no automatic repositioning is applied.", appliesToStarterEntryId: TROUSER_CARGO_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 0, min: -6, max: 6, step: 0.5 },
 ];
 
 /** Options available to the shared Trouser recipe; profile-only controls enter
@@ -136,6 +150,17 @@ export function resolveTrouserOptions(values: Partial<TrouserOptions> = {}): Tro
       waistGatherRatio: finiteOr(values.waistGatherRatio, 1.25),
       casingDepthCm: finiteOr(values.casingDepthCm, 4),
       [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1,
+    };
+  }
+  if (values[TROUSER_CARGO_PROFILE_ROUTE_KEY] === 1) {
+    return {
+      ...options,
+      cargoPocketWidthCm: finiteOr(values.cargoPocketWidthCm, 18),
+      cargoPocketHeightCm: finiteOr(values.cargoPocketHeightCm, 20),
+      cargoPleatIntakeCm: finiteOr(values.cargoPleatIntakeCm, 4),
+      cargoFlapDepthCm: finiteOr(values.cargoFlapDepthCm, 5),
+      cargoPocketVerticalOffsetCm: finiteOr(values.cargoPocketVerticalOffsetCm, 0),
+      [TROUSER_CARGO_PROFILE_ROUTE_KEY]: 1,
     };
   }
   return options;

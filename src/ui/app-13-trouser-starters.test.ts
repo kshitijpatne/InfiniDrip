@@ -4,8 +4,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Blob as NodeBlob, Buffer } from "node:buffer";
 import { createHash, webcrypto } from "node:crypto";
 import { mountApp, unmountApp } from "./app";
-import { STARTER_REGISTRY, TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_PLEATED_FRONT_ENTRY_ID, TROUSER_ELASTIC_PULLON_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
-import { TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { STARTER_REGISTRY, TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_BOOTCUT_ENTRY_ID, TROUSER_CARGO_ENTRY_ID, TROUSER_CLASSIC_STRAIGHT_ENTRY_ID, TROUSER_PLEATED_FRONT_ENTRY_ID, TROUSER_ELASTIC_PULLON_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID, TROUSER_WIDE_LEG_ENTRY_ID } from "./starter-registry";
+import { TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY, TROUSER_CARGO_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 
 const mountedRoots = new Set<HTMLDivElement>();
 type TrackedListener = { type: string; listener: EventListenerOrEventListenerObject; options?: boolean | AddEventListenerOptions };
@@ -1157,6 +1157,173 @@ describe("R07 Elastic-waist pull-on trouser starter app", () => {
         expect(switched.garmentOptions.trouser).not.toHaveProperty("casingDepthCm");
         expect(switched.garmentOptions.trouser).not.toHaveProperty(TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY);
       }
+    } finally {
+      restoreSvgTextMetrics();
+      root?.remove();
+      reopened?.remove();
+    }
+  }, 90_000);
+});
+
+describe("R08 Cargo trouser starter app", () => {
+  it("keeps the cargo identity, invalid-value gate, save/reopen, flats and all eight outputs on its route", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const downloads: { filename: string; content: string }[] = [];
+    const saveFile = vi.fn(async (filename: string, content: string) => {
+      downloads.push({ filename, content });
+      return { saved: true, filePath: filename };
+    });
+    window.electronAPI = { saveFile };
+    let root: HTMLDivElement | null = null;
+    let reopened: HTMLDivElement | null = null;
+    const restoreSvgTextMetrics = stubSvgTextMetrics();
+    const exportIds = ["export-svg", "export-dxf", "export-pdf", "export-a0", "export-techpack",
+      "export-projector", "export-cad-dxf", "export-dxf-source-package"];
+    const exportAll = async (target: HTMLElement) => {
+      const start = downloads.length;
+      for (const id of exportIds) clickId(target, id);
+      await vi.waitFor(() => expect(downloads).toHaveLength(start + exportIds.length), { timeout: 30_000 });
+      return downloads.slice(start);
+    };
+    const byName = (batch: readonly { filename: string; content: string }[], filename: string) => {
+      const output = batch.find((item) => item.filename === filename);
+      expect(output, `Expected ${filename}`).toBeDefined();
+      return output!.content;
+    };
+    try {
+      root = mount();
+      clickId(root, "welcome-start");
+      clickId(root, "garment-trouser");
+      clickId(root, `starter-${TROUSER_CARGO_ENTRY_ID}`);
+      expect(root.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Cargo trouser");
+      expect(root.querySelector<HTMLSelectElement>("#style-target")?.value).toBe("Classic straight trouser");
+      expect(root.querySelector<HTMLButtonElement>(`[data-starter-entry-id="${TROUSER_CARGO_ENTRY_ID}"]`)
+        ?.getAttribute("aria-pressed")).toBe("true");
+      expect(Object.fromEntries(["cargoPocketWidthCm", "cargoPocketHeightCm", "cargoPleatIntakeCm",
+        "cargoFlapDepthCm", "cargoPocketVerticalOffsetCm"].map((id) => [
+        id, root!.querySelector<HTMLInputElement>(`input[data-option="${id}"]`)?.value,
+      ]))).toEqual({ cargoPocketWidthCm: "18", cargoPocketHeightCm: "20", cargoPleatIntakeCm: "4",
+        cargoFlapDepthCm: "5", cargoPocketVerticalOffsetCm: "0" });
+      expect(root.querySelector<HTMLElement>("#controls-panel")?.textContent).not.toContain(TROUSER_CARGO_PROFILE_ROUTE_KEY);
+
+      clickId(root, "view-pattern");
+      const pattern = root.querySelector<SVGSVGElement>("#inspection-content svg")?.outerHTML ?? "";
+      expect(pattern).toContain('data-pattern-mark-name="cargoBodyPlacementTop"');
+      expect(pattern).toContain('data-pattern-mark-name="cargoPleatCenter"');
+      expect(pattern).toContain('data-pattern-mark-name="cargoHookLoopPlacement"');
+      const advanced = root.querySelector<HTMLDetailsElement>("#advanced-views");
+      expect(advanced).not.toBeNull();
+      advanced!.open = true;
+      clickId(root, "view-flat");
+      clickId(root, "technical-flat-front");
+      const frontFlat = root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='FRONT_FLAT']");
+      expect(frontFlat).not.toBeNull();
+      expect(frontFlat!.outerHTML).not.toContain("cargoPocketBodyLeft");
+      expect(frontFlat!.outerHTML).toContain("cargoBodyPlacementTop");
+      expect(frontFlat!.outerHTML).toContain("cargoFlapPlacementTop");
+      clickId(root, "technical-flat-back");
+      const backFlat = root.querySelector<SVGSVGElement>("#canvas-inspection svg.inspection-svg[data-view-kind='BACK_FLAT']");
+      expect(backFlat).not.toBeNull();
+      expect(backFlat!.outerHTML).not.toContain("cargoPocketBodyLeft");
+      expect(backFlat!.outerHTML).toContain("cargoBodyPlacementTop");
+      expect(backFlat!.outerHTML).toContain("cargoFlapPlacementTop");
+
+      reachExportStage(root);
+      const expectedNames = [
+        "cargo-trouser-M.svg", "cargo-trouser-M.dxf", "cargo-trouser-M.pdf", "cargo-trouser-M-A0.pdf",
+        "cargo-trouser-techpack.pdf", "cargo-trouser-projector.svg", "cargo-trouser-M-cad-exchange.dxf",
+        "cargo-trouser-M-cad-exchange-source.json",
+      ];
+      for (const id of exportIds) expect(root.querySelector<HTMLButtonElement>(`#${id}`)?.disabled).toBe(false);
+      const defaultBatch = await exportAll(root);
+      expect(defaultBatch.map((item) => item.filename).sort()).toEqual(expectedNames.sort());
+      expect(byName(defaultBatch, "cargo-trouser-M.svg")).toContain("cargoPleatCenter");
+      expect(byName(defaultBatch, "cargo-trouser-M.dxf")).toContain("SECTION");
+      expect(byName(defaultBatch, "cargo-trouser-M-cad-exchange.dxf")).toContain("SECTION");
+      expect(byName(defaultBatch, "cargo-trouser-M.pdf")).toMatch(/^%PDF/);
+      expect(byName(defaultBatch, "cargo-trouser-M-A0.pdf")).toMatch(/^%PDF/);
+      const techPackText = visiblePdfText(byName(defaultBatch, "cargo-trouser-techpack.pdf"));
+      expect(techPackText).toContain("Cargo trouser");
+      expect(techPackText).toContain("Cargo pocket body width (digital finished)");
+      expect(techPackText).toContain("Digital R08 cargo-pocket construction guide");
+      expect(techPackText).toContain("pocket capacity");
+      expect(byName(defaultBatch, "cargo-trouser-projector.svg"))
+        .toContain("Digital R08 cargo Trouser; pocket dimensions");
+      const defaultPackage = JSON.parse(byName(defaultBatch, "cargo-trouser-M-cad-exchange-source.json")) as {
+        manifest: { options: Record<string, number>; recipe: { id: string; label: string }; pieces: readonly { role: string }[] };
+      };
+      expect(defaultPackage.manifest.options).toMatchObject({ cargoPocketWidthCm: 18, cargoPocketHeightCm: 20,
+        cargoPleatIntakeCm: 4, cargoFlapDepthCm: 5, cargoPocketVerticalOffsetCm: 0 });
+      expect(defaultPackage.manifest.options).not.toHaveProperty(TROUSER_CARGO_PROFILE_ROUTE_KEY);
+      expect(defaultPackage.manifest.recipe).toEqual({ id: "trouser", label: "Cargo trouser" });
+      expect(defaultPackage.manifest.pieces.map((piece) => piece.role)).toEqual(expect.arrayContaining([
+        "cargoPocketBodyLeft", "cargoPocketBodyRight", "cargoPocketFlapLeft", "cargoPocketFlapRight",
+      ]));
+
+      setOption(root, "cargoPocketWidthCm", "100");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="cargoPocketWidthCm"]')?.value).toBe("100");
+      expect(root.querySelector<HTMLInputElement>('input[data-option="cargoPocketWidthCm"]')?.getAttribute("aria-invalid")).toBe("true");
+      expect(root.querySelector<HTMLElement>("#guidance-host")?.textContent).toContain("supports 12–24 cm");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+      clickId(root, "save-pattern");
+      const invalidSaved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string; recipeRevision: string } };
+      };
+      expect(invalidSaved.garmentOptions.trouser.cargoPocketWidthCm).toBe(100);
+      expect(invalidSaved.garmentOptions.trouser).not.toHaveProperty(TROUSER_CARGO_PROFILE_ROUTE_KEY);
+      expect(invalidSaved.workspace.starterOrigin).toMatchObject({
+        entryId: TROUSER_CARGO_ENTRY_ID, recipeRevision: "trouser-cargo-digital-v1",
+      });
+
+      unmountApp();
+      root.remove();
+      root = null;
+      reopened = mount();
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Cargo trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="cargoPocketWidthCm"]')?.value).toBe("100");
+      expect(reopened.querySelector<HTMLElement>("#guidance-host")?.textContent).toContain("supports 12–24 cm");
+      expect(reopened.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+
+      setOption(reopened, "cargoPocketWidthCm", "19");
+      clickId(reopened, "save-pattern");
+      reachExportStage(reopened);
+      for (const id of exportIds) expect(reopened.querySelector<HTMLButtonElement>(`#${id}`)?.disabled).toBe(false);
+      const editedBatch = await exportAll(reopened);
+      for (const filename of expectedNames) expect(byName(editedBatch, filename)).not.toBe(byName(defaultBatch, filename));
+      const editedPackage = JSON.parse(byName(editedBatch, "cargo-trouser-M-cad-exchange-source.json")) as {
+        manifest: { options: Record<string, number> };
+      };
+      expect(editedPackage.manifest.options.cargoPocketWidthCm).toBe(19);
+
+      clickId(reopened, `starter-${TROUSER_BOOTCUT_ENTRY_ID}`);
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Bootcut trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="cargoPocketWidthCm"]')).toBeNull();
+      clickId(reopened, "save-pattern");
+      const bootcutSaved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string } };
+      };
+      expect(bootcutSaved.garmentOptions.trouser).not.toHaveProperty("cargoPocketWidthCm");
+      expect(bootcutSaved.garmentOptions.trouser).not.toHaveProperty(TROUSER_CARGO_PROFILE_ROUTE_KEY);
+      expect(bootcutSaved.workspace.starterOrigin.entryId).toBe(TROUSER_BOOTCUT_ENTRY_ID);
+      reachExportStage(reopened);
+      const bootcutDownloadStart = downloads.length;
+      clickId(reopened, "export-projector");
+      await vi.waitFor(() => expect(downloads).toHaveLength(bootcutDownloadStart + 1), { timeout: 20_000 });
+      expect(downloads[bootcutDownloadStart]?.filename).toBe("bootcut-trouser-projector.svg");
+      expect(downloads[bootcutDownloadStart]?.content).toContain("Digital R05 Bootcut trouser");
+
+      clickId(reopened, "garment-trouser");
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Trouser");
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="cargoPocketWidthCm"]')).toBeNull();
+      clickId(reopened, "save-pattern");
+      const genericSaved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+      };
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty("cargoPocketWidthCm");
+      expect(genericSaved.garmentOptions.trouser).not.toHaveProperty(TROUSER_CARGO_PROFILE_ROUTE_KEY);
     } finally {
       restoreSvgTextMetrics();
       root?.remove();

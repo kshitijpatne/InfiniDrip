@@ -10,7 +10,7 @@ import { SKIRT_A_LINE_ENTRY_ID, SKIRT_BOX_PLEAT_ENTRY_ID, SKIRT_BOX_PLEAT_COUNT_
 import { SKIRT_WRAP_OVERLAP_OPTION_ID, SKIRT_WRAP_FACING_WIDTH_OPTION_ID } from "../drafting/skirt";
 import { draftJogger } from "../drafting/jogger";
 import { DEFAULT_TROUSER_OPTIONS, TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
-  TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+  TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY, TROUSER_CARGO_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import { draftTrouserWithPockets } from "../drafting/trouser";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import {
@@ -89,6 +89,47 @@ describe("mapTechnicalFlatSources", () => {
     const generic = draftTrouserWithPockets(STANDARD_M, DEFAULT_TROUSER_OPTIONS);
     expect(technicalFlatMappingForBlock("trouser", generic)?.faces[0]?.roles.map((role) => role.roleId))
       .toContain("waistband");
+  });
+
+  it("maps R08 half-placement marks on both faces without placing full cut pieces as overlays", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const options = { ...DEFAULT_TROUSER_OPTIONS, [TROUSER_CARGO_PROFILE_ROUTE_KEY]: 1 as const };
+    const block = draftTrouserWithPockets(STANDARD_M, options);
+    const mapping = technicalFlatMappingForBlock("trouser", block)!;
+    const sources = mapTechnicalFlatSources("trouser", block, recipe.pomsForOptions!(options));
+    const cargoRoles = ["cargoPocketBodyLeft", "cargoPocketBodyRight", "cargoPocketFlapLeft", "cargoPocketFlapRight"];
+    const generic = draftTrouserWithPockets(STANDARD_M, DEFAULT_TROUSER_OPTIONS);
+    const genericMapping = technicalFlatMappingForBlock("trouser", generic)!;
+
+    expect(mapping.faces.map((face) => face.roles.map((role) => role.roleId)))
+      .toEqual(genericMapping.faces.map((face) => face.roles.map((role) => role.roleId)));
+    expect(mapping.faces.some((face) => face.roles.some((role) => cargoRoles.includes(role.roleId)))).toBe(false);
+    expect(mapping.nonFlatRoleIds).toEqual(cargoRoles);
+    expect(sources.issues).toEqual([]);
+    expect(validateFlatRoleMapping({ ...mapping, nonFlatRoleIds: ["missingCargoPiece"] }, block)).toContainEqual(
+      expect.objectContaining({ code: "MISSING_NON_FLAT_ROLE", sourceId: "missingCargoPiece" }),
+    );
+    expect(sources.sources.filter((source) => source.kind === "mark").map((source) => source.sourceId))
+      .toEqual(expect.arrayContaining([
+        "pattern:trouser:mark:frontLeft:cargoBodyPlacementTop",
+        "pattern:trouser:mark:frontRight:cargoBodyPlacementTop",
+        "pattern:trouser:mark:backLeft:cargoBodyPlacementTop",
+        "pattern:trouser:mark:backRight:cargoBodyPlacementTop",
+        "pattern:trouser:mark:frontLeft:cargoFlapPlacementTop",
+        "pattern:trouser:mark:frontRight:cargoFlapPlacementTop",
+        "pattern:trouser:mark:backLeft:cargoFlapPlacementTop",
+        "pattern:trouser:mark:backRight:cargoFlapPlacementTop",
+      ]));
+    expect(assembleTechnicalFlatRoles("trouser", block, "BACK_FLAT").issues).toEqual([]);
+    expect(assembleTechnicalFlatRoles("trouser", block, "FRONT_FLAT").issues).toEqual([]);
+
+    const malformedRoles = Object.fromEntries(Object.entries(block.roles)
+      .filter(([roleId]) => roleId !== "cargoPocketBodyLeft")) as typeof block.roles;
+    const malformed = { ...block, roles: malformedRoles };
+    expect(technicalFlatMappingForBlock("trouser", malformed)).toBeUndefined();
+
+    expect(technicalFlatMappingForBlock("trouser", generic)?.faces[0]?.roles.map((role) => role.roleId))
+      .not.toContain("cargoPocketBodyLeft");
   });
 
   it("maps K03 integrated-casing panels from their positive structure", () => {

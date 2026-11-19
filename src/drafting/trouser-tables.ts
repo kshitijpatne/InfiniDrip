@@ -12,6 +12,7 @@ import { TSHIRT_SIZES } from "./tshirt-grade";
 import { Pom, seam, spanY } from "./pom";
 import type { TechPack } from "./recipe";
 import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY,
+  TROUSER_CARGO_PROFILE_ROUTE_KEY,
   type TrouserOptions } from "./trouser-contract";
 
 /** cm added per +1 size step. Ease and recipe options remain constant in V1. */
@@ -146,9 +147,52 @@ function postPleatWaistMark(b: Block) {
   return mark && "start" in mark ? mark : undefined;
 }
 
-/** Keep shared Trouser POMs unchanged; R06 and R07 measure their waist
+/** Keep shared Trouser POMs unchanged; profile variants measure their authored waist
  * references from authored post-fold or gather-to lines rather than cut edges. */
 export function trouserPomsForOptions(rawOptions: Partial<TrouserOptions> = {}): readonly Pom[] {
+  if (rawOptions[TROUSER_CARGO_PROFILE_ROUTE_KEY] === 1) {
+    const cargoBody = (b: Block) => rolePiece(b, "cargoPocketBodyLeft");
+    const cargoFlap = (b: Block) => rolePiece(b, "cargoPocketFlapLeft");
+    const lineMark = (b: Block, role: string, name: string) => {
+      const mark = rolePiece(b, role).marks?.find((candidate) => candidate.name === name);
+      return mark && "start" in mark ? mark : undefined;
+    };
+    return [...TROUSER_POMS, ...[
+      {
+        label: "Cargo pocket body width (digital finished)", tolerance: 0.2,
+        measure: (b: Block) => seam(cargoBody(b), "top") - (() => {
+          const left = lineMark(b, "cargoPocketBodyLeft", "cargoPleatLeftFold");
+          const right = lineMark(b, "cargoPocketBodyLeft", "cargoPleatRightFold");
+          return left && right ? Math.abs(left.start.x - right.start.x) : 0;
+        })(),
+      },
+      {
+        label: "Cargo pocket body height (digital)", tolerance: 0.2,
+        measure: (b: Block) => seam(cargoBody(b), "right"),
+      },
+      {
+        label: "Cargo pocket center pleat intake (digital)", tolerance: 0.2,
+        measure: (b: Block) => {
+          const left = lineMark(b, "cargoPocketBodyLeft", "cargoPleatLeftFold");
+          const right = lineMark(b, "cargoPocketBodyLeft", "cargoPleatRightFold");
+          return left && right ? Math.abs(left.start.x - right.start.x) : 0;
+        },
+      },
+      {
+        label: "Cargo flap depth (digital)", tolerance: 0.2,
+        measure: (b: Block) => seam(cargoFlap(b), "right"),
+      },
+      {
+        label: "Cargo pocket vertical offset (digital)", tolerance: 0.2,
+        measure: (b: Block) => {
+          const center = front(b).marks?.find((mark) => mark.name === "cargoPocketPlacementCenter");
+          const hipY = edgeEnd(pieceEdge(front(b), "sideUpper")).y;
+          const kneeY = edgeEnd(pieceEdge(front(b), "sideThighToKnee")).y;
+          return center && "at" in center ? center.at.y - (hipY + kneeY) / 2 : 0;
+        },
+      },
+    ]];
+  }
   if (rawOptions[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1) {
     const casingDepth = rawOptions.casingDepthCm ?? 4;
     const casingMark = (b: Block) => front(b).marks?.find((candidate) => candidate.name === "casingStitchGuide");
@@ -262,6 +306,29 @@ export const TROUSER_TECH_PACK: TechPack = {
 
 /** Add explicit digital pleat details only for the R06 profile. */
 export function trouserTechPackForOptions(options: Partial<TrouserOptions>): TechPack {
+  if (options[TROUSER_CARGO_PROFILE_ROUTE_KEY] === 1) {
+    const width = options.cargoPocketWidthCm ?? 18;
+    const height = options.cargoPocketHeightCm ?? 20;
+    const intake = options.cargoPleatIntakeCm ?? 4;
+    const flap = options.cargoFlapDepthCm ?? 5;
+    const offset = options.cargoPocketVerticalOffsetCm ?? 0;
+    return {
+      bom: [
+        { material: "Unspecified", placement: "Four trouser leg panels, waistband, fly, pocket bags, cargo bodies and flaps", qty: "Unspecified" },
+        { material: "Unspecified", placement: "Cargo flap closure at the marked hook-and-loop reference", qty: "Unspecified" },
+        { material: "Unspecified", placement: "Construction seams and applied pocket boundaries", qty: "Unspecified" },
+      ],
+      constructionNotice: "Digital R08 cargo-pocket construction guide. Materials, fastener selection, stitch performance, pocket capacity, physical fit and production use are not established.",
+      construction: [
+        ...TROUSER_TECH_PACK.construction.slice(0, 2),
+        `Use the two cargo-pocket body pieces at ${width} cm finished width by ${height} cm digital height; the centered ${intake} cm cut intake is shown by fold and center-placement marks.`,
+        `Place the mirrored pockets from the digital mid-thigh anchor with ${offset} cm vertical offset; use the matching leg outlines and center notches to align each body and flap.`,
+        `Use the ${flap} cm digital flap-depth guide and the marked hook-and-loop placement reference; fastener material, size and performance are unspecified.`,
+        "Keep cargo bodies and flaps as separate cuttable pieces applied at their placement outlines; no edge-to-edge seam interface or sewn pocket volume is modeled.",
+        ...TROUSER_TECH_PACK.construction.slice(2),
+      ],
+    };
+  }
   if (options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1) {
     const depth = options.casingDepthCm ?? 4;
     return {

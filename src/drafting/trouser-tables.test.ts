@@ -16,10 +16,61 @@ import {
   gradeRun,
   specSheet,
 } from "./index";
-import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "./trouser-contract";
+import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY, TROUSER_CARGO_PROFILE_ROUTE_KEY } from "./trouser-contract";
 import { trouserPomsForOptions, trouserTechPackForOptions, trouserWaistSizeMetric } from "./trouser-tables";
 
 describe("trouser grading, POM, and tech-pack tables", () => {
+  it("measures the R08 pocket pieces and placement from their authored block geometry", () => {
+    const options = {
+      [TROUSER_CARGO_PROFILE_ROUTE_KEY]: 1 as const,
+      cargoPocketWidthCm: 19,
+      cargoPocketHeightCm: 21,
+      cargoPleatIntakeCm: 3,
+      cargoFlapDepthCm: 6,
+      cargoPocketVerticalOffsetCm: 1.5,
+    };
+    const drafted = draftTrouserWithPockets(STANDARD_M, options);
+    const poms = trouserPomsForOptions(options);
+    const rows = specSheet([{ label: "M", step: 0, measurements: STANDARD_M, block: drafted }], poms);
+    expect(rows.slice(-5).map((row) => [row.label, row.values[0]])).toEqual([
+      ["Cargo pocket body width (digital finished)", 19],
+      ["Cargo pocket body height (digital)", 21],
+      ["Cargo pocket center pleat intake (digital)", 3],
+      ["Cargo flap depth (digital)", 6],
+      ["Cargo pocket vertical offset (digital)", 1.5],
+    ]);
+    const techPack = trouserTechPackForOptions(options);
+    expect(techPack.constructionNotice).toContain("Digital R08 cargo-pocket");
+    expect(techPack.construction.join(" ")).toContain("19 cm finished width by 21 cm digital height");
+    expect(techPack.construction.join(" ")).toContain("3 cm cut intake");
+    expect(techPack.construction.join(" ")).toContain("6 cm digital flap-depth guide");
+    expect(techPack.construction.join(" ")).toContain("fastener material, size and performance are unspecified");
+    expect(techPack.bom.every((item) => item.qty === "Unspecified" && item.material === "Unspecified")).toBe(true);
+  });
+
+  it("keeps R08 digital defaults explicit when restored values or placement marks are absent", () => {
+    const options = { [TROUSER_CARGO_PROFILE_ROUTE_KEY]: 1 as const };
+    const drafted = draftTrouserWithPockets(STANDARD_M, options);
+    const poms = trouserPomsForOptions(options);
+    const noCargoMarks = {
+      ...drafted,
+      roles: {
+        ...drafted.roles,
+        cargoPocketBodyLeft: { ...drafted.roles.cargoPocketBodyLeft!, marks: [] },
+        frontLeft: { ...drafted.roles.frontLeft!, marks: drafted.roles.frontLeft!.marks?.filter((mark) => mark.name !== "cargoPocketPlacementCenter") },
+      },
+    };
+    expect(poms.find((pom) => pom.label === "Cargo pocket body width (digital finished)")?.measure(noCargoMarks)).toBe(22);
+    expect(poms.find((pom) => pom.label === "Cargo pocket center pleat intake (digital)")?.measure(noCargoMarks)).toBe(0);
+    expect(poms.find((pom) => pom.label === "Cargo pocket vertical offset (digital)")?.measure(noCargoMarks)).toBe(0);
+
+    const defaultPack = trouserTechPackForOptions(options);
+    expect(defaultPack.construction.join(" ")).toContain("18 cm finished width by 20 cm digital height");
+    expect(defaultPack.construction.join(" ")).toContain("centered 4 cm cut intake");
+    expect(defaultPack.construction.join(" ")).toContain("0 cm vertical offset");
+    expect(defaultPack.construction.join(" ")).toContain("5 cm digital flap-depth guide");
+  });
+
   it("grades body fields while keeping ease and construction options constant", () => {
     const larger = gradeMeasurements(STANDARD_M, TROUSER_GRADE, 2);
     expect(larger.waist).toBe(92);

@@ -80,6 +80,7 @@ import {
 import {
   TROUSER_FIELDS,
   TROUSER_SHARED_OPTION_DEFINITIONS,
+  TROUSER_CARGO_PROFILE_ROUTE_KEY,
   TrouserOptions,
 } from "./trouser-contract";
 import {
@@ -1296,6 +1297,13 @@ export const TROUSER: GarmentRecipe = {
   sizes: TROUSER_SIZES,
   checks: () => [],
   guidance: (block, m, options = {}) => trouserGuidance(block, m, options as Partial<TrouserOptions>),
+  draftReview: (m, options = {}) => {
+    const trouserOptions = options as Partial<TrouserOptions>;
+    const drafted = draftTrouserWithPockets(m, trouserOptions);
+    if (trouserOptions[TROUSER_CARGO_PROFILE_ROUTE_KEY] !== 1) return { block: drafted, notes: [] };
+    const notes = trouserGuidance(drafted, m, trouserOptions);
+    return { block: notes.some((note) => note.level === "warn") ? null : drafted, notes };
+  },
   sizeMetric: trouserWaistSizeMetric,
   pomsForOptions: (options) => trouserPomsForOptions(options as Partial<TrouserOptions>),
   notchesForOptions: (options) => trouserNotchesForOptions(options as Partial<TrouserOptions>),
