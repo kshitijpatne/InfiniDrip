@@ -15,8 +15,10 @@ import {
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TROUSER_BOOTCUT_PROFILE_ROUTE_KEY,
   TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
+  TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY,
   TROUSER_BARREL_LEG_ENTRY_ID,
   TROUSER_PLEATED_FRONT_ENTRY_ID,
+  TROUSER_ELASTIC_PULLON_ENTRY_ID,
   TrouserOptions,
 } from "./trouser-contract";
 import { trouserMetrics, trouserPocketGuidance, trouserPocketOpening } from "./trouser";
@@ -27,20 +29,32 @@ function optionRangeNotes(options: TrouserOptions): Note[] {
     ? TROUSER_BARREL_LEG_ENTRY_ID
     : options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] === 1
       ? TROUSER_PLEATED_FRONT_ENTRY_ID
+      : options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1
+        ? TROUSER_ELASTIC_PULLON_ENTRY_ID
       : undefined;
-  for (const definition of TROUSER_OPTION_DEFINITIONS.filter((d) => d.group !== "Pocket")) {
+  const hasElasticCasing = options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1;
+  for (const definition of TROUSER_OPTION_DEFINITIONS.filter((d) => d.group !== "Pocket"
+    && !(hasElasticCasing && (d.id === "waistbandDepth" || d.id === "flyLength")))) {
     if (definition.appliesToStarterEntryId !== undefined
       && definition.appliesToStarterEntryId !== activeEntryId) continue;
     const value = options[definition.id as Exclude<
       keyof TrouserOptions,
       typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY | typeof TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY
         | typeof TROUSER_BOOTCUT_PROFILE_ROUTE_KEY | typeof TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY
+        | typeof TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY
     >];
-    if (typeof value !== "number" || !Number.isFinite(value) || value < definition.min || value > definition.max) {
+    const outsideRange = typeof value !== "number" || !Number.isFinite(value)
+      || value < definition.min || value > definition.max;
+    const offStep = definition.appliesToStarterEntryId === TROUSER_ELASTIC_PULLON_ENTRY_ID
+      && typeof value === "number" && Number.isFinite(value)
+      && Math.abs((value - definition.min) / definition.step - Math.round((value - definition.min) / definition.step)) > 1e-8;
+    if (outsideRange || offStep) {
       notes.push({
         field: `option-${definition.id}`,
         level: "warn",
-        text: `${definition.label} (${value} cm) is outside V1's ${definition.min}–${definition.max} cm range — adjust it into that range.`,
+        text: offStep && !outsideRange
+          ? `${definition.label} (${value}) does not follow the ${definition.step} ${definition.unit} step — adjust it to an allowed increment; the saved value is retained.`
+          : `${definition.label} (${value} ${definition.unit}) is outside V1's ${definition.min}–${definition.max} ${definition.unit} range — adjust it into that range; the saved value is retained.`,
       });
     }
   }
@@ -114,6 +128,16 @@ export function trouserGuidance(
       });
     }
   }
+  if (options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1) {
+    const digitalOpening = metrics.finishedWaist * options.waistGatherRatio!;
+    if (digitalOpening < metrics.finishedSeat) {
+      notes.push({
+        field: "option-waistGatherRatio",
+        level: "warn",
+        text: `Digital waist opening before gathering (${digitalOpening.toFixed(1)} cm) is below the hip + existing ease reference (${metrics.finishedSeat.toFixed(1)} cm) — increase the digital opening ratio or adjust the waist/hip ease inputs; values are retained. This is a digital consistency check, not a physical pull-on test.`,
+      });
+    }
+  }
   if (metrics.backRise <= metrics.frontRise) {
     notes.push({
       field: "option-backRiseEase",
@@ -121,14 +145,15 @@ export function trouserGuidance(
       text: `Back rise (${metrics.backRise.toFixed(1)} cm) is not greater than the front rise (${metrics.frontRise.toFixed(1)} cm) — increase back rise ease or reduce front rise ease for seat room.`,
     });
   }
-  if (options.waistbandDepth >= metrics.frontCrotchY || options.waistbandDepth >= metrics.backCrotchY) {
+  const hasSeparateWaistband = options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] !== 1;
+  if (hasSeparateWaistband && (options.waistbandDepth >= metrics.frontCrotchY || options.waistbandDepth >= metrics.backCrotchY)) {
     notes.push({
       field: "option-waistbandDepth",
       level: "warn",
       text: "Waistband depth reaches the front or back crotch station — reduce waistband depth or increase the corresponding rise ease.",
     });
   }
-  if (options.flyLength >= metrics.frontCrotchY) {
+  if (hasSeparateWaistband && options.flyLength >= metrics.frontCrotchY) {
     notes.push({
       field: "option-flyLength",
       level: "warn",

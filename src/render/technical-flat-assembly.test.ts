@@ -14,6 +14,7 @@ import { transformFlatPoint } from "./technical-flat-transform";
 import {
   TROUSER_BARREL_BOW_OPTION,
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
+  TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY,
   TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
   TROUSER_SHARED_OPTION_DEFINITIONS,
 } from "../drafting/trouser-contract";
@@ -457,6 +458,40 @@ describe("assembleTechnicalFlatRoles", () => {
       expect(result.issues.some((issue) => issue.code === "INCONSISTENT_STITCH_TRANSFORM"
         && issue.sourceId === "stitch:Waistband (four leg panels ↔ separate waistband)")).toBe(false);
       for (const roleId of roleIds) expect(result.transforms[roleId]).toBeDefined();
+    }
+  });
+
+  it("keeps the exact R07 mirrored front pair upright in its technical flat", () => {
+    const options = { ...defaultGarmentOptions(TROUSER.options ?? []),
+      [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1, waistGatherRatio: 1.25, casingDepthCm: 4 };
+    const source = TROUSER.draft(STANDARD_M, options);
+    const result = assembleTechnicalFlatRoles("trouser", source, "FRONT_FLAT",
+      createG04TechnicalFlatProjectionMap("trouser", source, "assembly-r07-front-r1")!);
+
+    expect(hasExactMirroredPanelPair(source.roles.frontLeft, source.roles.frontRight, "centerFront")).toBe(true);
+    expect(result.issues).toEqual([]);
+    expect(result.transforms.frontRight).toEqual(result.transforms.frontLeft);
+    expect(result.joinedStitchLabels).toContain("Center-front seam (left ↔ right)");
+  });
+
+  it("withholds the R07 front flat when its exact center-front seam is missing or reversed", () => {
+    const options = { ...defaultGarmentOptions(TROUSER.options ?? []),
+      [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1, waistGatherRatio: 1.25, casingDepthCm: 4 };
+    const source = TROUSER.draft(STANDARD_M, options);
+    const label = "Center-front seam (left ↔ right)";
+    const missing = block(source.roles, source.stitches.filter((stitch) => stitch.label !== label));
+    const reversed = block(source.roles, source.stitches.map((stitch) => stitch.label !== label ? stitch : {
+      ...stitch,
+      b: { ...stitch.b, edges: stitch.b.edges.map((ref) => "edge" in ref ? { ...ref, reversed: false } : ref) },
+    }));
+
+    for (const candidate of [missing, reversed]) {
+      const result = assembleTechnicalFlatRoles("trouser", candidate, "FRONT_FLAT",
+        createG04TechnicalFlatProjectionMap("trouser", candidate, "assembly-r07-front-held")!);
+      expect(result.issues).toContainEqual(expect.objectContaining({
+        code: "UNRESOLVED_STITCH_REFERENCE", sourceId: `stitch:${label}`,
+      }));
+      expect(result.transforms.frontRight).toBeUndefined();
     }
   });
 

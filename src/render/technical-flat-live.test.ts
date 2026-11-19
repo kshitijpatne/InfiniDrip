@@ -3,6 +3,7 @@ import { CREWNECK, FITTED_PRINCESS_ENTRY_ID, GARMENTS, SKIRT_CIRCLE_FULLNESS_OPT
   SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
   STANDARD_M, defaultGarmentOptions, pomsForRecipeOptions, pointMark } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
+import { TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, crewneckDetachedBandRoles, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole, wovenCampCollarBaseSeamBoundaries } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
@@ -306,6 +307,38 @@ describe("projectPoloSleeveFillClosures", () => {
 });
 
 describe("compileTechnicalFlatLiveView", () => {
+  it("binds R07 casing and edge POMs to exact source identities on each flat face", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const options = { ...defaultGarmentOptions(recipe.options ?? []),
+      [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 as const, waistGatherRatio: 1.25, casingDepthCm: 4 };
+    const block = recipe.draft(STANDARD_M, options);
+    const liveRecipe = { ...recipe, poms: pomsForRecipeOptions(recipe, options) };
+    const front = compileTechnicalFlatLiveView({ recipe: liveRecipe, block, revisionId: "r07-pom-front-r1",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+    const back = compileTechnicalFlatLiveView({ recipe: liveRecipe, block, revisionId: "r07-pom-back-r1",
+      kind: "BACK_FLAT", placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+
+    expect(front.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    expect(back.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    const frontCallouts = front.view!.primitives.filter((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout");
+    const backCallouts = back.view!.primitives.filter((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout");
+    expect(frontCallouts.find((callout) => callout.source.sourceId === "pom:trouser:gather-to-waist-reference-digital")?.anchor)
+      .toMatchObject({ primitiveId: "flat:trouser:FRONT_FLAT:mark:frontLeft:casingStitchGuide",
+        sourceEntityId: "pattern:trouser:mark:frontLeft:casingStitchGuide" });
+    expect(frontCallouts.find((callout) => callout.source.sourceId === "pom:trouser:casing-depth-digital")?.anchor)
+      .toMatchObject({ primitiveId: "flat:trouser:FRONT_FLAT:mark:frontLeft:casingFold",
+        sourceEntityId: "pattern:trouser:mark:frontLeft:casingFold" });
+    expect(frontCallouts.find((callout) => callout.source.sourceId === "pom:trouser:waist-opening-before-gathering-digital-seamline")?.anchor)
+      .toMatchObject({ primitiveId: "flat:trouser:FRONT_FLAT:component:frontLeft:outline",
+        sourceEntityId: "pattern:trouser:role:frontLeft:edge:waist" });
+    expect(frontCallouts.find((callout) => callout.source.sourceId === "pom:trouser:front-rise-digital-gather-to-waist-reference")?.anchor)
+      .toMatchObject({ primitiveId: "flat:trouser:FRONT_FLAT:component:frontLeft:outline",
+        sourceEntityId: "pattern:trouser:role:frontLeft:edge:centerFront" });
+    expect(backCallouts.find((callout) => callout.source.sourceId === "pom:trouser:back-rise-digital-gather-to-waist-reference")?.anchor)
+      .toMatchObject({ primitiveId: "flat:trouser:BACK_FLAT:component:backLeft:outline",
+        sourceEntityId: "pattern:trouser:role:backLeft:edge:centerBack" });
+  });
+
   it("renders the F03 center-front and mirrored side-front pair from one revision", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
     const options = defaultGarmentOptions(recipe.options ?? [], FITTED_PRINCESS_ENTRY_ID);

@@ -348,6 +348,16 @@ function exactJoggerBackRise(stitch: Stitch): boolean {
     && right.piece === "backRight" && right.edge === "centerBack" && right.reversed === true;
 }
 
+function exactElasticPullonFrontSeam(stitch: Stitch): boolean {
+  const [left] = stitch.a.edges;
+  const [right] = stitch.b.edges;
+  return stitch.ease === undefined && stitch.gather === undefined
+    && stitch.a.edges.length === 1 && stitch.b.edges.length === 1
+    && !!left && !!right && "edge" in left && "edge" in right
+    && left.piece === "frontLeft" && left.edge === "centerFront" && !left.reversed
+    && right.piece === "frontRight" && right.edge === "centerFront" && right.reversed === true;
+}
+
 /** Map exact zero-ease four-panel waist-interface intervals from the one lower
  * waistband edge to each sewn leg panel. These are placements of source
  * subintervals, not additional pattern pieces. */
@@ -485,11 +495,27 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
   const sourcePlacedStitchLabels = new Set<string>();
   const exactJoggerBackPair = recipeId === "jogger" && kind === "BACK_FLAT"
     && hasExactMirroredPanelPair(block.roles.backLeft, block.roles.backRight, "centerBack");
+  const elasticPullonFrontPair = recipeId === "trouser" && kind === "FRONT_FLAT"
+    && !block.roles.waistband
+    && block.roles.frontLeft?.marks?.some((mark) => mark.name === "casingFold") === true
+    && hasExactMirroredPanelPair(block.roles.frontLeft, block.roles.frontRight, "centerFront");
+  const elasticPullonFrontSeamLabel = "Center-front seam (left ↔ right)";
+  const elasticPullonFrontSeams = elasticPullonFrontPair
+    ? block.stitches.filter((stitch) => stitch.label === elasticPullonFrontSeamLabel) : [];
+  const exactElasticFrontSeam = elasticPullonFrontPair && elasticPullonFrontSeams.length === 1
+    && exactElasticPullonFrontSeam(elasticPullonFrontSeams[0]!);
+  if (elasticPullonFrontPair && !exactElasticFrontSeam) issues.push({ code: "UNRESOLVED_STITCH_REFERENCE",
+    sourceId: `stitch:${elasticPullonFrontSeamLabel}`,
+    message: "The R07 front pair requires its exact left-to-right center-front seam before the mirrored panels can be placed." });
   const waistbandStitchLabel = recipeId === "shorts"
     ? "Waistband (four leg panels ↔ separate waistband)"
     : recipeId === "jogger" ? "Jogger waist to separate casing"
       : "Waistband (four legs ↔ separate waistband)";
   for (const stitch of block.stitches) {
+    if (elasticPullonFrontPair && stitch.label === elasticPullonFrontSeamLabel) {
+      if (exactElasticFrontSeam) sourcePlacedStitchLabels.add(stitch.label);
+      continue;
+    }
     if (exactJoggerBackPair && stitch.label === "Jogger centre-back rise") {
       const matchingStitches = block.stitches.filter((candidate) => candidate.label === stitch.label);
       if (matchingStitches.length === 1 && exactJoggerBackRise(stitch)) {
@@ -563,6 +589,12 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
         solved[relation.from] = expected; queue.push(relation.from);
       }
     }
+  }
+  if (elasticPullonFrontPair && exactElasticFrontSeam) {
+    // The authored R07 panels are exact local-x mirrors. Keep both grainlines
+    // upright; fitting the curved seam endpoints alone can rotate one panel
+    // 180 degrees and turn the technical front into two stacked pieces.
+    solved.frontRight = solved.frontLeft!;
   }
   if (recipeId === "jogger") {
     const [leftRoleId, rightRoleId, centerEdgeId] = kind === "FRONT_FLAT"

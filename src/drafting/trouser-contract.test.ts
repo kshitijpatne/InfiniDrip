@@ -8,6 +8,8 @@ import {
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
   TROUSER_PLEATED_FRONT_ENTRY_ID,
   TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
+  TROUSER_ELASTIC_PULLON_ENTRY_ID,
+  TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY,
   TROUSER_OPTION_DEFINITIONS,
   TROUSER_SHARED_OPTION_DEFINITIONS,
 } from "./trouser-contract";
@@ -23,7 +25,7 @@ describe("trouser contract", () => {
 
   it("has a complete option table with defaults in each declared range", () => {
     expect(TROUSER_SHARED_OPTION_DEFINITIONS).toHaveLength(11);
-    expect(TROUSER_OPTION_DEFINITIONS).toHaveLength(15);
+    expect(TROUSER_OPTION_DEFINITIONS).toHaveLength(17);
     expect(TROUSER_OPTION_DEFINITIONS).toContain(TROUSER_BARREL_BOW_OPTION);
     expect(TROUSER_BARREL_BOW_OPTION.appliesToStarterEntryId).toBe("trouser-barrel-leg-digital-v1");
     expect(resolveTrouserOptions({ [TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY]: 1 }).barrelBowCm).toBe(2);
@@ -35,6 +37,14 @@ describe("trouser contract", () => {
     ]);
     expect(resolveTrouserOptions({ [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 })).toMatchObject({
       frontPleatIntakeCm: 4, frontPleatOffsetCm: 6, frontPleatStitchDepthCm: 8,
+    });
+    expect(TROUSER_OPTION_DEFINITIONS.filter((option) => option.appliesToStarterEntryId === TROUSER_ELASTIC_PULLON_ENTRY_ID)
+      .map((option) => [option.id, option.defaultValue, option.min, option.max, option.step])).toEqual([
+      ["waistGatherRatio", 1.25, 1, 1.8, 0.05],
+      ["casingDepthCm", 4, 2, 8, 0.5],
+    ]);
+    expect(resolveTrouserOptions({ [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 })).toMatchObject({
+      waistbandDepth: 0, waistGatherRatio: 1.25, casingDepthCm: 4,
     });
     for (const definition of TROUSER_SHARED_OPTION_DEFINITIONS) {
       expect(definition.min).toBeLessThan(definition.defaultValue);
@@ -60,5 +70,10 @@ describe("trouser contract", () => {
       frontPleatStitchDepthCm: 1,
     });
     expect(pleat).toMatchObject({ frontPleatIntakeCm: 99, frontPleatOffsetCm: 999, frontPleatStitchDepthCm: 1 });
+    expect(resolveTrouserOptions({
+      [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1,
+      waistGatherRatio: 1.237,
+      casingDepthCm: 10,
+    })).toMatchObject({ waistGatherRatio: 1.237, casingDepthCm: 10 });
   });
 });

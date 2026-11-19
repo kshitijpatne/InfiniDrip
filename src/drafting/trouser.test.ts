@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 import { renderBlueprint } from "../render/canvas";
 import { blockPieces, rolePiece, stitchChecks, pieceEdge, edgeStart, edgeEnd, edgeLength } from "./index";
 import { STANDARD_M } from "./measurements";
-import { draftTrouserLegs, draftTrouserWithPockets, trouserMetrics } from "./trouser";
-import { DEFAULT_TROUSER_OPTIONS, TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY, resolveTrouserOptions } from "./trouser-contract";
+import { draftTrouserLegs, draftTrouserWithPockets, trouserMetrics, trouserNotchesForOptions } from "./trouser";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY, TROUSER_BOOTCUT_PROFILE_ROUTE_KEY, TROUSER_TAPERED_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY, TROUSER_CASING_TURN_UNDER_CM, resolveTrouserOptions } from "./trouser-contract";
 import { trouserGuidance } from "./trouser-guidance";
 
 describe("trouser leg block", () => {
@@ -31,6 +31,55 @@ describe("trouser leg block", () => {
       "Center-back seam (left ↔ right)",
     ]);
     expect(stitchChecks(b, b.stitches).every((check) => check.ok)).toBe(true);
+  });
+
+  it("drafts R07 integrated casing contours and matched side seams without separate closure pieces", () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 as const,
+      waistGatherRatio: 1.25,
+      casingDepthCm: 4,
+    };
+    const drafted = draftTrouserWithPockets(STANDARD_M, options);
+    const metrics = trouserMetrics(STANDARD_M, options);
+    expect(Object.keys(drafted.roles).sort()).toEqual([
+      "backLeft", "backRight", "frontLeft", "frontRight", "pocketBagLeft", "pocketBagRight",
+    ]);
+    expect(stitchChecks(drafted, drafted.stitches).every((check) => check.ok)).toBe(true);
+    for (const role of ["frontLeft", "frontRight", "backLeft", "backRight"] as const) {
+      const panel = rolePiece(drafted, role);
+      const waist = pieceEdge(panel, "waist");
+      expect(waist.kind).toBe("line");
+      expect(edgeLength(waist)).toBeCloseTo(metrics.finishedWaist / 4 * 1.25);
+      expect(edgeStart(waist).y).toBeCloseTo(-(4 + TROUSER_CASING_TURN_UNDER_CM));
+      expect(panel.marks?.some((mark) => mark.name === "casingFold")).toBe(true);
+      expect(panel.marks?.some((mark) => mark.name === "casingStitchGuide")).toBe(true);
+      expect(panel.marks?.some((mark) => mark.name === "flyEdge")).toBe(false);
+    }
+    expect(drafted.roles.waistband).toBeUndefined();
+    expect(drafted.roles.flyShield).toBeUndefined();
+    expect(drafted.roles.flyUnderlap).toBeUndefined();
+    expect(drafted.stitches.some((stitch) => stitch.label.includes("separate waistband"))).toBe(false);
+    expect(drafted.stitches.some((stitch) => stitch.label.includes("fly"))).toBe(false);
+    expect(drafted.stitches.map((stitch) => stitch.label)).toContain("Center-front seam (left ↔ right)");
+    expect(drafted.stitches.map((stitch) => stitch.label)).toContain("Center-back seam (left ↔ right)");
+  });
+
+  it("routes R07 notch rules only to its four leg panels and pocket bags", () => {
+    const options = { [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 as const };
+    expect(trouserNotchesForOptions(options).map((rule) => rule.pieceName)).toEqual([
+      "trouser front left", "trouser front right", "trouser back left", "trouser back right",
+      "trouser pocket bag left", "trouser pocket bag right",
+    ]);
+  });
+
+  it("resolves the R07 software defaults before drafting the integrated casing", () => {
+    const options = { [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 as const };
+    const drafted = draftTrouserLegs(STANDARD_M, options);
+    const waist = pieceEdge(rolePiece(drafted, "frontLeft"), "waist");
+
+    expect(edgeLength(waist)).toBeCloseTo(trouserMetrics(STANDARD_M, options).finishedWaist / 4 * 1.25);
+    expect(edgeStart(waist).y).toBeCloseTo(-4.6);
   });
 
   it("uses separate front/back crotch curves and rise endpoints", () => {

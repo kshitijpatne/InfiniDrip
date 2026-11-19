@@ -826,9 +826,11 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     input.colorHex, input.texture, input.shine);
   let resolvePomAnchor: ((pom: GarmentRecipe["poms"][number], point: FlatPoint) =>
     TechnicalFlatPomResolvedAnchor | undefined) | undefined;
+  const hasIntegratedElasticCasing = recipe.name === "trouser"
+    && block.roles.frontLeft?.marks?.some((mark) => mark.name === "casingFold") === true;
   if (recipe.name === "trouser" || recipe.name === "shorts") {
     resolvePomAnchor = (pom, point) => {
-      const markAnchor = recipe.name === "shorts"
+      const markAnchor = recipe.name === "shorts" || hasIntegratedElasticCasing
         ? kind === "FRONT_FLAT" ? pom.frontMarkAnchor
           : pom.backMarkAnchor ? { ...pom.backMarkAnchor, point: "at" as const } : undefined
         : kind === "BACK_FLAT" && pom.backMarkAnchor ? { ...pom.backMarkAnchor, point: "at" as const } : undefined;
@@ -858,7 +860,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
       return {
         targetGeometryId: `flat:${recipe.name}:${kind}:component:${anchorRoleId}:outline`,
         point: placedPoint(point, placement), sourcePoint: point,
-        ...(recipe.name === "shorts" && anchorEdgeId
+        ...(anchorEdgeId && (recipe.name === "shorts" || hasIntegratedElasticCasing)
           ? { sourceEntityId: `pattern:${recipe.name}:role:${anchorRoleId}:edge:${anchorEdgeId}` } : {}),
       };
     };

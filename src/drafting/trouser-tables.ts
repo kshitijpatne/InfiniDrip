@@ -11,7 +11,8 @@ import { GradeRule, SizeStep } from "./grading";
 import { TSHIRT_SIZES } from "./tshirt-grade";
 import { Pom, seam, spanY } from "./pom";
 import type { TechPack } from "./recipe";
-import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, type TrouserOptions } from "./trouser-contract";
+import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY,
+  type TrouserOptions } from "./trouser-contract";
 
 /** cm added per +1 size step. Ease and recipe options remain constant in V1. */
 export const TROUSER_GRADE: GradeRule = {
@@ -145,9 +146,75 @@ function postPleatWaistMark(b: Block) {
   return mark && "start" in mark ? mark : undefined;
 }
 
-/** Keep the shared Trouser POMs unchanged; R06 measures its folded waist from
- * the authored post-fold reference line rather than the short cut edge. */
+/** Keep shared Trouser POMs unchanged; R06 and R07 measure their waist
+ * references from authored post-fold or gather-to lines rather than cut edges. */
 export function trouserPomsForOptions(rawOptions: Partial<TrouserOptions> = {}): readonly Pom[] {
+  if (rawOptions[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1) {
+    const casingDepth = rawOptions.casingDepthCm ?? 4;
+    const casingMark = (b: Block) => front(b).marks?.find((candidate) => candidate.name === "casingStitchGuide");
+    const backCasingMark = (b: Block) => back(b).marks?.find((candidate) => candidate.name === "casingStitchGuide");
+    return TROUSER_POMS.filter((pom) => pom.label !== "Waistband depth (finished)"
+      && pom.label !== "Front fly length (finished)").map((pom): Pom => {
+      if (pom.label === "Waist (finished)") return {
+        ...pom,
+        label: "Waist opening before gathering (digital seamline)",
+        measure: (b) => 4 * seam(front(b), "waist"),
+        anchor: (b) => edgeEnd(pieceEdge(front(b), "waist")),
+        anchorEdgeId: "waist",
+      };
+      if (pom.label === "Hip depth (body reference)") return {
+        ...pom,
+        measure: (b) => {
+          const mark = casingMark(b);
+          return mark && "start" in mark
+            ? Math.abs(edgeEnd(pieceEdge(front(b), "sideUpper")).y - mark.start.y)
+            : 0;
+        },
+        anchor: (b) => edgeEnd(pieceEdge(front(b), "sideUpper")),
+        anchorEdgeId: "sideUpper",
+      };
+      if (pom.label === "Front rise (finished incl. waistband)") return {
+        ...pom,
+        label: "Front rise (digital gather-to waist reference)",
+        measure: (b) => {
+          const mark = casingMark(b);
+          return mark && "start" in mark ? Math.abs(edgeStart(pieceEdge(front(b), "centerFront")).y - mark.start.y) : 0;
+        },
+        anchor: (b) => edgeEnd(pieceEdge(front(b), "centerFront")),
+        anchorEdgeId: "centerFront",
+      };
+      if (pom.label === "Back rise (finished incl. waistband)") return {
+        ...pom,
+        label: "Back rise (digital gather-to waist reference)",
+        measure: (b) => {
+          const mark = backCasingMark(b);
+          return mark && "start" in mark ? Math.abs(edgeStart(pieceEdge(back(b), "centerBack")).y - mark.start.y) : 0;
+        },
+        backAnchor: (b) => edgeEnd(pieceEdge(back(b), "centerBack")),
+        backAnchorEdgeId: "centerBack",
+      };
+      if (pom.label === "Outseam (finished incl. waistband)") return {
+        ...pom,
+        label: "Outseam (digital gather-to waist reference)",
+        measure: (b) => seam(front(b), "sideUpper") + seam(front(b), "sideHipToThigh")
+          + seam(front(b), "sideThighToKnee") + seam(front(b), "sideKneeToHem"),
+      };
+      return pom;
+    }).concat([
+      {
+        label: "Gather-to waist reference (digital)", tolerance: 1,
+        measure: (b) => {
+          const mark = casingMark(b);
+          return mark && "start" in mark ? 4 * distance(mark.start, mark.end) : 0;
+        },
+        frontMarkAnchor: { roleId: "frontLeft", markName: "casingStitchGuide", point: "end" as const },
+      },
+      {
+        label: "Casing depth (digital)", tolerance: 0.2, measure: () => casingDepth,
+        frontMarkAnchor: { roleId: "frontLeft", markName: "casingFold", point: "end" as const },
+      },
+    ]);
+  }
   if (rawOptions[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] !== 1) return TROUSER_POMS;
   return TROUSER_POMS.map((pom) => pom.label !== "Waist (finished)" ? pom : {
     ...pom,
@@ -163,9 +230,11 @@ export function trouserPomsForOptions(rawOptions: Partial<TrouserOptions> = {}):
   });
 }
 
-/** Quarter-waist size ordering follows the post-fold seam only when the R06
- * construction mark exists; all existing Trouser profiles remain edge based. */
+/** Quarter-waist size ordering follows an authored post-fold or casing
+ * reference when available; other Trouser profiles remain edge based. */
 export function trouserWaistSizeMetric(b: Block): number {
+  const casingMark = front(b).marks?.find((candidate) => candidate.name === "casingStitchGuide");
+  if (casingMark && "start" in casingMark) return distance(casingMark.start, casingMark.end);
   const mark = postPleatWaistMark(b);
   return mark ? distance(mark.start, mark.end) : edgeLength(pieceEdge(front(b), "waist"));
 }
@@ -193,6 +262,25 @@ export const TROUSER_TECH_PACK: TechPack = {
 
 /** Add explicit digital pleat details only for the R06 profile. */
 export function trouserTechPackForOptions(options: Partial<TrouserOptions>): TechPack {
+  if (options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1) {
+    const depth = options.casingDepthCm ?? 4;
+    return {
+      bom: [
+        { material: "Woven fabric", placement: "Four leg panels and pocket bags", qty: "Unspecified" },
+        { material: "Elastic (unspecified)", placement: "Waist casing; width, length, material and compatibility not specified", qty: "Unspecified" },
+        { material: "Sewing thread (unspecified)", placement: "Construction seams", qty: "Unspecified" },
+      ],
+      constructionNotice: "Digital pull-on casing construction guide only. Elastic specification and physical pull-on fit are not established.",
+      construction: [
+        "Cut the four Trouser leg panels with their integrated digital casing extensions; no separate waistband or fly piece is included.",
+        `The digital casing depth is ${depth} cm with a product-selected fixed 0.6 cm turn-under guide. These software dimensions are not a universal sewing standard.`,
+        "Fold at the casingFold guide and use the casingStitchGuide as the digital gather-to waist reference; no physical fold or stitched result is simulated.",
+        "Elastic width, length, material, channel compatibility and quantity remain unspecified; no elastic cut length is calculated.",
+        "Sew each pocket bag to its matching front opening, then join the front and back panels at the side and inseam interfaces and close the centre-back seam.",
+        "Review the digital opening-before-gathering and gather-to reference values; no physical pass-over, fit, comfort, wear, grading or production result is established.",
+      ],
+    };
+  }
   if (options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY] !== 1) return TROUSER_TECH_PACK;
   const intake = options.frontPleatIntakeCm ?? 4;
   const offset = options.frontPleatOffsetCm ?? 6;

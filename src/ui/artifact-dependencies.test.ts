@@ -9,12 +9,17 @@ import { TANK_N08_ENTRY_ID, TANK_N08_PROFILE_ROUTE_KEY } from "../drafting/tank"
 import {
   TROUSER_BARREL_BOW_OPTION,
   TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY,
+  TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY,
   TROUSER_OPTION_DEFINITIONS,
   TROUSER_PLEATED_FRONT_ENTRY_ID,
   TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
   TROUSER_TAPERED_PROFILE_ROUTE_KEY,
 } from "../drafting/trouser-contract";
-import { TROUSER_BARREL_LEG_ENTRY_ID, TROUSER_TAPERED_ENTRY_ID } from "./starter-registry";
+import {
+  TROUSER_BARREL_LEG_ENTRY_ID,
+  TROUSER_ELASTIC_PULLON_ENTRY_ID,
+  TROUSER_TAPERED_ENTRY_ID,
+} from "./starter-registry";
 import {
   assertFieldArtifactCoverage,
   describeFieldArtifactImpact,
@@ -52,6 +57,9 @@ function defaultOptions(recipeName: string, starterEntryId?: string, style?: str
   }
   if (recipeName === "trouser" && starterEntryId === TROUSER_PLEATED_FRONT_ENTRY_ID) {
     return { ...options, [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 };
+  }
+  if (recipeName === "trouser" && starterEntryId === TROUSER_ELASTIC_PULLON_ENTRY_ID) {
+    return { ...options, [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 };
   }
   return recipeName === "tank" && starterEntryId === TANK_N08_ENTRY_ID
     ? { ...options, [TANK_N08_PROFILE_ROUTE_KEY]: 1 }
@@ -151,6 +159,9 @@ describe("field-to-artifact invalidation graph", () => {
         const options = defaultOptions(recipe.name, starterEntryId, style);
         if (recipe.name === "trouser" && starterEntryId === TROUSER_PLEATED_FRONT_ENTRY_ID) {
           expect(options[TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]).toBe(1);
+        }
+        if (recipe.name === "trouser" && starterEntryId === TROUSER_ELASTIC_PULLON_ENTRY_ID) {
+          expect(options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]).toBe(1);
         }
         const baselineBlock = recipe.draft(STANDARD_M, options);
         const dependency = getFieldArtifactDependency(recipe.name, definition.inputKind, definition.inputKey)!;

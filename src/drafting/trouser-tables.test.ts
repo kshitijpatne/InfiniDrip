@@ -7,6 +7,7 @@ import {
   TROUSER_SIZES,
   TROUSER_TECH_PACK,
   trouserGuidance,
+  trouserMetrics,
   DEFAULT_TROUSER_OPTIONS,
   STANDARD_M,
   Measurements,
@@ -15,7 +16,7 @@ import {
   gradeRun,
   specSheet,
 } from "./index";
-import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY } from "./trouser-contract";
+import { TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "./trouser-contract";
 import { trouserPomsForOptions, trouserTechPackForOptions, trouserWaistSizeMetric } from "./trouser-tables";
 
 describe("trouser grading, POM, and tech-pack tables", () => {
@@ -116,6 +117,12 @@ describe("trouser grading, POM, and tech-pack tables", () => {
     expect(trouserTechPackForOptions(DEFAULT_TROUSER_OPTIONS)).toBe(TROUSER_TECH_PACK);
   });
 
+  it("falls back to the generic front waist edge when no authored waist reference mark exists", () => {
+    const block = draftTrouserWithPockets(STANDARD_M, DEFAULT_TROUSER_OPTIONS);
+
+    expect(trouserWaistSizeMetric(block)).toBeCloseTo(23.5);
+  });
+
   it("keeps the R06 POM and tech-pack defaults safe for partial route options", () => {
     const routeOnly = { [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 as const };
     const b = draftTrouserWithPockets(STANDARD_M, DEFAULT_TROUSER_OPTIONS);
@@ -126,6 +133,69 @@ describe("trouser grading, POM, and tech-pack tables", () => {
     expect(waistPom.anchor?.(b)).toEqual(edgeEnd(pieceEdge(front, "waist")));
     expect(trouserTechPackForOptions(routeOnly).construction.join(" "))
       .toContain("digital knife-pleat intake is 4 cm at 6 cm from centre front, with an 8 cm stitch-down guide");
+  });
+
+  it("uses the R07 software defaults for partial route options and safely reports missing reference marks", () => {
+    const routeOnly = { [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 as const };
+    const block = draftTrouserWithPockets(STANDARD_M, routeOnly);
+    const poms = trouserPomsForOptions(routeOnly);
+    const measure = (label: string, target: typeof block) => poms.find((pom) => pom.label === label)!.measure(target);
+    const techPack = trouserTechPackForOptions(routeOnly);
+
+    expect(measure("Casing depth (digital)", block)).toBeCloseTo(4);
+    expect(techPack.construction[1]).toContain("4 cm");
+    expect(measure("Hip depth (body reference)", block)).toBeCloseTo(STANDARD_M.hipDepth);
+    expect(measure("Front rise (digital gather-to waist reference)", block)).toBeCloseTo(trouserMetrics(STANDARD_M, routeOnly).frontRise);
+    expect(measure("Back rise (digital gather-to waist reference)", block)).toBeCloseTo(trouserMetrics(STANDARD_M, routeOnly).backRise);
+    expect(measure("Gather-to waist reference (digital)", block)).toBeCloseTo(trouserMetrics(STANDARD_M, routeOnly).finishedWaist);
+    expect(trouserGuidance(block, STANDARD_M, routeOnly).some((note) =>
+      note.field === "option-waistbandDepth" || note.field === "option-flyLength")).toBe(false);
+
+    const withoutFrontGuide = { ...block, roles: { ...block.roles,
+      frontLeft: { ...block.roles.frontLeft!, marks: block.roles.frontLeft!.marks?.filter((mark) => mark.name !== "casingStitchGuide") },
+    } } as typeof block;
+    const withoutBackGuide = { ...block, roles: { ...block.roles,
+      backLeft: { ...block.roles.backLeft!, marks: block.roles.backLeft!.marks?.filter((mark) => mark.name !== "casingStitchGuide") },
+    } } as typeof block;
+    expect(measure("Hip depth (body reference)", withoutFrontGuide)).toBe(0);
+    expect(measure("Front rise (digital gather-to waist reference)", withoutFrontGuide)).toBe(0);
+    expect(measure("Gather-to waist reference (digital)", withoutFrontGuide)).toBe(0);
+    expect(measure("Back rise (digital gather-to waist reference)", withoutBackGuide)).toBe(0);
+  });
+
+  it("reports R07 opening, gather-to reference and casing depth without fly or band claims", () => {
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1 as const,
+      waistGatherRatio: 1.25,
+      casingDepthCm: 4,
+    };
+    const block = draftTrouserWithPockets(STANDARD_M, options);
+    const poms = trouserPomsForOptions(options);
+    const rows = specSheet([{ label: "M", step: 0, measurements: STANDARD_M, block }], poms);
+    const value = (label: string) => rows.find((row) => row.label === label)!.values[0];
+    const labels = rows.map((row) => row.label);
+    const pack = trouserTechPackForOptions(options);
+
+    expect(labels).toContain("Waist opening before gathering (digital seamline)");
+    expect(labels).toContain("Gather-to waist reference (digital)");
+    expect(labels).toContain("Casing depth (digital)");
+    expect(labels).not.toContain("Waistband depth (finished)");
+    expect(labels).not.toContain("Front fly length (finished)");
+    expect(value("Waist opening before gathering (digital seamline)")).toBeCloseTo(117.5);
+    expect(value("Gather-to waist reference (digital)")).toBeCloseTo(94);
+    expect(value("Casing depth (digital)")).toBeCloseTo(4);
+    expect(trouserWaistSizeMetric(block)).toBeCloseTo(23.5);
+    expect(pack.constructionNotice).toContain("Elastic specification");
+    expect(pack.bom.find((item) => item.material.startsWith("Elastic"))).toMatchObject({ qty: "Unspecified" });
+    expect(pack.construction.join(" ")).toContain("no elastic cut length is calculated");
+    expect(pack.constructionNotice).toContain("physical pull-on fit");
+
+    const belowHip = trouserGuidance(block, STANDARD_M, { ...options, waistGatherRatio: 1 });
+    expect(belowHip.some((note) => note.field === "option-waistGatherRatio" && note.text.includes("hip + existing ease"))).toBe(true);
+    const offStep = trouserGuidance(block, STANDARD_M, { ...options, waistGatherRatio: 1.23, casingDepthCm: 4.25 });
+    expect(offStep.filter((note) => note.level === "warn").map((note) => note.field))
+      .toEqual(expect.arrayContaining(["option-waistGatherRatio", "option-casingDepthCm"]));
   });
 
   it("keeps the BOM and construction order aligned with the emitted V1 roles", () => {
@@ -200,5 +270,20 @@ describe("trouser guidance", () => {
       draftTrouserWithPockets(negativeSeat), negativeSeat, DEFAULT_TROUSER_OPTIONS
     );
     expect(negativeSeatNotes.some((note) => note.text.includes("Finished waist and seat"))).toBe(true);
+  });
+
+  it("retains the R06 side-waist pleat placement correction on a narrow digital waist", () => {
+    const measurements = { ...STANDARD_M, waist: 30 };
+    const options = {
+      ...DEFAULT_TROUSER_OPTIONS,
+      [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1 as const,
+      frontPleatOffsetCm: 12,
+      frontPleatIntakeCm: 8,
+      frontPleatStitchDepthCm: 8,
+    };
+    const block = draftTrouserWithPockets(measurements, options);
+
+    expect(trouserGuidance(block, measurements, options).some((note) =>
+      note.field === "option-frontPleatOffsetCm" && note.text.includes("reaches the side waist"))).toBe(true);
   });
 });

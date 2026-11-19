@@ -14,12 +14,16 @@ export const TROUSER_BARREL_LEG_ENTRY_ID = "trouser-barrel-leg-digital-v1" as co
 export const TROUSER_BOOTCUT_ENTRY_ID = "trouser-bootcut-digital-v1" as const;
 /** Stable R06 registry identity shared by the drafting and app boundaries. */
 export const TROUSER_PLEATED_FRONT_ENTRY_ID = "trouser-pleated-front-digital-v1" as const;
+/** Stable R07 registry identity shared by the drafting and app boundaries. */
+export const TROUSER_ELASTIC_PULLON_ENTRY_ID = "trouser-elastic-pullon-digital-v1" as const;
 
 /** Internal geometry routes are derived from the selected saved starter identity. */
 export const TROUSER_TAPERED_PROFILE_ROUTE_KEY = "__trouserTaperedProfile" as const;
 export const TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY = "__trouserBarrelLegProfile" as const;
 export const TROUSER_BOOTCUT_PROFILE_ROUTE_KEY = "__trouserBootcutProfile" as const;
 export const TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY = "__trouserPleatedFrontProfile" as const;
+export const TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY = "__trouserElasticPullonProfile" as const;
+export const TROUSER_CASING_TURN_UNDER_CM = 0.6;
 
 export interface TrouserOptions {
   readonly frontRiseEase: number;
@@ -41,6 +45,9 @@ export interface TrouserOptions {
   readonly frontPleatOffsetCm?: number;
   readonly frontPleatStitchDepthCm?: number;
   readonly [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]?: 1;
+  readonly waistGatherRatio?: number;
+  readonly casingDepthCm?: number;
+  readonly [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]?: 1;
 }
 
 export const TROUSER_BARREL_BOW_OPTION: GarmentOption = {
@@ -75,6 +82,8 @@ export const TROUSER_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "frontPleatIntakeCm", label: "Front pleat intake", unit: "cm", group: "Front construction", help: "Sets the added digital cut width in each front knife pleat; it is not finished waist ease.", appliesToStarterEntryId: TROUSER_PLEATED_FRONT_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 4, min: 2, max: 8, step: 0.5 },
   { id: "frontPleatOffsetCm", label: "Front pleat position", unit: "cm", group: "Front construction", help: "Places each fold line from centre front; keep it clear of the fly and pocket opening.", appliesToStarterEntryId: TROUSER_PLEATED_FRONT_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 6, min: 4, max: 12, step: 0.5 },
   { id: "frontPleatStitchDepthCm", label: "Front pleat stitch-down depth", unit: "cm", group: "Front construction", help: "Sets the digital distance the pleat guide is stitched down from the waist.", appliesToStarterEntryId: TROUSER_PLEATED_FRONT_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 8, min: 4, max: 16, step: 0.5 },
+  { id: "waistGatherRatio", label: "Digital waist opening ratio", unit: "×", group: "Elastic casing", help: "Sets the digital waist opening before gathering as a ratio of the gather-to waist reference; it does not specify an elastic length.", appliesToStarterEntryId: TROUSER_ELASTIC_PULLON_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 1.25, min: 1, max: 1.8, step: 0.05 },
+  { id: "casingDepthCm", label: "Digital casing depth", unit: "cm", group: "Elastic casing", help: "Sets the digital fold-down casing depth; elastic width, compatibility and physical sewn depth are not validated.", appliesToStarterEntryId: TROUSER_ELASTIC_PULLON_ENTRY_ID, preserveInvalidWhenRestored: true, defaultValue: 4, min: 2, max: 8, step: 0.5 },
 ];
 
 /** Options available to the shared Trouser recipe; profile-only controls enter
@@ -118,6 +127,15 @@ export function resolveTrouserOptions(values: Partial<TrouserOptions> = {}): Tro
       frontPleatOffsetCm: finiteOr(values.frontPleatOffsetCm, 6),
       frontPleatStitchDepthCm: finiteOr(values.frontPleatStitchDepthCm, 8),
       [TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY]: 1,
+    };
+  }
+  if (values[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1) {
+    return {
+      ...options,
+      waistbandDepth: 0,
+      waistGatherRatio: finiteOr(values.waistGatherRatio, 1.25),
+      casingDepthCm: finiteOr(values.casingDepthCm, 4),
+      [TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY]: 1,
     };
   }
   return options;
