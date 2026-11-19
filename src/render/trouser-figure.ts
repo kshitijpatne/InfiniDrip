@@ -109,24 +109,27 @@ function optionOverlays(block: Block, position: Position): string {
   const riseEdge = position === "front" ? "centerFront" : "centerBack";
   const hasPleat = position === "front" && !!left.marks?.some((mark) => mark.name === "frontWaistAfterPleat");
   const hasElasticCasing = !!left.marks?.some((mark) => mark.name === "casingFold");
+  const hasCargoPocket = !!left.marks?.some((mark) => mark.name === "cargoBodyPlacementTop");
+  const frontOptions = position === "front"
+    ? (hasElasticCasing
+      ? option("waistGatherRatio", marksBoth(["casingStitchGuide"])) +
+        option("casingDepthCm", marksBoth(["casingFold"]))
+      : option("flyLength", marksBoth(["flyEdge"]))) +
+      option("pocketOpening", marksBoth(["pocketOpening", "pocketOpeningStart"])) +
+      option("pocketAngle", marksBoth(["pocketOpening"])) +
+      option("pocketDrop", marksBoth(["pocketOpeningStart"])) +
+      (hasPleat
+        ? option("frontPleatOffsetCm", marksBoth(["frontPleatFold"])) +
+          option("frontPleatIntakeCm", marksBoth(["frontPleatRoll", "frontPleatPlacement"])) +
+          option("frontPleatStitchDepthCm", marksBoth(["frontPleatFold", "frontPleatRoll", "frontPleatPlacement"]))
+        : "")
+    : "";
   return option(riseName, edgeBoth(riseEdge)) +
     option("thighEase", thigh) +
     option("kneeEase", knee) +
     option("legOpening", edgeBoth("hem")) +
-    (position === "front"
-      ? (hasElasticCasing
-        ? option("waistGatherRatio", marksBoth(["casingStitchGuide"])) +
-          option("casingDepthCm", marksBoth(["casingFold"]))
-        : option("flyLength", marksBoth(["flyEdge"]))) +
-        option("pocketOpening", marksBoth(["pocketOpening", "pocketOpeningStart"])) +
-        option("pocketAngle", marksBoth(["pocketOpening"])) +
-        option("pocketDrop", marksBoth(["pocketOpeningStart"])) +
-        (hasPleat
-          ? option("frontPleatOffsetCm", marksBoth(["frontPleatFold"])) +
-            option("frontPleatIntakeCm", marksBoth(["frontPleatRoll", "frontPleatPlacement"])) +
-            option("frontPleatStitchDepthCm", marksBoth(["frontPleatFold", "frontPleatRoll", "frontPleatPlacement"]))
-          : "")
-      : "");
+    frontOptions +
+    (hasCargoPocket ? option("cargoPocketVerticalOffsetCm", marksBoth(["cargoPocketPlacementCenter"])) : "");
 }
 
 function panelPair(
@@ -162,9 +165,12 @@ interface TrayLayout {
 function trayLayout(block: Block): TrayLayout {
   const band = block.roles.waistband ? pieceBounds(block.roles.waistband) : undefined;
   const fly = block.roles.flyShield ? pieceBounds(block.roles.flyShield) : undefined;
+  const cargoBody = block.roles.cargoPocketBodyLeft ? pieceBounds(block.roles.cargoPocketBodyLeft) : undefined;
+  const cargoFlap = block.roles.cargoPocketFlapLeft ? pieceBounds(block.roles.cargoPocketFlapLeft) : undefined;
   const leftBag = pieceBounds(rolePiece(block, "pocketBagLeft"));
   const rightBag = pieceBounds(rolePiece(block, "pocketBagRight"));
-  const rowPieces = [...(fly ? [fly] : []), leftBag, rightBag];
+  const rowPieces = [...(fly ? [fly] : []), leftBag, rightBag,
+    ...(cargoBody ? [cargoBody, cargoBody] : []), ...(cargoFlap ? [cargoFlap, cargoFlap] : [])];
   const rowWidth = rowPieces.reduce((total, piece) => total + piece.width, 0)
     + Math.max(0, rowPieces.length - 1) * GAP;
   return {
@@ -175,7 +181,8 @@ function trayLayout(block: Block): TrayLayout {
 
 function componentPiece(
   piece: Piece, role: string, x: number, y: number, color: string,
-  optionEdges: Readonly<Record<string, readonly string[]>>
+  optionEdges: Readonly<Record<string, readonly string[]>>,
+  optionMarks: Readonly<Record<string, readonly string[]>> = {},
 ): string {
   const bounds = pieceBounds(piece);
   const tx = x - bounds.minX;
@@ -185,20 +192,33 @@ function componentPiece(
     patternMarksSvg(piece.marks, { stroke: T.marker, width: 0.8, pointSize: 0.6, labelSize: 1.35, labelPlacement: "offset" });
   const overlays = Object.entries(optionEdges).map(([field, names]) =>
     edgeGroup(field, names.map((name) => edgePath(piece, name, T.line, 1.1)).join(""))).join("");
-  return `<g transform="translate(${round(tx)} ${round(ty)})" data-edge="component">${base}${overlays}</g>` +
+  const markOverlays = Object.entries(optionMarks).map(([field, names]) => edgeGroup(field,
+    patternMarksSvg(piece.marks?.filter((mark) => names.includes(mark.name)), {
+      stroke: T.line, width: 1.1, pointSize: 0.8, labelSize: 1.35, labelPlacement: "offset",
+    }))).join("");
+  return `<g transform="translate(${round(tx)} ${round(ty)})" data-edge="component">${base}${overlays}${markOverlays}</g>` +
     txt(x + bounds.width / 2, y - 2, role.replace("trouser ", "").toUpperCase(), "middle", 2.2);
 }
 
 function componentTray(block: Block, color: string, width: number, y: number): string {
   const band = block.roles.waistband;
   const fly = block.roles.flyShield;
+  const cargoPieces = [
+    ...(block.roles.cargoPocketBodyLeft ? [{ piece: block.roles.cargoPocketBodyLeft, role: "trouser cargo pocket body left" }] : []),
+    ...(block.roles.cargoPocketBodyRight ? [{ piece: block.roles.cargoPocketBodyRight, role: "trouser cargo pocket body right" }] : []),
+    ...(block.roles.cargoPocketFlapLeft ? [{ piece: block.roles.cargoPocketFlapLeft, role: "trouser cargo pocket flap left" }] : []),
+    ...(block.roles.cargoPocketFlapRight ? [{ piece: block.roles.cargoPocketFlapRight, role: "trouser cargo pocket flap right" }] : []),
+  ];
   const leftBag = rolePiece(block, "pocketBagLeft");
   const rightBag = rolePiece(block, "pocketBagRight");
   const bandBounds = band ? pieceBounds(band) : undefined;
   const flyBounds = fly ? pieceBounds(fly) : undefined;
+  const cargoBounds = cargoPieces.map(({ piece }) => pieceBounds(piece));
   const leftBounds = pieceBounds(leftBag);
   const rightBounds = pieceBounds(rightBag);
-  const rowWidth = (flyBounds?.width ?? 0) + leftBounds.width + rightBounds.width + GAP * (fly ? 2 : 1);
+  const componentCount = (fly ? 1 : 0) + 2 + cargoPieces.length;
+  const rowWidth = (flyBounds?.width ?? 0) + leftBounds.width + rightBounds.width
+    + cargoBounds.reduce((sum, bounds) => sum + bounds.width, 0) + GAP * Math.max(0, componentCount - 1);
   let x = MARGIN + (width - rowWidth) / 2;
   const rowY = y + 6 + (bandBounds?.height ?? 0) + (band ? GAP : 0);
   const parts: string[] = [];
@@ -217,6 +237,18 @@ function componentTray(block: Block, color: string, width: number, y: number): s
     "option-pocketOpening": ["opening"], "option-pocketAngle": ["opening"],
     "option-pocketDrop": ["opening"], "option-pocketBagDepth": ["bagLower"],
   }));
+  x += rightBounds.width + GAP;
+  cargoPieces.forEach(({ piece, role }, index) => {
+    const body = role.includes("body");
+    parts.push(componentPiece(piece, role, x, rowY, color,
+      body
+        ? { "option-cargoPocketWidthCm": ["top", "bottom"], "option-cargoPocketHeightCm": ["left", "right"] }
+        : { "option-cargoPocketWidthCm": ["top", "bottom"], "option-cargoFlapDepthCm": ["left", "right"] },
+      body
+        ? { "option-cargoPleatIntakeCm": ["cargoPleatLeftFold", "cargoPleatRightFold"] }
+        : {}));
+    x += cargoBounds[index]!.width + GAP;
+  });
   return `<g data-garment-detail="trouser-components">${txt(width / 2, y + 2, "CONSTRUCTION DETAILS", "middle", 2.4)}${parts.join("")}</g>`;
 }
 

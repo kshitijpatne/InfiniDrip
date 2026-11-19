@@ -27,6 +27,8 @@ export interface FlatFaceMapping {
 export interface TechnicalFlatRecipeMapping {
   readonly recipeId: string;
   readonly faces: readonly [FlatFaceMapping, FlatFaceMapping];
+  /** Roles that are intentionally kept outside the flat faces, such as full cut pieces shown in a pattern tray. */
+  readonly nonFlatRoleIds?: readonly string[];
   /** Source-coordinate role for front anchors and optional back anchors. */
   readonly pomAnchorRole: string;
   /** Optional source role for recipe methods that define a back-face landmark. */
@@ -168,6 +170,22 @@ function elasticPullonTrouserMapping(block: Block): TechnicalFlatRecipeMapping |
     "frontLeft", "backLeft");
 }
 
+function cargoTrouserMapping(block: Block): TechnicalFlatRecipeMapping | undefined {
+  const cargoRoles = ["cargoPocketBodyLeft", "cargoPocketBodyRight", "cargoPocketFlapLeft", "cargoPocketFlapRight"];
+  const cargoRolesPresent = cargoRoles.some((roleId) => block.roles[roleId] !== undefined);
+  if (!cargoRolesPresent) return undefined;
+  const placementMarks = [
+    ["frontLeft", "cargoBodyPlacementTop"], ["frontLeft", "cargoFlapPlacementTop"],
+    ["frontRight", "cargoBodyPlacementTop"], ["frontRight", "cargoFlapPlacementTop"],
+    ["backLeft", "cargoBodyPlacementTop"], ["backLeft", "cargoFlapPlacementTop"],
+    ["backRight", "cargoBodyPlacementTop"], ["backRight", "cargoFlapPlacementTop"],
+  ] as const;
+  const hasAllPlacementMarks = placementMarks.every(([roleId, markName]) =>
+    block.roles[roleId]?.marks?.some((mark) => mark.name === markName));
+  if (cargoRoles.some((roleId) => !block.roles[roleId]) || !hasAllPlacementMarks) return undefined;
+  return { ...G04_TECHNICAL_FLAT_MAPPINGS.trouser, nonFlatRoleIds: cargoRoles };
+}
+
 /** Resolve topology-specific role membership while preserving the legacy
  * single-front map for F01/F02 and other recipes using the same root. */
 export function technicalFlatMappingForBlock(recipeId: string, block: Block): TechnicalFlatRecipeMapping | undefined {
@@ -188,6 +206,10 @@ export function technicalFlatMappingForBlock(recipeId: string, block: Block): Te
     && block.roles.frontLeft?.marks?.some((mark) => mark.name === "casingFold")
     ? elasticPullonTrouserMapping(block)
     : undefined;
+  const cargoMapping = recipeId === "trouser" ? cargoTrouserMapping(block) : undefined;
+  const hasCargoRoles = recipeId === "trouser"
+    && ["cargoPocketBodyLeft", "cargoPocketBodyRight", "cargoPocketFlapLeft", "cargoPocketFlapRight"]
+      .some((roleId) => block.roles[roleId] !== undefined);
   if (mapping && recipeId === "woven-shirt" && hasW07BandCollar) {
     const [front, back] = mapping.faces;
     const withoutPointedLeaves = (face: FlatFaceMapping): FlatFaceMapping => ({
@@ -206,6 +228,7 @@ export function technicalFlatMappingForBlock(recipeId: string, block: Block): Te
     });
     return { ...mapping, faces: [withoutStandRoles(front), withoutStandRoles(back)] };
   }
+  if (hasCargoRoles) return cargoMapping;
   if (wrapSkirtMapping) return wrapSkirtMapping;
   if (elasticPullonMapping) return elasticPullonMapping;
   if (tieredSkirtMapping) return tieredSkirtMapping;
@@ -238,6 +261,7 @@ export interface FlatSourceMapping {
 export type FlatMappingIssueCode =
   | "UNSUPPORTED_RECIPE"
   | "MISSING_MAPPED_ROLE"
+  | "MISSING_NON_FLAT_ROLE"
   | "UNMAPPED_BLOCK_ROLE"
   | "DUPLICATE_FACE_ROLE"
   | "INVALID_LAYER_ORDER_REFERENCE"
@@ -307,6 +331,13 @@ export function validateFlatRoleMapping(mapping: TechnicalFlatRecipeMapping, blo
           message: `Mapped role “${role.roleId}” must name an earlier visible role in ${faceMapping.kind} for its behind-layer relation.` });
       }
     }
+  }
+  for (const roleId of mapping.nonFlatRoleIds ?? []) {
+    if (!block.roles[roleId]) {
+      issues.push({ code: "MISSING_NON_FLAT_ROLE", sourceId: roleId,
+        message: `Declared non-flat role “${roleId}” is absent from the drafted block.` });
+    }
+    mappedRoles.add(roleId);
   }
   for (const roleId of Object.keys(block.roles)) {
     if (!mappedRoles.has(roleId)) {

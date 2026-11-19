@@ -50,8 +50,37 @@ import { JOGGER_DEFAULT_OPTIONS, JOGGER_FIELDS, JOGGER_OPTION_DEFINITIONS, JOGGE
 import { HOODIE_DEFAULT_OPTIONS, HOODIE_FIELDS, HOODIE_OPTION_DEFINITIONS, HOODIE_STYLES } from "./hoodie-contract";
 import { HOODIE_ROLE_ORDER } from "./hoodie";
 import { FITTED_CAP_SLEEVE_ENTRY_ID, FITTED_SCOOP_ENTRY_ID } from "./fitted";
+import { DEFAULT_TROUSER_OPTIONS, TROUSER_CARGO_PROFILE_ROUTE_KEY } from "./trouser-contract";
 
 describe("the garment registry", () => {
+  it("fails closed on invalid R08 cargo geometry while retaining corrective notes", () => {
+    const validOptions = { ...DEFAULT_TROUSER_OPTIONS, [TROUSER_CARGO_PROFILE_ROUTE_KEY]: 1 as const };
+    const valid = draftRecipeReviewAtSize(TROUSER, STANDARD_M, 0, validOptions);
+    expect(valid.block, JSON.stringify(valid.notes)).not.toBeNull();
+    expect(valid.notes.some((note) => note.field?.startsWith("option-cargo"))).toBe(false);
+
+    const invalid = draftRecipeReviewAtSize(TROUSER, STANDARD_M, 0, {
+      ...validOptions, cargoPocketWidthCm: 100,
+    });
+    expect(invalid.block).toBeNull();
+    expect(invalid.notes).toEqual(expect.arrayContaining([
+      expect.objectContaining({ field: "option-cargoPocketWidthCm", level: "warn" }),
+    ]));
+  });
+
+  it("keeps default R08 digital geometry available across the Trouser XS–XL size run", () => {
+    const options = { ...DEFAULT_TROUSER_OPTIONS, [TROUSER_CARGO_PROFILE_ROUTE_KEY]: 1 as const };
+    const reviews = TROUSER.sizes.map(({ label, step }) => ({
+      label,
+      ...draftRecipeReviewAtSize(TROUSER, STANDARD_M, step, options),
+    }));
+
+    expect(reviews.map(({ label, block }) => [label, block !== null])).toEqual([
+      ["XS", true], ["S", true], ["M", true], ["L", true], ["XL", true],
+    ]);
+    expect(reviews.flatMap(({ notes }) => notes)).toEqual([]);
+  });
+
   it("lists every garment with a stable id and a display label", () => {
     expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser", "jeans", "shorts", "crewneck", "jogger", "hoodie"]);
     expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser", "Jeans", "Shorts", "Crewneck sweatshirt", "Jogger", "Pullover hoodie"]);

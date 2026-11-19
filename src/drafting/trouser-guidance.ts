@@ -16,12 +16,14 @@ import {
   TROUSER_BOOTCUT_PROFILE_ROUTE_KEY,
   TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY,
   TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY,
+  TROUSER_CARGO_PROFILE_ROUTE_KEY,
   TROUSER_BARREL_LEG_ENTRY_ID,
   TROUSER_PLEATED_FRONT_ENTRY_ID,
   TROUSER_ELASTIC_PULLON_ENTRY_ID,
+  TROUSER_CARGO_ENTRY_ID,
   TrouserOptions,
 } from "./trouser-contract";
-import { trouserMetrics, trouserPocketGuidance, trouserPocketOpening } from "./trouser";
+import { trouserCargoNotes, trouserMetrics, trouserPocketGuidance, trouserPocketOpening } from "./trouser";
 
 function optionRangeNotes(options: TrouserOptions): Note[] {
   const notes: Note[] = [];
@@ -31,6 +33,8 @@ function optionRangeNotes(options: TrouserOptions): Note[] {
       ? TROUSER_PLEATED_FRONT_ENTRY_ID
       : options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1
         ? TROUSER_ELASTIC_PULLON_ENTRY_ID
+        : options[TROUSER_CARGO_PROFILE_ROUTE_KEY] === 1
+          ? TROUSER_CARGO_ENTRY_ID
       : undefined;
   const hasElasticCasing = options[TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY] === 1;
   for (const definition of TROUSER_OPTION_DEFINITIONS.filter((d) => d.group !== "Pocket"
@@ -41,11 +45,12 @@ function optionRangeNotes(options: TrouserOptions): Note[] {
       keyof TrouserOptions,
       typeof TROUSER_TAPERED_PROFILE_ROUTE_KEY | typeof TROUSER_BARREL_LEG_PROFILE_ROUTE_KEY
         | typeof TROUSER_BOOTCUT_PROFILE_ROUTE_KEY | typeof TROUSER_PLEATED_FRONT_PROFILE_ROUTE_KEY
-        | typeof TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY
+        | typeof TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY | typeof TROUSER_CARGO_PROFILE_ROUTE_KEY
     >];
     const outsideRange = typeof value !== "number" || !Number.isFinite(value)
       || value < definition.min || value > definition.max;
-    const offStep = definition.appliesToStarterEntryId === TROUSER_ELASTIC_PULLON_ENTRY_ID
+    const offStep = (definition.appliesToStarterEntryId === TROUSER_ELASTIC_PULLON_ENTRY_ID
+      || definition.appliesToStarterEntryId === TROUSER_CARGO_ENTRY_ID)
       && typeof value === "number" && Number.isFinite(value)
       && Math.abs((value - definition.min) / definition.step - Math.round((value - definition.min) / definition.step)) > 1e-8;
     if (outsideRange || offStep) {
@@ -202,5 +207,6 @@ export function trouserGuidance(
   }
 
   notes.push(...trouserPocketGuidance(drafted, m, options));
+  notes.push(...trouserCargoNotes(drafted, m, options));
   return notes;
 }

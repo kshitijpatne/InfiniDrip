@@ -3,7 +3,7 @@ import { CREWNECK, FITTED_PRINCESS_ENTRY_ID, GARMENTS, SKIRT_CIRCLE_FULLNESS_OPT
   SKIRT_TIER_COUNT_OPTION_ID, SKIRT_TIER_GATHER_RATIO_OPTION_ID,
   STANDARD_M, defaultGarmentOptions, pomsForRecipeOptions, pointMark } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
-import { TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
+import { TROUSER_CARGO_PROFILE_ROUTE_KEY, TROUSER_ELASTIC_PULLON_PROFILE_ROUTE_KEY } from "../drafting/trouser-contract";
 import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, crewneckDetachedBandRoles, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole, wovenCampCollarBaseSeamBoundaries } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
@@ -307,6 +307,32 @@ describe("projectPoloSleeveFillClosures", () => {
 });
 
 describe("compileTechnicalFlatLiveView", () => {
+  it("renders R08 side-seam placement marks on each flat face and keeps cargo POMs table-only", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const options = { ...defaultGarmentOptions(recipe.options ?? []),
+      [TROUSER_CARGO_PROFILE_ROUTE_KEY]: 1 as const, cargoPocketWidthCm: 19, cargoPocketHeightCm: 21,
+      cargoPleatIntakeCm: 3, cargoFlapDepthCm: 6, cargoPocketVerticalOffsetCm: 1.5 };
+    const block = recipe.draft(STANDARD_M, options);
+    const liveRecipe = { ...recipe, poms: pomsForRecipeOptions(recipe, options) };
+    const revisionId = "r08-cargo-pom-source-r1";
+    for (const [kind, panelRoles] of [
+      ["FRONT_FLAT", ["frontLeft", "frontRight"]], ["BACK_FLAT", ["backLeft", "backRight"]],
+    ] as const) {
+      const result = compileTechnicalFlatLiveView({ recipe: liveRecipe, block, revisionId,
+        kind, placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+      expect(result.issues, kind).toEqual([]);
+      expect(result.view, kind).not.toBeNull();
+      const sourceIds = result.view!.primitives.map((primitive) => primitive.source.sourceId);
+      for (const roleId of panelRoles) {
+        expect(sourceIds).toContain(`pattern:trouser:mark:${roleId}:cargoBodyPlacementTop`);
+        expect(sourceIds).toContain(`pattern:trouser:mark:${roleId}:cargoFlapPlacementTop`);
+      }
+      const callouts = result.view!.primitives.filter((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout");
+      expect(callouts.some((callout) => callout.source.sourceId.includes("cargo-pocket"))).toBe(false);
+      expect(sourceIds.some((sourceId) => sourceId.startsWith("pattern:trouser:role:cargoPocket"))).toBe(false);
+    }
+  });
+
   it("binds R07 casing and edge POMs to exact source identities on each flat face", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
     const options = { ...defaultGarmentOptions(recipe.options ?? []),
