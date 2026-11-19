@@ -1025,7 +1025,7 @@ describe("K01 A-line-like skirt starter workflow", () => {
     }
   });
 
-  it("keeps the A-line identity and digital-only limits in all six output actions", async () => {
+  it("keeps the A-line identity and digital-only limits in all six tiled-PDF output actions", async () => {
     localStorage.clear();
     const files = new Map<string, string>();
     const saveFile = vi.fn(async (filename: string, content: string) => {

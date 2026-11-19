@@ -1059,7 +1059,7 @@ describe("EPIC-19 L02 starter binding", () => {
     }
   });
 
-  it("selects, renders, exports, saves, and reopens the F02 waist-darted Fitted Tee", async () => {
+  it("routes the F02 waist-darted Fitted Tee tiled-PDF through local placement during save/reopen", async () => {
     localStorage.clear();
     const files = new Map<string, string>();
     const originalGetBBox = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getBBox");
@@ -1152,8 +1152,7 @@ describe("EPIC-19 L02 starter binding", () => {
       const expectedPieces = blockPieces(fittedRecipe.draft(saved.measurements, saved.garmentOptions.fitted));
       expect(svg).toBe(exportSvg(expectedPieces, fittedRecipe.allowances, fittedNotches));
       expect(dxf).toBe(exportDxf(expectedPieces, fittedRecipe.allowances));
-      expect(pdf).toBe(exportPdf(expectedPieces, fittedRecipe.allowances, undefined, 1,
-        fittedRecipe.tiledPdfLocalCoordinates === true));
+      expect(pdf).toBe(exportPdf(expectedPieces, fittedRecipe.allowances, undefined, 1, true));
       expect(a0).toBe(exportA0Pdf(expectedPieces, fittedRecipe.allowances, fittedNotches, undefined,
         fittedRecipe.a0Overflow === true));
       expect(svg).toContain('data-pattern-mark-name="waistDartUpperLeg"');
@@ -1186,7 +1185,7 @@ describe("EPIC-19 L02 starter binding", () => {
     }
   }, 75_000);
 
-  it("delivers the F03 princess-seam Tee through editing, save/reopen, flats, nests, and exports", async () => {
+  it("routes the F03 princess-seam Tee tiled-PDF through local placement during editing and save/reopen", async () => {
     localStorage.clear();
     const files = new Map<string, string>();
     const originalGetBBox = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getBBox");
@@ -1309,8 +1308,7 @@ describe("EPIC-19 L02 starter binding", () => {
       const expectedPieces = blockPieces(fittedRecipe.draft(saved.measurements, saved.garmentOptions.fitted));
       expect(svg).toBe(exportSvg(expectedPieces, fittedRecipe.allowances, fittedNotches));
       expect(dxf).toBe(exportDxf(expectedPieces, fittedRecipe.allowances));
-      expect(pdf).toBe(exportPdf(expectedPieces, fittedRecipe.allowances, undefined, 1,
-        fittedRecipe.tiledPdfLocalCoordinates === true));
+      expect(pdf).toBe(exportPdf(expectedPieces, fittedRecipe.allowances, undefined, 1, true));
       expect(a0).toBe(exportA0Pdf(expectedPieces, fittedRecipe.allowances, fittedNotches, undefined,
         fittedRecipe.a0Overflow === true));
       expect(svg.toLowerCase()).toContain("fitted front center");
@@ -1339,7 +1337,7 @@ describe("EPIC-19 L02 starter binding", () => {
     }
   }, 75_000);
 
-  it("freezes the F04 selected-size V-band while withholding graded-band and physical-fit claims", async () => {
+  it("freezes the F04 selected-size V-band tiled-PDF while withholding graded-band and physical-fit claims", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     vi.stubGlobal("Blob", NodeBlob);
@@ -1425,6 +1423,15 @@ describe("EPIC-19 L02 starter binding", () => {
       expect(manifest.schemaVersion).toBe(4);
       expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-vneck-band-svg");
       expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-vneck-band-tech-pack-pdf");
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toContain("selected-size-tiled-pdf");
+      const selectedTiledPdf = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-tiled-pdf");
+      const selectedTiledPdfText = await selectedTiledPdf.artifact.bytes.text();
+      const fittedRecipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+      const selectedPieces = blockPieces(fittedRecipe.draft(
+        workflow.snapshot.activeStyle.design.measurements,
+        workflow.snapshot.activeStyle.design.garmentOptions.fitted,
+      ));
+      expect(selectedTiledPdfText).toBe(exportPdf(selectedPieces, fittedRecipe.allowances, undefined, 1, true));
       const frozenBand = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-vneck-band-svg");
       const frozenVBandTechPack = await workflow.readFrozenArtifact(manifest.manifestId, "selected-size-vneck-band-tech-pack-pdf");
       const frozenWholeRunTechPack = await workflow.readFrozenArtifact(manifest.manifestId, "whole-run-tech-pack-pdf");
@@ -1914,6 +1921,39 @@ describe("EPIC-19 L02 starter binding", () => {
     ease.value = "7.5";
     ease.dispatchEvent(new Event("input", { bubbles: true }));
     expect(root.querySelector<HTMLElement>("#error-ease")!.textContent).toContain("1 cm increments");
+  });
+
+  it("keeps the custom-measurement Tee on legacy tiled-PDF placement", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename: string, content: string) => {
+        files.set(filename, content);
+        return { saved: true, filePath: filename };
+      }),
+    };
+    const root = mount();
+    try {
+      clickIfPresent(root, "welcome-start");
+      clickId(root, "starter-tee-classic-custom-v1");
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+      reachExportStage(root);
+      clickId(root, "export-pdf");
+      await vi.waitFor(() => expect([...files.keys()].some((name) =>
+        name.endsWith(".pdf") && !name.endsWith("-techpack.pdf") && !name.endsWith("-A0.pdf"))).toBe(true),
+      { timeout: 10_000 });
+      const pdf = [...files.entries()].find(([name]) =>
+        name.endsWith(".pdf") && !name.endsWith("-techpack.pdf") && !name.endsWith("-A0.pdf"))![1];
+      const teeRecipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      const expectedPieces = blockPieces(teeRecipe.draft(saved.measurements, saved.garmentOptions.tee));
+      expect(pdf).toBe(exportPdf(expectedPieces, teeRecipe.allowances, undefined, 1,
+        teeRecipe.tiledPdfLocalCoordinates === true));
+    } finally {
+      delete window.electronAPI;
+      root.remove();
+      localStorage.clear();
+    }
   });
 
   it("keeps starter origin as provenance after Tee style change and preserves it on reopen", () => {

@@ -1415,6 +1415,12 @@ and [Slice 239 revision evidence](docs/research/epic15/F03-IMMUTABLE-REVISIONS-S
   factory-approved specification, or production release. None of these files
   proves physical fit or successful sewing.
 
+Saved blank-catalog starter entries use the existing page-local placement
+option for both visible and selected-size tiled PDFs, so their pattern outlines
+land on the printable pages. Generic output and the custom-measurement starter
+keep the existing default placement and byte identities. Recipe-level opt-ins
+remain unchanged.
+
 The existing DXF download remains the protected legacy output: its coordinates
 use centimeters but the file does not declare units. `exportDxfCentimeters`
 is a separate, non-default serialization candidate that adds a centimeter
