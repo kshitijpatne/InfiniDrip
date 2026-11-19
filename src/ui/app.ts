@@ -2499,13 +2499,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? cargoTrouserRecipeForOutput(outputRecipe)
       : outputRecipe;
   };
-  const usesLocalTiledPdfCoordinates = (outputRecipe: GarmentRecipe): boolean =>
-    outputRecipe.tiledPdfLocalCoordinates === true
-    || (outputRecipe.name === "skirt"
-      && (starterOrigin?.entryId === SKIRT_A_LINE_ENTRY_ID || starterOrigin?.entryId === SKIRT_PENCIL_ENTRY_ID
-        || starterOrigin?.entryId === SKIRT_GATHERED_ENTRY_ID || starterOrigin?.entryId === SKIRT_BOX_PLEAT_ENTRY_ID
-        || starterOrigin?.entryId === SKIRT_TIERED_ENTRY_ID || starterOrigin?.entryId === SKIRT_WRAP_ENTRY_ID
-        || starterOrigin?.entryId === SKIRT_CIRCLE_ENTRY_ID || starterOrigin?.entryId === SKIRT_BIAS_CUT_ENTRY_ID));
+  const usesLocalTiledPdfCoordinates = (outputRecipe: GarmentRecipe): boolean => {
+    const starterEntry = starterOrigin ? starterEntryById(starterOrigin.entryId) : null;
+    return outputRecipe.tiledPdfLocalCoordinates === true
+      || (starterEntry?.catalogKind === "blank" && starterEntry.recipeId === outputRecipe.name);
+  };
   const pdfMarkLabelLayout = (outputRecipe: GarmentRecipe): "inline" | "staggered-box-pleat-guides" | "line-aligned-box-pleat-guides" | "line-aligned-pleated-front-guides" =>
     outputRecipe.name === "trouser" && starterOrigin?.entryId === TROUSER_PLEATED_FRONT_ENTRY_ID
       ? "line-aligned-pleated-front-guides"
