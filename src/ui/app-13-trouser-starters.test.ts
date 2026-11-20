@@ -1130,6 +1130,9 @@ describe("R07 Elastic-waist pull-on trouser starter app", () => {
       };
       expect(editedPackage.manifest.options).toMatchObject({ waistGatherRatio: 1.4, casingDepthCm: 5.5 });
 
+      clickId(reopened, `starter-${TROUSER_ELASTIC_PULLON_ENTRY_ID}`);
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="waistGatherRatio"]')).not.toBeNull();
+
       clickId(reopened, "garment-trouser");
       expect(reopened.querySelector<HTMLInputElement>('input[data-option="waistGatherRatio"]')).toBeNull();
       clickId(reopened, "save-pattern");
@@ -1296,6 +1299,33 @@ describe("R08 Cargo trouser starter app", () => {
         manifest: { options: Record<string, number> };
       };
       expect(editedPackage.manifest.options.cargoPocketWidthCm).toBe(19);
+
+      const cargoBeforeGeneric = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+      };
+      const sharedTrouserOptions = Object.fromEntries(["thighEase", "kneeEase", "legOpening"].map((key) => [
+        key, cargoBeforeGeneric.garmentOptions.trouser[key],
+      ]));
+      const cargoOnlyOptions = ["cargoPocketWidthCm", "cargoPocketHeightCm", "cargoPleatIntakeCm",
+        "cargoFlapDepthCm", "cargoPocketVerticalOffsetCm", TROUSER_CARGO_PROFILE_ROUTE_KEY];
+      clickId(reopened, "garment-trouser");
+      expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Trouser");
+      for (const key of cargoOnlyOptions) {
+        expect(reopened.querySelector<HTMLInputElement>(`input[data-option="${key}"]`)).toBeNull();
+      }
+      clickId(reopened, "save-pattern");
+      const genericAfterCargo = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        garmentOptions: { trouser: Record<string, number> };
+        workspace: { starterOrigin: { entryId: string } | null };
+      };
+      for (const key of cargoOnlyOptions) expect(genericAfterCargo.garmentOptions.trouser).not.toHaveProperty(key);
+      expect(genericAfterCargo.garmentOptions.trouser).toMatchObject(sharedTrouserOptions);
+      expect(genericAfterCargo.workspace.starterOrigin).toBeNull();
+
+      clickId(reopened, `starter-${TROUSER_CARGO_ENTRY_ID}`);
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="cargoPocketWidthCm"]')).not.toBeNull();
+      clickId(reopened, `starter-${TROUSER_CARGO_ENTRY_ID}`);
+      expect(reopened.querySelector<HTMLInputElement>('input[data-option="cargoPocketWidthCm"]')).not.toBeNull();
 
       clickId(reopened, `starter-${TROUSER_BOOTCUT_ENTRY_ID}`);
       expect(reopened.querySelector<HTMLElement>("#current-garment")?.textContent).toBe("Bootcut trouser");
