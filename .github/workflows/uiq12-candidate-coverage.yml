@@ -1,0 +1,33 @@
+name: UIQ-12 candidate verification
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  coverage:
+    name: UIQ-12 isolated candidate coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: ops/ui-candidates/uiq12-tee
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify exact PR merge SHA
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          printf 'PR head %s\nPR merge candidate %s\n' "$PR_HEAD_SHA" "$GITHUB_SHA"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.23.5
+      - run: npm ci
+      - run: npm run coverage
