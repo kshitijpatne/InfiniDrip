@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Set-in Tee assembly verification</title>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Set-in Tee assembly</h1>
+      <p>Inspect how the sewing lines from one Classic crew-neck draft join in 3D.</p>
+    </header>
+    <section aria-labelledby="draft-heading">
+      <h2 id="draft-heading">Draft controls</h2>
+      <div class="toolbar">
+        <button id="fixture-default" type="button">Default Tee</button>
+        <button id="fixture-edited" type="button">Unequal armhole example</button>
+        <button id="undo" type="button">Undo</button>
+        <button id="redo" type="button">Redo</button>
+        <button id="save-draft" type="button">Save draft locally</button>
+        <button id="reopen-draft" type="button">Reopen saved draft</button>
+      </div>
+      <form id="tee-inputs" novalidate>
+        <label>Draft size <select id="size"></select></label>
+        <div id="measurements" class="measurements"></div>
+        <label class="check"><input id="use-chest-ease" type="checkbox"> Independent torso ease</label>
+        <label>Torso ease (cm) <input id="chestEase" type="number" min="7" max="12" step="0.5"></label>
+      </form>
+      <details id="edit-controls">
+        <summary>Move a source anchor</summary>
+        <div class="toolbar anchor-controls">
+          <label>Anchor <select id="anchor"></select></label>
+          <label>X change (cm) <input id="delta-x" type="number" step="0.1" value="-3"></label>
+          <label>Y change (cm) <input id="delta-y" type="number" step="0.1" value="0"></label>
+          <button id="apply-anchor" type="button">Apply anchor move</button>
+          <button id="apply-asymmetric" type="button">Move front armhole control</button>
+          <button id="clear-edits" type="button">Clear anchor edits</button>
+        </div>
+      </details>
+      <p id="draft-message" role="status"></p>
+      <p id="guidance"></p>
+    </section>
+    <div class="views">
+      <section aria-labelledby="pattern-heading">
+        <h2 id="pattern-heading">2D sewing and cut lines</h2>
+        <p class="legend"><span>Solid sewing line</span> <span>Dashed cut line</span></p>
+        <output id="draft-revision" aria-label="Displayed source revision"></output>
+        <svg id="pattern" viewBox="0 0 525 390" role="img" aria-label="Cut and sewing outlines of both front, back and sleeve halves"></svg>
+      </section>
+      <section aria-labelledby="view-heading">
+        <h2 id="view-heading">3D assembly</h2>
+        <div class="toolbar">
+          <button id="open-3d" type="button">Open 3D</button>
+          <button id="close-3d" type="button">Close 3D</button>
+        </div>
+        <p id="status" role="status" data-state="closed">3D is closed.</p>
+        <div id="renderer"></div>
+        <div class="toolbar" aria-label="3D camera">
+          <button id="turn-left" type="button">Turn left</button>
+          <button id="turn-right" type="button">Turn right</button>
+          <button id="zoom-in" type="button">Zoom in</button>
+          <button id="zoom-out" type="button">Zoom out</button>
+          <button id="reset-view" type="button">Reset view</button>
+        </div>
+        <label class="seam-control">Inspect seam <select id="seams"><option value="">Choose a seam</option></select></label>
+        <p id="seam-detail" aria-live="polite"></p>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

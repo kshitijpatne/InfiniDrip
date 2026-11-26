@@ -1,0 +1,7 @@
+# S1342 bounded sewing-arc evidence
+
+The isolated assembly-mesh test runs this evidence check with Python 3, using python3 on Linux and python on Windows. Set UIQ12_PYTHON to the interpreter path if needed. Run npm test -- src/assembly-mesh.candidate-check.ts from the isolated package. Set UIQ12_ARC_RECEIPT to a scratch output path to retain the JSON result and its adjacent .inputs.json. Replay with python3 -B arc-check/check.py < capture.json. Keep the hosted candidate job on an environment with Python 3.
+
+The capture verifies the assembly revision and units, and pairs role, edge and oriented cubic coordinates with the authored sewing edge before measuring error. The independent exact dyadic enclosure uses the stored binary64 points and integer square roots. It refines boundary overlap up to depth 14. A remaining overlap is unresolved and fails the test. Pass requires the larger of the two endpoint deviations to be at most 0.001 cm.
+
+The historical native 64-chord comparison is retained in native-historical.txt, SHA-256 5e4212e46847e2bfe05edcc907dbda7996576ce1fbfbf0d7758f812edc08f103. Both sleeve-cap halves exceed tolerance in each of its four cases. The native column and the candidate scalar are followed by the lower and upper bounds, native shortfall from midpoint, and maximum candidate error. This companion captures the earlier comparator outcomes. The bounded check consumes the candidate measurement and does not change the native helper or production exports.
