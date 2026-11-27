@@ -1,0 +1,547 @@
+{
+  "assetSha256": "9609f5f444c79eff36cb3ccc4901aa287fc13687d209681329e9b57bd33d2d08",
+  "assetBytes": 3063844,
+  "samples": [
+    {
+      "signed": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "minProjectedAreaRatio": 1.0,
+      "minFaceNormalDot": 0.4651613448039558,
+      "armGapM": 0.13225335718853856,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -1.0,
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "minProjectedAreaRatio": 0.7774306850842037,
+      "minFaceNormalDot": 0.5340428220077591,
+      "armGapM": 0.1182565680170328,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "minProjectedAreaRatio": 0.8488645031429803,
+      "minFaceNormalDot": 0.39861310903976815,
+      "armGapM": 0.1495680943590294,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.0,
+        -1.0,
+        -0.0,
+        -0.0
+      ],
+      "minProjectedAreaRatio": 0.7949488024530819,
+      "minFaceNormalDot": 0.46572808998963594,
+      "armGapM": 0.12011436016443142,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "minProjectedAreaRatio": 0.9528737002567772,
+      "minFaceNormalDot": 0.46312715515557323,
+      "armGapM": 0.14439235421264565,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.0,
+        -0.0,
+        -1.0,
+        -0.0
+      ],
+      "minProjectedAreaRatio": 0.8739151599009979,
+      "minFaceNormalDot": 0.47259792155882113,
+      "armGapM": 0.13329548951734374,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "minProjectedAreaRatio": 0.7468984758914662,
+      "minFaceNormalDot": 0.4518882141027629,
+      "armGapM": 0.13121104442312137,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.0,
+        -0.0,
+        -0.0,
+        -1.0
+      ],
+      "minProjectedAreaRatio": 0.8608671357317261,
+      "minFaceNormalDot": 0.4651613448039558,
+      "armGapM": 0.13225335718853856,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "minProjectedAreaRatio": 0.9993356912112125,
+      "minFaceNormalDot": 0.4651613448039558,
+      "armGapM": 0.13225335718853856,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "minProjectedAreaRatio": 0.6527996303156484,
+      "minFaceNormalDot": 0.5443861105463386,
+      "armGapM": 0.10978976315200731,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -1,
+        -1,
+        -1,
+        1
+      ],
+      "minProjectedAreaRatio": 0.6527996303156484,
+      "minFaceNormalDot": 0.5443861105463386,
+      "armGapM": 0.10978976315200731,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -1,
+        -1,
+        1,
+        -1
+      ],
+      "minProjectedAreaRatio": 0.6502994123939431,
+      "minFaceNormalDot": 0.5176833083567678,
+      "armGapM": 0.10621256256297704,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -1,
+        -1,
+        1,
+        1
+      ],
+      "minProjectedAreaRatio": 0.6502994123939431,
+      "minFaceNormalDot": 0.5176833083567678,
+      "armGapM": 0.10621256256297704,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -1,
+        1,
+        -1,
+        -1
+      ],
+      "minProjectedAreaRatio": 0.7830309940480297,
+      "minFaceNormalDot": 0.5372953264046617,
+      "armGapM": 0.13030025867710074,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "minProjectedAreaRatio": 0.7830309940480297,
+      "minFaceNormalDot": 0.5372953264046617,
+      "armGapM": 0.13030025867710074,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -1,
+        1,
+        1,
+        -1
+      ],
+      "minProjectedAreaRatio": 0.6809731276158638,
+      "minFaceNormalDot": 0.5225546418708047,
+      "armGapM": 0.12672305808807047,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -1,
+        1,
+        1,
+        1
+      ],
+      "minProjectedAreaRatio": 0.6809731276158638,
+      "minFaceNormalDot": 0.5225546418708047,
+      "armGapM": 0.12672305808807047,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        1,
+        -1,
+        -1,
+        -1
+      ],
+      "minProjectedAreaRatio": 0.7514312928797088,
+      "minFaceNormalDot": 0.41021760812208147,
+      "armGapM": 0.1362378411005296,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        1,
+        -1,
+        -1,
+        1
+      ],
+      "minProjectedAreaRatio": 0.7514312928797088,
+      "minFaceNormalDot": 0.41021760812208147,
+      "armGapM": 0.1362378411005296,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        1,
+        -1,
+        1,
+        -1
+      ],
+      "minProjectedAreaRatio": 0.7514312928797088,
+      "minFaceNormalDot": 0.38369043221773325,
+      "armGapM": 0.13482882869367468,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        1,
+        -1,
+        1,
+        1
+      ],
+      "minProjectedAreaRatio": 0.7514312928797088,
+      "minFaceNormalDot": 0.38369043221773325,
+      "armGapM": 0.13482882869367468,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        1,
+        1,
+        -1,
+        -1
+      ],
+      "minProjectedAreaRatio": 0.8608671357317261,
+      "minFaceNormalDot": 0.3998465802174751,
+      "armGapM": 0.16430723910022516,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        1,
+        1,
+        -1,
+        1
+      ],
+      "minProjectedAreaRatio": 0.8789237533271337,
+      "minFaceNormalDot": 0.3998465802174751,
+      "armGapM": 0.16430723910022516,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        1,
+        1,
+        1,
+        -1
+      ],
+      "minProjectedAreaRatio": 0.8067386205796259,
+      "minFaceNormalDot": 0.38593419796101713,
+      "armGapM": 0.16289822669337023,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "minProjectedAreaRatio": 0.8067386205796259,
+      "minFaceNormalDot": 0.38593419796101713,
+      "armGapM": 0.16289822669337023,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.375,
+        -0.625,
+        0.875,
+        -0.25
+      ],
+      "minProjectedAreaRatio": 0.804715212834057,
+      "minFaceNormalDot": 0.4276361243234074,
+      "armGapM": 0.129564036512645,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.375,
+        0.625,
+        -0.875,
+        0.25
+      ],
+      "minProjectedAreaRatio": 0.8610493205512364,
+      "minFaceNormalDot": 0.4950289452873817,
+      "armGapM": 0.13479419021552064,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.93,
+        -0.77,
+        -0.85,
+        -0.91
+      ],
+      "minProjectedAreaRatio": 0.6950467851885535,
+      "minFaceNormalDot": 0.5379103196210822,
+      "armGapM": 0.11259360486857117,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.93,
+        -0.77,
+        -0.85,
+        0.91
+      ],
+      "minProjectedAreaRatio": 0.6950467851885535,
+      "minFaceNormalDot": 0.5379103196210822,
+      "armGapM": 0.11259360486857117,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.93,
+        -0.77,
+        0.85,
+        -0.91
+      ],
+      "minProjectedAreaRatio": 0.6950467851885535,
+      "minFaceNormalDot": 0.5163842818279883,
+      "armGapM": 0.10965411327628927,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.93,
+        -0.77,
+        0.85,
+        0.91
+      ],
+      "minProjectedAreaRatio": 0.6950467851885535,
+      "minFaceNormalDot": 0.5163842818279883,
+      "armGapM": 0.10965411327628927,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.93,
+        0.77,
+        -0.85,
+        -0.91
+      ],
+      "minProjectedAreaRatio": 0.804667873259118,
+      "minFaceNormalDot": 0.5330542894299963,
+      "armGapM": 0.12857176714859486,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.93,
+        0.77,
+        -0.85,
+        0.91
+      ],
+      "minProjectedAreaRatio": 0.804667873259118,
+      "minFaceNormalDot": 0.5330542894299963,
+      "armGapM": 0.12857176714859486,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.93,
+        0.77,
+        0.85,
+        -0.91
+      ],
+      "minProjectedAreaRatio": 0.7209366342590735,
+      "minFaceNormalDot": 0.5193643926579858,
+      "armGapM": 0.12563227555631296,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        -0.93,
+        0.77,
+        0.85,
+        0.91
+      ],
+      "minProjectedAreaRatio": 0.7209366342590735,
+      "minFaceNormalDot": 0.5193643926579858,
+      "armGapM": 0.12563227555631296,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.93,
+        -0.77,
+        -0.85,
+        -0.91
+      ],
+      "minProjectedAreaRatio": 0.7912604590009344,
+      "minFaceNormalDot": 0.4128087479656882,
+      "armGapM": 0.1382340105923614,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.93,
+        -0.77,
+        -0.85,
+        0.91
+      ],
+      "minProjectedAreaRatio": 0.7912604590009344,
+      "minFaceNormalDot": 0.4128087479656882,
+      "armGapM": 0.1382340105923614,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.93,
+        -0.77,
+        0.85,
+        -0.91
+      ],
+      "minProjectedAreaRatio": 0.7912604590009344,
+      "minFaceNormalDot": 0.39146862960919904,
+      "armGapM": 0.1369994874158238,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.93,
+        -0.77,
+        0.85,
+        0.91
+      ],
+      "minProjectedAreaRatio": 0.7912604590009344,
+      "minFaceNormalDot": 0.39146862960919904,
+      "armGapM": 0.1369994874158238,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.93,
+        0.77,
+        -0.85,
+        -0.91
+      ],
+      "minProjectedAreaRatio": 0.87310783803627,
+      "minFaceNormalDot": 0.40564528612191564,
+      "armGapM": 0.1596974368168158,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.93,
+        0.77,
+        -0.85,
+        0.91
+      ],
+      "minProjectedAreaRatio": 0.8941932520303074,
+      "minFaceNormalDot": 0.40564528612191564,
+      "armGapM": 0.1596974368168158,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.93,
+        0.77,
+        0.85,
+        -0.91
+      ],
+      "minProjectedAreaRatio": 0.8438651518931993,
+      "minFaceNormalDot": 0.39254269282632515,
+      "armGapM": 0.1584629136402782,
+      "legGapM": 0.044011576679347346
+    },
+    {
+      "signed": [
+        0.93,
+        0.77,
+        0.85,
+        0.91
+      ],
+      "minProjectedAreaRatio": 0.8438651518931993,
+      "minFaceNormalDot": 0.39254269282632515,
+      "armGapM": 0.1584629136402782,
+      "legGapM": 0.044011576679347346
+    }
+  ],
+  "conservativeProjectedAreaLowerRatio": 0.578668284565193,
+  "monotoneMinimumStepM": [
+    0.007499999832361937,
+    0.007383131887763739,
+    0.017576227220663876,
+    0.017683729483860766
+  ],
+  "negativeCases": [
+    "renamed target",
+    "nonfinite weight",
+    "out of range weight",
+    "both signed targets active",
+    "truncation",
+    "altered target payload"
+  ],
+  "reopenSigned": [
+    0.375,
+    -0.625,
+    0.875,
+    -0.25
+  ],
+  "decoderMaxM": 0.0,
+  "blenderMaxM": 8.232670644077649e-08,
+  "blenderLandmarkMaxM": 3.330129658518116e-08,
+  "blenderBoundsMaxM": 2.651919567375154e-08
+}

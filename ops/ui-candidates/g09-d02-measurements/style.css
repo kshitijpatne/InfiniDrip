@@ -1,0 +1,7 @@
+.layout{grid-template-columns:minmax(265px,335px) minmax(0,1fr)}
+input[type=number]{display:block;width:100%;padding:.45rem .65rem;border:1px solid #a7b9ad;border-radius:7px;background:var(--panel);color:inherit;font:inherit;margin:.25rem 0}
+p.hint{margin:.35rem 0 .75rem}
+table{width:100%;border-collapse:collapse;font-size:.79rem;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:.3rem .12rem;border-bottom:1px solid var(--line)}
+th:first-child{text-align:left}
+@media(max-width:680px){.layout{grid-template-columns:minmax(0,1fr)}}
